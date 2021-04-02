@@ -1,9 +1,16 @@
+<<<<<<< HEAD
 #include "../../Struct.h"
+=======
+
+>>>>>>> 5b2acd3... asd
 
 
 extern long SYSTEM_Region;
 
+<<<<<<< HEAD
 extern void InitMKCode();
+=======
+>>>>>>> 5b2acd3... asd
 
 extern long spriteKillA;
 extern long spriteKillC;
@@ -15,7 +22,10 @@ extern short spriteKillD;
 extern void decodeMIO0(long input, long output);
 extern void DMA(int output, int input, long Length);
 extern void decodeTKMK(int input, long *temp, int output, int transparent);
+<<<<<<< HEAD
 extern void GetFramebuffer(int PixelX,int PixelY,int Width,int Height,unsigned short *Source,unsigned short *Destination);
+=======
+>>>>>>> 5b2acd3... asd
 extern void loadCourse(int courseID);
 extern void ScrollMapImage(int ObjectAddress,int ScrollS,int ScrollT);
 extern void MakeWaterVertex(int ObjectAddress, char alpha, char red, char green, char blue);
@@ -48,7 +58,11 @@ extern short addObjectBuffer(float position[], short angle[], float velocity[], 
 extern int CollisionCylinder(void *Car, float Position[], float Radius, float Height, float Parameter); //0x8029EEB8
 extern int CollisionSphere(void *Car, void *Object); //0x8029FB80
 
+<<<<<<< HEAD
 extern void RouletteStart(int Player, int SpecialItem);
+=======
+extern void RouletteStart(int Player, int SpecialItem); //0x8007ABFC
+>>>>>>> 5b2acd3... asd
 
 extern void *SegmentToVirtual(void *RSPAddress);
 
@@ -58,11 +72,24 @@ extern void printStringNumber(int xPosition, int yPosition, char *printText, int
 extern unsigned long* drawBox(unsigned long *buf, int x1, int y1, int x2, int y2, int r, int g, int b, int a);
 
 extern long SegmentTable[];
+<<<<<<< HEAD
 extern void *g_CfbPtrs[3];
 
 extern long SetStar(void *CarPointer, int PlayerIndex);
 extern long SetStorm(void *CarPointer, int PlayerIndex);
 extern long SetThunder(void *CarPointer, int PlayerIndex);
+=======
+
+extern long SetStar(void *CarPointer, int PlayerIndex);
+extern void ResetStar (void *CarPointer, char PlayerIndex);
+extern long SetWing(void *CarPointer, int PlayerIndex);
+extern long SetStorm(void *CarPointer, int PlayerIndex);
+extern long SetThunder(void *CarPointer, int PlayerIndex);
+extern void VSGhost(void *Car,char PlayerID);
+extern void SetVSGhost(void *Car,char PlayerID);
+extern void ResetVSGhost(void *Car,char PlayerID);
+extern void SetFastOoB(void *Car,char PlayerID);
+>>>>>>> 5b2acd3... asd
 
 extern unsigned long* GraphPtr;
 extern long GraphPtrOffset;
@@ -114,7 +141,10 @@ extern float g_gameTimer;
 extern short g_courseID;
 extern short g_loadedcourseFlag;
 extern long g_gameMode; //0 = gp 1 = time trials 2 = vs 3 =battle
+<<<<<<< HEAD
 extern unsigned short g_DispFrame;
+=======
+>>>>>>> 5b2acd3... asd
 extern short g_mirrorMode;
 extern short g_DebugBars;
 
@@ -202,6 +232,7 @@ extern short p_Input; //
 extern char d_Input; //
 extern char c_Input;
 
+<<<<<<< HEAD
 extern long g_PlayerInputTable;
 
 extern struct Controller g_Controller1; //0x800F6910
@@ -210,6 +241,8 @@ extern struct Controller g_Controller3; //0x800F6930
 extern struct Controller g_Controller4; //0x800F6940
 extern struct Controller g_ControllerMenu; //0x800F6950
 
+=======
+>>>>>>> 5b2acd3... asd
 extern short player1inputX;
 extern short player1inputY;
 extern short p1Button;
@@ -428,9 +461,26 @@ extern char g_ReplayFlag;
 
 extern char g_sfxPause;
 
+<<<<<<< HEAD
 
 extern long g_SequenceTable; //0x803B8FB0
 extern long g_InstrumentTable; //0x803B90B0
 extern long g_RawAudio; //0x803B9260
 
 extern short g_surfaceCheckP1;
+=======
+extern char g_surfaceCheckP1;
+
+extern char g_gamePausedFlag;
+
+extern void MakeBodyColor(void* Car, char Player, int Color, float Speed);
+extern void MakeBodyColorAdjust(void* Car, char Player, int Color, float Speed);
+
+extern short g_playerPathPointTable; // 80164438
+extern long g_playerPathPointTotalTable; // 80164450
+
+extern void SetEnemyProcessOffscreen(void* Car, void* Camera, int place, int playerID);
+extern char g_playerEcho;
+
+extern long g_ItemUseCounter;
+>>>>>>> 5b2acd3... asd

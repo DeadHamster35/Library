@@ -1,6 +1,9 @@
 .definelabel SYSTEM_Region, 0x80000300
 
+<<<<<<< HEAD
 .definelabel InitMKCode, 0x80091B78
+=======
+>>>>>>> 5b2acd3... asd
 
 .definelabel spriteKillA, 0x80020000 //03E00008
 //27BDFFA0
@@ -14,7 +17,10 @@
 .definelabel decodeMIO0, 0x800400D0 ;MIO0 File A0 = input, A1 = output
 .definelabel DMA, 0x80001158
 .definelabel decodeTKMK, 0x800405D0
+<<<<<<< HEAD
 .definelabel GetFramebuffer, 0x802A7658
+=======
+>>>>>>> 5b2acd3... asd
 .definelabel loadCourse, 0x802AA918
 .definelabel ScrollMapImage, 0x802AF7B4
 .definelabel MakeWaterVertex, 0x802AF8BC
@@ -60,7 +66,10 @@
 .definelabel drawBox, 0x80098DF8
 
 .definelabel SegmentTable, 0x80150258
+<<<<<<< HEAD
 .definelabel g_CfbPtrs, 0x801502A8
+=======
+>>>>>>> 5b2acd3... asd
 
 .definelabel GraphPtr, 0x80150298
 .definelabel GraphPtrOffset, 0x80150298
@@ -74,8 +83,21 @@
 .definelabel SetSegment, 0x802A7B94
 
 .definelabel SetStar, 0x8008F778
+<<<<<<< HEAD
 .definelabel SetStorm, 0x8008D7B0
 .definelabel SetThunder, 0x8008DF98
+=======
+.definelabel ResetStar, 0x8008F86C
+.definelabel SetWing, 0x8008D570
+.definelabel SetStorm, 0x8008D7B0
+.definelabel SetThunder, 0x8008DF98
+.definelabel VSGhost , 0x8008F8E4
+.definelabel SetVSGhost, 0x8008FA38
+.definelabel ResetVSGhost, 0x8008FB30
+
+.definelabel SetFastOoB, 0x80090868
+
+>>>>>>> 5b2acd3... asd
 
 .definelabel initializePlayer, 0x800393C0
 
@@ -110,7 +132,10 @@
 .definelabel g_courseID,  0x800DC5A0
 .definelabel g_loadedcourseFlag, 0x800DC5A4
 .definelabel g_gameMode, 0x800DC53C
+<<<<<<< HEAD
 .definelabel g_DispFrame, 0x800DC55C
+=======
+>>>>>>> 5b2acd3... asd
 .definelabel g_mirrorMode, 0x800DC604
 .definelabel g_DebugBars, 0x800DC662
 
@@ -207,6 +232,7 @@
 .definelabel c_Input, 0x800F691A
 
 
+<<<<<<< HEAD
 .definelabel g_PlayerInputTable, 0x800F6910
 
 .definelabel g_Controller1, 0x800F6910
@@ -214,6 +240,8 @@
 .definelabel g_Controller3, 0x800F6930
 .definelabel g_Controller4, 0x800F6940
 .definelabel g_ControllerMenu, 0x800F6950
+=======
+>>>>>>> 5b2acd3... asd
 
 .definelabel player1inputX, 0x800F6910
 .definelabel player1inputY, 0x800F6912
@@ -436,9 +464,25 @@
 
 .definelabel g_sfxPause, 0x803B17A3 // 20 - paused; 00 playing
 
+<<<<<<< HEAD
 .definelabel g_SequenceTable, 0x803B8FB0
 .definelabel g_InstrumentTable, 0x803B90B0
 .definelabel g_RawAudio, 0x803B9260
 
 
 .definelabel g_surfaceCheckP1, 0x800F6A88
+=======
+.definelabel g_surfaceCheckP1, 0x800F6A89
+
+.definelabel g_gamePausedFlag, 0x800EA16C
+
+.definelabel MakeBodyColor, 0x80022F14
+.definelabel MakeBodyColorAdjust, 0x80023038
+
+.definelabel g_playerPathPointTable, 0x80164438
+.definelabel g_playerPathPointTotalTable, 0x80164450
+.definelabel SetEnemyProcessOffscreen, 0x8002D268
+.definelabel g_playerEcho, 0x800E9F90 // 0x1E - Wall; 0x41 - Room; 0x55 - Tunnel
+
+.definelabel g_ItemUseCounter, 0x8018D930 // 4 bytes offset each player
+>>>>>>> 5b2acd3... asd
