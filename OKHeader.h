@@ -35,14 +35,10 @@ extern long ok_TKMSpace;
 
 extern long ok_RedCoinSprite;
 extern long ok_menucoinsprite;
-<<<<<<< HEAD
-//extern long lit_alpacasprite;
-//extern long lit_heartsprite;
-=======
 extern long lit_alpacasprite;
 extern long lit_heartsprite;
->>>>>>> 5b2acd3... asd
-
+extern long lit_alpacasprite;
+extern long lit_heartsprite;
 extern long lit_numberSprite;
 extern long lit_numberSprite0;
 extern long lit_numberSprite1;
@@ -71,19 +67,19 @@ extern long lit_arrowsprite_r;
 extern long lit_red_selecter;
 extern long ok_ScrollTranslucent;
 
-<<<<<<< HEAD
+
 extern long ok_USAudio;
 extern long ok_MRSong;
 extern unsigned long ok_Storage;
 
 extern void ok_ASMJump(); //
 extern long ok_Knowledge;
+
 extern long JP_Audio;
 extern long JP_Bank;
-=======
+
 extern void ok_ASMJump(); //
 extern long ok_Knowledge;
->>>>>>> 5b2acd3... asd
 
 
 

@@ -61,9 +61,6 @@
 .definelabel lit_red_selecter, lit_arrowsprite_r +  0x200 
 .definelabel ok_redcoinsprite, lit_red_selecter +  0x200 
 .definelabel ok_menucoinsprite, ok_redcoinsprite +  0x200
-<<<<<<< HEAD
-
-
 .definelabel ok_Logo, ok_menucoinsprite +  0x200;  //logo for intro, can be overwritten after.
 .definelabel ok_ModelData, ok_Logo; // overwrites logo after. 
 
@@ -72,7 +69,6 @@
 .definelabel ok_USAudio, ok_FreeSpace + 0x10000
 .definelabel ok_MRSong, ok_USAudio + 0x10
 .definelabel ok_Storage, ok_MRSong + 0x30
-=======
 .definelabel lit_alpacasprite, ok_menucoinsprite +  0x200
 .definelabel lit_heartsprite, lit_alpacasprite +  0x800
 
@@ -83,5 +79,4 @@
 .definelabel ok_TKMSpace, ok_ModelData + ok_ModelDataRawSize;
 .definelabel ok_FreeSpace, ok_TKMSpace + 0x2000
 .definelabel ok_ASMJump, ok_FreeSpace + 0x10000
->>>>>>> 5b2acd3... asd
 .definelabel ok_Knowledge, 0x807F0000

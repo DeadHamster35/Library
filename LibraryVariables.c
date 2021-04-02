@@ -6,18 +6,15 @@ int GlobalIntA, GlobalIntB, GlobalIntC, GlobalIntD;
 int MenuIntA, MenuIntB, MenuIntC, MenuIntD;
 float GlobalFloatA;
 char GlobalCharA,GlobalCharB,GlobalCharC,GlobalCharD,GlobalFrameChar;
-<<<<<<< HEAD
+
 short GlobalShortA, GlobalShortB, GlobalShortC, GlobalShortD;
 unsigned short GlobalUShortA, GlobalUShortB;
 bool GlobalBoolA, GlobalBoolB, GlobalBoolC, GlobalBoolD;
-
 unsigned long FreeSpaceAddress;
-
-=======
 short GlobalShortA, GlobalShortB;
 bool GlobalBoolA, GlobalBoolB, GlobalBoolC, GlobalBoolD;
 
->>>>>>> 5b2acd3... asd
+
 int LoopValue;
 
 //MarioKart3D Variables

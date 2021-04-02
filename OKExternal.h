@@ -26,12 +26,8 @@ extern long AlpacaSpriteROM;
 extern long HeartSpriteROM;
 extern long TitleMenuFrameROM;
 
-<<<<<<< HEAD
-
 extern long JP_Audio;
 extern long JP_Bank;
 
-=======
->>>>>>> 5b2acd3... asd
 extern long itemChanceHi;
 extern long itemChanceLo;

@@ -4,18 +4,13 @@ extern int GlobalIntA, GlobalIntB, GlobalIntC, GlobalIntD;
 extern int MenuIntA, MenuIntB, MenuIntC, MenuIntD;
 extern float GlobalFloatA;
 extern char GlobalCharA,GlobalCharB,GlobalCharC,GlobalCharD,GlobalFrameChar;
-<<<<<<< HEAD
+
 extern short GlobalShortA, GlobalShortB, GlobalShortC, GlobalShortD;
 extern unsigned short GlobalUShortA, GlobalUShortB;
 extern bool GlobalBoolA, GlobalBoolB, GlobalBoolC, GlobalBoolD;
-
 extern unsigned long FreeSpaceAddress;
-
-=======
 extern short GlobalShortA, GlobalShortB;
 extern bool GlobalBoolA, GlobalBoolB, GlobalBoolC, GlobalBoolD;
-
->>>>>>> 5b2acd3... asd
 extern int LoopValue;
 
 //MarioKart3D Variables
