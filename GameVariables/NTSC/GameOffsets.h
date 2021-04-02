@@ -76,11 +76,6 @@ extern long SegmentTable[];
 extern void *g_CfbPtrs[3];
 
 extern long SetStar(void *CarPointer, int PlayerIndex);
-extern long SetStorm(void *CarPointer, int PlayerIndex);
-extern long SetThunder(void *CarPointer, int PlayerIndex);
-
-
-extern long SetStar(void *CarPointer, int PlayerIndex);
 extern void ResetStar (void *CarPointer, char PlayerIndex);
 extern long SetWing(void *CarPointer, int PlayerIndex);
 extern long SetStorm(void *CarPointer, int PlayerIndex);
@@ -468,8 +463,6 @@ extern long g_InstrumentTable; //0x803B90B0
 extern long g_RawAudio; //0x803B9260
 
 extern short g_surfaceCheckP1;
-
-extern char g_surfaceCheckP1;
 
 extern char g_gamePausedFlag;
 

@@ -83,10 +83,6 @@
 .definelabel SetSegment, 0x802A7B94
 
 .definelabel SetStar, 0x8008F778
-
-.definelabel SetStorm, 0x8008D7B0
-.definelabel SetThunder, 0x8008DF98
-
 .definelabel ResetStar, 0x8008F86C
 .definelabel SetWing, 0x8008D570
 .definelabel SetStorm, 0x8008D7B0
@@ -471,8 +467,6 @@
 
 
 .definelabel g_surfaceCheckP1, 0x800F6A88
-
-.definelabel g_surfaceCheckP1, 0x800F6A89
 
 .definelabel g_gamePausedFlag, 0x800EA16C
 
