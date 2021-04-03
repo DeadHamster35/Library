@@ -72,7 +72,6 @@ extern void printStringNumber(int xPosition, int yPosition, char *printText, int
 extern unsigned long* drawBox(unsigned long *buf, int x1, int y1, int x2, int y2, int r, int g, int b, int a);
 
 extern long SegmentTable[];
-
 extern void *g_CfbPtrs[3];
 
 extern long SetStar(void *CarPointer, int PlayerIndex);
@@ -84,7 +83,6 @@ extern void VSGhost(void *Car,char PlayerID);
 extern void SetVSGhost(void *Car,char PlayerID);
 extern void ResetVSGhost(void *Car,char PlayerID);
 extern void SetFastOoB(void *Car,char PlayerID);
-
 
 extern unsigned long* GraphPtr;
 extern long GraphPtrOffset;
@@ -136,10 +134,7 @@ extern float g_gameTimer;
 extern short g_courseID;
 extern short g_loadedcourseFlag;
 extern long g_gameMode; //0 = gp 1 = time trials 2 = vs 3 =battle
-
 extern unsigned short g_DispFrame;
-
-
 extern short g_mirrorMode;
 extern short g_DebugBars;
 
@@ -227,7 +222,6 @@ extern short p_Input; //
 extern char d_Input; //
 extern char c_Input;
 
-
 extern long g_PlayerInputTable;
 
 extern struct Controller g_Controller1; //0x800F6910
@@ -235,8 +229,6 @@ extern struct Controller g_Controller2; //0x800F6920
 extern struct Controller g_Controller3; //0x800F6930
 extern struct Controller g_Controller4; //0x800F6940
 extern struct Controller g_ControllerMenu; //0x800F6950
-
-
 
 extern short player1inputX;
 extern short player1inputY;
@@ -457,7 +449,6 @@ extern char g_ReplayFlag;
 extern char g_sfxPause;
 
 
-
 extern long g_SequenceTable; //0x803B8FB0
 extern long g_InstrumentTable; //0x803B90B0
 extern long g_RawAudio; //0x803B9260
@@ -476,4 +467,3 @@ extern void SetEnemyProcessOffscreen(void* Car, void* Camera, int place, int pla
 extern char g_playerEcho;
 
 extern long g_ItemUseCounter;
-

@@ -18,12 +18,14 @@ char MushroomBoost = 250;
 char FeatherJump = 249;
 char TornadoJump = 248;
 char SpinOut = 247;
-char GreenShellHit = 246;
-char RedShellHit = 245;
-char ObjectHit = 244;
-char Lightning = 243;
-char StarMan = 242;
-char Boo = 241;
+char SpinOutStop = 246;
+char GreenShellHit = 245;
+char RedShellHit = 244;
+char ObjectHit = 243;
+char Shrunken = 242;
+char StarMan = 241;
+char Boo = 240;
+char GetItem = 239;
 
 
 char Test = 8;
@@ -42,14 +44,13 @@ void GetSurfaceID()
 		if (*(char*)(GlobalAddressA) != 0x30)									// Only run for existing racers
 		{
 
-
-
 ///////////////////////////////TELESA!!!///////////////////////////////
 
 			if (SurfaceID == Boo)
 			{
 				EffectActive[Index] = SurfaceID;
 				SetVSGhost((void*)(GlobalAddressA), playerID);
+				continue;
 			}
 			if ((SurfaceID != Boo) && (EffectActive[Index] == Boo))
 			{
@@ -60,12 +61,13 @@ void GetSurfaceID()
 
 			if (SurfaceID == FastOoB)
 			{
-				if ((EffectActive[Index] != SurfaceID))
+				if ((EffectActive[Index] != SurfaceID) && (*(short*)(GlobalAddressA + (0xDD8 * playerID) + 0xC2) == 0))
 				{
 					EffectActive[Index] = SurfaceID;
 					GlobalAddressA = (long)(&g_PlayerStateTable) + (0xDD8 * playerID);
 					SetFastOoB((void*)(GlobalAddressA), playerID);
 				}
+				continue;
 			}
 
 ///////////////////////////////STARMAN!!!///////////////////////////////
@@ -74,6 +76,7 @@ void GetSurfaceID()
 			{
 				EffectActive[Index] = SurfaceID;
 				SetStarMan(playerID, true);
+				continue;
 			}
 			if ((SurfaceID != StarMan) && (EffectActive[Index] == StarMan))
 			{
@@ -82,96 +85,120 @@ void GetSurfaceID()
 
 ///////////////////////////////TORNADO JAMP!!!///////////////////////////////
 
-			if (SurfaceID == TornadoJump)
+			if ((SurfaceID == TornadoJump))
 			{
-				if ((EffectActive[Index] != SurfaceID))
+				if ((EffectActive[Index] != SurfaceID) && (*(short*)(GlobalAddressA + (0xDD8 * playerID) + 0xC2) == 0))
 				{
 					EffectActive[Index] = SurfaceID;
 					GlobalAddressA = (long)(&g_PlayerStateTable) + (0xDD8 * playerID);
 					SetStorm((void*)(GlobalAddressA), playerID);
 				}
+				continue;
 			}
 
 ///////////////////////////////WING JUMP!!!///////////////////////////////
 
 			if (SurfaceID == FeatherJump)
 			{
-				if ((EffectActive[Index] != SurfaceID))
+				if ((EffectActive[Index] != SurfaceID) && (*(short*)(GlobalAddressA + (0xDD8 * playerID) + 0xC2) == 0))
 				{
 					EffectActive[Index] = SurfaceID;
 					GlobalAddressA = (long)(&g_PlayerStateTable) + (0xDD8 * playerID);
 					SetWing((void*)(GlobalAddressA), playerID);
 				}
+				continue;
 			}
 
 ///////////////////////////////THUNDERRR!!!///////////////////////////////
 
-			if (SurfaceID == Lightning)
+			if (SurfaceID == Shrunken)
 			{
-				if ((EffectActive[Index] != SurfaceID))
-				{
-					EffectActive[Index] = SurfaceID;
-					GlobalAddressA = (long)(&g_PlayerStateTable) + (0xDD8 * playerID);
-					SetThunder((void*)(GlobalAddressA), playerID);
-				}
+				EffectActive[Index] = SurfaceID;
+				SetShrunken(playerID, true);
+				continue;
+			}
+			if ((SurfaceID != Shrunken) && (EffectActive[Index] == Shrunken))
+			{
+				SetShrunken(playerID, false);
 			}
 
 ///////////////////////////////KINOP BOOST!!!///////////////////////////////
 
 			if (SurfaceID == MushroomBoost)
 			{
-				if ((EffectActive[Index] != SurfaceID))
+				if ((EffectActive[Index] != SurfaceID) && (*(short*)(GlobalAddressA + (0xDD8 * playerID) + 0xC2) == 0))
 				{
 					EffectActive[Index] = SurfaceID;
 					SetMushroomBoost(playerID);
 				}
+				continue;
 			}
 
 ///////////////////////////////SPIN OUT!!!///////////////////////////////
 
 			if (SurfaceID == SpinOut)
 			{
-				if ((EffectActive[Index] != SurfaceID))
+				if ((EffectActive[Index] != SurfaceID) && (*(short*)(GlobalAddressA + (0xDD8 * playerID) + 0xC2) == 0))
 				{
 					EffectActive[Index] = SurfaceID;
 					SetSpinOut(playerID);
 				}
+				continue;
 			}
 
 ///////////////////////////////SHELL HIT!!!///////////////////////////////
 
 			if (SurfaceID == GreenShellHit)
 			{
-				if ((EffectActive[Index] != SurfaceID))
+				if ((EffectActive[Index] != SurfaceID) && (*(short*)(GlobalAddressA + (0xDD8 * playerID) + 0xC2) == 0))
 				{
 					EffectActive[Index] = SurfaceID;
 					SetGreenShellHit(playerID);
 				}
+				continue;
 			}
 
 ///////////////////////////////OBJECTS HIT!!!///////////////////////////////
 
 			if (SurfaceID == ObjectHit)
 			{
-				if ((EffectActive[Index] != SurfaceID))
+				if ((EffectActive[Index] != SurfaceID) && (*(short*)(GlobalAddressA + (0xDD8 * playerID) + 0xC2) == 0))
 				{
 					EffectActive[Index] = SurfaceID;
 					SetMapObjectHit(playerID);
 				}
+				continue;
 			}
 
 ///////////////////////////////REDSHELL HIT!!!///////////////////////////////
 
 			if (SurfaceID == RedShellHit)
 			{
-				if ((EffectActive[Index] != SurfaceID))
+				if ((EffectActive[Index] != SurfaceID) && (*(short*)(GlobalAddressA + (0xDD8 * playerID) + 0xC2) == 0))
 				{
 					EffectActive[Index] = SurfaceID;
 					SetRedShellHit(playerID);
 				}
+				continue;
 			}
 
-			EffectActive[Index] = SurfaceID;	
+///////////////////////////////ITEM GET!!!///////////////////////////////
+
+			if (SurfaceID == GetItem)
+			{
+				if ((EffectActive[Index] != SurfaceID) && (*(short*)(GlobalAddressA + (0xDD8 * playerID) + 0xC2) == 0))
+				{
+					EffectActive[Index] = SurfaceID;
+					RouletteStart(playerID,0);
+				}
+				continue;
+			}
+
+//FIN//		
+			else
+			{
+				EffectActive[Index] = 0;	
+			}
 		}
 	}
 }
@@ -185,35 +212,29 @@ void PathEchoTrigger()
 		char Echo[pEchoArraySize];
 		short pEchoTrStart[pEchoArraySize];
 		short pEchoTrEnd[pEchoArraySize];
-		bool EffectActive[8];
 
 		for (char playerID = 0; playerID < 4; playerID++)					// Loop for each racer		
 		{
 			GlobalAddressA = (long)(&g_playerPathPointTable) + (0x2 * playerID);
-			short curPPoint = *(short*)(GlobalAddressA);
+			short curEchoPoint = *(short*)(GlobalAddressA);
 
 			GlobalAddressB = (long)(&g_PlayerStateTable) + (0xDD8 * playerID);
-			int Index = playerID;
 			if (*(char*)(GlobalAddressB) != 0x30)							// Only run for existing racers
 			{
 				for (int LoopVal = 0; LoopVal < pEchoArraySize; LoopVal++)
 				{
-																			// Fill out each index of the arrays with data from course. Loop value as offset multiplicator
+				// Fill out each index of the arrays with data from course. Loop value as offset multiplicator//
 					Echo[LoopVal] = 185;
-					pEchoTrStart[LoopVal] = 90;
-					pEchoTrEnd[LoopVal] = 155;
+					pEchoTrStart[LoopVal] = 10;
+					pEchoTrEnd[LoopVal] = 35;
 
-					if ((curPPoint >= pEchoTrStart[LoopVal]) && (curPPoint <= pEchoTrEnd[LoopVal]))			// Path range check
+					if ((curEchoPoint >= pEchoTrStart[LoopVal]) && (curEchoPoint <= pEchoTrEnd[LoopVal]))			// Path range check
 					{
 						SetPlayerEcho(playerID, Echo[LoopVal]);
-						EffectActive[Index] = true;
-						return;
+						break;
 					}
-					else if ((EffectActive[Index] == true))					// Set inactive 
-					{
-						SetPlayerEcho(playerID, 0);
-						EffectActive[Index] = false;	
-					}	
+
+					SetPlayerEcho(playerID, 0);	
 				}
 			}
 		}	
@@ -241,7 +262,7 @@ void PathColorTrigger()
 			{
 				for (int LoopVal = 0; LoopVal < pColArraySize; LoopVal++)
 				{
-																			// Fill out each index of the arrays with data from course. Loop value as offset multiplicator
+				// Fill out each index of the arrays with data from course. Loop value as offset multiplicator//
 					BodyColors[LoopVal] = 0x007F0030;		
 					pColTrStart[LoopVal] = 5;
 					pColTrEnd[LoopVal] = 35;
@@ -265,34 +286,29 @@ void PathCamShiftTrigger()
 	{
 		short pCamTrStart[pCamArraySize];
 		short pCamTrEnd[pCamArraySize];
-		bool EffectActive[8];
 
 		for (char playerID = 0; playerID < 4; playerID++)						// Loop for each racer		
 		{
 			GlobalAddressA = (long)(&g_playerPathPointTable) + (0x2 * playerID);
-			short curPPoint = *(short*)(GlobalAddressA);
+			short curCamPoint = *(short*)(GlobalAddressA);
 
 			GlobalAddressB = (long)(&g_PlayerStateTable) + (0xDD8 * playerID);
-			int Index = playerID;
 			if (*(char*)(GlobalAddressB) != 0x30)								// Only run for existing racers
 			{
 				for (int LoopVal = 0; LoopVal < pCamArraySize; LoopVal++)
 				{
-																				// Fill out each index of the arrays with data from course. Loop value as offset multiplicator
+				// Fill out each index of the arrays with data from course. Loop value as offset multiplicator//
 					pCamTrStart[LoopVal] = 40;
 					pCamTrEnd[LoopVal] = 85;
 
-					if ((curPPoint >= pCamTrStart[LoopVal]) && (curPPoint <= pCamTrEnd[LoopVal]))		// Path range check
+
+					if ((curCamPoint >= pCamTrStart[LoopVal]) && (curCamPoint <= pCamTrEnd[LoopVal]))			// Path range check
 					{
-						SetCamShiftUp(playerID, 5);
-						EffectActive[Index] = true;	
-						return;
+						SetCamShiftUp(playerID, 6);
+						break;
 					}
-					else if ((EffectActive[Index] == true))					// Set inactive 
-					{
-						SetCamShiftUp(playerID, 0);
-						EffectActive[Index] = false;	
-					}			
+
+					SetCamShiftUp(playerID, 0);
 				}
 			}
 		}	
@@ -303,9 +319,8 @@ void GetPathPoints()
 {
 	if (g_gamePausedFlag == 0x00)
 	{
+		PathEchoTrigger();
 		PathColorTrigger();
 		PathCamShiftTrigger();
-		PathEchoTrigger();
-
 	}
 }
