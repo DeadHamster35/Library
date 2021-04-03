@@ -18,12 +18,14 @@ char EffectActive[8];
 #define FeatherJump		249
 #define TornadoJump		248
 #define SpinOut		247
-#define GreenShellHit	246
-#define RedShellHit		245
-#define ObjectHit		244
-#define Lightning		243
-#define StarMan		242
-#define Boo		     241
+#define SpinOutStop		246
+#define GreenShellHit	245
+#define RedShellHit		244
+#define ObjectHit		243
+#define Shrunken		242
+#define StarMan		241
+#define Boo		     240
+#define GetItem		239
 
 
 char Test = 8;
@@ -41,8 +43,6 @@ void GetSurfaceID()
 		int Index = playerID;
 		if (*(char*)(GlobalAddressA) != 0x30)									// Only run for existing racers
 		{
-
-
 
 ///////////////////////////////TELESA!!!///////////////////////////////
 
