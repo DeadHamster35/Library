@@ -121,6 +121,23 @@ void SetLightningHit(char playerID)
 	*(char*)(GlobalAddressA + (0xDD8 * playerID) + 0xE) |= 64;
 }
 
+void SetShrunken(char playerID, bool active)
+{
+	if (active)
+	{
+		GlobalAddressA = (long)(&g_PlayerStateTable);
+		*(char*)(GlobalAddressA + (0xDD8 * playerID) + 0xBC) |= 64;
+		*(short*)(GlobalAddressA + (0xDD8 * playerID) + 0xB0) = 0x00FF;
+	}
+	if (!active)
+	{
+		GlobalAddressA = (long)(&g_PlayerStateTable);
+		*(char*)(GlobalAddressA + (0xDD8 * playerID) + 0xBC) |= 8;
+		*(short*)(GlobalAddressA + (0xDD8 * playerID) + 0xB0) = 0x01CC;
+	}
+
+}
+
 void SetStarMan(char playerID, bool active)
 {
 	if (active)

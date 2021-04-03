@@ -13,6 +13,7 @@ extern void DisableOutline(char playerID);
 
 extern void SetMapObjectHit(char playerID);
 extern void SetLightningHit(char playerID);
+extern void SetShrunken(char playerID, bool active);
 extern void SetStarMan(char playerID, bool active);
 extern void SetGhostEffect(char playerID, bool active);
 extern void SetBooTranslucent(char playerID);
