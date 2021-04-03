@@ -13,19 +13,17 @@
 
 char EffectActive[8];
 
-char FastOoB = 251;
-char MushroomBoost = 250;
-char FeatherJump = 249;
-char TornadoJump = 248;
-char SpinOut = 247;
-char SpinOutStop = 246;
-char GreenShellHit = 245;
-char RedShellHit = 244;
-char ObjectHit = 243;
-char Shrunken = 242;
-char StarMan = 241;
-char Boo = 240;
-char GetItem = 239;
+#define FastOoB		251
+#define MushroomBoost	250
+#define FeatherJump		249
+#define TornadoJump		248
+#define SpinOut		247
+#define GreenShellHit	246
+#define RedShellHit		245
+#define ObjectHit		244
+#define Lightning		243
+#define StarMan		242
+#define Boo		     241
 
 
 char Test = 8;
@@ -43,6 +41,8 @@ void GetSurfaceID()
 		int Index = playerID;
 		if (*(char*)(GlobalAddressA) != 0x30)									// Only run for existing racers
 		{
+
+
 
 ///////////////////////////////TELESA!!!///////////////////////////////
 
@@ -205,7 +205,7 @@ void GetSurfaceID()
 
 void PathEchoTrigger()
 {
-	char pEchoArraySize = 2;											// Array size for the total amount of echo sections used.
+	#define pEchoArraySize  2											// Array size for the total amount of echo sections used.
 
 	if (pEchoArraySize != 0)
 	{
@@ -243,7 +243,7 @@ void PathEchoTrigger()
 
 void PathColorTrigger()
 {
-	char pColArraySize = 2;											// Array size for the total amount of color sections used.
+	#define pColArraySize 2										// Array size for the total amount of color sections used.
 
 	if (pColArraySize != 0)
 	{
@@ -280,7 +280,7 @@ void PathColorTrigger()
 
 void PathCamShiftTrigger()
 {
-	char pCamArraySize = 2;											// Array size for the total amount of camera sections used.
+	#define pCamArraySize 2											// Array size for the total amount of camera sections used.
 
 	if (pCamArraySize != 0)
 	{
