@@ -7,4 +7,4 @@
 
 
 
-struct Controller *PlayerController[5] = {&g_Controller1,&g_Controller2,&g_Controller3,&g_Controller4,&g_ControllerMenu};
+Controller *PlayerController[5] = {&g_Controller1,&g_Controller2,&g_Controller3,&g_Controller4,&g_ControllerMenu};

@@ -4,6 +4,7 @@
 #include "GameVariables/NTSC/OKassembly.h"
 #include "SharedFunctions.h"
 #include "LibraryVariables.h"
+#include "Struct.h"
 
 
 
@@ -37,14 +38,11 @@ void CreateObjectSimple(int XPosition, int YPosition, int ZPosition, int localRo
 	CreateObjectRotation(objectPosition, objectAngle, (short)localID);
 }
 
-void UpdateObjectVelocity(void* Object)
+void UpdateObjectVelocity(void* InputObject)
 {
-	GlobalAddressA = (long)(&Object);
-	if (*(float*)(GlobalAddressA + 40) > -1)
-	{
-		*(float*)(GlobalAddressA + 40) -= 0.5;
-	}
-	*(float*)(GlobalAddressA + 24) += *(float*)(GlobalAddressA + 36);
-	*(float*)(GlobalAddressA + 28) += *(float*)(GlobalAddressA + 40);
-	*(float*)(GlobalAddressA + 32) += *(float*)(GlobalAddressA + 44);
+	GlobalObjectA = (Object*)&InputObject;
+	
+	GlobalObjectA->position[0] += GlobalObjectA->velocity[0];
+	GlobalObjectA->position[1] += GlobalObjectA->velocity[1];
+	GlobalObjectA->position[2] += GlobalObjectA->velocity[2];
 }

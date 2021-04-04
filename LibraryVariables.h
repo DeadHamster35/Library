@@ -1,4 +1,5 @@
 #include <stdbool.h>
+#include "Struct.h"
 extern int GlobalAddressA, GlobalAddressB, GlobalAddressC;
 extern int GlobalIntA, GlobalIntB, GlobalIntC, GlobalIntD;
 extern int MenuIntA, MenuIntB, MenuIntC, MenuIntD;
@@ -12,6 +13,8 @@ extern unsigned long FreeSpaceAddress;
 extern short GlobalShortA, GlobalShortB;
 extern bool GlobalBoolA, GlobalBoolB, GlobalBoolC, GlobalBoolD;
 extern int LoopValue;
+
+extern Object *GlobalObjectA, *GlobalObjectB;
 
 //MarioKart3D Variables
 extern int CoinCount;

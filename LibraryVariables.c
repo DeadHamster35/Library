@@ -1,6 +1,8 @@
 #include <stdbool.h>
 #include "OKHeader.h"
 #include "GameVariables/NTSC/GameOffsets.h"
+#include "Struct.h"
+
 int GlobalAddressA, GlobalAddressB, GlobalAddressC;
 int GlobalIntA, GlobalIntB, GlobalIntC, GlobalIntD;
 int MenuIntA, MenuIntB, MenuIntC, MenuIntD;
@@ -13,9 +15,9 @@ bool GlobalBoolA, GlobalBoolB, GlobalBoolC, GlobalBoolD;
 unsigned long FreeSpaceAddress;
 short GlobalShortA, GlobalShortB;
 bool GlobalBoolA, GlobalBoolB, GlobalBoolC, GlobalBoolD;
-
-
 int LoopValue;
+
+Object *GlobalObjectA, *GlobalObjectB;
 
 //MarioKart3D Variables
 int CoinCount = 0;
