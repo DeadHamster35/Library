@@ -15,6 +15,7 @@
 .definelabel DMA, 0x80001158
 .definelabel decodeTKMK, 0x800405D0
 .definelabel GetFramebuffer, 0x802A7658
+.definelabel CheckBump2, 0x802AD950
 .definelabel loadCourse, 0x802AA918
 .definelabel ScrollMapImage, 0x802AF7B4
 .definelabel MakeWaterVertex, 0x802AF8BC
