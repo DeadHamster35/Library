@@ -28,9 +28,9 @@ short CreateObjectRadius(float localPosition[], short localRotation[], short loc
 	return GlobalShortA;
 }
 
-short CreateObject(float localPosition[], short localID, float radius)
+short CreateObject(float localPosition[], short localID)
 {
-	return CreateObjectRadius(localPosition, objectAngle, localID, radius);
+	return CreateObjectRadius(localPosition, objectAngle, localID, 5);
 }
 
 short CreateObjectSimple(int XPosition, int YPosition, int ZPosition, int localRotation, int localID)
