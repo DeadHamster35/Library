@@ -89,6 +89,7 @@ extern long GraphPtrOffset;
 extern void KWSprite(int cx,int cy,int sizex,int sizey,short *addr);
 extern void KWSpriteScale(int cx,int cy,float scale, short *addr, int sizex,int sizey);
 
+extern void BumpObject(Object* InputObject);
 extern int SetMatrix(float Matrix[][4], int Mode);
 extern void CreateModelingMatrix(float Matrix[][4], float Position[], short Angle[]);
 extern void ScalingMatrix(float Matrix[][4], float scale);

@@ -1,25 +1,25 @@
-
+#include "Struct.h"
 typedef struct{
-	ushort   flag;
-	ushort   status;
+	unsigned short   flag;
+	unsigned short   status;
 	short    rank;
-	ushort   point;
+	unsigned short   point;
 	short    rap;
-	uint   weapon;
+	unsigned int   weapon;
 	short    item;
 
-	FVector  position;
-	FVector  old_position;
-    SVector  direction;
-	FVector  velocity;
+	float  position[3];
+	float  old_position[3];
+    	short  direction[3];
+	float  velocity[3];
 	short    link_doshin;
 	short    kage_ang;
 	short  	 handling_flag;
-	ushort   hit_flag;
+	unsigned short   hit_flag;
 	short    angle_y[4];
 	short    angle_z[4];
-	FVector  up_vector;
-	FVector  gravity_xz;   //800F69FC
+	float  up_vector[3];
+	float  gravity_xz[3];   //800F69FC
 
 	float    radius;
 	float    ground;
@@ -40,9 +40,9 @@ typedef struct{
 
 	short   slipcount,sterr_count;
 	short   offsetsterr_flag,old_direction,thunder_timer,spin_timer,offsetsterr_timer;
-	ushort  talk;
+	unsigned short  talk;
 	float 	offsetsterr_speed;
-	uint    slip_flag;
+	unsigned int    slip_flag;
 	short 	slipang,jumpcount;  //f6a60
 	short   kartpitch; //f6a64
 	short   erase;
@@ -50,13 +50,13 @@ typedef struct{
 	short   jugemu_flag;
 	short 	roll[4],pitch[4];
 	short   turbo_timer;
-	ushort  water_flag;
+	unsigned short  water_flag;
 	short 	bomb_timer,slipstream_timer;
 	float   slipstream_power;
 
 	float   maxadd_power;  //800F6A78
 	float   jump,jmp_acc,jmp_speed;
-	ushort  bump_status;
+	unsigned short  bump_status;
 	short	sterracc; //////NOT USE
 
 	float 	mass,gravity ;
@@ -65,7 +65,7 @@ typedef struct{
 
 	short  hitcount; //800f6a9c
 
-	BUMP	 bump;
+	Bump	 bump;
 	Matrix  align2;  //800F6aE0
 	Matrix  align;
 
@@ -81,7 +81,7 @@ typedef struct{
 	float	max_power,acc_maxcount;
 	float	spark_x,spark_z;
 	short	chasepoint;
-	ushort  hangflag;
+	unsigned short  hangflag;
 	float 	offsetsize;// 800F6BB4
 	short   stopsetrr_count,powerstack_count;
 	float	old_speed,mid_left;
@@ -91,12 +91,12 @@ typedef struct{
 
 
 	int 	tcol_count;  //800f6BD0
-	ushort  dir[4],deg[4];
-	ushort 	kart,wallhitcount;
-	GasSmoku gass[10];
-	GasSmoku smoke[10];
-	GasSmoku letter[10];
-	GasSmoku spark[10];
+	unsigned short  dir[4],deg[4];
+	unsigned short 	kart,wallhitcount;
+	Smoke gass[10];
+	Smoke smoke[10];
+	Smoke letter[10];
+	Smoke spark[10];
 
 	Sus     sus;
 

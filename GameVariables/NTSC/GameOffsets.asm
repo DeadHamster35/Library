@@ -68,6 +68,7 @@
 .definelabel KWSprite, 0x8004C364
 .definelabel KWSpriteScale, 0x8004CA58
 
+.definelabel BumpObject, 0x802B4E30
 .definelabel SetMatrix, 0x802B4FF8
 .definelabel CreateModelingMatrix, 0x802B5F74
 .definelabel ScalingMatrix, 0x802B5F00
