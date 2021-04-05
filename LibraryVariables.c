@@ -19,6 +19,18 @@ int LoopValue;
 
 Object *GlobalObjectA, *GlobalObjectB;
 
+Player *GlobalPlayer[8] = 
+{
+     (Player*)(&g_PlayerStateTable),
+     (Player*)(&g_PlayerStateTable + 0xDD8),
+     (Player*)(&g_PlayerStateTable + 0x1BB0),
+     (Player*)(&g_PlayerStateTable + 0x2988),
+     (Player*)(&g_PlayerStateTable + 0x3760),
+     (Player*)(&g_PlayerStateTable + 0x4538),     
+     (Player*)(&g_PlayerStateTable + 0x5310),
+     (Player*)(&g_PlayerStateTable + 0x60E8),
+};
+
 //MarioKart3D Variables
 int CoinCount = 0;
 float AffineMatrix[4][4];

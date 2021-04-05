@@ -93,6 +93,7 @@ extern void BumpObject(Object* InputObject);
 extern int SetMatrix(float Matrix[][4], int Mode);
 extern void CreateModelingMatrix(float Matrix[][4], float Position[], short Angle[]);
 extern void ScalingMatrix(float Matrix[][4], float scale);
+extern void MakeAlignVector(float Vector[3],short OriginAngle);
 
 extern float sinT(short inputAngle);
 extern float cosT(short inputAngle);

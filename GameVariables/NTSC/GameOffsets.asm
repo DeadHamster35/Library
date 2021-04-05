@@ -72,6 +72,7 @@
 .definelabel SetMatrix, 0x802B4FF8
 .definelabel CreateModelingMatrix, 0x802B5F74
 .definelabel ScalingMatrix, 0x802B5F00
+.definelabel MakeAlignMatrix, 0x802B64C4
 
 .definelabel SetSegment, 0x802A7B94
 

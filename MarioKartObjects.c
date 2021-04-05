@@ -98,9 +98,22 @@ void UpdateObjectGravity(Object* InputObject)
 	}
 }
 
-void UpdateBump(Object* InputObject)
+void UpdateObjectBump(Object* InputObject)
 {
 	CheckBump2Simple(InputObject);
 	BumpObject(InputObject);
 }
 	
+void UpdateObjectFriction(Object* InputObject, float Friction)
+{
+	InputObject->velocity[0] -= Friction;
+	InputObject->velocity[1] -= Friction;
+	InputObject->velocity[2] -= Friction;
+}
+
+void UpdateObjectFrictionScale(Object* InputObject, float FrictionScale)
+{
+	InputObject->velocity[0] *= FrictionScale;
+	InputObject->velocity[1] *= FrictionScale;
+	InputObject->velocity[2] *= FrictionScale;
+}

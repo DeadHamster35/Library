@@ -15,6 +15,7 @@ extern bool GlobalBoolA, GlobalBoolB, GlobalBoolC, GlobalBoolD;
 extern int LoopValue;
 
 extern Object *GlobalObjectA, *GlobalObjectB;
+extern Player *GlobalPlayer[8];
 
 //MarioKart3D Variables
 extern int CoinCount;
