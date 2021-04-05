@@ -15,11 +15,13 @@ unsigned short CheckBump2Simple(Object *InputObject)
 short MasterCreateObject(float localPosition[], short localRotation[], float localVelocity[], short localID, float radius)
 {
 	GlobalShortA = addObjectBuffer(localPosition,localRotation,objectVelocity,localID);
+	
 	GlobalAddressA = (long)(&g_SimpleObjectArray) + (GlobalShortA * 0x70);
 
-	GlobalObjectA = (Object*)(&GlobalAddressA);
+	GlobalObjectA = (Object*)(GlobalAddressA);
 	GlobalObjectA->flag = 0xC000;
 	GlobalObjectA->radius = radius;
+	
 	return GlobalShortA;
 }
 
@@ -72,7 +74,7 @@ short CreateObjectSimple(int XPosition, int YPosition, int ZPosition, int localR
 	objectVelocity[0] = 0;
 	objectVelocity[1] = 0;
 	objectVelocity[2] = 0;
-	
+
 	return MasterCreateObject(objectPosition,objectAngle,objectVelocity,localID, 5);
 }
 
