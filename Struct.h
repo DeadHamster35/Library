@@ -197,4 +197,57 @@ typedef struct Controller{
 
 } Controller;
 
+typedef struct Shake{
+	float	cam_firstspeed,x2;
+	short	cam_timer,aaaaaaa; 
+	float	offset_look,z2,z3; 
+}Shake;
+
+typedef struct Camera {
+	float 			camera_pos[3];
+	float 			lookat_pos[3];
+	float 			up_vector[3];
+	short 			camera_direction[3];
+	unsigned short   	flag;
+	short   			chase_direction;
+	float 			camera_vector[3];
+	float 			lookat_vector[3];
+	float 			velocity[3];   
+	Bump	 			bump;
+	Shake			shake;
+	short    			old_chase_direction;	
+	short    			watch,stickdeg;
+	float    			screen_view_angle;
+} Camera;
+
+typedef struct Viewport{
+	short	ScaleWidth;
+	short	ScaleHeight;
+	short	ScaleDepth;
+	short	ScalePad;
+	short	TranslateWidth;
+	short	TranslateHeight;
+	short	TranslateDepth;
+	short	TranslatePad;
+} Viewport;
+
+typedef struct Screen{
+		Controller	*cont;
+		Camera	     *camera;
+		Player	     *kart;
+		AffineMtx		*matrix;
+		Viewport		viewport;
+		float 	   	screen_aspect;
+		float      	screen_angle;
+		short      	horizon;
+		short      	pad;
+		short      	widthx;
+		short      	widthy;
+		short	   	posx;
+		short      	posy;
+		short      	flag;
+		short      	camera_direction;
+		short      	camera_point;
+} Screen;
+
 #endif
