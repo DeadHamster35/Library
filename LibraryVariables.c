@@ -21,14 +21,32 @@ Object *GlobalObjectA, *GlobalObjectB;
 
 Player *GlobalPlayer[8] = 
 {
-     (Player*)(&g_PlayerStateTable),
-     (Player*)(&g_PlayerStateTable + 0xDD8),
-     (Player*)(&g_PlayerStateTable + 0x1BB0),
-     (Player*)(&g_PlayerStateTable + 0x2988),
-     (Player*)(&g_PlayerStateTable + 0x3760),
-     (Player*)(&g_PlayerStateTable + 0x4538),     
-     (Player*)(&g_PlayerStateTable + 0x5310),
-     (Player*)(&g_PlayerStateTable + 0x60E8),
+     &g_PlayerStruct1,
+     &g_PlayerStruct2,
+     &g_PlayerStruct3,
+     &g_PlayerStruct4,
+     &g_PlayerStruct5,
+     &g_PlayerStruct6,
+     &g_PlayerStruct7,
+     &g_PlayerStruct8,
+};
+
+
+Controller *GlobalController[5] = 
+{
+     &g_Controller1,
+     &g_Controller2,
+     &g_Controller3,
+     &g_Controller4,
+     &g_ControllerMenu
+};
+
+Screen *GlobalScreen[4] = 
+{
+     &g_Screen1,
+     &g_Screen2,
+     &g_Screen3,
+     &g_Screen4
 };
 
 //MarioKart3D Variables

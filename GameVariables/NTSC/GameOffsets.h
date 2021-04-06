@@ -276,6 +276,16 @@ extern char boost2;
 extern char boost3;
 extern char boost4;
 
+extern struct Player g_PlayerStructTable;
+extern struct Player g_PlayerStruct1;
+extern struct Player g_PlayerStruct2;
+extern struct Player g_PlayerStruct3;
+extern struct Player g_PlayerStruct4;
+extern struct Player g_PlayerStruct5;
+extern struct Player g_PlayerStruct6;
+extern struct Player g_PlayerStruct7;
+extern struct Player g_PlayerStruct8;
+
 extern long g_PlayerStateTable;
 extern char g_player1State; //
 extern char g_player2State; //
@@ -287,6 +297,12 @@ extern char g_player7State; //
 
 extern float g_aspectRatio;
 extern float g_farClip;
+
+extern struct Screen g_ScreenStruct;
+extern struct Screen g_Screen1;
+extern struct Screen g_Screen2;
+extern struct Screen g_Screen3;
+extern struct Screen g_Screen4;
 
 extern short g_player1ScreenWidth; //0x8015F4AC
 extern short g_player1ScreenHeight; //0x8015F4AE

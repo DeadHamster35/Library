@@ -57,7 +57,7 @@ typedef struct Sus{
 }Sus;
 
 
-typedef struct{
+typedef struct Player{
 	unsigned short   flag;
 	unsigned short   status;
 	short    rank;

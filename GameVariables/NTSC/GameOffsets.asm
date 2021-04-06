@@ -276,6 +276,17 @@
 .definelabel boost3, 0x800F854E
 .definelabel boost4, 0x800F9326
 
+
+.definelabel g_PlayerStructTable, 0x800F6990
+.definelabel g_PlayerStruct1, 0x800F6990
+.definelabel g_PlayerStruct2, 0x800F7768
+.definelabel g_PlayerStruct3, 0x800F8540
+.definelabel g_PlayerStruct4, 0x800F9318
+.definelabel g_PlayerStruct5, 0x800FA0F0
+.definelabel g_PlayerStruct6, 0x800FAEC8
+.definelabel g_PlayerStruct7, 0x800FBCA0
+.definelabel g_PlayerStruct8, 0x800FCA78
+
 .definelabel g_PlayerStateTable, 0x800F6990
 .definelabel g_player0State, 0x800F6990
 .definelabel g_player1State, 0x800F7768
@@ -292,6 +303,11 @@
 .definelabel g_aspectRatio, 0x80150148
 .definelabel g_farClip, 0x8015014C
 
+.definelabel g_ScreenStruct, 0x8015F47C
+.definelabel g_Screen1, 0x8015F47C
+.definelabel g_Screen2, 0x8015F4BC
+.definelabel g_Screen3, 0x8015F4FC
+.definelabel g_Screen4, 0x8015F53C
 .definelabel g_player1ScreenWidth, 0x8015F4AC
 .definelabel g_player1ScreenHeight, 0x8015F4AE
 .definelabel g_player1ScreenX, 0x8015F4B0
