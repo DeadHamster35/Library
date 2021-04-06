@@ -19,6 +19,7 @@ extern Object *GlobalObjectA, *GlobalObjectB;
 
 extern struct Player *GlobalPlayer[];
 extern struct Controller *GlobalController[];
+extern struct Screen *GlobalScreen[];
 
 #define 	BTN_A		0x8000 
 #define 	BTN_B		0x4000 
