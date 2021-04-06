@@ -6,3 +6,5 @@ extern short CreateObjectSimple(int XPosition, int YPosition, int ZPosition, int
 extern void UpdateObjectVelocity(Object* InputObject);
 extern void UpdateObjectGravity(Object* InputObject);
 extern void UpdateObjectBump(Object* InputObject);
+extern void UpdateObjectFriction(Object* InputObject, float Friction);
+extern void UpdateObjectFrictionScale(Object* InputObject, float FrictionScale);

@@ -303,11 +303,11 @@
 .definelabel g_aspectRatio, 0x80150148
 .definelabel g_farClip, 0x8015014C
 
-.definelabel g_ScreenStruct, 0x8015F47C
-.definelabel g_Screen1, 0x8015F47C
-.definelabel g_Screen2, 0x8015F4BC
-.definelabel g_Screen3, 0x8015F4FC
-.definelabel g_Screen4, 0x8015F53C
+.definelabel g_ScreenStruct, 0x8015F480
+.definelabel g_Screen1, 0x8015F480
+.definelabel g_Screen2, 0x8015F4c0
+.definelabel g_Screen3, 0x8015F500
+.definelabel g_Screen4, 0x8015F540
 .definelabel g_player1ScreenWidth, 0x8015F4AC
 .definelabel g_player1ScreenHeight, 0x8015F4AE
 .definelabel g_player1ScreenX, 0x8015F4B0
