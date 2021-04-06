@@ -485,3 +485,5 @@ extern void SetEnemyProcessOffscreen(void* Car, void* Camera, int place, int pla
 extern char g_playerEcho;
 
 extern long g_ItemUseCounter;
+
+extern long g_sfxPointer;

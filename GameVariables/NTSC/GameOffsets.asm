@@ -480,3 +480,5 @@
 .definelabel g_playerEcho, 0x800E9F90 // 0x1E - Wall; 0x41 - Room; 0x55 - Tunnel
 
 .definelabel g_ItemUseCounter, 0x8018D930 // 4 bytes offset each player
+
+.definelabel g_sfxPointer, 0x803B7080 
