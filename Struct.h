@@ -241,8 +241,8 @@ typedef struct Screen{
 		float      	screen_angle;
 		short      	horizon;
 		short      	pad;
-		short      	widthx;
-		short      	widthy;
+		short      	width;
+		short      	height;
 		short	   	posx;
 		short      	posy;
 		short      	flag;
