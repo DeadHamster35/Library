@@ -27,6 +27,8 @@ extern void GetFramebuffer(int PixelX,int PixelY,int Width,int Height,unsigned s
 extern unsigned short CheckBump2(Bump *bump,float Radius,float PositionX,float PositionY,float PositionZ,float LastX, float LastY,float LastZ);
 
 extern void loadCourse(int courseID);
+extern void BumpVelocity(float Bump[3],float Distance ,float Velocity[3],float co);
+extern void CalcBumpVelocity(Bump InputBump, float Velocity);
 extern void ScrollMapImage(int ObjectAddress,int ScrollS,int ScrollT);
 extern void MakeWaterVertex(int ObjectAddress, char alpha, char red, char green, char blue);
 extern void ramCopy(long output, long input, long Length);

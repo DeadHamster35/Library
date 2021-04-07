@@ -88,6 +88,8 @@ void UpdateObjectVelocity(Object* InputObject)
 
 void UpdateObjectGravity(Object* InputObject)
 {
+	InputObject->velocity[1] -= 0.5;
+	/*
 	if (InputObject->velocity[1] > -2)
 	{
 		InputObject->velocity[1] -= 0.5;
@@ -96,6 +98,7 @@ void UpdateObjectGravity(Object* InputObject)
 	{
 		InputObject->velocity[1] = -2;
 	}
+	*/
 }
 
 void UpdateObjectBump(Object* InputObject)
@@ -113,7 +116,7 @@ void UpdateObjectFriction(Object* InputObject, float Friction)
 
 void UpdateObjectFrictionScale(Object* InputObject, float FrictionScale)
 {
-	InputObject->velocity[0] *= FrictionScale;
-	InputObject->velocity[1] *= FrictionScale;
-	InputObject->velocity[2] *= FrictionScale;
+	InputObject->velocity[0] *= (1.0 - (FrictionScale / 30));
+	InputObject->velocity[1] *= (1.0 - (FrictionScale / 30));
+	InputObject->velocity[2] *= (1.0 - (FrictionScale / 30));
 }

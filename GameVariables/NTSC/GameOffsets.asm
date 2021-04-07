@@ -17,6 +17,8 @@
 .definelabel GetFramebuffer, 0x802A7658
 .definelabel CheckBump2, 0x802AD950
 .definelabel loadCourse, 0x802AA918
+.definelabel BumpVelocity, 0x802AC114
+.definelabel CalcBumpVelocity, 0x802AC098
 .definelabel ScrollMapImage, 0x802AF7B4
 .definelabel MakeWaterVertex, 0x802AF8BC
 .definelabel ramCopy, 0x800D7FE0
