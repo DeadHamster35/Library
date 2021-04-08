@@ -78,6 +78,7 @@ extern void *g_CfbPtrs[3];
 
 extern long SetStar(void *CarPointer, int PlayerIndex);
 extern void ResetStar (void *CarPointer, char PlayerIndex);
+extern long SetTurbo(void *CarPointer, int PlayerIndex);
 extern long SetWing(void *CarPointer, int PlayerIndex);
 extern long SetStorm(void *CarPointer, int PlayerIndex);
 extern long SetThunder(void *CarPointer, int PlayerIndex);

@@ -80,6 +80,7 @@
 
 .definelabel SetStar, 0x8008F778
 .definelabel ResetStar, 0x8008F86C
+.definelabel SetTurbo, 0x8008D3C4
 .definelabel SetWing, 0x8008D570
 .definelabel SetStorm, 0x8008D7B0
 .definelabel SetThunder, 0x8008DF98

@@ -13,22 +13,20 @@
 
 char EffectActive[8];
 
-#define FastOoB		251
-#define MushroomBoost	250
-#define FeatherJump		249
-#define TornadoJump		248
-#define SpinOut		247
-#define SpinOutStop		246
-#define GreenShellHit	245
-#define RedShellHit		244
-#define ObjectHit		243
-#define Shrunken		242
-#define StarMan		241
-#define Boo		     240
-#define GetItem		239
-
-
-char Test = 8;
+#define FastOoB			(char)251
+#define MushroomBoost	(char)250
+#define FeatherJump		(char)249
+#define TornadoJump		(char)248
+#define SpinOutSaveable	(char)247
+#define SpinOut			(char)246
+#define FailedStart		(char)245
+#define GreenShellHit	(char)244
+#define RedShellHit		(char)243
+#define ObjectHit		(char)242
+#define Shrunken		(char)241
+#define StarMan			(char)240
+#define Boo		    	(char)239
+#define GetItem			(char)238
 
 
 
@@ -129,7 +127,20 @@ void GetSurfaceID()
 				if ((EffectActive[Index] != SurfaceID) && (*(short*)(GlobalAddressA + (0xDD8 * playerID) + 0xC2) == 0))
 				{
 					EffectActive[Index] = SurfaceID;
-					SetMushroomBoost(playerID);
+					GlobalAddressA = (long)(&g_PlayerStateTable) + (0xDD8 * playerID);
+					SetTurbo((void*)(GlobalAddressA), playerID);
+				}
+				continue;
+			}
+
+///////////////////////////////SPIN PHEW!!!///////////////////////////////
+
+			if (SurfaceID == SpinOutSaveable)
+			{
+				if ((EffectActive[Index] != SurfaceID) && (*(short*)(GlobalAddressA + (0xDD8 * playerID) + 0xC2) == 0))
+				{
+					EffectActive[Index] = SurfaceID;
+					SetSpinOutSaveable(playerID);
 				}
 				continue;
 			}
@@ -142,6 +153,18 @@ void GetSurfaceID()
 				{
 					EffectActive[Index] = SurfaceID;
 					SetSpinOut(playerID);
+				}
+				continue;
+			}
+
+///////////////////////////////SPIIIIN!!!///////////////////////////////
+
+			if (SurfaceID == FailedStart)
+			{
+				if ((EffectActive[Index] != SurfaceID) && (*(short*)(GlobalAddressA + (0xDD8 * playerID) + 0xC2) == 0))
+				{
+					EffectActive[Index] = SurfaceID;
+					SetFailedStart(playerID);
 				}
 				continue;
 			}

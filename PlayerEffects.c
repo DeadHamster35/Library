@@ -179,7 +179,7 @@ void SetBooTranslucent(char playerID)
 	*(char*)(GlobalAddressA + (0xDD8 * playerID) + 0xE) |= 8;
 }
 
-void SetBooInvisible(char playerID)
+void SetBecomeBomb(char playerID)
 {
 	GlobalAddressA = (long)(&g_PlayerStateTable);
 	*(char*)(GlobalAddressA + (0xDD8 * playerID) + 0xC) |= 4;
@@ -193,10 +193,22 @@ void SetFlattened(char playerID)
 	*(char*)(GlobalAddressA + (0xDD8 * playerID) + 0xE) |= 1;
 }
 
-void SetSpinOut(char playerID)
+void SetSpinOutSaveable(char playerID)
 {
 	GlobalAddressA = (long)(&g_PlayerStateTable);
 	*(char*)(GlobalAddressA + (0xDD8 * playerID) + 0xF) |= 1;
+}
+
+void SetSpinOut(char playerID)
+{
+	GlobalAddressA = (long)(&g_PlayerStateTable);
+	*(char*)(GlobalAddressA + (0xDD8 * playerID) + 0xD) |= 32;
+}
+
+void SetFailedStart(char playerID)
+{
+	GlobalAddressA = (long)(&g_PlayerStateTable);
+	*(char*)(GlobalAddressA + (0xDD8 * playerID) + 0xC) |= 16;
 }
 
 void SetGreenShellHit(char playerID)
