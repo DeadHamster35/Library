@@ -31,3 +31,4 @@ extern void ChangePlayerSize(char playerID, float ScaleFactor);
 extern void SetCamShiftUp(char playerID, float shift);
 extern void SetPlayerColor(char playerID, int Colors, float speed);
 extern void SetPlayerEcho(char playerID, char echo);
+extern void playrandmCharacterSFX(int playerIndex);

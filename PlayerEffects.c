@@ -264,3 +264,26 @@ void SetPlayerEcho(char playerID, char echo)
 	GlobalAddressA = (long)(&g_playerEcho) + (0x3C * playerID);
 	*(char*)GlobalAddressA = echo;
 }
+
+void playrandmCharacterSFX(int playerIndex)
+{
+	GlobalAddressA = (long)(&g_PlayerStateTable) + (0xDD8 * playerIndex);
+	GlobalCharA = ((char)*(short*)(GlobalAddressA + 0x254) * 0x10);
+
+	if ((g_RNG <= 0x3333))
+	{
+    	NAPlyVoiceStart(playerIndex, 0x29008008 + GlobalCharA);  //voice char lucky sfx
+    	return;
+    }
+	if (g_RNG <= 0x7777)
+	{
+    	NAPlyVoiceStart(playerIndex, 0x2900800D + GlobalCharA);   //voice char yahho sfx
+    	return;
+	}
+	if (g_RNG <= 0x9999)
+	{
+    	NAPlyVoiceStart(playerIndex, 0x29008001 + GlobalCharA);   //voice char gogo sfx
+    	return;
+	}
+	NAPlyVoiceStart(playerIndex, 0x2900800C + GlobalCharA);   //voice char jump sfx    
+}

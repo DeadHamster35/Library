@@ -3,6 +3,7 @@
 #include "../library/OKHeader.h"
 #include "../library/OKExternal.h"
 #include "../library/LibraryVariables.h"
+#include "../library/PlayerEffects.h"
 #include "../library/MarioKartObjects.h"
 #include "../library/MarioKart3D.h"
 #include "../library/Struct.h"
@@ -73,7 +74,6 @@ int RedCoinCollide(void *Car, void *Coin)
 	int playerID = (*(long*)&Car - (long)&g_PlayerStateTable) / 0xDD8;
 	if ((CollisionSphere(Car,Coin) == 1) && (playerID == 0))
 	{
-		/*
 		*targetAddress = 0x353500FF;
 		deleteObjectBuffer(Coin);
 		NAPlyTrgStart(playerID, 0x49008017);  //coin sfx
@@ -82,13 +82,8 @@ int RedCoinCollide(void *Car, void *Coin)
 		{
 			playrandmCharacterSFX(playerID);
 		}
-		else
-		{
-
-		}
-		ShowMusicNoteAnim(playerID);
-		AddTopSpeed(1);
-		*/
+		SetAnimMusicNote(playerID);
+		ChangeMaxSpeed(playerID, 2);
 	}
 	if (CoinCount == 8)
 	{
@@ -99,7 +94,6 @@ int RedCoinCollide(void *Car, void *Coin)
 
 	return(0);
 }
-
 
 
 
