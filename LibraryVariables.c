@@ -2,6 +2,7 @@
 #include "OKHeader.h"
 #include "GameVariables/NTSC/GameOffsets.h"
 #include "Struct.h"
+#include "OKStruct.h"
 
 int GlobalAddressA, GlobalAddressB, GlobalAddressC;
 int GlobalIntA, GlobalIntB, GlobalIntC, GlobalIntD;
@@ -76,5 +77,39 @@ long *tkmPoint = &ok_TKMSpace;
 int RSPNumber;
 int RSPOffset;
 char *hex = "0123456789ABCDEF";
+//
+//
+
+
+//Custom Levels
+
+//Main
+
+struct OKObject OKObjectHeaders[100];
+
+//OKCustom Objects
+short CoinPositions[8][3]; //8 Coins XYZ
+
+short hsLabel, raceStatus, startupSwitch, courseSwapped = -1;
+bool scrollLock = false;
+int currentHeaderAddress = 0;
+
+
+
+short gpCourseIndex, HotSwapID, hsGP, gpTimeCheck, courseValue = -1;
+float gpTotalTime = 0;
+
+
+int VersionNumber;
+char MenuButtonHeld, ButtonHeld, ButtonTimer, AudioLanguage;
+short SystemType;
+
+
+//
+//
+
+
+//CustomLevels
+int ScrollValues[32][2];
 //
 //

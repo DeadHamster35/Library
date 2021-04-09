@@ -1,5 +1,6 @@
 #include <stdbool.h>
 #include "Struct.h"
+#include "OKStruct.h"
 extern int GlobalAddressA, GlobalAddressB, GlobalAddressC;
 extern int GlobalIntA, GlobalIntB, GlobalIntC, GlobalIntD;
 extern int MenuIntA, MenuIntB, MenuIntC, MenuIntD;
@@ -73,3 +74,30 @@ extern int RSPOffset;
 extern char *hex;
 //
 //
+
+//Custom Levels
+
+
+//Main
+
+extern struct OKObject OKObjectHeaders[];
+extern short hsLabel, raceStatus, startupSwitch, courseSwapped;
+extern bool scrollLock;
+extern int currentHeaderAddress;
+extern short CoinPositions[8][3]; //8 Coins XYZ
+
+
+
+extern short gpCourseIndex, HotSwapID, hsGP, gpTimeCheck, courseValue;
+extern float gpTotalTime;
+
+
+extern int VersionNumber;
+extern char MenuButtonHeld, ButtonHeld, ButtonTimer, AudioLanguage;
+extern short SystemType;
+//
+//
+
+
+//CustomLevels
+extern int ScrollValues[32][2];

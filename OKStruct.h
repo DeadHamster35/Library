@@ -1,6 +1,5 @@
 #ifndef OKSTRUCT_H
 #define OKSTRUCT_H
-#endif
 #include "Struct.h"
 
 typedef struct OKObject{
@@ -11,3 +10,6 @@ typedef struct OKObject{
 	long		ModelAddress;
 	float	ModelScale;     
 } OKObject;
+
+
+#endif
