@@ -482,9 +482,10 @@
 
 .definelabel g_playerPathPointTable, 0x80164438
 .definelabel g_playerPathPointTotalTable, 0x80164450
-.definelabel SetEnemyProcessOffscreen, 0x8002D268
+.definelabel RunKart, 0x8002D268
+.definelabel RunKartSimple, 0x8002F35C
 .definelabel g_playerEcho, 0x800E9F90 // 0x1E - Wall; 0x41 - Room; 0x55 - Tunnel
 
 .definelabel g_ItemUseCounter, 0x8018D930 // 4 bytes offset each player
-
 .definelabel g_sfxPointer, 0x803B7080 
+.definelabel g_noSimpleKartFlag, 0x801633F8

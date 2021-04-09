@@ -487,9 +487,10 @@ extern void MakeBodyColorAdjust(void* Car, char Player, int Color, float Speed);
 extern short g_playerPathPointTable; // 80164438
 extern long g_playerPathPointTotalTable; // 80164450
 
-extern void SetEnemyProcessOffscreen(void* Car, void* Camera, int place, int playerID);
-extern char g_playerEcho;
+extern void RunKart(void* Car, void* Camera, int place, int playerID); // 8002D268
+extern void RunKartSimple(void* Car, void* Camera, int place, int playerID); // 8002F35C
+extern char g_playerEcho; // 0x800E9F90
 
-extern long g_ItemUseCounter;
-
-extern long g_sfxPointer;
+extern long g_ItemUseCounter; // 8018D930
+extern long g_sfxPointer; //  803B7080
+extern short g_noSimpleKartFlag; // 801633F8

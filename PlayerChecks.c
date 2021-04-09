@@ -228,7 +228,7 @@ void GetSurfaceID()
 
 void PathEchoTrigger()
 {
-	#define pEchoArraySize  2											// Array size for the total amount of echo sections used.
+	char pEchoArraySize = 2;									// Array size for the total amount of echo sections used. Pull from course data
 
 	if (pEchoArraySize != 0)
 	{
@@ -266,7 +266,7 @@ void PathEchoTrigger()
 
 void PathColorTrigger()
 {
-	#define pColArraySize 2										// Array size for the total amount of color sections used.
+	char pColArraySize = 2;								// Array size for the total amount of color sections used. Pull from course data
 
 	if (pColArraySize != 0)
 	{
@@ -303,7 +303,7 @@ void PathColorTrigger()
 
 void PathCamShiftTrigger()
 {
-	#define pCamArraySize 2											// Array size for the total amount of camera sections used.
+	char pCamArraySize = 2;									// Array size for the total amount of camera sections used. Pull from course data
 
 	if (pCamArraySize != 0)
 	{
@@ -338,6 +338,44 @@ void PathCamShiftTrigger()
 	}
 }
 
+void PathNoSimpleKartTrigger()
+{
+	char pSArraySize = 2;									// Array size for the total amount of CPU process sections used. Pull from course data
+
+	if (pSArraySize != 0)
+	{
+		short pSTrStart[pSArraySize];
+		short pSTrEnd[pSArraySize];
+
+		for (char playerID = 0; playerID < 8; playerID++)						// Loop for each racer		
+		{
+			GlobalAddressA = (long)(&g_playerPathPointTable) + (0x2 * playerID);
+			short curSPoint = *(short*)(GlobalAddressA);
+
+			GlobalAddressB = (long)(&g_PlayerStateTable) + (0xDD8 * playerID);
+			if (*(char*)(GlobalAddressB) != 0x30)								// Only run for existing racers
+			{
+				for (int LoopVal = 0; LoopVal < pSArraySize; LoopVal++)
+				{
+				// Fill out each index of the arrays with data from course. Loop value as offset multiplicator//
+					pSTrStart[LoopVal] = 40;
+					pSTrEnd[LoopVal] = 150;
+
+
+					if ((curSPoint >= pSTrStart[LoopVal]) && (curSPoint <= pSTrEnd[LoopVal]))			// Path range check
+					{
+						GlobalAddressA = (long)(&g_noSimpleKartFlag) + 0x1;
+						*(char*)(GlobalAddressA + (0x2 * playerID)) = 1;
+						break;
+					}
+					GlobalAddressA = (long)(&g_noSimpleKartFlag) + 0x1;
+					*(char*)(GlobalAddressA + (0x2 * playerID)) = 0;
+				}
+			}
+		}	
+	}
+}
+
 void GetPathPoints()
 {
 	if (g_gamePausedFlag == 0x00)
@@ -345,5 +383,6 @@ void GetPathPoints()
 		PathEchoTrigger();
 		PathColorTrigger();
 		PathCamShiftTrigger();
+		PathNoSimpleKartTrigger();
 	}
 }
