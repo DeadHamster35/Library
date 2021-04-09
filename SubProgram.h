@@ -1,3 +1,7 @@
+#ifndef SubProgram_H
+#define SubProgram_H
+#endif
+
 #define   DEG1 0xB6
 #define	SegmentOffset(a)	((unsigned int)(a) & 0x00ffffff)
 #define	SegmentNumber(a)	(((unsigned int)(a) << 4) >> 28)

@@ -94,9 +94,12 @@ extern void KWSpriteScale(int cx,int cy,float scale, short *addr, int sizex,int 
 
 extern void BumpObject(Object* InputObject);
 extern int SetMatrix(float Matrix[][4], int Mode);
+extern unsigned short CalcDirection(float Compare[3], float Source[3]);
 extern void CreateModelingMatrix(float Matrix[][4], float Position[], short Angle[]);
 extern void ScalingMatrix(float Matrix[][4], float scale);
+extern void MakeAlignMatrix(Matrix InputMatrix,  float x, float y, float z ,short roty);
 extern void MakeAlignVector(float Vector[3],short OriginAngle);
+extern unsigned short MakeRandomLimmit(unsigned short Limit);
 
 extern float sinT(short inputAngle);
 extern float cosT(short inputAngle);

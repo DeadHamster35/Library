@@ -181,8 +181,6 @@ typedef struct Object{
 
 } Object;
 
-
-
 typedef struct Controller{
 
 	short			AnalogX;

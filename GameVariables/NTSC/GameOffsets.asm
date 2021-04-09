@@ -72,9 +72,12 @@
 
 .definelabel BumpObject, 0x802B4E30
 .definelabel SetMatrix, 0x802B4FF8
+.definelabel CalcDirection, 0x802B5224
 .definelabel CreateModelingMatrix, 0x802B5F74
 .definelabel ScalingMatrix, 0x802B5F00
-.definelabel MakeAlignMatrix, 0x802B64C4
+.definelabel MakeAlignMatrix, 0x802B6540
+.definelabel MakeAlignVector, 0x802B64C4
+.definelabel MakeRandomLimmit, 0x802B7E34
 
 .definelabel SetSegment, 0x802A7B94
 

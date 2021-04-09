@@ -8,3 +8,4 @@ extern void UpdateObjectGravity(Object* InputObject);
 extern void UpdateObjectBump(Object* InputObject);
 extern void UpdateObjectFriction(Object* InputObject, float Friction);
 extern void UpdateObjectFrictionScale(Object* InputObject, float FrictionScale);
+extern void ObjectBehaviorWander(Object* InputObject, float OriginPoint[3], short radius);
