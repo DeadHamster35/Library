@@ -70,3 +70,20 @@ char* printHex(char *buf, int num, int nDigits) {
     }
     return bufEnd;
 }
+
+
+char ReturnStringLength(long stringAddress)
+{
+	GlobalCharB = 0;
+	GlobalCharA = *(char*)stringAddress;
+	if(GlobalCharA != 0)
+	{
+		do
+		{
+			++GlobalCharB;
+			GlobalCharA = (*(char*)(stringAddress + GlobalCharB));
+		}
+		while (GlobalCharA != 0);
+	}
+	return(GlobalCharB);
+}

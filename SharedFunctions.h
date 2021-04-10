@@ -13,3 +13,5 @@ extern int GetRealAddress(long RSPAddress);
 extern void ResetObject();
 
 extern char* printHex(char *buf, int num, int nDigits);
+
+extern char ReturnStringLength(long stringAddress);
