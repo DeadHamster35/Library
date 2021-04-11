@@ -74,16 +74,16 @@ char* printHex(char *buf, int num, int nDigits) {
 
 char ReturnStringLength(long stringAddress)
 {
-	GlobalCharB = 0;
+	GlobalCharE = 0;
 	GlobalCharA = *(char*)stringAddress;
 	if(GlobalCharA != 0)
 	{
 		do
 		{
-			++GlobalCharB;
-			GlobalCharA = (*(char*)(stringAddress + GlobalCharB));
+			++GlobalCharE;
+			GlobalCharA = (*(char*)(stringAddress + GlobalCharE));
 		}
 		while (GlobalCharA != 0);
 	}
-	return(GlobalCharB);
+	return(GlobalCharE);
 }

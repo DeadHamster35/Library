@@ -8,7 +8,7 @@ int GlobalAddressA, GlobalAddressB, GlobalAddressC;
 int GlobalIntA, GlobalIntB, GlobalIntC, GlobalIntD;
 int MenuIntA, MenuIntB, MenuIntC, MenuIntD;
 float GlobalFloatA;
-char GlobalCharA,GlobalCharB,GlobalCharC,GlobalCharD,GlobalFrameChar;
+char GlobalCharA,GlobalCharB,GlobalCharC,GlobalCharD,GlobalCharE,GlobalFrameChar;
 
 short GlobalShortA, GlobalShortB, GlobalShortC, GlobalShortD;
 unsigned short GlobalUShortA, GlobalUShortB;

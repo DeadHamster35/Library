@@ -489,3 +489,6 @@
 .definelabel g_ItemUseCounter, 0x8018D930 // 4 bytes offset each player
 .definelabel g_sfxPointer, 0x803B7080 
 .definelabel g_noSimpleKartFlag, 0x801633F8
+
+.definelabel g_StringTableCourseGP, 0x800E7524
+.definelabel g_StringTableCourse, 0x800E7574

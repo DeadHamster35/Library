@@ -1014,3 +1014,64 @@ void loadMinimap()
 
 }
 
+void SetCourseNames(bool custom)
+{
+		*sourceAddress = *(long*)(&ok_CourseHeader + 0xE);
+		*targetAddress = (long)&ok_Credits;
+		dataLength = 0x36;
+
+		if ((custom == true) && (*sourceAddress != 0x00000000))
+		{
+			runDMA();
+			for (int strtbl = 0; strtbl < 20; strtbl++)
+			{
+				g_StringTableCourse[strtbl] = (long)&ok_Credits + 0x4;
+				g_StringTableCourseGP[strtbl] = (long)&ok_Credits + 0x4;
+			}
+		}
+		else
+		{
+
+			g_StringTableCourse[0] = 0x800EF8D8;
+			g_StringTableCourse[1] = 0x800EF8E8;
+			g_StringTableCourse[2] = 0x800EF8F8;
+			g_StringTableCourse[3] = 0x800EF908;
+			g_StringTableCourse[4] = 0x800EF91C;
+			g_StringTableCourse[5] = 0x800EF92C;
+			g_StringTableCourse[6] = 0x800EF93C;
+			g_StringTableCourse[7] = 0x800EF950;
+			g_StringTableCourse[8] = 0x800EF960;
+			g_StringTableCourse[9] = 0x800EF970;
+			g_StringTableCourse[10] = 0x800EF980;
+			g_StringTableCourse[11] = 0x800EF990;
+			g_StringTableCourse[12] = 0x800EF9A0;
+			g_StringTableCourse[13] = 0x800EF9B0;
+			g_StringTableCourse[14] = 0x800EF9C0;
+			g_StringTableCourse[15] = 0x800EF9D0;
+			g_StringTableCourse[16] = 0x800EF9DC;
+			g_StringTableCourse[17] = 0x800EF9E8;
+			g_StringTableCourse[18] = 0x800EF9F4;
+			g_StringTableCourse[19] = 0x800EFA0C;
+
+			g_StringTableCourseGP[0] = 0x800EFA18;
+			g_StringTableCourseGP[1] = 0x800EFA28;
+			g_StringTableCourseGP[2] = 0x800EFA38;
+			g_StringTableCourseGP[3] = 0x800EFA48;
+			g_StringTableCourseGP[4] = 0x800EFA5C;
+			g_StringTableCourseGP[5] = 0x800EFA6C;
+			g_StringTableCourseGP[6] = 0x800EFA7C;
+			g_StringTableCourseGP[7] = 0x800EFA90;
+			g_StringTableCourseGP[8] = 0x800EFAA0;
+			g_StringTableCourseGP[9] = 0x800EFAB0;
+			g_StringTableCourseGP[10] = 0x800EFAC0;
+			g_StringTableCourseGP[11] = 0x800EFAD0;
+			g_StringTableCourseGP[12] = 0x800EFAE0;
+			g_StringTableCourseGP[13] = 0x800EFAF0;
+			g_StringTableCourseGP[14] = 0x800EFB00;
+			g_StringTableCourseGP[15] = 0x800EFB10;
+			g_StringTableCourseGP[16] = 0x800EFB1C;
+			g_StringTableCourseGP[17] = 0x800EFB28;
+			g_StringTableCourseGP[18] = 0x800EFB34;
+			g_StringTableCourseGP[19] = 0x800EFB4C;
+		}
+}

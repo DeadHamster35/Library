@@ -494,3 +494,6 @@ extern char g_playerEcho; // 0x800E9F90
 extern long g_ItemUseCounter; // 8018D930
 extern long g_sfxPointer; //  803B7080
 extern short g_noSimpleKartFlag; // 801633F8
+
+extern long g_StringTableCourseGP[]; // 800E7524
+extern long g_StringTableCourse[]; // 800E7574

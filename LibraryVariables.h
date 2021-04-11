@@ -5,7 +5,7 @@ extern int GlobalAddressA, GlobalAddressB, GlobalAddressC;
 extern int GlobalIntA, GlobalIntB, GlobalIntC, GlobalIntD;
 extern int MenuIntA, MenuIntB, MenuIntC, MenuIntD;
 extern float GlobalFloatA;
-extern char GlobalCharA,GlobalCharB,GlobalCharC,GlobalCharD,GlobalFrameChar;
+extern char GlobalCharA,GlobalCharB,GlobalCharC,GlobalCharD,GlobalCharE,GlobalFrameChar;
 
 extern short GlobalShortA, GlobalShortB, GlobalShortC, GlobalShortD;
 extern unsigned short GlobalUShortA, GlobalUShortB;

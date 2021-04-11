@@ -21,3 +21,4 @@ extern void setBanners();
 extern void setPreviews();
 extern void swapHS();
 extern void previewRefresh();
+extern void SetCourseNames(bool custom);
