@@ -8,6 +8,7 @@
 #include "../library/MarioKart3D.h"
 #include "../library/Struct.h"
 #include "../library/OKStruct.h"
+#include "../library/OKBehaviors.h"
 #include "../library/GameVariables/NTSC/OKassembly.h"
 #include "../library/GameVariables/NTSC/GameOffsets.h"
 #include "../RawAssets/ModelData/ModelData.h"
@@ -168,12 +169,11 @@ void loadCoin()
 
 
 
-void DrawOKObject(OKObject InputHeader)
+void DrawOKObject(OKObject* InputHeader)
 {
-	*targetAddress = (long)&InputHeader;
-	*sourceAddress = InputHeader.ModelAddress;
-	*tempPointer = InputHeader.Parameter;
-	DrawGeometryScale(InputHeader.ObjectData.position,InputHeader.ObjectData.angle,InputHeader.ModelAddress,InputHeader.ModelScale);
+	DrawGeometryScale(InputHeader->ObjectData.position,InputHeader->ObjectData.angle,InputHeader->ModelAddress,InputHeader->ModelScale);
+	loadFont();
+	printStringNumber(0,GlobalShortD,"",InputHeader->ObjectData.angle[1]);	
 }
 
 
@@ -195,7 +195,7 @@ void ClearOKObject(short ObjectID)
 	OKObjectHeaders[ObjectID].Parameter = 0;
 	OKObjectHeaders[ObjectID].ModelScale = 0;
 	OKObjectHeaders[ObjectID].ModelAddress = 0;
-	OKObjectHeaders[ObjectID].BehvaiorClass = 0;
+	OKObjectHeaders[ObjectID].BehvaiorClass = BEHAVIOR_DEAD;
 	OKObjectHeaders[ObjectID].OriginPosition[0] = 0;
 	OKObjectHeaders[ObjectID].OriginPosition[1] = 0;
 	OKObjectHeaders[ObjectID].OriginPosition[2] = 0;
@@ -245,14 +245,24 @@ void RedCoinChallenge(long PathOffset)
 	{
 		GlobalShortA = FindOKObject();
 		ClearOKObject(GlobalShortA);
-		OKObjectHeaders[GlobalShortA].Parameter = 1;
+		OKObjectHeaders[GlobalShortA].Parameter = 100;
 		OKObjectHeaders[GlobalShortA].ObjectData.position[0] = (float)CoinPositions[currentCoin][0];
 		OKObjectHeaders[GlobalShortA].ObjectData.position[1] = (float)CoinPositions[currentCoin][1];
 		OKObjectHeaders[GlobalShortA].ObjectData.position[2] = (float)CoinPositions[currentCoin][2];
-		OKObjectHeaders[GlobalShortA].ObjectData.radius = 9;
+
+		//OKObjectHeaders[GlobalShortA].ObjectData.angle[1] = MakeRandomLimmit(0xFFFF);
+		
+
+		OKObjectHeaders[GlobalShortA].ObjectData.velocity[2] = 1.2;
+		
+		OKObjectHeaders[GlobalShortA].OriginPosition[0] = (float)CoinPositions[currentCoin][0];
+		OKObjectHeaders[GlobalShortA].OriginPosition[1] = (float)CoinPositions[currentCoin][1];
+		OKObjectHeaders[GlobalShortA].OriginPosition[2] = (float)CoinPositions[currentCoin][2];
+		OKObjectHeaders[GlobalShortA].ObjectData.radius = 4;
 		OKObjectHeaders[GlobalShortA].ObjectData.flag = 0xC000;
-		OKObjectHeaders[GlobalShortA].ModelAddress = (unsigned long)&RedCoin;
-		OKObjectHeaders[GlobalShortA].ModelScale = 0.10;		
+		OKObjectHeaders[GlobalShortA].ModelAddress = (unsigned long)&BowserLOD0;
+		OKObjectHeaders[GlobalShortA].ModelScale = 0.10;	
+		OKObjectHeaders[GlobalShortA].BehvaiorClass = BEHAVIOR_WANDER;
 	}
 
 
@@ -262,13 +272,31 @@ void RedCoinChallenge(long PathOffset)
 
 
 
-void CheckOKObjects()
+void DrawOKObjects()
 {
+	GlobalShortD = 30;
 	for (int CurrentObject = 0; CurrentObject < 100; CurrentObject++)
 	{
-		if(OKObjectHeaders[CurrentObject].Parameter != 0)
+		if(OKObjectHeaders[CurrentObject].BehvaiorClass != BEHAVIOR_DEAD)
 		{
-			DrawOKObject(OKObjectHeaders[CurrentObject]);
+			
+			DrawOKObject((OKObject*)&OKObjectHeaders[CurrentObject]);		
+			GlobalShortD += 20;	
+		}
+	}
+}
+
+void CheckOKObjects()
+{
+	loadFont();
+	GlobalShortD = 30;
+	for (int CurrentObject = 0; CurrentObject < 100; CurrentObject++)
+	{
+		if(OKObjectHeaders[CurrentObject].BehvaiorClass != BEHAVIOR_DEAD)
+		{
+			Misbehave((OKObject*)&OKObjectHeaders[CurrentObject]);
+			GlobalShortD += 20;
+
 		}
 	}
 }

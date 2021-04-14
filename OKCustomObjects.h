@@ -7,3 +7,5 @@ extern void DisplayCoinSprite();
 extern void DisplayAfterEffects();
 extern void loadCoin();
 extern void RedCoinChallenge(long RSPInput);
+extern void DrawOKObjects();
+extern void CheckOKObjects();

@@ -12,4 +12,10 @@ typedef struct OKObject{
 } OKObject;
 
 
+#define BEHAVIOR_DEAD	0
+#define BEHAVIOR_STATIC 	1
+#define BEHAVIOR_ROTATE 	2
+#define BEHAVIOR_PATH	3
+#define BEHAVIOR_WANDER 	4
+
 #endif
