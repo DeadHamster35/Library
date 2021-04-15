@@ -171,9 +171,10 @@ void loadCoin()
 
 void DrawOKObject(OKObject* InputHeader)
 {
+	InputHeader->ObjectData.angle[1] *= -1;
 	DrawGeometryScale(InputHeader->ObjectData.position,InputHeader->ObjectData.angle,InputHeader->ModelAddress,InputHeader->ModelScale);
-	loadFont();
-	printStringNumber(0,GlobalShortD,"",InputHeader->ObjectData.angle[1]);	
+	InputHeader->ObjectData.angle[1] *= -1;
+	
 }
 
 
@@ -192,10 +193,17 @@ short FindOKObject()
 
 void ClearOKObject(short ObjectID)
 {
-	OKObjectHeaders[ObjectID].Parameter = 0;
+	OKObjectHeaders[ObjectID].InputParameter[0] = 0;
+	OKObjectHeaders[ObjectID].InputParameter[1] = 0;
+	OKObjectHeaders[ObjectID].InputParameter[2] = 0;
+	OKObjectHeaders[ObjectID].InputParameter[3] = 0;
+	OKObjectHeaders[ObjectID].ProgramParameter[0] = 0;
+	OKObjectHeaders[ObjectID].ProgramParameter[1] = 0;
+	OKObjectHeaders[ObjectID].ProgramParameter[2] = 0;
+	OKObjectHeaders[ObjectID].ProgramParameter[3] = 0;
 	OKObjectHeaders[ObjectID].ModelScale = 0;
 	OKObjectHeaders[ObjectID].ModelAddress = 0;
-	OKObjectHeaders[ObjectID].BehvaiorClass = BEHAVIOR_DEAD;
+	OKObjectHeaders[ObjectID].BehaviorClass = BEHAVIOR_DEAD;
 	OKObjectHeaders[ObjectID].OriginPosition[0] = 0;
 	OKObjectHeaders[ObjectID].OriginPosition[1] = 0;
 	OKObjectHeaders[ObjectID].OriginPosition[2] = 0;
@@ -245,7 +253,8 @@ void RedCoinChallenge(long PathOffset)
 	{
 		GlobalShortA = FindOKObject();
 		ClearOKObject(GlobalShortA);
-		OKObjectHeaders[GlobalShortA].Parameter = 100;
+		OKObjectHeaders[GlobalShortA].InputParameter[0] = 100;
+		OKObjectHeaders[GlobalShortA].InputParameter[1] = 200;
 		OKObjectHeaders[GlobalShortA].ObjectData.position[0] = (float)CoinPositions[currentCoin][0];
 		OKObjectHeaders[GlobalShortA].ObjectData.position[1] = (float)CoinPositions[currentCoin][1];
 		OKObjectHeaders[GlobalShortA].ObjectData.position[2] = (float)CoinPositions[currentCoin][2];
@@ -253,16 +262,16 @@ void RedCoinChallenge(long PathOffset)
 		//OKObjectHeaders[GlobalShortA].ObjectData.angle[1] = MakeRandomLimmit(0xFFFF);
 		
 
-		OKObjectHeaders[GlobalShortA].ObjectData.velocity[2] = 1.2;
+		//OKObjectHeaders[GlobalShortA].ObjectData.velocity[2] = 1.2;
 		
-		OKObjectHeaders[GlobalShortA].OriginPosition[0] = (float)CoinPositions[currentCoin][0];
-		OKObjectHeaders[GlobalShortA].OriginPosition[1] = (float)CoinPositions[currentCoin][1];
-		OKObjectHeaders[GlobalShortA].OriginPosition[2] = (float)CoinPositions[currentCoin][2];
+		OKObjectHeaders[GlobalShortA].OriginPosition[0] = CoinPositions[currentCoin][0];
+		OKObjectHeaders[GlobalShortA].OriginPosition[1] = CoinPositions[currentCoin][1];
+		OKObjectHeaders[GlobalShortA].OriginPosition[2] = CoinPositions[currentCoin][2];
 		OKObjectHeaders[GlobalShortA].ObjectData.radius = 4;
 		OKObjectHeaders[GlobalShortA].ObjectData.flag = 0xC000;
-		OKObjectHeaders[GlobalShortA].ModelAddress = (unsigned long)&BowserLOD0;
+		OKObjectHeaders[GlobalShortA].ModelAddress = (long)&BowserLOD0;
 		OKObjectHeaders[GlobalShortA].ModelScale = 0.10;	
-		OKObjectHeaders[GlobalShortA].BehvaiorClass = BEHAVIOR_WANDER;
+		OKObjectHeaders[GlobalShortA].BehaviorClass = BEHAVIOR_WANDER;
 	}
 
 
@@ -277,7 +286,7 @@ void DrawOKObjects()
 	GlobalShortD = 30;
 	for (int CurrentObject = 0; CurrentObject < 100; CurrentObject++)
 	{
-		if(OKObjectHeaders[CurrentObject].BehvaiorClass != BEHAVIOR_DEAD)
+		if(OKObjectHeaders[CurrentObject].BehaviorClass != BEHAVIOR_DEAD)
 		{
 			
 			DrawOKObject((OKObject*)&OKObjectHeaders[CurrentObject]);		
@@ -292,10 +301,30 @@ void CheckOKObjects()
 	GlobalShortD = 30;
 	for (int CurrentObject = 0; CurrentObject < 100; CurrentObject++)
 	{
-		if(OKObjectHeaders[CurrentObject].BehvaiorClass != BEHAVIOR_DEAD)
+		if(OKObjectHeaders[CurrentObject].BehaviorClass != BEHAVIOR_DEAD)
 		{
 			Misbehave((OKObject*)&OKObjectHeaders[CurrentObject]);
+
+
+			/*
+			objectVelocity[0] = 0;
+			objectVelocity[1] = OKObjectHeaders[CurrentObject].ObjectData.velocity[1];
+			objectVelocity[2] = 1.0;
+			MakeAlignVector(objectVelocity, OKObjectHeaders[CurrentObject].ObjectData.angle[1]);
+			OKObjectHeaders[CurrentObject].ObjectData.velocity[0] = objectVelocity[0];
+			OKObjectHeaders[CurrentObject].ObjectData.velocity[1] = objectVelocity[1];
+			OKObjectHeaders[CurrentObject].ObjectData.velocity[2] = objectVelocity[2];
+
+			UpdateObjectGravity((Object*)&OKObjectHeaders[CurrentObject].ObjectData);
+			UpdateObjectVelocity((Object*)&OKObjectHeaders[CurrentObject].ObjectData);	
+			UpdateObjectBump((Object*)&OKObjectHeaders[CurrentObject].ObjectData);	
+			if(OKObjectHeaders[CurrentObject].ObjectData.bump.distance_zx < 0)
+			{
+				OKObjectHeaders[CurrentObject].ObjectData.velocity[1] = 0;
+			}
+			
 			GlobalShortD += 20;
+			*/
 
 		}
 	}

@@ -3,8 +3,9 @@
 #include "OKStruct.h"
 extern int GlobalAddressA, GlobalAddressB, GlobalAddressC;
 extern int GlobalIntA, GlobalIntB, GlobalIntC, GlobalIntD;
+extern unsigned int GlobalUIntA, GlobalUIntB;
 extern int MenuIntA, MenuIntB, MenuIntC, MenuIntD;
-extern float GlobalFloatA;
+extern float GlobalFloatA, GlobalFloatB, GlobalFloatC, GlobalFloatD;
 extern char GlobalCharA,GlobalCharB,GlobalCharC,GlobalCharD,GlobalCharE,GlobalFrameChar;
 
 extern short GlobalShortA, GlobalShortB, GlobalShortC, GlobalShortD;

@@ -3,9 +3,11 @@
 #include "Struct.h"
 
 typedef struct OKObject{
-	short     Parameter;
+	short     InputParameter[4];
+	short     ProgramParameter[4];
+	short	Counter[2];
 	Object	ObjectData;
-	short	BehvaiorClass;
+	short	BehaviorClass;
 	short	OriginPosition[3];
 	long		ModelAddress;
 	float	ModelScale;     
@@ -17,5 +19,11 @@ typedef struct OKObject{
 #define BEHAVIOR_ROTATE 	2
 #define BEHAVIOR_PATH	3
 #define BEHAVIOR_WANDER 	4
+#define BEHAVIOR_SEARCH	5
+
+#define SUBBEHAVIOR_DOCILE 		0
+#define SUBBEHAVIOR_ALERT		1
+#define SUBBEHAVIOR_CHASE		2
+#define SUBBEHAVIOR_SURPRISE		3
 
 #endif
