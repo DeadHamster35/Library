@@ -411,7 +411,8 @@
 
 .definelabel g_cupSelect, 0x8018EE09
 .definelabel g_courseSelect, 0x8018EE0B
-.definelabel g_InGame, 0x8018EDFB
+.definelabel g_InGameTT, 0x8018EDFB
+.definelabel g_InGame, 0x8018EDFC
 
 .definelabel asm_CupCount, 0x8028E3C6
 .definelabel songID, 0x8028ECE6

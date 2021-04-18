@@ -74,7 +74,10 @@ extern int RSPNumber;
 extern int RSPOffset;
 extern char *hex;
 //
-//
+
+//Stock Names
+extern char *stockCourseNames;
+extern char *stockCharacterNames;
 
 //Custom Levels
 

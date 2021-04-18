@@ -415,6 +415,7 @@ extern long titleDemo; //
 
 extern char g_cupSelect; //8018EE09
 extern char g_courseSelect; //8018EE0B
+extern char g_InGameTT; //0x8018EDFB
 extern char g_InGame; //0x8018EDFC
 
 extern short asm_CupCount;

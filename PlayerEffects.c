@@ -265,25 +265,40 @@ void SetPlayerEcho(char playerID, char echo)
 	*(char*)GlobalAddressA = echo;
 }
 
-void playrandmCharacterSFX(int playerIndex)
+void playrandmCharacterSFX(char playerID)
 {
-	GlobalAddressA = (long)(&g_PlayerStateTable) + (0xDD8 * playerIndex);
+	GlobalAddressA = (long)(&g_PlayerStateTable) + (0xDD8 * playerID);
 	GlobalCharA = ((char)*(short*)(GlobalAddressA + 0x254) * 0x10);
 
 	if ((g_RNG <= 0x3333))
 	{
-    	NAPlyVoiceStart(playerIndex, 0x29008008 + GlobalCharA);  //voice char lucky sfx
+    	NAPlyVoiceStart(playerID, 0x29008008 + GlobalCharA);  //voice char lucky sfx
     	return;
     }
 	if (g_RNG <= 0x7777)
 	{
-    	NAPlyVoiceStart(playerIndex, 0x2900800D + GlobalCharA);   //voice char yahho sfx
+    	NAPlyVoiceStart(playerID, 0x2900800D + GlobalCharA);   //voice char yahho sfx
     	return;
 	}
 	if (g_RNG <= 0x9999)
 	{
-    	NAPlyVoiceStart(playerIndex, 0x29008001 + GlobalCharA);   //voice char gogo sfx
+    	NAPlyVoiceStart(playerID, 0x29008001 + GlobalCharA);   //voice char gogo sfx
     	return;
 	}
-	NAPlyVoiceStart(playerIndex, 0x2900800C + GlobalCharA);   //voice char jump sfx    
+	NAPlyVoiceStart(playerID, 0x2900800C + GlobalCharA);   //voice char jump sfx    
+}
+
+void EnableAirControl(char playerID)
+{
+	GlobalAddressC = (long)&g_PlayerStateTable + (0xDD8 * playerID) + 0xBF;
+	GlobalAddressB = (long)&g_PlayerStateTable + (0xDD8 * playerID) + 0xBD;
+	if(((*(char*)(GlobalAddressC) & 8) != 0) && ((*(char*)(GlobalAddressC) & 4) == 0) && ((*(char*)(GlobalAddressB) & 16) == 0))
+	{
+		*(char*)GlobalAddressC ^= 8;
+		if(((*(char*)(GlobalAddressC) & 2) == 0) && ((*(char*)(GlobalAddressC) & 16) == 0))
+		{
+			*(char*)GlobalAddressC |= 16;
+			*(char*)GlobalAddressC |= 2;
+		}
+	}
 }

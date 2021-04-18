@@ -79,7 +79,14 @@ int RSPNumber;
 int RSPOffset;
 char *hex = "0123456789ABCDEF";
 //
-//
+
+//Stock Names
+char *stockCourseNames[] = {"Mario Raceway", "Choco Mountain", "Bowser's Castle", "Banshee Boardwalk",
+                         "Yoshi Valley", "Frappe Snowland", "Koopa Troopa Beach", "Royal Raceway",
+                         "Luigi Raceway", "Moo Moo Farm", "Toad's Turnpike","Kalimari Desert",
+                         "Sherbet Land", "Rainbow Road", "Wario Stadium", "Block Fort",
+                         "Skyscraper", "Double Deck", "D.K.'s Jungle Parkway", "Big Donut"};
+char *stockCharacterNames[] = {"MARIO", "LUIGI", "YOSHI", "TOAD", "D.K.", "WARIO", "PEACH", "BOWSER"};
 
 
 //Custom Levels
