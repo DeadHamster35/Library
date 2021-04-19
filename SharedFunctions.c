@@ -9,6 +9,25 @@
 
 
 
+void runDMA()
+{
+	DMA(*targetAddress, *sourceAddress, dataLength);
+}
+void runRAM()
+{
+	ramCopy(*targetAddress, *sourceAddress, dataLength);
+}
+void runMIO()
+{
+	decodeMIO0(*sourceAddress, *targetAddress);
+}
+void runTKM()
+{
+	decodeTKMK(*sourceAddress, tkmPoint, *targetAddress, 0xBE);
+}
+
+
+
 bool CheckPlatform()
 {
 	// This is an abuse of the memory quirks between Console and Emulator.
@@ -35,23 +54,6 @@ bool CheckPlatform()
 	{
 		return true;    //CONSOLE
 	}
-}
-
-void runDMA()
-{
-	DMA(*targetAddress, *sourceAddress, dataLength);
-}
-void runRAM()
-{
-	ramCopy(*targetAddress, *sourceAddress, dataLength);
-}
-void runMIO()
-{
-	decodeMIO0(*sourceAddress, *targetAddress);
-}
-void runTKM()
-{
-	decodeTKMK(*sourceAddress, tkmPoint, *targetAddress, 0xBE);
 }
 
 

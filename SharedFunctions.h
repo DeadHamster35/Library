@@ -1,5 +1,6 @@
 #include <sys/types.h>
 #include <math.h>
+#include <stdbool.h>
 
 
 extern bool CheckPlatform();
