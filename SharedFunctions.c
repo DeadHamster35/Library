@@ -9,6 +9,34 @@
 
 
 
+bool CheckPlatform()
+{
+	// This is an abuse of the memory quirks between Console and Emulator.
+
+	// We're unsure of yet the exact cause
+	// Emulators have extremely fast memory access and no latency, that may be the cause.
+	// Either way, this can detect if a legitimate console is running and return TRUE if so.
+	
+	*targetAddress = 0x80744000;
+	*sourceAddress = 0x30;
+	dataLength = 0xC;
+	runDMA();
+	*targetAddress = 0x8074400C;
+	*sourceAddress = *sourceAddress + 0xC;
+	runDMA(); 
+
+
+	
+	if (*(long*)(0x80744014) == 0x40804800)
+	{
+		return false;    //EMULATOR
+	}
+	else
+	{
+		return true;    //CONSOLE
+	}
+}
+
 void runDMA()
 {
 	DMA(*targetAddress, *sourceAddress, dataLength);

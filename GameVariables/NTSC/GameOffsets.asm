@@ -108,6 +108,7 @@
 .definelabel NAPlyTrgStart, 0x800C9060
 .definelabel NAPlyVoiceStart, 0x800C90F4
 .definelabel NAEnmTrgStart, 0x800C98B8
+.definelabel Sqrtf, 0x800CE140
 
 .definelabel colorFont, 0x800930D8
 .definelabel loadFont, 0x80057710
@@ -378,6 +379,11 @@
 
 
 .definelabel g_CameraTable, 0x801646F0
+.definelabel g_Camera1, 0x801646F0
+.definelabel g_Camera2, 0x801647A4
+.definelabel g_Camera3, 0x80164858
+.definelabel g_Camera4, 0x8016490C
+
 .definelabel g_DynamicObjects, 0x80165C18
 
 

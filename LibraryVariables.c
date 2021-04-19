@@ -19,6 +19,8 @@ short GlobalShortA, GlobalShortB;
 bool GlobalBoolA, GlobalBoolB, GlobalBoolC, GlobalBoolD;
 int LoopValue;
 
+bool ConsolePlatform;
+
 Object *GlobalObjectA, *GlobalObjectB;
 
 Player *GlobalPlayer[8] = 
@@ -49,6 +51,14 @@ Screen *GlobalScreen[4] =
      &g_Screen2,
      &g_Screen3,
      &g_Screen4
+};
+
+Camera *GlobalCamera[4] = 
+{
+     &g_Camera1,
+     &g_Camera2,
+     &g_Camera3,
+     &g_Camera4
 };
 
 //MarioKart3D Variables

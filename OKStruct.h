@@ -3,11 +3,12 @@
 #include "Struct.h"
 
 typedef struct OKObject{
-	short     InputParameter[4];
+	short     Range,Sight,Viewcone,Target;
+	float 	TargetDistance;
 	short     ProgramParameter[4];
 	short	Counter[2];
 	Object	ObjectData;
-	short	BehaviorClass;
+	short	BehaviorClass, SubBehaviorClass;
 	short	OriginPosition[3];
 	long		ModelAddress;
 	float	ModelScale;     

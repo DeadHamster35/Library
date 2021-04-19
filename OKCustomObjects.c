@@ -183,7 +183,7 @@ short FindOKObject()
 	for (int CurrentObject = 0; CurrentObject < 100; CurrentObject++)
 	{
 		
-		if(OKObjectHeaders[CurrentObject].Parameter == 0)
+		if(OKObjectHeaders[CurrentObject].BehaviorClass == BEHAVIOR_DEAD)
 		{
 			return (short)CurrentObject;
 		}
@@ -193,10 +193,11 @@ short FindOKObject()
 
 void ClearOKObject(short ObjectID)
 {
-	OKObjectHeaders[ObjectID].InputParameter[0] = 0;
-	OKObjectHeaders[ObjectID].InputParameter[1] = 0;
-	OKObjectHeaders[ObjectID].InputParameter[2] = 0;
-	OKObjectHeaders[ObjectID].InputParameter[3] = 0;
+	OKObjectHeaders[ObjectID].Range = 0;
+	OKObjectHeaders[ObjectID].Sight = 0;
+	OKObjectHeaders[ObjectID].Viewcone = 0;
+	OKObjectHeaders[ObjectID].Target = 0;
+	OKObjectHeaders[ObjectID].TargetDistance = 0;
 	OKObjectHeaders[ObjectID].ProgramParameter[0] = 0;
 	OKObjectHeaders[ObjectID].ProgramParameter[1] = 0;
 	OKObjectHeaders[ObjectID].ProgramParameter[2] = 0;
@@ -204,6 +205,7 @@ void ClearOKObject(short ObjectID)
 	OKObjectHeaders[ObjectID].ModelScale = 0;
 	OKObjectHeaders[ObjectID].ModelAddress = 0;
 	OKObjectHeaders[ObjectID].BehaviorClass = BEHAVIOR_DEAD;
+	OKObjectHeaders[ObjectID].BehaviorClass = SUBBEHAVIOR_DOCILE;
 	OKObjectHeaders[ObjectID].OriginPosition[0] = 0;
 	OKObjectHeaders[ObjectID].OriginPosition[1] = 0;
 	OKObjectHeaders[ObjectID].OriginPosition[2] = 0;
@@ -253,25 +255,23 @@ void RedCoinChallenge(long PathOffset)
 	{
 		GlobalShortA = FindOKObject();
 		ClearOKObject(GlobalShortA);
-		OKObjectHeaders[GlobalShortA].InputParameter[0] = 100;
-		OKObjectHeaders[GlobalShortA].InputParameter[1] = 200;
+		OKObjectHeaders[GlobalShortA].Range = 100;
+		OKObjectHeaders[GlobalShortA].Sight = 150;
+		OKObjectHeaders[GlobalShortA].Viewcone = 150;
 		OKObjectHeaders[GlobalShortA].ObjectData.position[0] = (float)CoinPositions[currentCoin][0];
 		OKObjectHeaders[GlobalShortA].ObjectData.position[1] = (float)CoinPositions[currentCoin][1];
 		OKObjectHeaders[GlobalShortA].ObjectData.position[2] = (float)CoinPositions[currentCoin][2];
 
-		//OKObjectHeaders[GlobalShortA].ObjectData.angle[1] = MakeRandomLimmit(0xFFFF);
-		
-
-		//OKObjectHeaders[GlobalShortA].ObjectData.velocity[2] = 1.2;
-		
 		OKObjectHeaders[GlobalShortA].OriginPosition[0] = CoinPositions[currentCoin][0];
 		OKObjectHeaders[GlobalShortA].OriginPosition[1] = CoinPositions[currentCoin][1];
 		OKObjectHeaders[GlobalShortA].OriginPosition[2] = CoinPositions[currentCoin][2];
+
 		OKObjectHeaders[GlobalShortA].ObjectData.radius = 4;
 		OKObjectHeaders[GlobalShortA].ObjectData.flag = 0xC000;
 		OKObjectHeaders[GlobalShortA].ModelAddress = (long)&BowserLOD0;
 		OKObjectHeaders[GlobalShortA].ModelScale = 0.10;	
-		OKObjectHeaders[GlobalShortA].BehaviorClass = BEHAVIOR_WANDER;
+		OKObjectHeaders[GlobalShortA].BehaviorClass = BEHAVIOR_SEARCH;
+		OKObjectHeaders[GlobalShortA].SubBehaviorClass = SUBBEHAVIOR_DOCILE;
 	}
 
 
@@ -322,9 +322,9 @@ void CheckOKObjects()
 			{
 				OKObjectHeaders[CurrentObject].ObjectData.velocity[1] = 0;
 			}
-			
-			GlobalShortD += 20;
 			*/
+			GlobalShortD += 10;
+			
 
 		}
 	}

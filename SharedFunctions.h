@@ -2,7 +2,7 @@
 #include <math.h>
 
 
-
+extern bool CheckPlatform();
 extern void runDMA();
 extern void runRAM();
 extern void runTKM();

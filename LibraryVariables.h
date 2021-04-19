@@ -15,6 +15,7 @@ extern unsigned long FreeSpaceAddress;
 extern short GlobalShortA, GlobalShortB;
 extern bool GlobalBoolA, GlobalBoolB, GlobalBoolC, GlobalBoolD;
 extern int LoopValue;
+extern bool ConsolePlatform;
 
 extern Object *GlobalObjectA, *GlobalObjectB;
 
@@ -22,6 +23,7 @@ extern Object *GlobalObjectA, *GlobalObjectB;
 extern struct Player *GlobalPlayer[];
 extern struct Controller *GlobalController[];
 extern struct Screen *GlobalScreen[];
+extern struct Camera *GlobalCamera[];
 
 #define 	BTN_A		0x8000 
 #define 	BTN_B		0x4000 

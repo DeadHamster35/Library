@@ -442,6 +442,8 @@ void setSky()
 		runDMA();
 		*targetAddress = (long)&g_skyColorBot;
 		*sourceAddress = *sourceAddress + 0xC;
+		FreeSpaceAddress = *sourceAddress;
+		GlobalIntD = dataLength;
 		runDMA();
 	}
 	else

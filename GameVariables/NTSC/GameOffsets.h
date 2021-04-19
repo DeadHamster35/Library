@@ -122,6 +122,7 @@ extern void playSound(int soundID);
 extern void NAPlyTrgStart(char playerID, int soundID);
 extern void NAPlyVoiceStart(char playerID, int soundID);
 extern void NAEnmTrgStart(float ObjectPosition[], float ObjectVelocity[], int soundID);
+extern float Sqrtf(float Input);
 
 extern void colorFont(int color);
 extern void loadFont();
@@ -382,7 +383,12 @@ extern long g_gameLapPlayer6;    // 0x8  01643A4
 extern long g_gameLapPlayer7;    // 0x8  01643A8
 extern long g_gameLapPlayer8;    // 0x8  01643AC
 
-extern long g_CameraTable; //0x801646F0
+extern struct Camera g_CameraTable; //0x801646F0
+extern struct Camera g_Camera1; //0x801646F0
+extern struct Camera g_Camera2; //0x801646F0
+extern struct Camera g_Camera3; //0x801646F0
+extern struct Camera g_Camera4; //0x801646F0
+
 extern long g_DynamicObjects; //0x80165C18
 
 
