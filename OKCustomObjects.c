@@ -196,7 +196,8 @@ void ClearOKObject(short ObjectID)
 	OKObjectHeaders[ObjectID].Range = 0;
 	OKObjectHeaders[ObjectID].Sight = 0;
 	OKObjectHeaders[ObjectID].Viewcone = 0;
-	OKObjectHeaders[ObjectID].Target = 0;
+	OKObjectHeaders[ObjectID].PlayerTarget = 0;
+	OKObjectHeaders[ObjectID].PathTarget = 0;
 	OKObjectHeaders[ObjectID].TargetDistance = 0;
 	OKObjectHeaders[ObjectID].ProgramParameter[0] = 0;
 	OKObjectHeaders[ObjectID].ProgramParameter[1] = 0;

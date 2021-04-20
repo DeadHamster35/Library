@@ -1,6 +1,9 @@
 #include <stdbool.h>
 #include "Struct.h"
 #include "OKStruct.h"
+
+
+
 extern int GlobalAddressA, GlobalAddressB, GlobalAddressC;
 extern int GlobalIntA, GlobalIntB, GlobalIntC, GlobalIntD;
 extern unsigned int GlobalUIntA, GlobalUIntB;

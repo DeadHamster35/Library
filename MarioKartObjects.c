@@ -85,6 +85,13 @@ void UpdateObjectVelocity(Object* InputObject)
 	InputObject->position[1] += InputObject->velocity[1];
 	InputObject->position[2] += InputObject->velocity[2];
 }
+void UpdateObjectAngle(Object* InputObject, short InputAngle[])
+{
+	InputObject->angle[0] += InputAngle[0];
+	InputObject->angle[1] += InputAngle[1];
+	InputObject->angle[2] += InputAngle[2];
+}
+
 
 
 void UpdateObjectGravity(Object* InputObject)

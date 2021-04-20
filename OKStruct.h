@@ -3,15 +3,17 @@
 #include "Struct.h"
 
 typedef struct OKObject{
-	short     Range,Sight,Viewcone,Target;
-	float 	TargetDistance;
+	short     Range,Sight,Viewcone;
 	short     ProgramParameter[4];
 	short	Counter[2];
-	Object	ObjectData;
+	short	PathTarget,PlayerTarget;
 	short	BehaviorClass, SubBehaviorClass;
 	short	OriginPosition[3];
+	short	AngularVelocity[3];
 	long		ModelAddress;
 	float	ModelScale;     
+	float 	TargetDistance;
+	Object	ObjectData;
 } OKObject;
 
 

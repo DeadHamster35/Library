@@ -162,7 +162,7 @@ void ObjectBehaviorSearch(OKObject* InputObject)
 					InputObject->SubBehaviorClass = SUBBEHAVIOR_SURPRISE;
 					InputObject->TargetDistance = GlobalFloatD;
 					GlobalFloatD = 2.01 - GlobalFloatD;
-					InputObject->Target = (short)CurrentPlayer;
+					InputObject->PlayerTarget = (short)CurrentPlayer;
 					InputObject->Counter[1] = 30 * GlobalFloatD; 
 					
 					InputObject->ObjectData.velocity[0] = 0;
@@ -195,10 +195,10 @@ void ObjectBehaviorSearch(OKObject* InputObject)
 		case(SUBBEHAVIOR_CHASE):
 		{
 			
-			GlobalFloatD = ObjectSubBehaviorLookTarget(InputObject, GlobalPlayer[InputObject->Target]->position);
+			GlobalFloatD = ObjectSubBehaviorLookTarget(InputObject, GlobalPlayer[InputObject->PlayerTarget]->position);
 			if (GlobalFloatD < 2)
 			{
-				GlobalShortC = ObjectSubBehaviorTurnTarget(InputObject->ObjectData.position, InputObject->ObjectData.angle[1], GlobalPlayer[InputObject->Target]->position, 4);
+				GlobalShortC = ObjectSubBehaviorTurnTarget(InputObject->ObjectData.position, InputObject->ObjectData.angle[1], GlobalPlayer[InputObject->PlayerTarget]->position, 4);
 				InputObject->ObjectData.angle[1] += (DEG1 * 4 * GlobalShortC);
 				GlobalFloatA = (InputObject->ObjectData.velocity[0] * InputObject->ObjectData.velocity[0]) + (InputObject->ObjectData.velocity[2] * InputObject->ObjectData.velocity[2]);
 				if (GlobalFloatA < (2 * 2))
@@ -247,6 +247,17 @@ void Misbehave(OKObject* InputObject)
 	
 	switch (InputObject->BehaviorClass)
 	{
+		case BEHAVIOR_STATIC:
+		{
+			ObjectBehaviorExist(InputObject);
+			break;
+		}
+		case BEHAVIOR_ROTATE:
+		{
+			UpdateObjectAngle((Object*)(&InputObject->ObjectData), InputObject->AngularVelocity);
+			ObjectBehaviorExist(InputObject);
+			break;
+		}
 		case BEHAVIOR_WANDER:
 		{
 			
