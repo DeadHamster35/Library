@@ -121,19 +121,19 @@ void DisplayCoinSprite()
 
 			for(int currentSprite = 1; (currentSprite <= CoinCount) & (currentSprite <= 8); currentSprite++)
 			{
-				KWSprite((currentSprite* 4) + 30,220,16,16,(short*)&ok_RedCoinSprite);
+				KWSprite((currentSprite* 4) + 30,220,16,16,(ushort*)&ok_RedCoinSprite);
 			}
 
 			if ((CoinCount != 0) && (CoinCount < 8))
 			{
-				KWSprite(21,219,16,16,(short*)&lit_numberSpriteX);
-				KWSprite(11,219,16,16,(short*)&lit_numberSprite+(CoinCount*0x100));
+				KWSprite(21,219,16,16,(ushort*)&lit_numberSpriteX);
+				KWSprite(11,219,16,16,(ushort*)&lit_numberSprite+(CoinCount*0x100));
 				return;
 			}
 			if (CoinCount >= 8)
 			{
-				KWSprite(21,219,16,16,(short*)&lit_numberSpriteX);
-				KWSprite(11,219,16,16,(short*)&lit_numberSprite8);
+				KWSprite(21,219,16,16,(ushort*)&lit_numberSpriteX);
+				KWSprite(11,219,16,16,(ushort*)&lit_numberSprite8);
 			}
  
 }

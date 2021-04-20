@@ -5,6 +5,10 @@ typedef	float	RotateMtx[3][3];			/* 3x3 rotation matrix					*/
 typedef 	float	AffineMtx[4][4];			/* 4x4 affine transformation matrix		*/
 typedef 	float	Matrix[3][3];			/* 4x4 affine transformation matrix		*/
 
+typedef unsigned char    uchar;
+typedef unsigned short   ushort;
+typedef unsigned int     uint;
+
 typedef struct Bump{
 
 	unsigned short 	flag_xy;
@@ -230,22 +234,27 @@ typedef struct Viewport{
 } Viewport;
 
 typedef struct Screen{
-		Controller	*cont;
-		Camera	     *camera;
-		Player	     *kart;
-		AffineMtx		*matrix;
-		Viewport		viewport;
-		float 	   	screen_aspect;
-		float      	screen_angle;
-		short      	horizon;
-		short      	pad;
-		short      	width;
-		short      	height;
-		short	   	posx;
-		short      	posy;
-		short      	flag;
-		short      	camera_direction;
-		short      	camera_point;
+	Controller	*cont;
+	Camera	     *camera;
+	Player	     *kart;
+	AffineMtx		*matrix;
+	Viewport		viewport;
+	float 	   	screen_aspect;
+	float      	screen_angle;
+	short      	horizon;
+	short      	pad;
+	short      	width;
+	short      	height;
+	short	   	posx;
+	short      	posy;
+	short      	flag;
+	short      	camera_direction;
+	short      	camera_point;
 } Screen;
+
+typedef struct Marker{
+	short 	Position[3];
+	short	Group;
+} Marker;
 
 #endif

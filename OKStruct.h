@@ -13,6 +13,7 @@ typedef struct OKObject{
 	long		ModelAddress;
 	float	ModelScale;     
 	float 	TargetDistance;
+	float	MaxSpeed;
 	Object	ObjectData;
 } OKObject;
 

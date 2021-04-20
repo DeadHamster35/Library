@@ -4,11 +4,6 @@
 #include "Struct.h"
 #include "OKStruct.h"
 
-
-typedef unsigned char    uchar;
-typedef unsigned short   ushort;
-typedef unsigned int     uint;
-
 int GlobalAddressA, GlobalAddressB, GlobalAddressC;
 int GlobalIntA, GlobalIntB, GlobalIntC, GlobalIntD;
 uint GlobalUIntA, GlobalUIntB;

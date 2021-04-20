@@ -15,6 +15,7 @@ extern long asm_tempo2B; //0x80001A3C  ;;8D290114
 extern short asm_tempo2BSpeed; //0x80001A3F  ;; speed value
 
 extern long asm_tempo3A; //0x80001C90  ;;3C0A8015
+extern short asm_tempo3ASpeed; //don't delete this bruv
 extern long asm_tempo3B; //0x80001C94  ;;8D4A0114
 extern short asm_tempo3BSpeed; //0x80001C97  ;; speed value
 

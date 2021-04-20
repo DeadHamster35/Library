@@ -89,8 +89,8 @@ extern void SetFastOoB(void *Car,char PlayerID);
 
 extern unsigned long* GraphPtr;
 extern long GraphPtrOffset;
-extern void KWSprite(uint cx,uint cy,uint sizex,uint sizey,ushort *addr);
-extern void KWSpriteScale(int cx,int cy,float scale, short *addr, int sizex,int sizey);
+extern void KWSprite(int cx,int cy,uint sizex,uint sizey,ushort *addr);
+extern void KWSpriteScale(int cx,int cy,float scale, ushort *addr, uint sizex,uint sizey);
 
 extern void BumpObject(Object* InputObject);
 extern int SetMatrix(float Matrix[][4], int Mode);

@@ -242,6 +242,20 @@ void ObjectBehaviorSearch(OKObject* InputObject)
 	}
 }
 
+void ObjectSearchClosestMarker(float ObjectPostion[], Marker* PathData[])
+{
+	for (int CurrentMarker = 0; ; CurrentMarker++)
+	{
+		break;
+	}
+}
+
+
+void ObjectBehaviorFollowPath(OKObject* InputObject, Marker* PathData[])
+{
+	
+}
+
 void Misbehave(OKObject* InputObject)
 {
 	
