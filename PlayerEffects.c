@@ -5,6 +5,9 @@
 #include "GameVariables/NTSC/StatsOffsets.h"
 #include "LibraryVariables.h"
 #include "SubProgram.h"
+#include "OKStruct.h"
+
+
 
 
 
@@ -300,5 +303,131 @@ void EnableAirControl(char playerID)
 			*(char*)GlobalAddressC |= 16;
 			*(char*)GlobalAddressC |= 2;
 		}
+	}
+}
+
+
+
+
+void MasterEffect(int PlayerID, short EffectID)
+{
+	switch (EffectID)
+	{
+		case StateAnimMusicNote:
+		{
+			SetAnimMusicNote(PlayerID);
+			break;
+		}
+		case StateAnimCrash:
+		{
+			SetAnimCrash(PlayerID);
+			break;
+		}
+		case StateAnimPoomp:
+		{
+			SetAnimPoomp(PlayerID);
+			break;
+		}
+		case StateAnimBoing:
+		{
+			SetAnimBoing(PlayerID);
+			break;
+		}
+		case StateAnimExplosion:
+		{
+			SetAnimExplosion(PlayerID);
+			break;
+		}
+		case StateAnimBonkStars:
+		{
+			SetAnimBonkStars(PlayerID);
+			break;
+		}
+		case StateAnimLandingDust:
+		{
+			SetAnimLandingDust(PlayerID);
+			break;
+		}
+	}
+
+}
+
+
+void MasterStatus(int PlayerID, short StatusID)
+{
+	switch (StatusID)
+	{
+		case StateMapObjectHit:
+		{
+			SetMapObjectHit(PlayerID);
+			break;
+		}
+		case StateLightningHit:
+		{
+			SetLightningHit(PlayerID);
+			break;
+		}
+		case StateBooTranslucent:
+		{
+			SetBooTranslucent(PlayerID);
+			break;
+		}
+		case StateBecomeBomb:
+		{
+			SetBecomeBomb(PlayerID);
+			break;			
+		}
+		case StateFlattened:
+		{
+			SetFlattened(PlayerID);			
+			break;
+		}
+		case StateMushroomBoost:
+		{
+			SetMushroomBoost(PlayerID);
+			break;
+		}
+		case StateSpinOutSaveable:
+		{
+			SetSpinOutSaveable(PlayerID);
+			break;
+		}
+		case StateSpinOut:
+		{
+			SetSpinOut(PlayerID);
+			break;
+		}
+		case StateGreenShellHit:
+		{
+			SetGreenShellHit(PlayerID);
+			break;
+		}
+		case StateRedShellHit:
+		{
+			SetRedShellHit(PlayerID);
+			break;
+		}
+		case StateBonk:
+		{
+			SetBonk(PlayerID);
+			break;
+		}
+		case StateStarOn:
+		{
+			SetStarMan(PlayerID,true);
+		}
+		case StateStarOff:
+		{
+			SetStarMan(PlayerID,false);
+		}
+		case StateGhostOn:
+		{
+			SetGhostEffect(PlayerID,true);
+		}
+		case StateGhostOff:
+		{
+			SetGhostEffect(PlayerID,false);
+		}
+		
 	}
 }

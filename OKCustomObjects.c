@@ -1,17 +1,18 @@
-#include "../library/SubProgram.h"
-#include "../library/SharedFunctions.h"
-#include "../library/OKHeader.h"
-#include "../library/OKExternal.h"
-#include "../library/LibraryVariables.h"
-#include "../library/PlayerEffects.h"
-#include "../library/MarioKartObjects.h"
-#include "../library/MarioKart3D.h"
-#include "../library/Struct.h"
-#include "../library/OKStruct.h"
-#include "../library/OKBehaviors.h"
-#include "../library/GameVariables/NTSC/OKassembly.h"
-#include "../library/GameVariables/NTSC/GameOffsets.h"
+#include "SubProgram.h"
+#include "SharedFunctions.h"
+#include "OKHeader.h"
+#include "OKExternal.h"
+#include "LibraryVariables.h"
+#include "PlayerEffects.h"
+#include "MarioKartObjects.h"
+#include "MarioKart3D.h"
+#include "Struct.h"
+#include "OKStruct.h"
+#include "OKBehaviors.h"
+#include "GameVariables/NTSC/OKassembly.h"
+#include "GameVariables/NTSC/GameOffsets.h"
 #include "../RawAssets/ModelData/ModelData.h"
+
 
 
 /*
@@ -280,7 +281,90 @@ void RedCoinChallenge(long PathOffset)
 
 
 
+bool TestCollideSphere(float SourcePosition[], float SourceRadius, float TargetPosition[], float TargetRadius)
+{
+	
+	GlobalFloatA = SourceRadius + TargetRadius;
+	
+	GlobalFloatB = SourcePosition[0] - TargetPosition[0];
+	GlobalFloatC = SourcePosition[2] - TargetPosition[2];
+	if ((GlobalFloatB * GlobalFloatB) + (GlobalFloatC * GlobalFloatC) > (GlobalFloatA * GlobalFloatA))
+	{
+		return false;
+	}
+	
+	return true; 
+}
 
+bool TestCollideBox(float SourcePosition[], short SourceSize[], float TargetPosition[], float TargetRadius)
+{
+
+	for (int CurrentVector = 0; CurrentVector < 3; CurrentVector++)
+	{
+		GlobalFloatA = (SourceSize[CurrentVector] / 2) + TargetRadius;
+		GlobalFloatB = SourcePosition[CurrentVector] - TargetPosition[CurrentVector];
+		if ((GlobalFloatB > GlobalFloatA) || (GlobalFloatB < GlobalFloatA * -1))
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+void OKObjectCollision(OKObject *InputObject)
+{
+	GlobalAddressA = InputObject->CollisionAddress;
+	if (g_gameMode == 0)
+	{
+		GlobalShortA = 8;
+	}
+	else
+	{
+		GlobalShortA = g_playerCount;
+	}
+
+	for (int CurrentPlayer = 0; CurrentPlayer < GlobalShortA; CurrentPlayer++)
+	{
+		for (int CurrentCount = 0; CurrentCount < InputObject->CollisionCount; CurrentCount++)
+		{
+			OKCollisionSphere *CurrentSphere = (OKCollisionSphere*)(GlobalAddressA);
+			objectPosition[0] = CurrentSphere->Position[0];
+			objectPosition[1] = CurrentSphere->Position[1];
+			objectPosition[2] = CurrentSphere->Position[2];
+
+			//rotate the relative position of the sphere to the model based on the model angle.
+
+			RotateVector(objectPosition,InputObject->ObjectData.angle);
+
+			//apply the global position of the object to the relative position of the rotated sphere center.
+
+			objectPosition[0] = objectPosition[0] + InputObject->ObjectData.position[0];
+			objectPosition[1] = objectPosition[1] + InputObject->ObjectData.position[1];
+			objectPosition[2] = objectPosition[2] + InputObject->ObjectData.position[2];
+			
+			if (CurrentSphere->Radius < 0)
+			{
+				if(TestCollideBox(objectPosition, CurrentSphere->BoxSize ,GlobalPlayer[CurrentPlayer]->position, GlobalPlayer[CurrentPlayer]->radius))
+				{
+					MasterStatus(CurrentPlayer,CurrentSphere->CollisionType);
+					MasterEffect(CurrentPlayer,CurrentSphere->EffectType);
+				}		
+			}
+			else
+			{
+				if(TestCollideSphere(objectPosition, CurrentSphere->Radius ,GlobalPlayer[CurrentPlayer]->position, GlobalPlayer[CurrentPlayer]->radius))
+				{
+					MasterStatus(CurrentPlayer,CurrentSphere->CollisionType);
+					MasterEffect(CurrentPlayer,CurrentSphere->EffectType);
+				}
+			}
+			
+			//Test the collision
+
+			
+		}
+	}
+}
 
 void DrawOKObjects()
 {

@@ -242,11 +242,27 @@ void ObjectBehaviorSearch(OKObject* InputObject)
 	}
 }
 
-void ObjectSearchClosestMarker(float ObjectPostion[], Marker* PathData[])
+short ObjectSearchClosestMarker(float ObjectPostion[], Marker* PathData[])
 {
+	GlobalShortA = 0;
 	for (int CurrentMarker = 0; ; CurrentMarker++)
 	{
-		break;
+		if (PathData[CurrentMarker]->Position[0] == 0x8000)
+		{
+			return GlobalShortB;
+		}
+		else
+		{
+			GlobalIntA = (ObjectPostion[0] - PathData[CurrentMarker]->Position[0]);
+			GlobalIntB = (ObjectPostion[0] - PathData[CurrentMarker]->Position[1]);
+			
+
+			if ((GlobalIntA * GlobalIntA) + (GlobalIntB * GlobalIntB) < GlobalShortA)
+			{
+				GlobalShortB = CurrentMarker;
+				GlobalShortA = (GlobalIntA * GlobalIntA) + (GlobalIntB * GlobalIntB);
+			}
+		}
 	}
 }
 
