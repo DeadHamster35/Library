@@ -41,6 +41,12 @@ void GetSurfaceID()
 		int Index = playerID;
 		if (*(char*)(GlobalAddressA) != 0x30)									// Only run for existing racers
 		{
+			if (g_startingIndicator < 3)									// Reset at race start
+			{
+				SurfaceID = 0;
+				EffectActive[Index] = 0;
+				continue;
+			}
 
 ///////////////////////////////TELESA!!!///////////////////////////////
 
@@ -376,6 +382,43 @@ void PathNoSimpleKartTrigger()
 	}
 }
 
+void PathLakituRescue()
+{
+	for (int playerID = 0; playerID < 8; playerID++)										// Loop for each racer		
+	{
+		GlobalAddressA = (long)(&g_playerPathPointTable) + (0x2 * playerID);
+		GlobalAddressB = (long)(&g_PlayerStateTable) + (0xDD8 * playerID);
+
+		if((*(short*)(GlobalAddressB + 0xC2) == 0) && (*(char*)(GlobalAddressB + 0xCB) == 0)) // Grounded? Lakitu?
+		{
+			if(*(unsigned char*)(GlobalAddressB + 0xF9) != 0xFE) 							// RR Boost?
+			{
+				if(*(unsigned char*)(GlobalAddressB + 0xF9) != 0xFC) 						// DKJP Boost?
+				{
+					g_playerPathPointCopy[playerID] = *(short*)(GlobalAddressA); 			// Make copy of current path point
+				}
+			}
+		}
+		if(*(char*)(GlobalAddressB + 0xCB) != 0) 											// Lakitu picks you up?
+		{																					// Copy back to real path point
+			if(*(short*)(GlobalAddressA) < (g_playerPathPointCopy[playerID]))
+			{
+				*(short*)(GlobalAddressA) = (g_playerPathPointCopy[playerID] + 1);
+				continue;
+			}
+			if(*(short*)(GlobalAddressA) > (g_playerPathPointCopy[playerID]))
+			{
+				*(short*)(GlobalAddressA) = (g_playerPathPointCopy[playerID] - 2);
+				continue;
+			}
+			else
+			{
+				*(short*)(GlobalAddressA) = (g_playerPathPointCopy[playerID]);
+			}
+		}
+	}
+}
+
 void GetPathPoints()
 {
 	if (g_gamePausedFlag == 0x00)
@@ -384,5 +427,6 @@ void GetPathPoints()
 		PathColorTrigger();
 		PathCamShiftTrigger();
 		PathNoSimpleKartTrigger();
+		PathLakituRescue();
 	}
 }

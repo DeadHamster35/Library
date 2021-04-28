@@ -495,6 +495,7 @@ extern void MakeBodyColorAdjust(void* Car, char Player, int Color, float Speed);
 
 extern short g_playerPathPointTable; // 80164438
 extern long g_playerPathPointTotalTable; // 80164450
+extern short g_playerPathPointCopy[]; // 80165320
 
 extern void RunKart(void* Car, void* Camera, int place, int playerID); // 8002D268
 extern void RunKartSimple(void* Car, void* Camera, int place, int playerID); // 8002F35C
