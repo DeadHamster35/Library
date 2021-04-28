@@ -219,6 +219,10 @@
 .definelabel g_NintendoLogoBorder, 0x800944AC
 
 .definelabel g_lakituStatus, 0x80165DCE
+.definelabel g_lakituStatusPlayer1, 0x80165DC2
+.definelabel g_lakituStatusPlayer2, 0x80165EA2
+.definelabel g_lakituStatusPlayer3, 0x80165F82
+.definelabel g_lakituStatusPlayer4, 0x80166062
 .definelabel g_lakituSurface, 0x80163318
 
 .definelabel p_Input, 0x800F6914
@@ -297,14 +301,14 @@
 .definelabel g_PlayerStruct8, 0x800FCA78
 
 .definelabel g_PlayerStateTable, 0x800F6990
-.definelabel g_player0State, 0x800F6990
-.definelabel g_player1State, 0x800F7768
-.definelabel g_player2State, 0x800F8540
-.definelabel g_player3State, 0x800F9318
-.definelabel g_player4State, 0x800FA0F0
-.definelabel g_player5State, 0x800FAEC8
-.definelabel g_player6State, 0x800FBCA0
-.definelabel g_player7State, 0x800FCA78
+.definelabel g_player1State, 0x800F6990
+.definelabel g_player2State, 0x800F7768
+.definelabel g_player3State, 0x800F8540
+.definelabel g_player4State, 0x800F9318
+.definelabel g_player5State, 0x800FA0F0
+.definelabel g_player6State, 0x800FAEC8
+.definelabel g_player7State, 0x800FBCA0
+.definelabel g_player8State, 0x800FCA78
 
 
 
@@ -380,9 +384,9 @@
 
 .definelabel g_CameraTable, 0x801646F0
 .definelabel g_Camera1, 0x801646F0
-.definelabel g_Camera2, 0x801647A4
-.definelabel g_Camera3, 0x80164858
-.definelabel g_Camera4, 0x8016490C
+.definelabel g_Camera2, 0x801647A8
+.definelabel g_Camera3, 0x80164860
+.definelabel g_Camera4, 0x80164910
 
 .definelabel g_DynamicObjects, 0x80165C18
 
@@ -392,10 +396,40 @@
 .definelabel itemB, 0x80165F5D
 .definelabel itemC, 0x80165F8A
 
-.definelabel g_TimeLapTable, 0x8018CA70
+//.definelabel g_TimeLapTable, 0x8018CA70           !!! renamed to g_hudStruct !!!
+//.definelabel g_lapCheckA, 0x8018CAE1              !!! removed inside HUD struct now: finlineAnim2 !!! U use this in MarioKartPractice.c
+//.definelabel g_lapCheckB, 0x8018CAE2              !!! removed inside HUD struct now: lapCount !!! U use this in MarioKartPractice.c
+.definelabel g_hudStruct, 0x8018CA70
+.definelabel g_hudPlayer1, 0x8018CA70
+.definelabel g_hudPlayer2, 0x8018CAF4
+.definelabel g_hudPlayer3, 0x8018CB78
+.definelabel g_hudPlayer4, 0x8018CBFC
 
-.definelabel g_lapCheckA, 0x8018CAE1
-.definelabel g_lapCheckB, 0x8018CAE2
+//hud p1 p2
+.definelabel g_hudToggleFlag, 0x80165808
+.definelabel g_hudToggleFlagP2, 0x80165832
+.definelabel g_hudMapToggle, 0x80165800
+.definelabel g_hudMapToggle2, 0x801657E8 //shows with speed
+.definelabel g_hudSpeedToggle, 0x80165810
+.definelabel g_hudSpeedToggle2, 0x801657E6 //shows with map
+.definelabel g_hudLapToggle, 0x801657E4 //00/01 show lap 02 don't show lap/speed
+
+//hud all players
+.definelabel g_hudToggle, 0x800DC5B9 
+.definelabel g_mapPlayers, 0x8018D15B
+.definelabel g_blueLineRankToggle, 0x801657F0
+
+//hud p1 only
+.definelabel g_hudCharpicRankToggle, 0x8018D2BF
+.definelabel g_hudCharpicRankA, 0x8018D3E3
+.definelabel g_hudCharpicRankX1, 0x8018D027 //float
+.definelabel g_hudCharpicRankX2, 0x8018D02B
+.definelabel g_hudCharpicRankX3, 0x8018D02F 
+.definelabel g_hudCharpicRankX4, 0x8018D033 
+.definelabel g_hudCharpicRankY1, 0x8018D050 
+.definelabel g_hudCharpicRankY2, 0x8018D054 
+.definelabel g_hudCharpicRankY3, 0x8018D058 
+.definelabel g_hudCharpicRankY4, 0x8018D05C 
 
 .definelabel asm_DisableEngineSound, 0x800E9F74
 .definelabel asm_DisableHUD, 0x80059D08 //0C016A67
@@ -490,6 +524,14 @@
 .definelabel MakeBodyColorAdjust, 0x80023038
 
 .definelabel g_playerPathPointTable, 0x80164438
+.definelabel g_PathPointPlayer1, 0x80164438
+.definelabel g_PathPointPlayer2, 0x8016443A
+.definelabel g_PathPointPlayer3, 0x8016443C
+.definelabel g_PathPointPlayer4, 0x8016443E
+.definelabel g_PathPointPlayer5, 0x80164440
+.definelabel g_PathPointPlayer6, 0x80164442
+.definelabel g_PathPointPlayer7, 0x80164444
+.definelabel g_PathPointPlayer8, 0x80164446
 .definelabel g_playerPathPointTotalTable, 0x80164450
 .definelabel g_playerPathPointCopy, 0x80165320
 
@@ -503,3 +545,128 @@
 
 .definelabel g_StringTableCourseGP, 0x800E7524
 .definelabel g_StringTableCourse, 0x800E7574
+
+//menu
+.definelabel menuExtra, 0x8018ED12 //0xFF00 on
+
+//title
+.definelabel titleBackX, 0x8019BE9C // 8018DA16
+.definelabel titleBackY, 0x8019BE9E // 8018DA1A
+.definelabel titleBackAnim, 0x8019BE9B
+.definelabel titleLogoX, 0x8018D9E0
+.definelabel titleLogoY, 0x8018D9F2
+.definelabel titleCopyToggle, 0x8018D9EC //F1
+.definelabel titleCopyX, 0x8019BEC4
+.definelabel titleCopyY, 0x8019BEC6
+.definelabel titleCopyChange, 0x8018DA50 //long F0 darker bg 04 show message
+.definelabel titlePushToggle, 0x8018DA64
+.definelabel titlePushX, 0x8019BEEC
+.definelabel titlePushY, 0x8019BEEE
+.definelabel titlePushBlink, 0x8019BED0 // setting != 0 puts static texture in front of blinking one
+
+//sky & clouds
+.definelabel g_cloudsToggle, 0x801657C8 //00 on 01 off
+.definelabel g_skyToggle, 0x800DC5BC //short
+.definelabel g_skyboxToggle, 0x800DC5B4 //char
+.definelabel g_daytimeToggle, 0x800DC518 //short
+
+//fog
+.definelabel g_fogR, 0x801625EF
+.definelabel g_fogG, 0x801625F3
+.definelabel g_fogB, 0x801625F7
+
+//lightning flags
+.definelabel g_lightningFlag, 0x800EA168
+.definelabel g_lightningFlagPlayer1, 0x800E9F24
+.definelabel g_lightningFlagPlayer2, 0x800E9F25
+.definelabel g_lightningFlagPlayer3, 0x800E9F26
+.definelabel g_lightningFlagPlayer4, 0x800E9F27
+.definelabel g_lightningFlagPlayer5, 0x800E9F28
+.definelabel g_lightningFlagPlayer6, 0x800E9F29
+.definelabel g_lightningFlagPlayer7, 0x800E9F2A
+.definelabel g_lightningFlagPlayer8, 0x800E9F2B
+
+//offroad flags
+.definelabel g_offroadFlagPlayer1, 0x80165330 //short
+.definelabel g_offroadFlagPlayer2, 0x80165332 //short
+.definelabel g_offroadFlagPlayer3, 0x80165334 //short
+.definelabel g_offroadFlagPlayer4, 0x80165336 //short
+
+//wrongway flags 
+.definelabel g_wrongwayFlagPlayer1, 0x80163270 //short
+.definelabel g_wrongwayFlagPlayer2, 0x80163272 //short
+.definelabel g_wrongwayFlagPlayer3, 0x80163274 //short
+.definelabel g_wrongwayFlagPlayer4, 0x80163276 //short
+
+//player shadow flags
+.definelabel g_shadowflagPlayer0, 0x800F6B87
+.definelabel g_shadowflagPlayer1, 0x800F795F
+.definelabel g_shadowflagPlayer2, 0x800F8737
+.definelabel g_shadowflagPlayer3, 0x800F950F
+
+//player color timers
+.definelabel g_colorPlayer0R, 0x80164B10 //red with kart
+.definelabel g_colorPlayer0G, 0x80164B20 //green
+.definelabel g_colorPlayer0B, 0x80164B30 //blue
+.definelabel g_colorPlayer0D, 0x80164B40 //darkish blue without kart
+.definelabel g_colorPlayer0P, 0x80164B50 //pink
+.definelabel g_colorPlayer0Y, 0x80164B60 //yellow
+.definelabel g_colorPlayer1R, 0x80164B12 //red with kart
+.definelabel g_colorPlayer1G, 0x80164B22 //green
+.definelabel g_colorPlayer1B, 0x80164B32 //blue
+.definelabel g_colorPlayer1D, 0x80164B42 //darkish blue without kart
+.definelabel g_colorPlayer1P, 0x80164B52 //pink
+.definelabel g_colorPlayer1Y, 0x80164B62 //yellow
+.definelabel g_colorPlayer2R, 0x80164B14 //red with kart
+.definelabel g_colorPlayer2G, 0x80164B24 //green
+.definelabel g_colorPlayer2B, 0x80164B34 //blue
+.definelabel g_colorPlayer2D, 0x80164B44 //darkish blue without kart
+.definelabel g_colorPlayer2P, 0x80164B54 //pink
+.definelabel g_colorPlayer2Y, 0x80164B64 //yellow
+.definelabel g_colorPlayer3R, 0x80164B16 //red with kart
+.definelabel g_colorPlayer3G, 0x80164B26 //green
+.definelabel g_colorPlayer3B, 0x80164B36 //blue
+.definelabel g_colorPlayer3D, 0x80164B46 //darkish blue without kart
+.definelabel g_colorPlayer3P, 0x80164B56 //pink
+.definelabel g_colorPlayer3Y, 0x80164B66 //yellow
+.definelabel g_colorPlayer4R, 0x80164B18 //red with kart
+.definelabel g_colorPlayer4G, 0x80164B28 //green
+.definelabel g_colorPlayer4B, 0x80164B38 //blue
+.definelabel g_colorPlayer4D, 0x80164B48 //darkish blue without kart
+.definelabel g_colorPlayer4P, 0x80164B58 //pink
+.definelabel g_colorPlayer4Y, 0x80164B68 //yellow
+.definelabel g_colorPlayer5R, 0x80164B1A //red with kart
+.definelabel g_colorPlayer5G, 0x80164B2A //green
+.definelabel g_colorPlayer5B, 0x80164B3A //blue
+.definelabel g_colorPlayer5D, 0x80164B4A //darkish blue without kart
+.definelabel g_colorPlayer5P, 0x80164B5A //pink
+.definelabel g_colorPlayer5Y, 0x80164B6A //yellow
+.definelabel g_colorPlayer6R, 0x80164B1C //red with kart
+.definelabel g_colorPlayer6G, 0x80164B2C //green
+.definelabel g_colorPlayer6B, 0x80164B3C //blue
+.definelabel g_colorPlayer6D, 0x80164B4C //darkish blue without kart
+.definelabel g_colorPlayer6P, 0x80164B5C //pink
+.definelabel g_colorPlayer6Y, 0x80164B6C //yellow
+.definelabel g_colorPlayer7R, 0x80164B1E //red with kart
+.definelabel g_colorPlayer7G, 0x80164B2E //green
+.definelabel g_colorPlayer7B, 0x80164B3E //blue
+.definelabel g_colorPlayer7D, 0x80164B4E //darkish blue without kart
+.definelabel g_colorPlayer7P, 0x80164B5E //pink
+.definelabel g_colorPlayer7Y, 0x80164B6E //yellow
+
+//music
+.definelabel playMusic, 0x800C8EAC // int
+.definelabel playMusic2, 0x800C8EF8 // int
+.definelabel g_musicFlag, 0x800DC5A9 //char 00=full, 01=half, 02=off, 04=disable L button
+.definelabel g_musicIDRaceways, 0x8028ECE7 
+.definelabel g_musicIDToad, 0x8028ECF7
+.definelabel g_musicIDCountry, 0x8028ED07
+.definelabel g_musicIDBattle1, 0x8028ED17
+.definelabel g_musicIDKalamari, 0x8028ED27
+.definelabel g_musicIDKoopa, 0x8028ED37
+.definelabel g_musicIDBowser, 0x8028ED47
+.definelabel g_musicIDBanshee, 0x8028ED57
+.definelabel g_musicIDSnowy, 0x8028ED67
+.definelabel g_musicIDRainbow, 0x8028ED77
+.definelabel g_musicIDDK, 0x8028ED87
+.definelabel g_musicIDBattle2, 0x8028ED97
