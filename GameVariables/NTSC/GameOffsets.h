@@ -225,6 +225,10 @@ extern long g_NintendoLogoOffset; //0x8019F88C
 extern long g_NintendoLogoBorder;
 
 extern char g_lakituStatus; // 0x80165DCE
+extern struct Lakitu g_lakituStatusPlayer1; // 0x80165DCE
+extern struct Lakitu g_lakituStatusPlayer2; // 0x80165EAE
+extern struct Lakitu g_lakituStatusPlayer3; // 0x80165F8E
+extern struct Lakitu g_lakituStatusPlayer4; // 0x8016606E
 extern short g_lakituSurface; // 0x80163316
 
 
@@ -296,13 +300,14 @@ extern struct Player g_PlayerStruct7;
 extern struct Player g_PlayerStruct8;
 
 extern long g_PlayerStateTable;
-extern char g_player1State; //
-extern char g_player2State; //
-extern char g_player3State; //
-extern char g_player4State; //
-extern char g_player5State; //
-extern char g_player6State; //
-extern char g_player7State; //
+extern struct PlayerState g_player1State; //
+extern struct PlayerState g_player2State; //
+extern struct PlayerState g_player3State; //
+extern struct PlayerState g_player4State; //
+extern struct PlayerState g_player5State; //
+extern struct PlayerState g_player6State; //
+extern struct PlayerState g_player7State; //
+extern struct PlayerState g_player8State; //
 
 extern float g_aspectRatio;
 extern float g_farClip;
@@ -397,10 +402,41 @@ extern char g_itemA;
 extern char g_itemB;
 extern char g_itemC;
 
-extern long g_TimeLapTable; //0x8018CA70
+//extern long g_TimeLapTable; //0x8018CA70          !!! renamed to g_hudStruct !!!
+//extern char g_lapCheckA;                          !!! removed inside HUD struct now: finlineAnim2 !!! U use this in MarioKartPractice.c
+//extern char g_lapCheckB;                          !!! removed inside HUD struct now: lapCount !!! U use this in MarioKartPractice.c
+extern long g_hudStruct; //0x8018CA70              
+extern struct Hud g_hudPlayer1;
+extern struct Hud g_hudPlayer2;
+extern struct Hud g_hudPlayer3;
+extern struct Hud g_hudPlayer4;
 
-extern char g_lapCheckA; //
-extern char g_lapCheckB; //
+//hud p1 p2
+extern char g_hudToggleFlag; // 0x80165808
+extern short g_hudToggleFlagP2; // 0x80165832
+extern short g_hudMapToggle; // 0x80165800
+extern char g_hudMapToggle2; //801657E8 //shows with speed
+extern char g_hudSpeedToggle; // 0x80165810
+extern char g_hudSpeedToggle2; //801657E6 //shows with map
+extern char g_hudLapToggle; //801657E4 //00/01 show lap 02 don't show lap/speed
+
+//hud all players
+extern char g_hudToggle; // 0x800DC5B9 
+extern char g_mapPlayers; // 0x8018D15B
+extern char g_blueLineRankToggle; // 0x801657F0
+
+//hud p1 only
+extern char g_hudCharpicRankToggle; // 0x8018D2BF
+extern char g_hudCharpicRankA; // 0x8018D3E3
+extern float g_hudCharpicRankX1; // 0x8018D027 //float
+extern float g_hudCharpicRankX2; // 0x8018D02B
+extern float g_hudCharpicRankX3; // 0x8018D02F 
+extern float g_hudCharpicRankX4; // 0x8018D033 
+extern float g_hudCharpicRankY1; // 0x8018D050 
+extern float g_hudCharpicRankY2; // 0x8018D054 
+extern char g_hudCharpicRankY3; // 0x8018D058 
+extern float g_hudCharpicRankY4; // 0x8018D05C 
+
 
 extern short asm_DisableEngineSound;
 extern short asm_DisableHUD; //0x80059D08
@@ -494,6 +530,14 @@ extern void MakeBodyColor(void* Car, char Player, int Color, float Speed);
 extern void MakeBodyColorAdjust(void* Car, char Player, int Color, float Speed);
 
 extern short g_playerPathPointTable; // 80164438
+extern struct Path g_PathPointPlayer1; // 80164438
+extern struct Path g_PathPointPlayer2;
+extern struct Path g_PathPointPlayer3;
+extern struct Path g_PathPointPlayer4;
+extern struct Path g_PathPointPlayer5;
+extern struct Path g_PathPointPlayer6;
+extern struct Path g_PathPointPlayer7;
+extern struct Path g_PathPointPlayer8;
 extern long g_playerPathPointTotalTable; // 80164450
 extern short g_playerPathPointCopy[]; // 80165320
 
@@ -507,3 +551,129 @@ extern short g_noSimpleKartFlag; // 801633F8
 
 extern long g_StringTableCourseGP[]; // 800E7524
 extern long g_StringTableCourse[]; // 800E7574
+
+//menu
+extern short menuExtra;
+
+//title
+extern short titleBackX;
+extern short titleBackY;
+extern char titleBackAnim;
+extern int titleLogoX; //0x8018D9E0
+extern int titleLogoY; //0x8018D9F2
+extern int titleCopyToggle; //0x8018D9EC //F1
+extern short titleCopyX; 
+extern short titleCopyY; 
+extern long titleCopyChange; //0x8018DA50 //long F0 darker 04 show message
+extern int titlePushToggle; //0x8018DA64
+extern short titlePushX; 
+extern short titlePushY; 
+extern int titlePushBlink; // long/int?
+
+//sky & clouds
+extern char g_cloudsToggle; // 0x801657C8 //00 on 01 off
+extern short g_skyToggle; // 0x800DC5BC 
+extern char g_skyboxToggle; // 0x800DC5B4 
+extern short g_daytimeToggle; // 0x800DC518 
+
+//fog
+extern char g_fogR;
+extern char g_fogG;
+extern char g_fogB;
+
+//lightning flags
+extern char g_lightningFlag; // 0x800EA168
+extern struct Lightning *GlobalLightning[];
+extern struct Lightning g_lightningFlagPlayer1; // 0x800E9F24
+extern struct Lightning g_lightningFlagPlayer2; // 0x800E9F25
+extern struct Lightning g_lightningFlagPlayer3; // 0x800E9F26
+extern struct Lightning g_lightningFlagPlayer4; // 0x800E9F27
+extern struct Lightning g_lightningFlagPlayer5; // 0x800E9F28
+extern struct Lightning g_lightningFlagPlayer6; // 0x800E9F29
+extern struct Lightning g_lightningFlagPlayer7; // 0x800E9F2A
+extern struct Lightning g_lightningFlagPlayer8; // 0x800E9F2B
+
+//offroad flags
+extern short g_offroadFlagPlayer1; // 0x80165330 
+extern short g_offroadFlagPlayer2; // 0x80165332 
+extern short g_offroadFlagPlayer3; // 0x80165334 
+extern short g_offroadFlagPlayer4; // 0x80165336 
+
+//wrongway flags 
+extern short g_wrongwayFlagPlayer1; // 0x80163270 
+extern short g_wrongwayFlagPlayer2; // 0x80163272 
+extern short g_wrongwayFlagPlayer3; // 0x80163274 
+extern short g_wrongwayFlagPlayer4; // 0x80163276 
+
+//player shadow flags
+extern char g_ShadowflagPlayer0; //0x800F6B87
+extern char g_ShadowflagPlayer1; //0x800F795F
+extern char g_ShadowflagPlayer2;
+extern char g_ShadowflagPlayer3;
+
+//player color timers
+extern short g_colorPlayer0R;
+extern short g_colorPlayer0G;
+extern short g_colorPlayer0B;
+extern short g_colorPlayer0D;
+extern short g_colorPlayer0P;
+extern short g_colorPlayer0Y;
+extern short g_colorPlayer1R;
+extern short g_colorPlayer1G;
+extern short g_colorPlayer1B;
+extern short g_colorPlayer1D;
+extern short g_colorPlayer1P;
+extern short g_colorPlayer1Y;
+extern short g_colorPlayer2R;
+extern short g_colorPlayer2G;
+extern short g_colorPlayer2B;
+extern short g_colorPlayer2D;
+extern short g_colorPlayer2P;
+extern short g_colorPlayer2Y;
+extern short g_colorPlayer3R;
+extern short g_colorPlayer3G;
+extern short g_colorPlayer3B;
+extern short g_colorPlayer3D;
+extern short g_colorPlayer3P;
+extern short g_colorPlayer3Y;
+extern short g_colorPlayer4R;
+extern short g_colorPlayer4G;
+extern short g_colorPlayer4B;
+extern short g_colorPlayer4D;
+extern short g_colorPlayer4P;
+extern short g_colorPlayer4Y;
+extern short g_colorPlayer5R;
+extern short g_colorPlayer5G;
+extern short g_colorPlayer5B;
+extern short g_colorPlayer5D;
+extern short g_colorPlayer5P;
+extern short g_colorPlayer5Y;
+extern short g_colorPlayer6R;
+extern short g_colorPlayer6G;
+extern short g_colorPlayer6B;
+extern short g_colorPlayer6D;
+extern short g_colorPlayer6P;
+extern short g_colorPlayer6Y;
+extern short g_colorPlayer7R;
+extern short g_colorPlayer7G;
+extern short g_colorPlayer7B;
+extern short g_colorPlayer7D;
+extern short g_colorPlayer7P;
+extern short g_colorPlayer7Y;
+
+//music
+extern void playMusic(int musicID);
+extern void playMusic2(int musicID);
+extern char g_musicFlag; // 0x800DC5A9 //char 00=full; // 01=half; // 02=off  04=disable L button
+extern char g_musicIDRaceways; // 0x8028ECE7 
+extern char g_musicIDToad; // 0x8028ECF7
+extern char g_musicIDCountry; // 0x8028ED07
+extern char g_musicIDBattle1; // 0x8028ED17
+extern char g_musicIDKalamari; // 0x8028ED27
+extern char g_musicIDKoopa; // 0x8028ED37
+extern char g_musicIDBowser; // 0x8028ED47
+extern char g_musicIDBanshee; // 0x8028ED57
+extern char g_musicIDSnowy; // 0x8028ED67
+extern char g_musicIDRainbow; // 0x8028ED77
+extern char g_musicIDDK; // 0x8028ED87
+extern char g_musicIDBattle2; // 0x8028ED97
