@@ -1,5 +1,6 @@
 #ifndef STRUCT_H_
 #define STRUCT_H_
+#include "../HootHoot/Hoothoot.h"
 
 typedef	float	RotateMtx[3][3];			/* 3x3 rotation matrix					*/
 typedef 	float	AffineMtx[4][4];			/* 4x4 affine transformation matrix		*/
@@ -256,5 +257,102 @@ typedef struct Marker{
 	short 	Position[3];
 	short	Group;
 } Marker;
+
+typedef struct Path{
+		short      	PathPoint;
+} Path;
+
+typedef struct Lap{
+		long      	LapCount;
+} Lap;
+
+typedef struct Hud{
+		float				itemSize;
+		float				rankSize;
+		int					timeTotal;
+		int					timeLap;
+		int					timeLapUnsure; //not sure. Those are not numbered for lap1, lap2, lap3 I believe !!!
+		int					timeTotal1;
+		int					timeTotal2;
+		int					timeTotal3;
+		int					timeLap1;
+		int					timeLap2;
+		int					timeLap3;
+		int					playerX;
+		int					playerY;
+		int					playerZ;
+		unsigned int		statusFlag;
+		short				timeBlink;
+		short				speedmeterX;
+		short				speedmeterY;
+		short				itemX;
+		short				itemY;
+		short				itemX2;
+		short				itemY2;
+		short				numberRankX;
+		short				numberRankY;
+		short				timeX;
+		short				timeX2;
+		short				timeX3;
+		short				timeX4;
+		short				timeX5;
+		short				timeY;
+		short				lapX;
+		short				lapX2;
+		short				lapX3;
+		short				lapY;
+		short 				rankX;
+		short				rankY;
+		short				rankX2;
+		short				rankY2;
+		short				rank;
+		short				bombX;
+		short 				bombY;
+		char				finlineAnim1;
+		char				finlineAnim2;
+		char				lapCount;
+		char				hudSwitch;
+		char				bombSight;
+		char				ghostTimer;
+		unsigned char		item1;
+		unsigned char		item2;
+		unsigned char		speedmeterAnim1;
+		unsigned char		speedmeterAnim2;
+		unsigned char		timeAnim1;
+		unsigned char		timeAnim2;
+		unsigned char		timeAnim3;
+		unsigned char		lapAnim1;
+		unsigned char		lapAnim2;
+		unsigned char		lapAnim3;
+		unsigned char		itemAnim;
+		unsigned char		rankToggle;
+} Hud;
+
+typedef struct Lakitu{
+		char		unknown;
+		char		activeFlag; //busy
+		short		unknown3;
+		long		unknown4;
+		long		unknown5;
+		char      	pickupFlag;
+		char		unknownFlag;
+		char		reverseFlag;
+		//much more
+} Lakitu;
+
+typedef struct Lightning{
+		char      	hit;
+} Lightning;
+
+typedef struct PlayerState{
+		unsigned char      	state1;
+		char				dummy1;
+		short				dummy2;
+		long				dummy3[29];
+		unsigned char		state2,state3,state4,state5;
+		long				dummy4[2];
+		short				dummy5;
+		unsigned char		state6,state7;
+} PlayerState;
 
 #endif
