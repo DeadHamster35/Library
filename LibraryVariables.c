@@ -1,6 +1,7 @@
 #include <stdbool.h>
 #include "OKHeader.h"
 #include "GameVariables/NTSC/GameOffsets.h"
+#include "GameVariables/NTSC/StatsOffsets.h"
 #include "Struct.h"
 #include "OKStruct.h"
 
