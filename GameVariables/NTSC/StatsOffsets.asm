@@ -316,7 +316,7 @@ Acc 800E37F0
 .definelabel frontgrip50_DK, 0x800E2370
 .definelabel frontgrip50_Wario, 0x800E2374
 .definelabel frontgrip50_Peach, 0x800E2378
-.definelabel frontgrip50_Bowser 0x800E237C
+.definelabel frontgrip50_Bowser, 0x800E237C
 
 .definelabel frontgrip100_Mario, 0x800E2380
 .definelabel frontgrip100_Luigi, 0x800E2384
