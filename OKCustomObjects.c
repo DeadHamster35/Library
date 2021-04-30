@@ -49,7 +49,7 @@ void Draw3DRacer()
 
 
 		GlobalAddressB = (long)&bowserLOD0;
-		GlobalAddressA = (long)(&g_PlayerStateTable);
+		GlobalAddressA = (long)(&g_PlayerStructTable);
 
 		baseTurn = *(short*)(GlobalAddressA + 46);
 		addTurn = *(short*)(GlobalAddressA + 192);
@@ -73,7 +73,7 @@ int RedCoinCollide(void *Car, void *Coin)
 	objectPosition[0] = *(float*)(GlobalAddressA + 24);
 	objectPosition[1] = *(float*)(GlobalAddressA + 28);
 	objectPosition[2] = *(float*)(GlobalAddressA + 32);
-	int playerID = (*(long*)&Car - (long)&g_PlayerStateTable) / 0xDD8;
+	int playerID = (*(long*)&Car - (long)&g_PlayerStructTable) / 0xDD8;
 	if ((CollisionSphere(Car,Coin) == 1) && (playerID == 0))
 	{
 		*targetAddress = 0x353500FF;
@@ -200,10 +200,10 @@ void ClearOKObject(short ObjectID)
 	OKObjectHeaders[ObjectID].PlayerTarget = 0;
 	OKObjectHeaders[ObjectID].PathTarget = 0;
 	OKObjectHeaders[ObjectID].TargetDistance = 0;
-	OKObjectHeaders[ObjectID].ProgramParameter[0] = 0;
-	OKObjectHeaders[ObjectID].ProgramParameter[1] = 0;
-	OKObjectHeaders[ObjectID].ProgramParameter[2] = 0;
-	OKObjectHeaders[ObjectID].ProgramParameter[3] = 0;
+	OKObjectHeaders[ObjectID].TurnStatus = 0;
+	OKObjectHeaders[ObjectID].SearchStatus = 0;
+	OKObjectHeaders[ObjectID].WanderStatus = 0;
+	OKObjectHeaders[ObjectID].EMPTYSTATUS = 0;
 	OKObjectHeaders[ObjectID].ModelScale = 0;
 	OKObjectHeaders[ObjectID].ModelAddress = 0;
 	OKObjectHeaders[ObjectID].BehaviorClass = BEHAVIOR_DEAD;
@@ -228,7 +228,7 @@ void ClearOKObject(short ObjectID)
 	OKObjectHeaders[ObjectID].ObjectData.category = 0;
 }
 
-
+struct OKCollisionSphere CoinCollision[2];
 void RedCoinChallenge(long PathOffset)
 {
 	for (int currentCoin = 0; currentCoin < 8; currentCoin++)
@@ -253,6 +253,19 @@ void RedCoinChallenge(long PathOffset)
 
 	//two loops for above return; ensure 8 coins.
 
+	
+	CoinCollision[0].Radius = 0;
+	CoinCollision[0].Position[0] = 0;
+	CoinCollision[0].Position[1] = 30;
+	CoinCollision[0].Position[2] = 0;
+	CoinCollision[0].CollisionType = StateSpinOut;
+
+	CoinCollision[1].Radius = 5;
+	CoinCollision[1].Position[0] = 0;
+	CoinCollision[1].Position[1] = 0;
+	CoinCollision[1].Position[2] = 0;
+	CoinCollision[1].CollisionType = StateSpinOut;
+
 	for (int currentCoin = 0; currentCoin < 8; currentCoin++)
 	{
 		GlobalShortA = FindOKObject();
@@ -274,6 +287,8 @@ void RedCoinChallenge(long PathOffset)
 		OKObjectHeaders[GlobalShortA].ModelScale = 0.10;	
 		OKObjectHeaders[GlobalShortA].BehaviorClass = BEHAVIOR_SEARCH;
 		OKObjectHeaders[GlobalShortA].SubBehaviorClass = SUBBEHAVIOR_DOCILE;
+		OKObjectHeaders[GlobalShortA].CollisionAddress = (long)&CoinCollision;
+		OKObjectHeaders[GlobalShortA].CollisionCount = 2;
 	}
 
 
@@ -322,15 +337,16 @@ void OKObjectCollision(OKObject *InputObject)
 	{
 		GlobalShortA = g_playerCount;
 	}
+	OKCollisionSphere *CurrentSphere = (OKCollisionSphere*)(GlobalAddressA);
 
 	for (int CurrentPlayer = 0; CurrentPlayer < GlobalShortA; CurrentPlayer++)
 	{
 		for (int CurrentCount = 0; CurrentCount < InputObject->CollisionCount; CurrentCount++)
 		{
-			OKCollisionSphere *CurrentSphere = (OKCollisionSphere*)(GlobalAddressA);
-			objectPosition[0] = CurrentSphere->Position[0];
-			objectPosition[1] = CurrentSphere->Position[1];
-			objectPosition[2] = CurrentSphere->Position[2];
+			
+			objectPosition[0] = CurrentSphere[CurrentCount].Position[0];
+			objectPosition[1] = CurrentSphere[CurrentCount].Position[1];
+			objectPosition[2] = CurrentSphere[CurrentCount].Position[2];
 
 			//rotate the relative position of the sphere to the model based on the model angle.
 
@@ -338,28 +354,31 @@ void OKObjectCollision(OKObject *InputObject)
 
 			//apply the global position of the object to the relative position of the rotated sphere center.
 
-			objectPosition[0] = objectPosition[0] + InputObject->ObjectData.position[0];
-			objectPosition[1] = objectPosition[1] + InputObject->ObjectData.position[1];
-			objectPosition[2] = objectPosition[2] + InputObject->ObjectData.position[2];
+			objectPosition[0] = (objectPosition[0] * InputObject->ModelScale) + InputObject->ObjectData.position[0];
+			objectPosition[1] = (objectPosition[1] * InputObject->ModelScale) +  InputObject->ObjectData.position[1];
+			objectPosition[2] = (objectPosition[2] * InputObject->ModelScale) +  InputObject->ObjectData.position[2];
 			
-			if (CurrentSphere->Radius < 0)
+
+			
+			//Test the collision
+			if (CurrentSphere[CurrentCount].Radius < 0)
 			{
-				if(TestCollideBox(objectPosition, CurrentSphere->BoxSize ,GlobalPlayer[CurrentPlayer]->position, GlobalPlayer[CurrentPlayer]->radius))
+				if(TestCollideBox(objectPosition, CurrentSphere[CurrentCount].BoxSize ,GlobalPlayer[CurrentPlayer]->position, GlobalPlayer[CurrentPlayer]->radius))
 				{
-					MasterStatus(CurrentPlayer,CurrentSphere->CollisionType);
-					MasterEffect(CurrentPlayer,CurrentSphere->EffectType);
+					MasterStatus(CurrentPlayer,CurrentSphere[CurrentCount].CollisionType);
+					MasterEffect(CurrentPlayer,CurrentSphere[CurrentCount].EffectType);
 				}		
 			}
 			else
 			{
-				if(TestCollideSphere(objectPosition, CurrentSphere->Radius ,GlobalPlayer[CurrentPlayer]->position, GlobalPlayer[CurrentPlayer]->radius))
+				if(TestCollideSphere(objectPosition, CurrentSphere[CurrentCount].Radius ,GlobalPlayer[CurrentPlayer]->position, GlobalPlayer[CurrentPlayer]->radius))
 				{
-					MasterStatus(CurrentPlayer,CurrentSphere->CollisionType);
-					MasterEffect(CurrentPlayer,CurrentSphere->EffectType);
+					MasterStatus(CurrentPlayer,CurrentSphere[CurrentCount].CollisionType);
+					MasterEffect(CurrentPlayer,CurrentSphere[CurrentCount].EffectType);
 				}
 			}
 			
-			//Test the collision
+			
 
 			
 		}
@@ -368,28 +387,28 @@ void OKObjectCollision(OKObject *InputObject)
 
 void DrawOKObjects()
 {
-	GlobalShortD = 30;
+	GlobalShortD = 10;
 	for (int CurrentObject = 0; CurrentObject < 100; CurrentObject++)
 	{
 		if(OKObjectHeaders[CurrentObject].BehaviorClass != BEHAVIOR_DEAD)
 		{
 			
 			DrawOKObject((OKObject*)&OKObjectHeaders[CurrentObject]);		
-			GlobalShortD += 20;	
+			
 		}
 	}
 }
 
 void CheckOKObjects()
 {
-	loadFont();
+	
 	GlobalShortD = 30;
 	for (int CurrentObject = 0; CurrentObject < 100; CurrentObject++)
 	{
 		if(OKObjectHeaders[CurrentObject].BehaviorClass != BEHAVIOR_DEAD)
 		{
 			Misbehave((OKObject*)&OKObjectHeaders[CurrentObject]);
-
+			OKObjectCollision((OKObject*)&OKObjectHeaders[CurrentObject]);
 
 			/*
 			objectVelocity[0] = 0;

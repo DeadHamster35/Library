@@ -300,16 +300,6 @@
 .definelabel g_PlayerStruct7, 0x800FBCA0
 .definelabel g_PlayerStruct8, 0x800FCA78
 
-.definelabel g_PlayerStateTable, 0x800F6990
-.definelabel g_player1State, 0x800F6990
-.definelabel g_player2State, 0x800F7768
-.definelabel g_player3State, 0x800F8540
-.definelabel g_player4State, 0x800F9318
-.definelabel g_player5State, 0x800FA0F0
-.definelabel g_player6State, 0x800FAEC8
-.definelabel g_player7State, 0x800FBCA0
-.definelabel g_player8State, 0x800FCA78
-
 
 
 

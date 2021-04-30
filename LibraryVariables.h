@@ -1,7 +1,7 @@
 #include <stdbool.h>
 #include "Struct.h"
 #include "OKStruct.h"
-#include "../HootHoot/Hoothoot.h"
+
 
 
 extern int GlobalAddressA, GlobalAddressB, GlobalAddressC;
@@ -27,8 +27,8 @@ extern struct Player *GlobalPlayer[];
 extern struct Controller *GlobalController[];
 extern struct Screen *GlobalScreen[];
 extern struct Camera *GlobalCamera[];
-extern struct Path *GlobalPath[];
-extern struct Lap *GlobalLap[];
+extern short *GlobalPath[];
+extern long *GlobalLap[];
 extern struct Lakitu *GlobalLakitu[];
 extern struct PlayerState *GlobalPlayerState[];  
 extern struct Hud *GlobalHud[];

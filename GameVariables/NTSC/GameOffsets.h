@@ -299,15 +299,6 @@ extern struct Player g_PlayerStruct6;
 extern struct Player g_PlayerStruct7;
 extern struct Player g_PlayerStruct8;
 
-extern long g_PlayerStateTable;
-extern struct PlayerState g_player1State; //
-extern struct PlayerState g_player2State; //
-extern struct PlayerState g_player3State; //
-extern struct PlayerState g_player4State; //
-extern struct PlayerState g_player5State; //
-extern struct PlayerState g_player6State; //
-extern struct PlayerState g_player7State; //
-extern struct PlayerState g_player8State; //
 
 extern float g_aspectRatio;
 extern float g_farClip;
@@ -530,14 +521,14 @@ extern void MakeBodyColor(void* Car, char Player, int Color, float Speed);
 extern void MakeBodyColorAdjust(void* Car, char Player, int Color, float Speed);
 
 extern short g_playerPathPointTable; // 80164438
-extern struct Path g_PathPointPlayer1; // 80164438
-extern struct Path g_PathPointPlayer2;
-extern struct Path g_PathPointPlayer3;
-extern struct Path g_PathPointPlayer4;
-extern struct Path g_PathPointPlayer5;
-extern struct Path g_PathPointPlayer6;
-extern struct Path g_PathPointPlayer7;
-extern struct Path g_PathPointPlayer8;
+extern short g_PathPointPlayer1; // 80164438
+extern short g_PathPointPlayer2;
+extern short g_PathPointPlayer3;
+extern short g_PathPointPlayer4;
+extern short g_PathPointPlayer5;
+extern short g_PathPointPlayer6;
+extern short g_PathPointPlayer7;
+extern short g_PathPointPlayer8;
 extern long g_playerPathPointTotalTable; // 80164450
 extern short g_playerPathPointCopy[]; // 80165320
 
@@ -583,15 +574,14 @@ extern char g_fogB;
 
 //lightning flags
 extern char g_lightningFlag; // 0x800EA168
-extern struct Lightning *GlobalLightning[];
-extern struct Lightning g_lightningFlagPlayer1; // 0x800E9F24
-extern struct Lightning g_lightningFlagPlayer2; // 0x800E9F25
-extern struct Lightning g_lightningFlagPlayer3; // 0x800E9F26
-extern struct Lightning g_lightningFlagPlayer4; // 0x800E9F27
-extern struct Lightning g_lightningFlagPlayer5; // 0x800E9F28
-extern struct Lightning g_lightningFlagPlayer6; // 0x800E9F29
-extern struct Lightning g_lightningFlagPlayer7; // 0x800E9F2A
-extern struct Lightning g_lightningFlagPlayer8; // 0x800E9F2B
+extern char g_lightningFlagPlayer1; // 0x800E9F24
+extern char g_lightningFlagPlayer2; // 0x800E9F25
+extern char g_lightningFlagPlayer3; // 0x800E9F26
+extern char g_lightningFlagPlayer4; // 0x800E9F27
+extern char g_lightningFlagPlayer5; // 0x800E9F28
+extern char g_lightningFlagPlayer6; // 0x800E9F29
+extern char g_lightningFlagPlayer7; // 0x800E9F2A
+extern char g_lightningFlagPlayer8; // 0x800E9F2B
 
 //offroad flags
 extern short g_offroadFlagPlayer1; // 0x80165330 

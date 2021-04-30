@@ -36,7 +36,7 @@ void GetSurfaceID()
 	for (char playerID = 0; playerID < 8; playerID++)								// Loop for each racer
 	{
 
-		GlobalAddressA = (long)(&g_PlayerStateTable) + (0xDD8 * playerID);
+		GlobalAddressA = (long)(&g_PlayerStructTable) + (0xDD8 * playerID);
 		char SurfaceID = *(char*)(GlobalAddressA + 0xF9);
 		int Index = playerID;
 		if (*(char*)(GlobalAddressA) != 0x30)									// Only run for existing racers
@@ -68,7 +68,7 @@ void GetSurfaceID()
 				if ((EffectActive[Index] != SurfaceID) && (*(short*)(GlobalAddressA + (0xDD8 * playerID) + 0xC2) == 0))
 				{
 					EffectActive[Index] = SurfaceID;
-					GlobalAddressA = (long)(&g_PlayerStateTable) + (0xDD8 * playerID);
+					GlobalAddressA = (long)(&g_PlayerStructTable) + (0xDD8 * playerID);
 					SetFastOoB((void*)(GlobalAddressA), playerID);
 				}
 				continue;
@@ -94,7 +94,7 @@ void GetSurfaceID()
 				if ((EffectActive[Index] != SurfaceID) && (*(short*)(GlobalAddressA + (0xDD8 * playerID) + 0xC2) == 0))
 				{
 					EffectActive[Index] = SurfaceID;
-					GlobalAddressA = (long)(&g_PlayerStateTable) + (0xDD8 * playerID);
+					GlobalAddressA = (long)(&g_PlayerStructTable) + (0xDD8 * playerID);
 					SetStorm((void*)(GlobalAddressA), playerID);
 				}
 				continue;
@@ -107,7 +107,7 @@ void GetSurfaceID()
 				if ((EffectActive[Index] != SurfaceID) && (*(short*)(GlobalAddressA + (0xDD8 * playerID) + 0xC2) == 0))
 				{
 					EffectActive[Index] = SurfaceID;
-					GlobalAddressA = (long)(&g_PlayerStateTable) + (0xDD8 * playerID);
+					GlobalAddressA = (long)(&g_PlayerStructTable) + (0xDD8 * playerID);
 					SetWing((void*)(GlobalAddressA), playerID);
 				}
 				continue;
@@ -133,7 +133,7 @@ void GetSurfaceID()
 				if ((EffectActive[Index] != SurfaceID) && (*(short*)(GlobalAddressA + (0xDD8 * playerID) + 0xC2) == 0))
 				{
 					EffectActive[Index] = SurfaceID;
-					GlobalAddressA = (long)(&g_PlayerStateTable) + (0xDD8 * playerID);
+					GlobalAddressA = (long)(&g_PlayerStructTable) + (0xDD8 * playerID);
 					SetTurbo((void*)(GlobalAddressA), playerID);
 				}
 				continue;
@@ -247,7 +247,7 @@ void PathEchoTrigger()
 			GlobalAddressA = (long)(&g_playerPathPointTable) + (0x2 * playerID);
 			short curEchoPoint = *(short*)(GlobalAddressA);
 
-			GlobalAddressB = (long)(&g_PlayerStateTable) + (0xDD8 * playerID);
+			GlobalAddressB = (long)(&g_PlayerStructTable) + (0xDD8 * playerID);
 			if (*(char*)(GlobalAddressB) != 0x30)							// Only run for existing racers
 			{
 				for (int LoopVal = 0; LoopVal < pEchoArraySize; LoopVal++)
@@ -285,7 +285,7 @@ void PathColorTrigger()
 			GlobalAddressA = (long)(&g_playerPathPointTable) + (0x2 * playerID);
 			short curPPoint = *(short*)(GlobalAddressA);
 
-			GlobalAddressB = (long)(&g_PlayerStateTable) + (0xDD8 * playerID);
+			GlobalAddressB = (long)(&g_PlayerStructTable) + (0xDD8 * playerID);
 
 			if (*(char*)(GlobalAddressB) != 0x30)							// Only run for existing racers
 			{
@@ -298,7 +298,7 @@ void PathColorTrigger()
 
 					if ((curPPoint >= pColTrStart[LoopVal]) && (curPPoint <= pColTrEnd[LoopVal]))		// Path range check
 					{
-						GlobalAddressA = (long)(&g_PlayerStateTable) + (0xDD8 * playerID);
+						GlobalAddressA = (long)(&g_PlayerStructTable) + (0xDD8 * playerID);
 						MakeBodyColor( (void*)(GlobalAddressA), playerID, BodyColors[LoopVal], 1);
 					}
 				}
@@ -321,7 +321,7 @@ void PathCamShiftTrigger()
 			GlobalAddressA = (long)(&g_playerPathPointTable) + (0x2 * playerID);
 			short curCamPoint = *(short*)(GlobalAddressA);
 
-			GlobalAddressB = (long)(&g_PlayerStateTable) + (0xDD8 * playerID);
+			GlobalAddressB = (long)(&g_PlayerStructTable) + (0xDD8 * playerID);
 			if (*(char*)(GlobalAddressB) != 0x30)								// Only run for existing racers
 			{
 				for (int LoopVal = 0; LoopVal < pCamArraySize; LoopVal++)
@@ -358,7 +358,7 @@ void PathNoSimpleKartTrigger()
 			GlobalAddressA = (long)(&g_playerPathPointTable) + (0x2 * playerID);
 			short curSPoint = *(short*)(GlobalAddressA);
 
-			GlobalAddressB = (long)(&g_PlayerStateTable) + (0xDD8 * playerID);
+			GlobalAddressB = (long)(&g_PlayerStructTable) + (0xDD8 * playerID);
 			if (*(char*)(GlobalAddressB) != 0x30)								// Only run for existing racers
 			{
 				for (int LoopVal = 0; LoopVal < pSArraySize; LoopVal++)
@@ -387,7 +387,7 @@ void PathLakituRescue()
 	for (int playerID = 0; playerID < 8; playerID++)										// Loop for each racer		
 	{
 		GlobalAddressA = (long)(&g_playerPathPointTable) + (0x2 * playerID);
-		GlobalAddressB = (long)(&g_PlayerStateTable) + (0xDD8 * playerID);
+		GlobalAddressB = (long)(&g_PlayerStructTable) + (0xDD8 * playerID);
 
 		if((*(short*)(GlobalAddressB + 0xC2) == 0) && (*(char*)(GlobalAddressB + 0xCB) == 0)) // Grounded? Lakitu?
 		{

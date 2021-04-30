@@ -4,7 +4,7 @@
 
 typedef struct OKObject{
 	short     Range,Sight,Viewcone;
-	short     ProgramParameter[4];
+	uchar	TurnStatus,WanderStatus,SearchStatus,EMPTYSTATUS;
 	short	Counter[2];
 	short	PathTarget,PlayerTarget;
 	short	BehaviorClass, SubBehaviorClass;

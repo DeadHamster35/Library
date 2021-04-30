@@ -3,7 +3,7 @@
 #include "GameVariables/NTSC/GameOffsets.h"
 #include "Struct.h"
 #include "OKStruct.h"
-#include "../HootHoot/Hoothoot.h"
+
 
 int GlobalAddressA, GlobalAddressB, GlobalAddressC;
 int GlobalIntA, GlobalIntB, GlobalIntC, GlobalIntD;
@@ -62,7 +62,7 @@ Camera *GlobalCamera[4] =
      &g_Camera4
 };
 
-Path *GlobalPath[8] =
+short *GlobalPath[8] =
 {
      &g_PathPointPlayer1,
      &g_PathPointPlayer2,
@@ -74,7 +74,7 @@ Path *GlobalPath[8] =
      &g_PathPointPlayer8,
 };
 
-Lap *GlobalLap[8] =
+long *GlobalLap[8] =
 {
      &g_gameLapPlayer1,
      &g_gameLapPlayer2,
@@ -102,7 +102,7 @@ Lakitu *GlobalLakitu[4] =
      &g_lakituStatusPlayer4,
 };
 
-Lightning *GlobalLightning[8] =
+char *GlobalLightning[8] =
 {
      &g_lightningFlagPlayer1,
      &g_lightningFlagPlayer2,
@@ -114,17 +114,6 @@ Lightning *GlobalLightning[8] =
      &g_lightningFlagPlayer8,
 };
 
-PlayerState *GlobalPlayerState[8] =
-{
-     &g_player1State,
-     &g_player2State,
-     &g_player3State,
-     &g_player4State,
-     &g_player5State,
-     &g_player6State,
-     &g_player7State,
-     &g_player8State,
-};
 
 //MarioKart3D Variables
 int CoinCount = 0;

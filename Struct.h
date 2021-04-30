@@ -1,6 +1,6 @@
 #ifndef STRUCT_H_
 #define STRUCT_H_
-#include "../HootHoot/Hoothoot.h"
+
 
 typedef	float	RotateMtx[3][3];			/* 3x3 rotation matrix					*/
 typedef 	float	AffineMtx[4][4];			/* 4x4 affine transformation matrix		*/
@@ -258,13 +258,6 @@ typedef struct Marker{
 	short	Group;
 } Marker;
 
-typedef struct Path{
-		short      	PathPoint;
-} Path;
-
-typedef struct Lap{
-		long      	LapCount;
-} Lap;
 
 typedef struct Hud{
 		float				itemSize;
@@ -339,20 +332,5 @@ typedef struct Lakitu{
 		char		reverseFlag;
 		//much more
 } Lakitu;
-
-typedef struct Lightning{
-		char      	hit;
-} Lightning;
-
-typedef struct PlayerState{
-		unsigned char      	state1;
-		char				dummy1;
-		short				dummy2;
-		long				dummy3[29];
-		unsigned char		state2,state3,state4,state5;
-		long				dummy4[2];
-		short				dummy5;
-		unsigned char		state6,state7;
-} PlayerState;
 
 #endif

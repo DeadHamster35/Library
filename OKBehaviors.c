@@ -84,11 +84,11 @@ void ObjectBehaviorWander(OKObject* InputObject)
 
 	if ((GlobalIntA * GlobalIntA) + (GlobalIntB * GlobalIntB) < (GlobalFloatB * GlobalFloatB))
 	{
-		 InputObject->ProgramParameter[0] = 0;
+		 InputObject->WanderStatus = 0;
 	}
 	
 	
-	if (InputObject->ProgramParameter[0] >= 1)
+	if (InputObject->WanderStatus >= 1)
 	{		
 		objectPosition[0] = (float)InputObject->OriginPosition[0];
 		objectPosition[1] = (float)InputObject->OriginPosition[1];
@@ -102,7 +102,7 @@ void ObjectBehaviorWander(OKObject* InputObject)
 	{
 		if ((GlobalIntA * GlobalIntA) + (GlobalIntB * GlobalIntB) > (GlobalFloatA * GlobalFloatA))
 		{
-			InputObject->ProgramParameter[0] = 1;
+			InputObject->WanderStatus = 1;
 		}
 		else
 		{
@@ -110,7 +110,7 @@ void ObjectBehaviorWander(OKObject* InputObject)
 			{
 				InputObject->Counter[0]--;
 				
-				switch (GlobalShortA)
+				switch (InputObject->TurnStatus)
 				{
 					case 0: 
 					{
@@ -134,7 +134,7 @@ void ObjectBehaviorWander(OKObject* InputObject)
 			}
 			else
 			{
-				GlobalShortA = MakeRandomLimmit(4);
+				InputObject->TurnStatus = MakeRandomLimmit(4);
 				InputObject->Counter[0] = MakeRandomLimmit(60) + 15;
 			}
 		}
