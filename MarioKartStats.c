@@ -1031,21 +1031,21 @@ void equalStats(int mode)
      {
           case 0x00:
           {
-               turnangle_Mario = 1.25;
+               turncontr_Mario = 1.25;
 
-               turnangle_Luigi = 1.25;
+               turncontr_Luigi = 1.25;
 
-               turnangle_Yoshi = 1.28;
+               turncontr_Yoshi = 1.28;
 
-               turnangle_Toad = 1.28;
+               turncontr_Toad = 1.28;
 
-               turnangle_DK = 1.15;
+               turncontr_DK = 1.15;
 
-               turnangle_Wario = 1.15;
+               turncontr_Wario = 1.15;
 
-               turnangle_Peach = 1.28;
+               turncontr_Peach = 1.28;
 
-               turnangle_Bowser = 1.28;
+               turncontr_Bowser = 1.28;
 
                break;
           }
