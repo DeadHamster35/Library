@@ -6,6 +6,7 @@ extern int RedCoinCollide(void* Car, void* Coin);
 extern void DisplayCoinSprite();
 extern void DisplayAfterEffects();
 extern void loadCoin();
-extern void RedCoinChallenge(long RSPInput);
 extern void DrawOKObjects();
 extern void CheckOKObjects();
+extern void ClearOKObject(short ObjectID);
+extern short FindOKObject();

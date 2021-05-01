@@ -11,7 +11,6 @@
 #include "OKBehaviors.h"
 #include "GameVariables/NTSC/OKassembly.h"
 #include "GameVariables/NTSC/GameOffsets.h"
-#include "../RawAssets/ModelData/ModelData.h"
 
 
 
@@ -145,30 +144,6 @@ void DisplayObject(void *Camera, Object *InputObject)
 }
 
 
-void loadCoin()
-{
-	SetSegment(8,(int)(&ok_ModelData));
-	*sourceAddress = (int)(&ModelDataStart);
-	*targetAddress = (int)(&ok_FreeSpace);
-	dataLength = (int)ModelData_CompressedSize;
-	runDMA();
-	*sourceAddress = (int)(&ok_FreeSpace);
-	*targetAddress = (int)(&ok_ModelData);
-	runMIO();
-	//
-	//
-	*sourceAddress = (int)(&RCSpriteROM);
-	*targetAddress = (int)(&ok_FreeSpace);
-	dataLength = 0x204;
-	runDMA();
-	*sourceAddress = (int)(&ok_FreeSpace);
-	*targetAddress = (int)(&ok_RedCoinSprite);
-	runMIO();
-}
-
-
-
-
 
 void DrawOKObject(OKObject* InputHeader)
 {
@@ -227,74 +202,6 @@ void ClearOKObject(short ObjectID)
 	OKObjectHeaders[ObjectID].ObjectData.counter = 0;
 	OKObjectHeaders[ObjectID].ObjectData.category = 0;
 }
-
-struct OKCollisionSphere CoinCollision[2];
-void RedCoinChallenge(long PathOffset)
-{
-	for (int currentCoin = 0; currentCoin < 8; currentCoin++)
-	{		
-		CoinPositions[currentCoin][0] = *(short*)(PathOffset);
-		CoinPositions[currentCoin][1] = *(short*)(PathOffset + 2);
-		CoinPositions[currentCoin][2] = *(short*)(PathOffset + 4);
-		
-		if (CoinPositions[currentCoin][0] == 0xFFFF8000)
-		{
-			if (currentCoin < 7)
-			{
-				return; //if there's not 8 coins don't run the function.
-			}
-			else
-			{
-				break;
-			}
-		}
-		PathOffset = PathOffset + 8;
-	}
-
-	//two loops for above return; ensure 8 coins.
-
-	
-	CoinCollision[0].Radius = 0;
-	CoinCollision[0].Position[0] = 0;
-	CoinCollision[0].Position[1] = 30;
-	CoinCollision[0].Position[2] = 0;
-	CoinCollision[0].CollisionType = StateSpinOut;
-
-	CoinCollision[1].Radius = 5;
-	CoinCollision[1].Position[0] = 0;
-	CoinCollision[1].Position[1] = 0;
-	CoinCollision[1].Position[2] = 0;
-	CoinCollision[1].CollisionType = StateSpinOut;
-
-	for (int currentCoin = 0; currentCoin < 8; currentCoin++)
-	{
-		GlobalShortA = FindOKObject();
-		ClearOKObject(GlobalShortA);
-		OKObjectHeaders[GlobalShortA].Range = 100;
-		OKObjectHeaders[GlobalShortA].Sight = 150;
-		OKObjectHeaders[GlobalShortA].Viewcone = 150;
-		OKObjectHeaders[GlobalShortA].ObjectData.position[0] = (float)CoinPositions[currentCoin][0];
-		OKObjectHeaders[GlobalShortA].ObjectData.position[1] = (float)CoinPositions[currentCoin][1];
-		OKObjectHeaders[GlobalShortA].ObjectData.position[2] = (float)CoinPositions[currentCoin][2];
-
-		OKObjectHeaders[GlobalShortA].OriginPosition[0] = CoinPositions[currentCoin][0];
-		OKObjectHeaders[GlobalShortA].OriginPosition[1] = CoinPositions[currentCoin][1];
-		OKObjectHeaders[GlobalShortA].OriginPosition[2] = CoinPositions[currentCoin][2];
-
-		OKObjectHeaders[GlobalShortA].ObjectData.radius = 4;
-		OKObjectHeaders[GlobalShortA].ObjectData.flag = 0xC000;
-		OKObjectHeaders[GlobalShortA].ModelAddress = (long)&BowserLOD0;
-		OKObjectHeaders[GlobalShortA].ModelScale = 0.10;	
-		OKObjectHeaders[GlobalShortA].BehaviorClass = BEHAVIOR_SEARCH;
-		OKObjectHeaders[GlobalShortA].SubBehaviorClass = SUBBEHAVIOR_DOCILE;
-		OKObjectHeaders[GlobalShortA].CollisionAddress = (long)&CoinCollision;
-		OKObjectHeaders[GlobalShortA].CollisionCount = 2;
-	}
-
-
-}
-
-
 
 bool TestCollideSphere(float SourcePosition[], float SourceRadius, float TargetPosition[], float TargetRadius)
 {
