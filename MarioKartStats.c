@@ -1095,14 +1095,14 @@ void equalStats(int mode)
      }
      if (mode > 0x00)
      {
-          turnangle_Mario = GlobalFloatA;
-          turnangle_Luigi = GlobalFloatA;
-          turnangle_Yoshi = GlobalFloatA;
-          turnangle_Toad = GlobalFloatA;
-          turnangle_DK = GlobalFloatA;
-          turnangle_Wario = GlobalFloatA;
-          turnangle_Peach = GlobalFloatA;
-          turnangle_Bowser = GlobalFloatA;
+          turncontr_Mario = GlobalFloatA;
+          turncontr_Luigi = GlobalFloatA;
+          turncontr_Yoshi = GlobalFloatA;
+          turncontr_Toad = GlobalFloatA;
+          turncontr_DK = GlobalFloatA;
+          turncontr_Wario = GlobalFloatA;
+          turncontr_Peach = GlobalFloatA;
+          turncontr_Bowser = GlobalFloatA;
 
      }
 
