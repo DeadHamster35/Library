@@ -1022,10 +1022,12 @@ void SetCourseNames(bool custom)
 		*targetAddress = (long)&ok_Credits;
 		dataLength = 0x36;
 
+		int strtbl;
+
 		if ((custom == true) && (*sourceAddress != 0x00000000))
 		{
 			runDMA();
-			for (int strtbl = 0; strtbl < 20; strtbl++)
+			for (strtbl = 0; strtbl < 20; strtbl++)
 			{
 				g_StringTableCourse[strtbl] = (long)&ok_Credits + 0x4;
 				g_StringTableCourseGP[strtbl] = (long)&ok_Credits + 0x4;
@@ -1033,10 +1035,10 @@ void SetCourseNames(bool custom)
 		}
 		else
 		{
-			for (int strtbl = 0; strtbl < 20; strtbl++)
-			{			
-				g_StringTableCourse[strtbl] = (int)stockCourseNames[strtbl];
-				g_StringTableCourseGP[strtbl] = (int)stockCourseNames[strtbl];
+			for (strtbl = 0; strtbl < 20; strtbl++)
+			{	
+				g_StringTableCourse[strtbl] = (long)stockCourseNames[strtbl];
+				g_StringTableCourseGP[strtbl] = (long)stockCourseNames[strtbl];
 			}
 		}
 }

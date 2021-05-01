@@ -244,11 +244,7 @@ void PathEchoTrigger()
 
 		for (char playerID = 0; playerID < 4; playerID++)					// Loop for each racer		
 		{
-			GlobalAddressA = (long)(&g_playerPathPointTable) + (0x2 * playerID);
-			short curEchoPoint = *(short*)(GlobalAddressA);
-
-			GlobalAddressB = (long)(&g_PlayerStructTable) + (0xDD8 * playerID);
-			if (*(char*)(GlobalAddressB) != 0x30)							// Only run for existing racers
+			if ((GlobalPlayer[(int)playerID]->flag & 32768) != 0)							// Only run for existing racers
 			{
 				for (int LoopVal = 0; LoopVal < pEchoArraySize; LoopVal++)
 				{
@@ -257,7 +253,7 @@ void PathEchoTrigger()
 					pEchoTrStart[LoopVal] = 10;
 					pEchoTrEnd[LoopVal] = 35;
 
-					if ((curEchoPoint >= pEchoTrStart[LoopVal]) && (curEchoPoint <= pEchoTrEnd[LoopVal]))			// Path range check
+					if ((g_playerPathPointTable[(int)playerID] >= pEchoTrStart[LoopVal]) && (g_playerPathPointTable[(int)playerID] <= pEchoTrEnd[LoopVal]))			// Path range check
 					{
 						SetPlayerEcho(playerID, Echo[LoopVal]);
 						break;
@@ -282,12 +278,7 @@ void PathColorTrigger()
 
 		for (char playerID = 0; playerID < 8; playerID++)					// Loop for each racer		
 		{
-			GlobalAddressA = (long)(&g_playerPathPointTable) + (0x2 * playerID);
-			short curPPoint = *(short*)(GlobalAddressA);
-
-			GlobalAddressB = (long)(&g_PlayerStructTable) + (0xDD8 * playerID);
-
-			if (*(char*)(GlobalAddressB) != 0x30)							// Only run for existing racers
+			if ((GlobalPlayer[(int)playerID]->flag & 32768) != 0)							// Only run for existing racers
 			{
 				for (int LoopVal = 0; LoopVal < pColArraySize; LoopVal++)
 				{
@@ -296,7 +287,7 @@ void PathColorTrigger()
 					pColTrStart[LoopVal] = 5;
 					pColTrEnd[LoopVal] = 35;
 
-					if ((curPPoint >= pColTrStart[LoopVal]) && (curPPoint <= pColTrEnd[LoopVal]))		// Path range check
+					if ((g_playerPathPointTable[(int)playerID] >= pColTrStart[LoopVal]) && (g_playerPathPointTable[(int)playerID] <= pColTrEnd[LoopVal]))		// Path range check
 					{
 						GlobalAddressA = (long)(&g_PlayerStructTable) + (0xDD8 * playerID);
 						MakeBodyColor( (void*)(GlobalAddressA), playerID, BodyColors[LoopVal], 1);
@@ -318,11 +309,7 @@ void PathCamShiftTrigger()
 
 		for (char playerID = 0; playerID < 4; playerID++)						// Loop for each racer		
 		{
-			GlobalAddressA = (long)(&g_playerPathPointTable) + (0x2 * playerID);
-			short curCamPoint = *(short*)(GlobalAddressA);
-
-			GlobalAddressB = (long)(&g_PlayerStructTable) + (0xDD8 * playerID);
-			if (*(char*)(GlobalAddressB) != 0x30)								// Only run for existing racers
+			if ((GlobalPlayer[(int)playerID]->flag & 32768) != 0)							// Only run for existing racers
 			{
 				for (int LoopVal = 0; LoopVal < pCamArraySize; LoopVal++)
 				{
@@ -331,7 +318,7 @@ void PathCamShiftTrigger()
 					pCamTrEnd[LoopVal] = 85;
 
 
-					if ((curCamPoint >= pCamTrStart[LoopVal]) && (curCamPoint <= pCamTrEnd[LoopVal]))			// Path range check
+					if ((g_playerPathPointTable[(int)playerID] >= pCamTrStart[LoopVal]) && (g_playerPathPointTable[(int)playerID] <= pCamTrEnd[LoopVal]))			// Path range check
 					{
 						SetCamShiftUp(playerID, 6);
 						break;
@@ -355,11 +342,7 @@ void PathNoSimpleKartTrigger()
 
 		for (char playerID = 0; playerID < 8; playerID++)						// Loop for each racer		
 		{
-			GlobalAddressA = (long)(&g_playerPathPointTable) + (0x2 * playerID);
-			short curSPoint = *(short*)(GlobalAddressA);
-
-			GlobalAddressB = (long)(&g_PlayerStructTable) + (0xDD8 * playerID);
-			if (*(char*)(GlobalAddressB) != 0x30)								// Only run for existing racers
+			if ((GlobalPlayer[(int)playerID]->flag & 32768) != 0)							// Only run for existing racers
 			{
 				for (int LoopVal = 0; LoopVal < pSArraySize; LoopVal++)
 				{
@@ -368,7 +351,7 @@ void PathNoSimpleKartTrigger()
 					pSTrEnd[LoopVal] = 150;
 
 
-					if ((curSPoint >= pSTrStart[LoopVal]) && (curSPoint <= pSTrEnd[LoopVal]))			// Path range check
+					if ((g_playerPathPointTable[(int)playerID] >= pSTrStart[LoopVal]) && (g_playerPathPointTable[(int)playerID] <= pSTrEnd[LoopVal]))			// Path range check
 					{
 						GlobalAddressA = (long)(&g_noSimpleKartFlag) + 0x1;
 						*(char*)(GlobalAddressA + (0x2 * playerID)) = 1;

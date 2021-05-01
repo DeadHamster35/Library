@@ -86,8 +86,8 @@ extern char *hex;
 //
 
 //Stock Names
-extern char *stockCourseNames;
-extern char *stockCharacterNames;
+extern char *stockCourseNames[];
+extern char *stockCharacterNames[];
 
 //Custom Levels
 

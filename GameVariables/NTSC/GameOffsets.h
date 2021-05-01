@@ -520,7 +520,7 @@ extern char g_gamePausedFlag;
 extern void MakeBodyColor(void* Car, char Player, int Color, float Speed);
 extern void MakeBodyColorAdjust(void* Car, char Player, int Color, float Speed);
 
-extern short g_playerPathPointTable; // 80164438
+extern short g_playerPathPointTable[8]; // 80164438
 extern short g_PathPointPlayer1; // 80164438
 extern short g_PathPointPlayer2;
 extern short g_PathPointPlayer3;
@@ -529,8 +529,8 @@ extern short g_PathPointPlayer5;
 extern short g_PathPointPlayer6;
 extern short g_PathPointPlayer7;
 extern short g_PathPointPlayer8;
-extern long g_playerPathPointTotalTable; // 80164450
-extern short g_playerPathPointCopy[]; // 80165320
+extern long g_playerPathPointTotalTable[8]; // 80164450
+extern short g_playerPathPointCopy[8]; // 80165320
 
 extern void RunKart(void* Car, void* Camera, int place, int playerID); // 8002D268
 extern void RunKartSimple(void* Car, void* Camera, int place, int playerID); // 8002F35C
@@ -540,8 +540,8 @@ extern long g_ItemUseCounter; // 8018D930
 extern long g_sfxPointer; //  803B7080
 extern short g_noSimpleKartFlag; // 801633F8
 
-extern long g_StringTableCourseGP[]; // 800E7524
-extern long g_StringTableCourse[]; // 800E7574
+extern long g_StringTableCourseGP[20]; // 800E7524
+extern long g_StringTableCourse[20]; // 800E7574
 
 //menu
 extern short menuExtra;
