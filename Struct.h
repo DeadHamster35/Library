@@ -38,6 +38,7 @@ typedef struct Tire{
 	unsigned char 		LastAxis;
 	unsigned short 	LastPointer;
 	float 			Height;
+	int  			Dummy;              //0000 0000 0000 00001:KAGE ON
 }    Tire;
 
 typedef struct Smoke{
