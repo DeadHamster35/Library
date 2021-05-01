@@ -1,112 +1,1280 @@
-//unknown 11
+// UNKNOWN /////////////////////////////////////////////////////
+extern float u11_Mario; // 0x800E24C8
+extern float u11_Luigi; // 0x800E24CC
+extern float u11_Yoshi; // 0x800E24D0
+extern float u11_Toad; // 0x800E24D4
+extern float u11_DK; // 0x800E24D8
+extern float u11_Wario; // 0x800E24DC
+extern float u11_Peach; // 0x800E24E0
+extern float u11_Bowser; // 0x800E24E4
 
-extern float u11_Mario;
-extern float u11_Luigi;
-extern float u11_Yoshi;
-extern float u11_Toad;
-extern float u11_DK;
-extern float u11_Wario;
-extern float u11_Peach;
-extern float u11_Bowser;
+extern float u12_Mario; // 0x800E24E8
+extern float u12_Luigi; // 0x800E24EC
+extern float u12_Yoshi; // 0x800E24F0
+extern float u12_Toad; // 0x800E24F4
+extern float u12_DK; // 0x800E24F8
+extern float u12_Wario; // 0x800E24FC
+extern float u12_Peach; // 0x800E2500
+extern float u12_Bowser; // 0x800E2504
 
-extern float u12_Mario;
-extern float u12_Luigi;
-extern float u12_Yoshi;
-extern float u12_Toad;
-extern float u12_DK;
-extern float u12_Wario;
-extern float u12_Peach;
-extern float u12_Bowser;
+extern float u13_Mario; // 0x800E2508
+extern float u13_Luigi; // 0x800E250C
+extern float u13_Yoshi; // 0x800E2510
+extern float u13_Toad; // 0x800E2514
+extern float u13_DK; // 0x800E2518
+extern float u13_Wario; // 0x800E251C
+extern float u13_Peach; // 0x800E2520
+extern float u13_Bowser; // 0x800E2524
 
+extern float u14_Mario; // 0x800E2528
+extern float u14_Luigi; // 0x800E252C
+extern float u14_Yoshi; // 0x800E2530
+extern float u14_Toad; // 0x800E2534
+extern float u14_DK; // 0x800E2538
+extern float u14_Wario; // 0x800E253C
+extern float u14_Peach; // 0x800E2540
+extern float u14_Bowser; // 0x800E2544
 
-extern float u13_Mario;
-extern float u13_Luigi;
-extern float u13_Yoshi;
-extern float u13_Toad;
-extern float u13_DK;
-extern float u13_Wario;
-extern float u13_Peach;
-extern float u13_Bowser;
+extern float u15_Mario; // 0x800E2548
+extern float u15_Luigi; // 0x800E254C
+extern float u15_Yoshi; // 0x800E2550
+extern float u15_Toad; // 0x800E2554
+extern float u15_DK; // 0x800E2558
+extern float u15_Wario; // 0x800E255C
+extern float u15_Peach; // 0x800E2560
+extern float u15_Bowser; // 0x800E2564
 
-extern float u14_Mario;
-extern float u14_Luigi;
-extern float u14_Yoshi;
-extern float u14_Toad;
-extern float u14_DK;
-extern float u14_Wario;
-extern float u14_Peach;
-extern float u14_Bowser;
+// KNOWN /////////////////////////////////////////////////////
 
+//personal
+extern float weight_Mario; // 0x802B8790
+extern float weight_Luigi; // 0x802B8794
+extern float weight_Yoshi; // 0x802B8798
+extern float weight_Toad; // 0x802B879C
+extern float weight_DK; // 0x802B87A0
+extern float weight_Wario; // 0x802B87A4
+extern float weight_Peach; // 0x802B87A8
+extern float weight_Bowser; // 0x802B87AC
 
+extern float mass_Mario; // 0x800E2630
+extern float mass_Luigi; // 0x800E2634
+extern float mass_Yoshi; // 0x800E2638
+extern float mass_Toad; // 0x800E263C
+extern float mass_DK; // 0x800E2640
+extern float mass_Wario; // 0x800E2644
+extern float mass_Peach; // 0x800E2648
+extern float mass_Bowser; // 0x800E264C
 
-extern float cc50_Mario;
-extern float cc50_Luigi;
-extern float cc50_Yoshi;
-extern float cc50_Toad;
-extern float cc50_DK;
-extern float cc50_Wario;
-extern float cc50_Peach;
-extern float cc50_Bowser;
+extern float radius_Mario; // 0x800E26B0
+extern float radius_Luigi; // 0x800E26B4
+extern float radius_Yoshi; // 0x800E26B8
+extern float radius_Toad; // 0x800E26BC
+extern float radius_DK; // 0x800E26C0
+extern float radius_Wario; // 0x800E26C4
+extern float radius_Peach; // 0x800E26C8
+extern float radius_Bowser; // 0x800E26CC
 
-extern float cc100_Mario;
-extern float cc100_Luigi;
-extern float cc100_Yoshi;
-extern float cc100_Toad;
-extern float cc100_DK;
-extern float cc100_Wario;
-extern float cc100_Peach;
-extern float cc100_Bowser;
+extern float friction_Mario; // 0x800E2670
+extern float friction_Luigi; // 0x800E2674
+extern float friction_Yoshi; // 0x800E2678
+extern float friction_Toad; // 0x800E267C
+extern float friction_DK; // 0x800E2680
+extern float friction_Wario; // 0x800E2684
+extern float friction_Peach; // 0x800E2688
+extern float friction_Bowser; // 0x800E268C
 
-extern float cc150_Mario;
-extern float cc150_Luigi;
-extern float cc150_Yoshi;
-extern float cc150_Toad;
-extern float cc150_DK;
-extern float cc150_Wario;
-extern float cc150_Peach;
-extern float cc150_Bowser;
+//jump (drift & hit) / gravity
+extern float driftJump_Mario; // 0x800E36D0
+extern float driftJump_Luigi; // 0x800E36D4
+extern float driftJump_Yoshi; // 0x800E36D8
+extern float driftJump_Toad; // 0x800E36DC
+extern float driftJump_DK; // 0x800E36E0
+extern float driftJump_Wario; // 0x800E36E4
+extern float driftJump_Peach; // 0x800E36E8
+extern float driftJump_Bowser; // 0x800E36EC
 
-extern float ccextra_Mario;
-extern float ccextra_Luigi;
-extern float ccextra_Yoshi;
-extern float ccextra_Toad;
-extern float ccextra_DK;
-extern float ccextra_Wario;
-extern float ccextra_Peach;
-extern float ccextra_Bowser;
+extern float driftFall_Mario; // 0x800E36F0
+extern float driftFall_Luigi; // 0x800E36F4
+extern float driftFall_Yoshi; // 0x800E36F8
+extern float driftFall_Toad; // 0x800E36FC
+extern float driftFall_DK; // 0x800E3700
+extern float driftFall_Wario; // 0x800E3704
+extern float driftFall_Peach; // 0x800E3708
+extern float driftFall_Bowser; // 0x800E370C
 
-extern float turnangle_Mario;
-extern float turnangle_Luigi;
-extern float turnangle_Yoshi;
-extern float turnangle_Toad;
-extern float turnangle_DK;
-extern float turnangle_Wario;
-extern float turnangle_Peach;
-extern float turnangle_Bowser;
+extern float gravity_Mario; // 0x800E2650
+extern float gravity_Luigi; // 0x800E2654
+extern float gravity_Yoshi; // 0x800E2658
+extern float gravity_Toad; // 0x800E265C
+extern float gravity_DK; // 0x800E2660
+extern float gravity_Wario; // 0x800E2664
+extern float gravity_Peach; // 0x800E2668
+extern float gravity_Bowser; // 0x800E266C
 
-extern float turncoA_Mario;
-extern float turncoA_Luigi;
-extern float turncoA_Yoshi;
-extern float turncoA_Toad;
-extern float turncoA_DK;
-extern float turncoA_Wario;
-extern float turncoA_Peach;
-extern float turncoA_Bowser;
+//Rollover Jump (Shell/Bomb Hit)
+extern float rolloverJump_Mario; // 0x800E37B0
+extern float rolloverJump_Luigi; // 0x800E37B4
+extern float rolloverJump_Yoshi; // 0x800E37B8
+extern float rolloverJump_Toad; // 0x800E37BC
+extern float rolloverJump_DK; // 0x800E37C0
+extern float rolloverJump_Wario; // 0x800E37C4
+extern float rolloverJump_Peach; // 0x800E37C8
+extern float rolloverJump_Bowser; // 0x800E37CC
 
-extern float turncoB_Mario;
-extern float turncoB_Luigi;
-extern float turncoB_Yoshi;
-extern float turncoB_Toad;
-extern float turncoB_DK;
-extern float turncoB_Wario;
-extern float turncoB_Peach;
-extern float turncoB_Bowser;
+extern float rolloverFall_Mario; // 0x800E3790
+extern float rolloverFall_Luigi; // 0x800E3794
+extern float rolloverFall_Yoshi; // 0x800E3798
+extern float rolloverFall_Toad; // 0x800E379C
+extern float rolloverFall_DK; // 0x800E37A0
+extern float rolloverFall_Wario; // 0x800E37A4
+extern float rolloverFall_Peach; // 0x800E37A8
+extern float rolloverFall_Bowser; // 0x800E37AC
 
-extern float tripleTap_Mario;
-extern float tripleTap_Luigi;
-extern float tripleTap_Yoshi;
-extern float tripleTap_Toad;
-extern float tripleTap_DK;
-extern float tripleTap_Wario;
-extern float tripleTap_Peach;
-extern float tripleTap_Bowser;
+/*
+Mario:
+Wing Jump 
+Fspeed	800E3710	
+Acc	800E3730
+
+Storm Jump
+Fspeed	800E3750
+Acc	800E3770
+
+Height Jump (Commented out; // remains?)	
+Fspeed 800E37D0
+Acc 800E37F0
+*/
+
+//speed
+extern float maxSpeed_Mario; // 0x800E2690
+extern float maxSpeed_Luigi; // 0x800E2694
+extern float maxSpeed_Yoshi; // 0x800E2698
+extern float maxSpeed_Toad; // 0x800E269C
+extern float maxSpeed_DK; // 0x800E26A0
+extern float maxSpeed_Wario; // 0x800E26A4
+extern float maxSpeed_Peach; // 0x800E26A8
+extern float maxSpeed_Bowser; // 0x800E26AC
+
+extern float cc50_Mario; // 0x800E257C
+extern float cc50_Luigi; // 0x800E2580
+extern float cc50_Yoshi; // 0x800E2584
+extern float cc50_Toad; // 0x800E2588
+extern float cc50_DK; // 0x800E258C
+extern float cc50_Wario; // 0x800E2590
+extern float cc50_Peach; // 0x800E2594
+extern float cc50_Bowser; // 0x800E2598
+
+extern float cc100_Mario; // 0x800E259C
+extern float cc100_Luigi; // 0x800E25A0
+extern float cc100_Yoshi; // 0x800E25A4
+extern float cc100_Toad; // 0x800E25A8
+extern float cc100_DK; // 0x800E25AC
+extern float cc100_Wario; // 0x800E25B0
+extern float cc100_Peach; // 0x800E25B4
+extern float cc100_Bowser; // 0x800E25B8
+
+extern float cc150_Mario; // 0x800E25BC
+extern float cc150_Luigi; // 0x800E25C0
+extern float cc150_Yoshi; // 0x800E25C4
+extern float cc150_Toad; // 0x800E25C8
+extern float cc150_DK; // 0x800E25CC
+extern float cc150_Wario; // 0x800E25D0
+extern float cc150_Peach; // 0x800E25D4
+extern float cc150_Bowser; // 0x800E25D8
+
+extern float ccextra_Mario; // 0x800E25DC
+extern float ccextra_Luigi; // 0x800E25E0
+extern float ccextra_Yoshi; // 0x800E25E4
+extern float ccextra_Toad; // 0x800E25E8
+extern float ccextra_DK; // 0x800E25EC
+extern float ccextra_Wario; // 0x800E25F0
+extern float ccextra_Peach; // 0x800E25F4
+extern float ccextra_Bowser; // 0x800E25F8
+
+extern float ccBattle_Mario; // 0x800E25FC
+extern float ccBattle_Luigi; // 0x800E2600
+extern float ccBattle_Yoshi; // 0x800E2604
+extern float ccBattle_Toad; // 0x800E2608
+extern float ccBattle_DK; // 0x800E260C
+extern float ccBattle_Wario; // 0x800E2610
+extern float ccBattle_Peach; // 0x800E2614
+extern float ccBattle_Bowser; // 0x800E2618
+
+//boost
+extern float miniTurbo_Mario; // 0x800F699C
+extern float miniTurbo_Luigi; // 0x800F69A0
+extern float miniTurbo_Yoshi; // 0x800F69A4
+extern float miniTurbo_Toad; // 0x800F69A8
+extern float miniTurbo_DK; // 0x800F69AC
+extern float miniTurbo_Wario; // 0x800F69B0
+extern float miniTurbo_Peach; // 0x800F69B4
+extern float miniTurbo_Bowser; // 0x800F69B8
+
+//acceleration
+extern float acc1_Mario; // 0x800E2ED0
+extern float acc2_Mario; // 0x800E2ED4
+extern float acc3_Mario; // 0x800E2ED8
+extern float acc4_Mario; // 0x800E2EDC
+extern float acc5_Mario; // 0x800E2EE0
+extern float acc6_Mario; // 0x800E2EE4
+extern float acc7_Mario; // 0x800E2EE8
+extern float acc8_Mario; // 0x800E2EEC
+extern float acc9_Mario; // 0x800E2EF0
+extern float acc10_Mario; // 0x800E2EF4
+
+extern float acc1_Luigi; // 0x800E2EF8
+extern float acc2_Luigi; // 0x800E2EFC
+extern float acc3_Luigi; // 0x800E2F00
+extern float acc4_Luigi; // 0x800E2F04
+extern float acc5_Luigi; // 0x800E2F08
+extern float acc6_Luigi; // 0x800E2F0C
+extern float acc7_Luigi; // 0x800E2F10
+extern float acc8_Luigi; // 0x800E2F14
+extern float acc9_Luigi; // 0x800E2F18
+extern float acc10_Luigi; // 0x800E2F1C
+
+extern float acc1_Yoshi; // 0x800E2F20
+extern float acc2_Yoshi; // 0x800E2F24
+extern float acc3_Yoshi; // 0x800E2F28
+extern float acc4_Yoshi; // 0x800E2F2C
+extern float acc5_Yoshi; // 0x800E2F30
+extern float acc6_Yoshi; // 0x800E2F34
+extern float acc7_Yoshi; // 0x800E2F38
+extern float acc8_Yoshi; // 0x800E2F3C
+extern float acc9_Yoshi; // 0x800E2F40
+extern float acc10_Yoshi; // 0x800E2F44
+
+extern float acc1_Toad; // 0x800E2F48
+extern float acc2_Toad; // 0x800E2F4C
+extern float acc3_Toad; // 0x800E2F50
+extern float acc4_Toad; // 0x800E2F54
+extern float acc5_Toad; // 0x800E2F58
+extern float acc6_Toad; // 0x800E2F5C
+extern float acc7_Toad; // 0x800E2F60
+extern float acc8_Toad; // 0x800E2F64
+extern float acc9_Toad; // 0x800E2F68
+extern float acc10_Toad; // 0x800E2F6C
+
+extern float acc1_DK; // 0x800E2F70
+extern float acc2_DK; // 0x800E2F74
+extern float acc3_DK; // 0x800E2F78
+extern float acc4_DK; // 0x800E2F7C
+extern float acc5_DK; // 0x800E2F80
+extern float acc6_DK; // 0x800E2F84
+extern float acc7_DK; // 0x800E2F88
+extern float acc8_DK; // 0x800E2F8C
+extern float acc9_DK; // 0x800E2F90
+extern float acc10_DK; // 0x800E2F94
+
+extern float acc1_Wario; // 0x800E2F98
+extern float acc2_Wario; // 0x800E2F9C
+extern float acc3_Wario; // 0x800E2FA0
+extern float acc4_Wario; // 0x800E2FA4
+extern float acc5_Wario; // 0x800E2FA8
+extern float acc6_Wario; // 0x800E2FAC
+extern float acc7_Wario; // 0x800E2FB0
+extern float acc8_Wario; // 0x800E2FB4
+extern float acc9_Wario; // 0x800E2FB8
+extern float acc10_Wario; // 0x800E2FBC
+
+extern float acc1_Peach; // 0x800E2FC0
+extern float acc2_Peach; // 0x800E2FC4
+extern float acc3_Peach; // 0x800E2FC8
+extern float acc4_Peach; // 0x800E2FCC
+extern float acc5_Peach; // 0x800E2FD0
+extern float acc6_Peach; // 0x800E2FD4
+extern float acc7_Peach; // 0x800E2FD8
+extern float acc8_Peach; // 0x800E2FDC
+extern float acc9_Peach; // 0x800E2FE0
+extern float acc10_Peach; // 0x800E2FE4
+
+extern float acc1_Bowser; // 0x800E2FE8
+extern float acc2_Bowser; // 0x800E2FEC
+extern float acc3_Bowser; // 0x800E2FF0
+extern float acc4_Bowser; // 0x800E2FF4
+extern float acc5_Bowser; // 0x800E2FF8
+extern float acc6_Bowser; // 0x800E2FFC
+extern float acc7_Bowser; // 0x800E3000
+extern float acc8_Bowser; // 0x800E3004
+extern float acc9_Bowser; // 0x800E3008
+extern float acc10_Bowser; // 0x800E300C
+
+extern float tripleTap_Mario; // 0x800E36B0
+extern float tripleTap_Luigi; // 0x800E36B4
+extern float tripleTap_Yoshi; // 0x800E36B8
+extern float tripleTap_Toad; // 0x800E36BC
+extern float tripleTap_DK; // 0x800E36C0
+extern float tripleTap_Wario; // 0x800E36C4
+extern float tripleTap_Peach; // 0x800E36C8
+extern float tripleTap_Bowser; // 0x800E36CC
+
+//grip 
+extern float frontgrip50_Mario; // 0x800E2360
+extern float frontgrip50_Luigi; // 0x800E2364
+extern float frontgrip50_Yoshi; // 0x800E2368
+extern float frontgrip50_Toad; // 0x800E236C
+extern float frontgrip50_DK; // 0x800E2370
+extern float frontgrip50_Wario; // 0x800E2374
+extern float frontgrip50_Peach; // 0x800E2378
+extern float frontgrip50_Bowser; // 0x800E237C
+
+extern float frontgrip100_Mario; // 0x800E2380
+extern float frontgrip100_Luigi; // 0x800E2384
+extern float frontgrip100_Yoshi; // 0x800E2388
+extern float frontgrip100_Toad; // 0x800E238C
+extern float frontgrip100_DK; // 0x800E2390
+extern float frontgrip100_Wario; // 0x800E2394
+extern float frontgrip100_Peach; // 0x800E2398
+extern float frontgrip100_Bowser; // 0x800E239C
+
+extern float frontgrip150_Mario; // 0x800E23A0
+extern float frontgrip150_Luigi; // 0x800E23A4
+extern float frontgrip150_Yoshi; // 0x800E23A8
+extern float frontgrip150_Toad; // 0x800E23AC
+extern float frontgrip150_DK; // 0x800E23B0
+extern float frontgrip150_Wario; // 0x800E23B4
+extern float frontgrip150_Peach; // 0x800E23B8
+extern float frontgrip150_Bowser; // 0x800E23BC
+
+extern float frontgripExtra_Mario; // 0x800E23C0
+extern float frontgripExtra_Luigi; // 0x800E23C4
+extern float frontgripExtra_Yoshi; // 0x800E23C8
+extern float frontgripExtra_Toad; // 0x800E23CC
+extern float frontgripExtra_DK; // 0x800E23D0
+extern float frontgripExtra_Wario; // 0x800E23D4
+extern float frontgripExtra_Peach; // 0x800E23D8
+extern float frontgripExtra_Bowser; // 0x800E23DC
+
+extern float frontgripBattle_Mario; // 0x800E23E0
+extern float frontgripBattle_Luigi; // 0x800E23E4
+extern float frontgripBattle_Yoshi; // 0x800E23E8
+extern float frontgripBattle_Toad; // 0x800E23EC
+extern float frontgripBattle_DK; // 0x800E23F0
+extern float frontgripBattle_Wario; // 0x800E23F4
+extern float frontgripBattle_Peach; // 0x800E23F8
+extern float frontgripBattle_Bowser; // 0x800E23FC
+
+extern float reargrip50_Mario; // 0x800E2414
+extern float reargrip50_Luigi; // 0x800E2418
+extern float reargrip50_Yoshi; // 0x800E241C
+extern float reargrip50_Toad; // 0x800E2420
+extern float reargrip50_DK; // 0x800E2424
+extern float reargrip50_Wario; // 0x800E2428
+extern float reargrip50_Peach; // 0x800E242C
+extern float reargrip50_Bowser; // 0x800E2430
+
+extern float reargrip100_Mario; // 0x800E2434
+extern float reargrip100_Luigi; // 0x800E2438
+extern float reargrip100_Yoshi; // 0x800E243C
+extern float reargrip100_Toad; // 0x800E2440
+extern float reargrip100_DK; // 0x800E2444
+extern float reargrip100_Wario; // 0x800E2448
+extern float reargrip100_Peach; // 0x800E244C
+extern float reargrip100_Bowser; // 0x800E2450
+
+extern float reargrip150_Mario; // 0x800E2454
+extern float reargrip150_Luigi; // 0x800E2458
+extern float reargrip150_Yoshi; // 0x800E245C
+extern float reargrip150_Toad; // 0x800E2460
+extern float reargrip150_DK; // 0x800E2464
+extern float reargrip150_Wario; // 0x800E2468
+extern float reargrip150_Peach; // 0x800E246C
+extern float reargrip150_Bowser; // 0x800E2470
+
+extern float reargripExtra_Mario; // 0x800E2474
+extern float reargripExtra_Luigi; // 0x800E2478
+extern float reargripExtra_Yoshi; // 0x800E247C
+extern float reargripExtra_Toad; // 0x800E2480
+extern float reargripExtra_DK; // 0x800E2484
+extern float reargripExtra_Wario; // 0x800E2488
+extern float reargripExtra_Peach; // 0x800E248C
+extern float reargripExtra_Bowser; // 0x800E2490
+
+extern float reargripBattle_Mario; // 0x800E2494
+extern float reargripBattle_Luigi; // 0x800E2498
+extern float reargripBattle_Yoshi; // 0x800E249C
+extern float reargripBattle_Toad; // 0x800E24A0
+extern float reargripBattle_DK; // 0x800E24A4
+extern float reargripBattle_Wario; // 0x800E24A8
+extern float reargripBattle_Peach; // 0x800E24AC
+extern float reargripBattle_Bowser; // 0x800E24B0
+
+//steering
+extern float turnSpeed_Mario; // 0x800E3650
+extern float turnSpeed_Luigi; // 0x800E3654
+extern float turnSpeed_Yoshi; // 0x800E3658
+extern float turnSpeed_Toad; // 0x800E365C
+extern float turnSpeed_DK; // 0x800E3660
+extern float turnSpeed_Wario; // 0x800E3664
+extern float turnSpeed_Peach; // 0x800E3668
+extern float turnSpeed_Bowser; // 0x800E366C
+
+extern float turncontr_Mario; // 0x800E3630
+extern float turncontr_Luigi; // 0x800E3634
+extern float turncontr_Yoshi; // 0x800E3638
+extern float turncontr_Toad; // 0x800E363C
+extern float turncontr_DK; // 0x800E3640
+extern float turncontr_Wario; // 0x800E3644
+extern float turncontr_Peach; // 0x800E3648
+extern float turncontr_Bowser; // 0x800E364C
+
+extern float turncoA_Mario; // 0x800E3670
+extern float turncoA_Luigi; // 0x800E3674
+extern float turncoA_Yoshi; // 0x800E3678
+extern float turncoA_Toad; // 0x800E367C
+extern float turncoA_DK; // 0x800E3680
+extern float turncoA_Wario; // 0x800E3684
+extern float turncoA_Peach; // 0x800E3688
+extern float turncoA_Bowser; // 0x800E368C
+
+extern float turncoB_Mario; // 0x800E3690
+extern float turncoB_Luigi; // 0x800E3694
+extern float turncoB_Yoshi; // 0x800E3698
+extern float turncoB_Toad; // 0x800E369C
+extern float turncoB_DK; // 0x800E36A0
+extern float turncoB_Wario; // 0x800E36A4
+extern float turncoB_Peach; // 0x800E36A8
+extern float turncoB_Bowser; // 0x800E36AC
+
+//surfaces ///////////////////////////////////////////////////////////////////////////////
+extern float nothingFS_Mario; // 0x800E26D0 
+extern float nothingRS_Mario; // 0x800E28B0 
+extern float nothingFP_Mario; // 0x800E2AD0 
+extern float nothingRP_Mario; // 0x800E2CB0 
+extern float nothingBrake_Mario; // 0x800E3030 
+extern float nothingStAngle_Mario; // 0x800E3230
+extern float nothingStSpeed_Mario; // 0x800E3430
+extern float asphaltFS_Mario; // 0x800E26D4
+extern float asphaltRS_Mario; // 0x800E28B4
+extern float asphaltFP_Mario; // 0x800E2AD4
+extern float asphaltRP_Mario; // 0x800E2CB4
+extern float asphaltBrake_Mario; // 0x800E3034
+extern float asphaltStAngle_Mario; // 0x800E3234
+extern float asphaltStSpeed_Mario; // 0x800E3434
+extern float dirtFS_Mario; // 0x800E26D8
+extern float dirtRS_Mario; // 0x800E28B8
+extern float dirtFP_Mario; // 0x800E2AD8
+extern float dirtRP_Mario; // 0x800E2CB8
+extern float dirtBrake_Mario; // 0x800E3038
+extern float dirtStAngle_Mario; // 0x800E3238
+extern float dirtStSpeed_Mario; // 0x800E3438
+extern float sandFS_Mario; // 0x800E26DC
+extern float sandRS_Mario; // 0x800E28BC
+extern float sandFP_Mario; // 0x800E2ADC
+extern float sandRP_Mario; // 0x800E2CBC
+extern float sandBrake_Mario; // 0x800E303C
+extern float sandStAngle_Mario; // 0x800E323C
+extern float sandStSpeed_Mario; // 0x800E343C
+extern float stoneFS_Mario; // 0x800E26E0
+extern float stoneRS_Mario; // 0x800E28C0
+extern float stoneFP_Mario; // 0x800E2AE0
+extern float stoneRP_Mario; // 0x800E2CC0
+extern float stoneBrake_Mario; // 0x800E3040
+extern float stoneStAngle_Mario; // 0x800E3240
+extern float stoneStSpeed_Mario; // 0x800E3440
+extern float snowFS_Mario; // 0x800E26E4
+extern float snowRS_Mario; // 0x800E28C4
+extern float snowFP_Mario; // 0x800E2AE4
+extern float snowRP_Mario; // 0x800E2CC4
+extern float snowBrake_Mario; // 0x800E3044
+extern float snowStAngle_Mario; // 0x800E3244
+extern float snowStSpeed_Mario; // 0x800E3444
+extern float woodFS_Mario; // 0x800E26E8
+extern float woodRS_Mario; // 0x800E28C8
+extern float woodFP_Mario; // 0x800E2AE8
+extern float woodRP_Mario; // 0x800E2CC8
+extern float woodBrake_Mario; // 0x800E3048
+extern float woodStAngle_Mario; // 0x800E3248
+extern float woodStSpeed_Mario; // 0x800E3448
+extern float sandTrapFS_Mario; // 0x800E26EC
+extern float sandTrapRS_Mario; // 0x800E28CC
+extern float sandTrapFP_Mario; // 0x800E2AEC
+extern float sandTrapRP_Mario; // 0x800E2CCC
+extern float sandTrapBrake_Mario; // 0x800E304C
+extern float sandTrapStAngle_Mario; // 0x800E324C
+extern float sandTrapStSpeed_Mario; // 0x800E344C
+extern float grassTrapFS_Mario; // 0x800E26F0
+extern float grassTrapRS_Mario; // 0x800E28D0
+extern float grassTrapFP_Mario; // 0x800E2AF0
+extern float grassTrapRP_Mario; // 0x800E2CD0
+extern float grassTrapBrake_Mario; // 0x800E3050
+extern float grassTrapStAngle_Mario; // 0x800E3250
+extern float grassTrapStSpeed_Mario; // 0x800E3450
+extern float iceFS_Mario; // 0x800E26F4
+extern float iceRS_Mario; // 0x800E28D4
+extern float iceFP_Mario; // 0x800E2AF4
+extern float iceRP_Mario; // 0x800E2CD4
+extern float iceBrake_Mario; // 0x800E3054
+extern float iceStAngle_Mario; // 0x800E3254
+extern float iceStSpeed_Mario; // 0x800E3454
+extern float sandWetFS_Mario; // 0x800E26F8
+extern float sandWetRS_Mario; // 0x800E28D8
+extern float sandWetFP_Mario; // 0x800E2AF8
+extern float sandWetRP_Mario; // 0x800E2CD8
+extern float sandWetBrake_Mario; // 0x800E3058
+extern float sandWetStAngle_Mario; // 0x800E3258
+extern float sandWetStSpeed_Mario; // 0x800E3458
+extern float snowWetFS_Mario; // 0x800E26FC
+extern float snowWetRS_Mario; // 0x800E28DC
+extern float snowWetFP_Mario; // 0x800E2AFC
+extern float snowWetRP_Mario; // 0x800E2CDC
+extern float snowWetBrake_Mario; // 0x800E305C
+extern float snowWetStAngle_Mario; // 0x800E325C
+extern float snowWetStSpeed_Mario; // 0x800E345C
+extern float rockFS_Mario; // 0x800E2700
+extern float rockRS_Mario; // 0x800E28E0
+extern float rockFP_Mario; // 0x800E2B00
+extern float rockRP_Mario; // 0x800E3690
+extern float rockBrake_Mario; // 0x800E3060
+extern float rockStAngle_Mario; // 0x800E3260
+extern float rockStSpeed_Mario; // 0x800E3460
+extern float dirtTrapFS_Mario; // 0x800E2704
+extern float dirtTrapRS_Mario; // 0x800E28E4
+extern float dirtTrapFP_Mario; // 0x800E2B04
+extern float dirtTrapRP_Mario; // 0x800E2CE4
+extern float dirtTrapBrake_Mario; // 0x800E3064
+extern float dirtTrapStAngle_Mario; // 0x800E3264
+extern float dirtTrapStSpeed_Mario; // 0x800E3464
+extern float railwayFS_Mario; // 0x800E2708
+extern float railwayRS_Mario; // 0x800E28E8
+extern float railwayFP_Mario; // 0x800E2B08
+extern float railwayRP_Mario; // 0x800E2CE8
+extern float railwayBrake_Mario; // 0x800E30608
+extern float railwayStAngle_Mario; // 0x800E3268
+extern float railwayStSpeed_Mario; // 0x800E3468
+extern float nothingFS_Luigi; // 0x800E270C 
+extern float nothingRS_Luigi; // 0x800E28EC 
+extern float nothingFP_Luigi; // 0x800E2B0C 
+extern float nothingRP_Luigi; // 0x800E2CEC 
+extern float nothingBrake_Luigi; // 0x800E306C 
+extern float nothingStAngle_Luigi; // 0x800E326C 
+extern float nothingStSpeed_Luigi; // 0x800E346C 
+extern float asphaltFS_Luigi; // 0x800E2710
+extern float asphaltRS_Luigi; // 0x800E28F0
+extern float asphaltFP_Luigi; // 0x800E2B10
+extern float asphaltRP_Luigi; // 0x800E2CF0
+extern float asphaltBrake_Luigi; // 0x800E3070
+extern float asphaltStAngle_Luigi; // 0x800E3270
+extern float asphaltStSpeed_Luigi; // 0x800E3470
+extern float dirtFS_Luigi; // 0x800E2714
+extern float dirtRS_Luigi; // 0x800E28F4
+extern float dirtFP_Luigi; // 0x800E2B14
+extern float dirtRP_Luigi; // 0x800E2CF4
+extern float dirtBrake_Luigi; // 0x800E3074
+extern float dirtStAngle_Luigi; // 0x800E3274
+extern float dirtStSpeed_Luigi; // 0x800E3474
+extern float sandFS_Luigi; // 0x800E2718
+extern float sandRS_Luigi; // 0x800E28F8
+extern float sandFP_Luigi; // 0x800E2B18
+extern float sandRP_Luigi; // 0x800E2CF8
+extern float sandBrake_Luigi; // 0x800E3078
+extern float sandStAngle_Luigi; // 0x800E3278
+extern float sandStSpeed_Luigi; // 0x800E3478
+extern float stoneFS_Luigi; // 0x800E271C
+extern float stoneRS_Luigi; // 0x800E28FC
+extern float stoneFP_Luigi; // 0x800E2B1C
+extern float stoneRP_Luigi; // 0x800E2CFC
+extern float stoneBrake_Luigi; // 0x800E307C
+extern float stoneStAngle_Luigi; // 0x800E327C
+extern float stoneStSpeed_Luigi; // 0x800E347C
+extern float snowFS_Luigi; // 0x800E2720
+extern float snowRS_Luigi; // 0x800E2900
+extern float snowFP_Luigi; // 0x800E2B20
+extern float snowRP_Luigi; // 0x800E2D00
+extern float snowBrake_Luigi; // 0x800E3080
+extern float snowStAngle_Luigi; // 0x800E3280
+extern float snowStSpeed_Luigi; // 0x800E3480
+extern float woodFS_Luigi; // 0x800E2724
+extern float woodRS_Luigi; // 0x800E2904
+extern float woodFP_Luigi; // 0x800E2B24
+extern float woodRP_Luigi; // 0x800E2D04
+extern float woodBrake_Luigi; // 0x800E3084
+extern float woodStAngle_Luigi; // 0x800E3284
+extern float woodStSpeed_Luigi; // 0x800E3484
+extern float sandTrapFS_Luigi; // 0x800E2728
+extern float sandTrapRS_Luigi; // 0x800E2908
+extern float sandTrapFP_Luigi; // 0x800E2B28
+extern float sandTrapRP_Luigi; // 0x800E2D08
+extern float sandTrapBrake_Luigi; // 0x800E3088
+extern float sandTrapStAngle_Luigi; // 0x800E3288
+extern float sandTrapStSpeed_Luigi; // 0x800E3488
+extern float grassTrapFS_Luigi; // 0x800E272C
+extern float grassTrapRS_Luigi; // 0x800E290C
+extern float grassTrapFP_Luigi; // 0x800E2B2C
+extern float grassTrapRP_Luigi; // 0x800E2D0C
+extern float grassTrapBrake_Luigi; // 0x800E308C
+extern float grassTrapStAngle_Luigi; // 0x800E328C
+extern float grassTrapStSpeed_Luigi; // 0x800E348C
+extern float iceFS_Luigi; // 0x800E2730
+extern float iceRS_Luigi; // 0x800E2910
+extern float iceFP_Luigi; // 0x800E2B30
+extern float iceRP_Luigi; // 0x800E2D10
+extern float iceBrake_Luigi; // 0x800E3090
+extern float iceStAngle_Luigi; // 0x800E3290
+extern float iceStSpeed_Luigi; // 0x800E3490
+extern float sandWetFS_Luigi; // 0x800E2734
+extern float sandWetRS_Luigi; // 0x800E2914
+extern float sandWetFP_Luigi; // 0x800E2B34
+extern float sandWetRP_Luigi; // 0x800E2D14
+extern float sandWetBrake_Luigi; // 0x800E3094
+extern float sandWetStAngle_Luigi; // 0x800E3294
+extern float sandWetStSpeed_Luigi; // 0x800E3494
+extern float snowWetFS_Luigi; // 0x800E2738
+extern float snowWetRS_Luigi; // 0x800E2918
+extern float snowWetFP_Luigi; // 0x800E2B38
+extern float snowWetRP_Luigi; // 0x800E2D18
+extern float snowWetBrake_Luigi; // 0x800E3098
+extern float snowWetStAngle_Luigi; // 0x800E3298
+extern float snowWetStSpeed_Luigi; // 0x800E3498
+extern float rockFS_Luigi; // 0x800E273C
+extern float rockRS_Luigi; // 0x800E291C
+extern float rockFP_Luigi; // 0x800E2B3C
+extern float rockRP_Luigi; // 0x800E2D1C
+extern float rockBrake_Luigi; // 0x800E309C
+extern float rockStAngle_Luigi; // 0x800E329C
+extern float rockStSpeed_Luigi; // 0x800E349C
+extern float dirtTrapFS_Luigi; // 0x800E2740
+extern float dirtTrapRS_Luigi; // 0x800E2920
+extern float dirtTrapFP_Luigi; // 0x800E2B40
+extern float dirtTrapRP_Luigi; // 0x800E2D20
+extern float dirtTrapBrake_Luigi; // 0x800E30A0
+extern float dirtTrapStAngle_Luigi; // 0x800E32A0
+extern float dirtTrapStSpeed_Luigi; // 0x800E34A0
+extern float railwayFS_Luigi; // 0x800E2744
+extern float railwayRS_Luigi; // 0x800E2924
+extern float railwayFP_Luigi; // 0x800E2B44
+extern float railwayRP_Luigi; // 0x800E2D24
+extern float railwayBrake_Luigi; // 0x800E30A4
+extern float railwayStAngle_Luigi; // 0x800E32A4
+extern float railwayStSpeed_Luigi; // 0x800E34A4
+extern float nothingFS_Yoshi; // 0x800E2748
+extern float nothingRS_Yoshi; // 0x800E2928
+extern float nothingFP_Yoshi; // 0x800E2B48
+extern float nothingRP_Yoshi; // 0x800E2D28
+extern float nothingBrake_Yoshi; // 0x800E30A8
+extern float nothingStAngle_Yoshi; // 0x800E32A8
+extern float nothingStSpeed_Yoshi; // 0x800E34A8
+extern float asphaltFS_Yoshi; // 0x800E274C
+extern float asphaltRS_Yoshi; // 0x800E292C
+extern float asphaltFP_Yoshi; // 0x800E2B4C
+extern float asphaltRP_Yoshi; // 0x800E2D2C
+extern float asphaltBrake_Yoshi; // 0x800E30AC
+extern float asphaltStAngle_Yoshi; // 0x800E32AC
+extern float asphaltStSpeed_Yoshi; // 0x800E34AC
+extern float dirtFS_Yoshi; // 0x800E2750
+extern float dirtRS_Yoshi; // 0x800E2930
+extern float dirtFP_Yoshi; // 0x800E2B50
+extern float dirtRP_Yoshi; // 0x800E2D30
+extern float dirtBrake_Yoshi; // 0x800E30B0
+extern float dirtStAngle_Yoshi; // 0x800E32B0
+extern float dirtStSpeed_Yoshi; // 0x800E34B0
+extern float sandFS_Yoshi; // 0x800E2754
+extern float sandRS_Yoshi; // 0x800E2934
+extern float sandFP_Yoshi; // 0x800E2B54
+extern float sandRP_Yoshi; // 0x800E2D34
+extern float sandBrake_Yoshi; // 0x800E30B4
+extern float sandStAngle_Yoshi; // 0x800E32B4
+extern float sandStSpeed_Yoshi; // 0x800E34B4
+extern float stoneFS_Yoshi; // 0x800E2758
+extern float stoneRS_Yoshi; // 0x800E2938
+extern float stoneFP_Yoshi; // 0x800E2B58
+extern float stoneRP_Yoshi; // 0x800E2D38
+extern float stoneBrake_Yoshi; // 0x800E30B8
+extern float stoneStAngle_Yoshi; // 0x800E32B8
+extern float stoneStSpeed_Yoshi; // 0x800E34B8
+extern float snowFS_Yoshi; // 0x800E275C
+extern float snowRS_Yoshi; // 0x800E293C
+extern float snowFP_Yoshi; // 0x800E2B5C
+extern float snowRP_Yoshi; // 0x800E2D3C
+extern float snowBrake_Yoshi; // 0x800E30BC
+extern float snowStAngle_Yoshi; // 0x800E32BC
+extern float snowStSpeed_Yoshi; // 0x800E34BC
+extern float woodFS_Yoshi; // 0x800E2760
+extern float woodRS_Yoshi; // 0x800E2940
+extern float woodFP_Yoshi; // 0x800E2B60
+extern float woodRP_Yoshi; // 0x800E2D40
+extern float woodBrake_Yoshi; // 0x800E30C0
+extern float woodStAngle_Yoshi; // 0x800E32C0
+extern float woodStSpeed_Yoshi; // 0x800E34C0
+extern float sandTrapFS_Yoshi; // 0x800E2764
+extern float sandTrapRS_Yoshi; // 0x800E2944
+extern float sandTrapFP_Yoshi; // 0x800E2B64
+extern float sandTrapRP_Yoshi; // 0x800E2D44
+extern float sandTrapBrake_Yoshi; // 0x800E30C4
+extern float sandTrapStAngle_Yoshi; // 0x800E32C4
+extern float sandTrapStSpeed_Yoshi; // 0x800E34C4
+extern float grassTrapFS_Yoshi; // 0x800E2768
+extern float grassTrapRS_Yoshi; // 0x800E2948
+extern float grassTrapFP_Yoshi; // 0x800E2B68
+extern float grassTrapRP_Yoshi; // 0x800E2D48
+extern float grassTrapBrake_Yoshi; // 0x800E30C8
+extern float grassTrapStAngle_Yoshi; // 0x800E32C8
+extern float grassTrapStSpeed_Yoshi; // 0x800E34C8
+extern float iceFS_Yoshi; // 0x800E276C
+extern float iceRS_Yoshi; // 0x800E294C
+extern float iceFP_Yoshi; // 0x800E2B6C
+extern float iceRP_Yoshi; // 0x800E2D4C
+extern float iceBrake_Yoshi; // 0x800E30CC
+extern float iceStAngle_Yoshi; // 0x800E32CC
+extern float iceStSpeed_Yoshi; // 0x800E34CC
+extern float sandWetFS_Yoshi; // 0x800E2770
+extern float sandWetRS_Yoshi; // 0x800E2950
+extern float sandWetFP_Yoshi; // 0x800E2B70
+extern float sandWetRP_Yoshi; // 0x800E2D50
+extern float sandWetBrake_Yoshi; // 0x800E30D0
+extern float sandWetStAngle_Yoshi; // 0x800E32D0
+extern float sandWetStSpeed_Yoshi; // 0x800E34D0
+extern float snowWetFS_Yoshi; // 0x800E2774
+extern float snowWetRS_Yoshi; // 0x800E2954
+extern float snowWetFP_Yoshi; // 0x800E2B74
+extern float snowWetRP_Yoshi; // 0x800E2D54
+extern float snowWetBrake_Yoshi; // 0x800E30D4
+extern float snowWetStAngle_Yoshi; // 0x800E32D4
+extern float snowWetStSpeed_Yoshi; // 0x800E34D4
+extern float rockFS_Yoshi; // 0x800E2778
+extern float rockRS_Yoshi; // 0x800E2958
+extern float rockFP_Yoshi; // 0x800E2B78
+extern float rockRP_Yoshi; // 0x800E2D58
+extern float rockBrake_Yoshi; // 0x800E30D8
+extern float rockStAngle_Yoshi; // 0x800E32D8
+extern float rockStSpeed_Yoshi; // 0x800E34D8
+extern float dirtTrapFS_Yoshi; // 0x800E277C
+extern float dirtTrapRS_Yoshi; // 0x800E295C
+extern float dirtTrapFP_Yoshi; // 0x800E2B7C
+extern float dirtTrapRP_Yoshi; // 0x800E2D5C
+extern float dirtTrapBrake_Yoshi; // 0x800E30DC
+extern float dirtTrapStAngle_Yoshi; // 0x800E32DC
+extern float dirtTrapStSpeed_Yoshi; // 0x800E34DC
+extern float railwayFS_Yoshi; // 0x800E2780
+extern float railwayRS_Yoshi; // 0x800E2960
+extern float railwayFP_Yoshi; // 0x800E2B80
+extern float railwayRP_Yoshi; // 0x800E2D60
+extern float railwayBrake_Yoshi; // 0x800E30E0
+extern float railwayStAngle_Yoshi; // 0x800E32E0
+extern float railwayStSpeed_Yoshi; // 0x800E34E0
+extern float nothingFS_Toad; // 0x800E2784
+extern float nothingRS_Toad; // 0x800E2964
+extern float nothingFP_Toad; // 0x800E2B84
+extern float nothingRP_Toad; // 0x800E2D64
+extern float nothingBrake_Toad; // 0x800E30E4
+extern float nothingStAngle_Toad; // 0x800E32E4
+extern float nothingStSpeed_Toad; // 0x800E34E4
+extern float asphaltFS_Toad; // 0x800E2788
+extern float asphaltRS_Toad; // 0x800E2968
+extern float asphaltFP_Toad; // 0x800E2B88
+extern float asphaltRP_Toad; // 0x800E2D68
+extern float asphaltBrake_Toad; // 0x800E30E8
+extern float asphaltStAngle_Toad; // 0x800E32E8
+extern float asphaltStSpeed_Toad; // 0x800E34E8
+extern float dirtFS_Toad; // 0x800E278C
+extern float dirtRS_Toad; // 0x800E296C
+extern float dirtFP_Toad; // 0x800E2B8C
+extern float dirtRP_Toad; // 0x800E2D6C
+extern float dirtBrake_Toad; // 0x800E30EC
+extern float dirtStAngle_Toad; // 0x800E32EC
+extern float dirtStSpeed_Toad; // 0x800E34EC
+extern float sandFS_Toad; // 0x800E2790
+extern float sandRS_Toad; // 0x800E2970
+extern float sandFP_Toad; // 0x800E2B90
+extern float sandRP_Toad; // 0x800E2D70
+extern float sandBrake_Toad; // 0x800E30F0
+extern float sandStAngle_Toad; // 0x800E32F0
+extern float sandStSpeed_Toad; // 0x800E34F0
+extern float stoneFS_Toad; // 0x800E2794
+extern float stoneRS_Toad; // 0x800E2974
+extern float stoneFP_Toad; // 0x800E2B94
+extern float stoneRP_Toad; // 0x800E2D74
+extern float stoneBrake_Toad; // 0x800E30F4
+extern float stoneStAngle_Toad; // 0x800E32F4
+extern float stoneStSpeed_Toad; // 0x800E34F4
+extern float snowFS_Toad; // 0x800E2798
+extern float snowRS_Toad; // 0x800E2978
+extern float snowFP_Toad; // 0x800E2B98
+extern float snowRP_Toad; // 0x800E2D78
+extern float snowBrake_Toad; // 0x800E30F8
+extern float snowStAngle_Toad; // 0x800E32F8
+extern float snowStSpeed_Toad; // 0x800E34F8
+extern float woodFS_Toad; // 0x800E279C
+extern float woodRS_Toad; // 0x800E297C
+extern float woodFP_Toad; // 0x800E2B9C
+extern float woodRP_Toad; // 0x800E2D7C
+extern float woodBrake_Toad; // 0x800E30FC
+extern float woodStAngle_Toad; // 0x800E32FC
+extern float woodStSpeed_Toad; // 0x800E34FC
+extern float sandTrapFS_Toad; // 0x800E27A0
+extern float sandTrapRS_Toad; // 0x800E2980
+extern float sandTrapFP_Toad; // 0x800E2BA0
+extern float sandTrapRP_Toad; // 0x800E2D80
+extern float sandTrapBrake_Toad; // 0x800E3100
+extern float sandTrapStAngle_Toad; // 0x800E3300
+extern float sandTrapStSpeed_Toad; // 0x800E3500
+extern float grassTrapFS_Toad; // 0x800E27A4
+extern float grassTrapRS_Toad; // 0x800E2984
+extern float grassTrapFP_Toad; // 0x800E2BA4
+extern float grassTrapRP_Toad; // 0x800E2D84
+extern float grassTrapBrake_Toad; // 0x800E3104
+extern float grassTrapStAngle_Toad; // 0x800E3304
+extern float grassTrapStSpeed_Toad; // 0x800E3504
+extern float iceFS_Toad; // 0x800E27A8
+extern float iceRS_Toad; // 0x800E2988
+extern float iceFP_Toad; // 0x800E2BA8
+extern float iceRP_Toad; // 0x800E2D88
+extern float iceBrake_Toad; // 0x800E3108
+extern float iceStAngle_Toad; // 0x800E3308
+extern float iceStSpeed_Toad; // 0x800E3508
+extern float sandWetFS_Toad; // 0x800E27AC
+extern float sandWetRS_Toad; // 0x800E298C
+extern float sandWetFP_Toad; // 0x800E2BAC
+extern float sandWetRP_Toad; // 0x800E2D8C
+extern float sandWetBrake_Toad; // 0x800E310C
+extern float sandWetStAngle_Toad; // 0x800E330C
+extern float sandWetStSpeed_Toad; // 0x800E350C
+extern float snowWetFS_Toad; // 0x800E27B0
+extern float snowWetRS_Toad; // 0x800E2990
+extern float snowWetFP_Toad; // 0x800E2BB0
+extern float snowWetRP_Toad; // 0x800E2D90
+extern float snowWetBrake_Toad; // 0x800E3110
+extern float snowWetStAngle_Toad; // 0x800E3310
+extern float snowWetStSpeed_Toad; // 0x800E3510
+extern float rockFS_Toad; // 0x800E27B4
+extern float rockRS_Toad; // 0x800E2994
+extern float rockFP_Toad; // 0x800E2BB4
+extern float rockRP_Toad; // 0x800E2D94
+extern float rockBrake_Toad; // 0x800E3114
+extern float rockStAngle_Toad; // 0x800E3314
+extern float rockStSpeed_Toad; // 0x800E3514
+extern float dirtTrapFS_Toad; // 0x800E27B8
+extern float dirtTrapRS_Toad; // 0x800E2998
+extern float dirtTrapFP_Toad; // 0x800E2BB8
+extern float dirtTrapRP_Toad; // 0x800E2D98
+extern float dirtTrapBrake_Toad; // 0x800E3118
+extern float dirtTrapStAngle_Toad; // 0x800E3318
+extern float dirtTrapStSpeed_Toad; // 0x800E3518
+extern float railwayFS_Toad; // 0x800E27BC
+extern float railwayRS_Toad; // 0x800E299C
+extern float railwayFP_Toad; // 0x800E2BBC
+extern float railwayRP_Toad; // 0x800E2D9C
+extern float railwayBrake_Toad; // 0x800E311C
+extern float railwayStAngle_Toad; // 0x800E331C
+extern float railwayStSpeed_Toad; // 0x800E351C
+extern float nothingFS_DK; // 0x800E27C0
+extern float nothingRS_DK; // 0x800E29A0
+extern float nothingFP_DK; // 0x800E2BC0
+extern float nothingRP_DK; // 0x800E2DA0
+extern float nothingBrake_DK; // 0x800E3120
+extern float nothingStAngle_DK; // 0x800E3320
+extern float nothingStSpeed_DK; // 0x800E3520
+extern float asphaltFS_DK; // 0x800E27C4
+extern float asphaltRS_DK; // 0x800E29A4
+extern float asphaltFP_DK; // 0x800E2BC4
+extern float asphaltRP_DK; // 0x800E2DA4
+extern float asphaltBrake_DK; // 0x800E3124
+extern float asphaltStAngle_DK; // 0x800E3324
+extern float asphaltStSpeed_DK; // 0x800E3524
+extern float dirtFS_DK; // 0x800E27C8
+extern float dirtRS_DK; // 0x800E29A8
+extern float dirtFP_DK; // 0x800E2BC8
+extern float dirtRP_DK; // 0x800E2DA8
+extern float dirtBrake_DK; // 0x800E3128
+extern float dirtStAngle_DK; // 0x800E3328
+extern float dirtStSpeed_DK; // 0x800E3528
+extern float sandFS_DK; // 0x800E27CC
+extern float sandRS_DK; // 0x800E29AC
+extern float sandFP_DK; // 0x800E2BCC
+extern float sandRP_DK; // 0x800E2DAC
+extern float sandBrake_DK; // 0x800E312C
+extern float sandStAngle_DK; // 0x800E332C
+extern float sandStSpeed_DK; // 0x800E352C
+extern float stoneFS_DK; // 0x800E27D0
+extern float stoneRS_DK; // 0x800E29B0
+extern float stoneFP_DK; // 0x800E2BD0
+extern float stoneRP_DK; // 0x800E2DB0
+extern float stoneBrake_DK; // 0x800E3130
+extern float stoneStAngle_DK; // 0x800E3330
+extern float stoneStSpeed_DK; // 0x800E3530
+extern float snowFS_DK; // 0x800E27D4
+extern float snowRS_DK; // 0x800E29B4
+extern float snowFP_DK; // 0x800E2BD4
+extern float snowRP_DK; // 0x800E2DB4
+extern float snowBrake_DK; // 0x800E3134
+extern float snowStAngle_DK; // 0x800E3334
+extern float snowStSpeed_DK; // 0x800E3534
+extern float woodFS_DK; // 0x800E27D8
+extern float woodRS_DK; // 0x800E29B8
+extern float woodFP_DK; // 0x800E2BD8
+extern float woodRP_DK; // 0x800E2DB8
+extern float woodBrake_DK; // 0x800E3138
+extern float woodStAngle_DK; // 0x800E3338
+extern float woodStSpeed_DK; // 0x800E3538
+extern float sandTrapFS_DK; // 0x800E27DC
+extern float sandTrapRS_DK; // 0x800E29BC
+extern float sandTrapFP_DK; // 0x800E2BDC
+extern float sandTrapRP_DK; // 0x800E2DBC
+extern float sandTrapBrake_DK; // 0x800E313C
+extern float sandTrapStAngle_DK; // 0x800E333C
+extern float sandTrapStSpeed_DK; // 0x800E353C
+extern float grassTrapFS_DK; // 0x800E27E0
+extern float grassTrapRS_DK; // 0x800E29C0
+extern float grassTrapFP_DK; // 0x800E2BE0
+extern float grassTrapRP_DK; // 0x800E2DC0
+extern float grassTrapBrake_DK; // 0x800E3140
+extern float grassTrapStAngle_DK; // 0x800E3340
+extern float grassTrapStSpeed_DK; // 0x800E3540
+extern float iceFS_DK; // 0x800E27E4
+extern float iceRS_DK; // 0x800E29C4
+extern float iceFP_DK; // 0x800E2BE4
+extern float iceRP_DK; // 0x800E2DC4
+extern float iceBrake_DK; // 0x800E3144
+extern float iceStAngle_DK; // 0x800E3344
+extern float iceStSpeed_DK; // 0x800E3544
+extern float sandWetFS_DK; // 0x800E27E8
+extern float sandWetRS_DK; // 0x800E29C8
+extern float sandWetFP_DK; // 0x800E2BE8
+extern float sandWetRP_DK; // 0x800E2DC8
+extern float sandWetBrake_DK; // 0x800E3148
+extern float sandWetStAngle_DK; // 0x800E3348
+extern float sandWetStSpeed_DK; // 0x800E3548
+extern float snowWetFS_DK; // 0x800E27EC
+extern float snowWetRS_DK; // 0x800E29CC
+extern float snowWetFP_DK; // 0x800E2BEC
+extern float snowWetRP_DK; // 0x800E2DCC
+extern float snowWetBrake_DK; // 0x800E314C
+extern float snowWetStAngle_DK; // 0x800E334C
+extern float snowWetStSpeed_DK; // 0x800E354C
+extern float rockFS_DK; // 0x800E27F0
+extern float rockRS_DK; // 0x800E29D0
+extern float rockFP_DK; // 0x800E2BF0
+extern float rockRP_DK; // 0x800E2DD0
+extern float rockBrake_DK; // 0x800E3150
+extern float rockStAngle_DK; // 0x800E3350
+extern float rockStSpeed_DK; // 0x800E3550
+extern float dirtTrapFS_DK; // 0x800E27F4
+extern float dirtTrapRS_DK; // 0x800E29D4
+extern float dirtTrapFP_DK; // 0x800E2BF4
+extern float dirtTrapRP_DK; // 0x800E2DD4
+extern float dirtTrapBrake_DK; // 0x800E3154
+extern float dirtTrapStAngle_DK; // 0x800E3354
+extern float dirtTrapStSpeed_DK; // 0x800E3554
+extern float railwayFS_DK; // 0x800E27F8
+extern float railwayRS_DK; // 0x800E29D8
+extern float railwayFP_DK; // 0x800E2BF8
+extern float railwayRP_DK; // 0x800E2DD8
+extern float railwayBrake_DK; // 0x800E3158
+extern float railwayStAngle_DK; // 0x800E3358
+extern float railwayStSpeed_DK; // 0x800E3558
+extern float nothingFS_Wario; // 0x800E27FC
+extern float nothingRS_Wario; // 0x800E29DC
+extern float nothingFP_Wario; // 0x800E2BFC
+extern float nothingRP_Wario; // 0x800E2DDC
+extern float nothingBrake_Wario; // 0x800E315C
+extern float nothingStAngle_Wario; // 0x800E335C
+extern float nothingStSpeed_Wario; // 0x800E355C
+extern float asphaltFS_Wario; // 0x800E2800
+extern float asphaltRS_Wario; // 0x800E29E0
+extern float asphaltFP_Wario; // 0x800E2C00
+extern float asphaltRP_Wario; // 0x800E2DE0
+extern float asphaltBrake_Wario; // 0x800E3160
+extern float asphaltStAngle_Wario; // 0x800E3360
+extern float asphaltStSpeed_Wario; // 0x800E3560
+extern float dirtFS_Wario; // 0x800E2804
+extern float dirtRS_Wario; // 0x800E29E4
+extern float dirtFP_Wario; // 0x800E2C04
+extern float dirtRP_Wario; // 0x800E2DE4
+extern float dirtBrake_Wario; // 0x800E3164
+extern float dirtStAngle_Wario; // 0x800E3364
+extern float dirtStSpeed_Wario; // 0x800E3564
+extern float sandFS_Wario; // 0x800E2808
+extern float sandRS_Wario; // 0x800E29E8
+extern float sandFP_Wario; // 0x800E2C08
+extern float sandRP_Wario; // 0x800E2DE8
+extern float sandBrake_Wario; // 0x800E3168
+extern float sandStAngle_Wario; // 0x800E3368
+extern float sandStSpeed_Wario; // 0x800E3568
+extern float stoneFS_Wario; // 0x800E280C
+extern float stoneRS_Wario; // 0x800E29EC
+extern float stoneFP_Wario; // 0x800E2C0C
+extern float stoneRP_Wario; // 0x800E2DEC
+extern float stoneBrake_Wario; // 0x800E316C
+extern float stoneStAngle_Wario; // 0x800E336C
+extern float stoneStSpeed_Wario; // 0x800E356C
+extern float snowFS_Wario; // 0x800E2810
+extern float snowRS_Wario; // 0x800E29F0
+extern float snowFP_Wario; // 0x800E2C10
+extern float snowRP_Wario; // 0x800E2DF0
+extern float snowBrake_Wario; // 0x800E3170
+extern float snowStAngle_Wario; // 0x800E3370
+extern float snowStSpeed_Wario; // 0x800E3570
+extern float woodFS_Wario; // 0x800E2814
+extern float woodRS_Wario; // 0x800E29F4
+extern float woodFP_Wario; // 0x800E2C14
+extern float woodRP_Wario; // 0x800E2DF4
+extern float woodBrake_Wario; // 0x800E3174
+extern float woodStAngle_Wario; // 0x800E3374
+extern float woodStSpeed_Wario; // 0x800E3574
+extern float sandTrapFS_Wario; // 0x800E2818
+extern float sandTrapRS_Wario; // 0x800E29F8
+extern float sandTrapFP_Wario; // 0x800E2C18
+extern float sandTrapRP_Wario; // 0x800E2DF8
+extern float sandTrapBrake_Wario; // 0x800E3178
+extern float sandTrapStAngle_Wario; // 0x800E3378
+extern float sandTrapStSpeed_Wario; // 0x800E3578
+extern float grassTrapFS_Wario; // 0x800E281C
+extern float grassTrapRS_Wario; // 0x800E29FC
+extern float grassTrapFP_Wario; // 0x800E2C1C
+extern float grassTrapRP_Wario; // 0x800E2DFC
+extern float grassTrapBrake_Wario; // 0x800E317C
+extern float grassTrapStAngle_Wario; // 0x800E337C
+extern float grassTrapStSpeed_Wario; // 0x800E357C
+extern float iceFS_Wario; // 0x800E2820
+extern float iceRS_Wario; // 0x800E2A00
+extern float iceFP_Wario; // 0x800E2C20
+extern float iceRP_Wario; // 0x800E2E00
+extern float iceBrake_Wario; // 0x800E3180
+extern float iceStAngle_Wario; // 0x800E3380
+extern float iceStSpeed_Wario; // 0x800E3580
+extern float sandWetFS_Wario; // 0x800E2824
+extern float sandWetRS_Wario; // 0x800E2A04
+extern float sandWetFP_Wario; // 0x800E2C24
+extern float sandWetRP_Wario; // 0x800E2E04
+extern float sandWetBrake_Wario; // 0x800E3184
+extern float sandWetStAngle_Wario; // 0x800E3384
+extern float sandWetStSpeed_Wario; // 0x800E3584
+extern float snowWetFS_Wario; // 0x800E2828
+extern float snowWetRS_Wario; // 0x800E2A08
+extern float snowWetFP_Wario; // 0x800E2C28
+extern float snowWetRP_Wario; // 0x800E2E08
+extern float snowWetBrake_Wario; // 0x800E3188
+extern float snowWetStAngle_Wario; // 0x800E3388
+extern float snowWetStSpeed_Wario; // 0x800E3588
+extern float rockFS_Wario; // 0x800E282C
+extern float rockRS_Wario; // 0x800E2A0C
+extern float rockFP_Wario; // 0x800E2C2C
+extern float rockRP_Wario; // 0x800E2E0C
+extern float rockBrake_Wario; // 0x800E318C
+extern float rockStAngle_Wario; // 0x800E338C
+extern float rockStSpeed_Wario; // 0x800E358C
+extern float dirtTrapFS_Wario; // 0x800E2830
+extern float dirtTrapRS_Wario; // 0x800E2A10
+extern float dirtTrapFP_Wario; // 0x800E2C30
+extern float dirtTrapRP_Wario; // 0x800E2E10
+extern float dirtTrapBrake_Wario; // 0x800E3190
+extern float dirtTrapStAngle_Wario; // 0x800E3390
+extern float dirtTrapStSpeed_Wario; // 0x800E3590
+extern float railwayFS_Wario; // 0x800E2834
+extern float railwayRS_Wario; // 0x800E2A14
+extern float railwayFP_Wario; // 0x800E2C34
+extern float railwayRP_Wario; // 0x800E2E14
+extern float railwayBrake_Wario; // 0x800E3194
+extern float railwayStAngle_Wario; // 0x800E3394
+extern float railwayStSpeed_Wario; // 0x800E3594
+extern float nothingFS_Peach; // 0x800E2838
+extern float nothingRS_Peach; // 0x800E2A18
+extern float nothingFP_Peach; // 0x800E2C38
+extern float nothingRP_Peach; // 0x800E2E18
+extern float nothingBrake_Peach; // 0x800E3198
+extern float nothingStAngle_Peach; // 0x800E3398
+extern float nothingStSpeed_Peach; // 0x800E3598
+extern float asphaltFS_Peach; // 0x800E283C
+extern float asphaltRS_Peach; // 0x800E2A1C
+extern float asphaltFP_Peach; // 0x800E2C3C
+extern float asphaltRP_Peach; // 0x800E2E1C
+extern float asphaltBrake_Peach; // 0x800E319C
+extern float asphaltStAngle_Peach; // 0x800E339C
+extern float asphaltStSpeed_Peach; // 0x800E359C
+extern float dirtFS_Peach; // 0x800E2840
+extern float dirtRS_Peach; // 0x800E2A20
+extern float dirtFP_Peach; // 0x800E2C40
+extern float dirtRP_Peach; // 0x800E2E20
+extern float dirtBrake_Peach; // 0x800E31A0
+extern float dirtStAngle_Peach; // 0x800E33A0
+extern float dirtStSpeed_Peach; // 0x800E35A0
+extern float sandFS_Peach; // 0x800E2844
+extern float sandRS_Peach; // 0x800E2A24
+extern float sandFP_Peach; // 0x800E2C44
+extern float sandRP_Peach; // 0x800E2E24
+extern float sandBrake_Peach; // 0x800E31A4
+extern float sandStAngle_Peach; // 0x800E33A4
+extern float sandStSpeed_Peach; // 0x800E35A4
+extern float stoneFS_Peach; // 0x800E2848
+extern float stoneRS_Peach; // 0x800E2A28
+extern float stoneFP_Peach; // 0x800E2C48
+extern float stoneRP_Peach; // 0x800E2E28
+extern float stoneBrake_Peach; // 0x800E31A8
+extern float stoneStAngle_Peach; // 0x800E33A8
+extern float stoneStSpeed_Peach; // 0x800E35A8
+extern float snowFS_Peach; // 0x800E284C
+extern float snowRS_Peach; // 0x800E2A2C
+extern float snowFP_Peach; // 0x800E2C4C
+extern float snowRP_Peach; // 0x800E2E2C
+extern float snowBrake_Peach; // 0x800E31AC
+extern float snowStAngle_Peach; // 0x800E33AC
+extern float snowStSpeed_Peach; // 0x800E35AC
+extern float woodFS_Peach; // 0x800E2850
+extern float woodRS_Peach; // 0x800E2A30
+extern float woodFP_Peach; // 0x800E2C50
+extern float woodRP_Peach; // 0x800E2E30
+extern float woodBrake_Peach; // 0x800E31B0
+extern float woodStAngle_Peach; // 0x800E33B0
+extern float woodStSpeed_Peach; // 0x800E35B0
+extern float sandTrapFS_Peach; // 0x800E2854
+extern float sandTrapRS_Peach; // 0x800E2A34
+extern float sandTrapFP_Peach; // 0x800E2C54
+extern float sandTrapRP_Peach; // 0x800E2E34
+extern float sandTrapBrake_Peach; // 0x800E31B4
+extern float sandTrapStAngle_Peach; // 0x800E33B4
+extern float sandTrapStSpeed_Peach; // 0x800E35B4
+extern float grassTrapFS_Peach; // 0x800E2858
+extern float grassTrapRS_Peach; // 0x800E2A38
+extern float grassTrapFP_Peach; // 0x800E2C58
+extern float grassTrapRP_Peach; // 0x800E2E38
+extern float grassTrapBrake_Peach; // 0x800E31B8
+extern float grassTrapStAngle_Peach; // 0x800E33B8
+extern float grassTrapStSpeed_Peach; // 0x800E35B8
+extern float iceFS_Peach; // 0x800E285C
+extern float iceRS_Peach; // 0x800E2A3C
+extern float iceFP_Peach; // 0x800E2C5C
+extern float iceRP_Peach; // 0x800E2E3C
+extern float iceBrake_Peach; // 0x800E31BC
+extern float iceStAngle_Peach; // 0x800E33BC
+extern float iceStSpeed_Peach; // 0x800E35BC
+extern float sandWetFS_Peach; // 0x800E2860
+extern float sandWetRS_Peach; // 0x800E2A40
+extern float sandWetFP_Peach; // 0x800E2C60
+extern float sandWetRP_Peach; // 0x800E2E40
+extern float sandWetBrake_Peach; // 0x800E31C0
+extern float sandWetStAngle_Peach; // 0x800E33C0
+extern float sandWetStSpeed_Peach; // 0x800E35C0
+extern float snowWetFS_Peach; // 0x800E2864
+extern float snowWetRS_Peach; // 0x800E2A44
+extern float snowWetFP_Peach; // 0x800E2C64
+extern float snowWetRP_Peach; // 0x800E2E44
+extern float snowWetBrake_Peach; // 0x800E31C4
+extern float snowWetStAngle_Peach; // 0x800E33C4
+extern float snowWetStSpeed_Peach; // 0x800E35C4
+extern float rockFS_Peach; // 0x800E2868
+extern float rockRS_Peach; // 0x800E2A48
+extern float rockFP_Peach; // 0x800E2C68
+extern float rockRP_Peach; // 0x800E2E48
+extern float rockBrake_Peach; // 0x800E31C8
+extern float rockStAngle_Peach; // 0x800E33C8
+extern float rockStSpeed_Peach; // 0x800E35C8
+extern float dirtTrapFS_Peach; // 0x800E286C
+extern float dirtTrapRS_Peach; // 0x800E2A4C
+extern float dirtTrapFP_Peach; // 0x800E2C6C
+extern float dirtTrapRP_Peach; // 0x800E2E4C
+extern float dirtTrapBrake_Peach; // 0x800E31CC
+extern float dirtTrapStAngle_Peach; // 0x800E33CC
+extern float dirtTrapStSpeed_Peach; // 0x800E35CC
+extern float railwayFS_Peach; // 0x800E2870
+extern float railwayRS_Peach; // 0x800E2A50
+extern float railwayFP_Peach; // 0x800E2C70
+extern float railwayRP_Peach; // 0x800E2E50
+extern float railwayBrake_Peach; // 0x800E31D0
+extern float railwayStAngle_Peach; // 0x800E33D0
+extern float railwayStSpeed_Peach; // 0x800E35D0
+extern float nothingFS_Bowser; // 0x800E2874
+extern float nothingRS_Bowser; // 0x800E2A54
+extern float nothingFP_Bowser; // 0x800E2C74
+extern float nothingRP_Bowser; // 0x800E2E54
+extern float nothingBrake_Bowser; // 0x800E31D4
+extern float nothingStAngle_Bowser; // 0x800E33D4
+extern float nothingStSpeed_Bowser; // 0x800E35D4
+extern float asphaltFS_Bowser; // 0x800E2878
+extern float asphaltRS_Bowser; // 0x800E2A58
+extern float asphaltFP_Bowser; // 0x800E2C78
+extern float asphaltRP_Bowser; // 0x800E2E58
+extern float asphaltBrake_Bowser; // 0x800E31D8
+extern float asphaltStAngle_Bowser; // 0x800E33D8
+extern float asphaltStSpeed_Bowser; // 0x800E35D8
+extern float dirtFS_Bowser; // 0x800E287C
+extern float dirtRS_Bowser; // 0x800E2A5C
+extern float dirtFP_Bowser; // 0x800E2C7C
+extern float dirtRP_Bowser; // 0x800E2E5C
+extern float dirtBrake_Bowser; // 0x800E31DC
+extern float dirtStAngle_Bowser; // 0x800E33DC
+extern float dirtStSpeed_Bowser; // 0x800E35DC
+extern float sandFS_Bowser; // 0x800E2880
+extern float sandRS_Bowser; // 0x800E2A60
+extern float sandFP_Bowser; // 0x800E2C80
+extern float sandRP_Bowser; // 0x800E2E60
+extern float sandBrake_Bowser; // 0x800E31E0
+extern float sandStAngle_Bowser; // 0x800E33E0
+extern float sandStSpeed_Bowser; // 0x800E35E0
+extern float stoneFS_Bowser; // 0x800E2884
+extern float stoneRS_Bowser; // 0x800E2A64
+extern float stoneFP_Bowser; // 0x800E2C84
+extern float stoneRP_Bowser; // 0x800E2E64
+extern float stoneBrake_Bowser; // 0x800E31E4
+extern float stoneStAngle_Bowser; // 0x800E33E4
+extern float stoneStSpeed_Bowser; // 0x800E35E4
+extern float snowFS_Bowser; // 0x800E2888
+extern float snowRS_Bowser; // 0x800E2A68
+extern float snowFP_Bowser; // 0x800E2C88
+extern float snowRP_Bowser; // 0x800E2E68
+extern float snowBrake_Bowser; // 0x800E31E8
+extern float snowStAngle_Bowser; // 0x800E33E8
+extern float snowStSpeed_Bowser; // 0x800E35E8
+extern float woodFS_Bowser; // 0x800E288C
+extern float woodRS_Bowser; // 0x800E2A6C
+extern float woodFP_Bowser; // 0x800E2C8C
+extern float woodRP_Bowser; // 0x800E2E6C
+extern float woodBrake_Bowser; // 0x800E31EC
+extern float woodStAngle_Bowser; // 0x800E33EC
+extern float woodStSpeed_Bowser; // 0x800E35EC
+extern float sandTrapFS_Bowser; // 0x800E2890
+extern float sandTrapRS_Bowser; // 0x800E2A70
+extern float sandTrapFP_Bowser; // 0x800E2C90
+extern float sandTrapRP_Bowser; // 0x800E2E70
+extern float sandTrapBrake_Bowser; // 0x800E31F0
+extern float sandTrapStAngle_Bowser; // 0x800E33F0
+extern float sandTrapStSpeed_Bowser; // 0x800E35F0
+extern float grassTrapFS_Bowser; // 0x800E2894
+extern float grassTrapRS_Bowser; // 0x800E2A74
+extern float grassTrapFP_Bowser; // 0x800E2C94
+extern float grassTrapRP_Bowser; // 0x800E2E74
+extern float grassTrapBrake_Bowser; // 0x800E31F4
+extern float grassTrapStAngle_Bowser; // 0x800E33F4
+extern float grassTrapStSpeed_Bowser; // 0x800E35F4
+extern float iceFS_Bowser; // 0x800E2898
+extern float iceRS_Bowser; // 0x800E2A78
+extern float iceFP_Bowser; // 0x800E2C98
+extern float iceRP_Bowser; // 0x800E2E78
+extern float iceBrake_Bowser; // 0x800E31F8
+extern float iceStAngle_Bowser; // 0x800E33F8
+extern float iceStSpeed_Bowser; // 0x800E35F8
+extern float sandWetFS_Bowser; // 0x800E289C
+extern float sandWetRS_Bowser; // 0x800E2A7C
+extern float sandWetFP_Bowser; // 0x800E2C9C
+extern float sandWetRP_Bowser; // 0x800E2E7C
+extern float sandWetBrake_Bowser; // 0x800E31FC
+extern float sandWetStAngle_Bowser; // 0x800E33FC
+extern float sandWetStSpeed_Bowser; // 0x800E35FC
+extern float snowWetFS_Bowser; // 0x800E28A0
+extern float snowWetRS_Bowser; // 0x800E2A80
+extern float snowWetFP_Bowser; // 0x800E2CA0
+extern float snowWetRP_Bowser; // 0x800E2E80
+extern float snowWetBrake_Bowser; // 0x800E3200
+extern float snowWetStAngle_Bowser; // 0x800E3400
+extern float snowWetStSpeed_Bowser; // 0x800E3600
+extern float rockFS_Bowser; // 0x800E28A4
+extern float rockRS_Bowser; // 0x800E2A84
+extern float rockFP_Bowser; // 0x800E2CA4
+extern float rockRP_Bowser; // 0x800E2E84
+extern float rockBrake_Bowser; // 0x800E3204
+extern float rockStAngle_Bowser; // 0x800E3404
+extern float rockStSpeed_Bowser; // 0x800E3604
+extern float dirtTrapFS_Bowser; // 0x800E28A8
+extern float dirtTrapRS_Bowser; // 0x800E2A88
+extern float dirtTrapFP_Bowser; // 0x800E2CA8
+extern float dirtTrapRP_Bowser; // 0x800E2E88
+extern float dirtTrapBrake_Bowser; // 0x800E3208
+extern float dirtTrapStAngle_Bowser; // 0x800E3408
+extern float dirtTrapStSpeed_Bowser; // 0x800E3608
+extern float railwayFS_Bowser; // 0x800E28AC
+extern float railwayRS_Bowser; // 0x800E2A8C
+extern float railwayFP_Bowser; // 0x800E2CAC
+extern float railwayRP_Bowser; // 0x800E2E8C
+extern float railwayBrake_Bowser; // 0x800E320C
+extern float railwayStAngle_Bowser; // 0x800E340C
+extern float railwayStSpeed_Bowser; // 0x800E360C
+
