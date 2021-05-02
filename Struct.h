@@ -334,4 +334,12 @@ typedef struct Lakitu{
 		//much more
 } Lakitu;
 
+typedef struct Skytop{
+		short	R1,G1,B1,R2,G2,B2;
+} Skytop;
+
+typedef struct Skybot{
+		short	R1,G1,B1,R2,G2,B2;
+} Skybot;
+
 #endif
