@@ -32,6 +32,9 @@ extern long *GlobalLap[];
 extern struct Lakitu *GlobalLakitu[];
 extern struct PlayerState *GlobalPlayerState[];  
 extern struct Hud *GlobalHud[];
+extern char *GlobalLightning[];
+extern struct Skytop *GlobalSkytop[];
+extern struct Skybot *GlobalSkybot[];
 
 #define 	BTN_A		0x8000 
 #define 	BTN_B		0x4000 
