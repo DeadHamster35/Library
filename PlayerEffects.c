@@ -15,64 +15,54 @@
 
 void SetAnimMusicNote(char playerID)
 {
-	GlobalAddressA = (long)(&g_PlayerStructTable);
-	*(char*)(GlobalAddressA + (0xDD8 * playerID) + 0xB7) |= 32;
+	GlobalPlayer[(int)playerID]->talk |= 32;
 }
 
 void SetAnimCrash(char playerID)
 {
-	GlobalAddressA = (long)(&g_PlayerStructTable);
-	*(char*)(GlobalAddressA + (0xDD8 * playerID) + 0xB7) |= 64;
+	GlobalPlayer[(int)playerID]->talk |= 64;
 }
 
 void SetAnimPoomp(char playerID)
 {
-	GlobalAddressA = (long)(&g_PlayerStructTable);
-	*(char*)(GlobalAddressA + (0xDD8 * playerID) + 0xB6) |= 1;
+	GlobalPlayer[(int)playerID]->talk |= 256;
 }
 
 void SetAnimBoing(char playerID)
 {
-	GlobalAddressA = (long)(&g_PlayerStructTable);
-	*(char*)(GlobalAddressA + (0xDD8 * playerID) + 0xB6) |= 8;
+	GlobalPlayer[(int)playerID]->talk |= 2048;
 }
 
 void SetAnimExplosion(char playerID)
 {
-	GlobalAddressA = (long)(&g_PlayerStructTable);
-	*(char*)(GlobalAddressA + (0xDD8 * playerID) + 0xB6) |= 16;
+	GlobalPlayer[(int)playerID]->talk |= 4096;
 }
 
 void SetAnimBonkStars(char playerID)
 {
-	GlobalAddressA = (long)(&g_PlayerStructTable);
-	*(char*)(GlobalAddressA + (0xDD8 * playerID) + 0x44) |= 16;
+	GlobalPlayer[(int)playerID]->handling_flag |= 4096;
 }
 
 void SetAnimLandingDust(char playerID)
 {
-	GlobalAddressA = (long)(&g_PlayerStructTable);
-	*(char*)(GlobalAddressA + (0xDD8 * playerID) + 0x44) |= 1;
+	GlobalPlayer[(int)playerID]->handling_flag |= 256;
 }
 
 void SetAnimBooSmoke(char playerID)
 {
-	GlobalAddressA = (long)(&g_PlayerStructTable);
-	*(char*)(GlobalAddressA + (0xDD8 * playerID) + 0x44) |= 2;
+	GlobalPlayer[(int)playerID]->handling_flag |= 512;
 }
 
 void SetAnimWaterDrip(char playerID, bool active)
 {
 	if (active)
 	{
-		GlobalAddressA = (long)(&g_PlayerStructTable);
-		*(char*)(GlobalAddressA + (0xDD8 * playerID) + 0xCA) |= 32;
+		GlobalPlayer[(int)playerID]->jugemu_flag |= 8192;
 		return;
 	}
-	if (!active)
+	if ((!active) && ((GlobalPlayer[(int)playerID]->jugemu_flag & 8192) != 0))
 	{
-		GlobalAddressA = (long)(&g_PlayerStructTable);
-		*(char*)(GlobalAddressA + (0xDD8 * playerID) + 0xCA) = 0;
+		GlobalPlayer[(int)playerID]->jugemu_flag ^= 8192;
 		return;
 	}
 }
@@ -81,24 +71,21 @@ void SetAnimSmoking(char playerID, bool active)
 {
 	if (active)
 	{
-		GlobalAddressA = (long)(&g_PlayerStructTable);
-		*(char*)(GlobalAddressA + (0xDD8 * playerID) + 0xCA) |= 16;
+		GlobalPlayer[(int)playerID]->jugemu_flag |= 4096;
 		return;
 	}
-	if (!active)
+	if ((!active) && ((GlobalPlayer[(int)playerID]->jugemu_flag & 4096) != 0))
 	{
-		GlobalAddressA = (long)(&g_PlayerStructTable);
-		*(char*)(GlobalAddressA + (0xDD8 * playerID) + 0xCA) = 0;
+		GlobalPlayer[(int)playerID]->jugemu_flag ^= 4096;
 		return;
 	}
 }
 
 void DisableOutline(char playerID) // Fixes custom characters black outlines
 {
-	GlobalAddressA = (long)(&g_PlayerStructTable);
-	if (*(char*)(GlobalAddressA + (0xDD8 * playerID) + 0xC7) == 0xFF)
+	if ((unsigned char)GlobalPlayer[(int)playerID]->erase == 0xFF)
 	{
-		*(char*)(GlobalAddressA + (0xDD8 * playerID) + 0xC7) = 0x30;
+		GlobalPlayer[(int)playerID]->erase = 0x30;
 	}
 }
 
@@ -155,7 +142,7 @@ void SetStarMan(char playerID, bool active)
 		GlobalAddressA = (long)(&g_ItemUseCounter);
 		*(short*)(GlobalAddressA + (0x4 * playerID) + 0x2) = 0;
 		GlobalAddressA = (long)(&g_PlayerStructTable) + (0xDD8 * playerID);
-		ResetStar((void*)(GlobalAddressA), playerID);
+		ResetStar((void*)GlobalPlayer[(int)playerID], playerID);
 	}
 
 }
@@ -166,12 +153,12 @@ void SetGhostEffect(char playerID, bool active)
 	if (active)
 	{
 		GlobalAddressA = (long)(&g_PlayerStructTable) + (0xDD8 * playerID);
-		SetVSGhost((void*)(GlobalAddressA), playerID);
+		SetVSGhost((void*)GlobalPlayer[(int)playerID], playerID);
 	}
 	if (!active)
 	{
 		GlobalAddressA = (long)(&g_PlayerStructTable) + (0xDD8 * playerID);
-		ResetVSGhost((void*)(GlobalAddressA), playerID);
+		ResetVSGhost((void*)GlobalPlayer[(int)playerID], playerID);
 	}
 
 }

@@ -78,7 +78,7 @@ typedef struct Player{
 	float  velocity[3];
 	short    link_doshin;
 	short    kage_ang;
-	short  	 handling_flag;
+	short  	 handling_flag; //800F6AD4 // Control Flags & Trophy Scene Effects
 	unsigned short   hit_flag;
 	short    angle_y[4];
 	short    angle_z[4];
@@ -107,11 +107,11 @@ typedef struct Player{
 	unsigned short  talk;
 	float 	offsetsterr_speed;
 	unsigned int    slip_flag;
-	short 	slipang,jumpcount;  //f6a60
+	short 	slipang,jumpcount;  //800F6A50 //Kart Angle //800F6A52 //Air Timer
 	short   kartpitch; //f6a64
 	short   erase;
 	short   jugemu_timer;
-	short   jugemu_flag;
+	short   jugemu_flag; //800F6A5A //Lakitu Flags & Effects
 	short 	roll[4],pitch[4];
 	short   turbo_timer;
 	unsigned short  water_flag;
@@ -120,7 +120,7 @@ typedef struct Player{
 
 	float   maxadd_power;  //800F6A78
 	float   jump,jmp_acc,jmp_speed;
-	unsigned short  bump_status;
+	unsigned short  bump_status; //800F6A89 //Surface Check
 	short	sterracc; //////NOT USE
 
 	float 	mass,gravity ;
