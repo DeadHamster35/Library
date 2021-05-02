@@ -456,8 +456,6 @@ extern short songID; //
 extern long asm_SongA;// 0x8028EC9C
 extern long asm_SongB;// 0x8028F9C4
 
-extern long g_skyColorTop;
-extern long g_skyColorBot;
 extern long g_courseTable;
 
 
@@ -566,8 +564,53 @@ extern char g_cloudsToggle; // 0x801657C8 //00 on 01 off
 extern short g_skyToggle; // 0x800DC5BC 
 extern char g_skyboxToggle; // 0x800DC5B4 
 extern short g_daytimeToggle; // 0x800DC518 
+extern long g_skyColorTopTable;
+extern long g_skyColorBotTable;
+
+extern struct Skytop g_skyColorTop00; // 0x802B8AD0
+extern struct Skybot g_skyColorMidLo00; // 0x802B8BCC
+extern struct Skytop g_skyColorTop01; // 0x802B8ADC  
+extern struct Skybot g_skyColorMidLo01; // 0x802B8BD8 
+extern struct Skytop g_skyColorTop02; // 0x802B8AE8  
+extern struct Skybot g_skyColorMidLo02; // 0x802B8BE4 
+extern struct Skytop g_skyColorTop03; // 0x802B8AF4  
+extern struct Skybot g_skyColorMidLo03; // 0x802B8BF0 
+extern struct Skytop g_skyColorTop04; // 0x802B8B00  
+extern struct Skybot g_skyColorMidLo04; // 0x802B8BF2 
+extern struct Skytop g_skyColorTop05; // 0x802B8B0C  
+extern struct Skybot g_skyColorMidLo05; // 0x802B8C08 
+extern struct Skytop g_skyColorTop06; // 0x802B8B18  
+extern struct Skybot g_skyColorMidLo06; // 0x802B8C14 
+extern struct Skytop g_skyColorTop07; // 0x802B8B24  
+extern struct Skybot g_skyColorMidLo07; // 0x802B8C20  
+extern struct Skytop g_skyColorTop08; // 0x802B8B30  
+extern struct Skybot g_skyColorMidLo08; // 0x802B8C2C 
+extern struct Skytop g_skyColorTop09; // 0x802B8B3C  
+extern struct Skybot g_skyColorMidLo09; // 0x802B8C38  
+extern struct Skytop g_skyColorTop0A; // 0x802B8B48  
+extern struct Skybot g_skyColorMidLo0A; // 0x802B8C44 
+extern struct Skytop g_skyColorTop0B; // 0x802B8B54  
+extern struct Skybot g_skyColorMidLo0B; // 0x802B8C50 
+extern struct Skytop g_skyColorTop0C; // 0x802B8B60  
+extern struct Skybot g_skyColorMidLo0C; // 0x802B8C5C 
+extern struct Skytop g_skyColorTop0D; // 0x802B8B6C 
+extern struct Skybot g_skyColorMidLo0D; // 0x802B8C68 
+extern struct Skytop g_skyColorTop0E; // 0x802B8B78
+extern struct Skybot g_skyColorMidLo0E; // 0x802B8C74
+extern struct Skytop g_skyColorTop0F; // 0x802B8B84
+extern struct Skybot g_skyColorMidLo0F; // 0x802B8C80
+extern struct Skytop g_skyColorTop10; // 0x802B8B90
+extern struct Skybot g_skyColorMidLo10; // 0x802B8C8C
+extern struct Skytop g_skyColorTop11; // 0x802B8B9C
+extern struct Skybot g_skyColorMidLo11; // 0x802B8C98
+extern struct Skytop g_skyColorTop12; // 0x802B8BA9
+extern struct Skybot g_skyColorMidLo12; // 0x802B8CA4
+extern struct Skytop g_skyColorTop13; // 0x802B8BB4
+extern struct Skybot g_skyColorMidLo13; // 0x802B8CB0
+
 
 //fog
+extern char g_fogToggleBanshee; // 0x800DC5BD
 extern char g_fogR;
 extern char g_fogG;
 extern char g_fogB;
