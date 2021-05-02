@@ -115,6 +115,53 @@ char *GlobalLightning[8] =
      &g_lightningFlagPlayer8,
 };
 
+Skytop *GlobalSkytop[20] =
+{
+     &g_skyColorTop00,
+     &g_skyColorTop01,
+     &g_skyColorTop02,
+     &g_skyColorTop03,
+     &g_skyColorTop04,
+     &g_skyColorTop05,
+     &g_skyColorTop06,
+     &g_skyColorTop07,
+     &g_skyColorTop08,
+     &g_skyColorTop09,
+     &g_skyColorTop0A,
+     &g_skyColorTop0B,
+     &g_skyColorTop0C,
+     &g_skyColorTop0D,
+     &g_skyColorTop0E,
+     &g_skyColorTop0F,
+     &g_skyColorTop10,
+     &g_skyColorTop11,
+     &g_skyColorTop12,
+     &g_skyColorTop13,
+};
+
+Skybot *GlobalSkybot[20] =
+{
+     &g_skyColorMidLo00,
+     &g_skyColorMidLo01,
+     &g_skyColorMidLo02,
+     &g_skyColorMidLo03,
+     &g_skyColorMidLo04,
+     &g_skyColorMidLo05,
+     &g_skyColorMidLo06,
+     &g_skyColorMidLo07,
+     &g_skyColorMidLo08,
+     &g_skyColorMidLo09,
+     &g_skyColorMidLo0A,
+     &g_skyColorMidLo0B,
+     &g_skyColorMidLo0C,
+     &g_skyColorMidLo0D,
+     &g_skyColorMidLo0E,
+     &g_skyColorMidLo0F,
+     &g_skyColorMidLo10,
+     &g_skyColorMidLo11,
+     &g_skyColorMidLo12,
+     &g_skyColorMidLo13,
+};
 
 //MarioKart3D Variables
 int CoinCount = 0;
