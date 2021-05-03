@@ -334,4 +334,24 @@ typedef struct Lakitu{
 		//much more
 } Lakitu;
 
+typedef struct Skycolor{
+		short	R1,G1,B1,R2,G2,B2;
+		short	dummy[120];
+		short	R3,G3,B3,R4,G4,B4;
+} Skycolor;
+
+typedef struct Playercolor{
+		short	R;
+        short   dummy[7];
+        short   G;
+        short   dummy2[7];
+        short   B;
+        short   dummy3[7];
+        short	D;
+        short   dummy4[7];
+        short   P;
+        short   dummy5[7];
+        short   Y;
+} Playercolor;
+
 #endif
