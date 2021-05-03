@@ -456,8 +456,6 @@ extern short songID; //
 extern long asm_SongA;// 0x8028EC9C
 extern long asm_SongB;// 0x8028F9C4
 
-extern long g_skyColorTop;
-extern long g_skyColorBot;
 extern long g_courseTable;
 
 
@@ -566,8 +564,33 @@ extern char g_cloudsToggle; // 0x801657C8 //00 on 01 off
 extern short g_skyToggle; // 0x800DC5BC 
 extern char g_skyboxToggle; // 0x800DC5B4 
 extern short g_daytimeToggle; // 0x800DC518 
+extern long g_skyColorTopTable;
+extern long g_skyColorBotTable;
+
+extern struct Skycolor g_skyColorTop00; // 0x802B8AD0
+extern struct Skycolor g_skyColorTop01; // 0x802B8ADC   
+extern struct Skycolor g_skyColorTop02; // 0x802B8AE8   
+extern struct Skycolor g_skyColorTop03; // 0x802B8AF4   
+extern struct Skycolor g_skyColorTop04; // 0x802B8B00   
+extern struct Skycolor g_skyColorTop05; // 0x802B8B0C   
+extern struct Skycolor g_skyColorTop06; // 0x802B8B18   
+extern struct Skycolor g_skyColorTop07; // 0x802B8B24    
+extern struct Skycolor g_skyColorTop08; // 0x802B8B30   
+extern struct Skycolor g_skyColorTop09; // 0x802B8B3C    
+extern struct Skycolor g_skyColorTop0A; // 0x802B8B48   
+extern struct Skycolor g_skyColorTop0B; // 0x802B8B54   
+extern struct Skycolor g_skyColorTop0C; // 0x802B8B60   
+extern struct Skycolor g_skyColorTop0D; // 0x802B8B6C  
+extern struct Skycolor g_skyColorTop0E; // 0x802B8B78
+extern struct Skycolor g_skyColorTop0F; // 0x802B8B84
+extern struct Skycolor g_skyColorTop10; // 0x802B8B90
+extern struct Skycolor g_skyColorTop11; // 0x802B8B9C
+extern struct Skycolor g_skyColorTop12; // 0x802B8BA9
+extern struct Skycolor g_skyColorTop13; // 0x802B8BB4
+
 
 //fog
+extern char g_fogToggleBanshee; // 0x800DC5BD
 extern char g_fogR;
 extern char g_fogG;
 extern char g_fogB;
@@ -602,54 +625,14 @@ extern char g_ShadowflagPlayer2;
 extern char g_ShadowflagPlayer3;
 
 //player color timers
-extern short g_colorPlayer0R;
-extern short g_colorPlayer0G;
-extern short g_colorPlayer0B;
-extern short g_colorPlayer0D;
-extern short g_colorPlayer0P;
-extern short g_colorPlayer0Y;
-extern short g_colorPlayer1R;
-extern short g_colorPlayer1G;
-extern short g_colorPlayer1B;
-extern short g_colorPlayer1D;
-extern short g_colorPlayer1P;
-extern short g_colorPlayer1Y;
-extern short g_colorPlayer2R;
-extern short g_colorPlayer2G;
-extern short g_colorPlayer2B;
-extern short g_colorPlayer2D;
-extern short g_colorPlayer2P;
-extern short g_colorPlayer2Y;
-extern short g_colorPlayer3R;
-extern short g_colorPlayer3G;
-extern short g_colorPlayer3B;
-extern short g_colorPlayer3D;
-extern short g_colorPlayer3P;
-extern short g_colorPlayer3Y;
-extern short g_colorPlayer4R;
-extern short g_colorPlayer4G;
-extern short g_colorPlayer4B;
-extern short g_colorPlayer4D;
-extern short g_colorPlayer4P;
-extern short g_colorPlayer4Y;
-extern short g_colorPlayer5R;
-extern short g_colorPlayer5G;
-extern short g_colorPlayer5B;
-extern short g_colorPlayer5D;
-extern short g_colorPlayer5P;
-extern short g_colorPlayer5Y;
-extern short g_colorPlayer6R;
-extern short g_colorPlayer6G;
-extern short g_colorPlayer6B;
-extern short g_colorPlayer6D;
-extern short g_colorPlayer6P;
-extern short g_colorPlayer6Y;
-extern short g_colorPlayer7R;
-extern short g_colorPlayer7G;
-extern short g_colorPlayer7B;
-extern short g_colorPlayer7D;
-extern short g_colorPlayer7P;
-extern short g_colorPlayer7Y;
+extern struct Playercolor g_colorPlayer0R;
+extern struct Playercolor g_colorPlayer1R;
+extern struct Playercolor g_colorPlayer2R;
+extern struct Playercolor g_colorPlayer3R;
+extern struct Playercolor g_colorPlayer4R;
+extern struct Playercolor g_colorPlayer5R;
+extern struct Playercolor g_colorPlayer6R;
+extern struct Playercolor g_colorPlayer7R;
 
 //music
 extern void playMusic(int musicID);
