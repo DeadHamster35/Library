@@ -450,8 +450,6 @@
 .definelabel asm_SongB, 0x8028F9C4
 //802B8B70
 
-.definelabel g_skyColorTop, 0x802B8AD0
-.definelabel g_skyColorBot, 0x802B8BCC
 .definelabel g_courseTable, 0x802B8D80
 
 .definelabel player2OK, 0x8018EDE9
@@ -556,11 +554,35 @@
 
 //sky & clouds
 .definelabel g_cloudsToggle, 0x801657C8 //00 on 01 off
-.definelabel g_skyToggle, 0x800DC5BC //short
-.definelabel g_skyboxToggle, 0x800DC5B4 //char
-.definelabel g_daytimeToggle, 0x800DC518 //short
+.definelabel g_skyToggle, 0x800DC5BC
+.definelabel g_skyboxToggle, 0x800DC5B4 
+.definelabel g_daytimeToggle, 0x800DC518
+.definelabel g_skyColorTopTable, 0x802B8AD0
+.definelabel g_skyColorBotTable, 0x802B8BCC
+
+.definelabel g_skyColorTop00, 0x802B8AD0
+.definelabel g_skyColorTop01, 0x802B8ADC   
+.definelabel g_skyColorTop02, 0x802B8AE8   
+.definelabel g_skyColorTop03, 0x802B8AF4   
+.definelabel g_skyColorTop04, 0x802B8B00  
+.definelabel g_skyColorTop05, 0x802B8B0C   
+.definelabel g_skyColorTop06, 0x802B8B18   
+.definelabel g_skyColorTop07, 0x802B8B24    
+.definelabel g_skyColorTop08, 0x802B8B30   
+.definelabel g_skyColorTop09, 0x802B8B3C    
+.definelabel g_skyColorTop0A, 0x802B8B48   
+.definelabel g_skyColorTop0B, 0x802B8B54   
+.definelabel g_skyColorTop0C, 0x802B8B60   
+.definelabel g_skyColorTop0D, 0x802B8B6C  
+.definelabel g_skyColorTop0E, 0x802B8B78
+.definelabel g_skyColorTop0F, 0x802B8B84
+.definelabel g_skyColorTop10, 0x802B8B90
+.definelabel g_skyColorTop11, 0x802B8B9C
+.definelabel g_skyColorTop12, 0x802B8BA8
+.definelabel g_skyColorTop13, 0x802B8BB4
 
 //fog
+.definelabel g_fogToggleBanshee, 0x800DC5BD
 .definelabel g_fogR, 0x801625EF
 .definelabel g_fogG, 0x801625F3
 .definelabel g_fogB, 0x801625F7
@@ -596,53 +618,13 @@
 
 //player color timers
 .definelabel g_colorPlayer0R, 0x80164B10 //red with kart
-.definelabel g_colorPlayer0G, 0x80164B20 //green
-.definelabel g_colorPlayer0B, 0x80164B30 //blue
-.definelabel g_colorPlayer0D, 0x80164B40 //darkish blue without kart
-.definelabel g_colorPlayer0P, 0x80164B50 //pink
-.definelabel g_colorPlayer0Y, 0x80164B60 //yellow
 .definelabel g_colorPlayer1R, 0x80164B12 //red with kart
-.definelabel g_colorPlayer1G, 0x80164B22 //green
-.definelabel g_colorPlayer1B, 0x80164B32 //blue
-.definelabel g_colorPlayer1D, 0x80164B42 //darkish blue without kart
-.definelabel g_colorPlayer1P, 0x80164B52 //pink
-.definelabel g_colorPlayer1Y, 0x80164B62 //yellow
 .definelabel g_colorPlayer2R, 0x80164B14 //red with kart
-.definelabel g_colorPlayer2G, 0x80164B24 //green
-.definelabel g_colorPlayer2B, 0x80164B34 //blue
-.definelabel g_colorPlayer2D, 0x80164B44 //darkish blue without kart
-.definelabel g_colorPlayer2P, 0x80164B54 //pink
-.definelabel g_colorPlayer2Y, 0x80164B64 //yellow
 .definelabel g_colorPlayer3R, 0x80164B16 //red with kart
-.definelabel g_colorPlayer3G, 0x80164B26 //green
-.definelabel g_colorPlayer3B, 0x80164B36 //blue
-.definelabel g_colorPlayer3D, 0x80164B46 //darkish blue without kart
-.definelabel g_colorPlayer3P, 0x80164B56 //pink
-.definelabel g_colorPlayer3Y, 0x80164B66 //yellow
 .definelabel g_colorPlayer4R, 0x80164B18 //red with kart
-.definelabel g_colorPlayer4G, 0x80164B28 //green
-.definelabel g_colorPlayer4B, 0x80164B38 //blue
-.definelabel g_colorPlayer4D, 0x80164B48 //darkish blue without kart
-.definelabel g_colorPlayer4P, 0x80164B58 //pink
-.definelabel g_colorPlayer4Y, 0x80164B68 //yellow
 .definelabel g_colorPlayer5R, 0x80164B1A //red with kart
-.definelabel g_colorPlayer5G, 0x80164B2A //green
-.definelabel g_colorPlayer5B, 0x80164B3A //blue
-.definelabel g_colorPlayer5D, 0x80164B4A //darkish blue without kart
-.definelabel g_colorPlayer5P, 0x80164B5A //pink
-.definelabel g_colorPlayer5Y, 0x80164B6A //yellow
 .definelabel g_colorPlayer6R, 0x80164B1C //red with kart
-.definelabel g_colorPlayer6G, 0x80164B2C //green
-.definelabel g_colorPlayer6B, 0x80164B3C //blue
-.definelabel g_colorPlayer6D, 0x80164B4C //darkish blue without kart
-.definelabel g_colorPlayer6P, 0x80164B5C //pink
-.definelabel g_colorPlayer6Y, 0x80164B6C //yellow
 .definelabel g_colorPlayer7R, 0x80164B1E //red with kart
-.definelabel g_colorPlayer7G, 0x80164B2E //green
-.definelabel g_colorPlayer7B, 0x80164B3E //blue
-.definelabel g_colorPlayer7D, 0x80164B4E //darkish blue without kart
-.definelabel g_colorPlayer7P, 0x80164B5E //pink
-.definelabel g_colorPlayer7Y, 0x80164B6E //yellow
 
 //music
 .definelabel playMusic, 0x800C8EAC // int
