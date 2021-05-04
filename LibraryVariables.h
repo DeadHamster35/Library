@@ -22,8 +22,8 @@ extern bool ConsolePlatform;
 
 extern Object *GlobalObjectA, *GlobalObjectB;
 
-
-extern struct Player *GlobalPlayer[];
+extern struct Stats GlobalStat;
+extern struct Player GlobalPlayer[];
 extern struct Controller *GlobalController[];
 extern struct Screen *GlobalScreen[];
 extern struct Camera *GlobalCamera[];

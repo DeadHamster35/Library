@@ -354,4 +354,79 @@ typedef struct Playercolor{
         short   Y;
 } Playercolor;
 
+
+typedef struct Stats{
+
+	float 	FGrip[5][8];
+	float 	*FGripPointer[5];
+	float 	RGrip[5][8];
+	float	*RGripPointer[5];
+	float 	MaxPower[5][8];
+	float	*MaxPowerPointer[5];
+	float 	AccelerationCount[5][8];
+	float	*AccelerationCountPointer[5];
+
+	float 	Mass[8];
+	float	Gravity[8];
+	float	Friction[8];
+	float	MaxSpeed[8];
+	float	Radius[8];
+
+	float 	SlipDownRT[8][15];
+	float 	SlipDownFT[8][15];
+	float	*SlipDownRTPointer[8];
+	float	*SlipDownFTPointer[8];
+
+	float 	PowerDownRT[8][15];
+	float 	PowerDownFT[8][15];
+	float	*PowerDownRTPointer[8];
+	float	*PowerDownFTPointer[8];
+
+	float	Acceleration[10][8];
+	float	*AccelerationPointer[8];
+
+	float	Brake[8][15];
+	float	*BrakePointer[8];
+
+	float	SlipAngle[8][15];
+	float	*SlipAnglePointer[8];
+
+	float	SteerSpeed[8][15];
+	float	*SteerSpeedPointer[8];
+
+	float	ProOffsetAngle[8];
+	float	SteerSpeedReturn[8];
+	float 	KartSteerLoss[8];
+	float	PowerRecover[8];
+	float	PowerBandAcceleration[8];
+
+	float	DriftKartFSpeed[8];
+	float	DriftKartAcceleration[8];
+	float	WingKartFSpeed[8];
+	float	WingKartAcceleration[8];
+	float	StormKartFSpeed[8];
+	float	StormKartAcceleration[8];
+	float	RollKartFSpeed[8];
+	float	RollKartAcceleration[8];
+	float	HeightJumpKartFSpeed[8];
+	float	HeightJumpKartAcceleration[8];
+
+	int AccelerationOnOffFlag[8];
+	int AccelerationIncFlag[8];
+	int AccelerationTime[8];
+	int AccelerationFlag[8];
+	int PowerBandAccelerationInt[8];
+	int PowerBandTimer[8];
+
+	int BrakeOnOffFlag[8];
+	int BrakeIncFlag[8];
+	int BrakeTimer[8];
+	int BrakeFlag[8];
+	int FullBrakeAccelerationInt[8];
+	int FullBrakeTimer[8];
+
+
+} Stats;
+
+
 #endif

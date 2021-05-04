@@ -25,17 +25,6 @@ bool ConsolePlatform;
 
 Object *GlobalObjectA, *GlobalObjectB;
 
-Player *GlobalPlayer[8] = 
-{
-     &g_PlayerStruct1,
-     &g_PlayerStruct2,
-     &g_PlayerStruct3,
-     &g_PlayerStruct4,
-     &g_PlayerStruct5,
-     &g_PlayerStruct6,
-     &g_PlayerStruct7,
-     &g_PlayerStruct8,
-};
 
 
 Controller *GlobalController[5] = 

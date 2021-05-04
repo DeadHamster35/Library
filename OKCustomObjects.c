@@ -270,7 +270,7 @@ void OKObjectCollision(OKObject *InputObject)
 			//Test the collision
 			if (CurrentSphere[CurrentCount].Radius < 0)
 			{
-				if(TestCollideBox(objectPosition, CurrentSphere[CurrentCount].BoxSize ,GlobalPlayer[CurrentPlayer]->position, GlobalPlayer[CurrentPlayer]->radius))
+				if(TestCollideBox(objectPosition, CurrentSphere[CurrentCount].BoxSize ,GlobalPlayer[CurrentPlayer].position, GlobalPlayer[CurrentPlayer].radius))
 				{
 					MasterStatus(CurrentPlayer,CurrentSphere[CurrentCount].CollisionType);
 					MasterEffect(CurrentPlayer,CurrentSphere[CurrentCount].EffectType);
@@ -278,7 +278,7 @@ void OKObjectCollision(OKObject *InputObject)
 			}
 			else
 			{
-				if(TestCollideSphere(objectPosition, CurrentSphere[CurrentCount].Radius ,GlobalPlayer[CurrentPlayer]->position, GlobalPlayer[CurrentPlayer]->radius))
+				if(TestCollideSphere(objectPosition, CurrentSphere[CurrentCount].Radius ,GlobalPlayer[CurrentPlayer].position, GlobalPlayer[CurrentPlayer].radius))
 				{
 					MasterStatus(CurrentPlayer,CurrentSphere[CurrentCount].CollisionType);
 					MasterEffect(CurrentPlayer,CurrentSphere[CurrentCount].EffectType);

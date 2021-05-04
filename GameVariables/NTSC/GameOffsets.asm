@@ -135,6 +135,8 @@
 .definelabel g_DebugBars, 0x800DC662
 
 
+
+.definelabel GlobalStat, 0x800E2360 
 .definelabel gravity_1, 0x800E2650
 .definelabel gravity_2, 0x800E2654
 .definelabel gravity_3, 0x800E2658
@@ -292,6 +294,7 @@
 
 
 .definelabel g_PlayerStructTable, 0x800F6990
+.definelabel GlobalPlayer,    0x800F6990
 .definelabel g_PlayerStruct1, 0x800F6990
 .definelabel g_PlayerStruct2, 0x800F7768
 .definelabel g_PlayerStruct3, 0x800F8540

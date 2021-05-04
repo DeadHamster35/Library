@@ -436,11 +436,11 @@ void setSky()
 	if (HotSwapID > 0)
 	{
 
-		*targetAddress = (long)&g_skyColorTop;
+		*targetAddress = (long)&g_skyColorTop00;
 		*sourceAddress = *(long*)(&ok_CourseHeader + 0xD);
 		dataLength = 0xC;
 		runDMA();
-		*targetAddress = (long)&g_skyColorBot;
+		*targetAddress = (long)&g_skyColorBotTable;
 		*sourceAddress = *sourceAddress + 0xC;
 		FreeSpaceAddress = *sourceAddress;
 		GlobalIntD = dataLength;
@@ -448,11 +448,11 @@ void setSky()
 	}
 	else
 	{
-		*targetAddress = (long)&g_skyColorTop;
+		*targetAddress = (long)&g_skyColorTop00;
 		*sourceAddress = 0x1220E0;
 		dataLength = 0xC;
 		runDMA();
-		*targetAddress = (long)&g_skyColorBot;
+		*targetAddress = (long)&g_skyColorBotTable;
 		*sourceAddress = 0x1221DC;
 		runDMA();
 	}
