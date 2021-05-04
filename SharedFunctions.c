@@ -117,3 +117,5 @@ char ReturnStringLength(long stringAddress)
 	}
 	return(GlobalCharE);
 }
+
+char CharacterConvert[9] = {-1,0,1,6,3,2,4,5,7};

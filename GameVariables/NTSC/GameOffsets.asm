@@ -69,6 +69,7 @@
 .definelabel GraphPtrOffset, 0x80150298
 .definelabel KWSprite, 0x8004C364
 .definelabel KWSpriteScale, 0x8004CA58
+.definelabel KWSpriteDiv, 0x8004C91C
 
 .definelabel BumpObject, 0x802B4E30
 .definelabel SetMatrix, 0x802B4FF8
@@ -563,6 +564,9 @@
 .definelabel g_skyToggle, 0x800DC5BC
 .definelabel g_skyboxToggle, 0x800DC5B4 
 .definelabel g_daytimeToggle, 0x800DC518
+
+.definelabel GlobalWeight, 0x802B8790
+
 .definelabel g_skyColorTopTable, 0x802B8AD0
 .definelabel g_skyColorBotTable, 0x802B8BCC
 
@@ -592,6 +596,10 @@
 .definelabel g_fogR, 0x801625EF
 .definelabel g_fogG, 0x801625F3
 .definelabel g_fogB, 0x801625F7
+
+
+.definelabel KBGNumber, 0x800E86A0
+
 
 //lightning flags
 .definelabel g_lightningFlag, 0x800EA168

@@ -30,6 +30,12 @@ typedef struct OKModel{
 	uint		ModelAddress;
 } OKModel;
 
+typedef struct OKEngine{
+	float	AccelerationCount;
+	float	SteeringAngle;
+	float	Acceleration[10];
+} OKEngine;
+
 
 #define BEHAVIOR_DEAD	0
 #define BEHAVIOR_STATIC 	1

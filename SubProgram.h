@@ -11,3 +11,4 @@
 #define   cup_PAL 0x800F2C14
 #define   MaxPowerConvert(a)  ((a * a) / 25)
 #define   MaxPowerBase(a)     Sqrtf(a * 25)
+

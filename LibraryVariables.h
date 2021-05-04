@@ -23,6 +23,7 @@ extern bool ConsolePlatform;
 extern Object *GlobalObjectA, *GlobalObjectB;
 
 extern struct Stats GlobalStat;
+extern float GlobalWeight[];
 extern struct Player GlobalPlayer[];
 extern struct Controller *GlobalController[];
 extern struct Screen *GlobalScreen[];
