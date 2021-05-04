@@ -155,7 +155,7 @@ void ObjectBehaviorSearch(OKObject* InputObject)
 			InputObject->TargetDistance = 9999999;
 			for (int CurrentPlayer = 0; CurrentPlayer < 1; CurrentPlayer++)
 			{
-				GlobalFloatD = ObjectSubBehaviorLookTarget(InputObject, GlobalPlayer[CurrentPlayer]->position);					
+				GlobalFloatD = ObjectSubBehaviorLookTarget(InputObject, GlobalPlayer[CurrentPlayer].position);					
 				if ((GlobalFloatD < 1) && (GlobalFloatD < InputObject->TargetDistance))
 				{
 
@@ -195,10 +195,10 @@ void ObjectBehaviorSearch(OKObject* InputObject)
 		case(SUBBEHAVIOR_CHASE):
 		{
 			
-			GlobalFloatD = ObjectSubBehaviorLookTarget(InputObject, GlobalPlayer[InputObject->PlayerTarget]->position);
+			GlobalFloatD = ObjectSubBehaviorLookTarget(InputObject, GlobalPlayer[InputObject->PlayerTarget].position);
 			if (GlobalFloatD < 2)
 			{
-				GlobalShortC = ObjectSubBehaviorTurnTarget(InputObject->ObjectData.position, InputObject->ObjectData.angle[1], GlobalPlayer[InputObject->PlayerTarget]->position, 4);
+				GlobalShortC = ObjectSubBehaviorTurnTarget(InputObject->ObjectData.position, InputObject->ObjectData.angle[1], GlobalPlayer[InputObject->PlayerTarget].position, 4);
 				InputObject->ObjectData.angle[1] += (DEG1 * 4 * GlobalShortC);
 				GlobalFloatA = (InputObject->ObjectData.velocity[0] * InputObject->ObjectData.velocity[0]) + (InputObject->ObjectData.velocity[2] * InputObject->ObjectData.velocity[2]);
 				if (GlobalFloatA < (2 * 2))
