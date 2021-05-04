@@ -122,6 +122,7 @@ extern void playSound(int soundID);
 extern void NAPlyTrgStart(char playerID, int soundID);
 extern void NAPlyVoiceStart(char playerID, int soundID);
 extern void NAEnmTrgStart(float ObjectPosition[], float ObjectVelocity[], int soundID);
+extern void NAEnmTrgStop(float ObjectPosition[], int soundID);
 extern float Sqrtf(float Input);
 
 extern void colorFont(int color);
@@ -381,9 +382,9 @@ extern long g_gameLapPlayer8;    // 0x8  01643AC
 
 extern struct Camera g_CameraTable; //0x801646F0
 extern struct Camera g_Camera1; //0x801646F0
-extern struct Camera g_Camera2; //0x801646F0
-extern struct Camera g_Camera3; //0x801646F0
-extern struct Camera g_Camera4; //0x801646F0
+extern struct Camera g_Camera2; //0x801647A8
+extern struct Camera g_Camera3; //0x80164860
+extern struct Camera g_Camera4; //0x80164918
 
 extern long g_DynamicObjects; //0x80165C18
 
@@ -536,7 +537,9 @@ extern void RunKart(void* Car, void* Camera, int place, int playerID); // 8002D2
 extern void RunKartSimple(void* Car, void* Camera, int place, int playerID); // 8002F35C
 extern char g_playerEcho; // 0x800E9F90
 
-extern long g_ItemUseCounter; // 8018D930
+extern long g_StarUseCounter[8]; // 8018D930
+extern long g_GhostUseCounter[8]; // 8018D950
+extern long g_GhostUseTimer[8]; // 8018D970
 extern long g_sfxPointer; //  803B7080
 extern short g_noSimpleKartFlag[8]; // 801633F8
 

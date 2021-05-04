@@ -108,6 +108,7 @@
 .definelabel NAPlyTrgStart, 0x800C9060
 .definelabel NAPlyVoiceStart, 0x800C90F4
 .definelabel NAEnmTrgStart, 0x800C98B8
+.definelabel NAEnmTrgStop, 0x800C99E0
 .definelabel Sqrtf, 0x800CE140
 
 .definelabel colorFont, 0x800930D8
@@ -376,7 +377,7 @@
 .definelabel g_Camera1, 0x801646F0
 .definelabel g_Camera2, 0x801647A8
 .definelabel g_Camera3, 0x80164860
-.definelabel g_Camera4, 0x80164910
+.definelabel g_Camera4, 0x80164918
 
 .definelabel g_DynamicObjects, 0x80165C18
 
@@ -529,7 +530,9 @@
 .definelabel RunKartSimple, 0x8002F35C
 .definelabel g_playerEcho, 0x800E9F90 // 0x1E - Wall; 0x41 - Room; 0x55 - Tunnel
 
-.definelabel g_ItemUseCounter, 0x8018D930 // 4 bytes offset each player
+.definelabel g_StarUseCounter, 0x8018D930 
+.definelabel g_GhostUseCounter, 0x8018D950
+.definelabel g_GhostUseTimer, 0x8018D970
 .definelabel g_sfxPointer, 0x803B7080 
 .definelabel g_noSimpleKartFlag, 0x801633F8
 

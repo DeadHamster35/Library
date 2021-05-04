@@ -57,17 +57,19 @@ typedef struct OKModel{
 #define StateMapObjectHit 7
 #define StateLightningHit 8
 #define StateBooTranslucent 9
-#define StateBecomeBomb 10
-#define StateFlattened 11
-#define StateMushroomBoost 12
-#define StateSpinOutSaveable 13
-#define StateSpinOut 14
-#define StateGreenShellHit 15
-#define StateRedShellHit 16
-#define StateBonk 17
-#define StateStarOn 18
-#define StateGhostOn 19
-#define StateStarOff 20
-#define StateGhostOff 21
+#define StateBecomeBombOn 10
+#define StateBecomeBombOff 11
+#define StateFlattenedOn 12
+#define StateFlattenedOff 13
+#define StateMushroomBoost 14
+#define StateSpinOutSaveable 15
+#define StateSpinOut 16
+#define StateGreenShellHit 17
+#define StateRedShellHit 18
+#define StateBonk 19
+#define StateStarOn 20
+#define StateGhostOn 21
+#define StateStarOff 22
+#define StateGhostOff 23
 
 #endif

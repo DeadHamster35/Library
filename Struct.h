@@ -64,20 +64,20 @@ typedef struct Sus{
 
 
 typedef struct Player{
-	unsigned short   flag; 					//800F6690 //Player, Comp, Ghost, Etc.
-	unsigned short   status; 				//800F6692 //Kart DMA
-	short    rank; 							//800F6694 //Current Rank
-	unsigned short   point; 				//800F6696 //Current Points
-	short    rap; 							//800F6698 //Current Lap
-	unsigned int   weapon; 					//800F669C //Item Use & Item Hit Activators
-	short    item; 							//800F66A0 //Current Item
+	unsigned short   flag; 					//800F6990 //Player, Comp, Ghost, Etc.
+	unsigned short   status; 				//800F6992 //Kart DMA
+	short    rank; 							//800F6994 //Current Rank
+	unsigned short   point; 				//800F6996 //Current Points
+	short    rap; 							//800F6998 //Current Lap
+	unsigned int   weapon; 					//800F699C //Item Use & Item Hit Activators
+	short    item; 							//800F69A0 //Current Item
 
-	float  position[3];						//800F66A4 //Kart Position
-	float  old_position[3];					//800F66B0 //Kart Previous Position
-    short  direction[3];					//800F66BE //Kart Forward Direction
-	float  velocity[3];						//800F66C4 //Kart Velocity
-	short    link_doshin;					//800F66D0 //Indicator Which Thwomp Flattened Kart / Resets On Thwomp Animation Finish
-	short    kage_ang;						//800F66D2 //Kart Shadow Rotation Angle (Only In Air)
+	float  position[3];						//800F69A4 //Kart Position
+	float  old_position[3];					//800F69B0 //Kart Previous Position
+    short  direction[3];					//800F69BE //Kart Forward Direction
+	float  velocity[3];						//800F69C4 //Kart Velocity
+	short    link_doshin;					//800F69D0 //Indicator Which Thwomp Flattened Kart / Resets On Thwomp Animation Finish
+	short    kage_ang;						//800F69D2 //Kart Shadow Rotation Angle (Only In Air)
 	short  	 handling_flag; 				//800F69D4 //Control Flags & Trophy Scene Effects
 	unsigned short   hit_flag;				//800F69D6 //Hit Flag For Walls, Enemies, Thwomps, Etc.
 	short    angle_y[4];					//800F69D8 //Kart Angle Y
@@ -142,7 +142,7 @@ typedef struct Player{
 	int		chasesp_sterr;
 	short   drift_count,kartroll;  //800F6B96
 	float	allrear_grip,brake_time;
-	float	max_power,acc_maxcount;
+	float	max_power,acc_maxcount;			//800F6BA0 //Max Power? //800F6BA4 //Max Acceleration
 	float	spark_x,spark_z;
 	short	chasepoint;
 	unsigned short  hangflag;
@@ -156,7 +156,7 @@ typedef struct Player{
 
 	int 	tcol_count;  //800f6BD0
 	unsigned short  dir[4],deg[4];
-	unsigned short 	kart,wallhitcount;
+	unsigned short 	kart,wallhitcount;		//800F6BE4 //Character //800F6BE6 //Timer Wallhit
 	Smoke gass[10];
 	Smoke smoke[10];
 	Smoke letter[10];

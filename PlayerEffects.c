@@ -95,54 +95,49 @@ void DisableOutline(char playerID) // Fixes custom characters black outlines
 
 void SetMapObjectHit(char playerID)
 {
-	GlobalAddressA = (long)(&g_PlayerStructTable);
-	*(char*)(GlobalAddressA + (0xDD8 * playerID) + 0xD) |= 64;
+	GlobalPlayer[(int)playerID]->weapon |= 4194304;
 }
 
 void SetMushroomBoost(char playerID)
 {
-	GlobalAddressA = (long)(&g_PlayerStructTable);
-	*(char*)(GlobalAddressA + (0xDD8 * playerID) + 0xE) |= 2;
+	GlobalPlayer[(int)playerID]->weapon |= 512;
 }
 
 void SetLightningHit(char playerID)
 {
-	GlobalAddressA = (long)(&g_PlayerStructTable);
-	*(char*)(GlobalAddressA + (0xDD8 * playerID) + 0xE) |= 64;
+	GlobalPlayer[(int)playerID]->weapon |= 16384;
 }
 
 void SetShrunken(char playerID, bool active)
 {
 	if (active)
 	{
-		GlobalAddressA = (long)(&g_PlayerStructTable);
-		*(char*)(GlobalAddressA + (0xDD8 * playerID) + 0xBC) |= 64;
-		*(short*)(GlobalAddressA + (0xDD8 * playerID) + 0xB0) = 0x00FF;
+		GlobalPlayer[(int)playerID]->slip_flag |= 1073741824;
+		GlobalPlayer[(int)playerID]->thunder_timer = 0x00FF;
 	}
 	if (!active)
 	{
-		GlobalAddressA = (long)(&g_PlayerStructTable);
-		*(char*)(GlobalAddressA + (0xDD8 * playerID) + 0xBC) |= 8;
-		*(short*)(GlobalAddressA + (0xDD8 * playerID) + 0xB0) = 0x01CC;
+		GlobalPlayer[(int)playerID]->slip_flag |= 134217728;
+		GlobalPlayer[(int)playerID]->thunder_timer = 0x01CC;
 	}
-
 }
 
 void SetStarMan(char playerID, bool active)
 {
 	if (active)
 	{
-		GlobalAddressA = (long)(&g_PlayerStructTable);
-		*(char*)(GlobalAddressA + (0xDD8 * playerID) + 0xBE) |= 2;
-		GlobalAddressA = (long)(&g_ItemUseCounter);
-		*(short*)(GlobalAddressA + (0x4 * playerID) + 0x2) = 0xFFFF;
+		if ((GlobalPlayer[(int)playerID]->slip_flag & 512) == 0)
+		{
+			NAEnmTrgStart(GlobalPlayer[(int)playerID]->position,GlobalPlayer[(int)playerID]->velocity,0x0100ff2c);
+		}
+		GlobalPlayer[(int)playerID]->slip_flag |= 512;
+		g_StarUseCounter[(int)playerID]  = 0xFFFF;
 	}
 	if (!active)
 	{
-		GlobalAddressA = (long)(&g_ItemUseCounter);
-		*(short*)(GlobalAddressA + (0x4 * playerID) + 0x2) = 0;
-		GlobalAddressA = (long)(&g_PlayerStructTable) + (0xDD8 * playerID);
+		g_StarUseCounter[(int)playerID]  = 0;
 		ResetStar((void*)GlobalPlayer[(int)playerID], playerID);
+		NAEnmTrgStop(GlobalPlayer[(int)playerID]->position,0x0100ff2c);
 	}
 
 }
@@ -152,12 +147,16 @@ void SetGhostEffect(char playerID, bool active)
 
 	if (active)
 	{
-		GlobalAddressA = (long)(&g_PlayerStructTable) + (0xDD8 * playerID);
-		SetVSGhost((void*)GlobalPlayer[(int)playerID], playerID);
+		if ((GlobalPlayer[(int)playerID]->slip_flag & 2147483648U) == 0)
+		{
+			SetVSGhost((void*)GlobalPlayer[(int)playerID], playerID);
+		}
+		g_GhostUseCounter[(int)playerID]  = 0xFFFF;
 	}
-	if (!active)
+	if ((!active))
 	{
-		GlobalAddressA = (long)(&g_PlayerStructTable) + (0xDD8 * playerID);
+		g_GhostUseCounter[(int)playerID]  = 0;
+		g_GhostUseTimer[(int)playerID]  = -1;
 		ResetVSGhost((void*)GlobalPlayer[(int)playerID], playerID);
 	}
 
@@ -165,88 +164,97 @@ void SetGhostEffect(char playerID, bool active)
 
 void SetBooTranslucent(char playerID)
 {
-	GlobalAddressA = (long)(&g_PlayerStructTable);
-	*(char*)(GlobalAddressA + (0xDD8 * playerID) + 0xE) |= 8;
+	GlobalPlayer[(int)playerID]->weapon |= 2048;
 }
 
-void SetBecomeBomb(char playerID)
+void SetBecomeBomb(char playerID, bool active)
 {
-	GlobalAddressA = (long)(&g_PlayerStructTable);
-	*(char*)(GlobalAddressA + (0xDD8 * playerID) + 0xC) |= 4;
+	if (active)
+	{
+		GlobalPlayer[(int)playerID]->weapon |= 67108864;
+	}
+	if ((!active) && ((GlobalPlayer[(int)playerID]->flag & 64) != 0))
+	{
+		GlobalPlayer[(int)playerID]->flag ^= 64;
+	}
 }
 
 
 
-void SetFlattened(char playerID)
+void SetFlattened(char playerID, bool active)
 {
-	GlobalAddressA = (long)(&g_PlayerStructTable);
-	*(char*)(GlobalAddressA + (0xDD8 * playerID) + 0xE) |= 1;
+	if (active)
+	{
+		GlobalPlayer[(int)playerID]->weapon |= 256;
+	}
+	if ((!active) && ((GlobalPlayer[(int)playerID]->weapon & 256) != 0))
+	{
+		GlobalPlayer[(int)playerID]->weapon ^= 256;
+	}
 }
 
 void SetSpinOutSaveable(char playerID)
 {
-	GlobalAddressA = (long)(&g_PlayerStructTable);
-	*(char*)(GlobalAddressA + (0xDD8 * playerID) + 0xF) |= 1;
+	GlobalPlayer[(int)playerID]->weapon |= 1;
 }
 
 void SetSpinOut(char playerID)
 {
-	GlobalAddressA = (long)(&g_PlayerStructTable);
-	*(char*)(GlobalAddressA + (0xDD8 * playerID) + 0xD) |= 32;
+	GlobalPlayer[(int)playerID]->weapon |= 2097152;
 }
 
 void SetFailedStart(char playerID)
 {
-	GlobalAddressA = (long)(&g_PlayerStructTable);
-	*(char*)(GlobalAddressA + (0xDD8 * playerID) + 0xC) |= 16;
+	GlobalPlayer[(int)playerID]->weapon |= 268435456;
 }
 
 void SetGreenShellHit(char playerID)
 {
-	GlobalAddressA = (long)(&g_PlayerStructTable);
-	*(char*)(GlobalAddressA + (0xDD8 * playerID) + 0xF) |= 4;
+	GlobalPlayer[(int)playerID]->weapon |= 4;
 }
 
 void SetRedShellHit(char playerID)
 {
-	GlobalAddressA = (long)(&g_PlayerStructTable);
-	*(char*)(GlobalAddressA + (0xDD8 * playerID) + 0xF) |= 2;
+	GlobalPlayer[(int)playerID]->weapon |= 2;
 }
 
 void SetBonk(char playerID)
 {
-	GlobalAddressA = (long)(&g_PlayerStructTable);
-	*(char*)(GlobalAddressA + (0xDD8 * playerID) + 0xBE) |= 128;
+	GlobalPlayer[(int)playerID]->slip_flag |= 32768;
 }
 
 void ChangeMaxSpeed(char playerID, float SpeedGain)
 {
-	GlobalAddressA = (long)(&g_PlayerStructTable);
-	*(float*)(GlobalAddressA + (0xDD8 * playerID) + 0x214) += (float)SpeedGain;
+	GlobalPlayer[(int)playerID]->acc_maxcount += (float)SpeedGain;
 }
 
 void SetCamShiftUp(char playerID, float shift)
 {
-		GlobalAddressA = (long)(&g_CameraTable);
-		*(float*)(GlobalAddressA + (0xB8 * playerID) + 0x34) = 9 + shift;
+	GlobalCamera[(int)playerID]->camera_vector[1] = 9 + shift;
 }
 
 void ChangePlayerSize(char playerID, float ScaleFactor)
 {
-	GlobalAddressA = (long)(&g_PlayerStructTable);
-	*(float*)(GlobalAddressA + (0xDD8 * playerID) + 0x70) *= (float)ScaleFactor;
-	*(float*)(GlobalAddressA + (0xDD8 * playerID) + 0x224) *= (float)ScaleFactor;
+	if(((GlobalPlayer[(int)playerID]->kart) == 5) || ((GlobalPlayer[(int)playerID]->kart) == 7))
+	{
+		GlobalPlayer[(int)playerID]->radius = 6 * (float)ScaleFactor;
+	}
+	else
+	{
+		GlobalPlayer[(int)playerID]->radius = 5.5 * (float)ScaleFactor;
+	}
+	GlobalPlayer[(int)playerID]->offsetsize = (float)ScaleFactor;
+
 	if (playerID <= 3)
 	{
-		GlobalAddressA = (long)(&g_CameraTable);
-		*(float*)(GlobalAddressA + (0xDD8 * playerID) + 0x38) *= (float)ScaleFactor;
+		GlobalCamera[(int)playerID]->camera_vector[1] = 9 * (float)ScaleFactor;
 	}
 }
 
-void SetPlayerColor(char playerID, int BodyColor, float speed)
+void SetPlayerColor(char playerID, int Colors, int AdjColor, float speed)
 {
-	GlobalAddressA = (long)(&g_PlayerStructTable) + (0xDD8 * playerID);
-	MakeBodyColor( (void*)(GlobalAddressA), playerID, BodyColor, speed);
+	MakeBodyColor((void*)GlobalPlayer[(int)playerID], playerID, Colors, speed);
+	MakeBodyColorAdjust((void*)GlobalPlayer[(int)playerID], playerID, AdjColor, speed);
 }
 
 void SetPlayerEcho(char playerID, char echo)
@@ -257,38 +265,33 @@ void SetPlayerEcho(char playerID, char echo)
 
 void playrandmCharacterSFX(char playerID)
 {
-	GlobalAddressA = (long)(&g_PlayerStructTable) + (0xDD8 * playerID);
-	GlobalCharA = ((char)*(short*)(GlobalAddressA + 0x254) * 0x10);
-
 	if ((g_RNG <= 0x3333))
 	{
-    	NAPlyVoiceStart(playerID, 0x29008008 + GlobalCharA);  //voice char lucky sfx
+    	NAPlyVoiceStart(playerID, 0x29008008 + (GlobalPlayer[(int)playerID]->kart * 0x10));  //voice char lucky sfx
     	return;
     }
 	if (g_RNG <= 0x7777)
 	{
-    	NAPlyVoiceStart(playerID, 0x2900800D + GlobalCharA);   //voice char yahho sfx
+    	NAPlyVoiceStart(playerID, 0x2900800D + (GlobalPlayer[(int)playerID]->kart * 0x10));   //voice char yahho sfx
     	return;
 	}
 	if (g_RNG <= 0x9999)
 	{
-    	NAPlyVoiceStart(playerID, 0x29008001 + GlobalCharA);   //voice char gogo sfx
+    	NAPlyVoiceStart(playerID, 0x29008001 + (GlobalPlayer[(int)playerID]->kart * 0x10));   //voice char gogo sfx
     	return;
 	}
-	NAPlyVoiceStart(playerID, 0x2900800C + GlobalCharA);   //voice char jump sfx    
+	NAPlyVoiceStart(playerID, 0x2900800C + (GlobalPlayer[(int)playerID]->kart * 0x10));   //voice char jump sfx    
 }
 
 void EnableAirControl(char playerID)
 {
-	GlobalAddressC = (long)&g_PlayerStructTable + (0xDD8 * playerID) + 0xBF;
-	GlobalAddressB = (long)&g_PlayerStructTable + (0xDD8 * playerID) + 0xBD;
-	if(((*(char*)(GlobalAddressC) & 8) != 0) && ((*(char*)(GlobalAddressC) & 4) == 0) && ((*(char*)(GlobalAddressB) & 16) == 0))
+	if(((GlobalPlayer[(int)playerID]->slip_flag & 8) != 0) && ((GlobalPlayer[(int)playerID]->slip_flag & 4) == 0) && ((GlobalPlayer[(int)playerID]->slip_flag & 1048576) == 0))
 	{
-		*(char*)GlobalAddressC ^= 8;
-		if(((*(char*)(GlobalAddressC) & 2) == 0) && ((*(char*)(GlobalAddressC) & 16) == 0))
+		GlobalPlayer[(int)playerID]->slip_flag ^= 8;
+		if(((GlobalPlayer[(int)playerID]->slip_flag & 2) == 0) && ((GlobalPlayer[(int)playerID]->slip_flag & 16) == 0))
 		{
-			*(char*)GlobalAddressC |= 16;
-			*(char*)GlobalAddressC |= 2;
+			GlobalPlayer[(int)playerID]->slip_flag |= 16;
+			GlobalPlayer[(int)playerID]->slip_flag |= 2;
 		}
 	}
 }
@@ -359,14 +362,24 @@ void MasterStatus(int PlayerID, short StatusID)
 			SetBooTranslucent(PlayerID);
 			break;
 		}
-		case StateBecomeBomb:
+		case StateBecomeBombOn:
 		{
-			SetBecomeBomb(PlayerID);
+			SetBecomeBomb(PlayerID, true);
 			break;			
 		}
-		case StateFlattened:
+		case StateBecomeBombOff:
 		{
-			SetFlattened(PlayerID);			
+			SetBecomeBomb(PlayerID, false);
+			break;			
+		}
+		case StateFlattenedOn:
+		{
+			SetFlattened(PlayerID, true);			
+			break;
+		}
+		case StateFlattenedOff:
+		{
+			SetFlattened(PlayerID, false);			
 			break;
 		}
 		case StateMushroomBoost:

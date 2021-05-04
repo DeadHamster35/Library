@@ -50,12 +50,12 @@ void GetSurfaceID()
 			if (SurfaceID == Boo)
 			{
 				EffectActive[(int)playerID] = SurfaceID;
-				SetVSGhost((void*)GlobalPlayer[(int)playerID], playerID);
+				SetGhostEffect(playerID, true);
 				continue;
 			}
 			if ((SurfaceID != Boo) && (EffectActive[(int)playerID] == Boo))
 			{
-				ResetVSGhost((void*)GlobalPlayer[(int)playerID], playerID);
+				SetGhostEffect(playerID, false);
 			}
 
 ///////////////////////////////ENEMY JUGEMU!!!///////////////////////////////
