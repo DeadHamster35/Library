@@ -70,6 +70,7 @@
 .definelabel KWSprite, 0x8004C364
 .definelabel KWSpriteScale, 0x8004CA58
 .definelabel KWSpriteDiv, 0x8004C91C
+.definelabel KWSpriteTile32B, 0x8004C6FC
 
 .definelabel BumpObject, 0x802B4E30
 .definelabel SetMatrix, 0x802B4FF8
