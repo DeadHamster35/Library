@@ -59,6 +59,7 @@
 
 .definelabel printNumber, 0x80057524
 .definelabel printString, 0x800577A4
+.definelabel printStringBinary, 0x80057908
 .definelabel printStringNumber, 0x800577D0
 .definelabel drawBox, 0x80098DF8
 

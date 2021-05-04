@@ -70,6 +70,7 @@ extern void *SegmentToVirtual(void *RSPAddress);
 
 extern void printNumber(int *xPosition, int *yPosition, int num, int base);
 extern void printString(int xPosition, int yPosition, char *printText);
+extern void printStringBinary(int xPosition, int yPosition, char *printText, int printBinary);
 extern void printStringNumber(int xPosition, int yPosition, char *printText, int printValue);
 extern unsigned long* drawBox(unsigned long *buf, int x1, int y1, int x2, int y2, int r, int g, int b, int a);
 
