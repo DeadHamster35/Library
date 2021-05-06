@@ -62,6 +62,11 @@
 .definelabel printStringBinary, 0x80057908
 .definelabel printStringNumber, 0x800577D0
 .definelabel drawBox, 0x80098DF8
+.definelabel SetObjBlock, 0x8009E650
+.definelabel InitObjBlock, 0x8009E620
+.definelabel DoObjBlock, 0x800A7A4C
+
+.definelabel DOBPSelAnimeKuppa, 0x800AA69C
 
 .definelabel SegmentTable, 0x80150258
 .definelabel g_CfbPtrs, 0x801502A8
@@ -97,6 +102,11 @@
 .definelabel ResetVSGhost, 0x8008FB30
 
 .definelabel SetFastOoB, 0x80090868
+.definelabel TexBuffLoadP, 0x800996BC
+.definelabel GrayScaleTexBuf3, 0x8009B0A4
+.definelabel GrayScaleTexBufRGB, 0x8009B538
+.definelabel FadeMain, 0x8009CA2C
+.definelabel FadeMain2, 0x8009CA6C
 
 .definelabel initializePlayer, 0x800393C0
 
@@ -175,6 +185,8 @@
 .definelabel g_cupBArray2, 0x800F2BD8
 .definelabel g_cupBArray3, 0x800F2BDA
 
+
+.definelabel g_DebugTextPalette, 0x801A6818
 
 .definelabel g_bannerTexture, 0x801F2750
 .definelabel g_previewTexture, 0x8020E460
@@ -459,6 +471,8 @@
 
 .definelabel g_courseTable, 0x802B8D80
 
+.definelabel PlayerOK, 0x8018EDE8
+.definelabel player1OK, 0x8018EDE8
 .definelabel player2OK, 0x8018EDE9
 .definelabel player3OK, 0x8018EDEA
 .definelabel player4OK, 0x8018EDEB
@@ -540,12 +554,28 @@
 .definelabel g_sfxPointer, 0x803B7080 
 .definelabel g_noSimpleKartFlag, 0x801633F8
 
+.definelabel SelectNamePlateTable, 0x800E7D54
+
+.definelabel PlayerSelectPositions, 0x800E7108
 .definelabel g_StringTableCourseGP, 0x800E7524
 .definelabel g_StringTableCourse, 0x800E7574
+
+.definelabel SelectPortraitTable, 0x800E8320
+.definelabel TBSeq_psel, 0x800E8320
+.definelabel TBSeq_psel_return, 0x800E8340
+.definelabel TBSeq_psel_p0, 0x800E8360
+.definelabel TBSeq_psel_p1, 0x800E8380
+.definelabel TBSeq_psel_p2, 0x800E83A0
+.definelabel TBSeq_psel_p3, 0x800E83C0
+.definelabel TBSeq_psel_p4, 0x800E83E0
+.definelabel TBSeq_psel_p5, 0x800E8400
+.definelabel TBSeq_psel_p6, 0x800E8420
 
 //menu
 .definelabel menuExtra, 0x8018ED12 //0xFF00 on
 
+
+.definelabel GlobalMenuHUD, 0x8018D9E0
 //title
 .definelabel titleBackX, 0x8019BE9C // 8018DA16
 .definelabel titleBackY, 0x8019BE9E // 8018DA1A
@@ -601,6 +631,7 @@
 
 
 .definelabel KBGNumber, 0x800E86A0
+.definelabel KBGChange, 0x800E86A4
 
 
 //lightning flags

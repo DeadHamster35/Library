@@ -73,6 +73,9 @@ extern void printString(int xPosition, int yPosition, char *printText);
 extern void printStringBinary(int xPosition, int yPosition, char *printText, int printBinary);
 extern void printStringNumber(int xPosition, int yPosition, char *printText, int printValue);
 extern unsigned long* drawBox(unsigned long *buf, int x1, int y1, int x2, int y2, int r, int g, int b, int a);
+extern void SetObjBlock(int kind, int x, int y, char pri);
+extern void InitObjBlock();
+extern void DoObjBlock(int pri_flag);
 
 extern long SegmentTable[];
 extern void *g_CfbPtrs[3];
@@ -87,6 +90,11 @@ extern void VSGhost(void *Car,char PlayerID);
 extern void SetVSGhost(void *Car,char PlayerID);
 extern void ResetVSGhost(void *Car,char PlayerID);
 extern void SetFastOoB(void *Car,char PlayerID);
+extern void TexBuffLoadP(void *texlist_ptr,int nocheck_flg);
+extern void GrayScaleTexBuf3(uint num, uint step);
+extern void GrayScaleTexBufRGB(uint num, int size, int r, int g, int b);
+extern void FadeMain();
+extern void FadeMain2(int i);
 
 extern unsigned long* GraphPtr;
 extern long GraphPtrOffset;
@@ -178,6 +186,8 @@ extern short g_cupBArray0;
 extern short g_cupBArray1;
 extern short g_cupBArray2;
 extern short g_cupBArray3;
+
+extern uint64 g_DebugTextPalette;
 
 extern long g_bannerTexture;
 extern long g_previewTexture;
@@ -462,7 +472,8 @@ extern long asm_SongB;// 0x8028F9C4
 
 extern long g_courseTable;
 
-
+extern char PlayerOK[];
+extern char player1OK; //
 extern char player2OK; //
 extern char player3OK; //
 extern char player4OK; //
@@ -547,6 +558,16 @@ extern short g_noSimpleKartFlag[8]; // 801633F8
 extern long g_StringTableCourseGP[20]; // 800E7524
 extern long g_StringTableCourse[20]; // 800E7574
 
+extern struct PlayerTextureTable TBSeq_psel; //0x800E8340
+extern struct PlayerTextureTable TBSeq_psel_return; //0x800E8340
+extern struct PlayerTextureTable TBSeq_psel_p0; //0x800E8340
+extern struct PlayerTextureTable TBSeq_psel_p1; //0x800E8340
+extern struct PlayerTextureTable TBSeq_psel_p2; //0x800E8340
+extern struct PlayerTextureTable TBSeq_psel_p3; //0x800E8340
+extern struct PlayerTextureTable TBSeq_psel_p4; //0x800E8340
+extern struct PlayerTextureTable TBSeq_psel_p5; //0x800E8340
+extern struct PlayerTextureTable TBSeq_psel_p6; //0x800E8340
+
 //menu
 extern short menuExtra;
 
@@ -602,6 +623,7 @@ extern char g_fogG;
 extern char g_fogB;
 
 extern long KBGNumber;
+extern long KBGChange;
 
 //lightning flags
 extern char g_lightningFlag; // 0x800EA168

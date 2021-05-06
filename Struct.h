@@ -6,9 +6,11 @@ typedef	float	RotateMtx[3][3];			/* 3x3 rotation matrix					*/
 typedef 	float	AffineMtx[4][4];			/* 4x4 affine transformation matrix		*/
 typedef 	float	Matrix[3][3];			/* 4x4 affine transformation matrix		*/
 
-typedef unsigned char    uchar;
-typedef unsigned short   ushort;
-typedef unsigned int     uint;
+typedef unsigned char    	uchar;
+typedef unsigned short   	ushort;
+typedef unsigned int     	uint;
+typedef long long			int64;
+typedef unsigned long long	uint64;
 
 typedef struct Bump{
 
@@ -428,5 +430,24 @@ typedef struct Stats{
 	
 } Stats;
 
+typedef struct POSXY{
+    short x,y;
+    short dummy1,dummy2;
+} POSXY;
+
+
+typedef struct PlayerTextureTable{
+	void*	TextureOffset[8];
+} PlayerTextureTable;
+
+typedef struct ObjBlock{
+    int kind;
+    int pattern,pattern2;
+    int disp_x,disp_y;
+    char pri,disp_on;
+    int sd_number;//seq_data_number
+    int work1,work2;
+    float workf1;
+} ObjBlock;
 
 #endif

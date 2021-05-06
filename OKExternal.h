@@ -26,6 +26,8 @@ extern long AlpacaSpriteROM;
 extern long HeartSpriteROM;
 extern long TitleMenuFrameROM;
 
+extern long TestTexture;
+
 extern long JP_Audio;
 extern long JP_Bank;
 

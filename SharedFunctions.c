@@ -26,6 +26,20 @@ void runTKM()
 	decodeTKMK(*sourceAddress, tkmPoint, *targetAddress, 0xBE);
 }
 
+ushort GetRGBA16(int R, int G, int B, int A)
+{
+
+	return (R & 0x1F)<<11 | (G & 0x1F)<<6 | (B & 0x1F)<<1 | (A & 0x01);
+}
+
+void SetFontColor(int FontR, int FontG, int FontB, int ShadowR, int ShadowG, int ShadowB)
+{
+	ushort *ColorValues = (ushort*)&g_DebugTextPalette;
+	ColorValues[0] = 0; //0000 transparent
+	ColorValues[1] = GetRGBA16(FontR,FontG,FontB,1);
+	ColorValues[2] = GetRGBA16(ShadowR,ShadowG,ShadowB,1);
+	ColorValues[3] = 1; //0001 black
+}
 
 
 bool CheckPlatform()

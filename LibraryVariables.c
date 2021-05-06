@@ -26,7 +26,6 @@ bool ConsolePlatform;
 Object *GlobalObjectA, *GlobalObjectB;
 
 
-
 Controller *GlobalController[5] = 
 {
      &g_Controller1,

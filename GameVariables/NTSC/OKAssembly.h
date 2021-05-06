@@ -4,6 +4,31 @@
 
 
 extern long nopASM; //0x80002714
+
+extern long asm_BlinkCheck;
+
+extern long asm_PlayerSelectCharacter1; //0x8009
+extern long asm_PlayerSelectCharacter2; //0x8009
+extern long asm_PlayerSelectCharacter3; //0x8009
+extern long asm_PlayerSelectCharacter4; //0x8009
+extern long asm_PlayerSelectCharacter5; //0x8009
+extern long asm_PlayerSelectCharacter6; //0x8009
+extern long asm_PlayerSelectCharacter7; //0x8009
+extern long asm_PlayerSelectCharacter8; //0x8009
+extern long asm_PlayerSelectDoObjectP1; //0x80095230
+extern long asm_PlayerSelectDoObjectP2; //0x80095244
+extern long asm_PlayerSelectDoObjectP3; //0x80095258
+extern long asm_PlayerSelectDoObjectP4; //0x8009526C
+extern long asm_PlayerSelectDoObjectP5; //0x80095280
+extern long asm_PlayerSelectDoObjectP6; //0x80095294
+extern long asm_PlayerSelectDoObjectP7; //0x800952A8
+extern long asm_PlayerSelectDoObjectP8; //0x800952BC
+extern long asm_PlayerSelectDoObjectSelect1; //0x800952D0
+extern long asm_PlayerSelectDoObjectSelect2; //0x800952E4
+extern long asm_PlayerSelectDoObjectSelect3; //0x800952F8	
+extern long asm_PlayerSelectDoObjectSelect4; //0x8009530C
+
+extern long asm_PlayerSelectController;
 extern long asm_tempo1A; //0x800015C4  ;;3C0F8015
 extern short asm_tempo1ASpeed; //0x800015C7  ;;speed value
 extern long asm_tempo1B; //0x800015C8  ;;8DEF0114

@@ -5,8 +5,30 @@
 
 .definelabel nopASM, 0x80002714
 
+.definelabel asm_BlinkCheck, 0x800AA754
 
+.definelabel asm_PlayerSelectCharacter1, 0x80095224
+.definelabel asm_PlayerSelectCharacter2, 0x80095238
+.definelabel asm_PlayerSelectCharacter3, 0x8009524C
+.definelabel asm_PlayerSelectCharacter4, 0x80095260
+.definelabel asm_PlayerSelectCharacter5, 0x80095274
+.definelabel asm_PlayerSelectCharacter6, 0x80095288
+.definelabel asm_PlayerSelectCharacter7, 0x8009529C
+.definelabel asm_PlayerSelectCharacter8, 0x800952B0
+.definelabel asm_PlayerSelectDoObjectP1, 0x80095230
+.definelabel asm_PlayerSelectDoObjectP2, 0x80095244
+.definelabel asm_PlayerSelectDoObjectP3, 0x80095258
+.definelabel asm_PlayerSelectDoObjectP4, 0x8009526C
+.definelabel asm_PlayerSelectDoObjectP5, 0x80095280
+.definelabel asm_PlayerSelectDoObjectP6, 0x80095294
+.definelabel asm_PlayerSelectDoObjectP7, 0x800952A8
+.definelabel asm_PlayerSelectDoObjectP8, 0x800952BC
+.definelabel asm_PlayerSelectDoObjectSelect1, 0x800952D0
+.definelabel asm_PlayerSelectDoObjectSelect2, 0x800952E4
+.definelabel asm_PlayerSelectDoObjectSelect3, 0x800952F8	
+.definelabel asm_PlayerSelectDoObjectSelect4, 0x8009530C
 
+.definelabel asm_PlayerSelectController, 0x800B04F0
 .definelabel asm_tempo1A, 0x800015C4  ;;3C0F8015
 .definelabel asm_tempo1ASpeed, 0x800015C6  ;;speed value
 .definelabel asm_tempo1B, 0x800015C8  ;;8DEF0114
