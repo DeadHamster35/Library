@@ -61,6 +61,10 @@
 .definelabel printString, 0x800577A4
 .definelabel printStringBinary, 0x80057908
 .definelabel printStringNumber, 0x800577D0
+.definelabel printStringUnsignedNumber, 0x80057814
+.definelabel printStringHex, 0x80057858
+.definelabel printStringUnsignedHex, 0x800578B0
+.definelabel printStringUnsignedBinary, 0x80057960
 .definelabel drawBox, 0x80098DF8
 .definelabel SetObjBlock, 0x8009E650
 .definelabel InitObjBlock, 0x8009E620

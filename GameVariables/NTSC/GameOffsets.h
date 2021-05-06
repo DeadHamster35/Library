@@ -72,6 +72,10 @@ extern void printNumber(int *xPosition, int *yPosition, int num, int base);
 extern void printString(int xPosition, int yPosition, char *printText);
 extern void printStringBinary(int xPosition, int yPosition, char *printText, int printBinary);
 extern void printStringNumber(int xPosition, int yPosition, char *printText, int printValue);
+extern void printStringUnsignedNumber(int xPosition, int yPosition, char *printText, uint printValue); //0x80057814
+extern void printStringHex(int xPosition, int yPosition, char *printText, int printValue); //0x80057858
+extern void printStringUnsignedHex(int xPosition, int yPosition, char *printText, uint printValue); //0x800578B0
+extern void printStringUnsignedBinary(int xPosition, int yPosition, char *printText, uint printValue); //0x80057960
 extern unsigned long* drawBox(unsigned long *buf, int x1, int y1, int x2, int y2, int r, int g, int b, int a);
 extern void SetObjBlock(int kind, int x, int y, char pri);
 extern void InitObjBlock();
