@@ -19,3 +19,4 @@ extern char* printHex(char *buf, int num, int nDigits);
 
 extern char ReturnStringLength(long stringAddress);
 extern char CharacterConvert[];
+extern char CharacterUnconvert[];

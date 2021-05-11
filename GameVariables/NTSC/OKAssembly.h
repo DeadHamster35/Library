@@ -6,6 +6,12 @@
 extern long nopASM; //0x80002714
 
 extern long asm_BlinkCheck;
+extern uint asm_DispOBSubPSelCursor1[];// 0x800F1AB8
+
+extern uint jtbl_DispObjPsel[];
+
+extern long asm_DOBPSelTurnIn; //0x800A7EE8
+extern long asm_DOBPSelTurnOut; //0x800A7EF8
 
 extern long asm_PlayerSelectCharacter1; //0x8009
 extern long asm_PlayerSelectCharacter2; //0x8009

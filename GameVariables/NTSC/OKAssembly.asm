@@ -6,6 +6,12 @@
 .definelabel nopASM, 0x80002714
 
 .definelabel asm_BlinkCheck, 0x800AA754
+.definelabel asm_DispOBSubPSelCursor1, 0x800F1AB8
+
+.definelabel jtbl_DispObjPsel, 0x800F1A94
+
+.definelabel asm_DOBPSelTurnIn, 0x800A7EE8
+.definelabel asm_DOBPSelTurnOut, 0x800A7EF8
 
 .definelabel asm_PlayerSelectCharacter1, 0x80095224
 .definelabel asm_PlayerSelectCharacter2, 0x80095238

@@ -437,7 +437,7 @@ typedef struct POSXY{
 
 
 typedef struct PlayerTextureTable{
-	void*	TextureOffset[8];
+	uint		TextureOffset[8];
 } PlayerTextureTable;
 
 typedef struct ObjBlock{

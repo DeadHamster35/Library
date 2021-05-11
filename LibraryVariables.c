@@ -150,7 +150,17 @@ short objectIndex;
 //
 //
 
+struct OKEngine EngineClass[3][3];
 
+
+/*
+#define ENGINE_BALANCE	0
+#define ENGINE_ACCEL	1
+#define ENGINE_SPEED	2
+*/
+short EngineSpeed[3][3] = { {292,288,296},{312,308,316},{326,318,326}};
+short AccelerationCurve[3][10] = {{20,20,20,16,14,12,10,8,6,4},{20,20,25,26,26,20,15,8,8,8},{20,20,20,16,10,10,10,18,18,12}};
+short SteerAngle[3] = {135,125,110};
 
 //Mario Kart Stats
 char StatsID;

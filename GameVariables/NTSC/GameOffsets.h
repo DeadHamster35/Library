@@ -70,16 +70,20 @@ extern void *SegmentToVirtual(void *RSPAddress);
 
 extern void printNumber(int *xPosition, int *yPosition, int num, int base);
 extern void printString(int xPosition, int yPosition, char *printText);
-extern void printStringBinary(int xPosition, int yPosition, char *printText, int printBinary);
+extern void printStringBinary(int xPosition, int yPosition, char *printText, int printValue);
 extern void printStringNumber(int xPosition, int yPosition, char *printText, int printValue);
 extern void printStringUnsignedNumber(int xPosition, int yPosition, char *printText, uint printValue); //0x80057814
 extern void printStringHex(int xPosition, int yPosition, char *printText, int printValue); //0x80057858
 extern void printStringUnsignedHex(int xPosition, int yPosition, char *printText, uint printValue); //0x800578B0
 extern void printStringUnsignedBinary(int xPosition, int yPosition, char *printText, uint printValue); //0x80057960
 extern unsigned long* drawBox(unsigned long *buf, int x1, int y1, int x2, int y2, int r, int g, int b, int a);
+extern void SetFadeOutB();
 extern void SetObjBlock(int kind, int x, int y, char pri);
 extern void InitObjBlock();
 extern void DoObjBlock(int pri_flag);
+
+extern void DOBPSelTurnIn(ObjBlock Target); //0x800AAB90
+extern void DOBPSelTurnOut(ObjBlock Target); //0x800AAA9C
 
 extern long SegmentTable[];
 extern void *g_CfbPtrs[3];
@@ -99,6 +103,8 @@ extern void GrayScaleTexBuf3(uint num, uint step);
 extern void GrayScaleTexBufRGB(uint num, int size, int r, int g, int b);
 extern void FadeMain();
 extern void FadeMain2(int i);
+
+extern void SetFadeOut(int Fade);
 
 extern unsigned long* GraphPtr;
 extern long GraphPtrOffset;
@@ -152,6 +158,8 @@ extern long g_resetToggle; //
 extern long g_startingIndicator;
 extern short g_DebugSection;
 extern short g_DebugMode;
+extern long g_NewSequenceMode;
+extern long g_NextSequenceMode;
 extern long g_screenSplitA;
 extern long g_ScreenSplitB;
 extern long g_playerCount; //
@@ -456,7 +464,7 @@ extern long g_mflagID;// 0x8018DA30
 extern long g_mpressstartID;// 0x8018DA58
 extern long g_mracewayTime;// 0x8018DA80
 
-extern long backButton;  //
+extern long KBGNumberNext;  //
 extern char menuScreenC; //
 extern char menuScreenA; //
 extern char menuScreenB; //
@@ -489,6 +497,7 @@ extern void DrawText(int x, int y, const char *str, int spacing, float xScale, f
 extern void PrintText0(int x, int y, const char *str, int spacing, float xScale, float yScale);
 extern void PrintText1(int x, int y, const char *str, int spacing, float xScale, float yScale);
 
+extern char g_CharacterSelections[];
 extern char g_player1Character;
 extern char g_player2Character;
 extern char g_player3Character;

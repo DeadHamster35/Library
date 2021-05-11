@@ -3,6 +3,22 @@
 #include "SharedFunctions.h"
 #include "LibraryVariables.h"
 
+
+void LoadEngine()
+{
+     for(int ThisCC = 0; ThisCC < 3; ThisCC++)
+     {
+          for(int ThisEngine = 0; ThisEngine < 3; ThisEngine++)
+          {
+               EngineClass[ThisCC][ThisEngine].AccelerationCount = EngineSpeed[ThisCC][ThisEngine];
+               for (int ThisAccel = 0; ThisAccel < 10; ThisAccel++)
+               {
+                    EngineClass[ThisCC][ThisEngine].Acceleration[ThisAccel] = (float)(AccelerationCurve[ThisEngine][ThisAccel] / 10);
+               }               
+          }
+     }
+}
+
 void dmaLoop(int loopCount)
 {
      for(int currentPass = 0; currentPass < loopCount; currentPass++)

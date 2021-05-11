@@ -55,7 +55,11 @@ extern short objectAngle[3];
 extern short objectIndex;
 //
 //
+extern struct OKEngine EngineClass[3][3];
 
+extern short EngineSpeed[3][3];
+extern short AccelerationCurve[3][10];
+extern short SteerAngle[3];
 
 
 //Mario Kart Stats

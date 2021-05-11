@@ -218,13 +218,31 @@ bool TestCollideSphere(float SourcePosition[], float SourceRadius, float TargetP
 	return true; 
 }
 
-bool TestCollideBox(float SourcePosition[], short SourceSize[], float TargetPosition[], float TargetRadius)
+bool TestCollideBox(float SourcePosition[], short SourceSize[], short SourceAngle[], float TargetPosition[], float TargetRadius)
 {
+	
+	float TempPosition[3];
+	short TempAngle[3];
 
 	for (int CurrentVector = 0; CurrentVector < 3; CurrentVector++)
 	{
+		TempPosition[CurrentVector] = TargetPosition[CurrentVector] - SourcePosition[CurrentVector];
+
+		
+		if (CurrentVector == 1)
+		{
+			TempAngle[CurrentVector] = SourceAngle[CurrentVector] * -1;
+		}
+		else
+		{
+			TempAngle[CurrentVector] = SourceAngle[CurrentVector];
+		}
+	}	
+	RotateVector(TempPosition,TempAngle);
+	for (int CurrentVector = 0; CurrentVector < 3; CurrentVector++)
+	{
 		GlobalFloatA = (SourceSize[CurrentVector] / 2) + TargetRadius;
-		GlobalFloatB = SourcePosition[CurrentVector] - TargetPosition[CurrentVector];
+		GlobalFloatB = TempPosition[CurrentVector];
 		if ((GlobalFloatB > GlobalFloatA) || (GlobalFloatB < GlobalFloatA * -1))
 		{
 			return false;
@@ -270,7 +288,10 @@ void OKObjectCollision(OKObject *InputObject)
 			//Test the collision
 			if (CurrentSphere[CurrentCount].Radius < 0)
 			{
-				if(TestCollideBox(objectPosition, CurrentSphere[CurrentCount].BoxSize ,GlobalPlayer[CurrentPlayer].position, GlobalPlayer[CurrentPlayer].radius))
+				objectAngle[0] = CurrentSphere[CurrentCount].Angle[0] + InputObject->ObjectData.angle[0];
+				objectAngle[1] = CurrentSphere[CurrentCount].Angle[1] + InputObject->ObjectData.angle[1];
+				objectAngle[2] = CurrentSphere[CurrentCount].Angle[2] + InputObject->ObjectData.angle[2];
+				if(TestCollideBox(objectPosition, CurrentSphere[CurrentCount].BoxSize, objectAngle, GlobalPlayer[CurrentPlayer].position, GlobalPlayer[CurrentPlayer].radius))
 				{
 					MasterStatus(CurrentPlayer,CurrentSphere[CurrentCount].CollisionType);
 					MasterEffect(CurrentPlayer,CurrentSphere[CurrentCount].EffectType);

@@ -66,9 +66,13 @@
 .definelabel printStringUnsignedHex, 0x800578B0
 .definelabel printStringUnsignedBinary, 0x80057960
 .definelabel drawBox, 0x80098DF8
+.definelabel SetFadeOutB, 0x8009E208
 .definelabel SetObjBlock, 0x8009E650
 .definelabel InitObjBlock, 0x8009E620
 .definelabel DoObjBlock, 0x800A7A4C
+
+.definelabel DOBPSelTurnIn, 0x800AAB90
+.definelabel DOBPSelTurnOut, 0x800AAA9C
 
 .definelabel DOBPSelAnimeKuppa, 0x800AA69C
 
@@ -112,6 +116,8 @@
 .definelabel FadeMain, 0x8009CA2C
 .definelabel FadeMain2, 0x8009CA6C
 
+.definelabel SetFadeOut, 0x8009DFE0
+
 .definelabel initializePlayer, 0x800393C0
 
 
@@ -139,6 +145,8 @@
 .definelabel g_startingIndicator,  0x800DC510  //1-pre starting line 2-starting line 3-race 5-results 7-results cleared
 .definelabel g_DebugSection, 0x800DC514
 .definelabel g_DebugMode, 0x800DC520
+.definelabel g_NewSequenceMode, 0x800DC24
+.definelabel g_NextSequenceMode, 0x800DC28
 .definelabel g_screenSplitA, 0x800DC52C
 .definelabel g_ScreenSplitB, 0x800DC530
 .definelabel g_playerCount, 0x800DC538
@@ -454,7 +462,7 @@
 .definelabel g_mracewayTime, 0x8018DA80
 
 
-.definelabel backButton, 0x8018EDE0
+.definelabel KBGNumberNext, 0x8018EDE0
 .definelabel menuScreenC, 0x8018EDEE
 .definelabel menuScreenA, 0x8018EDEC
 .definelabel menuScreenB, 0x8018EDED
@@ -489,6 +497,8 @@
 .definelabel textDraw, 0x800939FC
 
 .definelabel g_RNG, 0x802BA290
+
+.definelabel g_CharacterSelections, 0x800E86A8
 
 .definelabel g_player1Character, 0x8018EDE4 // 1 = Mario, 2 = Luigi, etc.
 .definelabel g_player2Character, 0x8018EDE5
@@ -660,6 +670,9 @@
 .definelabel g_wrongwayFlagPlayer2, 0x80163272 //short
 .definelabel g_wrongwayFlagPlayer3, 0x80163274 //short
 .definelabel g_wrongwayFlagPlayer4, 0x80163276 //short
+
+
+
 
 //player shadow flags
 .definelabel g_shadowflagPlayer0, 0x800F6B87

@@ -21,7 +21,7 @@ typedef struct OKObject{
 
 typedef struct OKCollisionSphere{
 	float	Radius;
-	short	Position[3], BoxSize[3];
+	short	Position[3], BoxSize[3], Angle[3];
 	short	CollisionType, EffectType;
 } OKCollisionSphere;
 
@@ -31,10 +31,15 @@ typedef struct OKModel{
 } OKModel;
 
 typedef struct OKEngine{
-	float	AccelerationCount;
-	float	SteeringAngle;
-	float	Acceleration[10];
+	float	AccelerationCount; 	//Top Speed.
+	float	Acceleration[10]; 	//Acceleration.	
 } OKEngine;
+#define ENGINE_ACCEL	0
+#define ENGINE_BALANCE	1
+#define ENGINE_SPEED	2
+
+
+
 
 
 #define BEHAVIOR_DEAD	0

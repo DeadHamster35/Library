@@ -236,7 +236,7 @@
 .definelabel g_mracewayTime, 0x8018DAE0
 
 
-.definelabel backButton, 0x8018EE43
+.definelabel KBGNumberNext, 0x8018EE43
 .definelabel menuScreenC, 0x8018EE4E
 .definelabel menuScreenA, 0x8018EE4C
 .definelabel menuScreenB, 0x8018EE4D
