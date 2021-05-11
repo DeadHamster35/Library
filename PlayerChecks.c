@@ -124,11 +124,16 @@ void GetSurfaceID()
 
 			if (SurfaceID == MushroomBoost)
 			{
-				if ((EffectActive[(int)playerID] != SurfaceID) && (GlobalPlayer[(int)playerID].jumpcount) == 0)
+				if ((EffectActive[(int)playerID] != SurfaceID) && (GlobalPlayer[(int)playerID].jumpcount) == 0 && (GlobalPlayer[(int)playerID].wallhitcount) == 0)
 				{
 					EffectActive[(int)playerID] = SurfaceID;
 					SetTurbo((void*)&GlobalPlayer[(int)playerID], playerID);
 				}
+				if ((GlobalPlayer[(int)playerID].accelcount) < 300)
+				{
+					EffectActive[(int)playerID] = 0;
+				}				
+				GlobalPlayer[(int)playerID].turbo_timer = 0x50;
 				continue;
 			}
 

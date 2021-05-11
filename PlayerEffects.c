@@ -15,54 +15,54 @@
 
 void SetAnimMusicNote(char playerID)
 {
-	GlobalPlayer[(int)playerID].talk |= 32;
+	GlobalPlayer[(int)playerID].talk |= MUSIC_NOTE;
 }
 
 void SetAnimCrash(char playerID)
 {
-	GlobalPlayer[(int)playerID].talk |= 64;
+	GlobalPlayer[(int)playerID].talk |= CRASH;
 }
 
 void SetAnimPoomp(char playerID)
 {
-	GlobalPlayer[(int)playerID].talk |= 256;
+	GlobalPlayer[(int)playerID].talk |= POOMP;
 }
 
 void SetAnimBoing(char playerID)
 {
-	GlobalPlayer[(int)playerID].talk |= 2048;
+	GlobalPlayer[(int)playerID].talk |= BOING;
 }
 
 void SetAnimExplosion(char playerID)
 {
-	GlobalPlayer[(int)playerID].talk |= 4096;
+	GlobalPlayer[(int)playerID].talk |= FLASH;
 }
 
 void SetAnimBonkStars(char playerID)
 {
-	GlobalPlayer[(int)playerID].handling_flag |= 4096;
+	GlobalPlayer[(int)playerID].handling_flag |= TROPHYJUMP_STARS;
 }
 
 void SetAnimLandingDust(char playerID)
 {
-	GlobalPlayer[(int)playerID].handling_flag |= 256;
+	GlobalPlayer[(int)playerID].handling_flag |= LANDING_DUST;
 }
 
 void SetAnimBooSmoke(char playerID)
 {
-	GlobalPlayer[(int)playerID].handling_flag |= 512;
+	GlobalPlayer[(int)playerID].handling_flag |= BOO_SMOKE_EFFECT;
 }
 
 void SetAnimWaterDrip(char playerID, bool active)
 {
 	if (active)
 	{
-		GlobalPlayer[(int)playerID].jugemu_flag |= 8192;
+		GlobalPlayer[(int)playerID].jugemu_flag |= WATER_EFFECT;
 		return;
 	}
-	if ((!active) && ((GlobalPlayer[(int)playerID].jugemu_flag & 8192) != 0))
+	if ((!active) && ((GlobalPlayer[(int)playerID].jugemu_flag & WATER_EFFECT) != 0))
 	{
-		GlobalPlayer[(int)playerID].jugemu_flag ^= 8192;
+		GlobalPlayer[(int)playerID].jugemu_flag ^= WATER_EFFECT;
 		return;
 	}
 }
@@ -71,12 +71,12 @@ void SetAnimSmoking(char playerID, bool active)
 {
 	if (active)
 	{
-		GlobalPlayer[(int)playerID].jugemu_flag |= 4096;
+		GlobalPlayer[(int)playerID].jugemu_flag |= LAVA_EFFECT;
 		return;
 	}
-	if ((!active) && ((GlobalPlayer[(int)playerID].jugemu_flag & 4096) != 0))
+	if ((!active) && ((GlobalPlayer[(int)playerID].jugemu_flag & LAVA_EFFECT) != 0))
 	{
-		GlobalPlayer[(int)playerID].jugemu_flag ^= 4096;
+		GlobalPlayer[(int)playerID].jugemu_flag ^= LAVA_EFFECT;
 		return;
 	}
 }
@@ -95,29 +95,29 @@ void DisableOutline(char playerID) // Fixes custom characters black outlines
 
 void SetMapObjectHit(char playerID)
 {
-	GlobalPlayer[(int)playerID].weapon |= 4194304;
+	GlobalPlayer[(int)playerID].weapon |= HIT_BOMB;
 }
 
 void SetMushroomBoost(char playerID)
 {
-	GlobalPlayer[(int)playerID].weapon |= 512;
+	GlobalPlayer[(int)playerID].weapon |= USE_MUSHROOM;
 }
 
 void SetLightningHit(char playerID)
 {
-	GlobalPlayer[(int)playerID].weapon |= 16384;
+	GlobalPlayer[(int)playerID].weapon |= HIT_LIGHTNING;
 }
 
 void SetShrunken(char playerID, bool active)
 {
 	if (active)
 	{
-		GlobalPlayer[(int)playerID].slip_flag |= 1073741824;
+		GlobalPlayer[(int)playerID].slip_flag |= IS_LIGHTNING_HIT;
 		GlobalPlayer[(int)playerID].thunder_timer = 0x00FF;
 	}
 	if (!active)
 	{
-		GlobalPlayer[(int)playerID].slip_flag |= 134217728;
+		GlobalPlayer[(int)playerID].slip_flag |= IS_UNSQUISHED;
 		GlobalPlayer[(int)playerID].thunder_timer = 0x01CC;
 	}
 }
@@ -126,11 +126,11 @@ void SetStarMan(char playerID, bool active)
 {
 	if (active)
 	{
-		if ((GlobalPlayer[(int)playerID].slip_flag & 512) == 0)
+		if ((GlobalPlayer[(int)playerID].slip_flag & IS_STAR) == 0)
 		{
 			NAEnmTrgStart(GlobalPlayer[(int)playerID].position,GlobalPlayer[(int)playerID].velocity,0x0100ff2c);
 		}
-		GlobalPlayer[(int)playerID].slip_flag |= 512;
+		GlobalPlayer[(int)playerID].slip_flag |= IS_STAR;
 		g_StarUseCounter[(int)playerID]  = 0xFFFF;
 	}
 	if (!active)
@@ -147,7 +147,7 @@ void SetGhostEffect(char playerID, bool active)
 
 	if (active)
 	{
-		if ((GlobalPlayer[(int)playerID].slip_flag & 2147483648U) == 0)
+		if ((GlobalPlayer[(int)playerID].slip_flag & IS_BOO) == 0)
 		{
 			SetVSGhost((void*)&GlobalPlayer[(int)playerID], playerID);
 		}
@@ -164,18 +164,18 @@ void SetGhostEffect(char playerID, bool active)
 
 void SetBooTranslucent(char playerID)
 {
-	GlobalPlayer[(int)playerID].weapon |= 2048;
+	GlobalPlayer[(int)playerID].weapon |= USE_BOO;
 }
 
 void SetBecomeBomb(char playerID, bool active)
 {
 	if (active)
 	{
-		GlobalPlayer[(int)playerID].weapon |= 67108864;
+		GlobalPlayer[(int)playerID].weapon |= PRESS_BECOME_BOMB;
 	}
-	if ((!active) && ((GlobalPlayer[(int)playerID].flag & 64) != 0))
+	if ((!active) && ((GlobalPlayer[(int)playerID].flag & IS_BOMB) != 0))
 	{
-		GlobalPlayer[(int)playerID].flag ^= 64;
+		GlobalPlayer[(int)playerID].flag ^= IS_BOMB;
 	}
 }
 
@@ -185,42 +185,42 @@ void SetFlattened(char playerID, bool active)
 {
 	if (active)
 	{
-		GlobalPlayer[(int)playerID].weapon |= 256;
+		GlobalPlayer[(int)playerID].weapon |= PRESS_SQUISH;
 	}
-	if ((!active) && ((GlobalPlayer[(int)playerID].weapon & 256) != 0))
+	if ((!active) && ((GlobalPlayer[(int)playerID].weapon & PRESS_SQUISH) != 0))
 	{
-		GlobalPlayer[(int)playerID].weapon ^= 256;
+		GlobalPlayer[(int)playerID].weapon ^= PRESS_SQUISH;
 	}
 }
 
 void SetSpinOutSaveable(char playerID)
 {
-	GlobalPlayer[(int)playerID].weapon |= 1;
+	GlobalPlayer[(int)playerID].weapon |= HIT_BANANA;
 }
 
 void SetSpinOut(char playerID)
 {
-	GlobalPlayer[(int)playerID].weapon |= 2097152;
+	GlobalPlayer[(int)playerID].weapon |= HIT_CRITTER;
 }
 
 void SetFailedStart(char playerID)
 {
-	GlobalPlayer[(int)playerID].weapon |= 268435456;
+	GlobalPlayer[(int)playerID].weapon |= PRESS_STARTSPIN;
 }
 
 void SetGreenShellHit(char playerID)
 {
-	GlobalPlayer[(int)playerID].weapon |= 4;
+	GlobalPlayer[(int)playerID].weapon |= HIT_GREENSHELL;
 }
 
 void SetRedShellHit(char playerID)
 {
-	GlobalPlayer[(int)playerID].weapon |= 2;
+	GlobalPlayer[(int)playerID].weapon |= HIT_REDSHELL;
 }
 
 void SetBonk(char playerID)
 {
-	GlobalPlayer[(int)playerID].slip_flag |= 32768;
+	GlobalPlayer[(int)playerID].slip_flag |= IS_BONKING;
 }
 
 void ChangeMaxSpeed(char playerID, float SpeedGain)
@@ -285,13 +285,13 @@ void playrandmCharacterSFX(char playerID)
 
 void EnableAirControl(char playerID)
 {
-	if(((GlobalPlayer[(int)playerID].slip_flag & 8) != 0) && ((GlobalPlayer[(int)playerID].slip_flag & 4) == 0) && ((GlobalPlayer[(int)playerID].slip_flag & 1048576) == 0))
+	if(((GlobalPlayer[(int)playerID].slip_flag & IS_IN_AIR) != 0) && ((GlobalPlayer[(int)playerID].slip_flag & IS_BOOSTJUMP_ZONE) == 0) && ((GlobalPlayer[(int)playerID].slip_flag & IS_BOOST_JUMPING) == 0))
 	{
-		GlobalPlayer[(int)playerID].slip_flag ^= 8;
-		if(((GlobalPlayer[(int)playerID].slip_flag & 2) == 0) && ((GlobalPlayer[(int)playerID].slip_flag & 16) == 0))
+		GlobalPlayer[(int)playerID].slip_flag ^= IS_IN_AIR;
+		if(((GlobalPlayer[(int)playerID].slip_flag & IS_JUMPING) == 0) && ((GlobalPlayer[(int)playerID].slip_flag & IS_DRIFTING) == 0))
 		{
-			GlobalPlayer[(int)playerID].slip_flag |= 16;
-			GlobalPlayer[(int)playerID].slip_flag |= 2;
+			GlobalPlayer[(int)playerID].slip_flag |= IS_DRIFTING;
+			GlobalPlayer[(int)playerID].slip_flag |= IS_JUMPING;
 		}
 	}
 }

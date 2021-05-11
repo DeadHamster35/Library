@@ -1,6 +1,131 @@
 #ifndef STRUCT_H_
 #define STRUCT_H_
 
+//Player Flag
+#define MOTOR_ON	   		0x0010  
+#define IS_BOMB      		0x0040
+#define IS_GHOST			0x0100
+#define IS_GP_OPENING		0x0200
+#define IS_RACE_FINISH		0x0800
+#define IS_CPU_PLAYER		0x1000
+#define NO_CONTROLS			0x2000
+#define IS_PLAYER			0x4000
+#define EXISTS				0x8000
+
+//Player Status Flag
+#define P1_DMA_SPRITE		0x0001
+#define P1_DRAW_SPRITE		0x0002
+#define P1_FLIP_SPRITE		0x0004
+#define P1_DRAW_PARTICLES	0x0008
+#define P2_DMA_SPRITE		0x0010
+#define P2_DRAW_SPRITE		0x0020
+#define P2_FLIP_SPRITE		0x0040
+#define P2_DRAW_PARTICLES	0x0080
+#define P3_DMA_SPRITE		0x0100
+#define P3_DRAW_SPRITE		0x0200
+#define P3_FLIP_SPRITE		0x0400
+#define P3_DRAW_PARTICLES	0x0800
+#define P4_DMA_SPRITE		0x1000
+#define P4_DRAW_SPRITE		0x2000
+#define P4_FLIP_SPRITE		0x4000
+#define P4_DRAW_PARTICLES	0x8000
+
+//Player Weapon Flag
+#define HIT_BANANA      	0x00000001
+#define HIT_REDSHELL    	0x00000002
+#define HIT_GREENSHELL  	0x00000004
+#define PRESS_SAVESPIN		0x00000080  
+#define PRESS_SQUISH    	0x00000100
+#define USE_MUSHROOM    	0x00000200
+#define USE_BOO				0x00000800
+#define USE_FEATHER			0x00001000
+#define USE_STAR            0x00002000
+#define HIT_LIGHTNING      	0x00004000
+#define PRESS_BOOSTJUMP	    0x00008000
+#define HIT_TORNADO         0x00020000
+#define USE_BANANA	        0x00040000
+#define HIT_BOAT			0x00080000 
+#define HIT_CRITTER			0x00200000
+#define HIT_BOMB			0x00400000
+#define PRESS_BOOSTPAD		0x00800000
+#define HIT_BOMB_THROW		0x01000000
+#define USE_STARTDASH		0x02000000
+#define PRESS_BECOME_BOMB	0x04000000
+#define PRESS_IS_BOMB		0x08000000
+#define PRESS_STARTSPIN		0x10000000
+
+//Player Handling Flag
+#define    REVERSE_GEAR		0x0001
+#define    STEER_RIGHT		0x0002
+#define    STEER_LEFT		0x0004
+#define    REVERSE_ACCEL	0x0008
+#define    CPU_SIMPLE_KART	0x0010
+#define    ACCELERATE		0x0020
+#define    START_SPIN_RIGHT	0x0040
+#define    START_SPIN_LEFT	0x0080
+#define    LANDING_DUST		0x0100
+#define    BOO_SMOKE_EFFECT	0x0200
+#define    TROPHYJUMP_START	0x0400
+#define    TROPHYJUMP_END	0x0800
+#define    TROPHYJUMP_STARS	0x1000
+#define    TROPHYJUMP_KEEP	0x2000
+#define    SPINOUT_SWERVE	0x4000
+#define    BALLOON_CUT		0x8000
+
+//Player Talk Flag
+#define MUSIC_NOTE			0x0020
+#define CRASH				0x0040
+#define WHIRRR				0x0080
+#define POOMP     			0x0100
+#define BOING				0x0800
+#define FLASH				0x1000
+
+//Player Slip Flag
+#define IS_BRAKING	 		0x00000001
+#define IS_JUMPING 			0x00000002
+#define IS_BOOSTJUMP_ZONE	0x00000004
+#define IS_IN_AIR 			0x00000008
+#define IS_DRIFTING			0x00000010
+#define IS_AB_SPINNING		0x00000020
+#define SPINOUT_RIGHT 		0x00000040
+#define SPINOUT_LEFT 		0x00000080
+#define IS_DRIFT_BOOSTING	0x00000100   
+#define IS_STAR 			0x00000200    
+#define IS_TUMBLING			0x00000400
+#define IS_SPINNING_OUT		0x00000800  
+#define ON_CENTER_LINE		0x00001000 
+#define IS_TURBO_BOOSTING	0x00002000
+#define IS_START_SPINNING	0x00004000  
+#define IS_BONKING      	0x00008000
+#define IS_WALL_TUMBLING  	0x00010000   
+#define LIGHTNING_SPIN		0x00020000
+#define DISABLE_SPIN	 	0x00040000
+#define IS_FEATHER_JUMPING	0x00080000
+#define IS_BOOST_JUMPING	0x00100000
+#define IS_SLIP_STREAMING	0x00200000
+#define IS_WRONG_WAY		0x00400000    
+#define IS_TORNADO_JUMPING	0x00800000
+#define IS_VERTICAL_HIT		0x01000000  
+#define IS_MOMENTUM_HIT		0x02000000
+#define IS_SQUISHED			0x04000000
+#define IS_UNSQUISHED		0x08000000
+#define IS_HEIGHT_JUMPING	0x10000000		
+#define IS_DRIFT_STEERING	0x20000000
+#define IS_LIGHTNING_HIT	0x40000000
+#define IS_BOO				0x80000000
+
+//Player Jugemu (Lakitu) Flag
+#define IS_IN_WATER			0x0001
+#define ON_LAKITU_ROD 		0x0002
+#define IS_FADING_OUT		0x0004	
+#define OUT_OF_BOUNDS  		0x0008
+#define IS_FROZEN      		0x0010
+#define IS_MELTING 			0x0020
+#define HAS_ICE_CUBE		0x0080
+#define LAKITU_CAMERA  		0x0100
+#define LAVA_EFFECT   		0x1000
+#define WATER_EFFECT		0x2000
+
 
 typedef	float	RotateMtx[3][3];			/* 3x3 rotation matrix					*/
 typedef 	float	AffineMtx[4][4];			/* 4x4 affine transformation matrix		*/
@@ -115,7 +240,7 @@ typedef struct Player{
 	short   jugemu_timer;					//800F6A58 //Lakitu Rescue Timer
 	short   jugemu_flag; 					//800F6A5A //Lakitu Flags & Effects
 	short 	roll[4],pitch[4];				//800F6A5C //Kart Roll //800F6A64 //Kart Pitch
-	short   turbo_timer;					//800F6A5C //Boost State Timer
+	short   turbo_timer;					//800F6A6C //Boost State Timer
 	unsigned short  water_flag;				//800F6A6E //Water & Splash Flag
 	short 	bomb_timer,slipstream_timer; 	//800F6A70 //Item/Object Hit Tumble Bounce Counter //800F6A72 //Slipstream Timer
 	float   slipstream_power;				//800F6A74 //Slipstream Acceleration
@@ -146,8 +271,8 @@ typedef struct Player{
 	float	allrear_grip,brake_time;
 	float	max_power,acc_maxcount;			//800F6BA0 //Max Power? //800F6BA4 //Max Acceleration
 	float	spark_x,spark_z;
-	short	chasepoint;
-	unsigned short  hangflag;
+	short	chasepoint;						//800F6BB0 //Path Point for Lakitu Placement
+	unsigned short  hangflag;				//800F6BB2 //Lakitu Rescue Flag
 	float 	offsetsize;// 800F6BB4
 	short   stopsetrr_count,powerstack_count;
 	float	old_speed,mid_left;

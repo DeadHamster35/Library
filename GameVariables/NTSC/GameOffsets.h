@@ -395,7 +395,7 @@ extern float gravity_8;
 
 extern short surface_p0;
 
-extern long g_GameLapTable;    // 0x8  0164390
+extern long g_GameLapTable[8];    // 0x8  0164390
 extern long g_gameLapPlayer1;    // 0x8  0164390
 extern long g_gameLapPlayer2;    // 0x8  0164394
 extern long g_gameLapPlayer3;    // 0x8  0164398
