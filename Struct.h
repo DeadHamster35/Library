@@ -147,9 +147,9 @@ typedef struct Bump{
 	unsigned short 	last_yz;
 	unsigned short 	last_zx;
 
-	float    			distance_xy;
-	float    			distance_yz;	   
-	float    			distance_zx;	   
+	float    		distance_xy;
+	float    		distance_yz;	   
+	float    		distance_zx;	   
 
 	float  			bump_xy[3];
 	float  			bump_yz[3];
@@ -160,24 +160,24 @@ typedef struct Bump{
 } Bump;
 
 typedef struct Tire{
-	float 			Position[3];
-	unsigned char 		Status;			 //true =hit!!! false=not hit!!!
-	unsigned char 		LastAxis;
+	float 			Position[3];			//Tire Location
+	unsigned char 	Status;					//Tire Surface
+	unsigned char 	LastAxis;
 	unsigned short 	LastPointer;
 	float 			Height;
-	int  			Dummy;              //0000 0000 0000 00001:KAGE ON
-}    Tire;
+	int  			Dummy;					//0000 0000 0000 00001:KAGE ON
+} Tire;
 
 typedef struct Smoke{
-	float 			trx,try,trz;
-	float 			scale;
-	unsigned short 	lrflag,number;
-	float 			type,dev;
-	short 			flag,timer,ang;
-	float 			fwork1,fwork2,fwork3,fwork4,fwork5;
-	short 			swork1,swork2,swork3,swork4,swork5;
-int 					dummy;
-}Smoke;
+	float 			trx,try,trz;						//Particle Location[3]
+	float 			scale;								//Particle Scale
+	unsigned short 	lrflag,number;						//Left-Right Flag (Left=1;Right=0) //Case Number Flag
+	float 			type,dev;							//Particle Type //Dev? (Left-Right Flipped?)
+	short 			flag,timer,ang;						//On-Off Flag //Destroy Timer //Particle Angle
+	float 			fwork1,fwork2,fwork3,fwork4,fwork5;	//Animation Values?
+	short 			swork1,swork2,swork3,swork4,swork5;	//Color Value[3] //Alpha //Dithering Noise
+	int 			dummy;
+} Smoke;
 
 typedef struct Sus{
 	short 	flag,flag1; 
@@ -187,7 +187,7 @@ typedef struct Sus{
 	short 	gachon_timer,broken_timer; 
 	float 	swing_firstspeed,gachon_firstspeed,bound_firstspeed,broken_firstspeed,y_grv;
 	short 	bound_timer,swing_timer,swing_flag,bound,swing;
-}Sus;
+} Sus;
 
 
 typedef struct Player{
@@ -286,7 +286,7 @@ typedef struct Player{
 	unsigned short 	kart,wallhitcount;		//800F6BE4 //Character //800F6BE6 //Timer Wallhit
 	Smoke gass[10];
 	Smoke smoke[10];
-	Smoke letter[10];
+	Smoke letter[10];						//800F7188 //[1] Comic FX //800F71D0 //[2] Speech Bubble
 	Smoke spark[10];
 
 	Sus     sus;

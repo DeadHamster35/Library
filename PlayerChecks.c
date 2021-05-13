@@ -11,224 +11,7 @@
 #include "../RawAssets/ModelData/ModelData.h"
 #include "../OverKart/OverKartVariables.h"
 
-char EffectActive[8];
 
-#define FastOoB			(char)251
-#define MushroomBoost	(char)250
-#define FeatherJump		(char)249
-#define TornadoJump		(char)248
-#define SpinOutSaveable	(char)247
-#define SpinOut			(char)246
-#define FailedStart		(char)245
-#define GreenShellHit	(char)244
-#define RedShellHit		(char)243
-#define ObjectHit		(char)242
-#define Shrunken		(char)241
-#define StarMan			(char)240
-#define Boo		    	(char)239
-#define GetItem			(char)238
-
-
-
-void GetSurfaceID()
-{
-
-	for (char playerID = 0; playerID < 8; playerID++)						// Loop for each racer
-	{
-		char SurfaceID = (char)(GlobalPlayer[(int)playerID].bump_status);
-		if ((GlobalPlayer[(int)playerID].flag & 32768) != 0)				// Only run for existing racers
-		{
-			if (g_startingIndicator < 3)									// Reset at race start
-			{
-				SurfaceID = 0;
-				EffectActive[(int)playerID] = 0;
-				continue;
-			}
-
-///////////////////////////////TELESA!!!///////////////////////////////
-
-			if (SurfaceID == Boo)
-			{
-				EffectActive[(int)playerID] = SurfaceID;
-				SetGhostEffect(playerID, true);
-				continue;
-			}
-			if ((SurfaceID != Boo) && (EffectActive[(int)playerID] == Boo))
-			{
-				SetGhostEffect(playerID, false);
-			}
-
-///////////////////////////////ENEMY JUGEMU!!!///////////////////////////////
-
-			if (SurfaceID == FastOoB)
-			{
-				if ((EffectActive[(int)playerID] != SurfaceID) && (GlobalPlayer[(int)playerID].jumpcount) == 0)
-				{
-					EffectActive[(int)playerID] = SurfaceID;
-					SetFastOoB((void*)&GlobalPlayer[(int)playerID], playerID);
-				}
-				continue;
-			}
-
-///////////////////////////////STARMAN!!!///////////////////////////////
-
-			if (SurfaceID == StarMan)
-			{
-				EffectActive[(int)playerID] = SurfaceID;
-				SetStarMan(playerID, true);
-				continue;
-			}
-			if ((SurfaceID != StarMan) && (EffectActive[(int)playerID] == StarMan))
-			{
-				SetStarMan(playerID, false);
-			}
-
-///////////////////////////////TORNADO JAMP!!!///////////////////////////////
-
-			if ((SurfaceID == TornadoJump))
-			{
-				if ((EffectActive[(int)playerID] != SurfaceID) && (GlobalPlayer[(int)playerID].jumpcount) == 0)
-				{
-					EffectActive[(int)playerID] = SurfaceID;
-					SetStorm((void*)&GlobalPlayer[(int)playerID], playerID);
-				}
-				continue;
-			}
-
-///////////////////////////////WING JUMP!!!///////////////////////////////
-
-			if (SurfaceID == FeatherJump)
-			{
-				if ((EffectActive[(int)playerID] != SurfaceID) && (GlobalPlayer[(int)playerID].jumpcount) == 0)
-				{
-					EffectActive[(int)playerID] = SurfaceID;
-					SetWing((void*)&GlobalPlayer[(int)playerID], playerID);
-				}
-				continue;
-			}
-
-///////////////////////////////THUNDERRR!!!///////////////////////////////
-
-			if (SurfaceID == Shrunken)
-			{
-				EffectActive[(int)playerID] = SurfaceID;
-				SetShrunken(playerID, true);
-				continue;
-			}
-			if ((SurfaceID != Shrunken) && (EffectActive[(int)playerID] == Shrunken))
-			{
-				SetShrunken(playerID, false);
-			}
-
-///////////////////////////////KINOP BOOST!!!///////////////////////////////
-
-			if (SurfaceID == MushroomBoost)
-			{
-				if ((EffectActive[(int)playerID] != SurfaceID) && (GlobalPlayer[(int)playerID].jumpcount) == 0 && (GlobalPlayer[(int)playerID].wallhitcount) == 0)
-				{
-					EffectActive[(int)playerID] = SurfaceID;
-					SetTurbo((void*)&GlobalPlayer[(int)playerID], playerID);
-				}
-				if ((GlobalPlayer[(int)playerID].accelcount) < 300)
-				{
-					EffectActive[(int)playerID] = 0;
-				}				
-				GlobalPlayer[(int)playerID].turbo_timer = 0x50;
-				continue;
-			}
-
-///////////////////////////////SPIN PHEW!!!///////////////////////////////
-
-			if (SurfaceID == SpinOutSaveable)
-			{
-				if ((EffectActive[(int)playerID] != SurfaceID) && (GlobalPlayer[(int)playerID].jumpcount) == 0)
-				{
-					EffectActive[(int)playerID] = SurfaceID;
-					SetSpinOutSaveable(playerID);
-				}
-				continue;
-			}
-
-///////////////////////////////SPIN OUT!!!///////////////////////////////
-
-			if (SurfaceID == SpinOut)
-			{
-				if ((EffectActive[(int)playerID] != SurfaceID) && (GlobalPlayer[(int)playerID].jumpcount) == 0)
-				{
-					EffectActive[(int)playerID] = SurfaceID;
-					SetSpinOut(playerID);
-				}
-				continue;
-			}
-
-///////////////////////////////SPIIIIN!!!///////////////////////////////
-
-			if (SurfaceID == FailedStart)
-			{
-				if ((EffectActive[(int)playerID] != SurfaceID) && (GlobalPlayer[(int)playerID].jumpcount) == 0)
-				{
-					EffectActive[(int)playerID] = SurfaceID;
-					SetFailedStart(playerID);
-				}
-				continue;
-			}
-
-///////////////////////////////SHELL HIT!!!///////////////////////////////
-
-			if (SurfaceID == GreenShellHit)
-			{
-				if ((EffectActive[(int)playerID] != SurfaceID) && (GlobalPlayer[(int)playerID].jumpcount) == 0)
-				{
-					EffectActive[(int)playerID] = SurfaceID;
-					SetGreenShellHit(playerID);
-				}
-				continue;
-			}
-
-///////////////////////////////OBJECTS HIT!!!///////////////////////////////
-
-			if (SurfaceID == ObjectHit)
-			{
-				if ((EffectActive[(int)playerID] != SurfaceID) && (GlobalPlayer[(int)playerID].jumpcount) == 0)
-				{
-					EffectActive[(int)playerID] = SurfaceID;
-					SetMapObjectHit(playerID);
-				}
-				continue;
-			}
-
-///////////////////////////////REDSHELL HIT!!!///////////////////////////////
-
-			if (SurfaceID == RedShellHit)
-			{
-				if ((EffectActive[(int)playerID] != SurfaceID) && (GlobalPlayer[(int)playerID].jumpcount) == 0)
-				{
-					EffectActive[(int)playerID] = SurfaceID;
-					SetRedShellHit(playerID);
-				}
-				continue;
-			}
-
-///////////////////////////////ITEM GET!!!///////////////////////////////
-
-			if (SurfaceID == GetItem)
-			{
-				if ((EffectActive[(int)playerID] != SurfaceID) && (GlobalPlayer[(int)playerID].jumpcount) == 0)
-				{
-					EffectActive[(int)playerID] = SurfaceID;
-					RouletteStart(playerID,0);
-				}
-				continue;
-			}
-
-//FIN//		
-			else
-			{
-				EffectActive[(int)playerID] = 0;	
-			}
-		}
-	}
-}
 
 void PathEchoTrigger()
 {
@@ -242,7 +25,7 @@ void PathEchoTrigger()
 
 		for (char playerID = 0; playerID < 4; playerID++)					// Loop for each racer		
 		{
-			if ((GlobalPlayer[(int)playerID].flag & 32768) != 0)			// Only run for existing racers
+			if ((GlobalPlayer[(int)playerID].flag & EXISTS) != 0)			// Only run for existing racers
 			{
 				for (int LoopVal = 0; LoopVal < pEchoArraySize; LoopVal++)
 				{
@@ -277,7 +60,7 @@ void PathColorTrigger()
 
 		for (char playerID = 0; playerID < 8; playerID++)					// Loop for each racer		
 		{
-			if ((GlobalPlayer[(int)playerID].flag & 32768) != 0)			// Only run for existing racers
+			if ((GlobalPlayer[(int)playerID].flag & EXISTS) != 0)			// Only run for existing racers
 			{
 				for (int LoopVal = 0; LoopVal < pColArraySize; LoopVal++)
 				{
@@ -307,7 +90,7 @@ void PathCamShiftTrigger()
 
 	for (char playerID = 0; playerID < 4; playerID++)						// Loop for each racer		
 	{
-		if ((GlobalPlayer[(int)playerID].flag & 32768) != 0)				// Only run for existing racers
+		if ((GlobalPlayer[(int)playerID].flag & EXISTS) != 0)				// Only run for existing racers
 		{
 			for (int LoopVal = 0; LoopVal < pCamArraySize; LoopVal++)
 			{
@@ -338,7 +121,7 @@ void PathNoSimpleKartTrigger()
 
 	for (char playerID = 0; playerID < 8; playerID++)						// Loop for each racer		
 	{
-		if ((GlobalPlayer[(int)playerID].flag & 32768) != 0)				// Only run for existing racers
+		if ((GlobalPlayer[(int)playerID].flag & EXISTS) != 0)				// Only run for existing racers
 		{
 			for (int LoopVal = 0; LoopVal < pSArraySize; LoopVal++)
 			{
