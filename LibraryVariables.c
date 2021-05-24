@@ -22,6 +22,7 @@ bool GlobalBoolA, GlobalBoolB, GlobalBoolC, GlobalBoolD;
 int LoopValue;
 
 bool ConsolePlatform;
+bool CustomWaterHeight;
 
 Object *GlobalObjectA, *GlobalObjectB;
 

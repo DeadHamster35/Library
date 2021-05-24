@@ -121,10 +121,17 @@
 #define OUT_OF_BOUNDS  		0x0008
 #define IS_FROZEN      		0x0010
 #define IS_MELTING 			0x0020
+#define IS_ALL_MELTING		0x0040
 #define HAS_ICE_CUBE		0x0080
 #define LAKITU_CAMERA  		0x0100
 #define LAVA_EFFECT   		0x1000
 #define WATER_EFFECT		0x2000
+
+//Player Water Flag
+#define SUBMERGED		0x0001
+#define HALF_SUBMERGED	0x0002
+#define SPLASH_START 	0x0004
+#define SPLASH_DIVE  	0x0008
 
 
 typedef	float	RotateMtx[3][3];			/* 3x3 rotation matrix					*/
@@ -460,6 +467,73 @@ typedef struct Lakitu{
 		char		reverseFlag;
 		//much more
 } Lakitu;
+
+//Lakitu Animation Bit Flag
+#define ANM_PLAYING			0x00002000
+#define ANM_REVERSE			0x00004000
+
+//Lakitu Alpha Bit Flag
+#define ANM_ALPHA_VISIBLE	0x00000001
+#define ANM_ALPHA_DITHER	0x00000002
+
+//Lakitu Event Flag
+#define LAKITU_START		1
+#define LAKITU_GOAL			2
+#define LAKITU_RESCUE		3
+#define LAKITU_LAP2			4
+#define LAKITU_LAPFINAL		5
+#define LAKITU_REVERSE		6
+
+typedef struct AnmObject_Lakitu{
+		float		scale;
+		float		pos[3];
+		float		pos_offset[3];
+		float		unknown[3];
+		float		pos_anm_offset[3];
+		float		unknown2[3];
+		float		unknown3[4];
+		unsigned long	anm_start_counter;
+		long      	anm_bit_flag;
+		long      	alpha_bit_flag;
+		long		unknown4;
+		long		colormode_copy;
+		long		image_address_ptr;
+		long		colormode;
+		long		image_address_offset;
+		long		unknown5;
+		long		render_mode;
+		long		unknown6;
+		long		unknown_ptr;
+		long		unknown_ptr2;
+		float		unknown7[4];
+		long      	status_flag;
+		unsigned short	movement_counter;
+		short      	movement_offset_counter;
+		long		unknown8;
+		ushort		alpha_dither;
+		short		unknown9;
+		long      	anm_progress_counter;
+		long      	unknown_counter;
+		short      	unknown10;
+		short      	movement_offset_flag;
+		short      	unknown11;
+		short      	unknown12;
+		short      	angle;
+		short      	unknown13;
+		float		unknown14[4];
+		long      	active_flag;
+		char      	anm_state_countdown;
+		short      	unknown15;
+		short      	unknown16;
+		char      	anm_frame_count;
+		char      	anm_frame_count_copy;
+		short      	unknown17;
+		short      	unknown18;
+		char      	event_flag;
+		char      	anm_frame_offsetX;
+		char      	anm_frame_offsetY;
+		long      	unknown_state_flag;
+} AnmObject_Lakitu;
 
 typedef struct Skycolor{
 		short	R1,G1,B1,R2,G2,B2;

@@ -85,6 +85,8 @@
 .definelabel KWSpriteScale, 0x8004CA58
 .definelabel KWSpriteDiv, 0x8004C91C
 .definelabel KWSpriteTile32B, 0x8004C6FC
+.definelabel DrawLineHorizontal, 0x8004C024
+.definelabel DrawLineVertical, 0x8004C148
 
 .definelabel BumpObject, 0x802B4E30
 .definelabel SetMatrix, 0x802B4FF8
@@ -99,6 +101,8 @@
 
 .definelabel SetSegment, 0x802A7B94
 
+.definelabel OoBCheck, 0x802ABDF4
+
 .definelabel SetStar, 0x8008F778
 .definelabel ResetStar, 0x8008F86C
 .definelabel SetTurbo, 0x8008D3C4
@@ -110,13 +114,20 @@
 .definelabel ResetVSGhost, 0x8008FB30
 
 .definelabel SetFastOoB, 0x80090868
-.definelabel TexBuffLoadP, 0x800996BC
-.definelabel GrayScaleTexBuf3, 0x8009B0A4
-.definelabel GrayScaleTexBufRGB, 0x8009B538
-.definelabel FadeMain, 0x8009CA2C
-.definelabel FadeMain2, 0x8009CA6C
+.definelabel CallLakitu, 0x80090868
+.definelabel SetLakitu, 0x80090778
+.definelabel LakituCheck, 0x8002C17C
 
-.definelabel SetFadeOut, 0x8009DFE0
+.definelabel CheckWaterLevel, 0x802AAB4C
+.definelabel CheckSplash, 0x8002C4F8
+
+// NOP out splash func
+.definelabel CheckSplashJAL1, 0x8002E4A8
+.definelabel CheckSplashJAL2, 0x8002F340
+.definelabel CheckSplashJAL3, 0x8003939C
+
+.definelabel CheckFinalLapFanfareJAL, 0x8028F344
+.definelabel CheckPlayStarBGMJAL, 0x8008F820
 
 .definelabel initializePlayer, 0x800393C0
 
@@ -127,11 +138,6 @@
 .definelabel asm_itemJump2A, 0x8007AFC0  //3C058016
 .definelabel asm_itemJump2B, 0x8007AFD4  //84A543BA
 
-.definelabel playSound, 0x800C8E10
-.definelabel NAPlyTrgStart, 0x800C9060
-.definelabel NAPlyVoiceStart, 0x800C90F4
-.definelabel NAEnmTrgStart, 0x800C98B8
-.definelabel NAEnmTrgStop, 0x800C99E0
 .definelabel Sqrtf, 0x800CE140
 
 .definelabel colorFont, 0x800930D8
@@ -142,7 +148,7 @@
 ;;
 
 .definelabel g_resetToggle, 0x800DC50C
-.definelabel g_startingIndicator,  0x800DC510  //1-pre starting line 2-starting line 3-race 5-results 7-results cleared
+.definelabel g_startingIndicator, 0x800DC510
 .definelabel g_DebugSection, 0x800DC514
 .definelabel g_DebugMode, 0x800DC520
 .definelabel g_NewSequenceMode, 0x800DC24
@@ -462,7 +468,7 @@
 .definelabel g_mracewayTime, 0x8018DA80
 
 
-.definelabel KBGNumberNext, 0x8018EDE0
+.definelabel backButton, 0x8018EDE0
 .definelabel menuScreenC, 0x8018EDEE
 .definelabel menuScreenA, 0x8018EDEC
 .definelabel menuScreenB, 0x8018EDED
@@ -561,6 +567,7 @@
 .definelabel RunKart, 0x8002D268
 .definelabel RunKartSimple, 0x8002F35C
 .definelabel g_playerEcho, 0x800E9F90 // 0x1E - Wall; 0x41 - Room; 0x55 - Tunnel
+.definelabel AnimatedLakituStruct, 0x80165CF8
 
 .definelabel g_StarUseCounter, 0x8018D930 
 .definelabel g_GhostUseCounter, 0x8018D950
@@ -665,14 +672,14 @@
 .definelabel g_offroadFlagPlayer3, 0x80165334 //short
 .definelabel g_offroadFlagPlayer4, 0x80165336 //short
 
+//waterlevel checks
+.definelabel g_waterlevelPlayer, 0x801652A0
+
 //wrongway flags 
 .definelabel g_wrongwayFlagPlayer1, 0x80163270 //short
 .definelabel g_wrongwayFlagPlayer2, 0x80163272 //short
 .definelabel g_wrongwayFlagPlayer3, 0x80163274 //short
 .definelabel g_wrongwayFlagPlayer4, 0x80163276 //short
-
-
-
 
 //player shadow flags
 .definelabel g_shadowflagPlayer0, 0x800F6B87
@@ -690,19 +697,29 @@
 .definelabel g_colorPlayer6R, 0x80164B1C //red with kart
 .definelabel g_colorPlayer7R, 0x80164B1E //red with kart
 
-//music
-.definelabel playMusic, 0x800C8EAC // int
-.definelabel playMusic2, 0x800C8EF8 // int
-.definelabel g_musicFlag, 0x800DC5A9 //char 00=full, 01=half, 02=off, 04=disable L button
-.definelabel g_musicIDRaceways, 0x8028ECE7 
-.definelabel g_musicIDToad, 0x8028ECF7
-.definelabel g_musicIDCountry, 0x8028ED07
-.definelabel g_musicIDBattle1, 0x8028ED17
-.definelabel g_musicIDKalamari, 0x8028ED27
-.definelabel g_musicIDKoopa, 0x8028ED37
-.definelabel g_musicIDBowser, 0x8028ED47
-.definelabel g_musicIDBanshee, 0x8028ED57
-.definelabel g_musicIDSnowy, 0x8028ED67
-.definelabel g_musicIDRainbow, 0x8028ED77
-.definelabel g_musicIDDK, 0x8028ED87
-.definelabel g_musicIDBattle2, 0x8028ED97
+//sound and music
+.definelabel playSound, 0x800C8E10
+.definelabel NAMusicVolume, 0x800C8F44
+.definelabel NAPlyTrgStart, 0x800C9060
+.definelabel NAPlyVoiceStart, 0x800C90F4
+.definelabel NAEnmTrgStart, 0x800C98B8
+.definelabel NAEnmTrgStop, 0x800C99E0
+.definelabel NaSeqStart, 0x800C8EAC
+.definelabel NaFanStart, 0x800C8EF8
+.definelabel NaPlyLevelStart, 0x800C8F80
+.definelabel NaPlyLevelStop, 0x800C9018
+
+.definelabel g_musicUserVolumeFlag, 0x800DC5A8 //char 00=full, 01=half, 02=off, 04=disable L button
+.definelabel g_musicIDRaceways, 0x8028ECE6 
+.definelabel g_musicIDToad, 0x8028ECF6
+.definelabel g_musicIDCountry, 0x8028ED06
+.definelabel g_musicIDBattle1, 0x8028ED16
+.definelabel g_musicIDKalamari, 0x8028ED26
+.definelabel g_musicIDKoopa, 0x8028ED36
+.definelabel g_musicIDBowser, 0x8028ED46
+.definelabel g_musicIDBanshee, 0x8028ED56
+.definelabel g_musicIDSnowy, 0x8028ED66
+.definelabel g_musicIDRainbow, 0x8028ED76
+.definelabel g_musicIDDK, 0x8028ED86
+.definelabel g_musicIDBattle2, 0x8028ED96
+.definelabel g_musicTempo, 0x803B1518

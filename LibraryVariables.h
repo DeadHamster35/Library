@@ -19,6 +19,7 @@ extern short GlobalShortA, GlobalShortB;
 extern bool GlobalBoolA, GlobalBoolB, GlobalBoolC, GlobalBoolD;
 extern int LoopValue;
 extern bool ConsolePlatform;
+extern bool CustomWaterHeight;
 
 extern Object *GlobalObjectA, *GlobalObjectB;
 
@@ -36,6 +37,7 @@ extern struct Camera *GlobalCamera[];
 extern short *GlobalPath[];
 extern long *GlobalLap[];
 extern struct Lakitu *GlobalLakitu[];
+extern struct AnmObject_Lakitu AnimatedLakituStruct[];
 extern struct PlayerState *GlobalPlayerState[];  
 extern struct Hud *GlobalHud[];
 extern char *GlobalLightning[];

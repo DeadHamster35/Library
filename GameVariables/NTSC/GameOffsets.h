@@ -61,8 +61,6 @@ extern int CollisionCylinder(void *Car, float Position[], float Radius, float He
 extern int CollisionSphere(void *Car, void *Object); //0x8029FB80
 
 
-extern void RouletteStart(int Player, int SpecialItem);
-
 extern void RouletteStart(int Player, int SpecialItem); //0x8007ABFC
 
 
@@ -88,6 +86,9 @@ extern void DOBPSelTurnOut(ObjBlock Target); //0x800AAA9C
 extern long SegmentTable[];
 extern void *g_CfbPtrs[3];
 
+extern long OoBCheck(ushort pointer);
+
+
 extern long SetStar(void *CarPointer, int PlayerIndex);
 extern void ResetStar (void *CarPointer, char PlayerIndex);
 extern long SetTurbo(void *CarPointer, int PlayerIndex);
@@ -98,13 +99,20 @@ extern void VSGhost(void *Car,char PlayerID);
 extern void SetVSGhost(void *Car,char PlayerID);
 extern void ResetVSGhost(void *Car,char PlayerID);
 extern void SetFastOoB(void *Car,char PlayerID);
-extern void TexBuffLoadP(void *texlist_ptr,int nocheck_flg);
-extern void GrayScaleTexBuf3(uint num, uint step);
-extern void GrayScaleTexBufRGB(uint num, int size, int r, int g, int b);
-extern void FadeMain();
-extern void FadeMain2(int i);
+extern void CallLakitu(void *Car);
+extern void SetLakitu(void *Car);
+extern void LakituCheck(void *Car,char PlayerID);
 
-extern void SetFadeOut(int Fade);
+
+extern float CheckWaterLevel(void *Car);
+extern void CheckSplash(void *Car,int PlayerIndex);
+
+extern long CheckSplashJAL1;
+extern long CheckSplashJAL2;
+extern long CheckSplashJAL3;
+
+extern long CheckFinalLapFanfareJAL;
+extern long CheckPlayStarBGMJAL;
 
 extern unsigned long* GraphPtr;
 extern long GraphPtrOffset;
@@ -112,6 +120,10 @@ extern void KWSprite(int cx,int cy,uint sizex,uint sizey,ushort *addr);
 extern void KWSpriteScale(int cx,int cy,float scale, ushort *addr, uint sizex,uint sizey);
 extern void KWSpriteDiv(int cx,int cy,ushort *addr,uint sizex,uint sizey,uint cuty);
 extern void KWSpriteTile32B(short cx,short cy,uchar *addr,uint sizex,uint sizey);
+extern void DrawLineHorizontal (short tx,short ty,short length,ushort r,ushort g,ushort b,ushort a);
+extern void DrawLineVertical (short tx,short ty,short length,ushort r,ushort g,ushort b,ushort a);
+
+
 
 extern void BumpObject(Object* InputObject);
 extern int SetMatrix(float Matrix[][4], int Mode);
@@ -139,11 +151,6 @@ extern long asm_itemJump1B;// 0x8007B098  //84A543BA
 extern long asm_itemJump2A;// 0x8007AFC0  //3C058016
 extern long asm_itemJump2B;// 0x8007AFD4  //84A543BA
 
-extern void playSound(int soundID);
-extern void NAPlyTrgStart(char playerID, int soundID);
-extern void NAPlyVoiceStart(char playerID, int soundID);
-extern void NAEnmTrgStart(float ObjectPosition[], float ObjectVelocity[], int soundID);
-extern void NAEnmTrgStop(float ObjectPosition[], int soundID);
 extern float Sqrtf(float Input);
 
 extern void colorFont(int color);
@@ -155,7 +162,7 @@ extern long g_SegmentA;
 
 
 extern long g_resetToggle; //
-extern long g_startingIndicator;
+extern long g_startingIndicator; //0-Level Start 1-Demo Camera 2-Countdown 3-Racing 4-Finish Waiting 5-Race Finish 6-Fade Out 7-No Operation
 extern short g_DebugSection;
 extern short g_DebugMode;
 extern long g_NewSequenceMode;
@@ -464,7 +471,7 @@ extern long g_mflagID;// 0x8018DA30
 extern long g_mpressstartID;// 0x8018DA58
 extern long g_mracewayTime;// 0x8018DA80
 
-extern long KBGNumberNext;  //
+extern long backButton;  //
 extern char menuScreenC; //
 extern char menuScreenA; //
 extern char menuScreenB; //
@@ -484,8 +491,7 @@ extern long asm_SongB;// 0x8028F9C4
 
 extern long g_courseTable;
 
-extern char PlayerOK[];
-extern char player1OK; //
+
 extern char player2OK; //
 extern char player3OK; //
 extern char player4OK; //
@@ -655,6 +661,9 @@ extern short g_offroadFlagPlayer2; // 0x80165332
 extern short g_offroadFlagPlayer3; // 0x80165334 
 extern short g_offroadFlagPlayer4; // 0x80165336 
 
+//waterlevel checks
+extern float g_waterlevelPlayer[8]; // 0x801652A0
+
 //wrongway flags 
 extern short g_wrongwayFlagPlayer1; // 0x80163270 
 extern short g_wrongwayFlagPlayer2; // 0x80163272 
@@ -677,19 +686,29 @@ extern struct Playercolor g_colorPlayer5R;
 extern struct Playercolor g_colorPlayer6R;
 extern struct Playercolor g_colorPlayer7R;
 
-//music
+//sound and music
+extern void playSound(int soundID);
+extern void NAMusicVolume(unsigned char volume); //0-Mute 75-Half 127 Full
+extern void NAPlyTrgStart(char playerID, int soundID);
+extern void NAPlyVoiceStart(char playerID, int soundID);
+extern void NAEnmTrgStart(float ObjectPosition[], float ObjectVelocity[], int soundID);
+extern void NAEnmTrgStop(float ObjectPosition[], int soundID);
 extern void playMusic(int musicID);
 extern void playMusic2(int musicID);
-extern char g_musicFlag; // 0x800DC5A9 //char 00=full; // 01=half; // 02=off  04=disable L button
-extern char g_musicIDRaceways; // 0x8028ECE7 
-extern char g_musicIDToad; // 0x8028ECF7
-extern char g_musicIDCountry; // 0x8028ED07
-extern char g_musicIDBattle1; // 0x8028ED17
-extern char g_musicIDKalamari; // 0x8028ED27
-extern char g_musicIDKoopa; // 0x8028ED37
-extern char g_musicIDBowser; // 0x8028ED47
-extern char g_musicIDBanshee; // 0x8028ED57
-extern char g_musicIDSnowy; // 0x8028ED67
-extern char g_musicIDRainbow; // 0x8028ED77
-extern char g_musicIDDK; // 0x8028ED87
-extern char g_musicIDBattle2; // 0x8028ED97
+extern void NaPlyLevelStart(char playerID, int soundID); 
+extern void NaPlyLevelStop(char playerID, int soundID); 
+
+extern short g_musicUserVolumeFlag; // 0x800DC5A8 //char 00=full; // 01=half; // 02=off  04=disable L button
+extern short g_musicIDRaceways; // 0x8028ECE6 
+extern short g_musicIDToad; // 0x8028ECF6
+extern short g_musicIDCountry; // 0x8028ED06
+extern short g_musicIDBattle1; // 0x8028ED16
+extern short g_musicIDKalamari; // 0x8028ED26
+extern short g_musicIDKoopa; // 0x8028ED36
+extern short g_musicIDBowser; // 0x8028ED46
+extern short g_musicIDBanshee; // 0x8028ED56
+extern short g_musicIDSnowy; // 0x8028ED66
+extern short g_musicIDRainbow; // 0x8028ED76
+extern short g_musicIDDK; // 0x8028ED86
+extern short g_musicIDBattle2; // 0x8028ED96
+extern ushort g_musicTempo;
