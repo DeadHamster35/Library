@@ -252,11 +252,6 @@ void EffectBGMReplace()
 		}
 	}
 
-for (char Anmi = 0; Anmi < g_playerCount; Anmi++)
-{
-}
-
-
 	if (g_startingIndicator == 0x03)
 	{
 		if (EffectStarBGM[0] || EffectStarBGM[1] || EffectStarBGM[2] || EffectStarBGM[3] || FinalLapAnim[0] || FinalLapAnim[1] || FinalLapAnim[2] || FinalLapAnim[3])
@@ -362,6 +357,10 @@ for (char Anmi = 0; Anmi < g_playerCount; Anmi++)
 			}
 		}
 	}
+	if (g_gameMode == 3 && g_playerCount >= 3 && g_startingIndicator == 5)
+	{
+		NAMusicVolume(0);
+	}	
 }
 
 void NopPlayEffectBGMCode() //Run at custom code init

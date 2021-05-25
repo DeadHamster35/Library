@@ -114,6 +114,14 @@ extern long CheckSplashJAL3;
 extern long CheckFinalLapFanfareJAL;
 extern long CheckPlayStarBGMJAL;
 
+
+extern void TexBuffLoadP(void *texlist_ptr,int nocheck_flg);
+extern void GrayScaleTexBuf3(uint num, uint step);
+extern void GrayScaleTexBufRGB(uint num, int size, int r, int g, int b);
+extern void FadeMain();
+extern void FadeMain2(int i);
+extern void SetFadeOut(int Fade);
+
 extern unsigned long* GraphPtr;
 extern long GraphPtrOffset;
 extern void KWSprite(int cx,int cy,uint sizex,uint sizey,ushort *addr);
@@ -471,7 +479,7 @@ extern long g_mflagID;// 0x8018DA30
 extern long g_mpressstartID;// 0x8018DA58
 extern long g_mracewayTime;// 0x8018DA80
 
-extern long backButton;  //
+extern long KBGNumberNext;  //
 extern char menuScreenC; //
 extern char menuScreenA; //
 extern char menuScreenB; //
@@ -491,7 +499,8 @@ extern long asm_SongB;// 0x8028F9C4
 
 extern long g_courseTable;
 
-
+extern char PlayerOK[];
+extern char player1OK; //
 extern char player2OK; //
 extern char player3OK; //
 extern char player4OK; //

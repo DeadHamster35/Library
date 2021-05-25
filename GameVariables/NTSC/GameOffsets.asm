@@ -132,6 +132,13 @@
 .definelabel initializePlayer, 0x800393C0
 
 
+.definelabel TexBuffLoadP, 0x800996BC
+.definelabel GrayScaleTexBuf3, 0x8009B0A4
+.definelabel GrayScaleTexBufRGB, 0x8009B538
+.definelabel FadeMain, 0x8009CA2C
+.definelabel FadeMain2, 0x8009CA6C
+.definelabel SetFadeOut, 0x8009DFE0
+
 .definelabel asm_itemJump1A, 0x8007B084  //3C058016
 .definelabel asm_itemJump1B, 0x8007B098  //84A543BA
 
@@ -468,7 +475,7 @@
 .definelabel g_mracewayTime, 0x8018DA80
 
 
-.definelabel backButton, 0x8018EDE0
+.definelabel KBGNumberNext, 0x8018EDE0
 .definelabel menuScreenC, 0x8018EDEE
 .definelabel menuScreenA, 0x8018EDEC
 .definelabel menuScreenB, 0x8018EDED
