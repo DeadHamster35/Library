@@ -187,7 +187,7 @@ extern short g_courseID;
 extern short g_loadedcourseFlag;
 extern long g_gameMode; //0 = gp 1 = time trials 2 = vs 3 =battle
 extern unsigned short g_DispFrame;
-extern short g_mirrorMode;
+extern long g_mirrorMode;
 extern short g_DebugBars;
 
 extern uint PathTable[20][4];
