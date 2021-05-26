@@ -8,6 +8,7 @@
 #include "../library/MarioKart3D.h"
 #include "../library/Struct.h"
 #include "../library/OKStruct.h"
+#include "../library/OKCustomObjects.h"
 #include "../library/GameVariables/NTSC/OKassembly.h"
 #include "../library/GameVariables/NTSC/GameOffsets.h"
 
@@ -152,7 +153,7 @@ void ObjectBehaviorSearch(OKObject* InputObject)
 	{
 		case(SUBBEHAVIOR_DOCILE):
 		{			
-			InputObject->TargetDistance = 9999999;
+			InputObject->TargetDistance = 800;
 			for (int CurrentPlayer = 0; CurrentPlayer < 1; CurrentPlayer++)
 			{
 				GlobalFloatD = ObjectSubBehaviorLookTarget(InputObject, GlobalPlayer[CurrentPlayer].position);					
@@ -242,34 +243,60 @@ void ObjectBehaviorSearch(OKObject* InputObject)
 	}
 }
 
-short ObjectSearchClosestMarker(float ObjectPostion[], Marker* PathData[])
+short ObjectSearchClosestMarker(float ObjectPostion[], Marker* PathData)
 {
-	GlobalShortA = 0;
+	GlobalShortB = 0;
+	GlobalFloatB = 999999999;
 	for (int CurrentMarker = 0; ; CurrentMarker++)
-	{
-		if (PathData[CurrentMarker]->Position[0] == 0x8000)
+	{		
+		if (PathData[CurrentMarker].Position[0] == (short)0x8000)
 		{
 			return GlobalShortB;
 		}
 		else
 		{
-			GlobalIntA = (ObjectPostion[0] - PathData[CurrentMarker]->Position[0]);
-			GlobalIntB = (ObjectPostion[0] - PathData[CurrentMarker]->Position[1]);
+			GlobalFloatA = (
+				(ObjectPostion[0] - (float)PathData[CurrentMarker].Position[0]) * (ObjectPostion[0] - (float)PathData[CurrentMarker].Position[0]) +
+				(ObjectPostion[1] - (float)PathData[CurrentMarker].Position[1]) * (ObjectPostion[1] - (float)PathData[CurrentMarker].Position[1])
+			);
 			
 
-			if ((GlobalIntA * GlobalIntA) + (GlobalIntB * GlobalIntB) < GlobalShortA)
+			if(GlobalFloatA < GlobalFloatB)
 			{
-				GlobalShortB = CurrentMarker;
-				GlobalShortA = (GlobalIntA * GlobalIntA) + (GlobalIntB * GlobalIntB);
+				GlobalShortB = (short)CurrentMarker;
+				GlobalFloatB = GlobalFloatA;
 			}
 		}
 	}
+	
+	
 }
 
 
-void ObjectBehaviorFollowPath(OKObject* InputObject, Marker* PathData[])
+void ObjectBehaviorFollowPath(OKObject* InputObject, Marker* PathData)
 {
-	
+	if (InputObject->PathTarget == -1)
+	{
+		InputObject->PathTarget = ObjectSearchClosestMarker(InputObject->ObjectData.position,PathData);
+	}
+	else if (InputObject->PathTarget > 0)
+	{
+		objectPosition[0] = (float)PathData[InputObject->PathTarget].Position[0];
+		objectPosition[1] = (float)PathData[InputObject->PathTarget].Position[1];
+		objectPosition[2] = (float)PathData[InputObject->PathTarget].Position[2];
+		
+		InputObject->ObjectData.angle[1] += (DEG1 * 5 * ObjectSubBehaviorTurnTarget(InputObject->ObjectData.position, InputObject->ObjectData.angle[1], objectPosition, 5));
+		ObjectBehaviorWalk(InputObject, InputObject->MaxSpeed);
+
+		if (TestCollideSphere(InputObject->ObjectData.position,6,objectPosition, 6))
+		{
+			InputObject->PathTarget++;
+			if (PathData[InputObject->PathTarget].Position[0] == (short)0x8000)
+			{
+				InputObject->PathTarget = -2; //completed.
+			}
+		}
+	}
 }
 
 void Misbehave(OKObject* InputObject)
@@ -299,6 +326,11 @@ void Misbehave(OKObject* InputObject)
 			
 			ObjectBehaviorSearch(InputObject);
 			break;
+		}
+		case BEHAVIOR_PATH:
+		{
+			
+			ObjectBehaviorFollowPath(InputObject,(Marker*)(GetRealAddress(*(long*)&pathOffset)));
 		}
 	}
 }

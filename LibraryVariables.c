@@ -159,9 +159,25 @@ struct OKEngine EngineClass[3][3];
 #define ENGINE_ACCEL	1
 #define ENGINE_SPEED	2
 */
-short EngineSpeed[3][3] = { {292,288,296},{312,308,316},{326,318,326}};
+short EngineSpeed[3][3] = { {292,288,296},{312,308,316},{322,318,326}};
 short AccelerationCurve[3][10] = {{20,20,20,16,14,12,10,8,6,4},{20,20,25,26,26,20,15,8,8,8},{20,20,20,16,10,10,10,18,18,12}};
 short SteerAngle[3] = {135,125,110};
+short SteerValue[3] = {2,0,-2};
+
+short PowerBand[3] = {25, 30, 15};
+short EnginePowerDownRT[3][15] = {{0,0,0,3,0,0,0,9,9,0,0,9,0,9,9}, {0,0,0,2,0,0,0,8,8,0,0,8,0,8,8}, {0,0,0,4,0,0,0,10,10,0,0,10,0,10,10}};
+short EnginePowerDownFT[3][15] = {{0,0,0,0,0,0,0,3,3,0,0,3,0,3,3}, {0,0,0,0,0,0,0,2,2,0,0,2,0,2,2}, {0,0,0,0,0,0,0,04,04,0,0,04,0,04,04}};
+
+
+char MenuBackup = 0, MenuChanged = 0, MenuTimer = 0;
+char MenuFlash[4] = {0,0,0,0};
+char MenuProgress[4] = {0,0,0,0};
+char PlayerCharacterSelect[4] = {0,1,2,3};
+char PlayerEngineSelect[4] = {0,0,0,0};
+char PlayerSteerSelect[4] = {0,0,0,0};
+char PlayerShowStats[4] = {0,0,0,0};
+struct PlayerTextureTable BackupNamePlateTable;
+struct PlayerTextureTable BackupPortraitTable[9];
 
 //Mario Kart Stats
 char StatsID;

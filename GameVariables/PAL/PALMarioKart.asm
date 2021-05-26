@@ -13,7 +13,7 @@
 .definelabel printNumber, 0x80057504
 .definelabel printString, 0x80057784
 .definelabel printStringNumber, 0x800577B0
-.definelabel drawBox, 0x80098DF8
+.definelabel FillRect1ColorF, 0x80098DF8
 .definelabel GraphPtr, 0x801502F8
 
 .definelabel initializePlayer, 0x800393A0
