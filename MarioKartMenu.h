@@ -1,0 +1,10 @@
+extern void printAnticheat();
+extern void printMap(int devParameter);
+extern void printDetails();
+extern void printGPTime(float printTime, int OffsetY);
+extern void printTime(float printTime);
+extern void PrintMenuTest();
+extern void PlayerSelectMenu(short StatsMode);
+extern void GameSelectMenu();
+extern void MapSelectMenu();
+extern void DrawPlayerSelect(short StatsMode);

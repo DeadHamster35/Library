@@ -7,6 +7,8 @@
 .align 0x10
 .importobj "library/MarioKartObjects.o"
 .align 0x10
+.importobj "library/MarioKartMenu.o"
+.align 0x10
 .importobj "library/MarioKartStats.o"
 .align 0x10
 .importobj "Library/PlayerEffects.o"
