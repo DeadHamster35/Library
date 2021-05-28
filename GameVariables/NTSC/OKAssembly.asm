@@ -119,6 +119,8 @@
 .definelabel itemboxesA, 0x8029DBD4   ;;3C040601
 .definelabel itemboxesB, 0x8029DBDC   ;;24849498
 
+.definelabel battleItemBoxesA, 0x8029E0D8
+
 .definelabel treeslistA, 0x8029DBBC   ;;3C040601
 .definelabel treeslistB, 0x8029DBC4   ;;24849570
 
