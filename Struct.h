@@ -573,17 +573,17 @@ typedef struct Stats{
 	float	MaxSpeed[8];
 	float	Radius[8];
 
-	float 	SlipDownRT[8][15];
 	float 	SlipDownFT[8][15];
+	float 	SlipDownRT[8][15];
 	float	*SlipDownRTPointer[8];
 	float	*SlipDownFTPointer[8];
 
-	float 	PowerDownRT[8][15];
 	float 	PowerDownFT[8][15];
+	float 	PowerDownRT[8][15];
 	float	*PowerDownRTPointer[8];
 	float	*PowerDownFTPointer[8];
 
-	float	Acceleration[10][8];
+	float	Acceleration[8][10];
 	float	*AccelerationPointer[8];
 
 	float	Brake[8][15];

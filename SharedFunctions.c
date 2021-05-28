@@ -79,6 +79,73 @@ int GetRealAddress(int RSPAddress)
 }
 
 
+void DrawBox(int X, int Y, int SizeX, int SizeY, int R, int G, int B, int A)
+{
+	GraphPtr = FillRect1ColorF(GraphPtr, X, Y, X + SizeX, Y + SizeY, R, G, B, A);
+}
+
+void printFloat(int X, int Y, float Value)
+{
+
+	int PrintOffset;
+
+     int wholeNumber = (int) Value;
+     int decimalNumber = (int) ((Value - wholeNumber) * 100);
+
+
+     if (decimalNumber < 0)
+     {
+          decimalNumber = decimalNumber * -1;
+     }
+
+     if (wholeNumber >= 10)
+     {
+          if (wholeNumber >= 100)
+          {
+               if (wholeNumber >= 1000)
+               {
+
+                    PrintOffset = 48;
+               }
+               else
+               {
+                    PrintOffset = 40;
+               }
+          }
+          else
+          {
+               PrintOffset = 32;
+          }
+     }
+     else
+     {
+          PrintOffset = 24;
+     }
+
+
+
+
+     loadFont();
+
+
+     printString(X + PrintOffset, Y, ".");
+     PrintOffset = PrintOffset + 8;
+     if (decimalNumber < 10)
+     {
+          printStringNumber(X+PrintOffset,Y,"",0);
+          PrintOffset = PrintOffset + 8;
+     }
+
+
+
+
+     printStringNumber(X,Y,"",wholeNumber);
+     printStringNumber(X+PrintOffset,Y,"",decimalNumber);
+
+
+
+}
+
 void ResetObject()
 {
 	/*

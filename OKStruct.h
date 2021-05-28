@@ -31,8 +31,8 @@ typedef struct OKModel{
 } OKModel;
 
 typedef struct OKEngine{
-	float	AccelerationCount; 	//Top Speed.
-	float	Acceleration[10]; 	//Acceleration.	
+	short	AccelerationCount; 	//Top Speed.
+	short	Acceleration[10]; 	//Acceleration.	
 } OKEngine;
 #define ENGINE_ACCEL	0
 #define ENGINE_BALANCE	1

@@ -62,6 +62,22 @@ extern struct OKEngine EngineClass[3][3];
 extern short EngineSpeed[3][3];
 extern short AccelerationCurve[3][10];
 extern short SteerAngle[3];
+extern short SteerValue[3];
+extern short PowerBand[3];
+extern short EnginePowerDownRT[3][15];
+extern short EnginePowerDownFT[3][15];
+
+
+extern char MenuBackup,MenuChanged,MenuTimer;
+extern char MenuFlash[4];
+extern char MenuProgress[4];
+
+extern char PlayerCharacterSelect[4];
+extern char PlayerShowStats[4];
+extern char PlayerEngineSelect[4];
+extern char PlayerSteerSelect[4];
+extern struct PlayerTextureTable BackupNamePlateTable;
+extern struct PlayerTextureTable BackupPortraitTable[9];
 
 
 //Mario Kart Stats

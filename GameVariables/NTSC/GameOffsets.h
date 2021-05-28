@@ -64,7 +64,7 @@ extern int CollisionSphere(void *Car, void *Object); //0x8029FB80
 extern void RouletteStart(int Player, int SpecialItem); //0x8007ABFC
 
 
-extern void *SegmentToVirtual(void *RSPAddress);
+extern void *SegmentToVirtual(uint *RSPAddress);
 
 extern void printNumber(int *xPosition, int *yPosition, int num, int base);
 extern void printString(int xPosition, int yPosition, char *printText);
@@ -74,7 +74,7 @@ extern void printStringUnsignedNumber(int xPosition, int yPosition, char *printT
 extern void printStringHex(int xPosition, int yPosition, char *printText, int printValue); //0x80057858
 extern void printStringUnsignedHex(int xPosition, int yPosition, char *printText, uint printValue); //0x800578B0
 extern void printStringUnsignedBinary(int xPosition, int yPosition, char *printText, uint printValue); //0x80057960
-extern unsigned long* drawBox(unsigned long *buf, int x1, int y1, int x2, int y2, int r, int g, int b, int a);
+extern unsigned long* FillRect1ColorF(unsigned long *buf, int x1, int y1, int x2, int y2, int r, int g, int b, int a);
 extern void SetFadeOutB();
 extern void SetObjBlock(int kind, int x, int y, char pri);
 extern void InitObjBlock();
@@ -114,8 +114,18 @@ extern long CheckSplashJAL3;
 extern long CheckFinalLapFanfareJAL;
 extern long CheckPlayStarBGMJAL;
 
+
+extern void TexBuffLoadP(void *texlist_ptr,int nocheck_flg);
+extern void GrayScaleTexBuf3(uint num, uint step);
+extern void GrayScaleTexBufRGB(uint num, int size, int r, int g, int b);
+extern void FadeMain();
+extern void FadeMain2(int i);
+extern void SetFadeOut(int Fade);
+
 extern unsigned long* GraphPtr;
 extern long GraphPtrOffset;
+extern void KWLookCamera();
+extern void KWLookCameraPitch();
 extern void KWSprite(int cx,int cy,uint sizex,uint sizey,ushort *addr);
 extern void KWSpriteScale(int cx,int cy,float scale, ushort *addr, uint sizex,uint sizey);
 extern void KWSpriteDiv(int cx,int cy,ushort *addr,uint sizex,uint sizey,uint cuty);
@@ -179,6 +189,8 @@ extern long g_gameMode; //0 = gp 1 = time trials 2 = vs 3 =battle
 extern unsigned short g_DispFrame;
 extern short g_mirrorMode;
 extern short g_DebugBars;
+
+extern uint PathTable[20][4];
 
 extern long antialiasToggle;
 extern long antialiasToggleB;
@@ -471,7 +483,7 @@ extern long g_mflagID;// 0x8018DA30
 extern long g_mpressstartID;// 0x8018DA58
 extern long g_mracewayTime;// 0x8018DA80
 
-extern long backButton;  //
+extern long KBGNumberNext;  //
 extern char menuScreenC; //
 extern char menuScreenA; //
 extern char menuScreenB; //
@@ -491,17 +503,18 @@ extern long asm_SongB;// 0x8028F9C4
 
 extern long g_courseTable;
 
-
+extern char PlayerOK[];
+extern char player1OK; //
 extern char player2OK; //
 extern char player3OK; //
 extern char player4OK; //
 
-extern void textSetColor(int col);
+extern void SetPalette(int col);
 extern void textDrawPtr(int *x, int *y, const char *str, int spacing, float xScale, float yScale);
 extern void textDraw(int x, int y, const char *str, int spacing, float xScale, float yScale);
 extern void DrawText(int x, int y, const char *str, int spacing, float xScale, float yScale);
-extern void PrintText0(int x, int y, const char *str, int spacing, float xScale, float yScale);
-extern void PrintText1(int x, int y, const char *str, int spacing, float xScale, float yScale);
+extern void SetWord2(int x, int y, const char *str, int spacing, float xScale, float yScale, int Type);
+extern void SetWord3(int x, int y, const char *str, int spacing, float xScale, float yScale, int Type);
 
 extern char g_CharacterSelections[];
 extern char g_player1Character;

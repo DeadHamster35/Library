@@ -68,7 +68,7 @@
 .definelabel printStringHex, 0x80057858
 .definelabel printStringUnsignedHex, 0x800578B0
 .definelabel printStringUnsignedBinary, 0x80057960
-.definelabel drawBox, 0x80098DF8
+.definelabel FillRect1ColorF, 0x80098DF8
 .definelabel SetFadeOutB, 0x8009E208
 .definelabel SetObjBlock, 0x8009E650
 .definelabel InitObjBlock, 0x8009E620
@@ -84,6 +84,8 @@
 
 .definelabel GraphPtr, 0x80150298
 .definelabel GraphPtrOffset, 0x80150298
+.definelabel KWLookCamera, 0x800418AC
+.definelabel KWLookCameraPitch, 0x800418E8
 .definelabel KWSprite, 0x8004C364
 .definelabel KWSpriteScale, 0x8004CA58
 .definelabel KWSpriteDiv, 0x8004C91C
@@ -135,6 +137,13 @@
 .definelabel initializePlayer, 0x800393C0
 
 
+.definelabel TexBuffLoadP, 0x800996BC
+.definelabel GrayScaleTexBuf3, 0x8009B0A4
+.definelabel GrayScaleTexBufRGB, 0x8009B538
+.definelabel FadeMain, 0x8009CA2C
+.definelabel FadeMain2, 0x8009CA6C
+.definelabel SetFadeOut, 0x8009DFE0
+
 .definelabel asm_itemJump1A, 0x8007B084  //3C058016
 .definelabel asm_itemJump1B, 0x8007B098  //84A543BA
 
@@ -168,6 +177,7 @@
 .definelabel g_mirrorMode, 0x800DC604
 .definelabel g_DebugBars, 0x800DC662
 
+.definelabel PathTable, 0x800DC8D0
 
 
 .definelabel GlobalStat, 0x800E2360 
@@ -346,6 +356,8 @@
 .definelabel g_aspectRatio, 0x80150148
 .definelabel g_farClip, 0x8015014C
 
+
+//140,118  xy width/height
 .definelabel g_ScreenStruct, 0x8015F480
 .definelabel g_Screen1, 0x8015F480
 .definelabel g_Screen2, 0x8015F4c0
@@ -471,7 +483,7 @@
 .definelabel g_mracewayTime, 0x8018DA80
 
 
-.definelabel backButton, 0x8018EDE0
+.definelabel KBGNumberNext, 0x8018EDE0
 .definelabel menuScreenC, 0x8018EDEE
 .definelabel menuScreenA, 0x8018EDEC
 .definelabel menuScreenB, 0x8018EDED
@@ -498,9 +510,9 @@
 .definelabel player3OK, 0x8018EDEA
 .definelabel player4OK, 0x8018EDEB
 
-.definelabel textSetColor, 0x800930D8
-.definelabel PrintText0, 0x80093134
-.definelabel PrintText1, 0x8009338C
+.definelabel SetPalette, 0x800930D8
+.definelabel SetWord2, 0x80093134
+.definelabel SetWord3, 0x8009338C
 .definelabel DrawText, 0x800936EC 
 .definelabel textDrawPtr, 0x80093788
 .definelabel textDraw, 0x800939FC
