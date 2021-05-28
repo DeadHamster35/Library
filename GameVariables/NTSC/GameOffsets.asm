@@ -1,5 +1,4 @@
 
-.definelabel PathTable, 0x800DC8D0
 
 .definelabel SYSTEM_Region, 0x80000300
 
