@@ -133,6 +133,8 @@ void stockASM(void)
 	itemboxesA = 0x3C040601; //8029DBD4
 	itemboxesB = 0x24849498; //8029DBDC
 
+	battleItemBoxesA = 0x24840038;
+
 	treeslistA = 0x3C040601; //8029DBBC
 	treeslistB = 0x24849570; //8029DBC4
 
@@ -219,6 +221,10 @@ void overkartASM(void)
 
 	itemboxesA = 0x3C040600; //8029DBD4
 	itemboxesB = 0x24841910; //8029DBDC
+
+	battleItemBoxesA = 0x24841938;
+
+	//8029E0D8
 
 	treeslistA = 0x3C040600; //8029DBBC
 	treeslistB = 0x24841B18; //8029DBC4
@@ -640,6 +646,12 @@ void loadHotSwap(int inputID)
 
 			//load the standard course loadHeaderOffsets
 			*targetAddress = (long)&g_courseTable;
+			
+			if (g_gameMode == 3)
+			{
+				*targetAddress += 0x2D0;
+			}
+
 			*sourceAddress = (long)(&ok_CourseHeader + 1);
 			dataLength = 0x30;
 			runRAM();

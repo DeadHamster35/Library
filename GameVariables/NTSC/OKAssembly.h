@@ -117,6 +117,7 @@ extern long pathOffsetB; //0x800DC780
 
 extern long itemboxesA; //0x8029DBD4   ;;3C040601
 extern long itemboxesB; //0x8029DBDC   ;;24849498
+extern long battleItemBoxesA; //0x8029DBD4   ;;3C040601
 
 extern long treeslistA; //0x8029DBBC   ;;3C040601
 extern long treeslistB; //0x8029DBC4   ;;24849570
