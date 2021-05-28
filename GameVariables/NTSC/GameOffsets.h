@@ -2,7 +2,7 @@
 #include "../../Struct.h"
 
 
-
+extern uint PathTable[20][4];
 
 
 extern long SYSTEM_Region;
