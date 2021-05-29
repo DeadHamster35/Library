@@ -603,7 +603,28 @@ void MapSelectMenu()
           MenuChanged = 13;
      }
      else
-     {				
+     {
+          
+          if (g_gameMode == 3)
+		{
+			GlobalShortA = 4;
+		}
+		else
+		{
+			GlobalShortA = 1;
+		}
+		if (menuScreenA == GlobalShortA)
+		{
+			if ((GlobalController[0]->ButtonPressed & BTN_L) == BTN_L)
+			{
+				swapHS(0);
+			}
+			else if ((GlobalController[0]->ButtonPressed & BTN_R) == BTN_R)
+			{
+				swapHS(1);
+			}
+		}
+
           *(int*)(&PlayerOK) = 0;
           if ((HotSwapID > 0) && (!GlobalBoolD))
           {
