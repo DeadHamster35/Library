@@ -21,6 +21,13 @@ extern int LoopValue;
 extern bool ConsolePlatform;
 extern bool CustomWaterHeight;
 
+extern short MenuPosition[2];
+extern int wholeNumber;
+extern int decimalNumber;
+extern int printOffsetA, printOffsetB, printOffsetC, printOffsetD;
+extern int minutes;
+extern int seconds;
+
 extern Object *GlobalObjectA, *GlobalObjectB;
 
 

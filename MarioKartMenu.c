@@ -13,13 +13,7 @@
 #include "../library/OKCustomObjects.h"
 
 
-short MenuPosition [2];
 
-int wholeNumber = 0;
-int decimalNumber = 0;
-int printOffsetA, printOffsetB, printOffsetC, printOffsetD = 0;
-int minutes = 0;
-int seconds = 0;
 
 
 
