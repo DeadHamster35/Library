@@ -148,6 +148,12 @@
 .definelabel unknownD1, 0x80295E68   ;;3C040700 -> 34840000
 .definelabel unknownD, 0x80295E70   ;;34842D68 -> 34840000
 
+.definelabel battleSurfaceA, 0x80296520   ;;3C040700
+.definelabel battleSurfaceB, 0x80296524   ;;348415C0
+
+.definelabel battleDisplayA, 0x80295068   ;;3C0F0700
+.definelabel battleDisplayB, 0x8029506C   ;;35EF15C0
+
 .definelabel sectionviewA, 0x802927FC   ;;3C040900
 .definelabel sectionviewB, 0x80292810   ;;248401F0
 

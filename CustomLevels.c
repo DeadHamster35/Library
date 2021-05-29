@@ -150,6 +150,11 @@ void stockASM(void)
 	sectionviewA = 0x3C040900;   //3C040900
 	sectionviewB = 0x248401F0;   //248401F0
 
+	battleDisplayA = 0x3C0F0700;
+	battleDisplayB = 0x35EF15C0;
+	battleSurfaceA = 0x3C040700;
+	battleSurfaceB = 0x348415C0;
+
 	surfacemapA = 0x3C040601;   //3C040601
 	surfacemapB = 0x24849650;   //24849650
 
@@ -241,6 +246,11 @@ void overkartASM(void)
 
 	sectionviewA = 0x3C040600;   //3C040900
 	sectionviewB = 0x24842328;   //248401F0
+
+	battleDisplayA = 0x3C0F0600;
+	battleDisplayB = 0x35EF0008;
+	battleSurfaceA = 0x3C040600;
+	battleSurfaceB = 0x34840008;
 
 	surfacemapA = 0x3C040600;   //3C040601
 	surfacemapB = 0x24842538;  //24849650
