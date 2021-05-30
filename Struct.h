@@ -535,6 +535,118 @@ typedef struct AnmObject_Lakitu{
 		long      	unknown_state_flag;
 } AnmObject_Lakitu;
 
+
+typedef	struct AnmObject{ 			//0x80165C18
+//scale
+	float	scale;				/* scaling*/
+
+//3D coord
+	float	pos[3];				/* 3D main  position */
+	float	pos_start[3];		/* 3D start coord */
+	float	pos_ende[3];		/* 3D end   coord */
+	float	pos_spline[3];		/* 3D spline coord */
+
+//velocity
+	float	vel;				/* velocity */
+	float	velocity[3];;		/* velocity (vx,vy,vz) */
+
+//ground coord
+	float	ground;				/* Ground coord */
+
+//timer
+	int	ival;					/* int value */
+	int	timer;					/* timer */
+	int	anmtm;					/* animation timer */
+
+//flag
+	uint	flag;				/* flag */
+	uint	evflag;				/* event flag */
+	uint	evtrflag;			/* event trigger flag */
+
+//pointer
+	ushort	*texaddr;			//rgba (rgb)texture addr,colpal addr
+	uchar	*indexaddr;			//index addr
+	ushort	*stexaddr;			//rgba (rgb)texture start addr,colpal start addr
+	uchar	*sindexaddr;		//index start addr
+	long	*shape;				/* polygon shape address */
+	long	*vtxaddr;			/* vertex address */
+	long	*svtxaddr;			/* source vertex address */
+
+	short	*sptbaddr;			/* spline table address */
+	short	*sptbtopaddr;		/* spline table top address */
+
+//stack
+	short	stack[8];			/* stack buffer */
+
+	ushort	pointkazu;			/* spline point no kazu */
+	ushort	spptptr; 			/* spline point pointer */
+	ushort	spstep;				/* spline from point to point no frame wari */
+	ushort	spstepadd;			/* spline frame */
+
+//2D coord
+	short	ix;					/* 2D x coord */
+	short	iy;	        		/* 2D y coord */
+
+
+//alpha value
+	short	alpha;				/* alpha value */
+
+//tmp
+	short	input;				/* input */
+	short	output;				/* output */
+
+//animation
+	short	anmptr;				/* anmation success pointer */
+	short	anmptrbak;			/* anmation success pointer (return)*/
+
+//float value
+	short	fvaltm; 			/* timer */
+
+//short value
+	short	svaltm; 			/* timer */
+
+//strategy
+	short	mvptr;				/* move success pointer */
+	short	mvtm;				/* move success timer */
+
+//texture & kage angle
+	ushort	texang[3];			/* texture angle */
+	ushort	kageang[3];			/* kage angle */
+
+//direction
+	ushort	ang[3];				/* angle */
+	ushort	addangy;			/* add angle y */
+	ushort	destangy;			/* destination angle y */
+
+//collision
+	ushort	r;					/* radius */
+//flag
+	char	alloc;				/* memory alloc flag */
+	char	anmtrig;			/* animation initial trigger */
+	char	anmloop;			/* animation loop counter */
+	char	fvaltrig;			/* trigger */
+	char	fvalloop;			/* loop counter */
+	char	svaltrig;			/* trigger */
+	char	svalloop;			/* loop counter */
+	char	player;				/* player number*/
+	char	anmnum;				/* animation pattern number */
+	char	anmnumbak;			/* animation pattern number */
+	char	anmcnt;				/* animation counter */
+
+	uchar	type;				/* object type (object name)*/
+	uchar	chartptr;			/* time chart number */
+	uchar	stackptr; 			/* stack buffer */
+	uchar	anmtype;			/* anmation type number */
+	uchar	texsizex;			//texture size (x)
+	uchar	texsizey;				//texture size (y)
+	uchar	fvalptr;			/* success pointer */
+	uchar	svalptr;			/* success pointer */
+	uchar	mvtype;				/* move success type */
+	uchar	spptr; 				/* spline pointer */
+	uchar	mappoint;			/* map area number */
+
+} AnmObject;
+
 typedef struct Skycolor{
 		short	R1,G1,B1,R2,G2,B2;
 		short	dummy[120];

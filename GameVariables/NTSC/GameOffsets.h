@@ -112,6 +112,14 @@ extern long CheckSplashJAL3;
 extern long CheckFinalLapFanfareJAL;
 extern long CheckPlayStarBGMJAL;
 
+extern long CloudTypeMapCheck1;
+extern long CloudTypeMapCheck2;
+extern long CloudAmountMapCheck1;
+extern long CloudAmountMapCheck2;
+extern long Snow3DAllocMapCheck1;
+extern long Snow3DAllocMapCheck2;
+extern long Snow3DDisplayAfterMapCheck1;
+extern long Snow3DDisplayAfterMapCheck2;
 
 extern void TexBuffLoadP(void *texlist_ptr,int nocheck_flg);
 extern void GrayScaleTexBuf3(uint num, uint step);
@@ -119,6 +127,9 @@ extern void GrayScaleTexBufRGB(uint num, int size, int r, int g, int b);
 extern void FadeMain();
 extern void FadeMain2(int i);
 extern void SetFadeOut(int Fade);
+
+extern short g_fadeOutFlag;
+extern ushort g_fadeOutCounter;
 
 extern unsigned long* GraphPtr;
 extern long GraphPtrOffset;
@@ -428,7 +439,7 @@ extern struct Camera g_Camera2; //0x801647A8
 extern struct Camera g_Camera3; //0x80164860
 extern struct Camera g_Camera4; //0x80164918
 
-extern long g_DynamicObjects; //0x80165C18
+//extern long g_DynamicObjects; //0x80165C18
 
 
 extern char g_itemBoolean; //0x80165F5F
@@ -513,6 +524,8 @@ extern void textDraw(int x, int y, const char *str, int spacing, float xScale, f
 extern void DrawText(int x, int y, const char *str, int spacing, float xScale, float yScale);
 extern void SetWord2(int x, int y, const char *str, int spacing, float xScale, float yScale, int Type);
 extern void SetWord3(int x, int y, const char *str, int spacing, float xScale, float yScale, int Type);
+
+extern int GetWordLength(const char *str);
 
 extern char g_CharacterSelections[];
 extern char g_player1Character;
@@ -644,6 +657,14 @@ extern struct Skycolor g_skyColorTop10; // 0x802B8B90
 extern struct Skycolor g_skyColorTop11; // 0x802B8B9C
 extern struct Skycolor g_skyColorTop12; // 0x802B8BA9
 extern struct Skycolor g_skyColorTop13; // 0x802B8BB4
+
+extern float g_skySnowScale;
+extern float g_skySnowVelocity;
+extern long g_skySnowSpawnHeight;
+extern long g_skySnowSpawnRadiusDensity;
+extern long g_skySnowSpawnCenterOffset;
+
+extern void KWChartSnow();
 
 
 //fog

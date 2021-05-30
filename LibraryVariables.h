@@ -20,6 +20,7 @@ extern bool GlobalBoolA, GlobalBoolB, GlobalBoolC, GlobalBoolD;
 extern int LoopValue;
 extern bool ConsolePlatform;
 extern bool CustomWaterHeight;
+extern short CloudCourseID, Snow3DCourseID; 
 
 extern short MenuPosition[2];
 extern int wholeNumber;
@@ -45,6 +46,7 @@ extern short *GlobalPath[];
 extern long *GlobalLap[];
 extern struct Lakitu *GlobalLakitu[];
 extern struct AnmObject_Lakitu AnimatedLakituStruct[];
+extern struct AnmObject g_DynamicObjects[];
 extern struct PlayerState *GlobalPlayerState[];  
 extern struct Hud *GlobalHud[];
 extern char *GlobalLightning[];

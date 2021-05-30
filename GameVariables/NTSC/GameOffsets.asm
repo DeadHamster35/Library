@@ -130,8 +130,19 @@
 .definelabel CheckSplashJAL2, 0x8002F340
 .definelabel CheckSplashJAL3, 0x8003939C
 
+// NOP out BGM fanfares func
 .definelabel CheckFinalLapFanfareJAL, 0x8028F344
 .definelabel CheckPlayStarBGMJAL, 0x8008F820
+
+// Edit cloud call func
+.definelabel CloudTypeMapCheck1, 0x80070560
+.definelabel CloudTypeMapCheck2, 0x80070564
+.definelabel CloudAmountMapCheck1, 0x80078DD8
+.definelabel CloudAmountMapCheck2, 0x80078DE0
+.definelabel Snow3DAllocMapCheck1, 0x80070784
+.definelabel Snow3DAllocMapCheck2, 0x80070788
+.definelabel Snow3DDisplayAfterMapCheck1, 0x80058B58
+.definelabel Snow3DDisplayAfterMapCheck2, 0x80058B5C
 
 .definelabel initializePlayer, 0x800393C0
 
@@ -142,6 +153,9 @@
 .definelabel FadeMain, 0x8009CA2C
 .definelabel FadeMain2, 0x8009CA6C
 .definelabel SetFadeOut, 0x8009DFE0
+
+.definelabel g_fadeOutFlag, 0x800DC5C0
+.definelabel g_fadeOutCounter, 0x800DC5C4
 
 .definelabel asm_itemJump1A, 0x8007B084  //3C058016
 .definelabel asm_itemJump1B, 0x8007B098  //84A543BA
@@ -516,6 +530,8 @@
 .definelabel textDrawPtr, 0x80093788
 .definelabel textDraw, 0x800939FC
 
+.definelabel GetWordLength, 0x80093034
+
 .definelabel g_RNG, 0x802BA290
 
 .definelabel g_CharacterSelections, 0x800E86A8
@@ -657,6 +673,21 @@
 .definelabel g_skyColorTop11, 0x802B8B9C
 .definelabel g_skyColorTop12, 0x802B8BA8
 .definelabel g_skyColorTop13, 0x802B8BB4
+
+.definelabel g_skySnowScale, 0x800EEB3C
+.definelabel g_skySnowVelocity, 0x800EEB40
+.definelabel g_skySnowSpawnHeight, 0x80077FD8
+.definelabel g_skySnowSpawnRadiusDensity, 0x80077FA4
+.definelabel g_skySnowSpawnCenterOffset, 0x80077FE8
+.definelabel g_3DSnowScale, 0x800EEB48
+
+.definelabel g_3DSnowSpawnHeight, 0x8007833C
+.definelabel g_3DSnowSpawnDistance, 0x80078348
+.definelabel g_3DSnowSpawnRadius, 0x80078354
+.definelabel g_3DSnowSwayVelocity, 0x80078430
+.definelabel g_3DSnowSwayDistance, 0x8007843C
+
+.definelabel KWChartSnow, 0x80078838
 
 //fog
 .definelabel g_fogToggleBanshee, 0x800DC5BD

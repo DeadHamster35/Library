@@ -1064,3 +1064,78 @@ void SetCourseNames(bool custom)
 			}
 		}
 }
+
+void SetCloudType(char CloudType)
+{
+//	if (g_startingIndicator >= 0 && HotSwapID > 0) // 3D Snow Start - Not fully implemented
+//	{
+//		KWChartSnow();
+//	}
+
+	if (currentMenu == 0x25 || g_fadeOutCounter == 1)
+	{
+		if	(HotSwapID > 0)
+		{
+			CloudTypeMapCheck1 = (CloudTypeMapCheck1 & 0xFFFF0000) + ((long)&CloudCourseID >> 16 & 0x0000FFFF);
+			CloudTypeMapCheck2 = (CloudTypeMapCheck2 & 0xFFFF0000) + ((long)&CloudCourseID & 0x0000FFFF);
+			CloudAmountMapCheck1 = (CloudAmountMapCheck1 & 0xFFFF0000) + ((long)&CloudCourseID >> 16 & 0x0000FFFF);
+			CloudAmountMapCheck2 = (CloudAmountMapCheck2 & 0xFFFF0000) + ((long)&CloudCourseID & 0x0000FFFF);
+
+			g_skySnowSpawnHeight = (g_skySnowSpawnHeight & 0xFFFF0000) + (0x65 & 0x0000FFFF);
+			g_skySnowSpawnRadiusDensity = (g_skySnowSpawnRadiusDensity & 0xFFFF0000) + (0x8000 & 0x0000FFFF);
+			g_skySnowSpawnCenterOffset = (g_skySnowSpawnCenterOffset & 0xFFFF0000) + (0xC000 & 0x0000FFFF);
+			g_skySnowVelocity = 1.15;
+			g_skySnowScale = 0.25;
+/*
+			Snow3DAllocMapCheck1 = (Snow3DAllocMapCheck1 & 0xFFFF0000) + ((long)&Snow3DCourseID >> 16 & 0x0000FFFF);
+			Snow3DAllocMapCheck2 = (Snow3DAllocMapCheck2 & 0xFFFF0000) + ((long)&Snow3DCourseID & 0x0000FFFF);
+			Snow3DDisplayAfterMapCheck1 = (Snow3DDisplayAfterMapCheck1 & 0xFFFF0000) + ((long)&Snow3DCourseID >> 16 & 0x0000FFFF);
+			Snow3DDisplayAfterMapCheck2 = (Snow3DDisplayAfterMapCheck2 & 0xFFFF0000) + ((long)&Snow3DCourseID & 0x0000FFFF);
+
+			Snow3DCourseID = 5;
+*/
+		}
+		else
+		{
+			CloudTypeMapCheck1 = (CloudTypeMapCheck1 & 0xFFFF0000) + ((long)&g_courseID >> 16 & 0x0000FFFF) +1;
+			CloudTypeMapCheck2 = (CloudTypeMapCheck2 & 0xFFFF0000) + ((long)&g_courseID & 0x0000FFFF);
+			CloudAmountMapCheck1 = (CloudAmountMapCheck1 & 0xFFFF0000) + ((long)&g_courseID >> 16 & 0x0000FFFF) +1;
+			CloudAmountMapCheck2 = (CloudAmountMapCheck2 & 0xFFFF0000) + ((long)&g_courseID & 0x0000FFFF);
+
+			g_skySnowSpawnHeight = (g_skySnowSpawnHeight & 0xFFFF0000) + (0xB4 & 0x0000FFFF);
+			g_skySnowSpawnRadiusDensity = (g_skySnowSpawnRadiusDensity & 0xFFFF0000) + (0x4000 & 0x0000FFFF);
+			g_skySnowSpawnCenterOffset = (g_skySnowSpawnCenterOffset & 0xFFFF0000) + (0xE000 & 0x0000FFFF);
+			g_skySnowVelocity = 1.035;
+			g_skySnowScale = 0.15;
+		}
+
+		switch (CloudType)
+		{
+			case 0:
+			{
+				CloudCourseID = 2;
+				break;
+			}
+			case 1:
+			{
+				CloudCourseID = 0;
+				break;
+			}
+			case 2:
+			{
+				CloudCourseID = 14;
+				break;
+			}
+			case 3:
+			{
+				CloudCourseID = 5;
+				break;
+			}
+			default:
+			{
+				CloudCourseID = 0;
+				break;
+			}
+		}
+	}
+}
