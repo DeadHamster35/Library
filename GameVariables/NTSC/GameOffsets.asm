@@ -24,6 +24,7 @@
 .definelabel ScrollMapImage, 0x802AF7B4
 .definelabel MakeWaterVertex, 0x802AF8BC
 .definelabel ramCopy, 0x800D7FE0
+.definelabel CheckArea, 0x802ABD40
 
 .definelabel readControllers, 0x80000A28
 .definelabel InitControllers, 0x800008A4
@@ -102,6 +103,7 @@
 .definelabel MakeAlignMatrix, 0x802B6540
 .definelabel MakeAlignVector, 0x802B64C4
 .definelabel MakeRandomLimmit, 0x802B7E34
+.definelabel Atan2T, 0x802B7830
 
 .definelabel SetSegment, 0x802A7B94
 
@@ -121,6 +123,7 @@
 .definelabel CallLakitu, 0x80090868
 .definelabel SetLakitu, 0x80090778
 .definelabel LakituCheck, 0x8002C17C
+.definelabel HangLakitu, 0x80090970
 
 .definelabel CheckWaterLevel, 0x802AAB4C
 .definelabel CheckSplash, 0x8002C4F8
@@ -192,6 +195,8 @@
 
 .definelabel PathTable, 0x800DC8D0
 
+.definelabel g_courseFaceStructPtr, 0x8015F580
+.definelabel g_courseFaceMaxIndex, 0x8015F588
 
 .definelabel GlobalStat, 0x800E2360 
 .definelabel gravity_1, 0x800E2650
@@ -444,6 +449,7 @@
 .definelabel g_Camera4, 0x80164918
 
 .definelabel g_DynamicObjects, 0x80165C18
+.definelabel KWAnmNext, 0x80086FD4
 
 
 .definelabel itemBoolean, 0x80165F5F
@@ -604,6 +610,7 @@
 .definelabel g_GhostUseTimer, 0x8018D970
 .definelabel g_sfxPointer, 0x803B7080 
 .definelabel g_noSimpleKartFlag, 0x801633F8
+.definelabel g_charRadiusTbl, 0x800E26B0
 
 .definelabel SelectNamePlateTable, 0x800E7D54
 
@@ -674,18 +681,25 @@
 .definelabel g_skyColorTop12, 0x802B8BA8
 .definelabel g_skyColorTop13, 0x802B8BB4
 
+.definelabel g_SnowParticleTex, 0x801C8D10
+
 .definelabel g_skySnowScale, 0x800EEB3C
 .definelabel g_skySnowVelocity, 0x800EEB40
 .definelabel g_skySnowSpawnHeight, 0x80077FD8
 .definelabel g_skySnowSpawnRadiusDensity, 0x80077FA4
 .definelabel g_skySnowSpawnCenterOffset, 0x80077FE8
-.definelabel g_3DSnowScale, 0x800EEB48
+.definelabel g_skySnowHitGoal, 0x800780A0
 
 .definelabel g_3DSnowSpawnHeight, 0x8007833C
 .definelabel g_3DSnowSpawnDistance, 0x80078348
+.definelabel g_3DSnowSpawnCone, 0x8007830C
 .definelabel g_3DSnowSpawnRadius, 0x80078354
 .definelabel g_3DSnowSwayVelocity, 0x80078430
 .definelabel g_3DSnowSwayDistance, 0x8007843C
+.definelabel g_3DSnowSwayMovement, 0x800EEB50
+.definelabel g_3DSnowScale, 0x800EEB48
+.definelabel g_3DSnowVelocityUpLim, 0x800EEB58
+.definelabel g_3DSnowVelocityLowLim, 0x800EEB60 
 
 .definelabel KWChartSnow, 0x80078838
 

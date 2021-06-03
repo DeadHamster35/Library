@@ -22,7 +22,7 @@ bool GlobalBoolA, GlobalBoolB, GlobalBoolC, GlobalBoolD;
 int LoopValue;
 
 bool ConsolePlatform;
-bool CustomWaterHeight;
+bool CustomWaterHeight[8];
 short CloudCourseID, Snow3DCourseID;
 
 short MenuPosition [2];
@@ -244,5 +244,6 @@ short SystemType;
 
 //CustomLevels
 int ScrollValues[32][2];
+long *CourseFaceStruct = &g_courseFaceStructPtr;
 //
 //

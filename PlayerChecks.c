@@ -383,7 +383,7 @@ void PathEchoTrigger()
 
 		for (char playerID = 0; playerID < 4; playerID++)					// Loop for each racer		
 		{
-			if ((GlobalPlayer[(int)playerID].flag & EXISTS) != 0)			// Only run for existing racers
+			if(((GlobalPlayer[(int)playerID].flag & IS_PLAYER) != 0) && ((GlobalPlayer[(int)playerID].flag & IS_GHOST) == 0))			// Only run for existing racers
 			{
 				for (int LoopVal = 0; LoopVal < pEchoArraySize; LoopVal++)
 				{
@@ -493,7 +493,7 @@ void PathNoSimpleKartTrigger()
 					g_noSimpleKartFlag[(int)playerID] = 1;
 					break;
 				}
-					g_noSimpleKartFlag[(int)playerID] = 0;
+				g_noSimpleKartFlag[(int)playerID] = 0;
 			}
 		}
 	}	
@@ -536,6 +536,8 @@ void PathLakituRescue()
 		}
 	}
 }
+
+
 
 void GetPathPoints()
 {

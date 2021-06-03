@@ -47,6 +47,7 @@ extern long *GlobalLap[];
 extern struct Lakitu *GlobalLakitu[];
 extern struct AnmObject_Lakitu AnimatedLakituStruct[];
 extern struct AnmObject g_DynamicObjects[];
+extern struct FaceStruct CourseFaceStruct[];
 extern struct PlayerState *GlobalPlayerState[];  
 extern struct Hud *GlobalHud[];
 extern char *GlobalLightning[];

@@ -22,4 +22,7 @@ extern void setPreviews();
 extern void swapHS();
 extern void previewRefresh();
 extern void SetCourseNames(bool custom);
+extern void SetWeatherType(char WeatherType);
 extern void SetCloudType(char CloudType);
+extern void SetWeather3D(bool Weather3DEnable);
+extern void Snow3DCameralook(int num, void* Camera);

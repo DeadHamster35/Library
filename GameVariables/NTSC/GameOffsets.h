@@ -30,6 +30,7 @@ extern void CalcBumpVelocity(Bump InputBump, float Velocity);
 extern void ScrollMapImage(int ObjectAddress,int ScrollS,int ScrollT);
 extern void MakeWaterVertex(int ObjectAddress, char alpha, char red, char green, char blue);
 extern void ramCopy(long output, long input, long Length);
+extern short CheckArea(ushort pointer);
 
 
 extern void InitControllers();
@@ -100,7 +101,7 @@ extern void SetFastOoB(void *Car,char PlayerID);
 extern void CallLakitu(void *Car);
 extern void SetLakitu(void *Car);
 extern void LakituCheck(void *Car,char PlayerID);
-
+extern void HangLakitu(void *Car,char PlayerID);
 
 extern float CheckWaterLevel(void *Car);
 extern void CheckSplash(void *Car,int PlayerIndex);
@@ -129,7 +130,7 @@ extern void FadeMain2(int i);
 extern void SetFadeOut(int Fade);
 
 extern short g_fadeOutFlag;
-extern ushort g_fadeOutCounter;
+extern short g_fadeOutCounter;
 
 extern unsigned long* GraphPtr;
 extern long GraphPtrOffset;
@@ -154,6 +155,7 @@ extern void ScalingMatrix(float Matrix[][4], float scale);
 extern void MakeAlignMatrix(Matrix InputMatrix,  float x, float y, float z ,short roty);
 extern void MakeAlignVector(float Vector[3],short OriginAngle);
 extern unsigned short MakeRandomLimmit(unsigned short Limit);
+extern ushort Atan2T(float,float);
 
 extern float sinT(short inputAngle);
 extern float cosT(short inputAngle);
@@ -200,6 +202,9 @@ extern short g_mirrorMode;
 extern short g_DebugBars;
 
 extern uint PathTable[20][4];
+
+extern long g_courseFaceStructPtr;
+extern ushort g_courseFaceMaxIndex;
 
 extern long antialiasToggle;
 extern long antialiasToggleB;
@@ -439,7 +444,8 @@ extern struct Camera g_Camera2; //0x801647A8
 extern struct Camera g_Camera3; //0x80164860
 extern struct Camera g_Camera4; //0x80164918
 
-//extern long g_DynamicObjects; //0x80165C18
+// extern long g_DynamicObjects; //0x80165C18
+extern void KWAnmNext(int num); //0x80086FD4
 
 
 extern char g_itemBoolean; //0x80165F5F
@@ -597,6 +603,7 @@ extern long g_GhostUseCounter[8]; // 8018D950
 extern long g_GhostUseTimer[8]; // 8018D970
 extern long g_sfxPointer; //  803B7080
 extern short g_noSimpleKartFlag[8]; // 801633F8
+extern float g_charRadiusTbl[8];
 
 extern long g_StringTableCourseGP[20]; // 800E7524
 extern long g_StringTableCourse[20]; // 800E7574
@@ -658,11 +665,25 @@ extern struct Skycolor g_skyColorTop11; // 0x802B8B9C
 extern struct Skycolor g_skyColorTop12; // 0x802B8BA9
 extern struct Skycolor g_skyColorTop13; // 0x802B8BB4
 
+extern long g_SnowParticleTex[50];
+
 extern float g_skySnowScale;
 extern float g_skySnowVelocity;
 extern long g_skySnowSpawnHeight;
 extern long g_skySnowSpawnRadiusDensity;
 extern long g_skySnowSpawnCenterOffset;
+extern long g_skySnowHitGoal;
+
+extern long g_3DSnowSpawnHeight;
+extern long g_3DSnowSpawnDistance;
+extern long g_3DSnowSpawnCone;
+extern long g_3DSnowSpawnRadius;
+extern long g_3DSnowSwayVelocity;
+extern long g_3DSnowSwayDistance;
+extern float g_3DSnowSwayMovement;
+extern float g_3DSnowScale;
+extern float g_3DSnowVelocityUpLim;
+extern float g_3DSnowVelocityLowLim;
 
 extern void KWChartSnow();
 
