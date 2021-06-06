@@ -26,7 +26,7 @@ void CheckSplashRepl(char WaterType)
 	{
 		if (((GlobalPlayer[(int)playerID].flag & EXISTS) != 0) && (g_gamePausedFlag == 0x00))
 		{
-			if(!CustomWaterHeight)
+			if(!CustomWaterHeight[(int)playerID])
 			{
 				g_waterlevelPlayer[(int)playerID] = CheckWaterLevel((void*)&GlobalPlayer[(int)playerID]);
 			}

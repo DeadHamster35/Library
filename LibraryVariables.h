@@ -19,7 +19,7 @@ extern short GlobalShortA, GlobalShortB;
 extern bool GlobalBoolA, GlobalBoolB, GlobalBoolC, GlobalBoolD;
 extern int LoopValue;
 extern bool ConsolePlatform;
-extern bool CustomWaterHeight;
+extern bool CustomWaterHeight[];
 extern short CloudCourseID, Snow3DCourseID; 
 
 extern short MenuPosition[2];
