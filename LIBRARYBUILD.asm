@@ -3,8 +3,6 @@
 .align 0x10
 .importobj "library/MarioKart3D.o"
 .align 0x10
-.importobj "library/MarioKartMemory.o"
-.align 0x10
 .importobj "library/MarioKartObjects.o"
 .align 0x10
 .importobj "library/MarioKartMenu.o"

@@ -4,7 +4,7 @@
 
 
 
-extern int GlobalAddressA, GlobalAddressB, GlobalAddressC;
+extern int GlobalAddressA, GlobalAddressB, GlobalAddressC, GlobalAddressD;
 extern int GlobalIntA, GlobalIntB, GlobalIntC, GlobalIntD;
 extern unsigned int GlobalUIntA, GlobalUIntB;
 extern int MenuIntA, MenuIntB, MenuIntC, MenuIntD;
@@ -30,6 +30,7 @@ extern int minutes;
 extern int seconds;
 
 extern Object *GlobalObjectA, *GlobalObjectB;
+extern OKObjectHeader OverKartObjectHeader;
 
 extern float ZeroVector[3];
 
@@ -40,6 +41,8 @@ extern struct ObjBlock GlobalMenuHUD[32];
 extern struct Stats GlobalStat;
 extern float GlobalWeight[];
 extern struct Player GlobalPlayer[];
+
+
 extern struct Controller *GlobalController[];
 extern struct Screen *GlobalScreen[];
 extern struct Camera *GlobalCamera[];
@@ -62,6 +65,7 @@ extern struct Playercolor *GlobalPlayercolor[];
 //MarioKart3D Variables
 extern int CoinCount;
 extern float AffineMatrix[4][4];
+extern float AffineMatrix2[4][4];
 extern float objectPosition[3];
 extern float objectVelocity[3];
 extern short objectAngle[3];
@@ -122,7 +126,7 @@ extern char *stockCharacterNames[];
 
 //Main
 
-extern struct OKObject OKObjectHeaders[];
+extern struct OKObject OKObjectArray[];
 extern short hsLabel, raceStatus, startupSwitch, courseSwapped;
 extern bool scrollLock;
 extern int currentHeaderAddress;

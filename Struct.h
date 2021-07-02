@@ -133,8 +133,7 @@
 #define SPLASH_START 	0x0004
 #define SPLASH_DIVE  	0x0008
 
-typedef float	Vector[3];			/* 	3 floats	*/
-typedef short	SVector[3];			/* 	3 shorts	*/
+
 typedef	float	RotateMtx[3][3];			/* 3x3 rotation matrix					*/
 typedef 	float	AffineMtx[4][4];			/* 4x4 affine transformation matrix		*/
 typedef 	float	Matrix[3][3];			/* 4x4 affine transformation matrix		*/
@@ -898,6 +897,21 @@ typedef struct SeqPlayerStruct{
 		int *unknownselfpointer912;
 		int Empty[29];
 } SeqPlayerStruct;
+
+typedef struct CourseHeader {
+	uint Seg6Start;      //(0x00) ROM address at which segment 6 file begins
+	uint Seg6End;       //(0x04) ROM address at which segment 6 file ends
+	uint Seg4Start;      //(0x08) ROM address at which segment 4 file begins
+	uint Seg7End;       //(0x0C) ROM address at which segment 7 (not 4) file ends
+	uint Seg9Start;      //(0x10) ROM address at which segment 9 file begins
+	uint Seg9End;       //(0x14) ROM address at which segment 9 file ends
+	uint Seg47Buffer;      //(0x18) RSP address of compressed segments 4 and 7
+	uint NumberVerts;        //(0x1C) number of vertices in the vertex file
+	uint Segment7Pointer;       //(0x20) RSP address at which segment 7 data begins
+	uint Segment7Size;      //(0x24) Size of segment 7 data after decompression, minus 8 bytes for some reason
+	uint TextureRSP;   //(0x28) RSP address of texture list
+	ushort flag,unused;    //(0x2E) Padding
+} CourseHeader;
 
 
 #endif

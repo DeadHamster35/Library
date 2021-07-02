@@ -3,6 +3,7 @@
 #include "../library/SubProgram.h"
 #include "../library/SharedFunctions.h"
 #include "../library/OKHeader.h"
+#include "../library/OKCustom.h"
 #include "../library/LibraryVariables.h"
 #include "../library/GameVariables/NTSC/OKassembly.h"
 #include "../library/GameVariables/NTSC/GameOffsets.h"
@@ -249,7 +250,7 @@ short CheckPlayerSelect(int TargetController, short Direction)
      }
 }
 
-void PlayerSelectMenu(short StatsMode)
+void PlayerSelectMenuStart()
 {
      if (MenuChanged != 12)
      {
@@ -257,9 +258,13 @@ void PlayerSelectMenu(short StatsMode)
           MenuProgress[1] = 0;
           MenuProgress[2] = 0;
           MenuProgress[3] = 0;
-          MenuChanged = 12;
-          
+          MenuChanged = 12;          
      }
+}
+
+void PlayerSelectMenu(short StatsMode)
+{
+     
      
      GlobalIntC = *(int*)(long)(&PlayerOK);
      
@@ -336,8 +341,10 @@ void PlayerSelectMenu(short StatsMode)
                
                for (int ThisController = 0; ThisController < g_playerCount; ThisController++)
                {
+                    
                     SetEngine(CharacterConvert[PlayerCharacterSelect[ThisController] + 1],PlayerEngineSelect[ThisController]);
                     SetSteering(CharacterConvert[PlayerCharacterSelect[ThisController] + 1], PlayerSteerSelect[ThisController]);
+                    
                     if (MenuProgress[ThisController] == 0)
                     {
                          PlayerOK[ThisController] = 0;
@@ -555,6 +562,21 @@ void PlayerSelectMenu(short StatsMode)
      }
 }
 
+void PlayerSelectMenuAfter()
+{
+     if (MenuChanged != 13)
+     {
+          for (int ThisController = 0; ThisController < g_playerCount; ThisController++)
+          {
+               asm_DispOBSubPSelCursor1[ThisController] = 0x800A08C8;
+               g_CharacterSelections[ThisController] = CharacterConvert[(int)PlayerCharacterSelect[ThisController] + 1];
+               PlayerCharacterSelect[ThisController] = ThisController;
+               MenuProgress[ThisController] = 0;
+          }
+          MenuChanged = 13;
+     }
+}
+
 void GameSelectMenu()
 {
      HotSwapID = 0;
@@ -582,82 +604,70 @@ void GameSelectMenu()
      
 }
 
+
+
 void MapSelectMenu()
 {
      
-     if (MenuChanged != 13)
+     if (g_gameMode == 3)
      {
-          for (int ThisController = 0; ThisController < g_playerCount; ThisController++)
-          {
-               asm_DispOBSubPSelCursor1[ThisController] = 0x800A08C8;
-               g_CharacterSelections[ThisController] = CharacterConvert[(int)PlayerCharacterSelect[ThisController] + 1];
-               PlayerCharacterSelect[ThisController] = ThisController;
-               MenuProgress[ThisController] = 0;
-          }
-          MenuChanged = 13;
+          GlobalShortA = 4;
      }
      else
      {
-          
-          if (g_gameMode == 3)
-		{
-			GlobalShortA = 4;
-		}
-		else
-		{
-			GlobalShortA = 1;
-		}
-		if (menuScreenA == GlobalShortA)
-		{
-			if ((GlobalController[0]->ButtonPressed & BTN_L) == BTN_L)
-			{
-				swapHS(0);
-			}
-			else if ((GlobalController[0]->ButtonPressed & BTN_R) == BTN_R)
-			{
-				swapHS(1);
-			}
-		}
-
-          *(int*)(&PlayerOK) = 0;
-          if ((HotSwapID > 0) && (!GlobalBoolD))
+          GlobalShortA = 1;
+     }
+     if (menuScreenA == GlobalShortA)
+     {
+          if ((GlobalController[0]->ButtonPressed & BTN_L) == BTN_L)
           {
-          GlobalBoolD = true;
-               setBanners();
+               swapHS(0);
           }
-          switch(g_gameMode)
+          else if ((GlobalController[0]->ButtonPressed & BTN_R) == BTN_R)
           {
-               //GRAND PRIX
-
-               case 0:
-               {
-                    if (courseValue != (g_cupSelect * 4))
-                    {
-                         courseValue = (g_cupSelect * 4);
-                         loadHotSwap(courseValue);
-                    }
-                    break;
-               }
-               case 1:
-               case 2:
-               case 3:
-               {
-                    if (courseValue != (g_cupSelect * 4)  + g_courseSelect)
-                    {
-
-                         courseValue = (g_cupSelect * 4) + g_courseSelect;
-                         loadHotSwap(courseValue);
-                    }
-                    break;
-               }
-          }
-
-          if (hsLabel != HotSwapID)
-          {
-               setLabel();
-               hsLabel = HotSwapID;
+               swapHS(1);
           }
      }
+
+     *(int*)(&PlayerOK) = 0;
+     if ((HotSwapID > 0) && (!GlobalBoolD))
+     {
+     GlobalBoolD = true;
+          setBanners();
+     }
+     switch(g_gameMode)
+     {
+          //GRAND PRIX
+
+          case 0:
+          {
+               if (courseValue != (g_cupSelect * 4))
+               {
+                    courseValue = (g_cupSelect * 4);
+                    loadHotSwap(courseValue);
+               }
+               break;
+          }
+          case 1:
+          case 2:
+          case 3:
+          {
+               if (courseValue != (g_cupSelect * 4)  + g_courseSelect)
+               {
+
+                    courseValue = (g_cupSelect * 4) + g_courseSelect;
+                    loadHotSwap(courseValue);
+               }
+               break;
+          }
+     }
+
+     if (hsLabel != HotSwapID)
+     {
+          setLabel();
+          hsLabel = HotSwapID;
+     }
+     
 }
 
 

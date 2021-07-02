@@ -265,8 +265,8 @@
 .definelabel g_startingIndicator, 0x800DC510
 .definelabel g_DebugSection, 0x800DC514
 .definelabel g_DebugMode, 0x800DC520
-.definelabel g_NewSequenceMode, 0x800DC24
-.definelabel g_NextSequenceMode, 0x800DC28
+.definelabel g_NewSequenceMode, 0x800DC524
+.definelabel g_NextSequenceMode, 0x800DC528
 .definelabel g_screenSplitA, 0x800DC52C
 .definelabel g_ScreenSplitB, 0x800DC530
 .definelabel g_playerCount, 0x800DC538

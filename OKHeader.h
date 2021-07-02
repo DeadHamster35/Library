@@ -87,5 +87,5 @@ extern ushort hud_buttons[]; //nicefont +  0x4400
 //extern int lit_alpacasprite; //hud_buttons +  0x4400
 //extern int lit_heartsprite; //lit_alpacasprite +  0x800
 
-extern void ok_ASMJump(); //ok_Storage + 0x4
+extern void ok_ASMJump; //ok_Storage + 0x4
 extern int ok_Knowledge; //0x807F0000

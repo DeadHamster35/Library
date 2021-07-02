@@ -10,7 +10,7 @@ void SetEngine(int CharacterID, int ThisEngine)
      GlobalStat.AccelerationCount[1][CharacterID] = (float)(EngineSpeed[1][ThisEngine]);
      GlobalStat.AccelerationCount[2][CharacterID] = (float)(EngineSpeed[2][ThisEngine]);
      GlobalStat.AccelerationCount[3][CharacterID] = (float)(EngineSpeed[1][ThisEngine]);
-     GlobalStat.AccelerationCount[4][CharacterID] = (float)(EngineSpeed[0][ThisEngine]);
+     GlobalStat.AccelerationCount[4][CharacterID] = (float)(EngineSpeed[3][ThisEngine]);
      for (int ThisAccel = 0; ThisAccel < 10; ThisAccel++)
      {
           GlobalStat.Acceleration[CharacterID][ThisAccel] =((float)(AccelerationCurve[ThisEngine][ThisAccel]) / 10);

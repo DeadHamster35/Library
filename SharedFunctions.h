@@ -2,7 +2,7 @@
 #include <math.h>
 #include <stdbool.h>
 
-
+extern int LoadData(int SourceInput, int SizeData);
 extern bool CheckPlatform();
 extern void runDMA();
 extern void runRAM();

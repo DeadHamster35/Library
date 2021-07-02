@@ -44,6 +44,20 @@ void SetFontColor(int FontR, int FontG, int FontB, int ShadowR, int ShadowG, int
 }
 
 
+
+int LoadData (int SourceInput, int SizeData)
+{
+	*sourceAddress = SourceInput;
+	*targetAddress = FreeSpaceAddress;
+	dataLength = SizeData;
+	GlobalShortA = 4 - (SizeData % 4);
+	FreeSpaceAddress = FreeSpaceAddress + SizeData + GlobalShortA;
+	runDMA();	
+	return *targetAddress;
+}
+
+
+
 bool CheckPlatform()
 {
 	// This is an abuse of the memory quirks between Console and Emulator.
@@ -91,8 +105,8 @@ void printFloat(int X, int Y, float Value)
 
 	int PrintOffset;
 
-     int wholeNumber = (int) Value;
-     int decimalNumber = (int) ((Value - wholeNumber) * 100);
+      wholeNumber = (int) Value;
+      decimalNumber = (int) ((Value - wholeNumber) * 100);
 
 
      if (decimalNumber < 0)

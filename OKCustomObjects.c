@@ -1,6 +1,7 @@
 #include "SubProgram.h"
 #include "SharedFunctions.h"
 #include "OKHeader.h"
+#include "OKCustom.h"
 #include "OKExternal.h"
 #include "LibraryVariables.h"
 #include "PlayerEffects.h"
@@ -100,6 +101,7 @@ int RedCoinCollide(void *Car, void *Coin)
 
 void CollideObject(void *Camera, void *Object)
 {
+	/*
 	objectIndex = (short)((*(long*)(*(long*)(&Object)) >> 16) & 0x0000FFFF);
 	switch (objectIndex)
 	{
@@ -114,6 +116,7 @@ void CollideObject(void *Camera, void *Object)
 			break;
 		}
 	}
+	*/
 }
 
 void DisplayCoinSprite()
@@ -145,21 +148,12 @@ void DisplayObject(void *Camera, Object *InputObject)
 
 
 
-void DrawOKObject(OKObject* InputHeader)
-{
-	InputHeader->ObjectData.angle[1] *= -1;
-	DrawGeometryScale(InputHeader->ObjectData.position,InputHeader->ObjectData.angle,InputHeader->ModelAddress,InputHeader->ModelScale);
-	InputHeader->ObjectData.angle[1] *= -1;
-	
-}
-
 
 short FindOKObject()
 {
 	for (int CurrentObject = 0; CurrentObject < 100; CurrentObject++)
-	{
-		
-		if(OKObjectHeaders[CurrentObject].BehaviorClass == BEHAVIOR_DEAD)
+	{		
+		if(OKObjectArray[CurrentObject].SubBehaviorClass == SUBBEHAVIOR_DEAD)
 		{
 			return (short)CurrentObject;
 		}
@@ -168,39 +162,30 @@ short FindOKObject()
 }
 
 void ClearOKObject(short ObjectID)
-{
-	OKObjectHeaders[ObjectID].Range = 0;
-	OKObjectHeaders[ObjectID].Sight = 0;
-	OKObjectHeaders[ObjectID].Viewcone = 0;
-	OKObjectHeaders[ObjectID].PlayerTarget = 0;
-	OKObjectHeaders[ObjectID].PathTarget = 0;
-	OKObjectHeaders[ObjectID].TargetDistance = 0;
-	OKObjectHeaders[ObjectID].TurnStatus = 0;
-	OKObjectHeaders[ObjectID].SearchStatus = 0;
-	OKObjectHeaders[ObjectID].WanderStatus = 0;
-	OKObjectHeaders[ObjectID].EMPTYSTATUS = 0;
-	OKObjectHeaders[ObjectID].ModelScale = 0;
-	OKObjectHeaders[ObjectID].ModelAddress = 0;
-	OKObjectHeaders[ObjectID].BehaviorClass = BEHAVIOR_DEAD;
-	OKObjectHeaders[ObjectID].BehaviorClass = SUBBEHAVIOR_DOCILE;
-	OKObjectHeaders[ObjectID].OriginPosition[0] = 0;
-	OKObjectHeaders[ObjectID].OriginPosition[1] = 0;
-	OKObjectHeaders[ObjectID].OriginPosition[2] = 0;
-	OKObjectHeaders[ObjectID].ObjectData.position[0] = 0;
-	OKObjectHeaders[ObjectID].ObjectData.position[1] = 0;
-	OKObjectHeaders[ObjectID].ObjectData.position[2] = 0;	
-	OKObjectHeaders[ObjectID].ObjectData.angle[0] = 0;
-	OKObjectHeaders[ObjectID].ObjectData.angle[1] = 0;
-	OKObjectHeaders[ObjectID].ObjectData.angle[2] = 0;
-	OKObjectHeaders[ObjectID].ObjectData.velocity[0] = 0;
-	OKObjectHeaders[ObjectID].ObjectData.velocity[1] = 0;
-	OKObjectHeaders[ObjectID].ObjectData.velocity[2] = 0;
-	OKObjectHeaders[ObjectID].ObjectData.radius = 0;
-	OKObjectHeaders[ObjectID].ObjectData.sparam = 0;
-	OKObjectHeaders[ObjectID].ObjectData.fparam = 0;
-	OKObjectHeaders[ObjectID].ObjectData.flag = 0;
-	OKObjectHeaders[ObjectID].ObjectData.counter = 0;
-	OKObjectHeaders[ObjectID].ObjectData.category = 0;
+{	
+	OKObjectArray[ObjectID].PlayerTarget = 0;
+	OKObjectArray[ObjectID].PathTarget = 0;
+	OKObjectArray[ObjectID].TargetDistance = 0;
+	OKObjectArray[ObjectID].TurnStatus = 0;
+	OKObjectArray[ObjectID].SearchStatus = 0;
+	OKObjectArray[ObjectID].WanderStatus = 0;
+	OKObjectArray[ObjectID].EMPTYSTATUS = 0;
+	OKObjectArray[ObjectID].SubBehaviorClass = SUBBEHAVIOR_DEAD;
+	OKObjectArray[ObjectID].ObjectData.position[0] = 0;
+	OKObjectArray[ObjectID].ObjectData.position[1] = 0;
+	OKObjectArray[ObjectID].ObjectData.position[2] = 0;	
+	OKObjectArray[ObjectID].ObjectData.angle[0] = 0;
+	OKObjectArray[ObjectID].ObjectData.angle[1] = 0;
+	OKObjectArray[ObjectID].ObjectData.angle[2] = 0;
+	OKObjectArray[ObjectID].ObjectData.velocity[0] = 0;
+	OKObjectArray[ObjectID].ObjectData.velocity[1] = 0;
+	OKObjectArray[ObjectID].ObjectData.velocity[2] = 0;
+	OKObjectArray[ObjectID].ObjectData.radius = 0;
+	OKObjectArray[ObjectID].ObjectData.sparam = 0;
+	OKObjectArray[ObjectID].ObjectData.fparam = 0;
+	OKObjectArray[ObjectID].ObjectData.flag = 0;
+	OKObjectArray[ObjectID].ObjectData.counter = 0;
+	OKObjectArray[ObjectID].ObjectData.category = 0;
 }
 
 bool TestCollideSphere(float SourcePosition[], float SourceRadius, float TargetPosition[], float TargetRadius)
@@ -253,7 +238,6 @@ bool TestCollideBox(float SourcePosition[], short SourceSize[], short SourceAngl
 
 void OKObjectCollision(OKObject *InputObject)
 {
-	GlobalAddressA = InputObject->CollisionAddress;
 	if (g_gameMode == 0)
 	{
 		GlobalShortA = 8;
@@ -262,16 +246,25 @@ void OKObjectCollision(OKObject *InputObject)
 	{
 		GlobalShortA = g_playerCount;
 	}
-	OKCollisionSphere *CurrentSphere = (OKCollisionSphere*)(GlobalAddressA);
-
 	for (int CurrentPlayer = 0; CurrentPlayer < GlobalShortA; CurrentPlayer++)
-	{
+	{		
+		//Test the collision
+		objectPosition[0] = InputObject->ObjectData.position[0];
+		objectPosition[1] = InputObject->ObjectData.position[1];
+		objectPosition[2] = InputObject->ObjectData.position[2];
+		if(TestCollideSphere(objectPosition, OverKartObjectHeader.ObjectTypeList[OverKartObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex].CollisionRadius ,GlobalPlayer[CurrentPlayer].position, GlobalPlayer[CurrentPlayer].radius))
+		{
+			MasterStatus(CurrentPlayer,OverKartObjectHeader.ObjectTypeList[OverKartObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex].StatusClass);
+			MasterEffect(CurrentPlayer,OverKartObjectHeader.ObjectTypeList[OverKartObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex].EffectClass);
+		}
+		
+		/*
 		for (int CurrentCount = 0; CurrentCount < InputObject->CollisionCount; CurrentCount++)
 		{
 			
-			objectPosition[0] = CurrentSphere[CurrentCount].Position[0];
-			objectPosition[1] = CurrentSphere[CurrentCount].Position[1];
-			objectPosition[2] = CurrentSphere[CurrentCount].Position[2];
+			objectPosition[0] = InputObject->CollisionSphere[CurrentCount].Position[0];
+			objectPosition[1] = InputObject->CollisionSphere[CurrentCount].Position[1];
+			objectPosition[2] = InputObject->CollisionSphere[CurrentCount].Position[2];
 
 			//rotate the relative position of the sphere to the model based on the model angle.
 
@@ -279,30 +272,30 @@ void OKObjectCollision(OKObject *InputObject)
 
 			//apply the global position of the object to the relative position of the rotated sphere center.
 
-			objectPosition[0] = (objectPosition[0] * InputObject->ModelScale) + InputObject->ObjectData.position[0];
-			objectPosition[1] = (objectPosition[1] * InputObject->ModelScale) +  InputObject->ObjectData.position[1];
-			objectPosition[2] = (objectPosition[2] * InputObject->ModelScale) +  InputObject->ObjectData.position[2];
+			objectPosition[0] = (objectPosition[0] * InputObject->CollisionSphere->Scale) + InputObject->ObjectData.position[0];
+			objectPosition[1] = (objectPosition[1] * InputObject->CollisionSphere->Scale) +  InputObject->ObjectData.position[1];
+			objectPosition[2] = (objectPosition[2] * InputObject->CollisionSphere->Scale) +  InputObject->ObjectData.position[2];
 			
 
 			
 			//Test the collision
-			if (CurrentSphere[CurrentCount].Radius < 0)
+			if (InputObject->CollisionSphere[CurrentCount].Radius < 0)
 			{
-				objectAngle[0] = CurrentSphere[CurrentCount].Angle[0] + InputObject->ObjectData.angle[0];
-				objectAngle[1] = CurrentSphere[CurrentCount].Angle[1] + InputObject->ObjectData.angle[1];
-				objectAngle[2] = CurrentSphere[CurrentCount].Angle[2] + InputObject->ObjectData.angle[2];
-				if(TestCollideBox(objectPosition, CurrentSphere[CurrentCount].BoxSize, objectAngle, GlobalPlayer[CurrentPlayer].position, GlobalPlayer[CurrentPlayer].radius))
+				objectAngle[0] = InputObject->CollisionSphere[CurrentCount].Angle[0] + InputObject->ObjectData.angle[0];
+				objectAngle[1] = InputObject->CollisionSphere[CurrentCount].Angle[1] + InputObject->ObjectData.angle[1];
+				objectAngle[2] = InputObject->CollisionSphere[CurrentCount].Angle[2] + InputObject->ObjectData.angle[2];
+				if(TestCollideBox(objectPosition, InputObject->CollisionSphere[CurrentCount].BoxSize, objectAngle, GlobalPlayer[CurrentPlayer].position, GlobalPlayer[CurrentPlayer].radius))
 				{
-					MasterStatus(CurrentPlayer,CurrentSphere[CurrentCount].CollisionType);
-					MasterEffect(CurrentPlayer,CurrentSphere[CurrentCount].EffectType);
+					MasterStatus(CurrentPlayer,InputObject->CollisionSphere[CurrentCount].CollisionType);
+					MasterEffect(CurrentPlayer,InputObject->CollisionSphere[CurrentCount].EffectType);
 				}		
 			}
 			else
 			{
-				if(TestCollideSphere(objectPosition, CurrentSphere[CurrentCount].Radius ,GlobalPlayer[CurrentPlayer].position, GlobalPlayer[CurrentPlayer].radius))
+				if(TestCollideSphere(objectPosition, InputObject->CollisionSphere[CurrentCount].Radius ,GlobalPlayer[CurrentPlayer].position, GlobalPlayer[CurrentPlayer].radius))
 				{
-					MasterStatus(CurrentPlayer,CurrentSphere[CurrentCount].CollisionType);
-					MasterEffect(CurrentPlayer,CurrentSphere[CurrentCount].EffectType);
+					MasterStatus(CurrentPlayer,InputObject->CollisionSphere[CurrentCount].CollisionType);
+					MasterEffect(CurrentPlayer,InputObject->CollisionSphere[CurrentCount].EffectType);
 				}
 			}
 			
@@ -310,19 +303,95 @@ void OKObjectCollision(OKObject *InputObject)
 
 			
 		}
+		*/
 	}
 }
 
-void DrawOKObjects()
+void DrawOKObjects(Camera* LocalCamera)
 {
-	GlobalShortD = 10;
-	for (int CurrentObject = 0; CurrentObject < 100; CurrentObject++)
+	
+	for (int CurrentType = 0; CurrentType < OverKartObjectHeader.ObjectTypeCount; CurrentType++)
 	{
-		if(OKObjectHeaders[CurrentObject].BehaviorClass != BEHAVIOR_DEAD)
+		for (int CurrentModel = 0; CurrentModel < OverKartObjectHeader.ObjectTypeList[CurrentType].OKModelCount; CurrentModel++)
 		{
+			OKModel* ThisModel = (OKModel*)GetRealAddress(0x0A000000 | (int)&OverKartObjectHeader.ObjectTypeList[OverKartObjectHeader.ObjectList[OKObjectArray->ListIndex].ObjectIndex].ObjectModel[CurrentModel]);
 			
-			DrawOKObject((OKObject*)&OKObjectHeaders[CurrentObject]);		
-			
+			*(long*)*graphPointer = (long)(0xBB000001);
+			*graphPointer = *graphPointer + 4;
+			*(long*)*graphPointer = (long)(0x07C007C0);
+			*graphPointer = *graphPointer + 4;
+			*(long*)*graphPointer = (long)(0xB900031D);
+			*graphPointer = *graphPointer + 4;
+			*(long*)*graphPointer = (long)(0x00552078);
+			*graphPointer = *graphPointer + 4;
+			*(long*)*graphPointer = (long)(0xFCFFFFFF);
+			*graphPointer = *graphPointer + 4;
+			*(long*)*graphPointer = (long)(0xFFFCF87C);
+			*graphPointer = *graphPointer + 4;
+
+			*(long*)*graphPointer = (long)(0x06000000);
+			*graphPointer = *graphPointer + 4;
+			*(long*)*graphPointer = (long)(0x0A000000 | ThisModel->TextureAddress);
+			*graphPointer = *graphPointer + 4;
+			for (int CurrentObject = 0; CurrentObject < OverKartObjectHeader.ObjectCount; CurrentObject++)
+			{
+				
+				if((OKObjectArray[CurrentObject].SubBehaviorClass != SUBBEHAVIOR_DEAD) && (OverKartObjectHeader.ObjectList[OKObjectArray[CurrentObject].ListIndex].ObjectIndex == CurrentType))
+				{		
+					
+					objectPosition[0] = (float)OKObjectArray[CurrentObject].ObjectData.position[0];
+					objectPosition[1] = (float)OKObjectArray[CurrentObject].ObjectData.position[1];
+					objectPosition[2] = (float)OKObjectArray[CurrentObject].ObjectData.position[2];
+
+					objectAngle[0] = (short)OKObjectArray[CurrentObject].ObjectData.angle[0];
+					objectAngle[1] = (short)(OKObjectArray[CurrentObject].ObjectData.angle[1] * -1);
+					objectAngle[2] = (short)OKObjectArray[CurrentObject].ObjectData.angle[2];	
+
+					
+					
+					uint* MeshAddress = (uint*)GetRealAddress(0x0A000000 |ThisModel->MeshAddress);
+
+					CreateModelingMatrix(AffineMatrix,objectPosition,objectAngle);
+
+					
+					/*
+					AffineMatrix[0][0] =  cosB;
+					AffineMatrix[1][0] =  0.0f;
+					AffineMatrix[2][0] =  sinB;
+					AffineMatrix[0][1] =  0.0f;
+					AffineMatrix[1][1] =  1.0f;
+					AffineMatrix[2][1] =  0.0f;
+					AffineMatrix[0][2] = -sinB;
+					AffineMatrix[1][2] =  0.0f;
+					AffineMatrix[2][2] =  cosB;
+					AffineMatrix[0][3] =  0.0f;
+					AffineMatrix[1][3] =  0.0f;
+					AffineMatrix[2][3] =  0.0f;
+					AffineMatrix[3][3] =  1.0f; 
+
+					AffineMatrix[3][0] = (float)objectPosition[0];
+					AffineMatrix[3][1] = (float)objectPosition[1];
+					AffineMatrix[3][2] = (float)objectPosition[2];
+					*/
+					
+					
+					ScalingMatrix(AffineMatrix,0.10);
+
+					if(SetMatrix(AffineMatrix,0) != 0)
+					{
+						for (int CurrentMesh = 0; CurrentMesh < ThisModel->MeshCount; CurrentMesh++)
+						{
+							*(long*)*graphPointer = (long)(0x06000000);
+							*graphPointer = *graphPointer + 4;
+							*(long*)*graphPointer = (long)(0x0A000000 | MeshAddress[CurrentMesh]);
+							*graphPointer = *graphPointer + 4;
+						}	
+					}		
+
+
+				}
+				
+			}
 		}
 	}
 }
@@ -330,32 +399,29 @@ void DrawOKObjects()
 void CheckOKObjects()
 {
 	
-	GlobalShortD = 30;
-	for (int CurrentObject = 0; CurrentObject < 100; CurrentObject++)
+	for (int CurrentObject = 0; CurrentObject < OverKartObjectHeader.ObjectCount; CurrentObject++)
 	{
-		if(OKObjectHeaders[CurrentObject].BehaviorClass != BEHAVIOR_DEAD)
+		if(OKObjectArray[CurrentObject].SubBehaviorClass != SUBBEHAVIOR_DEAD)
 		{
-			Misbehave((OKObject*)&OKObjectHeaders[CurrentObject]);
-			OKObjectCollision((OKObject*)&OKObjectHeaders[CurrentObject]);
-
+			//Misbehave((OKObject*)&OKObjectArray[CurrentObject]);
+			//OKObjectCollision((OKObject*)&OKObjectArray[CurrentObject]);			
 			/*
 			objectVelocity[0] = 0;
-			objectVelocity[1] = OKObjectHeaders[CurrentObject].ObjectData.velocity[1];
+			objectVelocity[1] = OKObjectArray[CurrentObject].ObjectData.velocity[1];
 			objectVelocity[2] = 1.0;
-			MakeAlignVector(objectVelocity, OKObjectHeaders[CurrentObject].ObjectData.angle[1]);
-			OKObjectHeaders[CurrentObject].ObjectData.velocity[0] = objectVelocity[0];
-			OKObjectHeaders[CurrentObject].ObjectData.velocity[1] = objectVelocity[1];
-			OKObjectHeaders[CurrentObject].ObjectData.velocity[2] = objectVelocity[2];
+			MakeAlignVector(objectVelocity, OKObjectArray[CurrentObject].ObjectData.angle[1]);
+			OKObjectArray[CurrentObject].ObjectData.velocity[0] = objectVelocity[0];
+			OKObjectArray[CurrentObject].ObjectData.velocity[1] = objectVelocity[1];
+			OKObjectArray[CurrentObject].ObjectData.velocity[2] = objectVelocity[2];
 
-			UpdateObjectGravity((Object*)&OKObjectHeaders[CurrentObject].ObjectData);
-			UpdateObjectVelocity((Object*)&OKObjectHeaders[CurrentObject].ObjectData);	
-			UpdateObjectBump((Object*)&OKObjectHeaders[CurrentObject].ObjectData);	
-			if(OKObjectHeaders[CurrentObject].ObjectData.bump.distance_zx < 0)
+			UpdateObjectGravity((Object*)&OKObjectArray[CurrentObject].ObjectData);
+			UpdateObjectVelocity((Object*)&OKObjectArray[CurrentObject].ObjectData);	
+			UpdateObjectBump((Object*)&OKObjectArray[CurrentObject].ObjectData);	
+			if(OKObjectArray[CurrentObject].ObjectData.bump.distance_zx < 0)
 			{
-				OKObjectHeaders[CurrentObject].ObjectData.velocity[1] = 0;
+				OKObjectArray[CurrentObject].ObjectData.velocity[1] = 0;
 			}
 			*/
-			GlobalShortD += 10;
 			
 
 		}

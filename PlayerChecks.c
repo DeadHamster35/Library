@@ -1,6 +1,7 @@
 #include "../library/SubProgram.h"
 #include "../library/SharedFunctions.h"
 #include "../library/OKHeader.h"
+#include "../library/OKCustom.h"
 #include "../library/OKExternal.h"
 #include "../library/LibraryVariables.h"
 #include "../library/PlayerEffects.h"

@@ -1,10 +1,13 @@
 #include "../library/SubProgram.h"
 #include "../library/SharedFunctions.h"
 #include "../library/OKHeader.h"
+#include "../library/OKCustom.h"
 #include "../library/OKExternal.h"
+#include "../Library/OKCustomObjects.h"
 #include "../library/LibraryVariables.h"
 #include "../library/GameVariables/NTSC/OKassembly.h"
 #include "../library/GameVariables/NTSC/GameOffsets.h"
+
 
 
 
@@ -274,7 +277,7 @@ void overkartASM(void)
 
 	g_mapStartToggle = 0x00000000;
 
-	ok_RedCoinList = 0x06001F28;
+	//ok_RedCoinList = 0x06001F28;
 
 
 
@@ -303,15 +306,15 @@ void setSong()
 {
 	if ((HotSwapID > 0))
 	{
-		/*
-		if (*(long*)(&ok_CourseHeader + 0x16) < 0x50)
+		
+		if (OverKartHeader.MusicID < 0x50)
 		{
-			songID = (short)*(long*)(&ok_CourseHeader + 0x16);
+			songID = (short)OverKartHeader.MusicID;
 		}
 		else
 		{
 			songID = 0x03;
-			*sourceAddress = *(long*)(&ok_CourseHeader + 0x16);
+			*sourceAddress = OverKartHeader.MusicID;
 			dataLength = 8;
 			*targetAddress = (long)((long)(&g_SequenceTable) + (3 * 8) + 4);
 			runDMA();
@@ -319,7 +322,7 @@ void setSong()
 			*targetAddress = (long)((long)(&g_InstrumentTable) + (3 * 8) + 4);
 			runDMA();
 		}
-		*/
+		
 	}
 	else
 	{
@@ -336,7 +339,7 @@ void setTempo(void)
 		if (HotSwapID > 0)
 		{
 
-			GlobalIntA = *(long*)(&ok_CourseHeader + 0x15);
+			GlobalIntA = *(long*)(&OverKartHeader.Tempo1);
 			GlobalIntB = 0;
 			dataLength = 0xC;
 			switch(g_playerCount)
@@ -345,29 +348,29 @@ void setTempo(void)
 				asm_tempo1A = 0x240F0000;
 				asm_tempo1B = 0x240F0000;
 				GlobalIntB = GlobalIntA >> 24;
-				asm_tempo1ASpeed = (short)GlobalIntB;
-				asm_tempo1BSpeed = (short)GlobalIntB;
+				asm_tempo1ASpeed = (short)OverKartHeader.Tempo1;
+				asm_tempo1BSpeed = (short)OverKartHeader.Tempo1;
 				break;
 				case 2:
 				asm_tempo2A = 0x24090000;
 				asm_tempo2B = 0x24090000;
 				GlobalIntB = (GlobalIntA >> 16) & (0x00FF);
-				asm_tempo2ASpeed = (short)GlobalIntB;
-				asm_tempo2BSpeed = (short)GlobalIntB;
+				asm_tempo2ASpeed = (short)OverKartHeader.Tempo2;
+				asm_tempo2BSpeed = (short)OverKartHeader.Tempo2;
 				break;
 				case 3:
 				asm_tempo3A = 0x240A0000;
 				asm_tempo3B = 0x240A0000;
 				GlobalIntB = (GlobalIntA >> 8) & (0x00FF);
-				asm_tempo3ASpeed = (short)GlobalIntB;
-				asm_tempo3BSpeed = (short)GlobalIntB;
+				asm_tempo3ASpeed = (short)OverKartHeader.Tempo3;
+				asm_tempo3BSpeed = (short)OverKartHeader.Tempo3;
 				break;
 				case 4:
 				asm_tempo3A = 0x240A0000;
 				asm_tempo3B = 0x240A0000;
 				GlobalIntB = GlobalIntA & 0x00FF;
-				asm_tempo3ASpeed = (short)GlobalIntB;
-				asm_tempo3BSpeed = (short)GlobalIntB;
+				asm_tempo3ASpeed = (short)OverKartHeader.Tempo4;
+				asm_tempo3BSpeed = (short)OverKartHeader.Tempo4;
 				break;
 			}
 		}
@@ -409,7 +412,7 @@ void setPath()
 
 	if (HotSwapID > 0)
 	{
-		g_pathLength =(short)(*(long*)(&ok_CourseHeader + 0x18) & 0xFFFF0000);
+		g_pathLength =(short)(OverKartHeader.PathLength) + 10;
 
 	}
 	else
@@ -423,7 +426,7 @@ void setWater()
 
 	if (HotSwapID > 0)
 	{
-		g_waterHeight = *(float*)(&ok_CourseHeader + 0x18);
+		g_waterHeight = OverKartHeader.WaterLevel;
 	}
 }
 
@@ -433,10 +436,9 @@ void setWater()
 void setEcho()
 {
 	if (HotSwapID > 0)
-	{
-		GlobalIntA = *(long*)(&ok_CourseHeader + 0x14);
-		g_EchoStart = (GlobalIntA >> 16) & (0xFFFF);
-		g_EchoStop = GlobalIntA & 0xFFFF;
+	{		
+		g_EchoStart = OverKartHeader.EchoStart;
+		g_EchoStop = OverKartHeader.EchoStop;
 	}
 	else
 	{
@@ -453,12 +455,11 @@ void setSky()
 	{
 
 		*targetAddress = (long)&g_skyColorTop00;
-		*sourceAddress = *(long*)(&ok_CourseHeader + 0xD);
+		*sourceAddress = OverKartHeader.Sky;
 		dataLength = 0xC;
 		runDMA();
 		*targetAddress = (long)&g_skyColorBotTable;
 		*sourceAddress = *sourceAddress + 0xC;
-		FreeSpaceAddress = *sourceAddress;
 		GlobalIntD = dataLength;
 		runDMA();
 	}
@@ -479,12 +480,15 @@ void loadTextureScrollTranslucent()
 {
 	*(long*)(&ok_scrolltranslucent) = 0xFFFFFFFF;
 	if (HotSwapID > 0)
-	{
-		*targetAddress = (long)&ok_scrolltranslucent;
-		*sourceAddress = *(long*)(&ok_CourseHeader + 0x19);
-		dataLength = *(long*)(&ok_CourseHeader + 0x1A) - *sourceAddress;
-		dataLength += 4;
-		runDMA();
+	{		
+		*sourceAddress = OverKartHeader.ScrollOffset;
+		if (*sourceAddress != 0)
+		{
+			*targetAddress = (long)&ok_scrolltranslucent;
+			dataLength = OverKartHeader.ScrollEnd - *sourceAddress;
+			dataLength += 4;
+			runDMA();
+		}
 	}
 }
 
@@ -492,11 +496,11 @@ void loadTextureScrollTranslucent()
 void runTextureScroll()
 {
 	GlobalAddressA = (long)(&ok_scrolltranslucent);
-	LoopValue = (long)*(long*)(&ok_scrolltranslucent);
+	LoopValue = *(long*)(&ok_scrolltranslucent);
 	if (LoopValue == 0xFFFFFFFF)
-    {
-        return;
-    }
+	{
+		return;
+	}
 	for (int CurrentScroll = 0; CurrentScroll < LoopValue; CurrentScroll++)
 	{
 		GlobalAddressB = *(long*)(GlobalAddressA + (CurrentScroll * 8) + 4);   //address of the texture command to scroll.
@@ -548,6 +552,49 @@ void runWaterVertex()
 		MakeWaterVertex(GlobalAddressB,GlobalCharA,0,0,0);
 	}
 }
+
+
+
+void setText()
+{
+	
+	*sourceAddress = OverKartHeader.Credits;
+	*targetAddress = (long)&ok_Credits;
+	dataLength = 0x18;
+	if ((HotSwapID > 0) && (*sourceAddress != 0x00000000))
+	{
+		runDMA();
+	}
+	else
+	{
+		*(long*)(&ok_Credits) = 0;
+	}
+
+	*sourceAddress = OverKartHeader.CourseName;
+	*targetAddress = (long)&ok_CourseName;
+	dataLength = 0x40;
+	if ((HotSwapID > 0) && (*sourceAddress != 0x00000000))
+	{
+		runDMA();
+	}
+	else
+	{
+		*(long*)(&ok_CourseName) = 0;
+	}
+
+	*sourceAddress = OverKartHeader.SerialKey;
+	*targetAddress = (long)&ok_SerialKey;
+	dataLength = 0x40;
+	if ((HotSwapID > 0) && (*sourceAddress != 0x00000000))
+	{
+		runDMA();
+	}
+	else
+	{
+		*(long*)(&ok_SerialKey) = 0;
+	}
+}
+
 
 void runDisplayScreen()
 {
@@ -626,6 +673,56 @@ void runDisplayScreen()
 	}
 }
 
+void loadOKObjects()
+{
+	/*
+	for (int This = 0; This < 100; This++)
+	{
+		ClearOKObject(This);
+	}
+	GlobalIntA = OverKartHeader.ObjectDataEnd - OverKartHeader.ObjectModelStart;
+	SetSegment(0xA,LoadData(OverKartHeader.ObjectModelStart, GlobalIntA));
+	GlobalIntA = OverKartHeader.ObjectModelStart - OverKartHeader.ObjectDataStart;
+	GlobalAddressA = LoadData(OverKartHeader.ObjectDataStart, GlobalIntA);
+	OverKartHeader.ObjectDataStart = GlobalAddressA;
+	
+	
+	OverKartObjectHeader.ObjectTypeCount = *(int*)(GlobalAddressA);
+	GlobalAddressC = GlobalAddressA + 4;
+	OverKartObjectHeader.ObjectTypeList = (OKObjectType*)(GlobalAddressC);
+
+	
+	GlobalAddressB = GlobalAddressA + 4 + (OverKartObjectHeader.ObjectTypeCount * 24);
+	OverKartObjectHeader.ObjectCount = *(int*)(GlobalAddressB);
+	GlobalAddressD = GlobalAddressB + 4;
+	OverKartObjectHeader.ObjectList = (OKObjectList*)(GlobalAddressD);	
+	
+	for (int This = 0; This < OverKartObjectHeader.ObjectCount; This++)
+	{
+		OKObjectArray[This].ListIndex = This;
+		OKObjectArray[This].SubBehaviorClass = SUBBEHAVIOR_DOCILE;
+
+		OKObjectArray[This].ObjectData.flag = 0xC000;
+		OKObjectArray[This].ObjectData.radius = OverKartObjectHeader.ObjectTypeList[OverKartObjectHeader.ObjectList[This].ObjectIndex].CollisionRadius;
+		
+		OKObjectArray[This].ObjectData.position[0] = (float)OverKartObjectHeader.ObjectList[This].OriginPosition[0];
+		OKObjectArray[This].ObjectData.position[1] = (float)OverKartObjectHeader.ObjectList[This].OriginPosition[1];
+		OKObjectArray[This].ObjectData.position[2] = (float)OverKartObjectHeader.ObjectList[This].OriginPosition[2];
+
+		OKObjectArray[This].ObjectData.angle[0] = OverKartObjectHeader.ObjectList[This].OriginAngle[0] * DEG1;
+		OKObjectArray[This].ObjectData.angle[1] = OverKartObjectHeader.ObjectList[This].OriginAngle[1] * DEG1;
+		OKObjectArray[This].ObjectData.angle[2] = OverKartObjectHeader.ObjectList[This].OriginAngle[2] * DEG1;
+
+		OKObjectArray[This].ObjectData.velocity[0] = (float)(OverKartObjectHeader.ObjectList[This].OriginVelocity[0] * 100);
+		OKObjectArray[This].ObjectData.velocity[1] = (float)(OverKartObjectHeader.ObjectList[This].OriginVelocity[1] * 100);
+		OKObjectArray[This].ObjectData.velocity[2] = (float)(OverKartObjectHeader.ObjectList[This].OriginVelocity[2] * 100);
+
+		OKObjectArray[This].AngularVelocity[0] = OverKartObjectHeader.ObjectList[This].OriginAngle[0] * DEG1;
+		OKObjectArray[This].AngularVelocity[1] = OverKartObjectHeader.ObjectList[This].OriginAngle[1] * DEG1;
+		OKObjectArray[This].AngularVelocity[2] = OverKartObjectHeader.ObjectList[This].OriginAngle[2] * DEG1;
+	}
+	*/
+}
 
 
 
@@ -648,11 +745,11 @@ void loadHotSwap(int inputID)
 		//first load the entire OverKart header into expansion RAM
 		*targetAddress = (long)&ok_CourseHeader;
 		*sourceAddress = *(long*)(&ok_HeaderOffsets + ((inputID) * 1) + ((HotSwapID-1) * 0x14));
-		dataLength = 0x6C;
+		dataLength = 0x74;
 		if (*sourceAddress != 0xFFFFFFFF)
 		{
 			runDMA();
-			VersionNumber = *(long*)(&ok_CourseHeader);
+			VersionNumber = OverKartHeader.Version;
 
 			//load the standard course loadHeaderOffsets
 			*targetAddress = (long)&g_courseTable;
@@ -662,7 +759,7 @@ void loadHotSwap(int inputID)
 				*targetAddress += 0x2D0;
 			}
 
-			*sourceAddress = (long)(&ok_CourseHeader + 1);
+			*sourceAddress = (long)(&OverKartHeader.MapHeader);
 			dataLength = 0x30;
 			runRAM();
 		}
@@ -676,21 +773,25 @@ void loadHotSwap(int inputID)
 		runDMA();
 	}
 
-	//setSky();
-
+	
 	setTempo();
-
-	//setASM();
+	
 	setEcho();
-	//setPath();
+	setPath();
 	setSong();
-	//setWater();
 
-	if (VersionNumber > 4)
+
+	if (VersionNumber > 3)
 	{
 		loadTextureScrollTranslucent();
+		
+		if (VersionNumber > 4)
+		{
+			loadOKObjects();
+			setText();
+		}
 	}
-
+	
 
 }
 
@@ -1009,7 +1110,7 @@ void swapHS(int direction)
 
 void loadMinimap()
 {
-	*sourceAddress = *(long*)(&ok_CourseHeader + 0x12);
+	*sourceAddress = OverKartHeader.Maps;
 
 	if (*sourceAddress != 0x00000000)
 	{

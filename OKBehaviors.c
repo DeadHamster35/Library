@@ -2,6 +2,7 @@
 #include "../library/SubProgram.h"
 #include "../library/SharedFunctions.h"
 #include "../library/OKHeader.h"
+#include "../library/OKCustom.h"
 #include "../library/OKExternal.h"
 #include "../library/LibraryVariables.h"
 #include "../library/MarioKartObjects.h"
@@ -30,8 +31,9 @@ short ObjectSubBehaviorTurnTarget(float InputPosition[3], short InputAngle, floa
 
 float ObjectSubBehaviorLookTarget(OKObject* InputObject, float TargetPosition[3])
 {
+	OKObjectType *ThisType = (OKObjectType*)&(OverKartObjectHeader.ObjectTypeList[OverKartObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex]);
 	
-	GlobalFloatA = (float)InputObject->Range;	
+	GlobalFloatA = (float)ThisType->Range;	
 	GlobalFloatB = (InputObject->ObjectData.position[0] - TargetPosition[0]);
 	GlobalFloatC = (InputObject->ObjectData.position[2] - TargetPosition[2]);
 	GlobalFloatD = (((GlobalFloatB * GlobalFloatB) + (GlobalFloatC * GlobalFloatC)) / (GlobalFloatA * GlobalFloatA));
@@ -40,12 +42,14 @@ float ObjectSubBehaviorLookTarget(OKObject* InputObject, float TargetPosition[3]
 	GlobalShortA -= InputObject->ObjectData.angle[1];
 	
 	
-	if ((GlobalShortA < (DEG1 * (InputObject->Viewcone/2))) && (GlobalShortA > (DEG1 * (InputObject->Viewcone/-2))))
+	if ((GlobalShortA < (DEG1 * (ThisType->Viewcone/2))) && (GlobalShortA > (DEG1 * (ThisType->Viewcone/-2))))
 	{	
 		return GlobalFloatD;
 		
 	}
-	return 9999999;
+	
+	return 35000;
+	
 	
 }
 
@@ -76,11 +80,13 @@ void ObjectBehaviorWalk(OKObject* InputObject, float Speed)
 
 void ObjectBehaviorWander(OKObject* InputObject)
 {
-	GlobalFloatA = (float)InputObject->Range;
+	OKObjectType *ThisType = (OKObjectType*)&(OverKartObjectHeader.ObjectTypeList[OverKartObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex]);
+	OKObjectList *ThisList = (OKObjectList*)&(OverKartObjectHeader.ObjectList[InputObject->ListIndex]);
+	GlobalFloatA = (float)ThisType->Range;
 	GlobalFloatB = GlobalFloatA * 0.6;
 	
-	GlobalIntA = (InputObject->ObjectData.position[0] - InputObject->OriginPosition[0]);
-	GlobalIntB = (InputObject->ObjectData.position[2] - InputObject->OriginPosition[2]);
+	GlobalIntA = (InputObject->ObjectData.position[0] - ThisList->OriginPosition[0]);
+	GlobalIntB = (InputObject->ObjectData.position[2] - ThisList->OriginPosition[2]);
 	
 
 	if ((GlobalIntA * GlobalIntA) + (GlobalIntB * GlobalIntB) < (GlobalFloatB * GlobalFloatB))
@@ -91,9 +97,9 @@ void ObjectBehaviorWander(OKObject* InputObject)
 	
 	if (InputObject->WanderStatus >= 1)
 	{		
-		objectPosition[0] = (float)InputObject->OriginPosition[0];
-		objectPosition[1] = (float)InputObject->OriginPosition[1];
-		objectPosition[2] = (float)InputObject->OriginPosition[2];
+		objectPosition[0] = (float)ThisList->OriginPosition[0];
+		objectPosition[1] = (float)ThisList->OriginPosition[1];
+		objectPosition[2] = (float)ThisList->OriginPosition[2];
 
 		InputObject->ObjectData.angle[1] += (DEG1 * 2 * ObjectSubBehaviorTurnTarget(InputObject->ObjectData.position, InputObject->ObjectData.angle[1], objectPosition, 2));
 
@@ -246,7 +252,7 @@ void ObjectBehaviorSearch(OKObject* InputObject)
 short ObjectSearchClosestMarker(float ObjectPostion[], Marker* PathData)
 {
 	GlobalShortB = 0;
-	GlobalFloatB = 999999999;
+	GlobalFloatB = 35000;
 	for (int CurrentMarker = 0; ; CurrentMarker++)
 	{		
 		if (PathData[CurrentMarker].Position[0] == (short)0x8000)
@@ -275,6 +281,8 @@ short ObjectSearchClosestMarker(float ObjectPostion[], Marker* PathData)
 
 void ObjectBehaviorFollowPath(OKObject* InputObject, Marker* PathData)
 {
+	OKObjectType *ThisType = (OKObjectType*)&(OverKartObjectHeader.ObjectTypeList[OverKartObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex]);
+	
 	if (InputObject->PathTarget == -1)
 	{
 		InputObject->PathTarget = ObjectSearchClosestMarker(InputObject->ObjectData.position,PathData);
@@ -286,7 +294,7 @@ void ObjectBehaviorFollowPath(OKObject* InputObject, Marker* PathData)
 		objectPosition[2] = (float)PathData[InputObject->PathTarget].Position[2];
 		
 		InputObject->ObjectData.angle[1] += (DEG1 * 5 * ObjectSubBehaviorTurnTarget(InputObject->ObjectData.position, InputObject->ObjectData.angle[1], objectPosition, 5));
-		ObjectBehaviorWalk(InputObject, InputObject->MaxSpeed);
+		ObjectBehaviorWalk(InputObject, ThisType->MaxSpeed);
 
 		if (TestCollideSphere(InputObject->ObjectData.position,6,objectPosition, 6))
 		{
@@ -297,12 +305,12 @@ void ObjectBehaviorFollowPath(OKObject* InputObject, Marker* PathData)
 			}
 		}
 	}
+	
 }
 
 void Misbehave(OKObject* InputObject)
 {
-	
-	switch (InputObject->BehaviorClass)
+	switch (OverKartObjectHeader.ObjectTypeList[OverKartObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex].BehaviorClass)
 	{
 		case BEHAVIOR_STATIC:
 		{
@@ -314,6 +322,11 @@ void Misbehave(OKObject* InputObject)
 			UpdateObjectAngle((Object*)(&InputObject->ObjectData), InputObject->AngularVelocity);
 			ObjectBehaviorExist(InputObject);
 			break;
+		}		
+		case BEHAVIOR_PATH:
+		{
+			
+			ObjectBehaviorFollowPath(InputObject,(Marker*)(GetRealAddress(*(long*)&pathOffset)));
 		}
 		case BEHAVIOR_WANDER:
 		{
@@ -327,10 +340,6 @@ void Misbehave(OKObject* InputObject)
 			ObjectBehaviorSearch(InputObject);
 			break;
 		}
-		case BEHAVIOR_PATH:
-		{
-			
-			ObjectBehaviorFollowPath(InputObject,(Marker*)(GetRealAddress(*(long*)&pathOffset)));
-		}
 	}
+	
 }

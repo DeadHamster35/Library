@@ -1,12 +1,13 @@
 #include <stdbool.h>
 #include "OKHeader.h"
+#include "OKCustom.h"
 #include "GameVariables/NTSC/GameOffsets.h"
 #include "GameVariables/NTSC/StatsOffsets.h"
 #include "Struct.h"
 #include "OKStruct.h"
 
 
-int GlobalAddressA, GlobalAddressB, GlobalAddressC;
+uint GlobalAddressA, GlobalAddressB, GlobalAddressC, GlobalAddressD;
 int GlobalIntA, GlobalIntB, GlobalIntC, GlobalIntD;
 uint GlobalUIntA, GlobalUIntB;
 int MenuIntA, MenuIntB, MenuIntC, MenuIntD;
@@ -34,6 +35,7 @@ int minutes = 0;
 int seconds = 0;
 
 Object *GlobalObjectA, *GlobalObjectB;
+OKObjectHeader OverKartObjectHeader;
 
 float ZeroVector[3] = {0.0, 0.0, 0.0};
 
@@ -154,6 +156,7 @@ Playercolor *GlobalPlayercolor[20] =
 //MarioKart3D Variables
 int CoinCount = 0;
 float AffineMatrix[4][4];
+float AffineMatrix2[4][4];
 float objectPosition[3] = {0,0,0};
 float objectVelocity[3] = {0,0,0};
 short objectAngle[3] = {0,0,0};
@@ -169,7 +172,7 @@ struct OKEngine EngineClass[3][3];
 #define ENGINE_ACCEL	1
 #define ENGINE_SPEED	2
 */
-short EngineSpeed[3][3] = { {292,288,296},{312,308,316},{322,318,326}};
+short EngineSpeed[4][3] = { {292,288,296},{312,308,316},{322,318,326},{245,245,245}};
 short AccelerationCurve[3][10] = {{20,20,20,16,14,12,10,8,6,4},{20,20,25,26,26,20,15,8,8,8},{20,20,20,16,10,10,10,18,18,12}};
 short SteerAngle[3] = {135,125,110};
 short SteerValue[3] = {2,0,-2};
@@ -219,7 +222,7 @@ char *stockCharacterNames[] = {"MARIO", "LUIGI", "YOSHI", "TOAD", "D.K.", "WARIO
 
 //Main
 
-struct OKObject OKObjectHeaders[100];
+struct OKObject OKObjectArray[100];
 
 //OKCustom Objects
 short CoinPositions[8][3]; //8 Coins XYZ

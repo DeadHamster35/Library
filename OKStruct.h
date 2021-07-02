@@ -2,33 +2,86 @@
 #define OKSTRUCT_H
 #include "Struct.h"
 
-typedef struct OKObject{
-	short     Range,Sight,Viewcone;
-	uchar	TurnStatus,WanderStatus,SearchStatus,EMPTYSTATUS;
-	short	Counter[2];
-	short	PathTarget,PlayerTarget;
-	short	BehaviorClass, SubBehaviorClass;
-	short	OriginPosition[3], AngularVelocity[3];
-	short	CollisionCount, ModelCount;
-	long		CollisionAddress;
-	long		ModelAddress;
-	float	ModelScale;     
-	float 	TargetDistance;
-	float	MaxSpeed;
-	
-	Object	ObjectData;
-} OKObject;
+
+typedef struct OKHeader{
+
+	int Version;
+	CourseHeader MapHeader;
+	uint Sky;
+	uint Credits;
+	uint CourseName;
+	uint SerialKey;
+	uint Ghost;
+	uint Maps;
+	uint ObjectDataStart;
+	uint ObjectModelStart;	
+	uint ObjectDataEnd;
+	short EchoStart, EchoStop;
+	char Tempo1, Tempo2, Tempo3, Tempo4;	
+	uint MusicID;
+	int PathLength;
+	float WaterLevel;
+	uint ScrollOffset;
+	uint ScrollEnd;
+
+} OKHeader;
+
+
+typedef struct OKModel{
+
+	uint 	TextureAddress;
+	uint		MeshAddress;
+	short	MeshCount,MeshScale;
+} OKModel;
+
+typedef struct OKObjectList{
+	short	ObjectIndex;
+	short	Padding;
+	short	OriginPosition[3];
+	short 	OriginAngle[3];
+	short 	OriginVelocity[3];
+	short	OriginAngularVelocity[3];
+} OKObjectList;
+
+
+typedef struct OKObjectType{
+	short 	BehaviorClass;
+	short 	StatusClass;
+	short 	EffectClass;
+	short 	Range;
+	short 	Sight;
+	short 	Viewcone;	
+	short 	MaxSpeed;    
+	short	OKModelCount;		
+	float	CollisionRadius;  //temp
+	OKModel*	ObjectModel;	
+} OKObjectType;
 
 typedef struct OKCollisionSphere{
 	float	Radius;
+	float	Scale;
 	short	Position[3], BoxSize[3], Angle[3];
 	short	CollisionType, EffectType;
 } OKCollisionSphere;
 
-typedef struct OKModel{
-	float 	ModelScale;
-	uint		ModelAddress;
-} OKModel;
+typedef struct OKObject{
+	short	ListIndex, SubBehaviorClass;
+	short	AngularVelocity[3], PAD;
+	float 	TargetDistance;	
+	uchar	TurnStatus,WanderStatus,SearchStatus,EMPTYSTATUS;
+	short	Counter[2];
+	short	PathTarget,PlayerTarget;	
+	Object	ObjectData;
+} OKObject;
+
+typedef struct OKObjectHeader{
+	int			ObjectTypeCount;
+	OKObjectType 	*ObjectTypeList;
+	int			ObjectCount;
+	OKObjectList	*ObjectList;
+} OKObjectHeader;
+
+
 
 typedef struct OKEngine{
 	short	AccelerationCount; 	//Top Speed.
@@ -42,13 +95,14 @@ typedef struct OKEngine{
 
 
 
-#define BEHAVIOR_DEAD	0
-#define BEHAVIOR_STATIC 	1
-#define BEHAVIOR_ROTATE 	2
-#define BEHAVIOR_PATH	3
-#define BEHAVIOR_WANDER 	4
-#define BEHAVIOR_SEARCH	5
+#define BEHAVIOR_DEAD	-1
+#define BEHAVIOR_STATIC 	0
+#define BEHAVIOR_ROTATE 	1
+#define BEHAVIOR_PATH	2
+#define BEHAVIOR_WANDER 	3
+#define BEHAVIOR_SEARCH	4
 
+#define SUBBEHAVIOR_DEAD			-1
 #define SUBBEHAVIOR_DOCILE 		0
 #define SUBBEHAVIOR_ALERT		1
 #define SUBBEHAVIOR_CHASE		2
