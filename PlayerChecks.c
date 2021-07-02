@@ -18,7 +18,7 @@
 #define Water_Lava		(char)2
 #define Water_Ice		(char)3
 
-bool IceSoundPlayed[8];
+//bool IceSoundPlayed[8];
 
 void CheckSplashRepl(char WaterType)
 {	
@@ -60,17 +60,17 @@ void CheckSplashRepl(char WaterType)
 						GlobalPlayer[(int)playerID].water_flag |= SPLASH_DIVE;
 						GlobalPlayer[(int)playerID].water_flag |= SPLASH_START;
 
-						if((g_courseID != 6) && (g_courseID != 16) && (g_courseID != 13) && ((GlobalPlayer[(int)playerID].flag& EXISTS) != 0))
+						if((g_courseID != 6) && (g_courseID != 16) && (g_courseID != 13) && ((GlobalPlayer[(int)playerID].flag& IS_PLAYER) != 0))
 						{
 							if(((g_courseID == 2) && (g_courseID == 19)) || WaterType == Water_Lava)
 							{
 								NAPlyTrgStart(playerID, 0x1900801c);
 							}
-							else
+							else if (WaterType != Water_Void)
 							{
 								NAPlyTrgStart(playerID, 0x19008008);
 							}
-							if(HotSwapID > 0)
+							if(HotSwapID > 0 && ((GlobalPlayer[(int)playerID].flag& IS_PLAYER) != 0))
 							{
 								NAPlyTrgStart(playerID, 0x29008004 + (GlobalPlayer[(int)playerID].kart * 0x10));
 							}
@@ -118,6 +118,16 @@ void CheckSplashRepl(char WaterType)
 
 void SetWaterType(char WaterType)
 {
+
+	if (WaterType == Water_Ice && HotSwapID != 0)
+	{
+		LakituIceBehavior = (LakituIceBehavior & 0xFFFF0000) + (0 & 0x0000FFFF);
+	}
+	else
+	{
+		LakituIceBehavior = (LakituIceBehavior & 0xFFFF0000) + (12 & 0x0000FFFF);
+	}
+
 	if (g_startingIndicator >= 0x01 && g_startingIndicator <= 0x06)
 	{
 		CheckSplashRepl(WaterType);
@@ -181,10 +191,10 @@ void SetWaterType(char WaterType)
 										GlobalPlayer[(int)playerID].gass[i].swork4 = 0xFF;
 									}
 								}
-							} //8018D430 Sprite Mempointer
+							}
 						break;
 						}
-
+/* Using stock function instead
 						case Water_Ice:
 						{
 							if(((GlobalPlayer[(int)playerID].water_flag & SUBMERGED) != 0) && ((GlobalPlayer[(int)playerID].jugemu_flag & ON_LAKITU_ROD) != 0))
@@ -215,7 +225,7 @@ void SetWaterType(char WaterType)
 							}
 						break;
 						}
-
+*/
 						default:
 						{				
 							break;

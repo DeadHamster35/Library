@@ -124,6 +124,7 @@
 .definelabel SetLakitu, 0x80090778
 .definelabel LakituCheck, 0x8002C17C
 .definelabel HangLakitu, 0x80090970
+.definelabel LakituIceBehavior, 0x800797E8
 
 .definelabel CheckWaterLevel, 0x802AAB4C
 .definelabel CheckSplash, 0x8002C4F8
@@ -451,6 +452,14 @@
 .definelabel g_DynamicObjects, 0x80165C18
 .definelabel KWAnmNext, 0x80086FD4
 
+.definelabel KWDisplayEvent, 0x800588F4
+.definelabel KWDisplayEvent_After, 0x80058B58
+.definelabel KWGameEventCommon_VF, 0x8005A71C
+.definelabel KWGameEventCommon, 0x8005A74C
+
+.definelabel KWDisplayIceBlock, 0x80052C60
+.definelabel KWDisplayIceBlockShadow, 0x80052E30
+.definelabel KWDisplayBombKartBT, 0x80056AC0
 
 .definelabel itemBoolean, 0x80165F5F
 .definelabel itemA, 0x80165F5B
@@ -682,6 +691,7 @@
 .definelabel g_skyColorTop13, 0x802B8BB4
 
 .definelabel g_SnowParticleTex, 0x801C8D10
+.definelabel g_MRCloudTexPtr, 0x8016D6FC
 
 .definelabel g_skySnowScale, 0x800EEB3C
 .definelabel g_skySnowVelocity, 0x800EEB40
@@ -702,6 +712,7 @@
 .definelabel g_3DSnowVelocityLowLim, 0x800EEB60 
 
 .definelabel KWChartSnow, 0x80078838
+.definelabel KWChartIceBlock, 0x80079D44
 
 //fog
 .definelabel g_fogToggleBanshee, 0x800DC5BD

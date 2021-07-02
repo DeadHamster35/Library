@@ -483,6 +483,7 @@ typedef struct Lakitu{
 #define LAKITU_LAP2			4
 #define LAKITU_LAPFINAL		5
 #define LAKITU_REVERSE		6
+#define LAKITU_RESCUE_ICE	7
 
 typedef struct AnmObject_Lakitu{
 		float		scale;

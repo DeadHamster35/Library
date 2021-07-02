@@ -1302,3 +1302,43 @@ void SnowCustomCheck(int SnowIndex)
 //		KWAnmNext(SnowIndex);
 	}
 }
+
+void EventDisplay(int player)
+{
+	if (HotSwapID == 0)
+	{
+		KWDisplayEvent(player);
+	}
+	else
+	{
+		KWDisplayIceBlockShadow(player);
+		KWDisplayBombKartBT(player);
+		KWDisplayEvent(player);
+	}
+}
+
+void EventDisplay_After(int player)
+{
+	if (HotSwapID == 0)
+	{
+		KWDisplayEvent_After(player);
+	}
+	else
+	{
+		KWDisplayIceBlock(player);
+		KWDisplayEvent_After(player);
+	}
+}
+
+void CommonGameEventChart()
+{
+	if (HotSwapID == 0)
+	{
+		KWGameEventCommon();
+	}
+	else
+	{
+		KWChartIceBlock();
+		KWGameEventCommon();
+	}	
+}

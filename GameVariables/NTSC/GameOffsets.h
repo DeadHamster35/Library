@@ -102,6 +102,7 @@ extern void CallLakitu(void *Car);
 extern void SetLakitu(void *Car);
 extern void LakituCheck(void *Car,char PlayerID);
 extern void HangLakitu(void *Car,char PlayerID);
+extern long LakituIceBehavior;
 
 extern float CheckWaterLevel(void *Car);
 extern void CheckSplash(void *Car,int PlayerIndex);
@@ -140,8 +141,9 @@ extern void KWSprite(int cx,int cy,uint sizex,uint sizey,ushort *addr);
 extern void KWSpriteScale(int cx,int cy,float scale, ushort *addr, uint sizex,uint sizey);
 extern void KWSpriteDiv(int cx,int cy,ushort *addr,uint sizex,uint sizey,uint cuty);
 extern void KWSpriteTile32B(short cx,short cy,uchar *addr,uint sizex,uint sizey);
-extern void DrawLineHorizontal (short tx,short ty,short length,ushort r,ushort g,ushort b,ushort a);
-extern void DrawLineVertical (short tx,short ty,short length,ushort r,ushort g,ushort b,ushort a);
+extern void DrawLineHorizontal(short tx,short ty,short length,ushort r,ushort g,ushort b,ushort a);
+extern void DrawLineVertical(short tx,short ty,short length,ushort r,ushort g,ushort b,ushort a);
+extern void KWLoadTextureBlockI4b(uchar *texaddr,int cutx,int cuty);
 
 
 
@@ -447,6 +449,15 @@ extern struct Camera g_Camera4; //0x80164918
 // extern long g_DynamicObjects; //0x80165C18
 extern void KWAnmNext(int num); //0x80086FD4
 
+void KWDisplayEvent(int player);
+void KWDisplayEvent_After(int player);
+void KWGameEventCommon_VF();
+void KWGameEventCommon();
+
+void KWDisplayIceBlock(int player);
+void KWDisplayIceBlockShadow(int player);
+void KWDisplayBombKartBT(int player);
+
 
 extern char g_itemBoolean; //0x80165F5F
 extern char g_itemA;
@@ -666,6 +677,7 @@ extern struct Skycolor g_skyColorTop12; // 0x802B8BA9
 extern struct Skycolor g_skyColorTop13; // 0x802B8BB4
 
 extern long g_SnowParticleTex[50];
+extern long *g_MRCloudTexPtr; // Set of four I4 cloud images, 0x400 length each.
 
 extern float g_skySnowScale;
 extern float g_skySnowVelocity;
@@ -686,7 +698,7 @@ extern float g_3DSnowVelocityUpLim;
 extern float g_3DSnowVelocityLowLim;
 
 extern void KWChartSnow();
-
+extern void KWChartIceBlock();
 
 //fog
 extern char g_fogToggleBanshee; // 0x800DC5BD

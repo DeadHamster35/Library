@@ -26,3 +26,6 @@ extern void SetWeatherType(char WeatherType);
 extern void SetCloudType(char CloudType);
 extern void SetWeather3D(bool Weather3DEnable);
 extern void Snow3DCameralook(int num, void* Camera);
+extern void EventDisplay(int player);
+extern void EventDisplay_After(int player);
+extern void CommonGameEventChart();
