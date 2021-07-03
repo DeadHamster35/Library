@@ -25,6 +25,7 @@
 .definelabel MakeWaterVertex, 0x802AF8BC
 .definelabel ramCopy, 0x800D7FE0
 .definelabel CheckArea, 0x802ABD40
+.definelabel CheckDisplayRange, 0x802B80D0
 
 .definelabel readControllers, 0x80000A28
 .definelabel InitControllers, 0x800008A4
@@ -581,7 +582,8 @@
 .definelabel g_zoomLevelPlayer3, 0x8016467D 
 .definelabel g_zoomLevelPlayer4, 0x8016467F 
 
-.definelabel g_ReplayFlag , 0x8015F891 
+.definelabel g_ReplayFlag, 0x8015F891 
+.definelabel g_screenViewAngle, 0x80150130
 
 .definelabel g_sfxPause, 0x803B17A3 // 20 - paused; 00 playing
 

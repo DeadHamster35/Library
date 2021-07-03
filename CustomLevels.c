@@ -1338,7 +1338,10 @@ void CommonGameEventChart()
 	}
 	else
 	{
-		KWChartIceBlock();
+		if (g_resetToggle != 4)
+		{
+			KWChartIceBlock();
+		}
 		KWGameEventCommon();
 	}	
 }

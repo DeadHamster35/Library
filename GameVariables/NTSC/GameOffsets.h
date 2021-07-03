@@ -31,7 +31,7 @@ extern void ScrollMapImage(int ObjectAddress,int ScrollS,int ScrollT);
 extern void MakeWaterVertex(int ObjectAddress, char alpha, char red, char green, char blue);
 extern void ramCopy(long output, long input, long Length);
 extern short CheckArea(ushort pointer);
-
+extern float CheckDisplayRange(float basepos[], float markpos[], ushort camera_direction, float radius, float angle2, float limmit_distance);
 
 extern void InitControllers();
 extern void readControllers();
@@ -578,6 +578,7 @@ extern char g_zoomLevelPlayer3;
 extern char g_zoomLevelPlayer4;
 
 extern char g_ReplayFlag;
+extern float g_screenViewAngle[4];
 
 extern char g_sfxPause;
 
