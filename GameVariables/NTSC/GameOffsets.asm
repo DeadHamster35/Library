@@ -795,3 +795,12 @@
 .definelabel g_musicIDDK, 0x8028ED86
 .definelabel g_musicIDBattle2, 0x8028ED96
 .definelabel g_musicTempo, 0x803B1518
+
+//Cave Fire Particle Stuff
+.definelabel CaveFirePos, 0x800E6788
+.definelabel KWGetCaveFire, 0x800770F0
+.definelabel CaveFireColCheck, 0x800547CC
+.definelabel KWSet2Color, 0x8004B1C8
+.definelabel KWDisplayFireParticleSub, 0x8005477C
+.definelabel FireParticleAllocArray, 0x8018C870
+.definelabel FireParticleCounter, 0x80183E6C

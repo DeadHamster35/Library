@@ -778,3 +778,12 @@ extern short g_musicIDRainbow; // 0x8028ED76
 extern short g_musicIDDK; // 0x8028ED86
 extern short g_musicIDBattle2; // 0x8028ED96
 extern ushort g_musicTempo;
+
+//Cave Fire Particle Stuff
+extern short CaveFirePos[8][3];
+extern void KWGetCaveFire(int objnum);
+extern int CaveFireColCheck;
+extern void KWSet2Color(uint prim_r,uint prim_g,uint prim_b,uint env_r,uint env_g,uint env_b,uint a);
+extern void KWDisplayFireParticleSub(int num,uchar color,void* Camera);
+extern int FireParticleAllocArray[64];
+extern int FireParticleCounter;

@@ -227,6 +227,7 @@ short hsLabel, raceStatus, startupSwitch, courseSwapped = -1;
 bool scrollLock = false;
 int currentHeaderAddress = 0;
 
+short FireParticlePositions[8][3];
 
 
 short gpCourseIndex, HotSwapID, hsGP, gpTimeCheck, courseValue = -1;

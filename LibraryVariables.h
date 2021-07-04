@@ -127,6 +127,7 @@ extern bool scrollLock;
 extern int currentHeaderAddress;
 extern short CoinPositions[8][3]; //8 Coins XYZ
 
+extern short FireParticlePositions[8][3];
 
 
 extern short gpCourseIndex, HotSwapID, hsGP, gpTimeCheck, courseValue;

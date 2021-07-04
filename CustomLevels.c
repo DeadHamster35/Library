@@ -1068,6 +1068,71 @@ void SetCourseNames(bool custom)
 
 
 
+int tempFireParticleMax = 8;
+
+
+void initFireParticles(long PathOffset)
+{
+	*tempPointer = PathOffset;
+	*sourceAddress = (long)&FireParticlePositions;
+	*targetAddress = (long)&objectPosition;
+	for (int currentFire = 0; currentFire < tempFireParticleMax; currentFire++)
+	{
+
+
+		FireParticlePositions[currentFire][0] = *(short*)(PathOffset);
+		FireParticlePositions[currentFire][1] = *(short*)(PathOffset + 2);
+		FireParticlePositions[currentFire][2] = *(short*)(PathOffset + 4);
+		
+		if (FireParticlePositions[currentFire][0] == 0xFFFF8000)
+		{
+			if (currentFire < tempFireParticleMax-1)
+			{
+				return;
+			}
+			else
+			{
+				break;
+			}
+		}
+		PathOffset = PathOffset + 8;
+	}
+	for (int currentFire = 0; currentFire < tempFireParticleMax; currentFire++)
+	{
+		KWGetCaveFire(currentFire);
+
+		g_DynamicObjects[FireParticleAllocArray[currentFire]].pos_start[0] = (float)FireParticlePositions[currentFire][0];		
+		g_DynamicObjects[FireParticleAllocArray[currentFire]].pos_start[1] = (float)FireParticlePositions[currentFire][1]+10;
+		g_DynamicObjects[FireParticleAllocArray[currentFire]].pos_start[2] = (float)FireParticlePositions[currentFire][2];
+	}
+}
+
+
+char FireRGBA[8][4] = {{150,0,25,255}, {150,20,55,255}, {50,50,255,255}, {50,255,50,255}, {150,90,255,255}, {250,55,55,155}, {100,255,25,255}, {250,105,55,255}};
+//8 = tempFireParticleMax
+
+void DisplayFireParticleSub(int num,uchar color,void* Camera)
+{
+int realindex = num - FireParticleAllocArray[0];
+
+	if (HotSwapID > 0)
+	{
+		CaveFireColCheck = 0x24010004;
+	}
+	else
+	{
+		CaveFireColCheck = 0x24010003;
+	}
+
+	switch (color)
+	{
+	case 3:
+		KWSet2Color(FireRGBA[realindex][0],FireRGBA[realindex][1],FireRGBA[realindex][2],FireRGBA[realindex][0]/3,FireRGBA[realindex][1]/3,FireRGBA[realindex][2]/3,FireRGBA[realindex][3]);
+		break;
+	}
+	KWDisplayFireParticleSub(num,color,Camera);
+
+}
 
 
 
