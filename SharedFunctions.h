@@ -9,8 +9,8 @@ extern void runRAM();
 extern void runTKM();
 extern void runMIO();
 
-extern ushort GetRGBA16;
-extern uint GetRGB32;
+extern ushort GetRGBA16(int R, int G, int B, int A);
+extern uint GetRGB32(int R, int G, int B);
 
 extern void SetFontColor(int FontR, int FontG, int FontB, int ShadowR, int ShadowG, int ShadowB);
 extern void printFloat(int X, int Y, float Value);
