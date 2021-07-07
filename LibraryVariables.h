@@ -19,10 +19,19 @@ extern short GlobalShortA, GlobalShortB;
 extern bool GlobalBoolA, GlobalBoolB, GlobalBoolC, GlobalBoolD;
 extern int LoopValue;
 extern bool ConsolePlatform;
-extern bool CustomWaterHeight;
+extern bool CustomWaterHeight[];
+extern short CloudCourseID, Snow3DCourseID; 
+
+extern short MenuPosition[2];
+extern int wholeNumber;
+extern int decimalNumber;
+extern int printOffsetA, printOffsetB, printOffsetC, printOffsetD;
+extern int minutes;
+extern int seconds;
 
 extern Object *GlobalObjectA, *GlobalObjectB;
 
+extern float ZeroVector[3];
 
 extern struct POSXY PlayerSelectPositions[];
 extern struct PlayerTextureTable SelectNamePlateTable;
@@ -38,6 +47,8 @@ extern short *GlobalPath[];
 extern long *GlobalLap[];
 extern struct Lakitu *GlobalLakitu[];
 extern struct AnmObject_Lakitu AnimatedLakituStruct[];
+extern struct AnmObject g_DynamicObjects[];
+extern struct FaceStruct CourseFaceStruct[];
 extern struct PlayerState *GlobalPlayerState[];  
 extern struct Hud *GlobalHud[];
 extern char *GlobalLightning[];
@@ -117,6 +128,7 @@ extern bool scrollLock;
 extern int currentHeaderAddress;
 extern short CoinPositions[8][3]; //8 Coins XYZ
 
+extern short FireParticlePositions[8][3];
 
 
 extern short gpCourseIndex, HotSwapID, hsGP, gpTimeCheck, courseValue;

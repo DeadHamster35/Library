@@ -1,3 +1,5 @@
+
+
 .definelabel SYSTEM_Region, 0x80000300
 
 .definelabel InitMKCode, 0x80091B78
@@ -22,6 +24,8 @@
 .definelabel ScrollMapImage, 0x802AF7B4
 .definelabel MakeWaterVertex, 0x802AF8BC
 .definelabel ramCopy, 0x800D7FE0
+.definelabel CheckArea, 0x802ABD40
+.definelabel CheckDisplayRange, 0x802B80D0
 
 .definelabel readControllers, 0x80000A28
 .definelabel InitControllers, 0x800008A4
@@ -40,7 +44,8 @@
 .definelabel SmokeDisp4P, 0x8006E744
 
 .definelabel CheckHight, 0x802AE1C0
-
+.definelabel CalcDistance, 0x802B51E8
+.definelabel KWCheckRadiusXZ, 0x80041608
 
 .definelabel deleteObjectBuffer, 0x8029E854
 .definelabel addObjectBuffer, 0x8029EC88
@@ -100,6 +105,7 @@
 .definelabel MakeAlignMatrix, 0x802B6540
 .definelabel MakeAlignVector, 0x802B64C4
 .definelabel MakeRandomLimmit, 0x802B7E34
+.definelabel Atan2T, 0x802B7830
 
 .definelabel SetSegment, 0x802A7B94
 
@@ -119,6 +125,8 @@
 .definelabel CallLakitu, 0x80090868
 .definelabel SetLakitu, 0x80090778
 .definelabel LakituCheck, 0x8002C17C
+.definelabel HangLakitu, 0x80090970
+.definelabel LakituIceBehavior, 0x800797E8
 
 .definelabel CheckWaterLevel, 0x802AAB4C
 .definelabel CheckSplash, 0x8002C4F8
@@ -128,11 +136,22 @@
 .definelabel CheckSplashJAL2, 0x8002F340
 .definelabel CheckSplashJAL3, 0x8003939C
 
+// NOP out BGM fanfares func
 .definelabel CheckFinalLapFanfareJAL, 0x8028F344
 .definelabel CheckPlayStarBGMJAL, 0x8008F820
 
-.definelabel initializePlayer, 0x800393C0
+// Edit cloud call func
+.definelabel CloudTypeMapCheck1, 0x80070560
+.definelabel CloudTypeMapCheck2, 0x80070564
+.definelabel CloudAmountMapCheck1, 0x80078DD8
+.definelabel CloudAmountMapCheck2, 0x80078DE0
+.definelabel Snow3DAllocMapCheck1, 0x80070784
+.definelabel Snow3DAllocMapCheck2, 0x80070788
+.definelabel Snow3DDisplayAfterMapCheck1, 0x80058B58
+.definelabel Snow3DDisplayAfterMapCheck2, 0x80058B5C
 
+.definelabel initializePlayer, 0x800393C0
+.definelabel DelayInitialMap, 0x80002DAC
 
 .definelabel TexBuffLoadP, 0x800996BC
 .definelabel GrayScaleTexBuf3, 0x8009B0A4
@@ -140,6 +159,9 @@
 .definelabel FadeMain, 0x8009CA2C
 .definelabel FadeMain2, 0x8009CA6C
 .definelabel SetFadeOut, 0x8009DFE0
+
+.definelabel g_fadeOutFlag, 0x800DC5C0
+.definelabel g_fadeOutCounter, 0x800DC5C4
 
 .definelabel asm_itemJump1A, 0x8007B084  //3C058016
 .definelabel asm_itemJump1B, 0x8007B098  //84A543BA
@@ -176,6 +198,8 @@
 
 .definelabel PathTable, 0x800DC8D0
 
+.definelabel g_courseFaceStructPtr, 0x8015F580
+.definelabel g_courseFaceMaxIndex, 0x8015F588
 
 .definelabel GlobalStat, 0x800E2360 
 .definelabel gravity_1, 0x800E2650
@@ -428,7 +452,16 @@
 .definelabel g_Camera4, 0x80164918
 
 .definelabel g_DynamicObjects, 0x80165C18
+.definelabel KWAnmNext, 0x80086FD4
 
+.definelabel KWDisplayEvent, 0x800588F4
+.definelabel KWDisplayEvent_After, 0x80058B58
+.definelabel KWGameEventCommon_VF, 0x8005A71C
+.definelabel KWGameEventCommon, 0x8005A74C
+
+.definelabel KWDisplayIceBlock, 0x80052C60
+.definelabel KWDisplayIceBlockShadow, 0x80052E30
+.definelabel KWDisplayBombKartBT, 0x80056AC0
 
 .definelabel itemBoolean, 0x80165F5F
 .definelabel itemA, 0x80165F5B
@@ -514,6 +547,8 @@
 .definelabel textDrawPtr, 0x80093788
 .definelabel textDraw, 0x800939FC
 
+.definelabel GetWordLength, 0x80093034
+
 .definelabel g_RNG, 0x802BA290
 
 .definelabel g_CharacterSelections, 0x800E86A8
@@ -548,7 +583,8 @@
 .definelabel g_zoomLevelPlayer3, 0x8016467D 
 .definelabel g_zoomLevelPlayer4, 0x8016467F 
 
-.definelabel g_ReplayFlag , 0x8015F891 
+.definelabel g_ReplayFlag, 0x8015F891 
+.definelabel g_screenViewAngle, 0x80150130
 
 .definelabel g_sfxPause, 0x803B17A3 // 20 - paused; 00 playing
 
@@ -586,6 +622,7 @@
 .definelabel g_GhostUseTimer, 0x8018D970
 .definelabel g_sfxPointer, 0x803B7080 
 .definelabel g_noSimpleKartFlag, 0x801633F8
+.definelabel g_charRadiusTbl, 0x800E26B0
 
 .definelabel SelectNamePlateTable, 0x800E7D54
 
@@ -656,6 +693,30 @@
 .definelabel g_skyColorTop12, 0x802B8BA8
 .definelabel g_skyColorTop13, 0x802B8BB4
 
+.definelabel g_SnowParticleTex, 0x801C8D10
+.definelabel g_MRCloudTexPtr, 0x8016D6FC
+
+.definelabel g_skySnowScale, 0x800EEB3C
+.definelabel g_skySnowVelocity, 0x800EEB40
+.definelabel g_skySnowSpawnHeight, 0x80077FD8
+.definelabel g_skySnowSpawnRadiusDensity, 0x80077FA4
+.definelabel g_skySnowSpawnCenterOffset, 0x80077FE8
+.definelabel g_skySnowHitGoal, 0x800780A0
+
+.definelabel g_3DSnowSpawnHeight, 0x8007833C
+.definelabel g_3DSnowSpawnDistance, 0x80078348
+.definelabel g_3DSnowSpawnCone, 0x8007830C
+.definelabel g_3DSnowSpawnRadius, 0x80078354
+.definelabel g_3DSnowSwayVelocity, 0x80078430
+.definelabel g_3DSnowSwayDistance, 0x8007843C
+.definelabel g_3DSnowSwayMovement, 0x800EEB50
+.definelabel g_3DSnowScale, 0x800EEB48
+.definelabel g_3DSnowVelocityUpLim, 0x800EEB58
+.definelabel g_3DSnowVelocityLowLim, 0x800EEB60 
+
+.definelabel KWChartSnow, 0x80078838
+.definelabel KWChartIceBlock, 0x80079D44
+
 //fog
 .definelabel g_fogToggleBanshee, 0x800DC5BD
 .definelabel g_fogR, 0x801625EF
@@ -720,6 +781,8 @@
 .definelabel NaFanStart, 0x800C8EF8
 .definelabel NaPlyLevelStart, 0x800C8F80
 .definelabel NaPlyLevelStop, 0x800C9018
+.definelabel NaSceneLevelStart, 0x800C9D80
+.definelabel NaSceneLevelStop, 0x800C9EF4
 
 .definelabel g_musicUserVolumeFlag, 0x800DC5A8 //char 00=full, 01=half, 02=off, 04=disable L button
 .definelabel g_musicIDRaceways, 0x8028ECE6 
@@ -735,3 +798,12 @@
 .definelabel g_musicIDDK, 0x8028ED86
 .definelabel g_musicIDBattle2, 0x8028ED96
 .definelabel g_musicTempo, 0x803B1518
+
+//Cave Fire Particle Stuff
+.definelabel CaveFirePos, 0x800E6788
+.definelabel KWGetCaveFire, 0x800770F0
+.definelabel CaveFireColCheck, 0x800547CC
+.definelabel KWSet2Color, 0x8004B1C8
+.definelabel KWDisplayFireParticleSub, 0x8005477C
+.definelabel FireParticleAllocArray, 0x8018C870
+.definelabel FireParticleCounter, 0x80183E6C

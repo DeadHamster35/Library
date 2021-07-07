@@ -10,19 +10,20 @@
 char EffectActive[8];
 
 #define FastOoB			(char)251
-#define MushroomBoost	(char)250
-#define FeatherJump		(char)249
-#define TornadoJump		(char)248
-#define SpinOutSaveable	(char)247
-#define SpinOut			(char)246
-#define FailedStart		(char)245
-#define GreenShellHit	(char)244
-#define RedShellHit		(char)243
-#define ObjectHit		(char)242
-#define Shrunken		(char)241
-#define StarMan			(char)240
-#define Boo		    	(char)239
-#define GetItem			(char)238
+#define Water			(char)250
+#define MushroomBoost	(char)249
+#define FeatherJump		(char)248
+#define TornadoJump		(char)247
+#define SpinOutSaveable	(char)246
+#define SpinOut			(char)245
+#define FailedStart		(char)244
+#define GreenShellHit	(char)243
+#define RedShellHit		(char)242
+#define ObjectHit		(char)241
+#define Shrunken		(char)240
+#define StarMan			(char)239
+#define Boo		    	(char)238
+#define GetItem			(char)237
 
 
 #define dirt_test		(char)19
@@ -109,6 +110,7 @@ void GetSurfaceID()
 			{
 				SurfaceID = 0;
 				EffectActive[(int)playerID] = 0;
+				CustomWaterHeight[(int)playerID] = false;
 				continue;
 			}
 
@@ -289,6 +291,34 @@ void GetSurfaceID()
 				continue;
 			}
 
+
+///////////////////////////////WATER!!!///////////////////////////////
+
+
+			if (SurfaceID == Water)
+			{
+				if ((GlobalPlayer[(int)playerID].bump.distance_zx <= 2) && ((GlobalPlayer[(int)playerID].jugemu_flag & ON_LAKITU_ROD) == 0))
+				{
+					CustomWaterHeight[(int)playerID] = true;
+					EffectActive[(int)playerID] = SurfaceID;
+					g_waterlevelPlayer[(int)playerID] = GlobalPlayer[(int)playerID].position[1] - GlobalPlayer[(int)playerID].bump.distance_zx -5;
+
+					if (GlobalPlayer[(int)playerID].bump.distance_zx <= 0.0)
+					{
+						GlobalPlayer[(int)playerID].radius = 0;
+						HangLakitu((void*)&GlobalPlayer[(int)playerID], playerID);
+						GlobalPlayer[(int)playerID].position[1] = g_waterlevelPlayer[(int)playerID] - 10;
+					}
+				}
+				continue;
+			}
+			if ((SurfaceID != Water) && (EffectActive[(int)playerID] == Water))
+			{
+				CustomWaterHeight[(int)playerID] = false;
+				GlobalPlayer[(int)playerID].radius = g_charRadiusTbl[(GlobalPlayer[(int)playerID].kart)];
+			}
+
+
 //FIN//		
 			else
 			{
@@ -296,6 +326,8 @@ void GetSurfaceID()
 			}
 
             SurfaceProperties(playerID,SurfaceID);
+
+
 		}
 	}
 }

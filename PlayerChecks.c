@@ -18,7 +18,7 @@
 #define Water_Lava		(char)2
 #define Water_Ice		(char)3
 
-bool IceSoundPlayed[8];
+//bool IceSoundPlayed[8];
 
 void CheckSplashRepl(char WaterType)
 {	
@@ -26,7 +26,7 @@ void CheckSplashRepl(char WaterType)
 	{
 		if (((GlobalPlayer[(int)playerID].flag & EXISTS) != 0) && (g_gamePausedFlag == 0x00))
 		{
-			if(!CustomWaterHeight)
+			if(!CustomWaterHeight[(int)playerID])
 			{
 				g_waterlevelPlayer[(int)playerID] = CheckWaterLevel((void*)&GlobalPlayer[(int)playerID]);
 			}
@@ -60,17 +60,17 @@ void CheckSplashRepl(char WaterType)
 						GlobalPlayer[(int)playerID].water_flag |= SPLASH_DIVE;
 						GlobalPlayer[(int)playerID].water_flag |= SPLASH_START;
 
-						if((g_courseID != 6) && (g_courseID != 16) && (g_courseID != 13) && ((GlobalPlayer[(int)playerID].flag& EXISTS) != 0))
+						if((g_courseID != 6) && (g_courseID != 16) && (g_courseID != 13) && ((GlobalPlayer[(int)playerID].flag& IS_PLAYER) != 0))
 						{
 							if(((g_courseID == 2) && (g_courseID == 19)) || WaterType == Water_Lava)
 							{
 								NAPlyTrgStart(playerID, 0x1900801c);
 							}
-							else
+							else if (WaterType != Water_Void)
 							{
 								NAPlyTrgStart(playerID, 0x19008008);
 							}
-							if(HotSwapID > 0)
+							if(HotSwapID > 0 && ((GlobalPlayer[(int)playerID].flag& IS_PLAYER) != 0))
 							{
 								NAPlyTrgStart(playerID, 0x29008004 + (GlobalPlayer[(int)playerID].kart * 0x10));
 							}
@@ -118,6 +118,16 @@ void CheckSplashRepl(char WaterType)
 
 void SetWaterType(char WaterType)
 {
+
+	if (WaterType == Water_Ice && HotSwapID != 0)
+	{
+		LakituIceBehavior = (LakituIceBehavior & 0xFFFF0000) + (0 & 0x0000FFFF);
+	}
+	else
+	{
+		LakituIceBehavior = (LakituIceBehavior & 0xFFFF0000) + (12 & 0x0000FFFF);
+	}
+
 	if (g_startingIndicator >= 0x01 && g_startingIndicator <= 0x06)
 	{
 		CheckSplashRepl(WaterType);
@@ -153,7 +163,7 @@ void SetWaterType(char WaterType)
 						{
 							if(((GlobalPlayer[(int)playerID].jugemu_flag & LAKITU_CAMERA) != 0))
 							{
-								if(((GlobalPlayer[(int)playerID].jugemu_flag & IS_IN_WATER) == 0) && ((GlobalPlayer[(int)playerID].jugemu_flag & ON_LAKITU_ROD) == 0))
+								if(((GlobalPlayer[(int)playerID].jugemu_flag & IS_IN_WATER) == 0) && ((GlobalPlayer[(int)playerID].jugemu_flag & ON_LAKITU_ROD) == 0) && ((GlobalPlayer[(int)playerID].slip_flag & IS_STAR) == 0))
 								{
 									SetPlayerColor(playerID,0x00340000,0x00004040,1.5);
 								}
@@ -181,10 +191,10 @@ void SetWaterType(char WaterType)
 										GlobalPlayer[(int)playerID].gass[i].swork4 = 0xFF;
 									}
 								}
-							} //8018D430 Sprite Mempointer
+							}
 						break;
 						}
-
+/* Using stock function instead
 						case Water_Ice:
 						{
 							if(((GlobalPlayer[(int)playerID].water_flag & SUBMERGED) != 0) && ((GlobalPlayer[(int)playerID].jugemu_flag & ON_LAKITU_ROD) != 0))
@@ -215,7 +225,7 @@ void SetWaterType(char WaterType)
 							}
 						break;
 						}
-
+*/
 						default:
 						{				
 							break;
@@ -383,7 +393,7 @@ void PathEchoTrigger()
 
 		for (char playerID = 0; playerID < 4; playerID++)					// Loop for each racer		
 		{
-			if ((GlobalPlayer[(int)playerID].flag & EXISTS) != 0)			// Only run for existing racers
+			if(((GlobalPlayer[(int)playerID].flag & IS_PLAYER) != 0) && ((GlobalPlayer[(int)playerID].flag & IS_GHOST) == 0))			// Only run for existing racers
 			{
 				for (int LoopVal = 0; LoopVal < pEchoArraySize; LoopVal++)
 				{
@@ -418,7 +428,7 @@ void PathColorTrigger()
 
 		for (char playerID = 0; playerID < 8; playerID++)					// Loop for each racer		
 		{
-			if ((GlobalPlayer[(int)playerID].flag & EXISTS) != 0)			// Only run for existing racers
+			if (((GlobalPlayer[(int)playerID].flag & EXISTS) != 0) && ((GlobalPlayer[(int)playerID].slip_flag & IS_STAR) == 0))			// Only run for existing racers
 			{
 				for (int LoopVal = 0; LoopVal < pColArraySize; LoopVal++)
 				{
@@ -493,7 +503,7 @@ void PathNoSimpleKartTrigger()
 					g_noSimpleKartFlag[(int)playerID] = 1;
 					break;
 				}
-					g_noSimpleKartFlag[(int)playerID] = 0;
+				g_noSimpleKartFlag[(int)playerID] = 0;
 			}
 		}
 	}	
@@ -502,38 +512,42 @@ void PathNoSimpleKartTrigger()
 
 void PathLakituRescue()
 {
-	for (int playerID = 0; playerID < 8; playerID++)										// Loop for each racer		
+	for (int playerID = 0; playerID < 4; playerID++)										// Loop for each racer		
 	{
-
-		if(((GlobalPlayer[(int)playerID].jumpcount) == 0) && ((char)((GlobalPlayer[(int)playerID].jugemu_flag) == 0))) // Grounded? Lakitu?
+		if(((GlobalPlayer[(int)playerID].flag & IS_PLAYER) != 0) && ((GlobalPlayer[(int)playerID].flag & IS_GHOST) == 0) && (g_gamePausedFlag == 0x00))
 		{
-			if((unsigned char)(GlobalPlayer[(int)playerID].bump_status) != 0xFE) 					// RR Boost?
+			if(((GlobalPlayer[(int)playerID].jumpcount) == 0) && ((char)((GlobalPlayer[(int)playerID].jugemu_flag) == 0))) // Grounded? Lakitu?
 			{
-				if((unsigned char)(GlobalPlayer[(int)playerID].bump_status) != 0xFC) 				// DKJP Boost?
+				if((unsigned char)(GlobalPlayer[(int)playerID].bump_status) != 0xFE) 					// RR Boost?
 				{
-					g_playerPathPointCopy[playerID] = g_playerPathPointTable[playerID]; 			// Make copy of current path point
+					if((unsigned char)(GlobalPlayer[(int)playerID].bump_status) != 0xFC) 				// DKJP Boost?
+					{
+						g_playerPathPointCopy[playerID] = g_playerPathPointTable[playerID]; 			// Make copy of current path point
+					}
 				}
 			}
-		}
-		if((char)((GlobalPlayer[(int)playerID].jugemu_flag) != 0)) 						// Lakitu picks you up?
-		{																					// Copy back to real path point
-			if(g_playerPathPointTable[playerID] < (g_playerPathPointCopy[playerID]))
-			{
-				g_playerPathPointTable[playerID] = (g_playerPathPointCopy[playerID] + 1);
-				continue;
-			}
-			if(g_playerPathPointTable[playerID] > (g_playerPathPointCopy[playerID]))
-			{
-				g_playerPathPointTable[playerID] = (g_playerPathPointCopy[playerID] - 2);
-				continue;
-			}
-			else
-			{
-				g_playerPathPointTable[playerID] = (g_playerPathPointCopy[playerID]);
+			if((char)((GlobalPlayer[(int)playerID].jugemu_flag) != 0)) 						// Lakitu picks you up?
+			{																					// Copy back to real path point
+				if(g_playerPathPointTable[playerID] < (g_playerPathPointCopy[playerID]))
+				{
+					g_playerPathPointTable[playerID] = (g_playerPathPointCopy[playerID] + 1);
+					continue;
+				}
+				if(g_playerPathPointTable[playerID] > (g_playerPathPointCopy[playerID]))
+				{
+					g_playerPathPointTable[playerID] = (g_playerPathPointCopy[playerID] - 2);
+					continue;
+				}
+				else
+				{
+					g_playerPathPointTable[playerID] = (g_playerPathPointCopy[playerID]);
+				}
 			}
 		}
 	}
 }
+
+
 
 void GetPathPoints()
 {

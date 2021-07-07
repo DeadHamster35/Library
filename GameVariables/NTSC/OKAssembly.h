@@ -117,6 +117,7 @@ extern long pathOffsetB; //0x800DC780
 
 extern long itemboxesA; //0x8029DBD4   ;;3C040601
 extern long itemboxesB; //0x8029DBDC   ;;24849498
+extern long battleItemBoxesA; //0x8029DBD4   ;;3C040601
 
 extern long treeslistA; //0x8029DBBC   ;;3C040601
 extern long treeslistB; //0x8029DBC4   ;;24849570
@@ -147,6 +148,12 @@ extern long unknownD; //0x80295E70   ;;34842D68 -> 34840000
 
 extern long sectionviewA; //0x802927FC   ;;3C040900
 extern long sectionviewB; //0x80292810   ;;248401F0
+
+extern long battleSurfaceA; //80296520   ;;3C040700
+extern long battleSurfaceB; //80296524   ;;348415C0
+
+extern long battleDisplayA; //80295068   ;;3C0F0700
+extern long battleDisplayB; //8029506C   ;;35EF15C0
 
 extern long surfacemapA; //0x80295E74   ;;3C040601
 extern long surfacemapB; //0x80295E7C   ;;24849650

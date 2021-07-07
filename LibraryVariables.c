@@ -22,10 +22,20 @@ bool GlobalBoolA, GlobalBoolB, GlobalBoolC, GlobalBoolD;
 int LoopValue;
 
 bool ConsolePlatform;
-bool CustomWaterHeight;
+bool CustomWaterHeight[8];
+short CloudCourseID, Snow3DCourseID;
+
+short MenuPosition [2];
+
+int wholeNumber = 0;
+int decimalNumber = 0;
+int printOffsetA, printOffsetB, printOffsetC, printOffsetD = 0;
+int minutes = 0;
+int seconds = 0;
 
 Object *GlobalObjectA, *GlobalObjectB;
 
+float ZeroVector[3] = {0.0, 0.0, 0.0};
 
 Controller *GlobalController[5] = 
 {
@@ -218,6 +228,7 @@ short hsLabel, raceStatus, startupSwitch, courseSwapped = -1;
 bool scrollLock = false;
 int currentHeaderAddress = 0;
 
+short FireParticlePositions[8][3];
 
 
 short gpCourseIndex, HotSwapID, hsGP, gpTimeCheck, courseValue = -1;
@@ -235,5 +246,6 @@ short SystemType;
 
 //CustomLevels
 int ScrollValues[32][2];
+long *CourseFaceStruct = &g_courseFaceStructPtr;
 //
 //

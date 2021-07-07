@@ -133,6 +133,8 @@ void stockASM(void)
 	itemboxesA = 0x3C040601; //8029DBD4
 	itemboxesB = 0x24849498; //8029DBDC
 
+	battleItemBoxesA = 0x24840038;
+
 	treeslistA = 0x3C040601; //8029DBBC
 	treeslistB = 0x24849570; //8029DBC4
 
@@ -147,6 +149,11 @@ void stockASM(void)
 
 	sectionviewA = 0x3C040900;   //3C040900
 	sectionviewB = 0x248401F0;   //248401F0
+
+	battleDisplayA = 0x3C0F0700;
+	battleDisplayB = 0x35EF15C0;
+	battleSurfaceA = 0x3C040700;
+	battleSurfaceB = 0x348415C0;
 
 	surfacemapA = 0x3C040601;   //3C040601
 	surfacemapB = 0x24849650;   //24849650
@@ -220,6 +227,10 @@ void overkartASM(void)
 	itemboxesA = 0x3C040600; //8029DBD4
 	itemboxesB = 0x24841910; //8029DBDC
 
+	battleItemBoxesA = 0x24841938;
+
+	//8029E0D8
+
 	treeslistA = 0x3C040600; //8029DBBC
 	treeslistB = 0x24841B18; //8029DBC4
 
@@ -235,6 +246,11 @@ void overkartASM(void)
 
 	sectionviewA = 0x3C040600;   //3C040900
 	sectionviewB = 0x24842328;   //248401F0
+
+	battleDisplayA = 0x3C0F0600;
+	battleDisplayB = 0x35EF0008;
+	battleSurfaceA = 0x3C040600;
+	battleSurfaceB = 0x34840008;
 
 	surfacemapA = 0x3C040600;   //3C040601
 	surfacemapB = 0x24842538;  //24849650
@@ -640,6 +656,12 @@ void loadHotSwap(int inputID)
 
 			//load the standard course loadHeaderOffsets
 			*targetAddress = (long)&g_courseTable;
+			
+			if (g_gameMode == 3)
+			{
+				*targetAddress += 0x2D0;
+			}
+
 			*sourceAddress = (long)(&ok_CourseHeader + 1);
 			dataLength = 0x30;
 			runRAM();
@@ -1041,4 +1063,352 @@ void SetCourseNames(bool custom)
 				g_StringTableCourseGP[strtbl] = (long)stockCourseNames[strtbl];
 			}
 		}
+}
+
+
+
+
+int tempFireParticleMax = 8;
+
+
+void initFireParticles(long PathOffset)
+{
+	*tempPointer = PathOffset;
+	*sourceAddress = (long)&FireParticlePositions;
+	*targetAddress = (long)&objectPosition;
+	for (int currentFire = 0; currentFire < tempFireParticleMax; currentFire++)
+	{
+
+
+		FireParticlePositions[currentFire][0] = *(short*)(PathOffset);
+		FireParticlePositions[currentFire][1] = *(short*)(PathOffset + 2);
+		FireParticlePositions[currentFire][2] = *(short*)(PathOffset + 4);
+		
+		if (FireParticlePositions[currentFire][0] == 0xFFFF8000)
+		{
+			if (currentFire < tempFireParticleMax-1)
+			{
+				return;
+			}
+			else
+			{
+				break;
+			}
+		}
+		PathOffset = PathOffset + 8;
+	}
+	for (int currentFire = 0; currentFire < tempFireParticleMax; currentFire++)
+	{
+		KWGetCaveFire(currentFire);
+
+		g_DynamicObjects[FireParticleAllocArray[currentFire]].pos_start[0] = (float)FireParticlePositions[currentFire][0];		
+		g_DynamicObjects[FireParticleAllocArray[currentFire]].pos_start[1] = (float)FireParticlePositions[currentFire][1]+10;
+		g_DynamicObjects[FireParticleAllocArray[currentFire]].pos_start[2] = (float)FireParticlePositions[currentFire][2];
+		
+		g_DynamicObjects[FireParticleAllocArray[currentFire]].scale = 0.8;
+	}
+}
+
+
+char FireRGBA[8][4] = {{150,0,25,255}, {150,20,55,255}, {50,50,255,255}, {50,255,50,255}, {150,90,255,255}, {250,55,55,155}, {100,255,25,255}, {250,105,55,255}};
+//8 = tempFireParticleMax
+
+void DisplayFireParticleSub(int num,uchar color,void* Camera)
+{
+int realindex = num - FireParticleAllocArray[0];
+
+	if (HotSwapID > 0)
+	{
+		CaveFireColCheck = 0x24010004;
+	}
+	else
+	{
+		CaveFireColCheck = 0x24010003;
+	}
+
+	switch (color)
+	{
+	case 3:
+		KWSet2Color(FireRGBA[realindex][0],FireRGBA[realindex][1],FireRGBA[realindex][2],FireRGBA[realindex][0]/3,FireRGBA[realindex][1]/3,FireRGBA[realindex][2]/3,FireRGBA[realindex][3]);
+		break;
+	}
+	KWDisplayFireParticleSub(num,color,Camera);
+
+}
+
+
+
+
+
+//Snow
+long A4Snow[50]={
+	0x00000000,0x00000000,
+	0x00000111,0x11100000,
+	0x00011223,0x32211000,
+	0x00112345,0x54321100,
+	0x00124578,0x87542100,
+	0x0123589B,0xBA853210,
+	0x012479CD,0xDC974210,
+	0x01358BDF,0xFDB85310,
+	0x01358BDF,0xFDB85310,
+	0x012479CD,0xDCA74210,
+	0x0123589B,0xBA853210,
+	0x00124578,0x87542100,
+	0x00112345,0x54321100,
+	0x00011223,0x32211000,
+	0x00000111,0x11100000,
+	0x00000000,0x00000000,
+};
+
+//Rain
+long A4Rain[50]={
+     0x00000000,0x00000000,
+     0x00000000,0x00000000,
+     0x00000000,0x00000000,
+     0x00000001,0x00000000,
+     0x00000002,0x00000000,
+     0x00000004,0x00000000,
+     0x00000006,0x00000000,
+     0x00000008,0x00000000,
+     0x00000008,0x00000000,
+     0x0000000A,0x00000000,
+     0x0000000C,0x00000000,
+     0x0000000B,0x00000000,
+     0x0000000A,0x00000000,
+     0x00000009,0x00000000,
+     0x00000008,0x00000000,
+     0x00000006,0x00000000,
+     0x00000000,0x00000000,
+     0x00000000,0x00000000,
+};
+
+
+void SetWeatherType(char WeatherType) // 0 = Snow // 1 = Rain
+{
+	if (currentMenu == 0x25 || g_fadeOutCounter == 1)
+	{
+		if	(HotSwapID > 0)
+		{
+			switch (WeatherType)
+			{	
+				case 1:
+				{
+					for (int texarr = 0; texarr < 50; texarr++)
+					{
+						g_SnowParticleTex[texarr] = A4Rain[texarr];
+					}						
+					g_skySnowVelocity = 1.75;
+					g_3DSnowScale = 0.4;
+					g_3DSnowVelocityUpLim = 1.5;
+					g_3DSnowVelocityLowLim = -2.5;
+					g_3DSnowSwayMovement = -2.75;
+					g_3DSnowSpawnCone = (g_3DSnowSpawnCone & 0xFFFF0000) + (0x6000 & 0x0000FFFF);
+					break;
+				}
+
+				default:
+				{
+					for (int texarr = 0; texarr < 50; texarr++)
+					{
+						g_SnowParticleTex[texarr] = A4Snow[texarr];
+					}
+					g_skySnowVelocity = 1.035;
+					g_3DSnowScale = 0.15;
+					g_3DSnowVelocityUpLim = 1.035;
+					g_3DSnowVelocityLowLim = -1.65;
+					g_3DSnowSwayMovement = 1.24;
+					g_3DSnowSpawnCone = (g_3DSnowSpawnCone & 0xFFFF0000) + (0x4000 & 0x0000FFFF);
+					break;
+				}
+			}
+		}
+		else
+		{
+			for (int texarr = 0; texarr < 50; texarr++)
+			{
+				g_SnowParticleTex[texarr] = A4Snow[texarr];
+			}
+			g_skySnowVelocity = 1.035;
+			g_3DSnowScale = 0.15;
+			g_3DSnowVelocityUpLim = 1.035;
+			g_3DSnowVelocityLowLim = -1.65;
+			g_3DSnowSwayMovement = 1.24;
+		}
+	}
+}
+
+void SetCloudType(char CloudType)  // 0 = None // 1 = MR Clouds // 2 = Stars // 3 = Snow/Rain
+{
+
+	if (currentMenu == 0x25 || g_fadeOutCounter == 1)
+	{
+		if	(HotSwapID > 0)
+		{
+			CloudTypeMapCheck1 = (CloudTypeMapCheck1 & 0xFFFF0000) + ((long)&CloudCourseID >> 16 & 0x0000FFFF) +1;
+			CloudTypeMapCheck2 = (CloudTypeMapCheck2 & 0xFFFF0000) + ((long)&CloudCourseID & 0x0000FFFF);
+			CloudAmountMapCheck1 = (CloudAmountMapCheck1 & 0xFFFF0000) + ((long)&CloudCourseID >> 16 & 0x0000FFFF) +1;
+			CloudAmountMapCheck2 = (CloudAmountMapCheck2 & 0xFFFF0000) + ((long)&CloudCourseID & 0x0000FFFF);
+
+			g_skySnowSpawnHeight = (g_skySnowSpawnHeight & 0xFFFF0000) + (0x65 & 0x0000FFFF);
+			g_skySnowSpawnRadiusDensity = (g_skySnowSpawnRadiusDensity & 0xFFFF0000) + (0x8000 & 0x0000FFFF);
+			g_skySnowSpawnCenterOffset = (g_skySnowSpawnCenterOffset & 0xFFFF0000) + (0xC000 & 0x0000FFFF);
+			g_skySnowScale = 0.25;
+		}
+		else
+		{
+			CloudTypeMapCheck1 = (CloudTypeMapCheck1 & 0xFFFF0000) + ((long)&g_courseID >> 16 & 0x0000FFFF) +1;
+			CloudTypeMapCheck2 = (CloudTypeMapCheck2 & 0xFFFF0000) + ((long)&g_courseID & 0x0000FFFF);
+			CloudAmountMapCheck1 = (CloudAmountMapCheck1 & 0xFFFF0000) + ((long)&g_courseID >> 16 & 0x0000FFFF) +1;
+			CloudAmountMapCheck2 = (CloudAmountMapCheck2 & 0xFFFF0000) + ((long)&g_courseID & 0x0000FFFF);
+
+			g_skySnowSpawnHeight = (g_skySnowSpawnHeight & 0xFFFF0000) + (0xB4 & 0x0000FFFF);
+			g_skySnowSpawnRadiusDensity = (g_skySnowSpawnRadiusDensity & 0xFFFF0000) + (0x4000 & 0x0000FFFF);
+			g_skySnowSpawnCenterOffset = (g_skySnowSpawnCenterOffset & 0xFFFF0000) + (0xE000 & 0x0000FFFF);
+			g_skySnowScale = 0.15;
+		}
+
+		switch (CloudType)
+		{
+			case 0:
+			{
+				CloudCourseID = 2;
+				break;
+			}
+			case 1:
+			{
+				CloudCourseID = 0;
+				break;
+			}
+			case 2:
+			{
+				CloudCourseID = 14;
+				break;
+			}
+			case 3:
+			{
+				CloudCourseID = 5;
+				break;
+			}
+			default:
+			{
+				CloudCourseID = 0;
+				break;
+			}
+		}
+	}
+}
+
+void Snow3DTrigger()						// Used to disable 3D snow on certain pathmarker ranges 
+{
+	#define S3DArraySize 2					// Array size for the total amount of 3DSnow Disable sections used. Pull from course data
+
+	short S3DTrStart[S3DArraySize];
+	short S3DTrEnd[S3DArraySize];
+
+	if (Snow3DCourseID == 5)				// Only run for existing racers
+	{
+		for (int LoopVal = 0; LoopVal < S3DArraySize; LoopVal++)
+		{
+		// Fill out each index of the arrays with data from course. Loop value as offset multiplicator//
+			S3DTrStart[LoopVal] = 140;
+			S3DTrEnd[LoopVal] = 200;
+
+
+			if ((g_playerPathPointTable[0] >= S3DTrStart[LoopVal]) && (g_playerPathPointTable[0] <= S3DTrEnd[LoopVal]))		// Path range check
+			{
+				g_3DSnowSpawnHeight = (g_3DSnowSpawnHeight & 0xFFFF0000) + (0x602D & 0x0000FFFF);
+				break;
+			}
+			g_3DSnowSpawnHeight = (g_3DSnowSpawnHeight & 0xFFFF0000) + (0x002D & 0x0000FFFF);
+		}
+	}
+}
+
+void SetWeather3D(bool Weather3DEnable) // Enables 3D weather effects (snow/rain) for Singleplayer
+{
+	if (currentMenu == 0x25 || g_fadeOutCounter == 1)
+	{
+		if	(HotSwapID > 0)
+		{
+			Snow3DAllocMapCheck1 = (Snow3DAllocMapCheck1 & 0xFFFF0000) + ((long)&Snow3DCourseID >> 16 & 0x0000FFFF) +1;
+			Snow3DAllocMapCheck2 = (Snow3DAllocMapCheck2 & 0xFFFF0000) + ((long)&Snow3DCourseID & 0x0000FFFF);
+			Snow3DDisplayAfterMapCheck1 = (Snow3DDisplayAfterMapCheck1 & 0xFFFF0000) + ((long)&Snow3DCourseID >> 16 & 0x0000FFFF) +1;
+			Snow3DDisplayAfterMapCheck2 = (Snow3DDisplayAfterMapCheck2 & 0xFFFF0000) + ((long)&Snow3DCourseID & 0x0000FFFF);
+			g_skySnowHitGoal = 0x0C021B9C;
+
+		}
+		else
+		{
+			Snow3DAllocMapCheck1 = (Snow3DAllocMapCheck1 & 0xFFFF0000) + ((long)&g_courseID >> 16 & 0x0000FFFF) +1;
+			Snow3DAllocMapCheck2 = (Snow3DAllocMapCheck2 & 0xFFFF0000) + ((long)&g_courseID & 0x0000FFFF);
+			Snow3DDisplayAfterMapCheck1 = (Snow3DDisplayAfterMapCheck1 & 0xFFFF0000) + ((long)&g_courseID >> 16 & 0x0000FFFF) +1;
+			Snow3DDisplayAfterMapCheck2 = (Snow3DDisplayAfterMapCheck2 & 0xFFFF0000) + ((long)&g_courseID & 0x0000FFFF);
+			g_skySnowHitGoal = 0x0C021BF5;
+		}
+	}
+	if(Weather3DEnable && HotSwapID > 0)
+	{
+		if (g_startingIndicator >= 0 && g_startingIndicator < 5 && g_gamePausedFlag == 0x00 && g_playerCount == 1)
+		{
+			KWChartSnow();
+			Snow3DTrigger();
+		}
+		Snow3DCourseID = 5;
+	}
+	else
+	{
+		Snow3DCourseID = 0;
+	}
+}
+
+void SnowCustomCheck(int SnowIndex)
+{
+	if (g_DynamicObjects[SnowIndex].pos[1] <= GlobalPlayer[0].position[1] - 5.0 || g_DynamicObjects[SnowIndex].pos[1] >= GlobalPlayer[0].position[1] + 60.0)
+	{
+		g_DynamicObjects[SnowIndex].anmptr = 1;
+//		KWAnmNext(SnowIndex);
+	}
+}
+
+void EventDisplay(int player)
+{
+	if (HotSwapID == 0)
+	{
+		KWDisplayEvent(player);
+	}
+	else
+	{
+		KWDisplayIceBlockShadow(player);
+		KWDisplayBombKartBT(player);
+		KWDisplayEvent(player);
+	}
+}
+
+void EventDisplay_After(int player)
+{
+	if (HotSwapID == 0)
+	{
+		KWDisplayEvent_After(player);
+	}
+	else
+	{
+		KWDisplayIceBlock(player);
+		KWDisplayEvent_After(player);
+	}
+}
+
+void CommonGameEventChart()
+{
+	if (HotSwapID == 0)
+	{
+		KWGameEventCommon();
+	}
+	else
+	{
+		if (g_resetToggle != 4)
+		{
+			KWChartIceBlock();
+		}
+		KWGameEventCommon();
+	}	
 }

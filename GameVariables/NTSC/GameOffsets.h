@@ -3,8 +3,6 @@
 
 
 
-
-
 extern long SYSTEM_Region;
 
 
@@ -32,7 +30,8 @@ extern void CalcBumpVelocity(Bump InputBump, float Velocity);
 extern void ScrollMapImage(int ObjectAddress,int ScrollS,int ScrollT);
 extern void MakeWaterVertex(int ObjectAddress, char alpha, char red, char green, char blue);
 extern void ramCopy(long output, long input, long Length);
-
+extern short CheckArea(ushort pointer);
+extern float CheckDisplayRange(float basepos[], float markpos[], ushort camera_direction, float radius, float angle2, float limmit_distance);
 
 extern void InitControllers();
 extern void readControllers();
@@ -51,6 +50,8 @@ extern void SmokeDisp3P(void* Car, char kno, char place); //0x8006E6BC
 extern void SmokeDisp4P(void* Car, char kno, char place); //0x8006E744
 
 extern float CheckHight(float X_value, float Y_value, float Z_value);
+extern float CalcDistance(float originpos[], float targetpos[]);
+extern int KWCheckRadiusXZ(float x1,float y1,float x2,float y2,float radius);
 
 extern short deleteObjectBuffer(void *Object);
 extern short addObjectBuffer(float position[], short angle[], float velocity[], short objectID);
@@ -102,7 +103,8 @@ extern void SetFastOoB(void *Car,char PlayerID);
 extern void CallLakitu(void *Car);
 extern void SetLakitu(void *Car);
 extern void LakituCheck(void *Car,char PlayerID);
-
+extern void HangLakitu(void *Car,char PlayerID);
+extern long LakituIceBehavior;
 
 extern float CheckWaterLevel(void *Car);
 extern void CheckSplash(void *Car,int PlayerIndex);
@@ -114,6 +116,14 @@ extern long CheckSplashJAL3;
 extern long CheckFinalLapFanfareJAL;
 extern long CheckPlayStarBGMJAL;
 
+extern long CloudTypeMapCheck1;
+extern long CloudTypeMapCheck2;
+extern long CloudAmountMapCheck1;
+extern long CloudAmountMapCheck2;
+extern long Snow3DAllocMapCheck1;
+extern long Snow3DAllocMapCheck2;
+extern long Snow3DDisplayAfterMapCheck1;
+extern long Snow3DDisplayAfterMapCheck2;
 
 extern void TexBuffLoadP(void *texlist_ptr,int nocheck_flg);
 extern void GrayScaleTexBuf3(uint num, uint step);
@@ -121,6 +131,9 @@ extern void GrayScaleTexBufRGB(uint num, int size, int r, int g, int b);
 extern void FadeMain();
 extern void FadeMain2(int i);
 extern void SetFadeOut(int Fade);
+
+extern short g_fadeOutFlag;
+extern short g_fadeOutCounter;
 
 extern unsigned long* GraphPtr;
 extern long GraphPtrOffset;
@@ -130,8 +143,9 @@ extern void KWSprite(int cx,int cy,uint sizex,uint sizey,ushort *addr);
 extern void KWSpriteScale(int cx,int cy,float scale, ushort *addr, uint sizex,uint sizey);
 extern void KWSpriteDiv(int cx,int cy,ushort *addr,uint sizex,uint sizey,uint cuty);
 extern void KWSpriteTile32B(short cx,short cy,uchar *addr,uint sizex,uint sizey);
-extern void DrawLineHorizontal (short tx,short ty,short length,ushort r,ushort g,ushort b,ushort a);
-extern void DrawLineVertical (short tx,short ty,short length,ushort r,ushort g,ushort b,ushort a);
+extern void DrawLineHorizontal(short tx,short ty,short length,ushort r,ushort g,ushort b,ushort a);
+extern void DrawLineVertical(short tx,short ty,short length,ushort r,ushort g,ushort b,ushort a);
+extern void KWLoadTextureBlockI4b(uchar *texaddr,int cutx,int cuty);
 
 
 
@@ -145,6 +159,7 @@ extern void ScalingMatrix(float Matrix[][4], float scale);
 extern void MakeAlignMatrix(Matrix InputMatrix,  float x, float y, float z ,short roty);
 extern void MakeAlignVector(float Vector[3],short OriginAngle);
 extern unsigned short MakeRandomLimmit(unsigned short Limit);
+extern ushort Atan2T(float,float);
 
 extern float sinT(short inputAngle);
 extern float cosT(short inputAngle);
@@ -154,6 +169,7 @@ extern float cosF(float inputAngle);
 extern void SetSegment(int number, int cpuAddr);
 
 extern void initializePlayer(int playerStructure, int characterID, float deltaX, float deltaZ, int characterID2, int unknown0xB000);
+extern void DelayInitialMap();
 
 extern long asm_itemJump1A;// 0x8007B084  //3C058016
 extern long asm_itemJump1B;// 0x8007B098  //84A543BA
@@ -191,6 +207,9 @@ extern long g_mirrorMode;
 extern short g_DebugBars;
 
 extern uint PathTable[20][4];
+
+extern long g_courseFaceStructPtr;
+extern ushort g_courseFaceMaxIndex;
 
 extern long antialiasToggle;
 extern long antialiasToggleB;
@@ -430,7 +449,17 @@ extern struct Camera g_Camera2; //0x801647A8
 extern struct Camera g_Camera3; //0x80164860
 extern struct Camera g_Camera4; //0x80164918
 
-extern long g_DynamicObjects; //0x80165C18
+// extern long g_DynamicObjects; //0x80165C18
+extern void KWAnmNext(int num); //0x80086FD4
+
+void KWDisplayEvent(int player);
+void KWDisplayEvent_After(int player);
+void KWGameEventCommon_VF();
+void KWGameEventCommon();
+
+void KWDisplayIceBlock(int player);
+void KWDisplayIceBlockShadow(int player);
+void KWDisplayBombKartBT(int player);
 
 
 extern char g_itemBoolean; //0x80165F5F
@@ -516,6 +545,8 @@ extern void DrawText(int x, int y, const char *str, int spacing, float xScale, f
 extern void SetWord2(int x, int y, const char *str, int spacing, float xScale, float yScale, int Type);
 extern void SetWord3(int x, int y, const char *str, int spacing, float xScale, float yScale, int Type);
 
+extern int GetWordLength(const char *str);
+
 extern char g_CharacterSelections[];
 extern char g_player1Character;
 extern char g_player2Character;
@@ -550,6 +581,7 @@ extern char g_zoomLevelPlayer3;
 extern char g_zoomLevelPlayer4;
 
 extern char g_ReplayFlag;
+extern float g_screenViewAngle[4];
 
 extern char g_sfxPause;
 
@@ -586,6 +618,7 @@ extern long g_GhostUseCounter[8]; // 8018D950
 extern long g_GhostUseTimer[8]; // 8018D970
 extern long g_sfxPointer; //  803B7080
 extern short g_noSimpleKartFlag[8]; // 801633F8
+extern float g_charRadiusTbl[8];
 
 extern long g_StringTableCourseGP[20]; // 800E7524
 extern long g_StringTableCourse[20]; // 800E7574
@@ -647,6 +680,29 @@ extern struct Skycolor g_skyColorTop11; // 0x802B8B9C
 extern struct Skycolor g_skyColorTop12; // 0x802B8BA9
 extern struct Skycolor g_skyColorTop13; // 0x802B8BB4
 
+extern long g_SnowParticleTex[50];
+extern long *g_MRCloudTexPtr; // Set of four I4 cloud images, 0x400 length each.
+
+extern float g_skySnowScale;
+extern float g_skySnowVelocity;
+extern long g_skySnowSpawnHeight;
+extern long g_skySnowSpawnRadiusDensity;
+extern long g_skySnowSpawnCenterOffset;
+extern long g_skySnowHitGoal;
+
+extern long g_3DSnowSpawnHeight;
+extern long g_3DSnowSpawnDistance;
+extern long g_3DSnowSpawnCone;
+extern long g_3DSnowSpawnRadius;
+extern long g_3DSnowSwayVelocity;
+extern long g_3DSnowSwayDistance;
+extern float g_3DSnowSwayMovement;
+extern float g_3DSnowScale;
+extern float g_3DSnowVelocityUpLim;
+extern float g_3DSnowVelocityLowLim;
+
+extern void KWChartSnow();
+extern void KWChartIceBlock();
 
 //fog
 extern char g_fogToggleBanshee; // 0x800DC5BD
@@ -710,6 +766,8 @@ extern void playMusic(int musicID);
 extern void playMusic2(int musicID);
 extern void NaPlyLevelStart(char playerID, int soundID); 
 extern void NaPlyLevelStop(char playerID, int soundID); 
+extern void NaSceneLevelStart(float ObjectPosition[], float ObjectVelocity[], int soundID);
+extern void NaSceneLevelStop(float ObjectPosition[], int soundID);
 
 extern short g_musicUserVolumeFlag; // 0x800DC5A8 //char 00=full; // 01=half; // 02=off  04=disable L button
 extern short g_musicIDRaceways; // 0x8028ECE6 
@@ -725,3 +783,11 @@ extern short g_musicIDRainbow; // 0x8028ED76
 extern short g_musicIDDK; // 0x8028ED86
 extern short g_musicIDBattle2; // 0x8028ED96
 extern ushort g_musicTempo;
+//Cave Fire Particle Stuff
+extern short CaveFirePos[8][3];
+extern void KWGetCaveFire(int objnum);
+extern int CaveFireColCheck;
+extern void KWSet2Color(uint prim_r,uint prim_g,uint prim_b,uint env_r,uint env_g,uint env_b,uint a);
+extern void KWDisplayFireParticleSub(int num,uchar color,void* Camera);
+extern int FireParticleAllocArray[64];
+extern int FireParticleCounter;
