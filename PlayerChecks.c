@@ -547,6 +547,41 @@ void PathLakituRescue()
 	}
 }
 
+void PathAirControlTrigger()
+{
+	char pAirArraySize = 2;									// Array size for the total amount of CPU process sections used. Pull from course data
+
+	if (pAirArraySize != 0)
+	{
+		short pAirTrStart[pAirArraySize];
+		short pAirTrEnd[pAirArraySize];
+
+		for (char playerID = 0; playerID < 8; playerID++)						// Loop for each racer		
+		{
+			GlobalAddressA = (long)(&g_playerPathPointTable) + (0x2 * playerID);
+			short curAirPoint = *(short*)(GlobalAddressA);
+
+			if ((GlobalPlayer[(int)playerID].flag & EXISTS) != 0)				// Only run for existing racers
+			{
+				for (int LoopVal = 0; LoopVal < pAirArraySize; LoopVal++)
+				{
+				// Fill out each index of the arrays with data from course. Loop value as offset multiplicator//
+					pAirTrStart[0] = 0;
+					pAirTrEnd[0] = 17;
+
+					pAirTrStart[1] = 665;
+					pAirTrEnd[1] = 687;
+
+
+					if ((curAirPoint >= pAirTrStart[LoopVal]) && (curAirPoint <= pAirTrEnd[LoopVal]))			// Path range check
+					{
+						EnableAirControl(playerID);
+					}
+				}
+			}
+		}	
+	} 
+}
 
 
 void GetPathPoints()
@@ -558,5 +593,6 @@ void GetPathPoints()
 		PathCamShiftTrigger();
 		PathNoSimpleKartTrigger();
 		PathLakituRescue();
+		PathAirControlTrigger();
 	}
 }
