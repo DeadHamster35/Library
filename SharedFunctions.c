@@ -34,6 +34,11 @@ ushort GetRGBA16(int R, int G, int B, int A)
 	return (R & 0x1F)<<11 | (G & 0x1F)<<6 | (B & 0x1F)<<1 | (A & 0x01);
 }
 
+uint GetRGB32(int R, int G, int B)
+{
+	return ( (R << 16) | (G << 8) | (B));
+}
+
 void SetFontColor(int FontR, int FontG, int FontB, int ShadowR, int ShadowG, int ShadowB)
 {
 	ushort *ColorValues = (ushort*)&g_DebugTextPalette;

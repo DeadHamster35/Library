@@ -388,156 +388,65 @@ void CheckPaths()
 	GlobalAddressA = OverKartRAMHeader.EchoOffset + 4;
 	OKPathStruct* PathValues = (OKPathStruct*)GlobalAddressA;	
 	for (int playerID = 0; playerID < g_playerCount; playerID++)					// Loop for each racer		
-	{
-		SetPlayerEcho(playerID, 0);					
+	{					
 		for (int ThisValue = 0; ThisValue < GlobalIntA; ThisValue++)
 		{	
 		
 			if(((GlobalPlayer[(int)playerID].flag & IS_PLAYER) != 0) && ((GlobalPlayer[(int)playerID].flag & IS_GHOST) == 0))			// Only run for existing racers
 			{
-									
 				if ((g_playerPathPointTable[(int)playerID] >= PathValues[ThisValue].PathStart) && (g_playerPathPointTable[(int)playerID] <= PathValues[ThisValue].PathStop))		// Path range check
-				{					
-					SetPlayerEcho(playerID, (char)PathValues[ThisValue].Power);
-					break;
-				}
-				
-			}
-		}	
-	}
-}
-
-void PathColorTrigger()
-{
-	char pColArraySize = 2;								// Array size for the total amount of color sections used. Pull from course data
-
-	if (pColArraySize != 0)
-	{
-		int BodyColors[pColArraySize];
-		int BodyColorsAdj[pColArraySize];
-		short pColTrStart[pColArraySize];
-		short pColTrEnd[pColArraySize];
-
-		for (char playerID = 0; playerID < 8; playerID++)					// Loop for each racer		
-		{
-			if (((GlobalPlayer[(int)playerID].flag & EXISTS) != 0) && ((GlobalPlayer[(int)playerID].slip_flag & IS_STAR) == 0))			// Only run for existing racers
-			{
-				for (int LoopVal = 0; LoopVal < pColArraySize; LoopVal++)
-				{
-				// Fill out each index of the arrays with data from course. Loop value as offset multiplicator//
-					BodyColors[LoopVal] = 0x00646464;		
-					BodyColorsAdj[LoopVal] = 0x0000A0D0;		
-					pColTrStart[LoopVal] = 5;
-					pColTrEnd[LoopVal] = 35;
-
-					if ((g_playerPathPointTable[(int)playerID] >= pColTrStart[LoopVal]) && (g_playerPathPointTable[(int)playerID] <= pColTrEnd[LoopVal]))	// Path range check
+				{										
+					switch (PathValues[ThisValue].Type)
 					{
-						MakeBodyColor((void*)&GlobalPlayer[(int)playerID], playerID, BodyColors[LoopVal], 1);
-						MakeBodyColorAdjust((void*)&GlobalPlayer[(int)playerID], playerID, BodyColorsAdj[LoopVal], 1);
+						case (PATH_ECHO):
+						{	
+							SetPlayerEcho(playerID, 0);
+							break;
+						}
+						case (PATH_COLOR):
+						{	
+							uint BodyColor = GetRGB32(PathValues[ThisValue].ColorR,PathValues[ThisValue].ColorG,PathValues[ThisValue].ColorB);
+							uint AdjColor = GetRGB32(PathValues[ThisValue].AdjColorR,PathValues[ThisValue].AdjColorG,PathValues[ThisValue].AdjColorB);
+							MakeBodyColor((void*)&GlobalPlayer[(int)playerID], playerID, BodyColor , 1);
+							MakeBodyColorAdjust((void*)&GlobalPlayer[(int)playerID], playerID, AdjColor, 1);
+							break;
+						}
+						case (PATH_CAMERA):
+						{
+							SetCamShiftUp(playerID, PathValues[ThisValue].Power);
+							break;
+						}
+						case (PATH_NOSIMPLE):
+						{
+							g_noSimpleKartFlag[(int)playerID] = 1;
+							break;
+						}
+						case (PATH_JUMP):
+						{
+							if((char)((GlobalPlayer[(int)playerID].jugemu_flag) != 0))
+							{
+								g_playerPathPointTable[playerID] = PathValues[ThisValue].PathStart;
+							}
+							break;
+						}
+						case (PATH_AIRCONTROL):
+						{
+							break;
+						}
 					}
-				}
-			}
-		}	
-	} 
-}
-
-void PathCamShiftTrigger()
-{
-	#define pCamArraySize 2									// Array size for the total amount of camera sections used. Pull from course data
-
-	short pCamTrStart[pCamArraySize];
-	short pCamTrEnd[pCamArraySize];
-
-	for (char playerID = 0; playerID < 4; playerID++)						// Loop for each racer		
-	{
-		if ((GlobalPlayer[(int)playerID].flag & EXISTS) != 0)				// Only run for existing racers
-		{
-			for (int LoopVal = 0; LoopVal < pCamArraySize; LoopVal++)
-			{
-			// Fill out each index of the arrays with data from course. Loop value as offset multiplicator//
-				pCamTrStart[LoopVal] = 40;
-				pCamTrEnd[LoopVal] = 85;
-
-
-				if ((g_playerPathPointTable[(int)playerID] >= pCamTrStart[LoopVal]) && (g_playerPathPointTable[(int)playerID] <= pCamTrEnd[LoopVal]))		// Path range check
-				{
-					SetCamShiftUp(playerID, 6);
-					break;
-				}
-
-				SetCamShiftUp(playerID, 0);
-			}
-		}
-	}	
-	
-}
-
-void PathNoSimpleKartTrigger()
-{
-	#define pSArraySize 2									// Array size for the total amount of CPU process sections used. Pull from course data
-
-	short pSTrStart[pSArraySize];
-	short pSTrEnd[pSArraySize];
-
-	for (char playerID = 0; playerID < 8; playerID++)						// Loop for each racer		
-	{
-		if ((GlobalPlayer[(int)playerID].flag & EXISTS) != 0)				// Only run for existing racers
-		{
-			for (int LoopVal = 0; LoopVal < pSArraySize; LoopVal++)
-			{
-			// Fill out each index of the arrays with data from course. Loop value as offset multiplicator//
-				pSTrStart[LoopVal] = 40;
-				pSTrEnd[LoopVal] = 150;
-
-
-				if ((g_playerPathPointTable[(int)playerID] >= pSTrStart[LoopVal]) && (g_playerPathPointTable[(int)playerID] <= pSTrEnd[LoopVal]))		// Path range check
-				{
-					g_noSimpleKartFlag[(int)playerID] = 1;
-					break;
-				}
-				g_noSimpleKartFlag[(int)playerID] = 0;
-			}
-		}
-	}	
-	
-}
-
-void PathLakituRescue()
-{
-	for (int playerID = 0; playerID < 4; playerID++)										// Loop for each racer		
-	{
-		if(((GlobalPlayer[(int)playerID].flag & IS_PLAYER) != 0) && ((GlobalPlayer[(int)playerID].flag & IS_GHOST) == 0) && (g_gamePausedFlag == 0x00))
-		{
-			if(((GlobalPlayer[(int)playerID].jumpcount) == 0) && ((char)((GlobalPlayer[(int)playerID].jugemu_flag) == 0))) // Grounded? Lakitu?
-			{
-				if((unsigned char)(GlobalPlayer[(int)playerID].bump_status) != 0xFE) 					// RR Boost?
-				{
-					if((unsigned char)(GlobalPlayer[(int)playerID].bump_status) != 0xFC) 				// DKJP Boost?
-					{
-						g_playerPathPointCopy[playerID] = g_playerPathPointTable[playerID]; 			// Make copy of current path point
-					}
-				}
-			}
-			if((char)((GlobalPlayer[(int)playerID].jugemu_flag) != 0)) 						// Lakitu picks you up?
-			{																					// Copy back to real path point
-				if(g_playerPathPointTable[playerID] < (g_playerPathPointCopy[playerID]))
-				{
-					g_playerPathPointTable[playerID] = (g_playerPathPointCopy[playerID] + 1);
-					continue;
-				}
-				if(g_playerPathPointTable[playerID] > (g_playerPathPointCopy[playerID]))
-				{
-					g_playerPathPointTable[playerID] = (g_playerPathPointCopy[playerID] - 2);
-					continue;
 				}
 				else
 				{
-					g_playerPathPointTable[playerID] = (g_playerPathPointCopy[playerID]);
+					SetCamShiftUp(playerID, 0);
+					g_noSimpleKartFlag[(int)playerID] = 0;
 				}
 			}
-		}
+		}	
 	}
 }
+
+
+
 
 void PathAirControlTrigger()
 {
@@ -580,11 +489,6 @@ void GetPathPoints()
 {
 	if (g_gamePausedFlag == 0x00)
 	{
-		CheckPaths ();
-		PathColorTrigger();
-		PathCamShiftTrigger();
-		PathNoSimpleKartTrigger();
-		PathLakituRescue();
-		PathAirControlTrigger();
+		CheckPaths();	
 	}
 }	
