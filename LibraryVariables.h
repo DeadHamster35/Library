@@ -30,7 +30,7 @@ extern int minutes;
 extern int seconds;
 
 extern Object *GlobalObjectA, *GlobalObjectB;
-extern OKObjectHeader OverKartObjectHeader;
+extern OKRAMHeader OverKartRAMHeader;
 
 extern float ZeroVector[3];
 

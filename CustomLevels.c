@@ -1,7 +1,7 @@
 #include "../library/SubProgram.h"
 #include "../library/SharedFunctions.h"
 #include "../library/OKHeader.h"
-#include "../library/OKCustom.h"
+#include "../Library/PlayerChecks.h"
 #include "../library/OKExternal.h"
 #include "../Library/OKCustomObjects.h"
 #include "../library/LibraryVariables.h"
@@ -427,9 +427,14 @@ void setWater()
 	if (HotSwapID > 0)
 	{
 		g_waterHeight = OverKartHeader.WaterLevel;
+		SetWaterType(OverKartHeader.WaterType);
 	}
 }
 
+void CheckEcho()
+{	
+	
+}
 
 
 
@@ -437,16 +442,15 @@ void setEcho()
 {
 	if (HotSwapID > 0)
 	{		
-		g_EchoStart = OverKartHeader.EchoStart;
-		g_EchoStop = OverKartHeader.EchoStop;
+		GlobalIntA = OverKartHeader.EchoEnd - OverKartHeader.EchoStart;
+		OverKartRAMHeader.EchoOffset = LoadData(OverKartHeader.EchoStart, GlobalIntA);
 	}
 	else
 	{
 		g_EchoStart = 0x19B;
 		g_EchoStop = 0x1B9;
 	}
-
-
+	
 }
 void setSky()
 {
@@ -687,39 +691,39 @@ void loadOKObjects()
 	OverKartHeader.ObjectDataStart = GlobalAddressA;
 	
 	
-	OverKartObjectHeader.ObjectTypeCount = *(int*)(GlobalAddressA);
+	OverKartRAMHeader.ObjectHeader.ObjectTypeCount = *(int*)(GlobalAddressA);
 	GlobalAddressC = GlobalAddressA + 4;
-	OverKartObjectHeader.ObjectTypeList = (OKObjectType*)(GlobalAddressC);
+	OverKartRAMHeader.ObjectHeader.ObjectTypeList = (OKObjectType*)(GlobalAddressC);
 
 	
-	GlobalAddressB = GlobalAddressA + 4 + (OverKartObjectHeader.ObjectTypeCount * 24);
-	OverKartObjectHeader.ObjectCount = *(int*)(GlobalAddressB);
+	GlobalAddressB = GlobalAddressA + 4 + (OverKartRAMHeader.ObjectHeader.ObjectTypeCount * 24);
+	OverKartRAMHeader.ObjectHeader.ObjectCount = *(int*)(GlobalAddressB);
 	GlobalAddressD = GlobalAddressB + 4;
-	OverKartObjectHeader.ObjectList = (OKObjectList*)(GlobalAddressD);	
+	OverKartRAMHeader.ObjectHeader.ObjectList = (OKObjectList*)(GlobalAddressD);	
 	
-	for (int This = 0; This < OverKartObjectHeader.ObjectCount; This++)
+	for (int This = 0; This < OverKartRAMHeader.ObjectHeader.ObjectCount; This++)
 	{
 		OKObjectArray[This].ListIndex = This;
 		OKObjectArray[This].SubBehaviorClass = SUBBEHAVIOR_DOCILE;
 
 		OKObjectArray[This].ObjectData.flag = 0xC000;
-		OKObjectArray[This].ObjectData.radius = OverKartObjectHeader.ObjectTypeList[OverKartObjectHeader.ObjectList[This].ObjectIndex].CollisionRadius;
+		OKObjectArray[This].ObjectData.radius = OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[This].ObjectIndex].CollisionRadius;
 		
-		OKObjectArray[This].ObjectData.position[0] = (float)OverKartObjectHeader.ObjectList[This].OriginPosition[0];
-		OKObjectArray[This].ObjectData.position[1] = (float)OverKartObjectHeader.ObjectList[This].OriginPosition[1];
-		OKObjectArray[This].ObjectData.position[2] = (float)OverKartObjectHeader.ObjectList[This].OriginPosition[2];
+		OKObjectArray[This].ObjectData.position[0] = (float)OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginPosition[0];
+		OKObjectArray[This].ObjectData.position[1] = (float)OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginPosition[1];
+		OKObjectArray[This].ObjectData.position[2] = (float)OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginPosition[2];
 
-		OKObjectArray[This].ObjectData.angle[0] = OverKartObjectHeader.ObjectList[This].OriginAngle[0] * DEG1;
-		OKObjectArray[This].ObjectData.angle[1] = OverKartObjectHeader.ObjectList[This].OriginAngle[1] * DEG1;
-		OKObjectArray[This].ObjectData.angle[2] = OverKartObjectHeader.ObjectList[This].OriginAngle[2] * DEG1;
+		OKObjectArray[This].ObjectData.angle[0] = OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginAngle[0] * DEG1;
+		OKObjectArray[This].ObjectData.angle[1] = OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginAngle[1] * DEG1;
+		OKObjectArray[This].ObjectData.angle[2] = OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginAngle[2] * DEG1;
 
-		OKObjectArray[This].ObjectData.velocity[0] = (float)(OverKartObjectHeader.ObjectList[This].OriginVelocity[0] * 100);
-		OKObjectArray[This].ObjectData.velocity[1] = (float)(OverKartObjectHeader.ObjectList[This].OriginVelocity[1] * 100);
-		OKObjectArray[This].ObjectData.velocity[2] = (float)(OverKartObjectHeader.ObjectList[This].OriginVelocity[2] * 100);
+		OKObjectArray[This].ObjectData.velocity[0] = (float)(OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginVelocity[0] * 100);
+		OKObjectArray[This].ObjectData.velocity[1] = (float)(OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginVelocity[1] * 100);
+		OKObjectArray[This].ObjectData.velocity[2] = (float)(OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginVelocity[2] * 100);
 
-		OKObjectArray[This].AngularVelocity[0] = OverKartObjectHeader.ObjectList[This].OriginAngle[0] * DEG1;
-		OKObjectArray[This].AngularVelocity[1] = OverKartObjectHeader.ObjectList[This].OriginAngle[1] * DEG1;
-		OKObjectArray[This].AngularVelocity[2] = OverKartObjectHeader.ObjectList[This].OriginAngle[2] * DEG1;
+		OKObjectArray[This].AngularVelocity[0] = OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginAngle[0] * DEG1;
+		OKObjectArray[This].AngularVelocity[1] = OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginAngle[1] * DEG1;
+		OKObjectArray[This].AngularVelocity[2] = OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginAngle[2] * DEG1;
 	}
 	*/
 }
@@ -1500,6 +1504,7 @@ void EventDisplay_After(int player)
 
 void CommonGameEventChart()
 {
+<<<<<<< HEAD
 	if (HotSwapID == 0)
 	{
 		KWGameEventCommon();
@@ -1512,4 +1517,18 @@ void CommonGameEventChart()
 		}
 		KWGameEventCommon();
 	}	
+=======
+    if (HotSwapID == 0)
+    {
+        KWGameEventCommon();
+    }
+    else
+    {
+        if (g_resetToggle != 4)
+        {
+            KWChartIceBlock();
+        }
+        KWGameEventCommon();
+    }    
+>>>>>>> f43cfd8... Path and Object Code
 }

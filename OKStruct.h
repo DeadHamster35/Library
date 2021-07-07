@@ -16,11 +16,13 @@ typedef struct OKHeader{
 	uint ObjectDataStart;
 	uint ObjectModelStart;	
 	uint ObjectDataEnd;
-	short EchoStart, EchoStop;
+	uint EchoStart;
+	uint EchoEnd;
 	char Tempo1, Tempo2, Tempo3, Tempo4;	
 	uint MusicID;
 	int PathLength;
 	float WaterLevel;
+	int	WaterType;
 	uint ScrollOffset;
 	uint ScrollEnd;
 
@@ -81,6 +83,34 @@ typedef struct OKObjectHeader{
 	OKObjectList	*ObjectList;
 } OKObjectHeader;
 
+typedef struct OKPathStruct{
+	short	PathStart;
+	short	PathStop;
+	uchar	Type;
+	uchar	Power;
+	uchar	ColorR,ColorG,ColorB;
+	uchar	AdjColorR,AdjColorG,AdjColorB;
+} OKPathStruct;
+
+#define PATH_ECHO 		0
+#define PATH_COLOR 		1
+#define PATH_CAMERA		2
+#define PATH_AIRCONTROL 	3
+#define PATH_JUMP		4
+#define PATH_NOSIMPLE	5 
+
+typedef struct OKRAMHeader{
+
+	int 			ScrollOffset;
+	int 			EchoOffset;
+	int 			CreditsOffset;
+	int 			CourseNameOffset;
+	int 			SerialKeyOffset;
+	int 			GhostOffset;
+	int 			MapsOffset;
+	OKObjectHeader	ObjectHeader;
+
+} OKRAMHeader;
 
 
 typedef struct OKEngine{

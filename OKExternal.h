@@ -1,15 +1,5 @@
 //for OverKart's BUILD.ASM
 
-void KWDisplayEvent(int player);
-void KWDisplayEvent_After(int player);
-void KWGameEventCommon_VF();
-void KWGameEventCommon();
-
-void KWDisplayIceBlock(int player);
-void KWDisplayIceBlockShadow(int player);
-void KWDisplayBombKartBT(int player);
-
-extern void KWChartIceBlock();
 
 
 extern long StartRAMData;

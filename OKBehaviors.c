@@ -2,7 +2,7 @@
 #include "../library/SubProgram.h"
 #include "../library/SharedFunctions.h"
 #include "../library/OKHeader.h"
-#include "../library/OKCustom.h"
+
 #include "../library/OKExternal.h"
 #include "../library/LibraryVariables.h"
 #include "../library/MarioKartObjects.h"
@@ -31,7 +31,7 @@ short ObjectSubBehaviorTurnTarget(float InputPosition[3], short InputAngle, floa
 
 float ObjectSubBehaviorLookTarget(OKObject* InputObject, float TargetPosition[3])
 {
-	OKObjectType *ThisType = (OKObjectType*)&(OverKartObjectHeader.ObjectTypeList[OverKartObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex]);
+	OKObjectType *ThisType = (OKObjectType*)&(OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex]);
 	
 	GlobalFloatA = (float)ThisType->Range;	
 	GlobalFloatB = (InputObject->ObjectData.position[0] - TargetPosition[0]);
@@ -80,8 +80,8 @@ void ObjectBehaviorWalk(OKObject* InputObject, float Speed)
 
 void ObjectBehaviorWander(OKObject* InputObject)
 {
-	OKObjectType *ThisType = (OKObjectType*)&(OverKartObjectHeader.ObjectTypeList[OverKartObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex]);
-	OKObjectList *ThisList = (OKObjectList*)&(OverKartObjectHeader.ObjectList[InputObject->ListIndex]);
+	OKObjectType *ThisType = (OKObjectType*)&(OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex]);
+	OKObjectList *ThisList = (OKObjectList*)&(OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex]);
 	GlobalFloatA = (float)ThisType->Range;
 	GlobalFloatB = GlobalFloatA * 0.6;
 	
@@ -281,7 +281,7 @@ short ObjectSearchClosestMarker(float ObjectPostion[], Marker* PathData)
 
 void ObjectBehaviorFollowPath(OKObject* InputObject, Marker* PathData)
 {
-	OKObjectType *ThisType = (OKObjectType*)&(OverKartObjectHeader.ObjectTypeList[OverKartObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex]);
+	OKObjectType *ThisType = (OKObjectType*)&(OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex]);
 	
 	if (InputObject->PathTarget == -1)
 	{
@@ -310,7 +310,7 @@ void ObjectBehaviorFollowPath(OKObject* InputObject, Marker* PathData)
 
 void Misbehave(OKObject* InputObject)
 {
-	switch (OverKartObjectHeader.ObjectTypeList[OverKartObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex].BehaviorClass)
+	switch (OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex].BehaviorClass)
 	{
 		case BEHAVIOR_STATIC:
 		{

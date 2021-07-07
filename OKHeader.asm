@@ -14,6 +14,7 @@
 .definelabel ok_HeaderOffsets, 0x80420000
 .definelabel ok_MenuOffsets, ok_HeaderOffsets + ok_HeaderSize
 .definelabel ok_CourseHeader, ok_MenuOffsets + ok_MenuSize
+.definelabel OverKartHeader, ok_CourseHeader
 .definelabel ok_CourseTable, ok_CourseHeader + ok_CourseHeaderSize  //0x28 bytes
 
 .definelabel ok_Target, ok_CourseTable + 0x30

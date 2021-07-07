@@ -1,7 +1,7 @@
 #include "../library/SubProgram.h"
 #include "../library/SharedFunctions.h"
 #include "../library/OKHeader.h"
-#include "../library/OKCustom.h"
+
 #include "../library/OKExternal.h"
 #include "../library/LibraryVariables.h"
 #include "../library/PlayerEffects.h"
@@ -382,35 +382,26 @@ void NopPlayEffectBGMCode() //Run at custom code init
 
 
 
-void PathEchoTrigger()
-{
-	char pEchoArraySize = 2;									// Array size for the total amount of echo sections used. Pull from course data
-
-	if (pEchoArraySize != 0)
+void CheckPaths()
+{	
+	GlobalIntA = *(int*)OverKartRAMHeader.EchoOffset;
+	GlobalAddressA = OverKartRAMHeader.EchoOffset + 4;
+	OKPathStruct* PathValues = (OKPathStruct*)GlobalAddressA;	
+	for (int playerID = 0; playerID < g_playerCount; playerID++)					// Loop for each racer		
 	{
-		char Echo[pEchoArraySize];
-		short pEchoTrStart[pEchoArraySize];
-		short pEchoTrEnd[pEchoArraySize];
-
-		for (char playerID = 0; playerID < 4; playerID++)					// Loop for each racer		
-		{
+		SetPlayerEcho(playerID, 0);					
+		for (int ThisValue = 0; ThisValue < GlobalIntA; ThisValue++)
+		{	
+		
 			if(((GlobalPlayer[(int)playerID].flag & IS_PLAYER) != 0) && ((GlobalPlayer[(int)playerID].flag & IS_GHOST) == 0))			// Only run for existing racers
 			{
-				for (int LoopVal = 0; LoopVal < pEchoArraySize; LoopVal++)
-				{
-				// Fill out each index of the arrays with data from course. Loop value as offset multiplicator//
-					Echo[LoopVal] = 185;
-					pEchoTrStart[LoopVal] = 10;
-					pEchoTrEnd[LoopVal] = 35;
-
-					if ((g_playerPathPointTable[(int)playerID] >= pEchoTrStart[LoopVal]) && (g_playerPathPointTable[(int)playerID] <= pEchoTrEnd[LoopVal]))		// Path range check
-					{
-						SetPlayerEcho(playerID, Echo[LoopVal]);
-						break;
-					}
-
-					SetPlayerEcho(playerID, 0);	
+									
+				if ((g_playerPathPointTable[(int)playerID] >= PathValues[ThisValue].PathStart) && (g_playerPathPointTable[(int)playerID] <= PathValues[ThisValue].PathStop))		// Path range check
+				{					
+					SetPlayerEcho(playerID, (char)PathValues[ThisValue].Power);
+					break;
 				}
+				
 			}
 		}	
 	}
@@ -434,7 +425,7 @@ void PathColorTrigger()
 				for (int LoopVal = 0; LoopVal < pColArraySize; LoopVal++)
 				{
 				// Fill out each index of the arrays with data from course. Loop value as offset multiplicator//
-					BodyColors[LoopVal] = 0x007F0030;		
+					BodyColors[LoopVal] = 0x00646464;		
 					BodyColorsAdj[LoopVal] = 0x0000A0D0;		
 					pColTrStart[LoopVal] = 5;
 					pColTrEnd[LoopVal] = 35;
@@ -589,11 +580,11 @@ void GetPathPoints()
 {
 	if (g_gamePausedFlag == 0x00)
 	{
-		PathEchoTrigger();
+		CheckPaths ();
 		PathColorTrigger();
 		PathCamShiftTrigger();
 		PathNoSimpleKartTrigger();
 		PathLakituRescue();
 		PathAirControlTrigger();
 	}
-}
+}	

@@ -19,6 +19,7 @@ extern int ok_CourseHeaderSize; //0x80
 extern int ok_HeaderOffsets; //0x80420000
 extern int ok_MenuOffsets; //ok_HeaderOffsets + ok_HeaderSize
 extern int ok_CourseHeader; //ok_MenuOffsets + ok_MenuSize
+extern OKHeader OverKartHeader; //ok_CourseHeader
 extern int ok_CourseTable; //ok_CourseHeader + ok_CourseHeaderSize  //0x28 bytes
 
 extern int ok_Target; //ok_CourseTable + 0x30

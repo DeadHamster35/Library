@@ -1,7 +1,7 @@
 #include "SubProgram.h"
 #include "SharedFunctions.h"
 #include "OKHeader.h"
-#include "OKCustom.h"
+
 #include "OKExternal.h"
 #include "LibraryVariables.h"
 #include "PlayerEffects.h"
@@ -252,10 +252,10 @@ void OKObjectCollision(OKObject *InputObject)
 		objectPosition[0] = InputObject->ObjectData.position[0];
 		objectPosition[1] = InputObject->ObjectData.position[1];
 		objectPosition[2] = InputObject->ObjectData.position[2];
-		if(TestCollideSphere(objectPosition, OverKartObjectHeader.ObjectTypeList[OverKartObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex].CollisionRadius ,GlobalPlayer[CurrentPlayer].position, GlobalPlayer[CurrentPlayer].radius))
+		if(TestCollideSphere(objectPosition, OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex].CollisionRadius ,GlobalPlayer[CurrentPlayer].position, GlobalPlayer[CurrentPlayer].radius))
 		{
-			MasterStatus(CurrentPlayer,OverKartObjectHeader.ObjectTypeList[OverKartObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex].StatusClass);
-			MasterEffect(CurrentPlayer,OverKartObjectHeader.ObjectTypeList[OverKartObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex].EffectClass);
+			MasterStatus(CurrentPlayer,OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex].StatusClass);
+			MasterEffect(CurrentPlayer,OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex].EffectClass);
 		}
 		
 		/*
@@ -310,11 +310,11 @@ void OKObjectCollision(OKObject *InputObject)
 void DrawOKObjects(Camera* LocalCamera)
 {
 	
-	for (int CurrentType = 0; CurrentType < OverKartObjectHeader.ObjectTypeCount; CurrentType++)
+	for (int CurrentType = 0; CurrentType < OverKartRAMHeader.ObjectHeader.ObjectTypeCount; CurrentType++)
 	{
-		for (int CurrentModel = 0; CurrentModel < OverKartObjectHeader.ObjectTypeList[CurrentType].OKModelCount; CurrentModel++)
+		for (int CurrentModel = 0; CurrentModel < OverKartRAMHeader.ObjectHeader.ObjectTypeList[CurrentType].OKModelCount; CurrentModel++)
 		{
-			OKModel* ThisModel = (OKModel*)GetRealAddress(0x0A000000 | (int)&OverKartObjectHeader.ObjectTypeList[OverKartObjectHeader.ObjectList[OKObjectArray->ListIndex].ObjectIndex].ObjectModel[CurrentModel]);
+			OKModel* ThisModel = (OKModel*)GetRealAddress(0x0A000000 | (int)&OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[OKObjectArray->ListIndex].ObjectIndex].ObjectModel[CurrentModel]);
 			
 			*(long*)*graphPointer = (long)(0xBB000001);
 			*graphPointer = *graphPointer + 4;
@@ -333,10 +333,10 @@ void DrawOKObjects(Camera* LocalCamera)
 			*graphPointer = *graphPointer + 4;
 			*(long*)*graphPointer = (long)(0x0A000000 | ThisModel->TextureAddress);
 			*graphPointer = *graphPointer + 4;
-			for (int CurrentObject = 0; CurrentObject < OverKartObjectHeader.ObjectCount; CurrentObject++)
+			for (int CurrentObject = 0; CurrentObject < OverKartRAMHeader.ObjectHeader.ObjectCount; CurrentObject++)
 			{
 				
-				if((OKObjectArray[CurrentObject].SubBehaviorClass != SUBBEHAVIOR_DEAD) && (OverKartObjectHeader.ObjectList[OKObjectArray[CurrentObject].ListIndex].ObjectIndex == CurrentType))
+				if((OKObjectArray[CurrentObject].SubBehaviorClass != SUBBEHAVIOR_DEAD) && (OverKartRAMHeader.ObjectHeader.ObjectList[OKObjectArray[CurrentObject].ListIndex].ObjectIndex == CurrentType))
 				{		
 					
 					objectPosition[0] = (float)OKObjectArray[CurrentObject].ObjectData.position[0];
@@ -397,33 +397,13 @@ void DrawOKObjects(Camera* LocalCamera)
 }
 
 void CheckOKObjects()
-{
-	
-	for (int CurrentObject = 0; CurrentObject < OverKartObjectHeader.ObjectCount; CurrentObject++)
+{	
+	for (int CurrentObject = 0; CurrentObject < OverKartRAMHeader.ObjectHeader.ObjectCount; CurrentObject++)
 	{
 		if(OKObjectArray[CurrentObject].SubBehaviorClass != SUBBEHAVIOR_DEAD)
 		{
 			//Misbehave((OKObject*)&OKObjectArray[CurrentObject]);
-			//OKObjectCollision((OKObject*)&OKObjectArray[CurrentObject]);			
-			/*
-			objectVelocity[0] = 0;
-			objectVelocity[1] = OKObjectArray[CurrentObject].ObjectData.velocity[1];
-			objectVelocity[2] = 1.0;
-			MakeAlignVector(objectVelocity, OKObjectArray[CurrentObject].ObjectData.angle[1]);
-			OKObjectArray[CurrentObject].ObjectData.velocity[0] = objectVelocity[0];
-			OKObjectArray[CurrentObject].ObjectData.velocity[1] = objectVelocity[1];
-			OKObjectArray[CurrentObject].ObjectData.velocity[2] = objectVelocity[2];
-
-			UpdateObjectGravity((Object*)&OKObjectArray[CurrentObject].ObjectData);
-			UpdateObjectVelocity((Object*)&OKObjectArray[CurrentObject].ObjectData);	
-			UpdateObjectBump((Object*)&OKObjectArray[CurrentObject].ObjectData);	
-			if(OKObjectArray[CurrentObject].ObjectData.bump.distance_zx < 0)
-			{
-				OKObjectArray[CurrentObject].ObjectData.velocity[1] = 0;
-			}
-			*/
-			
-
+			//OKObjectCollision((OKObject*)&OKObjectArray[CurrentObject]);	
 		}
 	}
 }
