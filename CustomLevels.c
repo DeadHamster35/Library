@@ -1504,7 +1504,6 @@ void EventDisplay_After(int player)
 
 void CommonGameEventChart()
 {
-<<<<<<< HEAD
 	if (HotSwapID == 0)
 	{
 		KWGameEventCommon();
@@ -1517,18 +1516,4 @@ void CommonGameEventChart()
 		}
 		KWGameEventCommon();
 	}	
-=======
-    if (HotSwapID == 0)
-    {
-        KWGameEventCommon();
-    }
-    else
-    {
-        if (g_resetToggle != 4)
-        {
-            KWChartIceBlock();
-        }
-        KWGameEventCommon();
-    }    
->>>>>>> f43cfd8... Path and Object Code
 }

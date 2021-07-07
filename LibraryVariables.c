@@ -35,13 +35,8 @@ int minutes = 0;
 int seconds = 0;
 
 Object *GlobalObjectA, *GlobalObjectB;
-<<<<<<< HEAD
-OKObjectHeader OverKartObjectHeader;
-
 float ZeroVector[3] = {0.0, 0.0, 0.0};
-=======
 OKRAMHeader OverKartRAMHeader;
->>>>>>> f43cfd8... Path and Object Code
 
 Controller *GlobalController[5] = 
 {
