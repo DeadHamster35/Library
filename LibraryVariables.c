@@ -35,6 +35,7 @@ int seconds = 0;
 
 Object *GlobalObjectA, *GlobalObjectB;
 
+float ZeroVector[3] = {0.0, 0.0, 0.0};
 
 Controller *GlobalController[5] = 
 {

@@ -1104,6 +1104,8 @@ void initFireParticles(long PathOffset)
 		g_DynamicObjects[FireParticleAllocArray[currentFire]].pos_start[0] = (float)FireParticlePositions[currentFire][0];		
 		g_DynamicObjects[FireParticleAllocArray[currentFire]].pos_start[1] = (float)FireParticlePositions[currentFire][1]+10;
 		g_DynamicObjects[FireParticleAllocArray[currentFire]].pos_start[2] = (float)FireParticlePositions[currentFire][2];
+		
+		g_DynamicObjects[FireParticleAllocArray[currentFire]].scale = 0.8;
 	}
 }
 

@@ -50,6 +50,8 @@ extern void SmokeDisp3P(void* Car, char kno, char place); //0x8006E6BC
 extern void SmokeDisp4P(void* Car, char kno, char place); //0x8006E744
 
 extern float CheckHight(float X_value, float Y_value, float Z_value);
+extern float CalcDistance(float originpos[], float targetpos[]);
+extern int KWCheckRadiusXZ(float x1,float y1,float x2,float y2,float radius);
 
 extern short deleteObjectBuffer(void *Object);
 extern short addObjectBuffer(float position[], short angle[], float velocity[], short objectID);
@@ -167,6 +169,7 @@ extern float cosF(float inputAngle);
 extern void SetSegment(int number, int cpuAddr);
 
 extern void initializePlayer(int playerStructure, int characterID, float deltaX, float deltaZ, int characterID2, int unknown0xB000);
+extern void DelayInitialMap();
 
 extern long asm_itemJump1A;// 0x8007B084  //3C058016
 extern long asm_itemJump1B;// 0x8007B098  //84A543BA
@@ -763,6 +766,8 @@ extern void playMusic(int musicID);
 extern void playMusic2(int musicID);
 extern void NaPlyLevelStart(char playerID, int soundID); 
 extern void NaPlyLevelStop(char playerID, int soundID); 
+extern void NaSceneLevelStart(float ObjectPosition[], float ObjectVelocity[], int soundID);
+extern void NaSceneLevelStop(float ObjectPosition[], int soundID);
 
 extern short g_musicUserVolumeFlag; // 0x800DC5A8 //char 00=full; // 01=half; // 02=off  04=disable L button
 extern short g_musicIDRaceways; // 0x8028ECE6 

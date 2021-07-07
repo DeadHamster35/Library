@@ -31,6 +31,7 @@ extern int seconds;
 
 extern Object *GlobalObjectA, *GlobalObjectB;
 
+extern float ZeroVector[3];
 
 extern struct POSXY PlayerSelectPositions[];
 extern struct PlayerTextureTable SelectNamePlateTable;

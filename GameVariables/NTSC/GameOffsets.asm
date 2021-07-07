@@ -44,7 +44,8 @@
 .definelabel SmokeDisp4P, 0x8006E744
 
 .definelabel CheckHight, 0x802AE1C0
-
+.definelabel CalcDistance, 0x802B51E8
+.definelabel KWCheckRadiusXZ, 0x80041608
 
 .definelabel deleteObjectBuffer, 0x8029E854
 .definelabel addObjectBuffer, 0x8029EC88
@@ -150,7 +151,7 @@
 .definelabel Snow3DDisplayAfterMapCheck2, 0x80058B5C
 
 .definelabel initializePlayer, 0x800393C0
-
+.definelabel DelayInitialMap, 0x80002DAC
 
 .definelabel TexBuffLoadP, 0x800996BC
 .definelabel GrayScaleTexBuf3, 0x8009B0A4
@@ -780,6 +781,8 @@
 .definelabel NaFanStart, 0x800C8EF8
 .definelabel NaPlyLevelStart, 0x800C8F80
 .definelabel NaPlyLevelStop, 0x800C9018
+.definelabel NaSceneLevelStart, 0x800C9D80
+.definelabel NaSceneLevelStop, 0x800C9EF4
 
 .definelabel g_musicUserVolumeFlag, 0x800DC5A8 //char 00=full, 01=half, 02=off, 04=disable L button
 .definelabel g_musicIDRaceways, 0x8028ECE6 
