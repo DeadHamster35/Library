@@ -203,7 +203,7 @@ extern short g_courseID;
 extern short g_loadedcourseFlag;
 extern long g_gameMode; //0 = gp 1 = time trials 2 = vs 3 =battle
 extern unsigned short g_DispFrame;
-extern short g_mirrorMode;
+extern long g_mirrorMode;
 extern short g_DebugBars;
 
 extern uint PathTable[20][4];
@@ -783,7 +783,6 @@ extern short g_musicIDRainbow; // 0x8028ED76
 extern short g_musicIDDK; // 0x8028ED86
 extern short g_musicIDBattle2; // 0x8028ED96
 extern ushort g_musicTempo;
-
 //Cave Fire Particle Stuff
 extern short CaveFirePos[8][3];
 extern void KWGetCaveFire(int objnum);
