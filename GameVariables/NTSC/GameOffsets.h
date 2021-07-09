@@ -717,6 +717,9 @@ extern char g_cloudsToggle; // 0x801657C8 //00 on 01 off
 extern short g_skyToggle; // 0x800DC5BC 
 extern char g_skyboxToggle; // 0x800DC5B4 
 extern short g_daytimeToggle; // 0x800DC518 
+
+extern int g_BombTable;
+
 extern long g_skyColorTopTable;
 extern long g_skyColorBotTable;
 

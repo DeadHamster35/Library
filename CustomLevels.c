@@ -679,7 +679,7 @@ void runDisplayScreen()
 
 void loadOKObjects()
 {
-	/*
+	
 	for (int This = 0; This < 100; This++)
 	{
 		ClearOKObject(This);
@@ -725,7 +725,7 @@ void loadOKObjects()
 		OKObjectArray[This].AngularVelocity[1] = OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginAngle[1] * DEG1;
 		OKObjectArray[This].AngularVelocity[2] = OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginAngle[2] * DEG1;
 	}
-	*/
+	
 }
 
 
@@ -739,6 +739,14 @@ void loadHeaderOffsets()
 }
 
 
+void LoadBomb()
+{
+	*sourceAddress = OverKartHeader.BombOffset;
+	*targetAddress = (int)&g_BombTable;
+	dataLength = 0xA8;
+	runDMA();
+}
+
 void loadHotSwap(int inputID)
 {
 	//version 4
@@ -749,7 +757,7 @@ void loadHotSwap(int inputID)
 		//first load the entire OverKart header into expansion RAM
 		*targetAddress = (long)&ok_CourseHeader;
 		*sourceAddress = *(long*)(&ok_HeaderOffsets + ((inputID) * 1) + ((HotSwapID-1) * 0x14));
-		dataLength = 0x74;
+		dataLength = 0x80;
 		if (*sourceAddress != 0xFFFFFFFF)
 		{
 			runDMA();
@@ -792,8 +800,11 @@ void loadHotSwap(int inputID)
 		if (VersionNumber > 4)
 		{
 			loadOKObjects();
-			setText();
+			//setText();
+			LoadBomb();
+
 		}
+		
 	}
 	
 

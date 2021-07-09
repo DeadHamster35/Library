@@ -735,6 +735,8 @@
 .definelabel g_skyboxToggle, 0x800DC5B4 
 .definelabel g_daytimeToggle, 0x800DC518
 
+.definelabel g_BombTable, 0x800DCC08
+
 .definelabel GlobalWeight, 0x802B8790
 
 .definelabel g_skyColorTopTable, 0x802B8AD0

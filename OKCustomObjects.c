@@ -402,8 +402,8 @@ void CheckOKObjects()
 	{
 		if(OKObjectArray[CurrentObject].SubBehaviorClass != SUBBEHAVIOR_DEAD)
 		{
-			//Misbehave((OKObject*)&OKObjectArray[CurrentObject]);
-			//OKObjectCollision((OKObject*)&OKObjectArray[CurrentObject]);	
+			Misbehave((OKObject*)&OKObjectArray[CurrentObject]);
+			OKObjectCollision((OKObject*)&OKObjectArray[CurrentObject]);	
 		}
 	}
 }

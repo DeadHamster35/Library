@@ -14,11 +14,6 @@
 
 
 
-#define Water_Water		(char)0
-#define Water_Void		(char)1
-#define Water_Lava		(char)2
-#define Water_Ice		(char)3
-
 //bool IceSoundPlayed[8];
 
 void CheckSplashRepl(char WaterType)
@@ -31,7 +26,7 @@ void CheckSplashRepl(char WaterType)
 			{
 				g_waterlevelPlayer[(int)playerID] = CheckWaterLevel((void*)&GlobalPlayer[(int)playerID]);
 			}
-			if(WaterType != Water_Void || (HotSwapID == 0))
+			if(WaterType != ZVOID || (HotSwapID == 0))
 			{
 				if(g_waterlevelPlayer[(int)playerID] >= (GlobalPlayer[(int)playerID].position[1]))
 				{
@@ -63,11 +58,11 @@ void CheckSplashRepl(char WaterType)
 
 						if((g_courseID != 6) && (g_courseID != 16) && (g_courseID != 13) && ((GlobalPlayer[(int)playerID].flag& IS_PLAYER) != 0))
 						{
-							if(((g_courseID == 2) && (g_courseID == 19)) || WaterType == Water_Lava)
+							if(((g_courseID == 2) && (g_courseID == 19)) || WaterType == ZLAVA)
 							{
 								NAPlyTrgStart(playerID, 0x1900801c);
 							}
-							else if (WaterType != Water_Void)
+							else if (WaterType != ZVOID)
 							{
 								NAPlyTrgStart(playerID, 0x19008008);
 							}
@@ -120,7 +115,7 @@ void CheckSplashRepl(char WaterType)
 void SetWaterType(char WaterType)
 {
 
-	if (WaterType == Water_Ice && HotSwapID != 0)
+	if (WaterType == ZICE && HotSwapID != 0)
 	{
 		LakituIceBehavior = (LakituIceBehavior & 0xFFFF0000) + (0 & 0x0000FFFF);
 	}
@@ -141,7 +136,7 @@ void SetWaterType(char WaterType)
 				{
 					switch (WaterType)
 					{
-						case Water_Void:
+						case ZVOID:
 						{	
 							if((g_waterlevelPlayer[(int)playerID] - GlobalPlayer[(int)playerID].position[1]) > (GlobalPlayer[(int)playerID].radius))
 							{
@@ -160,7 +155,7 @@ void SetWaterType(char WaterType)
 							break;
 						}
 
-						case Water_Lava:
+						case ZLAVA:
 						{
 							if(((GlobalPlayer[(int)playerID].jugemu_flag & LAKITU_CAMERA) != 0))
 							{
@@ -384,23 +379,27 @@ void NopPlayEffectBGMCode() //Run at custom code init
 
 void CheckPaths()
 {	
+	
+	
 	GlobalIntA = *(int*)OverKartRAMHeader.EchoOffset;
 	GlobalAddressA = OverKartRAMHeader.EchoOffset + 4;
-	OKPathStruct* PathValues = (OKPathStruct*)GlobalAddressA;	
+	OKPathStruct* PathValues = (OKPathStruct*)GlobalAddressA;		
 	for (int playerID = 0; playerID < g_playerCount; playerID++)					// Loop for each racer		
-	{					
+	{			
+		SetPlayerEcho(playerID, 0);
+		SetCamShiftUp(playerID, 0);
+		g_noSimpleKartFlag[(int)playerID] = 0;		
 		for (int ThisValue = 0; ThisValue < GlobalIntA; ThisValue++)
-		{	
-		
+		{				
 			if(((GlobalPlayer[(int)playerID].flag & IS_PLAYER) != 0) && ((GlobalPlayer[(int)playerID].flag & IS_GHOST) == 0))			// Only run for existing racers
 			{
 				if ((g_playerPathPointTable[(int)playerID] >= PathValues[ThisValue].PathStart) && (g_playerPathPointTable[(int)playerID] <= PathValues[ThisValue].PathStop))		// Path range check
-				{										
+				{		
 					switch (PathValues[ThisValue].Type)
 					{
 						case (PATH_ECHO):
 						{	
-							SetPlayerEcho(playerID, 0);
+							SetPlayerEcho(playerID, PathValues[ThisValue].Power);
 							break;
 						}
 						case (PATH_COLOR):
@@ -417,12 +416,12 @@ void CheckPaths()
 							break;
 						}
 						case (PATH_NOSIMPLE):
-						{
+						{							
 							g_noSimpleKartFlag[(int)playerID] = 1;
 							break;
 						}
 						case (PATH_JUMP):
-						{
+						{							
 							if((char)((GlobalPlayer[(int)playerID].jugemu_flag) != 0))
 							{
 								g_playerPathPointTable[playerID] = PathValues[ThisValue].PathStart;
@@ -430,65 +429,13 @@ void CheckPaths()
 							break;
 						}
 						case (PATH_AIRCONTROL):
-						{
+						{							
+							EnableAirControl(playerID);
 							break;
 						}
 					}
 				}
-				else
-				{
-					SetCamShiftUp(playerID, 0);
-					g_noSimpleKartFlag[(int)playerID] = 0;
-				}
 			}
 		}	
 	}
 }
-
-
-
-
-void PathAirControlTrigger()
-{
-	char pAirArraySize = 2;									// Array size for the total amount of CPU process sections used. Pull from course data
-
-	if (pAirArraySize != 0)
-	{
-		short pAirTrStart[pAirArraySize];
-		short pAirTrEnd[pAirArraySize];
-
-		for (char playerID = 0; playerID < 8; playerID++)						// Loop for each racer		
-		{
-			GlobalAddressA = (long)(&g_playerPathPointTable) + (0x2 * playerID);
-			short curAirPoint = *(short*)(GlobalAddressA);
-
-			if ((GlobalPlayer[(int)playerID].flag & EXISTS) != 0)				// Only run for existing racers
-			{
-				for (int LoopVal = 0; LoopVal < pAirArraySize; LoopVal++)
-				{
-				// Fill out each index of the arrays with data from course. Loop value as offset multiplicator//
-					pAirTrStart[0] = 0;
-					pAirTrEnd[0] = 17;
-
-					pAirTrStart[1] = 665;
-					pAirTrEnd[1] = 687;
-
-
-					if ((curAirPoint >= pAirTrStart[LoopVal]) && (curAirPoint <= pAirTrEnd[LoopVal]))			// Path range check
-					{
-						EnableAirControl(playerID);
-					}
-				}
-			}
-		}	
-	} 
-}
-
-
-void GetPathPoints()
-{
-	if (g_gamePausedFlag == 0x00)
-	{
-		CheckPaths();	
-	}
-}	

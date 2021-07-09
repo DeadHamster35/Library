@@ -133,6 +133,21 @@
 #define SPLASH_START 	0x0004
 #define SPLASH_DIVE  	0x0008
 
+//Bomb Types
+#define BOMBNULL		0
+#define BOMBROTATEL		1
+#define BOMBROTATER		2
+#define BOMBSTOP		3
+
+
+//Water Types
+#define ZWATER		0
+#define ZVOID		1
+#define ZLAVA		2
+#define ZICE		3
+
+
+
 
 typedef	float	RotateMtx[3][3];			/* 3x3 rotation matrix					*/
 typedef 	float	AffineMtx[4][4];			/* 4x4 affine transformation matrix		*/

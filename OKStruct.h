@@ -16,13 +16,13 @@ typedef struct OKHeader{
 	uint ObjectDataStart;
 	uint ObjectModelStart;	
 	uint ObjectDataEnd;
+	uint BombOffset;
 	uint EchoStart;
 	uint EchoEnd;
 	char Tempo1, Tempo2, Tempo3, Tempo4;	
 	uint MusicID;
 	int PathLength;
-	float WaterLevel;
-	int	WaterType;
+	short WaterType,WaterLevel;
 	uint ScrollOffset;
 	uint ScrollEnd;
 
@@ -91,6 +91,8 @@ typedef struct OKPathStruct{
 	uchar	ColorR,ColorG,ColorB;
 	uchar	AdjColorR,AdjColorG,AdjColorB;
 } OKPathStruct;
+
+
 
 #define PATH_ECHO 		0
 #define PATH_COLOR 		1

@@ -160,7 +160,15 @@ void ObjectBehaviorSearch(OKObject* InputObject)
 		case(SUBBEHAVIOR_DOCILE):
 		{			
 			InputObject->TargetDistance = 800;
-			for (int CurrentPlayer = 0; CurrentPlayer < 1; CurrentPlayer++)
+			if (g_gameMode == 00)
+			{
+				GlobalIntA = 8;			
+			}
+			else
+			{
+				GlobalIntA = g_playerCount;
+			}
+			for (int CurrentPlayer = 0; CurrentPlayer < GlobalIntA; CurrentPlayer++)
 			{
 				GlobalFloatD = ObjectSubBehaviorLookTarget(InputObject, GlobalPlayer[CurrentPlayer].position);					
 				if ((GlobalFloatD < 1) && (GlobalFloatD < InputObject->TargetDistance))
