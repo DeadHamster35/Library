@@ -94,6 +94,8 @@
 .definelabel KWSpriteTile32B, 0x8004C6FC
 .definelabel DrawLineHorizontal, 0x8004C024
 .definelabel DrawLineVertical, 0x8004C148
+.definelabel SprDrawClipST, 0x8004BA98
+.definelabel StockNumberSprites, 0x0D00C558
 
 .definelabel BumpObject, 0x802B4E30
 .definelabel SetMatrix, 0x802B4FF8

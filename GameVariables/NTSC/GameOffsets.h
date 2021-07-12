@@ -146,6 +146,8 @@ extern void KWSpriteTile32B(short cx,short cy,uchar *addr,uint sizex,uint sizey)
 extern void DrawLineHorizontal(short tx,short ty,short length,ushort r,ushort g,ushort b,ushort a);
 extern void DrawLineVertical(short tx,short ty,short length,ushort r,ushort g,ushort b,ushort a);
 extern void KWLoadTextureBlockI4b(uchar *texaddr,int cutx,int cuty);
+extern void SprDrawClipST(int sx,int sy,int sizex,int sizey,int ss,int tt,int mode);
+extern ushort StockNumberSprites[];
 
 
 

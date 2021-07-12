@@ -16,6 +16,7 @@ extern int GetRealAddress(long RSPAddress);
 extern void ResetObject();
 extern void DrawBox(int X, int Y, int SizeX, int SizeY, int R, int G, int B, int A);
 extern char* printHex(char *buf, int num, int nDigits);
+extern void printNumberSprite(int X, int Y, int Value);
 
 extern char ReturnStringLength(long stringAddress);
 extern char CharacterConvert[];

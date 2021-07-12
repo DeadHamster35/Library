@@ -182,6 +182,61 @@ char* printHex(char *buf, int num, int nDigits) {
     return bufEnd;
 }
 
+int numPlaces (int n) 
+{
+    if (n < 0) return 0;
+    if (n < 10) return 1;
+    if (n < 100) return 2;
+    if (n < 1000) return 3;
+    if (n < 10000) return 4;
+    if (n < 100000) return 5;
+    if (n < 1000000) return 6;
+    if (n < 10000000) return 7;
+    if (n < 100000000) return 8;
+    return 9;
+}
+
+void DrawNumberSprite(int x, int y, int number)
+{
+	SprDrawClipST(x,y,8,16,number*8,0,1);
+}
+
+//Prints a value with right-handed number sprites
+void printNumberSprite(int X, int Y, int Value)
+{
+	KWSprite(1000,1000,104,16,StockNumberSprites);
+
+	char negativeVal = 0;
+
+	if (Value < 0)
+	{
+		Value = Value*-1;
+		negativeVal = 1;
+	}
+
+	int digit[9] = {
+	((Value%10)),
+	((Value%100)/10),
+	((Value%1000)/100),
+	((Value%10000)/1000),
+	((Value%100000)/10000),
+	((Value%1000000)/100000),
+	((Value%10000000)/1000000),
+	((Value%100000000)/10000000),
+	((Value%1000000000)/100000000)
+	};
+
+	for (int index = 0; index < numPlaces(Value); index++)
+	{
+		DrawNumberSprite(X-9*index, Y, digit[index]);
+		if (negativeVal == 1)
+		{
+			DrawNumberSprite(X-9*(numPlaces(Value)), Y+4, 11);
+			DrawNumberSprite(X-9*(numPlaces(Value)), Y+4, 10);
+			negativeVal = 0;
+		}
+	}
+}
 
 char ReturnStringLength(long stringAddress)
 {
