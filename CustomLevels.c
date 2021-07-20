@@ -477,10 +477,10 @@ void setSky()
 
 void loadTextureScrollTranslucent()
 {
-	*(long*)(&ok_ScrollTranslucent) = 0xFFFFFFFF;
+	*(long*)(&ok_scrolltranslucent) = 0xFFFFFFFF;
 	if (HotSwapID > 0)
 	{
-		*targetAddress = (long)&ok_ScrollTranslucent;
+		*targetAddress = (long)&ok_scrolltranslucent;
 		*sourceAddress = *(long*)(&ok_CourseHeader + 0x19);
 		dataLength = *(long*)(&ok_CourseHeader + 0x1A) - *sourceAddress;
 		dataLength += 4;
@@ -491,8 +491,8 @@ void loadTextureScrollTranslucent()
 
 void runTextureScroll()
 {
-	GlobalAddressA = (long)(&ok_ScrollTranslucent);
-	LoopValue = (long)*(long*)(&ok_ScrollTranslucent);
+	GlobalAddressA = (long)(&ok_scrolltranslucent);
+	LoopValue = (long)*(long*)(&ok_scrolltranslucent);
 	if (LoopValue == 0xFFFFFFFF)
     {
         return;
@@ -530,12 +530,12 @@ void runTextureScroll()
 
 void runWaterVertex()
 {
-	LoopValue = *(long*)(&ok_ScrollTranslucent);
+	LoopValue = *(long*)(&ok_scrolltranslucent);
     if (LoopValue == 0xFFFFFFFF)
     {
         return;
     }
-	GlobalAddressA = (long)(&ok_ScrollTranslucent) + (LoopValue * 8) + 4;
+	GlobalAddressA = (long)(&ok_scrolltranslucent) + (LoopValue * 8) + 4;
 	LoopValue = *(long*)GlobalAddressA;
     if (LoopValue == 0xFFFFFFFF)
     {
@@ -551,12 +551,12 @@ void runWaterVertex()
 
 void runDisplayScreen()
 {
-	LoopValue = *(long*)(&ok_ScrollTranslucent);
+	LoopValue = *(long*)(&ok_scrolltranslucent);
     if (LoopValue == 0xFFFFFFFF)
     {
         return;
     }
-	GlobalAddressA = (long)(&ok_ScrollTranslucent) + (LoopValue * 8) + 4;
+	GlobalAddressA = (long)(&ok_scrolltranslucent) + (LoopValue * 8) + 4;
 	LoopValue = *(long*)GlobalAddressA;
     if (LoopValue == 0xFFFFFFFF)
     {

@@ -3,6 +3,8 @@
 #include <stdbool.h>
 #include "GameVariables/NTSC/GameOffsets.h"
 #include "GameVariables/NTSC/StatsOffsets.h"
+#include "../library/OKHeader.h"
+#include "../library/OKExternal.h"
 #include "LibraryVariables.h"
 #include "SubProgram.h"
 
@@ -238,7 +240,7 @@ void printNumberSprite(int X, int Y, int Value)
 	}
 }
 
-char ReturnStringLength(long stringAddress)
+char ReturnStringLength(char *stringAddress)
 {
 	GlobalCharE = 0;
 	GlobalCharA = *(char*)stringAddress;
@@ -253,6 +255,131 @@ char ReturnStringLength(long stringAddress)
 	}
 	return(GlobalCharE);
 }
+
+
+void loadNiceFont()
+{
+	*sourceAddress = (int)(&NiceFontROM);
+	*targetAddress = (int)(&ok_FreeSpace);
+	dataLength = 0x4400;
+	runDMA();
+	*sourceAddress = (int)(&ok_FreeSpace);
+	*targetAddress = (int)(&nicefont);
+	runMIO();
+}
+
+
+
+void PrintNiceText(int posx, int posy, float scale, char *text)
+{
+	char *FontString = text;
+
+
+	for (int i = 0; i < ReturnStringLength(text); i++)
+	{
+		if (text[i] < 33)
+		{
+			continue;
+		}
+
+		if (text[i] > 127)
+		{
+			continue;
+		}
+		if (text[i] >= 97 && text[i] <= 122)
+		{
+			if (scale == 1 || scale == 0)
+			{
+				KWSprite(posx+i*7,posy,8,16,(nicefont+0x80*(FontString[i]-64)-0x80));
+			}
+			else
+			{
+				KWSprite(0,0,0,0,nicefont);
+				KWSpriteScale(posx+i*8*scale,posy,scale,(nicefont+0x80*(FontString[i]-64)-0x80),8,16);
+			}
+			continue;
+		}
+		if (text[i] >= 123 && text[i] <= 127)
+		{
+			if (scale == 1 || scale == 0)
+			{
+				KWSprite(posx+i*7,posy,8,16,(nicefont+0x80*(FontString[i]-58)-0x80));
+			}
+			else
+			{
+				KWSprite(0,0,0,0,nicefont);
+				KWSpriteScale(posx+i*8*scale,posy,scale,(nicefont+0x80*(FontString[i]-58)-0x80),8,16);
+			}
+			continue;
+		}			
+		else
+		{
+			if (scale == 1 || scale == 0)
+			{
+				KWSprite(posx+i*7,posy,8,16,(nicefont+0x80*(FontString[i]-32)-0x80));
+			}
+			else
+			{
+				KWSprite(0,0,0,0,nicefont);
+				KWSpriteScale(posx+i*8*scale,posy,scale,(nicefont+0x80*(FontString[i]-32)-0x80),8,16);
+			}
+		}
+	}
+}
+
+
+
+void PrintNiceTextNumber(int posx, int posy, float scale, char *text, int value)
+{
+	PrintNiceText(posx, posy, scale, text);
+
+	char negativeVal = 0;
+
+	if (value < 0)
+	{
+		value = value*-1;
+		negativeVal = 1;
+	}
+
+	int digit[9] = {
+	((value%10)),
+	((value%100)/10),
+	((value%1000)/100),
+	((value%10000)/1000),
+	((value%100000)/10000),
+	((value%1000000)/100000),
+	((value%10000000)/1000000),
+	((value%100000000)/10000000),
+	((value%1000000000)/100000000)
+	};
+
+
+
+
+	char valstring[50];
+	for (int a = 0; a < 50; a++)
+	{
+		valstring[a] = 32;
+	}
+	
+	for (int i = 0; i < numPlaces(value); i++)
+	{
+		if (i > 9)
+		{
+			continue;
+		}
+		valstring[i] = (digit[numPlaces(value)-1-i] + 48);
+	}
+
+	PrintNiceText((scale*14)+posx+(ReturnStringLength(text))*7*scale, posy, scale, valstring);		
+
+	if (negativeVal == 1)
+	{
+		PrintNiceText((scale*7)+posx+(ReturnStringLength(text))*7*scale, posy, scale, "-");
+		negativeVal = 0;
+	}
+}
+
 					    	//x,0,1,2,3,4,5,6,7
 char CharacterConvert[9] = 	{-1,0,1,6,3,2,4,5,7};
 char CharacterUnconvert[9] = 	{-1,0,1,4,3,5,6,2,7};

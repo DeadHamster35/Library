@@ -195,12 +195,12 @@ char StatsID;
 
 //SharedFunctions
 long dataLength = 0; //
-long *targetAddress = &ok_Target;
-long *sourceAddress = &ok_Source;
-long *tempPointer = &ok_Pointer;
+int *targetAddress = &ok_Target;
+int *sourceAddress = &ok_Source;
+int *tempPointer = &ok_Pointer;
 long *graphPointer = &GraphPtrOffset;
-long *freeSpacePoint = &ok_FreeSpace;
-long *tkmPoint = &ok_TKMSpace;
+int *freeSpacePoint = &ok_FreeSpace;
+int *tkmPoint = &ok_TKMSpace;
 int RSPNumber;
 int RSPOffset;
 char *hex = "0123456789ABCDEF";

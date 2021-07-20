@@ -18,6 +18,9 @@ extern void DrawBox(int X, int Y, int SizeX, int SizeY, int R, int G, int B, int
 extern char* printHex(char *buf, int num, int nDigits);
 extern void printNumberSprite(int X, int Y, int Value);
 
-extern char ReturnStringLength(long stringAddress);
+extern char ReturnStringLength(char *stringAddress);
+extern void loadNiceFont();
+extern void PrintNiceText(int posx, int posy, float scale, char *text);
+extern void PrintNiceTextNumber(int posx, int posy, float scale, char *text, int value);
 extern char CharacterConvert[];
 extern char CharacterUnconvert[];

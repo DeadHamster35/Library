@@ -102,12 +102,12 @@ extern char StatsID;
 
 //SharedFunctions
 extern long dataLength; //
-extern long *targetAddress;
-extern long *sourceAddress;
-extern long *tempPointer;
+extern int *targetAddress;
+extern int *sourceAddress;
+extern int *tempPointer;
 extern long *graphPointer;
-extern long *freeSpacePoint;
-extern long *tkmPoint;
+extern int *freeSpacePoint;
+extern int *tkmPoint;
 extern int RSPNumber;
 extern int RSPOffset;
 extern char *hex;

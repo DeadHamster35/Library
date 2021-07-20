@@ -19,7 +19,7 @@ extern short spriteKillD;
 
 extern void decodeMIO0(long input, long output);
 extern void DMA(int output, int input, long Length);
-extern void decodeTKMK(int input, long *temp, int output, int transparent);
+extern void decodeTKMK(int input, int *temp, int output, int transparent);
 
 extern void GetFramebuffer(int PixelX,int PixelY,int Width,int Height,unsigned short *Source,unsigned short *Destination);
 extern unsigned short CheckBump2(Bump *bump,float Radius,float PositionX,float PositionY,float PositionZ,float LastX, float LastY,float LastZ);

@@ -23,5 +23,5 @@
 .definelabel ok_ModelData, ok_scrolltranslucent + 0x4000; // overwrites logo after. 
 
 .definelabel ok_TKMSpace, ok_ModelData + ok_ModelDataRawSize;
-.definelabel ok_FreeSpace, ok_TKMSpace + 0x2000
-.definelabel ok_USAudio, ok_FreeSpace + 0x10000
+.definelabel ok_USAudio, ok_TKMSpace + 0x2000
+//.definelabel ok_USAudio, ok_FreeSpace + 0x10000
