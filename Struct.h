@@ -133,7 +133,8 @@
 #define SPLASH_START 	0x0004
 #define SPLASH_DIVE  	0x0008
 
-
+typedef float	Vector[3];			/* 	3 floats	*/
+typedef short	SVector[3];			/* 	3 shorts	*/
 typedef	float	RotateMtx[3][3];			/* 3x3 rotation matrix					*/
 typedef 	float	AffineMtx[4][4];			/* 4x4 affine transformation matrix		*/
 typedef 	float	Matrix[3][3];			/* 4x4 affine transformation matrix		*/

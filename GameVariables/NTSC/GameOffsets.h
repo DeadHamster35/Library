@@ -25,13 +25,12 @@ extern void GetFramebuffer(int PixelX,int PixelY,int Width,int Height,unsigned s
 extern unsigned short CheckBump2(Bump *bump,float Radius,float PositionX,float PositionY,float PositionZ,float LastX, float LastY,float LastZ);
 
 extern void loadCourse(int courseID);
-extern void BumpVelocity(float Bump[3],float Distance ,float Velocity[3],float co);
+extern void BumpVelocity(Vector Bump,float Distance ,Vector Velocity,float co);
 extern void CalcBumpVelocity(Bump InputBump, float Velocity);
 extern void ScrollMapImage(int ObjectAddress,int ScrollS,int ScrollT);
 extern void MakeWaterVertex(int ObjectAddress, char alpha, char red, char green, char blue);
 extern void ramCopy(long output, long input, long Length);
 extern short CheckArea(ushort pointer);
-extern float CheckDisplayRange(float basepos[], float markpos[], ushort camera_direction, float radius, float angle2, float limmit_distance);
 
 extern void InitControllers();
 extern void readControllers();
@@ -50,20 +49,85 @@ extern void SmokeDisp3P(void* Car, char kno, char place); //0x8006E6BC
 extern void SmokeDisp4P(void* Car, char kno, char place); //0x8006E744
 
 extern float CheckHight(float X_value, float Y_value, float Z_value);
-extern float CalcDistance(float originpos[], float targetpos[]);
 extern int KWCheckRadiusXZ(float x1,float y1,float x2,float y2,float radius);
 
 extern short deleteObjectBuffer(void *Object);
-extern short addObjectBuffer(float position[], short angle[], float velocity[], short objectID);
+extern short addObjectBuffer(Vector position, SVector angle, Vector velocity, short objectID);
 
 
 //float radius,float hight,float param
-extern int CollisionCylinder(void *Car, float Position[], float Radius, float Height, float Parameter); //0x8029EEB8
+extern int CollisionCylinder(void *Car, Vector Position, float Radius, float Height, float Parameter); //0x8029EEB8
 extern int CollisionSphere(void *Car, void *Object); //0x8029FB80
 
 
 extern void RouletteStart(int Player, int SpecialItem); //0x8007ABFC
 
+//math
+extern int CalcDisplayPosition(Screen *screen,Vector origin,float x,float y);
+extern void BrkProgram();
+extern int SetMatrix(AffineMtx Matrix, int Mode);
+extern float CalcDistance(Vector origin,Vector object);
+extern ushort CalcDirection(Vector origin,Vector object);
+extern ushort CalcDirectionS(Vector origin,SVector object);
+extern void SetFVector(Vector vct,float a,float b,float c);
+extern void SetSVector(SVector vct,short a,short b,short c);
+extern Vector *CopyVector(Vector destination, Vector source);
+extern void CopySVector(SVector destination, SVector source);
+extern Vector *SetVector(Vector vector, float vecx, float vecy, float vecz);
+extern void CopyAffine(AffineMtx source,AffineMtx object);
+extern void CopyLongArray(long *destination, long *source, int count);
+extern void LoadIdentAffineMtx(AffineMtx Matrix);
+extern void TranslateMatrix(AffineMtx Matrix,AffineMtx Matrix2,Vector vect);
+extern void TranslateMatrix2(AffineMtx Matrix,AffineMtx Matrix2,Vector vect);
+extern void CreateTransAffineMtx(AffineMtx Matrix,Vector position);
+extern void MakeGuPerspective(AffineMtx Matrix, ushort *perspNorm, float fovy, float aspect, float near, float far, float scale);
+extern void MakeGuLookAt(AffineMtx Matrix, Vector eye, Vector look);
+extern void CreateMtxRotateX(AffineMtx Matrix, short angle);
+extern void CreateMtxRotateY(AffineMtx Matrix, short angle);
+extern void CreateMtxRotateZ(AffineMtx Matrix, short angle);
+extern void RotateVector(Vector vector,SVector angle);
+extern void InitialLight(short yaw,short pitch,Vector light);
+extern void MakeMapLight(short yaw,short pitch,int count);
+extern void MakeLight(uint lpointer,short yaw,short pitch,int count);
+extern void ScalingMatrix(AffineMtx Matrix, float scale);
+extern void CreateModelingMatrix(AffineMtx Matrix, Vector Position, SVector Angle);
+extern void CreateCameraAffineMtx(AffineMtx Matrix, SVector Position, SVector Angle);
+extern void CreateCameraAffineMtx2(AffineMtx Matrix, SVector Position, SVector Angle);
+extern void NomralizeVector(Vector vector);
+extern void MultipleMatrixByVector(Vector vector, Matrix matrix);
+extern void MultipleAffineMtxByVector(Vector vector, AffineMtx Matrix);
+extern void MakeTopMatrix(Matrix mf,float a, float x, float y, float z);
+extern void MakeAlignVector(Vector Vector,short OriginAngle);
+extern void MakeAlignMatrix(Matrix mf, float x, float y, float z ,short roty);
+extern void MakeTopAlign(Matrix mf, float x, float y, float z);
+extern void MakeRotate(Matrix mf, short theta, float x, float y, float z);
+extern void MakeAlign(Matrix mf, short theta, float x, float y, float z);
+extern void CreateModelAffineMtx(AffineMtx matrix, Vector position, Vector angle);
+extern void MultiAffineMtx(AffineMtx mtx, AffineMtx ma, AffineMtx mb);
+extern void AffineToMtx(void *matrix, AffineMtx affine); 
+extern ushort GetATanTable(float a, float b);
+extern ushort ATan2T(float y, float x);
+extern float ATan2F(float x, float y);
+extern float ATan2Fx(float x, float y);
+extern ushort ATan2Tx(float x, float y);
+extern float ATanF(float x);
+extern short ATanT(float x);
+extern float ASinF(float x);
+extern short ASinT(float x);
+extern float ACosF(float x);
+extern short ACosT(float x);
+extern ushort MakeRandom(void);
+extern ushort MakeRandomLimmit(ushort limit);
+extern short MakeDirection(float x1,float y1,float x2,float y2);
+extern void MakeDirection3D(Vector camera,Vector lookat,SVector ans);
+extern float sinT(ushort inputAngle);
+extern float cosT(ushort inputAngle);
+extern float sinF(float inputAngle);
+extern float cosF(float inputAngle);
+extern int CheckCone(ushort left,ushort right,ushort direction);
+extern float CheckDisplayRange(Vector basepos, Vector markpos, ushort camera_direction, float radius, float angle2, float limmit_distance);
+extern void RotateLightMatrix(uint lpointer,AffineMtx m,short yaw,short pitch,int count);
+extern void SetUpVector(void *Car);
 
 extern void *SegmentToVirtual(uint *RSPAddress);
 
@@ -90,21 +154,24 @@ extern void *g_CfbPtrs[3];
 extern long OoBCheck(ushort pointer);
 
 
-extern long SetStar(void *CarPointer, int PlayerIndex);
-extern void ResetStar (void *CarPointer, char PlayerIndex);
-extern long SetTurbo(void *CarPointer, int PlayerIndex);
-extern long SetWing(void *CarPointer, int PlayerIndex);
-extern long SetStorm(void *CarPointer, int PlayerIndex);
-extern long SetThunder(void *CarPointer, int PlayerIndex);
+extern long SetStar(void *Car, int PlayerIndex);
+extern void ResetStar (void *Car, char PlayerIndex);
+extern long SetTurbo(void *Car, int PlayerIndex);
+extern long SetWing(void *Car, int PlayerIndex);
+extern long SetStorm(void *Car, int PlayerIndex);
+extern long SetThunder(void *Car, int PlayerIndex);
+extern void ThunderWorld();
 extern void VSGhost(void *Car,char PlayerID);
 extern void SetVSGhost(void *Car,char PlayerID);
 extern void ResetVSGhost(void *Car,char PlayerID);
+
 extern void SetFastOoB(void *Car,char PlayerID);
 extern void CallLakitu(void *Car);
 extern void SetLakitu(void *Car);
 extern void LakituCheck(void *Car,char PlayerID);
 extern void HangLakitu(void *Car,char PlayerID);
 extern long LakituIceBehavior;
+
 
 extern float CheckWaterLevel(void *Car);
 extern void CheckSplash(void *Car,int PlayerIndex);
@@ -150,24 +217,7 @@ extern void SprDrawClipST(int sx,int sy,int sizex,int sizey,int ss,int tt,int mo
 extern ushort StockNumberSprites[];
 
 
-
 extern void BumpObject(Object* InputObject);
-extern int SetMatrix(float Matrix[][4], int Mode);
-extern unsigned short CalcDirection(float Compare[3], float Source[3]);
-extern unsigned short CalcDirectionS(float Compare[3], short Source[3]);
-extern void RotateVector(float Vector[3],short Angle[3]);
-extern void CreateModelingMatrix(float Matrix[][4], float Position[], short Angle[]);
-extern void ScalingMatrix(float Matrix[][4], float scale);
-extern void MakeAlignMatrix(Matrix InputMatrix,  float x, float y, float z ,short roty);
-extern void MakeAlignVector(float Vector[3],short OriginAngle);
-extern unsigned short MakeRandomLimmit(unsigned short Limit);
-extern ushort Atan2T(float,float);
-
-extern float sinT(short inputAngle);
-extern float cosT(short inputAngle);
-extern float sinF(float inputAngle);
-extern float cosF(float inputAngle);
-
 extern void SetSegment(int number, int cpuAddr);
 
 extern void initializePlayer(int playerStructure, int characterID, float deltaX, float deltaZ, int characterID2, int unknown0xB000);
@@ -205,7 +255,7 @@ extern short g_courseID;
 extern short g_loadedcourseFlag;
 extern long g_gameMode; //0 = gp 1 = time trials 2 = vs 3 =battle
 extern unsigned short g_DispFrame;
-extern long g_mirrorMode;
+extern short g_mirrorMode;
 extern short g_DebugBars;
 
 extern uint PathTable[20][4];
@@ -409,8 +459,6 @@ extern float g_lap3Time;
 
 extern long g_SimpleObjectArray; //0x8015F9B8
 
-extern float g_waterHeight;
-
 extern short g_progressValue;
 
 extern long g_CourseObstacle; //0x8016359C
@@ -599,18 +647,6 @@ extern char g_gamePausedFlag;
 extern void MakeBodyColor(void* Car, char Player, int Color, float Speed);
 extern void MakeBodyColorAdjust(void* Car, char Player, int Color, float Speed);
 
-extern short g_playerPathPointTable[8]; // 80164438
-extern short g_PathPointPlayer1; // 80164438
-extern short g_PathPointPlayer2;
-extern short g_PathPointPlayer3;
-extern short g_PathPointPlayer4;
-extern short g_PathPointPlayer5;
-extern short g_PathPointPlayer6;
-extern short g_PathPointPlayer7;
-extern short g_PathPointPlayer8;
-extern long g_playerPathPointTotalTable[8]; // 80164450
-extern short g_playerPathPointCopy[8]; // 80165320
-
 extern void RunKart(void* Car, void* Camera, int place, int playerID); // 8002D268
 extern void RunKartSimple(void* Car, void* Camera, int place, int playerID); // 8002F35C
 extern char g_playerEcho; // 0x800E9F90
@@ -706,6 +742,22 @@ extern float g_3DSnowVelocityLowLim;
 extern void KWChartSnow();
 extern void KWChartIceBlock();
 
+//racer values
+extern float g_timeLapChange[8];
+extern short g_playerPathPointTable[8]; // 80164438
+extern short g_PathPointPlayer1; // 80164438
+extern short g_PathPointPlayer2;
+extern short g_PathPointPlayer3;
+extern short g_PathPointPlayer4;
+extern short g_PathPointPlayer5;
+extern short g_PathPointPlayer6;
+extern short g_PathPointPlayer7;
+extern short g_PathPointPlayer8;
+extern long g_playerPathPointTotalTable[8]; // 80164450
+extern short g_playerPathPointCopy[8]; // 80165320
+extern short g_rivalOvertakeAllowFlag[10];
+extern short g_rankUpdateFinishFlag;
+
 //fog
 extern char g_fogToggleBanshee; // 0x800DC5BD
 extern char g_fogR;
@@ -747,6 +799,32 @@ extern char g_ShadowflagPlayer1; //0x800F795F
 extern char g_ShadowflagPlayer2;
 extern char g_ShadowflagPlayer3;
 
+//multiplayer points
+extern uchar g_2PRacePoints[2];
+extern uchar g_3PRacePoints[3];
+extern uchar g_4PRacePoints[4];
+extern uchar g_2PBattlePoints[2];
+extern uchar g_3PBattlePoints[3];
+extern uchar g_4PBattlePoints[4];
+
+//course
+extern float g_mirrorValue;
+extern Vector g_goalBannerPos;
+extern short g_mooSoundCounter;
+extern short g_mooSoundPointer;
+extern float g_mooSoundLastDistance;
+extern Vector g_mooSoundPosition; 
+extern Vector g_crowdSoundPos1;
+extern Vector g_crowdSoundPos2;
+extern Vector g_crowdSoundPos3;
+extern Vector g_crowdSoundPos4;
+extern Vector g_waterfallSoundPos;
+extern float g_waterHeight;
+extern float g_waterVelocity;
+extern short g_monitorCounter;
+extern short g_simpleObjectCount;
+extern short g_simpleObjectScreenCount;
+
 //player color timers
 extern struct Playercolor g_colorPlayer0R;
 extern struct Playercolor g_colorPlayer1R;
@@ -762,14 +840,14 @@ extern void playSound(int soundID);
 extern void NAMusicVolume(unsigned char volume); //0-Mute 75-Half 127 Full
 extern void NAPlyTrgStart(char playerID, int soundID);
 extern void NAPlyVoiceStart(char playerID, int soundID);
-extern void NAEnmTrgStart(float ObjectPosition[], float ObjectVelocity[], int soundID);
-extern void NAEnmTrgStop(float ObjectPosition[], int soundID);
+extern void NAEnmTrgStart(Vector ObjectPosition, Vector ObjectVelocity, int soundID);
+extern void NAEnmTrgStop(Vector ObjectPosition, int soundID);
 extern void playMusic(int musicID);
 extern void playMusic2(int musicID);
 extern void NaPlyLevelStart(char playerID, int soundID); 
 extern void NaPlyLevelStop(char playerID, int soundID); 
-extern void NaSceneLevelStart(float ObjectPosition[], float ObjectVelocity[], int soundID);
-extern void NaSceneLevelStop(float ObjectPosition[], int soundID);
+extern void NaSceneLevelStart(Vector ObjectPosition, Vector ObjectVelocity, int soundID);
+extern void NaSceneLevelStop(Vector ObjectPosition, int soundID);
 
 extern short g_musicUserVolumeFlag; // 0x800DC5A8 //char 00=full; // 01=half; // 02=off  04=disable L button
 extern short g_musicIDRaceways; // 0x8028ECE6 
@@ -785,8 +863,9 @@ extern short g_musicIDRainbow; // 0x8028ED76
 extern short g_musicIDDK; // 0x8028ED86
 extern short g_musicIDBattle2; // 0x8028ED96
 extern ushort g_musicTempo;
+
 //Cave Fire Particle Stuff
-extern short CaveFirePos[8][3];
+extern SVector CaveFirePos[8];
 extern void KWGetCaveFire(int objnum);
 extern int CaveFireColCheck;
 extern void KWSet2Color(uint prim_r,uint prim_g,uint prim_b,uint env_r,uint env_g,uint env_b,uint a);

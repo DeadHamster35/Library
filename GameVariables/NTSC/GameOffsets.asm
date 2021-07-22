@@ -25,7 +25,6 @@
 .definelabel MakeWaterVertex, 0x802AF8BC
 .definelabel ramCopy, 0x800D7FE0
 .definelabel CheckArea, 0x802ABD40
-.definelabel CheckDisplayRange, 0x802B80D0
 
 .definelabel readControllers, 0x80000A28
 .definelabel InitControllers, 0x800008A4
@@ -44,7 +43,6 @@
 .definelabel SmokeDisp4P, 0x8006E744
 
 .definelabel CheckHight, 0x802AE1C0
-.definelabel CalcDistance, 0x802B51E8
 .definelabel KWCheckRadiusXZ, 0x80041608
 
 .definelabel deleteObjectBuffer, 0x8029E854
@@ -55,10 +53,73 @@
 
 .definelabel RouletteStart, 0x8007ABFC
 
-.definelabel sinT, 0x802B8018
-.definelabel cosT, 0x802B8038
-.definelabel sinF, 0x800D60F0
-.definelabel cosF, 0x800D62B0
+//math
+.definelabel CalcDisplayPosition, 0x802B4F60
+.definelabel BrkProgram, 0x802B4FEC
+.definelabel SetMatrix, 0x802B4FF8
+.definelabel CalcDistance, 0x802B51E8
+.definelabel CalcDirection, 0x802B5224
+.definelabel CalcDirectionS, 0x802B5258
+.definelabel SetFVector, 0x802B529C
+.definelabel SetSVector, 0x802B52BC
+.definelabel CopyVector, 0x802B52D8
+.definelabel CopySVector, 0x802B5304
+.definelabel SetVector, 0x802B531C
+.definelabel CopyAffine, 0x802B5350
+.definelabel CopyLongArray, 0x802B5398
+.definelabel LoadIdentAffineMtx, 0x802B53C8
+.definelabel TranslateMatrix, 0x802B5450
+.definelabel TranslateMatrix2, 0x802B54EC
+.definelabel CreateTransAffineMtx, 0x802B5520
+.definelabel MakeGuPerspective, 0x802B5564
+.definelabel MakeGuLookAt, 0x802B5794
+.definelabel CreateMtxRotateX, 0x802B59DC
+.definelabel CreateMtxRotateY, 0x802B5A44
+.definelabel CreateMtxRotateZ, 0x802B5AAC
+.definelabel RotateVector, 0x802B5B14
+.definelabel InitialLight, 0x802B5CAC
+.definelabel MakeMapLight, 0x802B5D30
+.definelabel MakeLight, 0x802B5D64
+.definelabel ScalingMatrix, 0x802B5F00
+.definelabel CreateModelingMatrix, 0x802B5F74
+.definelabel CreateCameraAffineMtx, 0x802B60B4
+.definelabel CreateModelAffineMtx2, 0x802B6214
+.definelabel NomralizeVector, 0x802B6374
+.definelabel MultipleMatrixByVector, 0x802B63B8
+.definelabel MultipleAffineMtxByVector, 0x802B6434
+.definelabel MakeTopMatrix, 0x802B64B0
+.definelabel MakeAlignVector, 0x802B64C4
+.definelabel MakeAlignMatrix, 0x802B6540
+.definelabel MakeTopAlign, 0x802B68F8
+.definelabel MakeRotate, 0x802B6A84
+.definelabel MakeAlign, 0x802B6BC0
+.definelabel CreateModelAffineMtx, 0x802B6D58
+.definelabel MultiAffineMtx, 0x802B71CC
+.definelabel AffineToMtx, 0x802B75F8
+.definelabel GetATanTable, 0x802B7790
+.definelabel ATan2T, 0x802B7830
+.definelabel ATan2F, 0x802B79B8
+.definelabel ATan2Fx, 0x802B79F0
+.definelabel ATan2Tx, 0x802B7B50
+.definelabel ATanF, 0x802B7C18
+.definelabel ATanT, 0x802B7C40
+.definelabel ASinF, 0x802B7C6C
+.definelabel ASinT, 0x802B7CA8
+.definelabel ACosF, 0x802B7CE8
+.definelabel ACosT, 0x802B7D28
+.definelabel MakeRandom, 0x802B7D94
+.definelabel MakeRandomLimmit, 0x802B7E34
+.definelabel MakeDirection, 0x802B7F34
+.definelabel MakeDirection3D, 0x802B7F7C
+.definelabel SinT, 0x802B8018
+.definelabel CosT, 0x802B8038
+.definelabel SinF, 0x800D60F0
+.definelabel CosF, 0x800D62B0
+.definelabel CheckCone, 0x802B8058
+.definelabel CheckDisplayRange, 0x802B80D0
+.definelabel RotateLightMatrix, 0x802B8414
+.definelabel SetUpVector, 0x802B8614
+
 
 .definelabel SegmentToVirtual, 0x802A7BD4
 
@@ -99,16 +160,6 @@
 .definelabel StockNumberSprites, 0x0D00C558
 
 .definelabel BumpObject, 0x802B4E30
-.definelabel SetMatrix, 0x802B4FF8
-.definelabel CalcDirection, 0x802B5224
-.definelabel CalcDirectionS, 0x802B5258
-.definelabel RotateVector, 0x802B5B14
-.definelabel CreateModelingMatrix, 0x802B5F74
-.definelabel ScalingMatrix, 0x802B5F00
-.definelabel MakeAlignMatrix, 0x802B6540
-.definelabel MakeAlignVector, 0x802B64C4
-.definelabel MakeRandomLimmit, 0x802B7E34
-.definelabel Atan2T, 0x802B7830
 
 .definelabel SetSegment, 0x802A7B94
 
@@ -120,6 +171,7 @@
 .definelabel SetWing, 0x8008D570
 .definelabel SetStorm, 0x8008D7B0
 .definelabel SetThunder, 0x8008DF98
+.definelabel ThunderWorld, 0x8009E5BC
 .definelabel VSGhost , 0x8008F8E4
 .definelabel SetVSGhost, 0x8008FA38
 .definelabel ResetVSGhost, 0x8008FB30
@@ -420,8 +472,6 @@
 .definelabel g_lap2Time, 0x8015F89C
 .definelabel g_lap3Time, 0x8015F8A0
 
-.definelabel g_waterHeight, 0x8015F8E4
-
 .definelabel g_SimpleObjectArray, 0x8015F9B8
 
 .definelabel g_progressValue, 0x8016328A
@@ -603,17 +653,6 @@
 .definelabel MakeBodyColor, 0x80022F14
 .definelabel MakeBodyColorAdjust, 0x80023038
 
-.definelabel g_playerPathPointTable, 0x80164438
-.definelabel g_PathPointPlayer1, 0x80164438
-.definelabel g_PathPointPlayer2, 0x8016443A
-.definelabel g_PathPointPlayer3, 0x8016443C
-.definelabel g_PathPointPlayer4, 0x8016443E
-.definelabel g_PathPointPlayer5, 0x80164440
-.definelabel g_PathPointPlayer6, 0x80164442
-.definelabel g_PathPointPlayer7, 0x80164444
-.definelabel g_PathPointPlayer8, 0x80164446
-.definelabel g_playerPathPointTotalTable, 0x80164450
-.definelabel g_playerPathPointCopy, 0x80165320
 
 .definelabel RunKart, 0x8002D268
 .definelabel RunKartSimple, 0x8002F35C
@@ -720,6 +759,22 @@
 .definelabel KWChartSnow, 0x80078838
 .definelabel KWChartIceBlock, 0x80079D44
 
+//racer values
+.definelabel g_timeLapChange, 0x8015F898
+.definelabel g_playerPathPointTable, 0x80164438
+.definelabel g_PathPointPlayer1, 0x80164438
+.definelabel g_PathPointPlayer2, 0x8016443A
+.definelabel g_PathPointPlayer3, 0x8016443C
+.definelabel g_PathPointPlayer4, 0x8016443E
+.definelabel g_PathPointPlayer5, 0x80164440
+.definelabel g_PathPointPlayer6, 0x80164442
+.definelabel g_PathPointPlayer7, 0x80164444
+.definelabel g_PathPointPlayer8, 0x80164446
+.definelabel g_playerPathPointTotalTable, 0x80164450
+.definelabel g_playerPathPointCopy, 0x80165320
+.definelabel g_rivalOvertakeAllowFlag, 0x801634C0
+.definelabel g_rankUpdateFinishFlag, 0x8016348C
+
 //fog
 .definelabel g_fogToggleBanshee, 0x800DC5BD
 .definelabel g_fogR, 0x801625EF
@@ -772,6 +827,32 @@
 .definelabel g_colorPlayer5R, 0x80164B1A //red with kart
 .definelabel g_colorPlayer6R, 0x80164B1C //red with kart
 .definelabel g_colorPlayer7R, 0x80164B1E //red with kart
+
+//multiplayer points
+.definelabel g_2PRacePoints, 0x8000031C
+.definelabel g_3PRacePoints, 0x8000031E
+.definelabel g_4PRacePoints, 0x80000321
+.definelabel g_2PBattlePoints, 0x80000333
+.definelabel g_3PBattlePoints, 0x80000335
+.definelabel g_4PBattlePoints, 0x80000338
+
+//course
+.definelabel g_mirrorValue, 0x8015F784
+.definelabel g_goalBannerPos, 0x8015F8D0
+.definelabel g_mooSoundCounter, 0x8015F700
+.definelabel g_mooSoundPointer, 0x8015F702
+.definelabel g_mooSoundLastDistance, 0x8015F704
+.definelabel g_mooSoundPosition, 0x8015F708
+.definelabel g_crowdSoundPos1, 0x8015F748
+.definelabel g_crowdSoundPos2, 0x8015F758
+.definelabel g_crowdSoundPos3, 0x8015F768
+.definelabel g_crowdSoundPos4, 0x8015F778
+.definelabel g_waterfallSoundPos, 0x8015F738
+.definelabel g_waterHeight, 0x8015F8E4
+.definelabel g_waterVelocity, 0x8015F8E8
+.definelabel g_monitorCounter, 0x802B87D8
+.definelabel g_simpleObjectCount, 0x80150110
+.definelabel g_simpleObjectScreenCount, 0x80150112
 
 //sound and music
 .definelabel playSound, 0x800C8E10
