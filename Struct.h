@@ -310,7 +310,7 @@ typedef struct Object{
 	short	counter;
 	short	sparam;
 
-	float   	fparam;
+	float   fparam;
 	float  	radius;
 
 	short	angle[3];
@@ -318,7 +318,7 @@ typedef struct Object{
 	float 	position[3];
 	float	velocity[3];
 
-	Bump    	bump;
+	Bump    bump;
 
 } Object;
 
@@ -346,8 +346,8 @@ typedef struct Camera {
 	float 			camera_pos[3];
 	float 			lookat_pos[3];
 	float 			up_vector[3];
-	short 			camera_direction[3];
-	unsigned short   	flag;
+	ushort 			camera_direction[3];
+	ushort   		flag;
 	short   			chase_direction;
 	float 			camera_vector[3];
 	float 			lookat_vector[3];
@@ -780,5 +780,124 @@ typedef struct FaceStruct{
 		float solc;
 		float sold;
 } FaceStruct;
+
+typedef struct CenterPathStruct{
+		short pointx;
+		short pointy;
+		short pointz;
+		short unknown;
+} CenterPathStruct;
+
+#define CHANNEL_MUTE		0x10000000
+#define CHANNEL_PAUSE		0x20000000
+#define CHANNEL_IDLE		0x40000000
+#define CHANNEL_PLAYING		0x80000000
+
+typedef struct SeqChannelStruct{
+		int Playflag; 
+		char unknown1; 
+		char Priority; 
+		short unknown3;
+		char unknown4; 
+		char PanNote; 
+		char Pan;
+		char unknown6;
+		int unknown7;
+		int unknown8;
+		int unknown9;
+		int Loopcount;
+		short Instrument;
+		short unknown11;
+		float Volume;
+		float VolumeMultiplicator;
+		short unknown12;
+		short Looppan;
+		float VolumeTarget;
+		float Pitch;
+		int *unknown13;
+		int *Audiotask1note;
+		int *Audiotask2note;
+		int *unknown14;
+		int *Sequencepointer;
+		int *Audiotask1loop;
+		int *Audiotask2loop;
+		int *unknown15;
+		int unknown16;
+		int unknown17;
+		int unknown18;
+		int *Currenttracknote;
+		int unknown19;
+		int unknown20;
+		int unknown21;
+		int unknown22;
+		int unknown23;
+		int unknown24;
+		uchar Echo;
+		uchar Release;
+		short unknown25;
+		int *unknown26;
+		int *unknownselfpointer1;
+		int *unknownselfpointer2;
+		int unknown27;
+		int *unknownselfpointer3;
+		int *unknownselfpointer4;
+		int *unknownselfpointer5;
+		int unknown28;
+		int *unknownselfpointer6;
+		int *unknownselfpointer7;
+		int *unknownselfpointer8;
+		int unknown29;
+		int *unknownselfpointer9;
+		int *unknownselfpointer10;
+		int *unknownselfpointer11;
+		int unknown30;
+		int *unknownselfpointer12;
+} SeqChannelStruct;
+
+typedef struct SeqPlayerStruct{
+		int Playflag; 
+		uchar CurrentID; 
+		uchar SubID; 
+		short unknown1;
+		ushort Tempo;
+		short unknown2;
+		int Loopcount;
+		int unknown3;
+		int *RawSequence;
+		float VolumeFull;
+		float unknown5;
+		int unknown6;
+		float Volumedodge;
+		float VolumeMultiplicator;
+		float VolumeTarget;
+		SeqChannelStruct *Channel[16];
+		int *LoopBranch;
+		int unknown7;
+		int unknown8;
+		int unknown9;
+		int unknown10;
+		int unknown11;
+		int unknown12;
+		int *unknown13;
+		int *unknown14;
+		int *unknownselfpointer1;
+		int *unknownselfpointer2;
+		int unknown15;
+		int *unknownselfpointer3;
+		int *unknownselfpointer4;
+		int *unknownselfpointer5;
+		int unknown16;
+		int *unknownselfpointer6;
+		int *unknownselfpointer7;
+		int *unknownselfpointer8;
+		int unknown17;
+		int *unknownselfpointer9;
+		int *unknownselfpointer10;
+		int *unknownselfpointer11;
+		int unknown18;
+		int *unknownselfpointer912;
+		int Empty[29];
+} SeqPlayerStruct;
+
 
 #endif

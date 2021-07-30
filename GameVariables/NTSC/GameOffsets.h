@@ -22,7 +22,8 @@ extern void DMA(int output, int input, long Length);
 extern void decodeTKMK(int input, int *temp, int output, int transparent);
 
 extern void GetFramebuffer(int PixelX,int PixelY,int Width,int Height,unsigned short *Source,unsigned short *Destination);
-extern unsigned short CheckBump2(Bump *bump,float Radius,float PositionX,float PositionY,float PositionZ,float LastX, float LastY,float LastZ);
+extern ushort CheckBump(Bump *bump,float Radius,float PositionX,float PositionY,float PositionZ);
+extern ushort CheckBump2(Bump *bump,float Radius,float PositionX,float PositionY,float PositionZ,float LastX, float LastY,float LastZ);
 
 extern void loadCourse(int courseID);
 extern void BumpVelocity(Vector Bump,float Distance ,Vector Velocity,float co);
@@ -105,17 +106,17 @@ extern void MakeAlign(Matrix mf, short theta, float x, float y, float z);
 extern void CreateModelAffineMtx(AffineMtx matrix, Vector position, Vector angle);
 extern void MultiAffineMtx(AffineMtx mtx, AffineMtx ma, AffineMtx mb);
 extern void AffineToMtx(void *matrix, AffineMtx affine); 
-extern ushort GetATanTable(float a, float b);
-extern ushort ATan2T(float y, float x);
-extern float ATan2F(float x, float y);
-extern float ATan2Fx(float x, float y);
-extern ushort ATan2Tx(float x, float y);
-extern float ATanF(float x);
-extern short ATanT(float x);
-extern float ASinF(float x);
-extern short ASinT(float x);
-extern float ACosF(float x);
-extern short ACosT(float x);
+extern ushort GetAtanTable(float a, float b);
+extern ushort Atan2t(float y, float x);
+extern float Atan2f(float x, float y);
+extern float Atan2fx(float x, float y);
+extern ushort Atan2tx(float x, float y);
+extern float Atanf(float x);
+extern short Atant(float x);
+extern float Asinf(float x);
+extern short Asint(float x);
+extern float Acosf(float x);
+extern short Acost(float x);
 extern ushort MakeRandom(void);
 extern ushort MakeRandomLimmit(ushort limit);
 extern short MakeDirection(float x1,float y1,float x2,float y2);
@@ -128,8 +129,29 @@ extern int CheckCone(ushort left,ushort right,ushort direction);
 extern float CheckDisplayRange(Vector basepos, Vector markpos, ushort camera_direction, float radius, float angle2, float limmit_distance);
 extern void RotateLightMatrix(uint lpointer,AffineMtx m,short yaw,short pitch,int count);
 extern void SetUpVector(void *Car);
+extern double Ipower(double x,int n);
+extern double Power(double x,double y);
+extern double Llog(double x);
+extern double Lexp(double x);
+extern double Lldexp(double x,int k);
+extern double Ffrexp(double x,int *exp);
+extern void SwapUint(uint *a,uint *b);
 
 extern void *SegmentToVirtual(uint *RSPAddress);
+
+extern void SetPalette(int palette_number);
+extern void SetWord(int x,int y,char *printText);
+extern void SetWord2(int x,int y,char *printText);
+extern void SetWord2A(int x,int y,char *printText,int interval,float mulx,float muly,int type);
+extern void SetWord2AP(int x,int y,char *printText,int interval,float mulx,float muly);
+extern void SetWord3(int x,int y,char *printText,int interval,float mulx,float muly,int type);
+extern void SetWord3A(int x,int y,char *printText,int interval,float mulx,float muly);
+extern void SetWord3AC(int x,int y,char *printText,int interval,float mulx,float muly);
+extern void SetWord3AP(int x,int y,char *printText,int interval,float mulx,float muly);
+extern void SetWord3ACP(int x,int y,char *printText,int interval,float mulx,float muly);
+extern void SetWord4(int x,int y,char *printText,int interval,float mulx,float muly,int type);
+extern void SetWord4A(int x,int y,char *printText,int interval,float mulx,float muly);
+extern void SetWord4AP(int x,int y,char *printText,int interval,float mulx,float muly);
 
 extern void printNumber(int *xPosition, int *yPosition, int num, int base);
 extern void printString(int xPosition, int yPosition, char *printText);
@@ -171,7 +193,8 @@ extern void SetLakitu(void *Car);
 extern void LakituCheck(void *Car,char PlayerID);
 extern void HangLakitu(void *Car,char PlayerID);
 extern long LakituIceBehavior;
-
+extern void ShakeCamera(Camera *camera);
+extern void ShakeHitCamera(Player *Car,float speed);
 
 extern float CheckWaterLevel(void *Car);
 extern void CheckSplash(void *Car,int PlayerIndex);
@@ -198,14 +221,15 @@ extern void GrayScaleTexBufRGB(uint num, int size, int r, int g, int b);
 extern void FadeMain();
 extern void FadeMain2(int i);
 extern void SetFadeOut(int Fade);
-
+extern short PutPylon(Vector pos,short number);
+extern short PutObject(Vector pos,int category);
 extern short g_fadeOutFlag;
 extern short g_fadeOutCounter;
 
 extern unsigned long* GraphPtr;
 extern long GraphPtrOffset;
-extern void KWLookCamera();
-extern void KWLookCameraPitch();
+extern ushort KWLookCamera(float x,float z,Camera *camera);
+extern ushort KWLookCameraPitch(float y,float z,Camera *camera);
 extern void KWSprite(int cx,int cy,uint sizex,uint sizey,ushort *addr);
 extern void KWSpriteScale(int cx,int cy,float scale, ushort *addr, uint sizex,uint sizey);
 extern void KWSpriteDiv(int cx,int cy,ushort *addr,uint sizex,uint sizey,uint cuty);
@@ -213,9 +237,11 @@ extern void KWSpriteTile32B(short cx,short cy,uchar *addr,uint sizex,uint sizey)
 extern void DrawLineHorizontal(short tx,short ty,short length,ushort r,ushort g,ushort b,ushort a);
 extern void DrawLineVertical(short tx,short ty,short length,ushort r,ushort g,ushort b,ushort a);
 extern void KWLoadTextureBlockI4b(uchar *texaddr,int cutx,int cuty);
+extern void KWLoadTextureBlockRGBA16B(ushort *texaddr,int cutx,int cuty);
+extern void SPRDrawClip(int sx,int sy,int sizex,int sizey,int mode);
 extern void SprDrawClipST(int sx,int sy,int sizex,int sizey,int ss,int tt,int mode);
 extern ushort StockNumberSprites[];
-
+extern void DecodeMapImage1(uint romaddress,uint romsize,uint ramsize); //MR Tree (0x0F04F45C, 859, 2048)
 
 extern void BumpObject(Object* InputObject);
 extern void SetSegment(int number, int cpuAddr);
@@ -457,7 +483,7 @@ extern float g_TrialTime;
 extern float g_lap2Time;
 extern float g_lap3Time;
 
-extern long g_SimpleObjectArray; //0x8015F9B8
+extern struct Object g_SimpleObjectArray[100]; //0x8015F9B8
 
 extern short g_progressValue;
 
@@ -588,12 +614,9 @@ extern char player2OK; //
 extern char player3OK; //
 extern char player4OK; //
 
-extern void SetPalette(int col);
 extern void textDrawPtr(int *x, int *y, const char *str, int spacing, float xScale, float yScale);
 extern void textDraw(int x, int y, const char *str, int spacing, float xScale, float yScale);
 extern void DrawText(int x, int y, const char *str, int spacing, float xScale, float yScale);
-extern void SetWord2(int x, int y, const char *str, int spacing, float xScale, float yScale, int Type);
-extern void SetWord3(int x, int y, const char *str, int spacing, float xScale, float yScale, int Type);
 
 extern int GetWordLength(const char *str);
 
@@ -799,6 +822,9 @@ extern char g_ShadowflagPlayer1; //0x800F795F
 extern char g_ShadowflagPlayer2;
 extern char g_ShadowflagPlayer3;
 
+//GP points
+extern uchar g_playerGPpoints[8]; //name to num: Mario, Luigi, Yoshi, Toad, D.K., Wario, Peach, Bowser
+
 //multiplayer points
 extern uchar g_2PRacePoints[2];
 extern uchar g_3PRacePoints[3];
@@ -824,6 +850,8 @@ extern float g_waterVelocity;
 extern short g_monitorCounter;
 extern short g_simpleObjectCount;
 extern short g_simpleObjectScreenCount;
+extern ushort g_courseTotalPathPoints[4];
+extern struct CenterPathStruct *g_pathPointPointer;
 
 //player color timers
 extern struct Playercolor g_colorPlayer0R;
@@ -863,6 +891,12 @@ extern short g_musicIDRainbow; // 0x8028ED76
 extern short g_musicIDDK; // 0x8028ED86
 extern short g_musicIDBattle2; // 0x8028ED96
 extern ushort g_musicTempo;
+extern ushort g_fanfareTempo;
+extern SeqPlayerStruct SeqPlayer[4];
+
+extern void NAISeqFlagEntry(uint entry);
+extern ushort NAIGetPlayingSeqFlag(uchar seq);
+extern void NAIFxFlagEntry(uint A, float B[3], uchar C, float *D, float *E, char *F);
 
 //Cave Fire Particle Stuff
 extern SVector CaveFirePos[8];
@@ -872,3 +906,22 @@ extern void KWSet2Color(uint prim_r,uint prim_g,uint prim_b,uint env_r,uint env_
 extern void KWDisplayFireParticleSub(int num,uchar color,void* Camera);
 extern int FireParticleAllocArray[64];
 extern int FireParticleCounter;
+
+extern int EffectAllocArray1[128];
+extern int EffectAllocArray2[128];
+extern int EffectAllocArray3[128];
+extern void KWGetStar(Vector position,int type);
+extern void KWChartStar(void);
+extern void KWDisplayStar(int player);
+
+extern ushort RGBAFallingLeaf[];
+extern ushort RGBAQuestionMark[];
+extern ushort RGBALeaf[];
+extern int FallingRockGFX_U; //default 0x3C0F0600
+extern int FallingRockGFX_L; //default 0x25EF6FE0
+extern int FallingRockShadowGFX_U; //default 0x3C0C0600
+extern int FallingRockShadowGFX_L; //default 0x258C6F88
+extern int ShadowModel;
+extern int HoleModel;
+extern int ItemBoxModel;
+extern void MoveFallingRock(Object *obj);

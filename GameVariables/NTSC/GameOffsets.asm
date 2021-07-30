@@ -17,6 +17,7 @@
 .definelabel DMA, 0x80001158
 .definelabel decodeTKMK, 0x800405D0
 .definelabel GetFramebuffer, 0x802A7658
+.definelabel CheckBump, 0x802ADDC8
 .definelabel CheckBump2, 0x802AD950
 .definelabel loadCourse, 0x802AA918
 .definelabel BumpVelocity, 0x802AC114
@@ -96,32 +97,52 @@
 .definelabel CreateModelAffineMtx, 0x802B6D58
 .definelabel MultiAffineMtx, 0x802B71CC
 .definelabel AffineToMtx, 0x802B75F8
-.definelabel GetATanTable, 0x802B7790
-.definelabel ATan2T, 0x802B7830
-.definelabel ATan2F, 0x802B79B8
-.definelabel ATan2Fx, 0x802B79F0
-.definelabel ATan2Tx, 0x802B7B50
-.definelabel ATanF, 0x802B7C18
-.definelabel ATanT, 0x802B7C40
-.definelabel ASinF, 0x802B7C6C
-.definelabel ASinT, 0x802B7CA8
-.definelabel ACosF, 0x802B7CE8
-.definelabel ACosT, 0x802B7D28
+.definelabel GetAtanTable, 0x802B7790
+.definelabel Atan2t, 0x802B7830
+.definelabel Atan2f, 0x802B79B8
+.definelabel Atan2fx, 0x802B79F0
+.definelabel Atan2tx, 0x802B7B50
+.definelabel Atanf, 0x802B7C18
+.definelabel Atant, 0x802B7C40
+.definelabel Asinf, 0x802B7C6C
+.definelabel Asint, 0x802B7CA8
+.definelabel Acosf, 0x802B7CE8
+.definelabel Acost, 0x802B7D28
 .definelabel MakeRandom, 0x802B7D94
 .definelabel MakeRandomLimmit, 0x802B7E34
 .definelabel MakeDirection, 0x802B7F34
 .definelabel MakeDirection3D, 0x802B7F7C
-.definelabel SinT, 0x802B8018
-.definelabel CosT, 0x802B8038
-.definelabel SinF, 0x800D60F0
-.definelabel CosF, 0x800D62B0
+.definelabel sinT, 0x802B8018
+.definelabel cosT, 0x802B8038
+.definelabel sinF, 0x800D60F0
+.definelabel cosF, 0x800D62B0
 .definelabel CheckCone, 0x802B8058
 .definelabel CheckDisplayRange, 0x802B80D0
 .definelabel RotateLightMatrix, 0x802B8414
 .definelabel SetUpVector, 0x802B8614
-
+.definelabel Ipower, 0x80091750
+.definelabel Power, 0x800917B0
+.definelabel Llog, 0x8009186C
+.definelabel Lexp, 0x8009195C
+.definelabel Lldexp, 0x80091A6C
+.definelabel Ffrexp, 0x80091AC0
+.definelabel SwapUint, 0x80091B64
 
 .definelabel SegmentToVirtual, 0x802A7BD4
+
+.definelabel SetPalette, 0x800930D8
+.definelabel SetWord, 0x800930E4
+.definelabel SetWord2, 0x80093134
+.definelabel SetWord2A, 0x80093324
+.definelabel SetWord2AP, 0x80093358
+.definelabel SetWord3, 0x8009338C
+.definelabel SetWord3A, 0x800936B8
+.definelabel SetWord3AC, 0x800936EC
+.definelabel SetWord3AP, 0x80093720
+.definelabel SetWord3ACP, 0x80093754
+.definelabel SetWord4, 0x80093788
+.definelabel SetWord4A, 0x800939C8
+.definelabel SetWord4AP, 0x800939FC
 
 .definelabel printNumber, 0x80057524
 .definelabel printString, 0x800577A4
@@ -156,8 +177,11 @@
 .definelabel DrawLineHorizontal, 0x8004C024
 .definelabel DrawLineVertical, 0x8004C148
 .definelabel KWLoadTextureBlockI4b, 0x80044DA0
+.definelabel KWLoadTextureBlockRGBA16B, 0x80043D50
+.definelabel SprDrawClip, 0x8004B97C
 .definelabel SprDrawClipST, 0x8004BA98
 .definelabel StockNumberSprites, 0x0D00C558
+.definelabel DecodeMapImage1, 0x802A84F4
 
 .definelabel BumpObject, 0x802B4E30
 
@@ -182,6 +206,8 @@
 .definelabel LakituCheck, 0x8002C17C
 .definelabel HangLakitu, 0x80090970
 .definelabel LakituIceBehavior, 0x800797E8
+.definelabel ShakeCamera, 0x8001CA10
+.definelabel ShakeHitCamera, 0x8001CA24
 
 .definelabel CheckWaterLevel, 0x802AAB4C
 .definelabel CheckSplash, 0x8002C4F8
@@ -214,9 +240,11 @@
 .definelabel FadeMain, 0x8009CA2C
 .definelabel FadeMain2, 0x8009CA6C
 .definelabel SetFadeOut, 0x8009DFE0
-
+.definelabel PutPylon, 0x8029ABD4
+.definelabel PutObject, 0x8029ED38
 .definelabel g_fadeOutFlag, 0x800DC5C0
 .definelabel g_fadeOutCounter, 0x800DC5C4
+
 
 .definelabel asm_itemJump1A, 0x8007B084  //3C058016
 .definelabel asm_itemJump1B, 0x8007B098  //84A543BA
@@ -593,9 +621,7 @@
 .definelabel player3OK, 0x8018EDEA
 .definelabel player4OK, 0x8018EDEB
 
-.definelabel SetPalette, 0x800930D8
-.definelabel SetWord2, 0x80093134
-.definelabel SetWord3, 0x8009338C
+
 .definelabel DrawText, 0x800936EC 
 .definelabel textDrawPtr, 0x80093788
 .definelabel textDraw, 0x800939FC
@@ -828,6 +854,9 @@
 .definelabel g_colorPlayer6R, 0x80164B1C //red with kart
 .definelabel g_colorPlayer7R, 0x80164B1E //red with kart
 
+//GP points
+.definelabel g_GPRacePoints, 0x8018D9C8
+
 //multiplayer points
 .definelabel g_2PRacePoints, 0x8000031C
 .definelabel g_3PRacePoints, 0x8000031E
@@ -853,6 +882,8 @@
 .definelabel g_monitorCounter, 0x802B87D8
 .definelabel g_simpleObjectCount, 0x80150110
 .definelabel g_simpleObjectScreenCount, 0x80150112
+.definelabel g_courseTotalPathPoints, 0x801645C8
+.definelabel g_pathPointPointer, 0x80164490
 
 //sound and music
 .definelabel playSound, 0x800C8E10
@@ -882,6 +913,12 @@
 .definelabel g_musicIDDK, 0x8028ED86
 .definelabel g_musicIDBattle2, 0x8028ED96
 .definelabel g_musicTempo, 0x803B1518
+.definelabel g_fanfareTempo, 0x803B1660
+
+.definelabel NAISeqFlagEntry, 0x800C2A2C
+.definelabel NAIGetPlayingSeqFlag, 0x800C3508
+.definelabel NAIFxFlagEntry, 0x800C4148
+.definelabel SeqPlayer, 0x803B1510
 
 //Cave Fire Particle Stuff
 .definelabel CaveFirePos, 0x800E6788
@@ -891,3 +928,22 @@
 .definelabel KWDisplayFireParticleSub, 0x8005477C
 .definelabel FireParticleAllocArray, 0x8018C870
 .definelabel FireParticleCounter, 0x80183E6C
+
+.definelabel EffectAllocArray1, 0x8018C1B0
+.definelabel EffectAllocArray2, 0x8018C3F0
+.definelabel EffectAllocArray3, 0x8018C630
+.definelabel KWGetStar, 0x800773D8
+.definelabel KWChartStar, 0x80077640
+.definelabel KWDisplayStar, 0x80054BE8
+
+.definelabel RGBAFallingLeaf, 0x0D028DD8
+.definelabel RGBAQuestionMark, 0x0D001EE8
+.definelabel RGBALeaf, 0x0D0291D8
+.definelabel FallingRockGFX_U, 0x8029CBE8
+.definelabel FallingRockGFX_L, 0x8029CBEC
+.definelabel FallingRockShadowGFX_U, 0x8029CB9C
+.definelabel FallingRockShadowGFX_L, 0x8029CBA8
+.definelabel ShadowModel, 0x0D007B98
+.definelabel HoleModel, 0x0D007C10
+.definelabel ItemBoxModel, 0x0D003288
+.definelabel MoveFallingRock, 0x8029D188

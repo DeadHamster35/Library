@@ -21,6 +21,8 @@
 .align 0x10
 .importobj "Library/CustomSounds.o"
 .align 0x10
+.importobj "Library/MusicControl.o"
+.align 0x10
 .importobj "Library/OKBehaviors.o"
 .align 0x10
 .importobj "Library/PlayerChecks.o"
