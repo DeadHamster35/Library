@@ -46,6 +46,8 @@
 .definelabel CheckHight, 0x802AE1C0
 .definelabel KWCheckRadiusXZ, 0x80041608
 
+
+.definelabel MoveIWA, 0x8029D188
 .definelabel deleteObjectBuffer, 0x8029E854
 .definelabel addObjectBuffer, 0x8029EC88
 

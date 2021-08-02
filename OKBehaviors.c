@@ -316,6 +316,11 @@ void ObjectBehaviorFollowPath(OKObject* InputObject, Marker* PathData)
 	
 }
 
+void ObjectBehaviorBounce(OKObject* InputObject)
+{
+	MoveIWA((Object*)&InputObject->ObjectData);
+}
+
 void Misbehave(OKObject* InputObject)
 {
 	switch (OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex].BehaviorClass)
@@ -346,6 +351,12 @@ void Misbehave(OKObject* InputObject)
 		{
 			
 			ObjectBehaviorSearch(InputObject);
+			break;
+		}
+		case BEHAVIOR_BOUNCE:
+		{
+			
+			ObjectBehaviorBounce(InputObject);
 			break;
 		}
 	}

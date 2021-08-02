@@ -19,7 +19,6 @@ extern long set1end;
 extern long set2end;
 extern long set3end;
 extern long set4end;
-extern long IceModel;
 
 extern long LogoROM;
 extern long RCSpriteROM;

@@ -13,7 +13,7 @@ extern int ok_HeaderROM; //0xBE9178
 extern int ok_SaveSize; //0x28980
 extern int ok_HeaderSize; //0x1400
 extern int ok_MenuSize; //0x2800
-extern int ok_CourseHeaderSize; //0x80
+extern int ok_CourseHeaderSize; //
 
 
 extern int ok_HeaderOffsets; //0x80420000

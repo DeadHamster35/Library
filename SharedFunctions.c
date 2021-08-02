@@ -110,58 +110,54 @@ void printFloat(int X, int Y, float Value)
 
 	int PrintOffset;
 
-      wholeNumber = (int) Value;
-      decimalNumber = (int) ((Value - wholeNumber) * 100);
+	wholeNumber = (int) Value;
+	decimalNumber = (int) ((Value - wholeNumber) * 100);
+	
+	PrintOffset = 8;
 
 
-     if (decimalNumber < 0)
-     {
-          decimalNumber = decimalNumber * -1;
-     }
-
-     if (wholeNumber >= 10)
-     {
-          if (wholeNumber >= 100)
-          {
-               if (wholeNumber >= 1000)
-               {
-
-                    PrintOffset = 48;
-               }
-               else
-               {
-                    PrintOffset = 40;
-               }
-          }
-          else
-          {
-               PrintOffset = 32;
-          }
-     }
-     else
-     {
-          PrintOffset = 24;
-     }
-
-
-
+	GlobalIntA = wholeNumber;
+	if (GlobalIntA < 0)
+	{
+		GlobalIntA *= -1;
+	}
+     if (GlobalIntA > 10)
+	{
+		PrintOffset = 16;
+		if (GlobalIntA > 100)
+		{
+			PrintOffset = 24;
+			if (GlobalIntA > 1000)
+			{
+				PrintOffset = 32;
+			}			
+		}
+	}
+	if (decimalNumber < 0)
+	{
+		decimalNumber *= -1;
+	}
+	
 
      loadFont();
 
 
-     printString(X + PrintOffset, Y, ".");
-     PrintOffset = PrintOffset + 8;
-     if (decimalNumber < 10)
-     {
-          printStringNumber(X+PrintOffset,Y,"",0);
-          PrintOffset = PrintOffset + 8;
-     }
+	if (wholeNumber < 0)
+	{
+     	X -= 8;
+		PrintOffset += 8;
+	}
 
-
-
-
-     printStringNumber(X,Y,"",wholeNumber);
-     printStringNumber(X+PrintOffset,Y,"",decimalNumber);
+	printStringNumber(X,Y,"",wholeNumber);
+		
+	printString(X + PrintOffset + 10, Y, ".");		
+	if (decimalNumber < 10)
+	{
+		printStringNumber(X+PrintOffset + 8,Y,"",0);
+		PrintOffset += 8;
+	}
+	printStringNumber(X+PrintOffset + 8,Y,"",decimalNumber);
+     
 
 
 

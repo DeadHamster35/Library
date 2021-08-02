@@ -52,6 +52,7 @@ extern void SmokeDisp4P(void* Car, char kno, char place); //0x8006E744
 extern float CheckHight(float X_value, float Y_value, float Z_value);
 extern int KWCheckRadiusXZ(float x1,float y1,float x2,float y2,float radius);
 
+extern void MoveIWA(Object *ObjectPointer);
 extern short deleteObjectBuffer(void *Object);
 extern short addObjectBuffer(Vector position, SVector angle, Vector velocity, short objectID);
 

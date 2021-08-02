@@ -7,7 +7,11 @@ typedef struct OKHeader{
 
 	int Version;
 	CourseHeader MapHeader;
+	
+	uint SectionViewPosition;
+	uint SurfaceMapPosition;
 	uint Sky;
+	short SkyType, WeatherType;
 	uint Credits;
 	uint CourseName;
 	uint SerialKey;
@@ -38,7 +42,7 @@ typedef struct OKModel{
 
 typedef struct OKObjectList{
 	short	ObjectIndex;
-	short	Padding;
+	char		SoundPlaying,Padding;
 	short	OriginPosition[3];
 	short 	OriginAngle[3];
 	short 	OriginVelocity[3];
@@ -48,15 +52,19 @@ typedef struct OKObjectList{
 
 typedef struct OKObjectType{
 	short 	BehaviorClass;
-	short 	StatusClass;
+	short 	StatusClass;//
 	short 	EffectClass;
-	short 	Range;
+	short 	Range;//
 	short 	Sight;
-	short 	Viewcone;	
-	short 	MaxSpeed;    
-	short	OKModelCount;		
-	float	CollisionRadius;  //temp
-	OKModel*	ObjectModel;	
+	short 	Viewcone;	//
+	short 	MaxSpeed;	
+	short	RenderRadius;//
+	short	CollisionRadius;
+	short	Hitbox;//
+	short	SoundRadius;
+	uchar	SoundType, OKModelCount;//
+	int		SoundID;//
+	OKModel*	ObjectModel;//
 } OKObjectType;
 
 typedef struct OKCollisionSphere{
@@ -109,7 +117,7 @@ typedef struct OKRAMHeader{
 	int 			CourseNameOffset;
 	int 			SerialKeyOffset;
 	int 			GhostOffset;
-	int 			MapsOffset;
+	int 			MapsOffset;	
 	OKObjectHeader	ObjectHeader;
 
 } OKRAMHeader;
@@ -133,6 +141,7 @@ typedef struct OKEngine{
 #define BEHAVIOR_PATH	2
 #define BEHAVIOR_WANDER 	3
 #define BEHAVIOR_SEARCH	4
+#define BEHAVIOR_BOUNCE 	5
 
 #define SUBBEHAVIOR_DEAD			-1
 #define SUBBEHAVIOR_DOCILE 		0
