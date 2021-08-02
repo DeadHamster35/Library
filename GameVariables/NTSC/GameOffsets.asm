@@ -855,7 +855,7 @@
 .definelabel g_colorPlayer7R, 0x80164B1E //red with kart
 
 //GP points
-.definelabel g_GPRacePoints, 0x8018D9C8
+.definelabel g_playerGPpoints, 0x8018D9C8
 
 //multiplayer points
 .definelabel g_2PRacePoints, 0x8000031C
