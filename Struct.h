@@ -148,7 +148,7 @@
 
 
 
-
+typedef 	short[3]	SVector[3];
 typedef	float	RotateMtx[3][3];			/* 3x3 rotation matrix					*/
 typedef 	float	AffineMtx[4][4];			/* 4x4 affine transformation matrix		*/
 typedef 	float	Matrix[3][3];			/* 4x4 affine transformation matrix		*/
