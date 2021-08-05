@@ -160,10 +160,14 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 //Analog
-#define ANA_RIGHT 0x0100
-#define ANA_LEFT  0x0200
-#define ANA_DOWN  0x0400
-#define ANA_UP    0x0800
+#define ANA_RIGHT       0x0100
+#define ANA_LEFT        0x0200
+#define ANA_DOWN        0x0400
+#define ANA_UP          0x0800
+#define ANA_UPRIGHT     0x0900
+#define ANA_UPLEFT      0x0a00
+#define ANA_DOWNRIGHT   0x0500
+#define ANA_DOWNLEFT    0x0600
 
 //Buttons
 #define 	BTN_A		0x8000 
