@@ -5,7 +5,10 @@
 #include "Struct.h"
 #include "OKStruct.h"
 
+//check platform
+bool ConsolePlatform;
 
+//???
 int GlobalAddressA, GlobalAddressB, GlobalAddressC;
 int GlobalIntA, GlobalIntB, GlobalIntC, GlobalIntD;
 uint GlobalUIntA, GlobalUIntB;
@@ -21,7 +24,6 @@ short GlobalShortA, GlobalShortB;
 bool GlobalBoolA, GlobalBoolB, GlobalBoolC, GlobalBoolD;
 int LoopValue;
 
-bool ConsolePlatform;
 bool CustomWaterHeight[8];
 short CloudCourseID, Snow3DCourseID;
 
@@ -62,36 +64,12 @@ Camera *GlobalCamera[4] =
      &g_Camera4
 };
 
-short *GlobalPath[8] =
+Viewport *GlobalViewport[4] = 
 {
-     &g_PathPointPlayer1,
-     &g_PathPointPlayer2,
-     &g_PathPointPlayer3,
-     &g_PathPointPlayer4,
-     &g_PathPointPlayer5,
-     &g_PathPointPlayer6,
-     &g_PathPointPlayer7,
-     &g_PathPointPlayer8,
-};
-
-long *GlobalLap[8] =
-{
-     &g_gameLapPlayer1,
-     &g_gameLapPlayer2,
-     &g_gameLapPlayer3,
-     &g_gameLapPlayer4,
-     &g_gameLapPlayer5,
-     &g_gameLapPlayer6,
-     &g_gameLapPlayer7,
-     &g_gameLapPlayer8,
-};
-
-Hud *GlobalHud[4] =
-{
-     &g_hudPlayer1,
-     &g_hudPlayer2,
-     &g_hudPlayer3,
-     &g_hudPlayer4,
+     &g_Viewport1,
+     &g_Viewport2,
+     &g_Viewport3,
+     &g_Viewport4
 };
 
 Lakitu *GlobalLakitu[4] =
@@ -100,18 +78,6 @@ Lakitu *GlobalLakitu[4] =
      &g_lakituStatusPlayer2,
      &g_lakituStatusPlayer3,
      &g_lakituStatusPlayer4,
-};
-
-char *GlobalLightning[8] =
-{
-     &g_lightningFlagPlayer1,
-     &g_lightningFlagPlayer2,
-     &g_lightningFlagPlayer3,
-     &g_lightningFlagPlayer4,
-     &g_lightningFlagPlayer5,
-     &g_lightningFlagPlayer6,
-     &g_lightningFlagPlayer7,
-     &g_lightningFlagPlayer8,
 };
 
 Skycolor *GlobalSkycolor[20] =
