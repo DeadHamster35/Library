@@ -2,8 +2,10 @@
 #include "Struct.h"
 #include "OKStruct.h"
 
+//check platform
+extern bool ConsolePlatform;
 
-
+//???
 extern int GlobalAddressA, GlobalAddressB, GlobalAddressC;
 extern int GlobalIntA, GlobalIntB, GlobalIntC, GlobalIntD;
 extern unsigned int GlobalUIntA, GlobalUIntB;
@@ -18,7 +20,6 @@ extern unsigned long FreeSpaceAddress;
 extern short GlobalShortA, GlobalShortB;
 extern bool GlobalBoolA, GlobalBoolB, GlobalBoolC, GlobalBoolD;
 extern int LoopValue;
-extern bool ConsolePlatform;
 extern bool CustomWaterHeight[];
 extern short CloudCourseID, Snow3DCourseID; 
 
@@ -38,20 +39,16 @@ extern struct PlayerTextureTable SelectNamePlateTable;
 extern struct PlayerTextureTable SelectPortraitTable[9];
 extern struct ObjBlock GlobalMenuHUD[32];
 extern struct Stats GlobalStat;
-extern float GlobalWeight[];
 extern struct Player GlobalPlayer[];
 extern struct Controller *GlobalController[];
 extern struct Screen *GlobalScreen[];
 extern struct Camera *GlobalCamera[];
-extern short *GlobalPath[];
-extern long *GlobalLap[];
+extern struct Viewport *GlobalViewport[];
 extern struct Lakitu *GlobalLakitu[];
 extern struct AnmObject_Lakitu AnimatedLakituStruct[];
 extern struct AnmObject g_DynamicObjects[];
 extern struct FaceStruct CourseFaceStruct[];
 extern struct PlayerState *GlobalPlayerState[];  
-extern struct Hud *GlobalHud[];
-extern char *GlobalLightning[];
 extern struct Skycolor *GlobalSkycolor[];
 extern struct Playercolor *GlobalPlayercolor[];
 
@@ -144,38 +141,3 @@ extern short SystemType;
 
 //CustomLevels
 extern int ScrollValues[32][2];
-
-
-
-
-
-#define 	BTN_A		0x8000 
-#define 	BTN_B		0x4000 
-#define 	BTN_Z		0x2000 
-#define 	BTN_START	0x1000 
-#define 	BTN_DUP		0x0800 
-#define 	BTN_DDOWN	0x0400 
-#define 	BTN_DLEFT	0x0200 
-#define 	BTN_DRIGHT	0x0100 
-#define 	BTN_L		0x0020 
-#define 	BTN_R		0x0010 
-#define 	BTN_CUP		0x0008 
-#define 	BTN_CDOWN	0x0004 
-#define 	BTN_CLEFT	0x0002 
-#define 	BTN_CRIGHT	0x0001
-
-#define KO_PSEL_LOGO	42
-#define KO_PSEL_MA	43
-#define KO_PSEL_LU	44
-#define KO_PSEL_PE	45
-#define KO_PSEL_KI	46
-#define KO_PSEL_YO	47
-#define KO_PSEL_KA	48
-#define KO_PSEL_WA	49
-#define KO_PSEL_KU	50
-#define KO_PSEL_OK	51
-#define KO_PSEL_1P	52
-#define KO_PSEL_2P	53
-#define KO_PSEL_3P	54
-#define KO_PSEL_4P	55
-
