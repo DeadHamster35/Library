@@ -158,6 +158,14 @@
 //MARK: -                                   CONTROLLER                                           //
 //                                                                                               //
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
+//Analog
+#define ANA_RIGHT 0x0100
+#define ANA_LEFT  0x0200
+#define ANA_DOWN  0x0400
+#define ANA_UP    0x0800
+
+//Buttons
 #define 	BTN_A		0x8000 
 #define 	BTN_B		0x4000 
 #define 	BTN_Z		0x2000 
