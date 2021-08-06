@@ -361,7 +361,6 @@ Object *obj;
 
 	for(i=0;i<8;i++)
 	{
-        //i = 0;
 		kart = (0x800F6990 + (0xDD8 * i));
 		if( ((GlobalPlayer[i].flag &EXISTS) == EXISTS) && ((GlobalPlayer[i].slip_flag &IS_SQUISHED) != IS_SQUISHED) )
 		{
