@@ -48,7 +48,7 @@ typedef unsigned short   	ushort;
 typedef unsigned int     	uint;
 typedef unsigned long 		ulong;
 typedef long long			int64;
-typedef unsigned long		uint64;
+typedef unsigned long long	uint64;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                               //
