@@ -417,7 +417,7 @@
 #define ib_rshells	0x0006 //ib_rskame
 #define ib_bshell	0x0007 //ib_tkame    
 #define ib_thunder	0x0008	
-#define ib_imbox	0x0009 //ib_imbox
+#define ib_fakeib	0x0009 //ib_imbox
 #define ib_star		0x000A
 #define ib_ghost	0x000B //ib_tellesa 
 #define ib_mush1	0x000C //ib_kinoko1
