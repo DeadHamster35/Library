@@ -330,7 +330,7 @@ static void collision_check_routin_HACK(Player *car,Object *obj)
                         break;
 
                     case SIBOX:
-                        if(car->flag&IS_PLAYER){RouletteStart(car-GlobalPlayer,ib_tkame);}
+                        if(car->flag&IS_PLAYER){RouletteStart(car-GlobalPlayer,ib_bshell);}
                         break;
 
                     case HOOTINGBOX:
