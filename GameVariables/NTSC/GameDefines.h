@@ -408,22 +408,22 @@
 //Item flags
 //#define ib_max		15
 //#define	kwitemkazumax	ib_max
-#define ib_nothing	0
-#define ib_banana	1	
-#define ib_bananas	2     
-#define ib_gkame	3     
-#define ib_gskame	4     
-#define ib_rkame	5     
-#define ib_rskame	6
-#define ib_tkame	7     
-#define ib_thunder	8	
-#define ib_imbox	9
-#define ib_star		10
-#define ib_tellesa	11     
-#define ib_kinoko1	12    
-#define ib_kinoko2	13
-#define ib_kinoko3	14
-#define ib_kinokoc	15
+#define ib_nothing	0x0000
+#define ib_banana	0x0001
+#define ib_bananas	0x0002     
+#define ib_gshell	0x0003 //ib_gkame
+#define ib_gshells	0x0004 //ib_gskame
+#define ib_rshell	0x0005 //ib_rkame
+#define ib_rshells	0x0006 //ib_rskame
+#define ib_bshell	0x0007 //ib_tkame    
+#define ib_thunder	0x0008	
+#define ib_imbox	0x0009 //ib_imbox
+#define ib_star		0x000A
+#define ib_ghost	0x000B //ib_tellesa 
+#define ib_mush1	0x000C //ib_kinoko1
+#define ib_mush2	0x000D //ib_kinoko2
+#define ib_mush3	0x000E //ib_kinoko3
+#define ib_mushG	0x000F //ib_kinokoc
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                               //
