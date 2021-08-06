@@ -306,11 +306,11 @@ void setSong()
 		/*
 		if (*(long*)(&ok_CourseHeader + 0x16) < 0x50)
 		{
-			songID = (short)*(long*)(&ok_CourseHeader + 0x16);
+			songID[0] = (short)*(long*)(&ok_CourseHeader + 0x16);
 		}
 		else
 		{
-			songID = 0x03;
+			songID[0] = 0x03;
 			*sourceAddress = *(long*)(&ok_CourseHeader + 0x16);
 			dataLength = 8;
 			*targetAddress = (long)((long)(&g_SequenceTable) + (3 * 8) + 4);
@@ -323,7 +323,7 @@ void setSong()
 	}
 	else
 	{
-		songID = 0x03;
+		songID[0] = 0x03;
 	}
 }
 
