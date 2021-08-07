@@ -1040,3 +1040,11 @@
 
 .definelabel raceBombs1, 0x8000985B // 5 disable
 .definelabel raceBombs2, 0x8001C40B 
+.definelabel kill_bomb_kart, 0x8008FC1C //Collision kart2kart
+.definelabel accele_on, 0x80030FC8 //Reverse Acceleration
+.definelabel check_accele_on, 0x80030E00 //Reverse Acceleration
+.definelabel accele_off, 0x80031F48 //Reverse Acceleration
+.definelabel check_accele_off, 0x80030C34 //Reverse Acceleration
+.definelabel check_brake_on, 0x8003221C
+.definelabel breake_on, 0x800323E4
+.definelabel check_brake_off, 0x80032050
