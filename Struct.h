@@ -36,11 +36,16 @@ typedef short SVector[3];
 typedef unsigned short USVector[3];                            
 typedef float FVector[3]; 
 
-//Arrays
-typedef unsigned char UCArray[8];
-typedef unsigned short USArray[8];
-typedef unsigned int UIArray[8];
-typedef float FArray[8];
+//Arrays: 4 humans
+typedef unsigned char UCArray4[4];
+typedef unsigned short USArray4[4];
+typedef unsigned int UIArray4[4];
+typedef float FArray4[4];
+//Arrays: all 8 players
+typedef unsigned char UCArray8[8];
+typedef unsigned short USArray8[8];
+typedef unsigned int UIArray8[8];
+typedef float FArray8[8];
 
 //Vars
 typedef unsigned char    	uchar;
