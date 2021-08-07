@@ -857,7 +857,7 @@ extern void kwdisplay_ranks(void); //0x800590D4
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                               //
-//MARK: -                                   PLAYER FLAGS                                         //
+//MARK: -                                   PLAYER FLAGS & Funcs                                 //
 //                                                                                               //
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 extern char g_lightningFlag; // 0x800EA168
@@ -929,6 +929,14 @@ extern struct Player g_PlayerStruct8;
 
 extern char g_playerEcho; // 0x800E9F90
 
+extern void accele_on(Player *car);// 0x80030FC8 //Reverse Acceleration
+extern void check_accele_on(Player *car);// 0x80030E00 //Reverse Acceleration
+extern void accele_off(Player *car,float acceleoff);// 0x80031F48 //Reverse Acceleration
+extern void check_accele_off(Player *car);// 0x80030C34 //Reverse Acceleration
+extern void check_brake_on(Player *car);// 0x8003221C
+extern void breake_on(Player *car);// 0x800323E4
+extern void check_brake_off(Player *car);// 0x80032050
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                               //
 //MARK: -                                   OBJECTS & COLLISION                                  //
@@ -963,6 +971,7 @@ extern void kill_object (Object *obj); //0x8029FDC8
 extern void set_broken (Player *player, char number);// 0x8008DABC
 extern void set_shadow_flag (Player *player);// 0x802977B0
 extern void kwhit_tree(FVector pos,int type);// 0x80077AB0
+extern void kill_bomb_kart(Player *car) ;// 0x8008FC1C //Collision
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                               //
