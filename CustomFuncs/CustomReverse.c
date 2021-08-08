@@ -1,5 +1,5 @@
-#include "../library/LibraryVariables.h"
-#include "../library/GameVariables/NTSC/GameOffsets.h"
+#include "../LibraryVariables.h"
+#include "../GameVariables/NTSC/GameOffsets.h"
 
 void reverse_HACK(void)
 {
@@ -9,14 +9,21 @@ void reverse_HACK(void)
 	*(uint*)(0x80037FEC) = 0x1000006B; //orig: 55E0006B
 
 	int i;
-	static char runOnce[4] = {0,0,0,0};
-	static short zoomTemp[4];
+	static UCArray4 runOnce = {0};
+	static SArray4 zoomTemp;
 	Controller *cont;
 	Player *car;
 
 	for(i=0; i<g_playerCount; i++)
 	{
-		
+		/*
+		//DEBUG
+		loadFont();
+		printStringNumber(100,100,"temp", zoomTemp[0]);
+		printStringNumber(100,110,"zoom", g_zoomLevelPlayer[0]);
+		printStringNumber(100,120,"one", runOnce[0]);
+		*/
+
 		if(!(GlobalPlayer[i].slip_flag&IS_BOOST_JUMPING) && !(GlobalPlayer[i].slip_flag&IS_BOOSTJUMP_ZONE))
 		{
 			cont = (Controller *)&GlobalController[i];
@@ -24,18 +31,19 @@ void reverse_HACK(void)
 
 			if( (GlobalController[i]->AnalogY <= -50) && (GlobalPlayer[i].speed <= 1) && ((GlobalController[i]->ButtonHeld &BTN_B) == BTN_B) )
 			{
-					GlobalPlayer[i].handling_flag |= REVERSE_GEAR;
-
 					if(runOnce[i] == 0) //set temp zoom var
 					{
 						zoomTemp[i] = g_zoomLevelPlayer[i];
 						runOnce[i] = 1;
 					}
+
+					GlobalPlayer[i].handling_flag |= REVERSE_GEAR;
 			}
 
 			if((GlobalPlayer[i].handling_flag &REVERSE_GEAR) == REVERSE_GEAR)
 			{
-
+				g_zoomLevelPlayer[i] = 1; //forced cam zoom out	
+				
 				if(((GlobalController[i]->ButtonHeld &BTN_B ) != BTN_B) || (GlobalController[i]->AnalogY > -30))
 				{
 					/*
@@ -48,8 +56,7 @@ void reverse_HACK(void)
 
 					///*
 					//mimic brake
-					
-					if(GlobalPlayer[i].speed > 1)
+					if(GlobalPlayer[i].speed > 0.5)
 					{
 						accele_off(car,2);
 						check_accele_off(car);
@@ -71,7 +78,6 @@ void reverse_HACK(void)
 					{
 						GlobalPlayer[i].handling_flag &= ~REVERSE_GEAR;
 						g_zoomLevelPlayer[i] = zoomTemp[i]; //cam reset
-						runOnce[i] = 0;
 					}
 					//*/
 				}
@@ -80,8 +86,11 @@ void reverse_HACK(void)
 					GlobalPlayer[i].brake_time = 0;
 					accele_on(car);
 					check_accele_on(car);
-					g_zoomLevelPlayer[i] = 1; //forced cam zoom out
 				}
+			}
+			else
+			{
+				runOnce[i] = 0;
 			}
 		}
 	}
