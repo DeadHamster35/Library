@@ -51,7 +51,6 @@ void reverse_HACK(void)
 					GlobalPlayer[i].handling_flag &= ~REVERSE_GEAR;
 					GlobalPlayer[i].accelcount = 0;
 					g_zoomLevelPlayer[i] = zoomTemp[i]; //cam reset
-					runOnce[i] = 0;
 					*/
 
 					///*
