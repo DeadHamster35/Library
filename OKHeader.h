@@ -82,8 +82,9 @@ extern int lit_red_selecter; //lit_arrowsprite_r +  0x200
 extern int ok_RedCoinSprite; //lit_red_selecter +  0x200 
 extern int ok_menucoinsprite; //ok_RedCoinSprite +  0x200
 extern ushort nicefont[]; //ok_menucoinsprite +  0x200
+extern ushort hud_buttons[]; //nicefont +  0x4400
 
-//extern int lit_alpacasprite; //nicefont +  0x4300
+//extern int lit_alpacasprite; //hud_buttons +  0x4400
 //extern int lit_heartsprite; //lit_alpacasprite +  0x800
 
 extern void ok_ASMJump(); //ok_Storage + 0x4

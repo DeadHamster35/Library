@@ -257,6 +257,8 @@ char ReturnStringLength(char *stringAddress)
 }
 
 
+///////////////Nice Font///////////////
+
 void loadNiceFont()
 {
 	*sourceAddress = (int)(&NiceFontROM);
@@ -377,6 +379,519 @@ void PrintNiceTextNumber(int posx, int posy, float scale, char *text, int value)
 	{
 		PrintNiceText((scale*7)+posx+(ReturnStringLength(text))*7*scale, posy, scale, "-");
 		negativeVal = 0;
+	}
+}
+
+
+///////////////HUD Buttons///////////////
+
+void loadHudButtons()
+{
+	*sourceAddress = (int)(&HudButtonsROM);
+	*targetAddress = (int)(&ok_FreeSpace);
+	dataLength = 0x4400;
+	runDMA();
+	*sourceAddress = (int)(&ok_FreeSpace);
+	*targetAddress = (int)(&hud_buttons);
+	runMIO();
+}
+
+
+void SpriteBtnA(int posx, int posy, float scale, bool pressed)
+{
+	switch (pressed)
+	{
+	case true:
+		if (scale == 1 || scale == 0)
+		{
+			KWSprite(posx,posy,16,16,(hud_buttons+0x100));
+		}
+		else
+		{
+			KWSprite(0,0,0,0,hud_buttons);
+			KWSpriteScale(posx,posy,scale,(hud_buttons+0x100),16,16);
+		}
+		break;
+	
+	default:
+		if (scale == 1 || scale == 0)
+		{
+			KWSprite(posx,posy,16,16,hud_buttons);
+		}
+		else
+		{
+			KWSprite(0,0,0,0,hud_buttons);
+			KWSpriteScale(posx,posy,scale,hud_buttons,16,16);
+		}
+		break;
+	}
+}
+
+void SpriteBtnB(int posx, int posy, float scale, bool pressed)
+{
+	switch (pressed)
+	{
+	case true:
+		if (scale == 1 || scale == 0)
+		{
+			KWSprite(posx,posy,16,16,(hud_buttons+0x300));
+		}
+		else
+		{
+			KWSprite(0,0,0,0,hud_buttons);
+			KWSpriteScale(posx,posy,scale,(hud_buttons+0x300),16,16);
+		}
+		break;
+	
+	default:
+		if (scale == 1 || scale == 0)
+		{
+			KWSprite(posx,posy,16,16,(hud_buttons+0x200));
+		}
+		else
+		{
+			KWSprite(0,0,0,0,hud_buttons);
+			KWSpriteScale(posx,posy,scale,(hud_buttons+0x200),16,16);
+		}
+		break;
+	}
+}
+
+void SpriteBtnStart(int posx, int posy, float scale, bool pressed)
+{
+	switch (pressed)
+	{
+	case true:
+		if (scale == 1 || scale == 0)
+		{
+			KWSprite(posx,posy,16,16,(hud_buttons+0x500));
+		}
+		else
+		{
+			KWSprite(0,0,0,0,hud_buttons);
+			KWSpriteScale(posx,posy,scale,(hud_buttons+0x500),16,16);
+		}
+		break;
+	
+	default:
+		if (scale == 1 || scale == 0)
+		{
+			KWSprite(posx,posy,16,16,(hud_buttons+0x400));
+		}
+		else
+		{
+			KWSprite(0,0,0,0,hud_buttons);
+			KWSpriteScale(posx,posy,scale,(hud_buttons+0x400),16,16);
+		}
+		break;
+	}
+}
+
+void SpriteBtnCUp(int posx, int posy, float scale, bool pressed)
+{
+	switch (pressed)
+	{
+	case true:
+		if (scale == 1 || scale == 0)
+		{
+			KWSprite(posx,posy,16,16,(hud_buttons+0x700));
+		}
+		else
+		{
+			KWSprite(0,0,0,0,hud_buttons);
+			KWSpriteScale(posx,posy,scale,(hud_buttons+0x700),16,16);
+		}
+		break;
+	
+	default:
+		if (scale == 1 || scale == 0)
+		{
+			KWSprite(posx,posy,16,16,(hud_buttons+0x600));
+		}
+		else
+		{
+			KWSprite(0,0,0,0,hud_buttons);
+			KWSpriteScale(posx,posy,scale,(hud_buttons+0x600),16,16);
+		}
+		break;
+	}
+}
+
+void SpriteBtnCDown(int posx, int posy, float scale, bool pressed)
+{
+	switch (pressed)
+	{
+	case true:
+		if (scale == 1 || scale == 0)
+		{
+			KWSprite(posx,posy,16,16,(hud_buttons+0x900));
+		}
+		else
+		{
+			KWSprite(0,0,0,0,hud_buttons);
+			KWSpriteScale(posx,posy,scale,(hud_buttons+0x900),16,16);
+		}
+		break;
+	
+	default:
+		if (scale == 1 || scale == 0)
+		{
+			KWSprite(posx,posy,16,16,(hud_buttons+0x800));
+		}
+		else
+		{
+			KWSprite(0,0,0,0,hud_buttons);
+			KWSpriteScale(posx,posy,scale,(hud_buttons+0x800),16,16);
+		}
+		break;
+	}
+}
+
+void SpriteBtnCLeft(int posx, int posy, float scale, bool pressed)
+{
+	switch (pressed)
+	{
+	case true:
+		if (scale == 1 || scale == 0)
+		{
+			KWSprite(posx,posy,16,16,(hud_buttons+0xB00));
+		}
+		else
+		{
+			KWSprite(0,0,0,0,hud_buttons);
+			KWSpriteScale(posx,posy,scale,(hud_buttons+0xB00),16,16);
+		}
+		break;
+	
+	default:
+		if (scale == 1 || scale == 0)
+		{
+			KWSprite(posx,posy,16,16,(hud_buttons+0xA00));
+		}
+		else
+		{
+			KWSprite(0,0,0,0,hud_buttons);
+			KWSpriteScale(posx,posy,scale,(hud_buttons+0xA00),16,16);
+		}
+		break;
+	}
+}
+
+void SpriteBtnCRight(int posx, int posy, float scale, bool pressed)
+{
+	switch (pressed)
+	{
+	case true:
+		if (scale == 1 || scale == 0)
+		{
+			KWSprite(posx,posy,16,16,(hud_buttons+0xD00));
+		}
+		else
+		{
+			KWSprite(0,0,0,0,hud_buttons);
+			KWSpriteScale(posx,posy,scale,(hud_buttons+0xD00),16,16);
+		}
+		break;
+	
+	default:
+		if (scale == 1 || scale == 0)
+		{
+			KWSprite(posx,posy,16,16,(hud_buttons+0xC00));
+		}
+		else
+		{
+			KWSprite(0,0,0,0,hud_buttons);
+			KWSpriteScale(posx,posy,scale,(hud_buttons+0xC00),16,16);
+		}
+		break;
+	}
+}
+
+void SpriteBtnL(int posx, int posy, float scale, bool pressed)
+{
+	switch (pressed)
+	{
+	case true:
+		if (scale == 1 || scale == 0)
+		{
+			KWSprite(posx,posy,16,16,(hud_buttons+0xF00));
+		}
+		else
+		{
+			KWSprite(0,0,0,0,hud_buttons);
+			KWSpriteScale(posx,posy,scale,(hud_buttons+0xF00),16,16);
+		}
+		break;
+	
+	default:
+		if (scale == 1 || scale == 0)
+		{
+			KWSprite(posx,posy,16,16,(hud_buttons+0xE00));
+		}
+		else
+		{
+			KWSprite(0,0,0,0,hud_buttons);
+			KWSpriteScale(posx,posy,scale,(hud_buttons+0xE00),16,16);
+		}
+		break;
+	}
+}
+
+void SpriteBtnR(int posx, int posy, float scale, bool pressed)
+{
+	switch (pressed)
+	{
+	case true:
+		if (scale == 1 || scale == 0)
+		{
+			KWSprite(posx,posy,16,16,(hud_buttons+0x1100));
+		}
+		else
+		{
+			KWSprite(0,0,0,0,hud_buttons);
+			KWSpriteScale(posx,posy,scale,(hud_buttons+0x1100),16,16);
+		}
+		break;
+	
+	default:
+		if (scale == 1 || scale == 0)
+		{
+			KWSprite(posx,posy,16,16,(hud_buttons+0x1000));
+		}
+		else
+		{
+			KWSprite(0,0,0,0,hud_buttons);
+			KWSpriteScale(posx,posy,scale,(hud_buttons+0x1000),16,16);
+		}
+		break;
+	}
+}
+
+void SpriteBtnZ(int posx, int posy, float scale, bool pressed)
+{
+	switch (pressed)
+	{
+	case true:
+		if (scale == 1 || scale == 0)
+		{
+			KWSprite(posx,posy,16,16,(hud_buttons+0x1300));
+		}
+		else
+		{
+			KWSprite(0,0,0,0,hud_buttons);
+			KWSpriteScale(posx,posy,scale,(hud_buttons+0x1300),16,16);
+		}
+		break;
+	
+	default:
+		if (scale == 1 || scale == 0)
+		{
+			KWSprite(posx,posy,16,16,(hud_buttons+0x1200));
+		}
+		else
+		{
+			KWSprite(0,0,0,0,hud_buttons);
+			KWSpriteScale(posx,posy,scale,(hud_buttons+0x1200),16,16);
+		}
+		break;
+	}
+}
+
+
+void SpriteBtnDUp(int posx, int posy, float scale, bool pressed)
+{
+	switch (pressed)
+	{
+	case true:
+		if (scale == 1 || scale == 0)
+		{
+			KWSprite(posx,posy,16,16,(hud_buttons+0x1500));
+		}
+		else
+		{
+			KWSprite(0,0,0,0,hud_buttons);
+			KWSpriteScale(posx,posy,scale,(hud_buttons+0x1500),16,16);
+		}
+		break;
+	
+	default:
+		if (scale == 1 || scale == 0)
+		{
+			KWSprite(posx,posy,16,16,(hud_buttons+0x1400));
+		}
+		else
+		{
+			KWSprite(0,0,0,0,hud_buttons);
+			KWSpriteScale(posx,posy,scale,(hud_buttons+0x1400),16,16);
+		}
+		break;
+	}
+}
+
+void SpriteBtnDDown(int posx, int posy, float scale, bool pressed)
+{
+	switch (pressed)
+	{
+	case true:
+		if (scale == 1 || scale == 0)
+		{
+			KWSprite(posx,posy,16,16,(hud_buttons+0x1700));
+		}
+		else
+		{
+			KWSprite(0,0,0,0,hud_buttons);
+			KWSpriteScale(posx,posy,scale,(hud_buttons+0x1700),16,16);
+		}
+		break;
+	
+	default:
+		if (scale == 1 || scale == 0)
+		{
+			KWSprite(posx,posy,16,16,(hud_buttons+0x1600));
+		}
+		else
+		{
+			KWSprite(0,0,0,0,hud_buttons);
+			KWSpriteScale(posx,posy,scale,(hud_buttons+0x1600),16,16);
+		}
+		break;
+	}
+}
+
+void SpriteBtnDLeft(int posx, int posy, float scale, bool pressed)
+{
+	switch (pressed)
+	{
+	case true:
+		if (scale == 1 || scale == 0)
+		{
+			KWSprite(posx,posy,16,16,(hud_buttons+0x1900));
+		}
+		else
+		{
+			KWSprite(0,0,0,0,hud_buttons);
+			KWSpriteScale(posx,posy,scale,(hud_buttons+0x1900),16,16);
+		}
+		break;
+	
+	default:
+		if (scale == 1 || scale == 0)
+		{
+			KWSprite(posx,posy,16,16,(hud_buttons+0x1800));
+		}
+		else
+		{
+			KWSprite(0,0,0,0,hud_buttons);
+			KWSpriteScale(posx,posy,scale,(hud_buttons+0x1800),16,16);
+		}
+		break;
+	}
+}
+
+void SpriteBtnDRight(int posx, int posy, float scale, bool pressed)
+{
+	switch (pressed)
+	{
+	case true:
+		if (scale == 1 || scale == 0)
+		{
+			KWSprite(posx,posy,16,16,(hud_buttons+0x1B00));
+		}
+		else
+		{
+			KWSprite(0,0,0,0,hud_buttons);
+			KWSpriteScale(posx,posy,scale,(hud_buttons+0x1B00),16,16);
+		}
+		break;
+	
+	default:
+		if (scale == 1 || scale == 0)
+		{
+			KWSprite(posx,posy,16,16,(hud_buttons+0x1A00));
+		}
+		else
+		{
+			KWSprite(0,0,0,0,hud_buttons);
+			KWSpriteScale(posx,posy,scale,(hud_buttons+0x1A00),16,16);
+		}
+		break;
+	}
+}
+
+void SpriteBtnDMid(int posx, int posy, float scale)
+{
+
+	if (scale == 1 || scale == 0)
+	{
+		KWSprite(posx,posy,16,16,(hud_buttons+0x1C00));
+	}
+	else
+	{
+		KWSprite(0,0,0,0,hud_buttons);
+		KWSpriteScale(posx,posy,scale,(hud_buttons+0x1C00),16,16);
+	}
+}
+
+//Direction: 0-Mid; 1-Up; 2-Down; 3-Left; 4-Right
+void SpriteAnalogStick(int posx, int posy, float scale, char direction)
+{
+	switch (direction)
+	{
+	case 1: //UP
+		if (scale == 1 || scale == 0)
+		{
+			KWSprite(posx,posy,16,16,(hud_buttons+0x1E00));
+		}
+		else
+		{
+			KWSprite(0,0,0,0,hud_buttons);
+			KWSpriteScale(posx,posy,scale,(hud_buttons+0x1E00),16,16);
+		}
+		break;
+	case 2: //DOWN
+		if (scale == 1 || scale == 0)
+		{
+			KWSprite(posx,posy,16,16,(hud_buttons+0x1F00));
+		}
+		else
+		{
+			KWSprite(0,0,0,0,hud_buttons);
+			KWSpriteScale(posx,posy,scale,(hud_buttons+0x1F00),16,16);
+		}
+		break;
+	case 3: //LEFT
+		if (scale == 1 || scale == 0)
+		{
+			KWSprite(posx,posy,16,16,(hud_buttons+0x2000));
+		}
+		else
+		{
+			KWSprite(0,0,0,0,hud_buttons);
+			KWSpriteScale(posx,posy,scale,(hud_buttons+0x2000),16,16);
+		}
+		break;
+	case 4: //RIGHT
+		if (scale == 1 || scale == 0)
+		{
+			KWSprite(posx,posy,16,16,(hud_buttons+0x2100));
+		}
+		else
+		{
+			KWSprite(0,0,0,0,hud_buttons);
+			KWSpriteScale(posx,posy,scale,(hud_buttons+0x2100),16,16);
+		}
+		break;	
+	default:
+		if (scale == 1 || scale == 0)
+		{
+			KWSprite(posx,posy,16,16,(hud_buttons+0x1D00));
+		}
+		else
+		{
+			KWSprite(0,0,0,0,hud_buttons);
+			KWSpriteScale(posx,posy,scale,(hud_buttons+0x1D00),16,16);
+		}
+		break;
 	}
 }
 

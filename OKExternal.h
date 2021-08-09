@@ -27,6 +27,7 @@ extern long HeartSpriteROM;
 extern long TitleMenuFrameROM;
 
 extern long NiceFontROM;
+extern long HudButtonsROM;
 
 extern long TestTexture;
 
