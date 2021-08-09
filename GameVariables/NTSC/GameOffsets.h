@@ -209,6 +209,18 @@ extern short spriteKillD; //0x80021248 //2400
 /* DELETE */extern float g_hudCharpicRankY2; // 0x8018D054 
 /* DELETE */extern char g_hudCharpicRankY3; // 0x8018D058 
 /* DELETE */extern float g_hudCharpicRankY4; // 0x8018D05C 
+/* DELETE */ extern short g_musicIDRaceways; // 0x8028ECE6 //use array extern short songID[12]; 
+/* DELETE */ extern short g_musicIDToad; // 0x8028ECF6
+/* DELETE */ extern short g_musicIDCountry; // 0x8028ED06
+/* DELETE */ extern short g_musicIDBattle1; // 0x8028ED16
+/* DELETE */ extern short g_musicIDKalamari; // 0x8028ED26
+/* DELETE */ extern short g_musicIDKoopa; // 0x8028ED36
+/* DELETE */ extern short g_musicIDBowser; // 0x8028ED46
+/* DELETE */ extern short g_musicIDBanshee; // 0x8028ED56
+/* DELETE */ extern short g_musicIDSnowy; // 0x8028ED66
+/* DELETE */ extern short g_musicIDRainbow; // 0x8028ED76
+/* DELETE */ extern short g_musicIDDK; // 0x8028ED86
+/* DELETE */ extern short g_musicIDBattle2; // 0x8028ED96
 
 //RENAMED
 // g_ScreenSplitB to g_screenSplitB (cause g_screenSplitA)
@@ -222,7 +234,7 @@ extern char g_itemA;
 extern char g_itemB;
 extern char g_itemC;
 extern long g_gameType;
-
+extern uchar g_customMode;
 
 
 
@@ -1000,18 +1012,6 @@ extern int ItemBoxModel; //0x0D003288
 //                                                                                               //
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 extern short songID[12]; //0-Raceways 1-Toad 2-Country 3-Battle1 4-Kalamari 5-Koopa 6-Bowser 7-Banshee 8-Snowy 9-Rainbow 10-DK 11-Battle2
-/* DELETE */ extern short g_musicIDRaceways; // 0x8028ECE6 //use array extern short songID[12]; 
-/* DELETE */ extern short g_musicIDToad; // 0x8028ECF6
-/* DELETE */ extern short g_musicIDCountry; // 0x8028ED06
-/* DELETE */ extern short g_musicIDBattle1; // 0x8028ED16
-/* DELETE */ extern short g_musicIDKalamari; // 0x8028ED26
-/* DELETE */ extern short g_musicIDKoopa; // 0x8028ED36
-/* DELETE */ extern short g_musicIDBowser; // 0x8028ED46
-/* DELETE */ extern short g_musicIDBanshee; // 0x8028ED56
-/* DELETE */ extern short g_musicIDSnowy; // 0x8028ED66
-/* DELETE */ extern short g_musicIDRainbow; // 0x8028ED76
-/* DELETE */ extern short g_musicIDDK; // 0x8028ED86
-/* DELETE */ extern short g_musicIDBattle2; // 0x8028ED96
 
 extern long asm_SongA;// 0x8028EC9C
 extern long asm_SongB;// 0x8028F9C4
