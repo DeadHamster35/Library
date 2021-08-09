@@ -265,10 +265,10 @@
 .definelabel g_startingIndicator, 0x800DC510
 .definelabel g_DebugSection, 0x800DC514
 .definelabel g_DebugMode, 0x800DC520
-.definelabel g_NewSequenceMode, 0x800DC24
-.definelabel g_NextSequenceMode, 0x800DC28
+.definelabel g_NewSequenceMode, 0x800DC524
+.definelabel g_NextSequenceMode, 0x800DC528
 .definelabel g_screenSplitA, 0x800DC52C
-.definelabel g_ScreenSplitB, 0x800DC530
+.definelabel g_screenSplitB, 0x800DC530
 .definelabel g_playerCount, 0x800DC538
 .definelabel g_raceClass, 0x800DC548
 .definelabel g_gameTimer, 0x800DC598
@@ -285,6 +285,7 @@
 .definelabel g_courseFaceMaxIndex, 0x8015F588
 
 .definelabel GlobalStat, 0x800E2360 
+.definelabel gravity, 0x800E2650
 .definelabel gravity_1, 0x800E2650
 .definelabel gravity_2, 0x800E2654
 .definelabel gravity_3, 0x800E2658
@@ -299,6 +300,12 @@
 
 
 .definelabel g_CupArray, 0x800F2BB4
+.definelabel g_cupArray0, 0x800F2BB4
+.definelabel g_cupArray1, 0x800F2BBC
+.definelabel g_cupArray2, 0x800F2BC4
+.definelabel g_cupArray3, 0x800F2BCC
+.definelabel g_cupArrayB, 0x800F2BD4
+
 .definelabel g_cup0Array0, 0x800F2BB4
 .definelabel g_cup0Array1, 0x800F2BB6
 .definelabel g_cup0Array2, 0x800F2BB8
@@ -506,6 +513,7 @@
 
 .definelabel g_CourseObstacle, 0x8016359C
 
+.definelabel g_playerPosition, 0x801643B8
 .definelabel g_playerPosition1, 0x801643B8
 .definelabel g_playerPosition2, 0x801643BC
 .definelabel g_playerPosition3, 0x801643C0
@@ -549,14 +557,7 @@
 .definelabel itemB, 0x80165F5D
 .definelabel itemC, 0x80165F8A
 
-//.definelabel g_TimeLapTable, 0x8018CA70           !!! renamed to g_hudStruct !!!
-//.definelabel g_lapCheckA, 0x8018CAE1              !!! removed inside HUD struct now: finlineAnim2 !!! U use this in MarioKartPractice.c
-//.definelabel g_lapCheckB, 0x8018CAE2              !!! removed inside HUD struct now: lapCount !!! U use this in MarioKartPractice.c
 .definelabel g_hudStruct, 0x8018CA70
-.definelabel g_hudPlayer1, 0x8018CA70
-.definelabel g_hudPlayer2, 0x8018CAF4
-.definelabel g_hudPlayer3, 0x8018CB78
-.definelabel g_hudPlayer4, 0x8018CBFC
 
 //hud p1 p2
 .definelabel g_hudToggleFlag, 0x80165808
@@ -575,7 +576,10 @@
 //hud p1 only
 .definelabel g_hudCharpicRankToggle, 0x8018D2BF
 .definelabel g_hudCharpicRankA, 0x8018D3E3
-.definelabel g_hudCharpicRankX1, 0x8018D027 //float
+.definelabel g_hudCharpicRankX, 0x8018D028
+.definelabel g_hudCharpicRankY, 0x8018D050 
+
+.definelabel g_hudCharpicRankX1, 0x8018D027
 .definelabel g_hudCharpicRankX2, 0x8018D02B
 .definelabel g_hudCharpicRankX3, 0x8018D02F 
 .definelabel g_hudCharpicRankX4, 0x8018D033 
@@ -652,12 +656,15 @@
 .definelabel g_menuPreviewValue3, 0x8018DC07
 .definelabel g_menuPreviewValue4, 0x8018DC2F
 
-.definelabel g_zoomFOVPlayer1, 0x80150131 //20-zoomed in 70-zoomed out
+
+
+.definelabel g_zoomFOVPlayer1, 0x80150131
 .definelabel g_zoomFOVPlayer2, 0x80150135 
 .definelabel g_zoomFOVPlayer3, 0x80150139 
 .definelabel g_zoomFOVPlayer4, 0x8015013D 
 
-.definelabel g_zoomLevelPlayer1, 0x80164679 //0-zoomed in 1-zoomed out 2-super close
+.definelabel g_zoomLevelPlayer, 0x80164678 
+.definelabel g_zoomLevelPlayer1, 0x80164679 
 .definelabel g_zoomLevelPlayer2, 0x8016467B 
 .definelabel g_zoomLevelPlayer3, 0x8016467D 
 .definelabel g_zoomLevelPlayer4, 0x8016467F 
@@ -803,6 +810,8 @@
 
 //fog
 .definelabel g_fogToggleBanshee, 0x800DC5BD
+.definelabel fogLevelA, 0x802B87B0
+.definelabel fogLevelB, 0x802B87B4
 .definelabel g_fogR, 0x801625EF
 .definelabel g_fogG, 0x801625F3
 .definelabel g_fogB, 0x801625F7
@@ -814,6 +823,9 @@
 
 //lightning flags
 .definelabel g_lightningFlag, 0x800EA168
+.definelabel g_playerFlagLightning, 0x800E9F24
+.definelabel lightningTime, 0x8008E302 
+
 .definelabel g_lightningFlagPlayer1, 0x800E9F24
 .definelabel g_lightningFlagPlayer2, 0x800E9F25
 .definelabel g_lightningFlagPlayer3, 0x800E9F26
@@ -824,6 +836,8 @@
 .definelabel g_lightningFlagPlayer8, 0x800E9F2B
 
 //offroad flags
+.definelabel g_playerFlagOffroad, 0x80165330
+
 .definelabel g_offroadFlagPlayer1, 0x80165330 //short
 .definelabel g_offroadFlagPlayer2, 0x80165332 //short
 .definelabel g_offroadFlagPlayer3, 0x80165334 //short
@@ -855,7 +869,7 @@
 .definelabel g_colorPlayer7R, 0x80164B1E //red with kart
 
 //GP points
-.definelabel g_playerGPpoints, 0x8018D9C8
+.definelabel g_kartGPpoints, 0x8018D9C8
 
 //multiplayer points
 .definelabel g_2PRacePoints, 0x8000031C
@@ -947,3 +961,90 @@
 .definelabel HoleModel, 0x0D007C10
 .definelabel ItemBoxModel, 0x0D003288
 .definelabel MoveFallingRock, 0x8029D188
+
+.definelabel g_eeprom_struct, 0x8018EB90
+
+.definelabel g_ViewportStruct, 0x8015F490
+.definelabel g_Viewport1, 0x8015F490
+.definelabel g_Viewport2, 0x8015F4D0
+.definelabel g_Viewport3, 0x8015F510
+.definelabel g_Viewport4, 0x8015F550
+
+.definelabel g_2PweaponModifierP1, 0x80165F5D
+.definelabel g_2PweaponModifierP2, 0x8016603D
+.definelabel g_2PweaponModifierP3, 0x8016611D
+.definelabel g_2PweaponModifierP4, 0x801661FD
+.definelabel g_2PweaponModifierP5, 0x801662DD
+.definelabel g_2PweaponModifierP6, 0x801663BD
+.definelabel g_2PweaponModifierP7, 0x8016649D
+.definelabel g_2PweaponModifierP8, 0x8016657D
+
+.definelabel g_4PweaponModifierP1, 0x8016611D
+.definelabel g_4PweaponModifierP2, 0x801661FD
+.definelabel g_4PweaponModifierP3, 0x801662DD
+.definelabel g_4PweaponModifierP4, 0x801663BD
+
+.definelabel g_koopaWaves, 0x8015F8E8 
+
+.definelabel titleProgressButton, 0x8018EE04
+
+.definelabel kwtexture2D_a4_xlu_pt, 0x8004A2F4
+.definelabel kwtexture2D_a4_bl, 0x8004A258
+.definelabel kwscale2D, 0x800420A8
+.definelabel kwtexture2D_a4_xlu_bl, 0x8004A384
+.definelabel kwdisplay_zanzou, 0x8004EB38
+.definelabel kwtexture2D_rgba_xl, 0x800465B8
+.definelabel kwsprite_xlu, 0x8004C9D8
+.definelabel kwsprite_ci8_xlu_pt, 0x8004E3F4
+.definelabel spr_draw_ci8, 0x8004DF5C
+.definelabel kwsprite_ia8_xlu_pt, 0x8004D044
+.definelabel kwtexture2D_ci8_xlu_pt, 0x80047B9C
+.definelabel kwsprite_sub, 0x8004C268
+
+.definelabel GetCupStatus, 0x800B54C0
+.definelabel g_RAMtrophies, 0x8018ED10
+
+.definelabel lost_ghost, 0x80162DF8
+
+.definelabel reset_shadow_flag, 0x802977E4
+.definelabel collision_check_routin, 0x802A0450
+.definelabel collision_egg, 0x8029F408
+.definelabel collision_tree, 0x8029F69C
+.definelabel collision_pakkun, 0x8029F2FC
+.definelabel collision_mkanban, 0x8029F1F8
+.definelabel kill_object, 0x8029FDC8
+.definelabel set_broken, 0x8008DABC
+.definelabel set_shadow_flag, 0x802977B0
+.definelabel kwhit_tree, 0x80077AB0
+
+.definelabel kwdisplay_totaltime, 0x8004FA78
+.definelabel kwprintlaptime, 0x8004F7F4
+.definelabel kwdisplay_enemycar, 0x800514BC
+.definelabel kwdisplay_kaopanel, 0x80050320
+.definelabel kwdisplay_radarmap, 0x8004EE54
+.definelabel kwdisplay_radarsline, 0x8004F020
+.definelabel kwdisplay_radarplayer, 0x8004F3E4
+.definelabel kwdisplay_itemboxs, 0x8004E6C4
+.definelabel kwdisplay_ranks, 0x800590D4
+
+.definelabel g_battleBalloonCt, 0x8018D8C0
+
+.definelabel g_kartGPrank, 0x8018D9D0
+
+.definelabel g_screenBorders, 0x80001E64 // disable 2400
+.definelabel g_debugScreenLines, 0x801657B2
+
+.definelabel g_demoFlag, 0x800DC51C
+.definelabel g_cupLevel, 0x8018EE0B 
+.definelabel g_gamePausedFlagPlayer, 0x800DC5FD 
+
+.definelabel raceBombs1, 0x8000985B // 5 disable
+.definelabel raceBombs2, 0x8001C40B 
+.definelabel kill_bomb_kart, 0x8008FC1C //Collision kart2kart
+.definelabel accele_on, 0x80030FC8 //Reverse Acceleration
+.definelabel check_accele_on, 0x80030E00 //Reverse Acceleration
+.definelabel accele_off, 0x80031F48 //Reverse Acceleration
+.definelabel check_accele_off, 0x80030C34 //Reverse Acceleration
+.definelabel check_brake_on, 0x8003221C
+.definelabel breake_on, 0x800323E4
+.definelabel check_brake_off, 0x80032050
