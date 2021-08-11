@@ -432,7 +432,7 @@ void PrintNiceTextNumber(int posx, int posy, float scale, char *text, int value)
 
 
 ///////////////HUD Buttons///////////////
-
+/*
 void loadHudButtons()
 {
 	*sourceAddress = (int)(&HudButtonsROM);
@@ -443,7 +443,7 @@ void loadHudButtons()
 	*targetAddress = (int)(&hud_buttons);
 	runMIO();
 }
-
+*/
 
 void SpriteBtnA(int posx, int posy, float scale, bool pressed)
 {
