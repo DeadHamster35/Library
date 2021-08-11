@@ -1,4 +1,4 @@
-extern void printAnticheat();
+extern void printAnticheat(bool full);
 extern void printMap(int devParameter);
 extern void printDetails();
 extern void printGPTime(float printTime, int OffsetY);

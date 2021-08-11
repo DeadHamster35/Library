@@ -335,7 +335,7 @@ void PlayerSelectMenu(short StatsMode)
      //
      if (MenuBackup == 0)
      {    
-          if (StatsMode == 0)
+          if (StatsMode == 2)
           {
                GlobalBoolB = true;
                
@@ -561,9 +561,18 @@ void PlayerSelectMenu(short StatsMode)
           }
      }
 }
+void MapSelectMenuBefore()
+{     
+     if (MenuChanged != 13)
+     {
+          HotSwapID = 0;
+          MenuChanged = 13;
+     }
+}
 
 void PlayerSelectMenuAfter()
 {
+     HotSwapID = 0;
      if (MenuChanged != 13)
      {
           for (int ThisController = 0; ThisController < g_playerCount; ThisController++)
@@ -685,7 +694,7 @@ void DrawPlayerSelect(short StatsMode)
                GlobalIntA = PlayerSelectPositions[CurrentPlayer].x -1;
                GlobalIntB = PlayerSelectPositions[CurrentPlayer].y +79;
                
-               if ((MenuProgress[CurrentPlayer] == 1) && (StatsMode == 0))
+               if ((MenuProgress[CurrentPlayer] == 1) && (StatsMode == 2))
                {
                     if (MenuFlash[CurrentPlayer] > 255)
                     {
@@ -702,7 +711,7 @@ void DrawPlayerSelect(short StatsMode)
                
                
 
-               if ((MenuProgress[CurrentPlayer] == 2) && (StatsMode == 0))
+               if ((MenuProgress[CurrentPlayer] == 2) && (StatsMode == 2))
                {
                     if (MenuFlash[CurrentPlayer] > 255)
                     {
@@ -740,7 +749,7 @@ void DrawPlayerSelect(short StatsMode)
                GlobalIntB = PlayerSelectPositions[CurrentPlayer].y +79;
 
                GlobalIntB +=12;
-               if (StatsMode > 0)
+               if (StatsMode != 2)
                {
                     GlobalIntC = 58 - (58 * 8 * (1 - (GlobalStat.AccelerationCount[g_raceClass][(int)CharacterConvert[(int)PlayerCharacterSelect[CurrentPlayer] + 1]] / GlobalStat.AccelerationCount[g_raceClass][6])));
                     

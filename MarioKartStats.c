@@ -36,7 +36,6 @@ void dmaLoop(int loopCount)
      {
           runDMA();
           *targetAddress = *targetAddress + dataLength;
-          currentPass++;
      }
 }
 
@@ -46,7 +45,6 @@ void unknown33(int mode)
      switch(mode)
      {
           case 0x00:
-          case 0x01:
           {
                *sourceAddress = 0xE36D0;
                *targetAddress = 0x800E2AD0;
@@ -54,9 +52,9 @@ void unknown33(int mode)
                runDMA();
                break;
           }
-          case 0x02:
+          case 0x01:
           {
-               *sourceAddress = 0xE370C;
+               *sourceAddress = 0xE3748;
                dataLength = 0x3C;
                *targetAddress = 0x800E2AD0;
                dmaLoop(8);
@@ -73,7 +71,6 @@ void unknown41(int mode)
      switch(mode)
      {
           case 0x00:
-          case 0x01:
           {
                *sourceAddress = 0xE38B0;
                *targetAddress = 0x800E2CB0;
@@ -81,9 +78,9 @@ void unknown41(int mode)
                runDMA();
                break;
           }
-          case 0x02:
+          case 0x01:
           {
-               *sourceAddress = 0xE38EC;
+               *sourceAddress = 0xE3A18;
                *targetAddress = 0x800E2CB0;
                dataLength = 0x3C;
                dmaLoop(8);
@@ -98,7 +95,6 @@ void accelTable(int mode)
      switch(mode)
      {
           case 0x00:
-          case 0x01:
           {
                *sourceAddress = 0xE3AD0;
                *targetAddress = 0x800E2ED0 ;
@@ -106,9 +102,9 @@ void accelTable(int mode)
                runDMA();
                break;
           }
-          case 0x02:
+          case 0x01:
           {
-               *sourceAddress = 0xE3AF8;
+               *sourceAddress = 0xE3B48;
                dataLength = 0x28;
                *targetAddress = 0x800E2ED0;
                dmaLoop(8);
@@ -125,7 +121,6 @@ void equalStats(int mode)
      switch(mode)
      {
           case 0x00:
-          case 0x01:
           {
                u11_Mario = 3364;
                u11_Luigi = 3364;
@@ -235,7 +230,7 @@ void equalStats(int mode)
                turncontr_Bowser = 1.15;
                break;
           }
-          case 0x02:
+          case 0x01:
           {
                u11_Mario = 3457;
                u11_Luigi = 3457;

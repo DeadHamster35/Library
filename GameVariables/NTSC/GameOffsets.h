@@ -25,7 +25,8 @@ extern void GetFramebuffer(int PixelX,int PixelY,int Width,int Height,unsigned s
 extern ushort CheckBump(Bump *bump,float Radius,float PositionX,float PositionY,float PositionZ);
 extern ushort CheckBump2(Bump *bump,float Radius,float PositionX,float PositionY,float PositionZ,float LastX, float LastY,float LastZ);
 
-extern void loadCourse(int courseID);
+extern void LoadMap(int courseID);
+extern void InitialRaceSequence();
 extern void BumpVelocity(Vector Bump,float Distance ,Vector Velocity,float co);
 extern void CalcBumpVelocity(Bump InputBump, float Velocity);
 extern void ScrollMapImage(int ObjectAddress,int ScrollS,int ScrollT);
@@ -168,6 +169,15 @@ extern void SetObjBlock(int kind, int x, int y, char pri);
 extern void InitObjBlock();
 extern void DoObjBlock(int pri_flag);
 
+
+extern unsigned long long  SaveFunc800B45E0; //0x800B45E0
+extern unsigned long long  SaveFunc800B4670; //0x800B4670
+extern unsigned long long  SaveFunc800B4CB4; //0x800B4CB4
+extern unsigned long long  SaveFunc800B559C; //0x800B559C
+extern unsigned long long  SaveFunc800B5948; //0x800B5948
+
+extern unsigned long long  LoadFunc800B4A10; //0x800B4A10
+
 extern void DOBPSelTurnIn(ObjBlock Target); //0x800AAB90
 extern void DOBPSelTurnOut(ObjBlock Target); //0x800AAA9C
 
@@ -224,6 +234,10 @@ extern void FadeMain2(int i);
 extern void SetFadeOut(int Fade);
 extern short PutPylon(Vector pos,short number);
 extern short PutObject(Vector pos,int category);
+
+
+extern int osEepromLongRead(void *Queue, uchar Address, uchar *Destination, int Length);
+extern int osEepromLongWrite(void *Queue, uchar Address, uchar *Destination, int Length);
 extern short g_fadeOutFlag;
 extern short g_fadeOutCounter;
 
@@ -262,6 +276,7 @@ extern void colorFont(int color);
 extern void loadFont();
 
 extern long g_SegmentA;
+extern long gIntMesgQueue;
 //
 //
 
@@ -270,6 +285,7 @@ extern long g_resetToggle; //
 extern long g_startingIndicator; //0-Level Start 1-Demo Camera 2-Countdown 3-Racing 4-Finish Waiting 5-Race Finish 6-Fade Out 7-No Operation
 extern short g_DebugSection;
 extern short g_DebugMode;
+extern long g_SequenceMode;
 extern long g_NewSequenceMode;
 extern long g_NextSequenceMode;
 extern long g_screenSplitA;

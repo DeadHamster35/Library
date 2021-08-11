@@ -4,10 +4,13 @@
 
 extern int LoadData(int SourceInput, int SizeData);
 extern bool CheckPlatform();
+extern bool CheckEmulator();
 extern void runDMA();
 extern void runRAM();
 extern void runTKM();
 extern void runMIO();
+extern void loadEEPROM(uint Destination);
+extern void saveEEPROM(uint Source);
 
 extern ushort GetRGBA16(int R, int G, int B, int A);
 extern uint GetRGB32(int R, int G, int B);

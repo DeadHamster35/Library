@@ -19,7 +19,8 @@
 .definelabel GetFramebuffer, 0x802A7658
 .definelabel CheckBump, 0x802ADDC8
 .definelabel CheckBump2, 0x802AD950
-.definelabel loadCourse, 0x802AA918
+.definelabel LoadMap, 0x802AA918
+.definelabel InitialRaceSequence, 0x80002A18
 .definelabel BumpVelocity, 0x802AC114
 .definelabel CalcBumpVelocity, 0x802AC098
 .definelabel ScrollMapImage, 0x802AF7B4
@@ -165,6 +166,14 @@
 
 .definelabel DOBPSelAnimeKuppa, 0x800AA69C
 
+.definelabel SaveFunc800B45E0, 0x800B45E0
+.definelabel SaveFunc800B4670, 0x800B4670
+.definelabel SaveFunc800B4CB4, 0x800B4CB4
+.definelabel SaveFunc800B559C, 0x800B559C
+.definelabel SaveFunc800B5948, 0x800B5948
+
+.definelabel LoadFunc800B4A10, 0x800B4A10
+
 .definelabel SegmentTable, 0x80150258
 .definelabel g_CfbPtrs, 0x801502A8
 
@@ -244,6 +253,10 @@
 .definelabel SetFadeOut, 0x8009DFE0
 .definelabel PutPylon, 0x8029ABD4
 .definelabel PutObject, 0x8029ED38
+
+
+.definelabel osEepromLongRead, 0x800D0190
+.definelabel osEepromLongWrite, 0x800D0050
 .definelabel g_fadeOutFlag, 0x800DC5C0
 .definelabel g_fadeOutCounter, 0x800DC5C4
 
@@ -260,6 +273,8 @@
 .definelabel loadFont, 0x80057710
 
 .definelabel g_SegmentA, 0x80117974
+
+.definelabel gIntMesgQueue, 0x8014F0B8
 ;;
 ;;
 
@@ -267,6 +282,7 @@
 .definelabel g_startingIndicator, 0x800DC510
 .definelabel g_DebugSection, 0x800DC514
 .definelabel g_DebugMode, 0x800DC520
+.definelabel g_SequenceMode, 0x800DC50C
 .definelabel g_NewSequenceMode, 0x800DC524
 .definelabel g_NextSequenceMode, 0x800DC528
 .definelabel g_screenSplitA, 0x800DC52C

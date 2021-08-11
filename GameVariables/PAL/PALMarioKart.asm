@@ -3,7 +3,7 @@
 .definelabel decodeMIO0, 0x800400B0 ;MIO0 File A0 = input, A1 = output
 .definelabel DMA, 0x80001138
 .definelabel decodeTKMK, 0x800405B0
-.definelabel loadCourse, 0x802AA9B8
+.definelabel LoadMap, 0x802AA9B8
 .definelabel ramCopy, 0x800D8000
 
 .definelabel sinT, 0x802B80B8

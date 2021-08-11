@@ -193,7 +193,7 @@ struct PlayerTextureTable BackupNamePlateTable;
 struct PlayerTextureTable BackupPortraitTable[9];
 
 //Mario Kart Stats
-char StatsID;
+char StatsID = -1;
 
 
 //SharedFunctions

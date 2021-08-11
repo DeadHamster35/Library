@@ -38,3 +38,5 @@ extern long JP_Bank;
 
 extern long itemChanceHi;
 extern long itemChanceLo;
+
+extern long ROMEOF;

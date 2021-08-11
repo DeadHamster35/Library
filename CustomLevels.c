@@ -272,7 +272,7 @@ void overkartASM(void)
 
 	g_mapStartToggle = 0x00000000;
 
-	//ok_RedCoinList = 0x06001F28;
+	ok_RedCoinList = 0x06001F28;
 
 
 
@@ -1366,13 +1366,9 @@ void setBanners()
 
 void setPreviews()
 {
-
-	//1F40
-
-	//2F80
 	if (HotSwapID > 0)
 	{
-		for(int currentCourse = 0; currentCourse < 16; currentCourse++)
+		for(int currentCourse = 0; currentCourse < 20; currentCourse++)
 		{
 			*sourceAddress = *(long*)(&ok_MenuOffsets + (currentCourse * 2) + ((HotSwapID-1) * 0x28) + 1);
 
@@ -1387,9 +1383,7 @@ void setPreviews()
 			}
 
 			*sourceAddress += 0x98D65D0;
-
 			*(long*)(&g_CoursePreviewOffsets + 1 + (0xA * currentCourse)) = *sourceAddress;
-
 		}
 	}
 	else
@@ -1399,9 +1393,7 @@ void setPreviews()
 		*sourceAddress = (long)&r_CoursePreviewOffsets;
 		dataLength = 0x320;
 		runDMA();
-
 	}
-
 }
 
 

@@ -6,6 +6,7 @@
 #include "../library/OKHeader.h"
 #include "../library/OKExternal.h"
 #include "LibraryVariables.h"
+#include "LibraryVariables.h"
 #include "SubProgram.h"
 
 
@@ -26,6 +27,15 @@ void runMIO()
 void runTKM()
 {
 	decodeTKMK(*sourceAddress, tkmPoint, *targetAddress, 0xBE);
+}
+
+void loadEEPROM(uint Destination)
+{
+	osEepromLongRead((void*)(0x8014F0B8), 0, (uchar*)(Destination), 512);
+}
+void saveEEPROM(uint Source)
+{
+	osEepromLongWrite((void*)(0x8014F0B8), 0, (uchar*)Source, 512);
 }
 
 ushort GetRGBA16(int R, int G, int B, int A)
@@ -90,6 +100,31 @@ bool CheckPlatform()
 		return true;    //CONSOLE
 	}
 }
+
+
+bool CheckEmulator()
+{
+	// This is an abuse of the memory quirks between Console and Emulator.
+
+	// We're unsure of yet the exact cause
+	// Emulators have extremely fast memory access and no latency, that may be the cause.
+	// Either way, this can detect if a legitimate console is running and return TRUE if so.
+	
+	*targetAddress = 0x80744000;
+	*sourceAddress = (int)&ROMEOF;
+	dataLength = 0x8;
+	runDMA();
+	
+	if (*(int*)(0x80744000) == 0)
+	{
+		return false;    //MUPEN
+	}
+	else
+	{
+		return true;    //PROJECT64
+	}
+}
+
 
 
 int GetRealAddress(int RSPAddress)
@@ -271,9 +306,7 @@ char ReturnStringLength(char *stringAddress)
 	return(GlobalCharE);
 }
 
-
-///////////////Nice Font///////////////
-
+/*
 void loadNiceFont()
 {
 	*sourceAddress = (int)(&NiceFontROM);
@@ -284,7 +317,7 @@ void loadNiceFont()
 	*targetAddress = (int)(&nicefont);
 	runMIO();
 }
-
+*/
 
 
 void PrintNiceText(int posx, int posy, float scale, char *text)
