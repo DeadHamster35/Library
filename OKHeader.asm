@@ -37,7 +37,7 @@
 .definelabel ok_ModelData, ok_ItemTable + 0x30; //hold a ton of potential scrolling objects or translucent objects.
 
 .definelabel ok_Logo, ok_ModelData; // overwrites logo after. 
-.definelabel ok_MRSong, ok_ModelData + 0x4000;
+.definelabel ok_MRSong, ok_ModelData + ok_ModelDataRawSize;
 
 .definelabel ok_USAudio, ok_MRSong + 0x30;
 .definelabel ok_TKMSpace, ok_USAudio + 0x10

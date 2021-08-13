@@ -1014,16 +1014,16 @@ void loadOKObjects()
 		OKObjectArray[This].ObjectData.position[2] = (float)OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginPosition[2];
 
 		OKObjectArray[This].ObjectData.angle[0] = OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginAngle[0] * DEG1;
-		OKObjectArray[This].ObjectData.angle[1] = OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginAngle[1] * DEG1;
-		OKObjectArray[This].ObjectData.angle[2] = OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginAngle[2] * DEG1;
+		OKObjectArray[This].ObjectData.angle[1] = OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginAngle[2] * DEG1;
+		OKObjectArray[This].ObjectData.angle[2] = OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginAngle[1] * DEG1;
 
 		OKObjectArray[This].ObjectData.velocity[0] = (float)(OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginVelocity[0] * 100);
 		OKObjectArray[This].ObjectData.velocity[1] = (float)(OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginVelocity[1] * 100);
 		OKObjectArray[This].ObjectData.velocity[2] = (float)(OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginVelocity[2] * 100);
 
-		OKObjectArray[This].AngularVelocity[0] = OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginAngle[0] * DEG1;
-		OKObjectArray[This].AngularVelocity[1] = OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginAngle[1] * DEG1;
-		OKObjectArray[This].AngularVelocity[2] = OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginAngle[2] * DEG1;
+		OKObjectArray[This].AngularVelocity[0] = OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginAngularVelocity[0] * DEG1;
+		OKObjectArray[This].AngularVelocity[1] = OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginAngularVelocity[2] * DEG1;
+		OKObjectArray[This].AngularVelocity[2] = OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginAngularVelocity[1] * DEG1;
 	}
 	
 }

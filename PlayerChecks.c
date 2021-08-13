@@ -10,7 +10,6 @@
 #include "../library/GameVariables/NTSC/OKassembly.h"
 #include "../library/GameVariables/NTSC/GameOffsets.h"
 #include "../RawAssets/ModelData/ModelData.h"
-#include "../OverKart/OverKartVariables.h"
 
 
 

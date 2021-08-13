@@ -567,6 +567,8 @@ void MapSelectMenuBefore()
      {
           HotSwapID = 0;
           MenuChanged = 13;
+          setLabel();
+          setPreviews();
      }
 }
 

@@ -9,4 +9,5 @@ extern void PlayerSelectMenuStart();
 extern void PlayerSelectMenuAfter();
 extern void GameSelectMenu();
 extern void MapSelectMenu();
+extern void MapSelectMenuBefore();
 extern void DrawPlayerSelect(short StatsMode);
