@@ -497,7 +497,7 @@ long A4Rain[50]={
 
 
 
-void SetWeatherType(char WeatherType) // 0 = Snow // 1 = Rain
+void SetWeatherType(int WeatherType) // 0 = Snow // 1 = Rain
 {
 	if (currentMenu == 0x25 || g_fadeOutCounter == 1)
 	{
@@ -551,7 +551,7 @@ void SetWeatherType(char WeatherType) // 0 = Snow // 1 = Rain
 	}
 }
 
-void SetCloudType(char CloudType)  // 0 = None // 1 = MR Clouds // 2 = Stars // 3 = Snow/Rain
+void SetCloudType(int CloudType)  // 0 = None // 1 = MR Clouds // 2 = Stars // 3 = Snow/Rain
 {
 
 	if (currentMenu == 0x25 || g_fadeOutCounter == 1)
@@ -732,8 +732,7 @@ void setSky()
 	if (HotSwapID > 0)
 	{
 		
-		SetCloudType((char)OverKartHeader.SkyType);
-		SetWeatherType((char)OverKartHeader.WeatherType);
+
 		
 	
 		*targetAddress = (long)&g_skyColorTop00;

@@ -21,6 +21,7 @@ extern int LoopValue;
 extern bool ConsolePlatform;
 extern bool CustomWaterHeight[];
 extern short CloudCourseID, Snow3DCourseID; 
+extern char CloudCourseValue, Snow3DCourseValue, WeatherCourseValue, PADCourseValue;
 
 extern short MenuPosition[2];
 extern int wholeNumber;

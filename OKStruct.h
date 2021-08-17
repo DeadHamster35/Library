@@ -42,7 +42,7 @@ typedef struct OKModel{
 
 typedef struct OKObjectList{
 	short	ObjectIndex;
-	char		SoundPlaying,Padding;
+	char		SoundPlaying, ScriptID;
 	short	OriginPosition[3];
 	short 	OriginAngle[3];
 	short 	OriginVelocity[3];
@@ -137,7 +137,7 @@ typedef struct OKEngine{
 
 #define BEHAVIOR_DEAD	-1
 #define BEHAVIOR_STATIC 	0
-#define BEHAVIOR_ROTATE 	1
+#define BEHAVIOR_FLOAT 	1
 #define BEHAVIOR_PATH	2
 #define BEHAVIOR_WANDER 	3
 #define BEHAVIOR_SEARCH	4

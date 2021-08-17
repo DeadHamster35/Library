@@ -110,12 +110,19 @@ bool CheckEmulator()
 	// Emulators have extremely fast memory access and no latency, that may be the cause.
 	// Either way, this can detect if a legitimate console is running and return TRUE if so.
 	
+	
+	
+	*sourceAddress = 0xBFFFFC;
 	*targetAddress = 0x80744000;
-	*sourceAddress = (int)&ROMEOF;
+	dataLength = 8;
+	runDMA();
+	*sourceAddress = *(uint*)0x80744000;
+
+	*targetAddress = 0x80744010;
 	dataLength = 0x8;
 	runDMA();
 	
-	if (*(int*)(0x80744000) == 0)
+	if (*(int*)(0x80744010) == 0)
 	{
 		return false;    //MUPEN
 	}

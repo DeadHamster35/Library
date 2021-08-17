@@ -25,6 +25,7 @@ int LoopValue;
 bool ConsolePlatform;
 bool CustomWaterHeight[8];
 short CloudCourseID, Snow3DCourseID;
+char CloudCourseValue, Snow3DCourseValue, WeatherCourseValue, PADCourseValue;;
 
 short MenuPosition [2];
 

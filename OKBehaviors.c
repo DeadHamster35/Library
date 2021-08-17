@@ -327,18 +327,17 @@ void Misbehave(OKObject* InputObject)
 	{
 		case BEHAVIOR_STATIC:
 		{
-			ObjectBehaviorExist(InputObject);
-			break;
-		}
-		case BEHAVIOR_ROTATE:
-		{
 			UpdateObjectAngle((Object*)(&InputObject->ObjectData), InputObject->AngularVelocity);
 			ObjectBehaviorExist(InputObject);
 			break;
+		}
+		case BEHAVIOR_FLOAT:
+		{
+			UpdateObjectAngle((Object*)(&InputObject->ObjectData), InputObject->AngularVelocity);			
+			break;
 		}		
 		case BEHAVIOR_PATH:
-		{
-			
+		{			
 			ObjectBehaviorFollowPath(InputObject,(Marker*)(GetRealAddress(*(long*)&pathOffset)));
 		}
 		case BEHAVIOR_WANDER:
