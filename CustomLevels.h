@@ -24,7 +24,7 @@ extern void SetCourseNames(bool custom);
 extern void initFireParticles(long PathOffset);
 extern void DisplayFireParticleSub(int num,uchar color,void* Camera);
 extern void SetWeatherType(int WeatherType);
-extern void SetCloudType(int CloudType);
+extern void SetCloudType(char CloudType);
 extern void SetWeather3D(bool Weather3DEnable);
 extern void Snow3DCameralook(int num, void* Camera);
 extern void EventDisplay(int player);

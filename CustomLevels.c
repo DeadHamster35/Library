@@ -551,7 +551,7 @@ void SetWeatherType(int WeatherType) // 0 = Snow // 1 = Rain
 	}
 }
 
-void SetCloudType(int CloudType)  // 0 = None // 1 = MR Clouds // 2 = Stars // 3 = Snow/Rain
+void SetCloudType(char CloudType)  // 0 = None // 1 = MR Clouds // 2 = Stars // 3 = Snow/Rain
 {
 
 	if (currentMenu == 0x25 || g_fadeOutCounter == 1)
