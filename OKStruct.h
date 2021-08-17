@@ -100,6 +100,13 @@ typedef struct OKPathStruct{
 	uchar	AdjColorR,AdjColorG,AdjColorB;
 } OKPathStruct;
 
+#define SKY_CLEAR 		0
+#define SKY_CLOUD 		1
+#define SKY_STAR 		2
+#define SKY_WEATHER 	3
+
+#define WEATHER_SNOW 	0
+#define WEATHER_RAIN 	1
 
 
 #define PATH_ECHO 		0

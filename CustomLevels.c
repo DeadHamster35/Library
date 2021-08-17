@@ -3,6 +3,7 @@
 #include "../library/OKHeader.h"
 #include "../Library/PlayerChecks.h"
 #include "../library/OKExternal.h"
+#include "../library/OKStruct.h"
 #include "../Library/OKCustomObjects.h"
 #include "../library/LibraryVariables.h"
 #include "../library/GameVariables/NTSC/OKassembly.h"
@@ -505,7 +506,7 @@ void SetWeatherType(int WeatherType) // 0 = Snow // 1 = Rain
 		{
 			switch (WeatherType)
 			{	
-				case 1:
+				case WEATHER_RAIN:
 				{
 					for (int texarr = 0; texarr < 50; texarr++)
 					{
@@ -520,6 +521,7 @@ void SetWeatherType(int WeatherType) // 0 = Snow // 1 = Rain
 					break;
 				}
 
+				case WEATHER_SNOW:
 				default:
 				{
 					for (int texarr = 0; texarr < 50; texarr++)
@@ -559,22 +561,22 @@ void SetCloudType(char CloudType)  // 0 = None // 1 = MR Clouds // 2 = Stars // 
 		
 		switch (CloudType)
 		{
-			case 0:
+			case SKY_CLEAR:
 			{
 				CloudCourseID = 2;
 				break;
 			}
-			case 1:
+			case SKY_CLOUD:
 			{
 				CloudCourseID = 0;
 				break;
 			}
-			case 2:
+			case SKY_STAR:
 			{
 				CloudCourseID = 14;
 				break;
 			}
-			case 3:
+			case SKY_WEATHER:
 			{
 				CloudCourseID = 5;
 				break;
