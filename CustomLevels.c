@@ -455,7 +455,8 @@ void setEcho()
 
 
 //Snow
-long A4Snow[50]={
+long A4Snow[]={
+	0x00000000,0x00000000,
 	0x00000000,0x00000000,
 	0x00000111,0x11100000,
 	0x00011223,0x32211000,
@@ -472,10 +473,11 @@ long A4Snow[50]={
 	0x00011223,0x32211000,
 	0x00000111,0x11100000,
 	0x00000000,0x00000000,
+	0x00000000,0x00000000,
 };
 
 //Rain
-long A4Rain[50]={
+long A4Rain[]={
      0x00000000,0x00000000,
      0x00000000,0x00000000,
      0x00000000,0x00000000,
@@ -508,7 +510,7 @@ void SetWeatherType(int WeatherType) // 0 = Snow // 1 = Rain
 			{	
 				case WEATHER_RAIN:
 				{
-					for (int texarr = 0; texarr < 50; texarr++)
+					for (int texarr = 0; texarr < 36; texarr++)
 					{
 						g_SnowParticleTex[texarr] = A4Rain[texarr];
 					}						
@@ -524,7 +526,7 @@ void SetWeatherType(int WeatherType) // 0 = Snow // 1 = Rain
 				case WEATHER_SNOW:
 				default:
 				{
-					for (int texarr = 0; texarr < 50; texarr++)
+					for (int texarr = 0; texarr < 36; texarr++)
 					{
 						g_SnowParticleTex[texarr] = A4Snow[texarr];
 					}
@@ -540,7 +542,7 @@ void SetWeatherType(int WeatherType) // 0 = Snow // 1 = Rain
 		}
 		else
 		{
-			for (int texarr = 0; texarr < 50; texarr++)
+			for (int texarr = 0; texarr < 36; texarr++)
 			{
 				g_SnowParticleTex[texarr] = A4Snow[texarr];
 			}
@@ -610,6 +612,7 @@ void SetCloudType(char CloudType)  // 0 = None // 1 = MR Clouds // 2 = Stars // 
 			g_skySnowSpawnRadiusDensity = (g_skySnowSpawnRadiusDensity & 0xFFFF0000) + (0x4000 & 0x0000FFFF);
 			g_skySnowSpawnCenterOffset = (g_skySnowSpawnCenterOffset & 0xFFFF0000) + (0xE000 & 0x0000FFFF);
 			g_skySnowScale = 0.15;
+			CloudCourseID = g_courseID;
 		}
 
 	}
@@ -674,7 +677,7 @@ void SetWeather3D(bool Weather3DEnable) // Enables 3D weather effects (snow/rain
 	}
 	else
 	{
-		Snow3DCourseID = 0;
+		Snow3DCourseID = g_courseID;
 	}
 }
 

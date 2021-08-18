@@ -383,22 +383,28 @@ void CheckPaths()
 	GlobalIntA = *(int*)OverKartRAMHeader.EchoOffset;
 	GlobalAddressA = OverKartRAMHeader.EchoOffset + 4;
 	OKPathStruct* PathValues = (OKPathStruct*)GlobalAddressA;		
-	for (int playerID = 0; playerID < g_playerCount; playerID++)					// Loop for each racer		
-	{			
-		SetPlayerEcho(playerID, 0);
-		SetCamShiftUp(playerID, 0);
-		g_noSimpleKartFlag[(int)playerID] = 0;		
-		for (int ThisValue = 0; ThisValue < GlobalIntA; ThisValue++)
-		{				
-			if(((GlobalPlayer[(int)playerID].flag & IS_PLAYER) != 0) && ((GlobalPlayer[(int)playerID].flag & IS_GHOST) == 0))			// Only run for existing racers
-			{
+	for (int playerID = 0; playerID < 8; playerID++)					// Loop for each racer		
+	{
+		if((GlobalPlayer[(int)playerID].flag & EXISTS) != 0)			// Only run for existing racers
+		{
+			if(((GlobalPlayer[(int)playerID].flag & IS_PLAYER) != 0) && ((GlobalPlayer[(int)playerID].flag & IS_GHOST) == 0))
+			{			
+				SetPlayerEcho(playerID, 0);
+				SetCamShiftUp(playerID, 0);
+			}
+			g_noSimpleKartFlag[(int)playerID] = 0;		
+			for (int ThisValue = 0; ThisValue < GlobalIntA; ThisValue++)
+			{				
 				if ((g_playerPathPointTable[(int)playerID] >= PathValues[ThisValue].PathStart) && (g_playerPathPointTable[(int)playerID] <= PathValues[ThisValue].PathStop))		// Path range check
 				{		
 					switch (PathValues[ThisValue].Type)
 					{
 						case (PATH_ECHO):
-						{	
-							SetPlayerEcho(playerID, PathValues[ThisValue].Power);
+						{
+							if(((GlobalPlayer[(int)playerID].flag & IS_PLAYER) != 0) && ((GlobalPlayer[(int)playerID].flag & IS_GHOST) == 0))
+							{	
+								SetPlayerEcho(playerID, PathValues[ThisValue].Power);
+							}
 							break;
 						}
 						case (PATH_COLOR):
@@ -411,7 +417,10 @@ void CheckPaths()
 						}
 						case (PATH_CAMERA):
 						{
-							SetCamShiftUp(playerID, PathValues[ThisValue].Power);
+							if(((GlobalPlayer[(int)playerID].flag & IS_PLAYER) != 0) && ((GlobalPlayer[(int)playerID].flag & IS_GHOST) == 0))
+							{	
+								SetCamShiftUp(playerID, PathValues[ThisValue].Power);
+							}
 							break;
 						}
 						case (PATH_NOSIMPLE):
@@ -420,10 +429,13 @@ void CheckPaths()
 							break;
 						}
 						case (PATH_JUMP):
-						{							
-							if((char)((GlobalPlayer[(int)playerID].jugemu_flag) != 0))
-							{
-								g_playerPathPointTable[playerID] = PathValues[ThisValue].PathStart;
+						{
+							if(((GlobalPlayer[(int)playerID].flag & IS_PLAYER) != 0) && ((GlobalPlayer[(int)playerID].flag & IS_GHOST) == 0))
+							{														
+								if((char)((GlobalPlayer[(int)playerID].jugemu_flag) != 0))
+								{
+									g_playerPathPointTable[playerID] = PathValues[ThisValue].PathStart;
+								}
 							}
 							break;
 						}
@@ -435,6 +447,6 @@ void CheckPaths()
 					}
 				}
 			}
-		}	
+		}
 	}
 }

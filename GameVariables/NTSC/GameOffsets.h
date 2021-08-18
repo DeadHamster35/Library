@@ -761,7 +761,7 @@ extern struct Skycolor g_skyColorTop11; // 0x802B8B9C
 extern struct Skycolor g_skyColorTop12; // 0x802B8BA9
 extern struct Skycolor g_skyColorTop13; // 0x802B8BB4
 
-extern long g_SnowParticleTex[50];
+extern long g_SnowParticleTex[36];
 extern long *g_MRCloudTexPtr; // Set of four I4 cloud images, 0x400 length each.
 
 extern float g_skySnowScale;
