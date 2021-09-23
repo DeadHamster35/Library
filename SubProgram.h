@@ -1,6 +1,7 @@
 #ifndef SubProgram_H
 #define SubProgram_H
-#endif
+
+#include "MainInclude.h"
 
 #define   DEG1 0xB6
 #define	SegmentOffset(a)	((unsigned int)(a) & 0x00ffffff)
@@ -12,3 +13,4 @@
 #define   MaxPowerConvert(a)  ((a * a) / 25)
 #define   MaxPowerBase(a)     Sqrtf(a * 25)
 
+#endif

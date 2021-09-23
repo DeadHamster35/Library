@@ -1,14 +1,9 @@
-#include <stdbool.h>
-#include "OKHeader.h"
-
-#include "GameVariables/NTSC/GameOffsets.h"
-#include "GameVariables/NTSC/StatsOffsets.h"
-#include "Struct.h"
-#include "OKStruct.h"
-
+#include "MainInclude.h"
 
 uint GlobalAddressA, GlobalAddressB, GlobalAddressC, GlobalAddressD;
 int GlobalIntA, GlobalIntB, GlobalIntC, GlobalIntD;
+int64     GlobalInt64;
+uint64    GlobalUInt64;
 uint GlobalUIntA, GlobalUIntB;
 int MenuIntA, MenuIntB, MenuIntC, MenuIntD;
 float GlobalFloatA, GlobalFloatB, GlobalFloatC, GlobalFloatD;
@@ -22,7 +17,7 @@ short GlobalShortA, GlobalShortB;
 bool GlobalBoolA, GlobalBoolB, GlobalBoolC, GlobalBoolD;
 int LoopValue;
 
-bool ConsolePlatform;
+bool ConsolePlatform, EmulatorPlatform, TempoBool, StopSwop;
 bool CustomWaterHeight[8];
 short CloudCourseID, Snow3DCourseID;
 char CloudCourseValue, Snow3DCourseValue, WeatherCourseValue, PADCourseValue;;
@@ -203,7 +198,6 @@ int *targetAddress = &ok_Target;
 int *sourceAddress = &ok_Source;
 int *tempPointer = &ok_Pointer;
 long *graphPointer = &GraphPtrOffset;
-int *freeSpacePoint = &ok_FreeSpace;
 int *tkmPoint = &ok_TKMSpace;
 int RSPNumber;
 int RSPOffset;
@@ -241,7 +235,7 @@ float gpTotalTime = 0;
 
 int VersionNumber;
 char MenuButtonHeld, ButtonHeld, ButtonTimer, AudioLanguage;
-short SystemType;
+
 
 
 //
@@ -250,6 +244,6 @@ short SystemType;
 
 //CustomLevels
 int ScrollValues[32][2];
-long *CourseFaceStruct = &g_courseFaceStructPtr;
+FaceStruct *CourseFaceStruct = (FaceStruct*)(&g_courseFaceStructPtr);
 //
 //

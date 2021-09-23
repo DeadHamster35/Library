@@ -1,4 +1,6 @@
-#include "Struct.h"
+#ifndef MarioKartObjectsH
+#define MarioKartObjectsH
+#include "MainInclude.h"
 
 extern short MasterCreateObject(float localPosition[], short localRotation[], float localVelocity[], short localID, float radius);
 extern short CreateObjectRadius(float localPosition[], short localRotation[], short localID, float radius);
@@ -11,3 +13,4 @@ extern void UpdateObjectGravity(Object* InputObject);
 extern void UpdateObjectBump(Object* InputObject);
 extern void UpdateObjectFriction(Object* InputObject, float Friction);
 extern void UpdateObjectFrictionScale(Object* InputObject, float FrictionScale);
+#endif

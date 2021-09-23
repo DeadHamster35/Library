@@ -1,17 +1,4 @@
-#include <stdbool.h>
-#include "../library/SubProgram.h"
-#include "../library/SharedFunctions.h"
-#include "../library/OKHeader.h"
-
-#include "../library/OKExternal.h"
-#include "../library/LibraryVariables.h"
-#include "../library/MarioKartObjects.h"
-#include "../library/MarioKart3D.h"
-#include "../library/Struct.h"
-#include "../library/OKStruct.h"
-#include "../library/OKCustomObjects.h"
-#include "../library/GameVariables/NTSC/OKassembly.h"
-#include "../library/GameVariables/NTSC/GameOffsets.h"
+#include "../MainInclude.h"
 
 
 short ObjectSubBehaviorTurnTarget(float InputPosition[3], short InputAngle, float TargetPosition[3], short ToleranceAngle)

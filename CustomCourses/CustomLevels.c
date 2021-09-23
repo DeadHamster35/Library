@@ -1,14 +1,4 @@
-#include "../library/SubProgram.h"
-#include "../library/SharedFunctions.h"
-#include "../library/OKHeader.h"
-#include "../Library/PlayerChecks.h"
-#include "../library/OKExternal.h"
-#include "../library/OKStruct.h"
-#include "../Library/OKCustomObjects.h"
-#include "../library/LibraryVariables.h"
-#include "../library/GameVariables/NTSC/OKassembly.h"
-#include "../library/GameVariables/NTSC/GameOffsets.h"
-
+#include "../MainInclude.h"
 
 
 
@@ -300,16 +290,25 @@ void overkartASM(void)
 
 void setSong()
 {
-	if ((HotSwapID > 0))
+	if ((HotSwapID > 0) && (OverKartHeader.Version != 0xFFFFFFFF))
 	{
 		
 		if (OverKartHeader.MusicID < 0x50)
 		{
 			songID = (short)OverKartHeader.MusicID;
+
+			dataLength = 8;
+			*sourceAddress = (long)&ok_Sequence;
+			*targetAddress = (long)((long)(&g_SequenceTable) + (3 * 8) + 4);
+			runRAM();
+			*sourceAddress = (long)&ok_Instrument;
+			*targetAddress = (long)((long)(&g_InstrumentTable) + (3 * 8) + 4);
+			runRAM();
 		}
 		else
 		{
 			songID = 0x03;
+
 			*sourceAddress = OverKartHeader.MusicID;
 			dataLength = 8;
 			*targetAddress = (long)((long)(&g_SequenceTable) + (3 * 8) + 4);
@@ -323,6 +322,14 @@ void setSong()
 	else
 	{
 		songID = 0x03;
+
+		*sourceAddress = (long)&ok_Sequence;
+		dataLength = 8;
+		*targetAddress = (long)((long)(&g_SequenceTable) + (3 * 8) + 4);
+		runRAM();
+		*sourceAddress = (long)&ok_Instrument;
+		*targetAddress = (long)((long)(&g_InstrumentTable) + (3 * 8) + 4);
+		runRAM();
 	}
 }
 
@@ -330,7 +337,7 @@ void setSong()
 
 void setTempo(void)
 {
-	if (SystemType == 0)
+	if (TempoBool == 0)
 	{
 		if (HotSwapID > 0)
 		{
@@ -386,18 +393,18 @@ void setTempo(void)
 	{
 		asm_tempo1A = 0x240F0000;
 		asm_tempo1B = 0x240F0000;
-		asm_tempo1ASpeed = 2;
-		asm_tempo1BSpeed = 2;
+		asm_tempo1ASpeed = (short)2;
+		asm_tempo1BSpeed = (short)2;
 
 		asm_tempo2A = 0x24090000;
 		asm_tempo2B = 0x24090000;
-		asm_tempo2ASpeed = 2;
-		asm_tempo2BSpeed = 2;
+		asm_tempo2ASpeed = (short)2;
+		asm_tempo2BSpeed = (short)2;
 
 		asm_tempo3A = 0x240A0000;
 		asm_tempo3B = 0x240A0000;
-		asm_tempo3ASpeed = 2;
-		asm_tempo3BSpeed = 2;
+		asm_tempo3ASpeed = (short)2;
+		asm_tempo3BSpeed = (short)2;
 	}
 	
 
@@ -406,7 +413,7 @@ void setTempo(void)
 void setPath()
 {
 
-	if (HotSwapID > 0)
+	if ((HotSwapID > 0) && (OverKartHeader.Version != 0xFFFFFFFF))
 	{
 		g_pathLength =(short)(OverKartHeader.PathLength) + 10;
 
@@ -422,8 +429,7 @@ void setWater()
 
 	if (HotSwapID > 0)
 	{
-		g_waterHeight = OverKartHeader.WaterLevel;
-		SetWaterType(OverKartHeader.WaterType);
+		g_waterHeight = OverKartHeader.WaterLevel;		
 	}
 }
 
@@ -436,13 +442,17 @@ void CheckEcho()
 
 void setEcho()
 {
-	if (HotSwapID > 0)
+	if ((HotSwapID > 0) && (OverKartHeader.Version != 0xFFFFFFFF))
 	{		
+		OverKartRAMHeader.EchoOffset = 0;
 		GlobalIntA = OverKartHeader.EchoEnd - OverKartHeader.EchoStart;
 		OverKartRAMHeader.EchoOffset = LoadData(OverKartHeader.EchoStart, GlobalIntA);
+		g_EchoStart = 0;
+		g_EchoStop = 0;
 	}
 	else
 	{
+		OverKartRAMHeader.EchoOffset = 0;
 		g_EchoStart = 0x19B;
 		g_EchoStop = 0x1B9;
 	}
@@ -568,11 +578,6 @@ void SetCloudType(char CloudType)  // 0 = None // 1 = MR Clouds // 2 = Stars // 
 				CloudCourseID = 2;
 				break;
 			}
-			case SKY_CLOUD:
-			{
-				CloudCourseID = 0;
-				break;
-			}
 			case SKY_STAR:
 			{
 				CloudCourseID = 14;
@@ -583,6 +588,7 @@ void SetCloudType(char CloudType)  // 0 = None // 1 = MR Clouds // 2 = Stars // 
 				CloudCourseID = 5;
 				break;
 			}
+			case SKY_CLOUD:
 			default:
 			{
 				CloudCourseID = 0;
@@ -621,24 +627,26 @@ void SetCloudType(char CloudType)  // 0 = None // 1 = MR Clouds // 2 = Stars // 
 void Snow3DTrigger()						// Used to disable 3D snow on certain pathmarker ranges 
 {
 	#define S3DArraySize 2					// Array size for the total amount of 3DSnow Disable sections used. Pull from course data
-
+/*
 	short S3DTrStart[S3DArraySize];
 	short S3DTrEnd[S3DArraySize];
-
+*/
 	if (Snow3DCourseID == 5)				// Only run for existing racers
 	{
 		for (int LoopVal = 0; LoopVal < S3DArraySize; LoopVal++)
 		{
 		// Fill out each index of the arrays with data from course. Loop value as offset multiplicator//
+			/*
 			S3DTrStart[LoopVal] = 140;
 			S3DTrEnd[LoopVal] = 200;
 
-
+			
 			if ((g_playerPathPointTable[0] >= S3DTrStart[LoopVal]) && (g_playerPathPointTable[0] <= S3DTrEnd[LoopVal]))		// Path range check
 			{
 				g_3DSnowSpawnHeight = (g_3DSnowSpawnHeight & 0xFFFF0000) + (0x602D & 0x0000FFFF);
 				break;
 			}
+			*/
 			g_3DSnowSpawnHeight = (g_3DSnowSpawnHeight & 0xFFFF0000) + (0x002D & 0x0000FFFF);
 		}
 	}
@@ -821,16 +829,16 @@ void runTextureScroll()
 void runWaterVertex()
 {
 	LoopValue = *(long*)(&ok_scrolltranslucent);
-    if (LoopValue == 0xFFFFFFFF)
-    {
-        return;
-    }
+	if (LoopValue == 0xFFFFFFFF)
+	{
+		return;
+	}
 	GlobalAddressA = (long)(&ok_scrolltranslucent) + (LoopValue * 8) + 4;
 	LoopValue = *(long*)GlobalAddressA;
-    if (LoopValue == 0xFFFFFFFF)
-    {
-        return;
-    }
+	if (LoopValue == 0xFFFFFFFF)
+	{
+		return;
+	}
 	for (int CurrentWater = 0; CurrentWater < LoopValue; CurrentWater++)
 	{
 		GlobalAddressB = *(long*)(GlobalAddressA + (CurrentWater * 8) + 4);
@@ -1083,7 +1091,10 @@ void loadHotSwap(int inputID)
 			dataLength = 0x30;
 			runRAM();
 		}
-		setText();
+		else
+		{
+			OverKartHeader.Version = 0xFFFFFFFF;
+		}
 		SetCourseNames(true);
 	}
 	else
@@ -1093,25 +1104,25 @@ void loadHotSwap(int inputID)
 		*targetAddress = (long)&g_courseTable;
 		dataLength = 0x30;
 		runDMA();
-		setText();
+		
 		SetCourseNames(false);
 	}
 	
 	setTempo();
-	
+	setText();
 	setEcho();
 	setPath();
 	setSong();
-
-
-	if (VersionNumber > 3)
+	
+	
+	if ((VersionNumber > 3) && (OverKartHeader.Version != 0xFFFFFFFF))
 	{
 		loadTextureScrollTranslucent();
 		
 		if (VersionNumber > 4)
 		{
 			loadOKObjects();
-			//setText();
+			
 			LoadBomb();
 			
 
@@ -1130,6 +1141,7 @@ void loadHotSwap(int inputID)
 		}
 		
 	}
+	
 	
 
 }
@@ -1172,24 +1184,19 @@ void setLabel(void)
 
 void setBanners()
 {
-
-	//1F40
-
-	//2F80
 	if (HotSwapID > 0)
 	{
 		for(int currentCourse = 0; currentCourse < 16; currentCourse++)
 		{
-
-
-			*sourceAddress = *(long*)(&ok_MenuOffsets + (currentCourse * 2) + ((HotSwapID-1) * 0x28));
+			GlobalAddressA = ((long)(&ok_MenuOffsets) + (currentCourse * 8) + ((HotSwapID-1) * 160) );
+			*sourceAddress = *(long*)(GlobalAddressA);
 			if ((*sourceAddress != 0x00000000) && (*sourceAddress != 0xFFFFFFFF))
 			{
 				*targetAddress = (long)&ok_FreeSpace;
-				dataLength = (*(long*)(&ok_MenuOffsets + (currentCourse * 2) + ((HotSwapID-1) * 0x28) + 1) - *sourceAddress);
+				GlobalAddressB = (GlobalAddressA + 4);
+				dataLength = (*(long*)(GlobalAddressB) - *sourceAddress ) + 16;
 				runDMA();
 				*sourceAddress = (long)&ok_FreeSpace;
-
 			}
 			if (*sourceAddress == 0x00000000)
 			{
@@ -1199,35 +1206,14 @@ void setBanners()
 			{
 				*sourceAddress = (long)&bannerN;
 			}
-
-			*targetAddress = (long)(&g_CourseBannerOffsets + (currentCourse * 0x4F0));
+			GlobalAddressA = ((long)(&g_CourseBannerOffsets) + (currentCourse * 5056));
+			*targetAddress = GlobalAddressA;
 			runMIO();
 
 		}
 	}
 	else
 	{
-		/*
-		7FEFC0
-		7FF3C0
-		7fe6c0
-		7ffcc0
-
-		7ff7c0
-		7fe1c0
-		7fcdc0
-		7fc8c0
-
-		8008c0
-		8000c0
-		7febc0
-		7fd2c0
-
-		8018c0
-		7fddc0
-		7fd7c0
-		8004c0
-		*/
 		dataLength = 0x1000;
 		GlobalAddressA = (long)&g_CourseBannerOffsets;
 
@@ -1361,10 +1347,6 @@ void setBanners()
 		*sourceAddress = (long)&ok_FreeSpace;
 		runTKM();
 		GlobalAddressA = GlobalAddressA + 0x13C0;
-		//
-		//
-
-
 	}
 
 }
@@ -1377,18 +1359,16 @@ void setPreviews()
 	{
 		for(int currentCourse = 0; currentCourse < 20; currentCourse++)
 		{
-			*sourceAddress = *(long*)(&ok_MenuOffsets + (currentCourse * 2) + ((HotSwapID-1) * 0x28) + 1);
-
+			GlobalAddressA = (long)(&ok_MenuOffsets) + 4 + (currentCourse * 8) + ((HotSwapID-1) * 160);
+			*sourceAddress = *(long*)(GlobalAddressA);
 			if (*sourceAddress == 0x00000000)
 			{
 				*sourceAddress = (long)&previewU;
 			}
-
 			if (*sourceAddress == 0xFFFFFFFF)
 			{
 				*sourceAddress = (long)&previewN;
 			}
-
 			*sourceAddress += 0x98D65D0;
 			*(long*)(&g_CoursePreviewOffsets + 1 + (0xA * currentCourse)) = *sourceAddress;
 		}
@@ -1414,7 +1394,9 @@ void swapHS(int direction)
 			{
 				stockASM();
 			}
-			HotSwapID = HotSwapID - 1;
+			HotSwapID--;
+			
+			playSound(0x4900801A);
 		}
 	}
 	else
@@ -1425,17 +1407,16 @@ void swapHS(int direction)
 			{
 				overkartASM();
 			}
-			HotSwapID = HotSwapID + 1;
+			HotSwapID++;
+			
+			playSound(0x4900801A);
 		}
 	}
-	setLabel();
-
-
+	
 	setPreviews();
 	previewRefresh();
 	setBanners();
 	courseValue = -1;
-//	playSound(0x4900801A);
 }
 
 

@@ -1,3 +1,6 @@
+#ifndef OKExternalH
+#define OKExternalH
+#include "MainInclude.h"
 //for OverKart's BUILD.ASM
 
 
@@ -39,4 +42,8 @@ extern long JP_Bank;
 extern long itemChanceHi;
 extern long itemChanceLo;
 
+extern long Pirate;
+extern long PirateEnd;
+
 extern long ROMEOF;
+#endif

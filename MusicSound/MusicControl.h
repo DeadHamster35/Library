@@ -1,3 +1,6 @@
+#ifndef MusicControlH
+#define MusicControlH
+#include "../MainInclude.h"
 extern void MusSeqStart(uchar Group, ushort SeqID, uchar Interp);
 extern void MusSeqStop(uchar Group, uchar Interp);
 extern void MusSeqVolumeChange(uchar Group, uchar Volume, uchar Interp);
@@ -19,3 +22,4 @@ extern float MusChanGetVolume(uchar Group, uchar Channel);
 extern void MusChanSetVolume(uchar Group, uchar Channel, float Volume);
 extern float MusChanGetPitch(uchar Group, uchar Channel);
 extern void MusChanSetPitch(uchar Group, uchar Channel, float Pitch);
+#endif

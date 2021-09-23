@@ -257,8 +257,10 @@
 
 .definelabel osEepromLongRead, 0x800D0190
 .definelabel osEepromLongWrite, 0x800D0050
+.definelabel osEepromProbe, 0x800CE340
 .definelabel g_fadeOutFlag, 0x800DC5C0
 .definelabel g_fadeOutCounter, 0x800DC5C4
+.definelabel g_fadeOutCounter2, 0x800DC5C8
 
 
 .definelabel asm_itemJump1A, 0x8007B084  //3C058016

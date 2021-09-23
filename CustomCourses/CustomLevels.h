@@ -1,3 +1,6 @@
+#ifndef CustomLebelsH
+#define CustomLevelsH
+#include "../MainInclude.h"
 extern void stockASM();
 extern void overkartASM();
 extern void runTextureScroll();
@@ -30,3 +33,4 @@ extern void Snow3DCameralook(int num, void* Camera);
 extern void EventDisplay(int player);
 extern void EventDisplay_After(int player);
 extern void CommonGameEventChart();
+#endif

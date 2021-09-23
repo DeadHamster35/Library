@@ -1,15 +1,4 @@
-#include "../library/SubProgram.h"
-#include "../library/SharedFunctions.h"
-#include "../library/OKHeader.h"
-
-#include "../library/OKExternal.h"
-#include "../library/LibraryVariables.h"
-#include "../library/PlayerEffects.h"
-#include "../library/MarioKartObjects.h"
-#include "../library/MarioKart3D.h"
-#include "../library/GameVariables/NTSC/OKassembly.h"
-#include "../library/GameVariables/NTSC/GameOffsets.h"
-#include "../RawAssets/ModelData/ModelData.h"
+#include "../MainInclude.h"
 
 
 
@@ -379,74 +368,68 @@ void NopPlayEffectBGMCode() //Run at custom code init
 void CheckPaths()
 {	
 	
-	
-	GlobalIntA = *(int*)OverKartRAMHeader.EchoOffset;
-	GlobalAddressA = OverKartRAMHeader.EchoOffset + 4;
-	OKPathStruct* PathValues = (OKPathStruct*)GlobalAddressA;		
-	for (int playerID = 0; playerID < 8; playerID++)					// Loop for each racer		
+	if (OverKartRAMHeader.EchoOffset != 0)
 	{
-		if((GlobalPlayer[(int)playerID].flag & EXISTS) != 0)			// Only run for existing racers
+		GlobalIntA = *(int*)OverKartRAMHeader.EchoOffset;
+		if (GlobalIntA == 0)
 		{
-			if(((GlobalPlayer[(int)playerID].flag & IS_PLAYER) != 0) && ((GlobalPlayer[(int)playerID].flag & IS_GHOST) == 0))
-			{			
-				SetPlayerEcho(playerID, 0);
-				SetCamShiftUp(playerID, 0);
-			}
+			return;
+		}
+		GlobalAddressA = OverKartRAMHeader.EchoOffset + 4;
+		OKPathStruct* PathValues = (OKPathStruct*)GlobalAddressA;		
+		for (int playerID = 0; playerID < g_playerCount; playerID++)					// Loop for each racer		
+		{			
+			SetPlayerEcho(playerID, 0);
+			SetCamShiftUp(playerID, 0);
 			g_noSimpleKartFlag[(int)playerID] = 0;		
 			for (int ThisValue = 0; ThisValue < GlobalIntA; ThisValue++)
 			{				
-				if ((g_playerPathPointTable[(int)playerID] >= PathValues[ThisValue].PathStart) && (g_playerPathPointTable[(int)playerID] <= PathValues[ThisValue].PathStop))		// Path range check
-				{		
-					switch (PathValues[ThisValue].Type)
-					{
-						case (PATH_ECHO):
+				if(((GlobalPlayer[(int)playerID].flag & IS_PLAYER) != 0) && ((GlobalPlayer[(int)playerID].flag & IS_GHOST) == 0))			// Only run for existing racers
+				{
+					if ((g_playerPathPointTable[(int)playerID] >= PathValues[ThisValue].PathStart) && (g_playerPathPointTable[(int)playerID] <= PathValues[ThisValue].PathStop))		// Path range check
+					{		
+						switch (PathValues[ThisValue].Type)
 						{
-							if(((GlobalPlayer[(int)playerID].flag & IS_PLAYER) != 0) && ((GlobalPlayer[(int)playerID].flag & IS_GHOST) == 0))
+							case (PATH_ECHO):
 							{	
 								SetPlayerEcho(playerID, PathValues[ThisValue].Power);
+								break;
 							}
-							break;
-						}
-						case (PATH_COLOR):
-						{	
-							uint BodyColor = GetRGB32(PathValues[ThisValue].ColorR,PathValues[ThisValue].ColorG,PathValues[ThisValue].ColorB);
-							uint AdjColor = GetRGB32(PathValues[ThisValue].AdjColorR,PathValues[ThisValue].AdjColorG,PathValues[ThisValue].AdjColorB);
-							MakeBodyColor((void*)&GlobalPlayer[(int)playerID], playerID, BodyColor , 1);
-							MakeBodyColorAdjust((void*)&GlobalPlayer[(int)playerID], playerID, AdjColor, 1);
-							break;
-						}
-						case (PATH_CAMERA):
-						{
-							if(((GlobalPlayer[(int)playerID].flag & IS_PLAYER) != 0) && ((GlobalPlayer[(int)playerID].flag & IS_GHOST) == 0))
+							case (PATH_COLOR):
 							{	
-								SetCamShiftUp(playerID, PathValues[ThisValue].Power);
+								uint BodyColor = GetRGB32(PathValues[ThisValue].ColorR,PathValues[ThisValue].ColorG,PathValues[ThisValue].ColorB);
+								uint AdjColor = GetRGB32(PathValues[ThisValue].AdjColorR,PathValues[ThisValue].AdjColorG,PathValues[ThisValue].AdjColorB);
+								MakeBodyColor((void*)&GlobalPlayer[(int)playerID], playerID, BodyColor , 1);
+								MakeBodyColorAdjust((void*)&GlobalPlayer[(int)playerID], playerID, AdjColor, 1);
+								break;
 							}
-							break;
-						}
-						case (PATH_NOSIMPLE):
-						{							
-							g_noSimpleKartFlag[(int)playerID] = 1;
-							break;
-						}
-						case (PATH_JUMP):
-						{
-							if(((GlobalPlayer[(int)playerID].flag & IS_PLAYER) != 0) && ((GlobalPlayer[(int)playerID].flag & IS_GHOST) == 0))
-							{														
+							case (PATH_CAMERA):
+							{
+								SetCamShiftUp(playerID, PathValues[ThisValue].Power);
+								break;
+							}
+							case (PATH_NOSIMPLE):
+							{							
+								g_noSimpleKartFlag[(int)playerID] = 1;
+								break;
+							}
+							case (PATH_JUMP):
+							{							
 								if((char)((GlobalPlayer[(int)playerID].jugemu_flag) != 0))
 								{
 									g_playerPathPointTable[playerID] = PathValues[ThisValue].PathStart;
 								}
+								break;
 							}
-							break;
-						}
-						case (PATH_AIRCONTROL):
-						{							
-							EnableAirControl(playerID);
-							break;
+							case (PATH_AIRCONTROL):
+							{							
+								EnableAirControl(playerID);
+								break;
+							}
 						}
 					}
 				}
-			}
+			}	
 		}
 	}
 }

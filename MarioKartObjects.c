@@ -1,11 +1,4 @@
-#include <stdbool.h>
-#include "GameVariables/NTSC/GameOffsets.h"
-#include "OKHeader.h"
-#include "GameVariables/NTSC/OKassembly.h"
-#include "SharedFunctions.h"
-#include "LibraryVariables.h"
-#include "Struct.h"
-#include "SubProgram.h"
+#include "MainInclude.h"
 
 
 unsigned short CheckBump2Simple(Object *InputObject)

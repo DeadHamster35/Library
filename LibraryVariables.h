@@ -1,11 +1,10 @@
-#include <stdbool.h>
-#include "Struct.h"
-#include "OKStruct.h"
-
-
-
-extern int GlobalAddressA, GlobalAddressB, GlobalAddressC, GlobalAddressD;
+#ifndef LibraryVariablesH
+#define LibraryVariablesH
+#include "MainInclude.h"
+extern uint GlobalAddressA, GlobalAddressB, GlobalAddressC, GlobalAddressD;
 extern int GlobalIntA, GlobalIntB, GlobalIntC, GlobalIntD;
+extern int64     GlobalInt64;
+extern uint64    GlobalUInt64;
 extern unsigned int GlobalUIntA, GlobalUIntB;
 extern int MenuIntA, MenuIntB, MenuIntC, MenuIntD;
 extern float GlobalFloatA, GlobalFloatB, GlobalFloatC, GlobalFloatD;
@@ -18,7 +17,8 @@ extern unsigned long FreeSpaceAddress;
 extern short GlobalShortA, GlobalShortB;
 extern bool GlobalBoolA, GlobalBoolB, GlobalBoolC, GlobalBoolD;
 extern int LoopValue;
-extern bool ConsolePlatform;
+
+extern bool ConsolePlatform, EmulatorPlatform, TempoBool, StopSwop;
 extern bool CustomWaterHeight[];
 extern short CloudCourseID, Snow3DCourseID; 
 extern char CloudCourseValue, Snow3DCourseValue, WeatherCourseValue, PADCourseValue;
@@ -53,7 +53,7 @@ extern long *GlobalLap[];
 extern struct Lakitu *GlobalLakitu[];
 extern struct AnmObject_Lakitu AnimatedLakituStruct[];
 extern struct AnmObject g_DynamicObjects[];
-extern struct FaceStruct CourseFaceStruct[];
+extern FaceStruct *CourseFaceStruct;
 extern struct PlayerState *GlobalPlayerState[];  
 extern struct Hud *GlobalHud[];
 extern char *GlobalLightning[];
@@ -76,7 +76,7 @@ extern short objectIndex;
 //
 extern struct OKEngine EngineClass[3][3];
 
-extern short EngineSpeed[3][3];
+extern short EngineSpeed[4][3];
 extern short AccelerationCurve[3][10];
 extern short SteerAngle[3];
 extern short SteerValue[3];
@@ -112,7 +112,6 @@ extern int *targetAddress;
 extern int *sourceAddress;
 extern int *tempPointer;
 extern long *graphPointer;
-extern int *freeSpacePoint;
 extern int *tkmPoint;
 extern int RSPNumber;
 extern int RSPOffset;
@@ -143,7 +142,7 @@ extern float gpTotalTime;
 
 extern int VersionNumber;
 extern char MenuButtonHeld, ButtonHeld, ButtonTimer, AudioLanguage;
-extern short SystemType;
+
 //
 //
 
@@ -185,3 +184,4 @@ extern int ScrollValues[32][2];
 #define KO_PSEL_3P	54
 #define KO_PSEL_4P	55
 
+#endif

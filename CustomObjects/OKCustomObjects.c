@@ -1,17 +1,4 @@
-#include "SubProgram.h"
-#include "SharedFunctions.h"
-#include "OKHeader.h"
-
-#include "OKExternal.h"
-#include "LibraryVariables.h"
-#include "PlayerEffects.h"
-#include "MarioKartObjects.h"
-#include "MarioKart3D.h"
-#include "Struct.h"
-#include "OKStruct.h"
-#include "OKBehaviors.h"
-#include "GameVariables/NTSC/OKassembly.h"
-#include "GameVariables/NTSC/GameOffsets.h"
+#include "../MainInclude.h"
 
 
 
@@ -208,7 +195,6 @@ void OKObjectCollision(OKObject *InputObject)
 			DebugPosition[0] = objectPosition[0];
 			DebugPosition[1] = objectPosition[1];
 			DebugPosition[2] = objectPosition[2];
-			GlobalBoolD = true;
 			MasterStatus(CurrentPlayer,OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex].StatusClass);
 			MasterEffect(CurrentPlayer,OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex].EffectClass);						
 		}
@@ -217,87 +203,44 @@ void OKObjectCollision(OKObject *InputObject)
 
 		if(TestCollideSphere(objectPosition, (float)(OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex].SoundRadius) ,GlobalPlayer[CurrentPlayer].position, GlobalPlayer[CurrentPlayer].radius))
 		{
-			if (OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].SoundPlaying == 0)
-			{
-                    OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].SoundPlaying = 1;
-			}
+			GlobalBoolA = true;	
+		}
+		
+	}
 
-			if(OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex].SoundType == 0 && g_playerCount == 1)
-			{
-				NaPlyLevelStart(0,OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex].SoundID); //Play globally
-			}
-			else
-			{
-				NaSceneLevelStart(objectPosition,ZeroVector,OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex].SoundID); //Play directionally
-			}
-			
+
+	if ((OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].SoundPlaying == 0) && (GlobalBoolA))
+	{
+		OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].SoundPlaying = 1;
+		if(OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex].SoundType == 0 && g_playerCount == 1)
+		{
+			NaPlyLevelStart(0,OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex].SoundID); //Play globally
 		}
 		else
 		{
-			if (OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].SoundPlaying == 1)
-			{
-				OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].SoundPlaying = 0;
-				if(OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex].SoundType == 0 && g_playerCount == 1)
-				{
-					NaPlyLevelStop(0,OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex].SoundID); //Play globally
-				}
-				else
-				{
-					NaSceneLevelStop(objectPosition,OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex].SoundID); //Play directionally
-				}
-			}
+			NaSceneLevelStart(objectPosition,ZeroVector,OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex].SoundID); //Play directionally
 		}
-		/*
-		for (int CurrentCount = 0; CurrentCount < InputObject->CollisionCount; CurrentCount++)
+	}
+	else
+	{
+		if ((OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].SoundPlaying == 1) && (!GlobalBoolA))
 		{
-			
-			objectPosition[0] = InputObject->CollisionSphere[CurrentCount].Position[0];
-			objectPosition[1] = InputObject->CollisionSphere[CurrentCount].Position[1];
-			objectPosition[2] = InputObject->CollisionSphere[CurrentCount].Position[2];
-
-			//rotate the relative position of the sphere to the model based on the model angle.
-
-			RotateVector(objectPosition,InputObject->ObjectData.angle);
-
-			//apply the global position of the object to the relative position of the rotated sphere center.
-
-			objectPosition[0] = (objectPosition[0] * InputObject->CollisionSphere->Scale) + InputObject->ObjectData.position[0];
-			objectPosition[1] = (objectPosition[1] * InputObject->CollisionSphere->Scale) +  InputObject->ObjectData.position[1];
-			objectPosition[2] = (objectPosition[2] * InputObject->CollisionSphere->Scale) +  InputObject->ObjectData.position[2];
-			
-
-			
-			//Test the collision
-			if (InputObject->CollisionSphere[CurrentCount].Radius < 0)
+			OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].SoundPlaying = 0;
+			if(OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex].SoundType == 0 && g_playerCount == 1)
 			{
-				objectAngle[0] = InputObject->CollisionSphere[CurrentCount].Angle[0] + InputObject->ObjectData.angle[0];
-				objectAngle[1] = InputObject->CollisionSphere[CurrentCount].Angle[1] + InputObject->ObjectData.angle[1];
-				objectAngle[2] = InputObject->CollisionSphere[CurrentCount].Angle[2] + InputObject->ObjectData.angle[2];
-				if(TestCollideBox(objectPosition, InputObject->CollisionSphere[CurrentCount].BoxSize, objectAngle, GlobalPlayer[CurrentPlayer].position, GlobalPlayer[CurrentPlayer].radius))
-				{
-					MasterStatus(CurrentPlayer,InputObject->CollisionSphere[CurrentCount].CollisionType);
-					MasterEffect(CurrentPlayer,InputObject->CollisionSphere[CurrentCount].EffectType);
-				}		
+				NaPlyLevelStop(0,OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex].SoundID); //Play globally
 			}
 			else
 			{
-				if(TestCollideSphere(objectPosition, InputObject->CollisionSphere[CurrentCount].Radius ,GlobalPlayer[CurrentPlayer].position, GlobalPlayer[CurrentPlayer].radius))
-				{
-					MasterStatus(CurrentPlayer,InputObject->CollisionSphere[CurrentCount].CollisionType);
-					MasterEffect(CurrentPlayer,InputObject->CollisionSphere[CurrentCount].EffectType);
-				}
+				NaSceneLevelStop(objectPosition,OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex].SoundID); //Play directionally
 			}
-			
-			
-
-			'
 		}
-		*/
 	}
 }
 
 void DrawOKObjects(Camera* LocalCamera)
 {
+	
 	int CurrentPlayer = (*(long*)&LocalCamera - (long)&g_Camera1) / 0xB8;
 	for (int CurrentType = 0; CurrentType < OverKartRAMHeader.ObjectHeader.ObjectTypeCount; CurrentType++)
 	{
@@ -305,19 +248,6 @@ void DrawOKObjects(Camera* LocalCamera)
 		{
 			OKModel* ThisModel = (OKModel*)GetRealAddress(0x0A000000 | (int)&OverKartRAMHeader.ObjectHeader.ObjectTypeList[CurrentType].ObjectModel[CurrentModel]);
 			
-			*(long*)*graphPointer = (long)(0xBB000001);
-			*graphPointer = *graphPointer + 4;
-			*(long*)*graphPointer = (long)(0x07C007C0);
-			*graphPointer = *graphPointer + 4;
-			*(long*)*graphPointer = (long)(0xB900031D);
-			*graphPointer = *graphPointer + 4;
-			*(long*)*graphPointer = (long)(0x00552078);
-			*graphPointer = *graphPointer + 4;
-			*(long*)*graphPointer = (long)(0xFCFFFFFF);
-			*graphPointer = *graphPointer + 4;
-			*(long*)*graphPointer = (long)(0xFFFCF87C);
-			*graphPointer = *graphPointer + 4;
-
 			*(long*)*graphPointer = (long)(0x06000000);
 			*graphPointer = *graphPointer + 4;
 			*(long*)*graphPointer = (long)(0x0A000000 | ThisModel->TextureAddress);
@@ -367,7 +297,7 @@ void DrawOKObjects(Camera* LocalCamera)
 						*/
 						
 						
-						ScalingMatrix(AffineMatrix,0.10);
+						ScalingMatrix(AffineMatrix,((float)(ThisModel->MeshScale) / 100));
 
 						if(SetMatrix(AffineMatrix,0) != 0)
 						{

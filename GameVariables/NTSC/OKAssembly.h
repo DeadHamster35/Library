@@ -1,4 +1,6 @@
-
+#ifndef OKAssemblyH
+#define OKAssemblyH
+#include "../../MainInclude.h"
 // the following all deal with ASM instructions in the game.
 // we edit them in the customASM and stockASM routines.
 
@@ -159,3 +161,4 @@ extern long surfacemapA; //0x80295E74   ;;3C040601
 extern long surfacemapB; //0x80295E7C   ;;24849650
 
 extern long asm_GPLevelSelect;
+#endif

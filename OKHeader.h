@@ -1,4 +1,6 @@
-#include "OKStruct.h"
+#ifndef OKHeaderH
+#define OKHeaderH
+#include "MainInclude.h"
 //These are new custom RAM values
 //0x80400000 - 0x804FFFFF is restricted for OverKart64 functions and data.
 //0x80500000 - 0x805FFFFF is reserved for Custom Course Assembly and data.
@@ -44,7 +46,11 @@ extern int ok_ModelData; //ok_ItemTable + 0x30; //hold a ton of potential scroll
 extern int ok_Logo; //ok_ModelData; // overwrites logo after. 
 extern int ok_MRSong; //ok_ModelData + ok_ModelDataRawSize;
 
+extern int ok_FreeCam;
+extern int ok_FreeCamBackup;
 extern int ok_USAudio; //ok_MRSong + 0x30;
+extern int ok_Instrument; //ok_MRSong + 0x30;
+extern int ok_Sequence; //ok_MRSong + 0x30;
 extern int ok_TKMSpace; //ok_USAudio + 0x10
 extern int ok_FreeSpace; //ok_TKMSpace + 0x2000
 extern int ok_Storage; //ok_FreeSpace + 0x8000
@@ -88,5 +94,7 @@ extern ushort hud_buttons[]; //nicefont +  0x4400
 //extern int lit_alpacasprite; //hud_buttons +  0x4400
 //extern int lit_heartsprite; //lit_alpacasprite +  0x800
 
-extern void ok_ASMJump; //ok_Storage + 0x4
+
 extern int ok_Knowledge; //0x807F0000
+extern int SwopCheck;
+#endif

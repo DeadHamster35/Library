@@ -1,3 +1,6 @@
+#ifndef StatsOffsetH
+#define StatsOffsetH
+#include "../../MainInclude.h"
 // UNKNOWN /////////////////////////////////////////////////////
 extern float u11_Mario; // 0x800E24C8
 extern float u11_Luigi; // 0x800E24CC
@@ -1278,3 +1281,4 @@ extern float railwayBrake_Bowser; // 0x800E320C
 extern float railwayStAngle_Bowser; // 0x800E340C
 extern float railwayStSpeed_Bowser; // 0x800E360C
 
+#endif

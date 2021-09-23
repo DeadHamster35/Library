@@ -1,8 +1,7 @@
-#include <stdbool.h>
-#include "GameVariables/NTSC/GameOffsets.h"
-#include "SharedFunctions.h"
-#include "LibraryVariables.h"
-
+#ifndef IncludedMainInclude
+#define IncludedMainInclude
+#include "MainInclude.h"
+#endif
 
 void DrawGeometryScale(float localPosition[], short localAngle[], int localAddress, float localScale)
 {

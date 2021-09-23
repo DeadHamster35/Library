@@ -1,10 +1,4 @@
-#include <sys/types.h>
-#include <math.h>
-#include <stdbool.h>
-#include "GameVariables/NTSC/GameOffsets.h"
-#include "GameVariables/NTSC/StatsOffsets.h"
-#include "LibraryVariables.h"
-#include "SubProgram.h"
+#include "../MainInclude.h"
 
 /*
 //Soundeffect IDs//

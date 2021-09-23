@@ -1,6 +1,4 @@
-
-#include "../../Struct.h"
-
+#include "../../MainInclude.h"
 
 
 extern long SYSTEM_Region;
@@ -238,8 +236,9 @@ extern short PutObject(Vector pos,int category);
 
 extern int osEepromLongRead(void *Queue, uchar Address, uchar *Destination, int Length);
 extern int osEepromLongWrite(void *Queue, uchar Address, uchar *Destination, int Length);
+extern bool osEepromProbe(void *Queue);
 extern short g_fadeOutFlag;
-extern short g_fadeOutCounter;
+extern short g_fadeOutCounter, g_fadeOutCounter2;
 
 extern unsigned long* GraphPtr;
 extern long GraphPtrOffset;

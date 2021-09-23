@@ -11,7 +11,7 @@
 .definelabel ok_CourseHeaderSize, 0x90
 
 
-.definelabel ok_HeaderOffsets, 0x80420000
+.definelabel ok_HeaderOffsets, RAM_END
 .definelabel ok_MenuOffsets, ok_HeaderOffsets + ok_HeaderSize
 .definelabel ok_CourseHeader, ok_MenuOffsets + ok_MenuSize
 .definelabel OverKartHeader, ok_CourseHeader
@@ -37,11 +37,17 @@
 .definelabel ok_ModelData, ok_ItemTable + 0x30; //hold a ton of potential scrolling objects or translucent objects.
 
 .definelabel ok_Logo, ok_ModelData; // overwrites logo after. 
-.definelabel ok_MRSong, ok_ModelData + ok_ModelDataRawSize;
 
-.definelabel ok_USAudio, ok_MRSong + 0x30;
-.definelabel ok_TKMSpace, ok_USAudio + 0x10
+.definelabel ok_MRSong, ok_ModelData + ok_ModelDataRawSize + 8;
+
+.definelabel ok_FreeCam, ok_MRSong + 0x30
+.definelabel ok_FreeCamBackup, ok_MRSong + 0x50
+.definelabel ok_USAudio, ok_FreeCamBackup + 0x50;
+.definelabel ok_Instrument, ok_USAudio + 0x10
+.definelabel ok_Sequence, ok_Instrument + 0x10
+.definelabel ok_TKMSpace, ok_Sequence + 0x10
 .definelabel ok_FreeSpace, ok_TKMSpace + 0x2000
+
 .definelabel ok_Storage, ok_FreeSpace + 0x8000
 
 //804396C4 targetAddress;?
@@ -81,4 +87,5 @@
 //.definelabel lit_alpacasprite, hud_buttons +  0x4400
 //.definelabel lit_heartsprite, lit_alpacasprite +  0x800
 
-.definelabel ok_Knowledge, 0x807F0000
+.definelabel ok_Knowledge, 0x805F0000
+.definelabel SwopCheck, 0x805F0004

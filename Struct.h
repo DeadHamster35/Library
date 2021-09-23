@@ -1,6 +1,8 @@
 #ifndef STRUCT_H_
 #define STRUCT_H_
 
+#include "MainInclude.h"
+
 //Player Flag
 #define MOTOR_ON	   		0x0010  
 #define IS_BOMB      		0x0040

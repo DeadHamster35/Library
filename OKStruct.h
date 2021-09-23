@@ -1,6 +1,6 @@
 #ifndef OKSTRUCT_H
 #define OKSTRUCT_H
-#include "Struct.h"
+#include "MainInclude.h"
 
 
 typedef struct OKHeader{

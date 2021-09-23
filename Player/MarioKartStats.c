@@ -1,8 +1,4 @@
-#include "GameVariables/NTSC/GameOffsets.h"
-#include "GameVariables/NTSC/StatsOffsets.h"
-#include "SharedFunctions.h"
-#include "LibraryVariables.h"
-
+#include "../MainInclude.h"
 
 void SetEngine(int CharacterID, int ThisEngine)
 {     

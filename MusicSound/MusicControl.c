@@ -1,10 +1,4 @@
-#include "../library/SubProgram.h"
-#include "../library/SharedFunctions.h"
-#include "../library/OKHeader.h"
-#include "../library/OKExternal.h"
-#include "../library/LibraryVariables.h"
-#include "../library/GameVariables/NTSC/OKassembly.h"
-#include "../library/GameVariables/NTSC/GameOffsets.h"
+#include "../MainInclude.h"
 
 //Group: BGM: 0 - Fanfare: 1 - SFX: 2
 //SeqID: ID of song

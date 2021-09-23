@@ -7,22 +7,28 @@
 .align 0x10
 .importobj "../library/MarioKartMenu.o"
 .align 0x10
-.importobj "../library/MarioKartStats.o"
-.align 0x10
-.importobj "../library/PlayerEffects.o"
-.align 0x10
 .importobj "../library/SharedFunctions.o"
+
+
+
 .align 0x10
-.importobj "../library/CustomLevels.o"
+.importobj "../library/Player/MarioKartStats.o"
 .align 0x10
-.importobj "../library/CustomSurfaces.o"
+.importobj "../library/Player/PlayerEffects.o"
 .align 0x10
-.importobj "../library/CustomSounds.o"
+.importobj "../library/Player/PlayerChecks.o"
+
 .align 0x10
-.importobj "../library/MusicControl.o"
+.importobj "../library/CustomCourses/CustomLevels.o"
 .align 0x10
-.importobj "../library/OKBehaviors.o"
+.importobj "../library/CustomCourses/CustomSurfaces.o"
+
 .align 0x10
-.importobj "../library/PlayerChecks.o"
+.importobj "../library/MusicSound/CustomSounds.o"
 .align 0x10
-.importobj "../library/OKCustomObjects.o"
+.importobj "../library/MusicSound/MusicControl.o"
+
+.align 0x10
+.importobj "../library/CustomObjects/OKBehaviors.o"
+.align 0x10
+.importobj "../library/CustomObjects/OKCustomObjects.o"
