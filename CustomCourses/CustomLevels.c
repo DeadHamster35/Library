@@ -219,23 +219,23 @@ void overkartASM(void)
 	bigsignB= 0x254A0000;   //254A9330
 
 	itemboxesA = 0x3C040600; //8029DBD4
-	itemboxesB = 0x24841910; //8029DBDC
+	itemboxesB = 0x248403C0; //8029DBDC
 
 	battleItemBoxesA = 0x24841938;
 
 	//8029E0D8
 
 	treeslistA = 0x3C040600; //8029DBBC
-	treeslistB = 0x24841B18; //8029DBC4
+	treeslistB = 0x248405C8; //8029DBC4
 
 	treesdisplayA = 0x3C180600; //802992C8
-	treesdisplayB = 0x27182288; //802992E0
+	treesdisplayB = 0x27180320; //802992E0
 
 	piranhalistA = 0x3C040600; //8029DBC8
-	piranhalistB = 0x24841D20; //8029DBD0
+	piranhalistB = 0x248407D0; //8029DBD0
 
 	piranhadisplayA = 0x3C0F0600; //80298668
-	piranhadisplayB = 0x25EF21B0; //8029866C
+	piranhadisplayB = 0x25EF0248; //8029866C
 
 
 	
@@ -256,14 +256,11 @@ void overkartASM(void)
 	unknownC = 0x34840000; //0x80292810   ;;348408E8 -> 34840000
 	unknownD = 0x34840000; //0x80295E70   ;;34842D68 -> 34840000
 
-	g_pathLength = 0x320;
-	pathOffset = 0x06000008;
-	pathOffsetB = 0x06000008;
+	
 
 
 	g_mapStartToggle = 0x00000000;
 
-	ok_RedCoinList = 0x06001F28;
 
 
 
@@ -286,6 +283,7 @@ void overkartASM(void)
 	g_cup3Array3 = 15;
 	asm_GPLevelSelect = 0xA420C5A0;
 }
+
 
 
 void setSong()
@@ -416,6 +414,9 @@ void setPath()
 	if ((HotSwapID > 0) && (OverKartHeader.Version != 0xFFFFFFFF))
 	{
 		g_pathLength =(short)(OverKartHeader.PathLength) + 10;
+		
+		pathOffset = 0x06000A20;
+		pathOffsetB = pathOffset + ((OverKartHeader.PathLength + 1) * 8);
 
 	}
 	else
@@ -969,49 +970,45 @@ void runDisplayScreen()
 
 void SetCourseNames(bool custom)
 {
-		
+	int strtbl;
 
-		int strtbl;
-
-		if ((custom == true) && (*sourceAddress != 0x00000000))
+	if ((custom == true) && (*sourceAddress != 0x00000000))
+	{
+		for (strtbl = 0; strtbl < 20; strtbl++)
 		{
-			for (strtbl = 0; strtbl < 20; strtbl++)
-			{
-				g_StringTableCourse[strtbl] = (long)&ok_CourseName + 0x4;
-				g_StringTableCourseGP[strtbl] = (long)&ok_CourseName + 0x4;
-			}
+			g_StringTableCourse[strtbl] = (long)&ok_CourseName + 0x4;
+			g_StringTableCourseGP[strtbl] = (long)&ok_CourseName + 0x4;
 		}
-		else
-		{
-			for (strtbl = 0; strtbl < 20; strtbl++)
-			{	
-				g_StringTableCourse[strtbl] = (long)stockCourseNames[strtbl];
-				g_StringTableCourseGP[strtbl] = (long)stockCourseNames[strtbl];
-			}
+	}
+	else
+	{
+		for (strtbl = 0; strtbl < 20; strtbl++)
+		{	
+			g_StringTableCourse[strtbl] = (long)stockCourseNames[strtbl];
+			g_StringTableCourseGP[strtbl] = (long)stockCourseNames[strtbl];
 		}
+	}
 }
 
-
-void loadOKObjects()
+void setOKObjects()
 {
+	
+	GlobalShortA = 1;
+	if (g_mirrorMode == 1)
+	{
+		GlobalShortA = -1;
+	}
 	
 	for (int This = 0; This < 100; This++)
 	{
 		ClearOKObject(This);
 	}
-	GlobalIntA = OverKartHeader.ObjectDataEnd - OverKartHeader.ObjectModelStart;
-	SetSegment(0xA,LoadData(OverKartHeader.ObjectModelStart, GlobalIntA));
-	GlobalIntA = OverKartHeader.ObjectModelStart - OverKartHeader.ObjectDataStart;
-	GlobalAddressA = LoadData(OverKartHeader.ObjectDataStart, GlobalIntA);
-	OverKartHeader.ObjectDataStart = GlobalAddressA;
-	
-	
-	OverKartRAMHeader.ObjectHeader.ObjectTypeCount = *(int*)(GlobalAddressA);
-	GlobalAddressC = GlobalAddressA + 4;
+	OverKartRAMHeader.ObjectHeader.ObjectTypeCount = *(int*)(OverKartHeader.ObjectDataStart);
+	GlobalAddressC = OverKartHeader.ObjectDataStart + 4;
 	OverKartRAMHeader.ObjectHeader.ObjectTypeList = (OKObjectType*)(GlobalAddressC);
 
 	
-	GlobalAddressB = GlobalAddressA + 4 + (OverKartRAMHeader.ObjectHeader.ObjectTypeCount * 32); //32 bytes size of ObjectType
+	GlobalAddressB = OverKartHeader.ObjectDataStart + 4 + (OverKartRAMHeader.ObjectHeader.ObjectTypeCount * 40); //32 bytes size of ObjectType
 	OverKartRAMHeader.ObjectHeader.ObjectCount = *(int*)(GlobalAddressB);
 	GlobalAddressD = GlobalAddressB + 4;
 	OverKartRAMHeader.ObjectHeader.ObjectList = (OKObjectList*)(GlobalAddressD);	
@@ -1023,6 +1020,8 @@ void loadOKObjects()
 
 		OKObjectArray[This].ObjectData.flag = 0xC000;
 		OKObjectArray[This].ObjectData.radius = OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[This].ObjectIndex].CollisionRadius / 100;
+		
+		OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginPosition[0] *= GlobalShortA;
 		
 		OKObjectArray[This].ObjectData.position[0] = (float)OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginPosition[0];
 		OKObjectArray[This].ObjectData.position[1] = (float)OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginPosition[1];
@@ -1044,6 +1043,17 @@ void loadOKObjects()
 }
 
 
+void loadOKObjects()
+{
+	
+	GlobalIntA = OverKartHeader.ObjectDataEnd - OverKartHeader.ObjectModelStart;
+	SetSegment(0xA,LoadData(OverKartHeader.ObjectModelStart, GlobalIntA));
+	GlobalIntA = OverKartHeader.ObjectModelStart - OverKartHeader.ObjectDataStart;
+	GlobalAddressA = LoadData(OverKartHeader.ObjectDataStart, GlobalIntA);
+	OverKartHeader.ObjectDataStart = GlobalAddressA;
+}
+
+
 
 void loadHeaderOffsets()
 {
@@ -1056,15 +1066,21 @@ void loadHeaderOffsets()
 
 void LoadBomb()
 {
-	*sourceAddress = OverKartHeader.BombOffset;
+	if (HotSwapID > 0)
+	{
+		*sourceAddress = OverKartHeader.BombOffset;
+	}
+	else
+	{
+		*sourceAddress = (long)&ok_Bomb;
+	}
 	*targetAddress = (int)&g_BombTable;
 	dataLength = 0xA8;
 	runDMA();
 }
 
-void loadHotSwap(int inputID)
+void LoadCustomHeader(int inputID)
 {
-	
 	//version 4
 	if (HotSwapID > 0)
 	{
@@ -1073,7 +1089,7 @@ void loadHotSwap(int inputID)
 		//first load the entire OverKart header into expansion RAM
 		*targetAddress = (long)&ok_CourseHeader;
 		*sourceAddress = *(long*)(&ok_HeaderOffsets + ((inputID) * 1) + ((HotSwapID-1) * 0x14));
-		dataLength = 0x90;
+		dataLength = 0x98;
 		if (*sourceAddress != 0xFFFFFFFF)
 		{
 			runDMA();
@@ -1090,56 +1106,47 @@ void loadHotSwap(int inputID)
 			*sourceAddress = (long)(&OverKartHeader.MapHeader);
 			dataLength = 0x30;
 			runRAM();
-		}
-		else
-		{
-			OverKartHeader.Version = 0xFFFFFFFF;
-		}
-		SetCourseNames(true);
-	}
-	else
-	{
-		VersionNumber = 0;
-		*sourceAddress = 0x122390;
-		*targetAddress = (long)&g_courseTable;
-		dataLength = 0x30;
-		runDMA();
-		
-		SetCourseNames(false);
-	}
-	
-	setTempo();
-	setText();
-	setEcho();
-	setPath();
-	setSong();
-	
-	
-	if ((VersionNumber > 3) && (OverKartHeader.Version != 0xFFFFFFFF))
-	{
-		loadTextureScrollTranslucent();
-		
-		if (VersionNumber > 4)
-		{
-			loadOKObjects();
-			
-			LoadBomb();
-			
 
 			surfacemapA = 0x3C040600;   //3C040601
 			surfacemapB = 0x24840000 | (OverKartHeader.SurfaceMapPosition & 0xFFFF);  //24849650
 			sectionviewA = 0x3C040600;   //3C040601
 			sectionviewB = 0x24840000 | (OverKartHeader.SectionViewPosition & 0xFFFF);  //24849650
-
 		}
 		else
 		{
-			surfacemapA = 0x3C040600;   //3C040601
-			surfacemapB = 0x24842538;  //24849650
-			sectionviewA = 0x3C040600;   //3C040900
-			sectionviewB = 0x24842328;   //248401F0
+			OverKartHeader.Version = 0xFFFFFFFF;
 		}
 		
+	}
+	else
+	{
+		OverKartHeader.Version = 0xFFFFFFFF;
+		VersionNumber = 0;
+		*sourceAddress = 0x122390;
+		*targetAddress = (long)&g_courseTable;
+		dataLength = 0x30;
+		runDMA();
+	}
+	setPath();
+}
+
+void SetCustomData()
+{
+	
+
+	setTempo();
+	setText();
+	setEcho();
+	setSong();
+	LoadBomb();
+
+	if ((OverKartHeader.Version != 0xFFFFFFFF) && (HotSwapID > 0))
+	{
+		SetCourseNames(true);		
+	}
+	else
+	{
+		SetCourseNames(false);
 	}
 	
 	
@@ -1429,7 +1436,9 @@ void loadMinimap()
 		*targetAddress = (long)&ok_FreeSpace;
 		dataLength = 0x1000;
 		runDMA();
-		//
+		
+		
+
 		g_mapX = (short)(*(long*)(&ok_FreeSpace) >> 16 & 0x0000FFFF);
 		g_mapY = (short)(*(long*)(&ok_FreeSpace) & 0x0000FFFF);
 		g_startX = (short)(*(long*)(&ok_FreeSpace + 0x1) >> 16 & 0x0000FFFF);
@@ -1440,6 +1449,11 @@ void loadMinimap()
 		g_mapG = (short)(*(long*)(&ok_FreeSpace + 0x3) & 0x0000FFFF);
 		g_mapB = (short)(*(long*)(&ok_FreeSpace + 0x4) >> 16 & 0x0000FFFF);
 		g_mapScale = (*(float*)(&ok_FreeSpace + 0x5) / 100);
+
+		if (g_mirrorMode == 1)
+		{
+			g_startX = g_mapWidth - g_startX;
+		}
 
 
 		*sourceAddress = (long)(&ok_FreeSpace + 0x6);
@@ -1524,5 +1538,14 @@ int realindex = num - FireParticleAllocArray[0];
 
 
 
+void EmptyActionData()
+{
+    GlobalAddressA = ActionData_Pointer[19];
+    ActionData_Pointer[0] = ActionData_Pointer[19];
+
+    *(ushort*)(GlobalAddressA) = 1;
+    *(ushort*)(GlobalAddressA + (0x2)) = (ushort)MaxPathPoints[0];
+    *(ushort*)(GlobalAddressA + (0x6)) = 6;
+}
 
 

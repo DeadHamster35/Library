@@ -61,6 +61,18 @@ int LoadData (int SourceInput, int SizeData)
 	return *targetAddress;
 }
 
+/* Get Status Timer */
+
+uint getStarTimer(uchar playerID)
+{
+    return (int)g_gameTimer-g_StarUseCounter[playerID];
+}
+
+uint getBooTimer(uchar playerID)
+{
+    return (int)g_gameTimer-g_GhostUseCounter[playerID];
+}
+
 
 
 bool CheckPlatform()

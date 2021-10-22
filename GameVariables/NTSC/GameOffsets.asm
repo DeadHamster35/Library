@@ -14,6 +14,8 @@
 //AFBF
 
 .definelabel decodeMIO0, 0x800400D0 ;MIO0 File A0 = input, A1 = output
+.definelabel CreateDebugThread, 0x800046B8
+.definelabel StartDebugThread, 0x80004718
 .definelabel DMA, 0x80001158
 .definelabel decodeTKMK, 0x800405D0
 .definelabel GetFramebuffer, 0x802A7658
@@ -56,6 +58,7 @@
 .definelabel CollisionSphere, 0x8029FB80
 
 .definelabel RouletteStart, 0x8007ABFC
+.definelabel KWAnmStart, 0x800723A4
 
 //math
 .definelabel CalcDisplayPosition, 0x802B4F60
@@ -181,6 +184,13 @@
 .definelabel GraphPtrOffset, 0x80150298
 .definelabel KWLookCamera, 0x800418AC
 .definelabel KWLookCameraPitch, 0x800418E8
+.definelabel KWTexture2DRGBA32PT, 0x80046720
+.definelabel KWTexture2DRGBA32BL, 0x80046794
+.definelabel KWTexture2DCI8BL, 0x80047910
+.definelabel KWTexture2DCI8AAPT, 0x80047A18
+.definelabel KWTexture2DCI8XLUPT, 0x80047B9C
+.definelabel KWTexture2DCI8XLUBL, 0x80047C28
+.definelabel KWTexture2DCI8AAXLUPT, 0x80047CB4
 .definelabel KWSprite, 0x8004C364
 .definelabel KWSpriteScale, 0x8004CA58
 .definelabel KWSpriteDiv, 0x8004C91C
@@ -709,6 +719,8 @@
 .definelabel g_GhostUseCounter, 0x8018D950
 .definelabel g_GhostUseTimer, 0x8018D970
 .definelabel g_sfxPointer, 0x803B7080 
+.definelabel ActionData_Pointer, 0x80162EB8
+.definelabel MaxPathPoints, 0x80163368
 .definelabel g_noSimpleKartFlag, 0x801633F8
 .definelabel g_charRadiusTbl, 0x800E26B0
 
@@ -961,10 +973,13 @@
 .definelabel RGBAFallingLeaf, 0x0D028DD8
 .definelabel RGBAQuestionMark, 0x0D001EE8
 .definelabel RGBALeaf, 0x0D0291D8
+.definelabel InitialMap, 0x80295D88
+.definelabel LoadMapData, 0x802AA918
 .definelabel FallingRockGFX_U, 0x8029CBE8
 .definelabel FallingRockGFX_L, 0x8029CBEC
 .definelabel FallingRockShadowGFX_U, 0x8029CB9C
 .definelabel FallingRockShadowGFX_L, 0x8029CBA8
+.definelabel DisplayGroupmap, 0x80290DAC
 .definelabel ShadowModel, 0x0D007B98
 .definelabel HoleModel, 0x0D007C10
 .definelabel ItemBoxModel, 0x0D003288

@@ -7,8 +7,8 @@ typedef struct OKHeader{
 
 	int Version;
 	CourseHeader MapHeader;
-	
 	uint SectionViewPosition;
+	uint XLUSectionViewPosition;
 	uint SurfaceMapPosition;
 	uint Sky;
 	short SkyType, WeatherType;
@@ -29,7 +29,7 @@ typedef struct OKHeader{
 	short WaterType,WaterLevel;
 	uint ScrollOffset;
 	uint ScrollEnd;
-
+	int Garbage;
 } OKHeader;
 
 
@@ -52,19 +52,22 @@ typedef struct OKObjectList{
 
 typedef struct OKObjectType{
 	short 	BehaviorClass;
-	short 	StatusClass;//
+	short 	StatusClass;
 	short 	EffectClass;
 	short 	Range;//
 	short 	Sight;
-	short 	Viewcone;	//
+	short 	Viewcone;	
 	short 	MaxSpeed;	
 	short	RenderRadius;//
 	short	CollisionRadius;
-	short	Hitbox;//
+	short	Hitbox;
 	short	SoundRadius;
-	uchar	SoundType, OKModelCount;//
+	short	SoundType;//
+	short	OKModelCount;
+	short	OKXLUCount;
 	int		SoundID;//
-	OKModel*	ObjectModel;//
+	OKModel*	ObjectModel;
+	OKModel*	ObjectXLU;//
 } OKObjectType;
 
 typedef struct OKCollisionSphere{

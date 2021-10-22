@@ -28,8 +28,7 @@ extern int ok_Target; //ok_CourseTable + 0x30
 extern int ok_Source; //ok_Target + 0x4
 extern int ok_Pointer; //ok_Source + 0x4
 extern int ok_FreePointer; //ok_Pointer + 0x4  //set value after loading data.
-extern int ok_RedCoinList; //ok_FreePointer + 0x4
-extern int ok_Credits; //ok_RedCoinList + 0x50 //8 bytes per coin * 10 for space
+extern int ok_Credits; 
 extern int ok_CourseName; //ok_Credits + 0x20
 extern int ok_SerialKey; //ok_CourseName + 0x40
 
@@ -51,6 +50,7 @@ extern int ok_FreeCamBackup;
 extern int ok_USAudio; //ok_MRSong + 0x30;
 extern int ok_Instrument; //ok_MRSong + 0x30;
 extern int ok_Sequence; //ok_MRSong + 0x30;
+extern int ok_Bomb;
 extern int ok_TKMSpace; //ok_USAudio + 0x10
 extern int ok_FreeSpace; //ok_TKMSpace + 0x2000
 extern int ok_Storage; //ok_FreeSpace + 0x8000

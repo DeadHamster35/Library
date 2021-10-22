@@ -165,10 +165,10 @@ void ObjectBehaviorSearch(OKObject* InputObject)
 					InputObject->TargetDistance = GlobalFloatD;
 					GlobalFloatD = 2.01 - GlobalFloatD;
 					InputObject->PlayerTarget = (short)CurrentPlayer;
-					InputObject->Counter[1] = 30 * GlobalFloatD; 
+					InputObject->Counter[1] = 15 * GlobalFloatD; 
 					
 					InputObject->ObjectData.velocity[0] = 0;
-					InputObject->ObjectData.velocity[1] += 2.5 * GlobalFloatD;
+					InputObject->ObjectData.velocity[1] += 2 * GlobalFloatD;
 					InputObject->ObjectData.velocity[2] = 0;
 				}
 			}
@@ -345,6 +345,11 @@ void Misbehave(OKObject* InputObject)
 			ObjectBehaviorBounce(InputObject);
 			break;
 		}
+	}
+
+	if (InputObject->ObjectData.position[1] < g_waterHeight)
+	{
+		InputObject->SubBehaviorClass = SUBBEHAVIOR_DEAD;
 	}
 	
 }

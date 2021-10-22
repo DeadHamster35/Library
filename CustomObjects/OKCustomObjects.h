@@ -7,6 +7,7 @@ extern void DisplayCoinSprite();
 extern void DisplayAfterEffects();
 extern void loadCoin();
 extern void DrawOKObjects();
+extern void DrawOKObjectLoop();
 extern void CheckOKObjects();
 extern void ClearOKObject(short ObjectID);
 extern short FindOKObject();

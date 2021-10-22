@@ -10,6 +10,8 @@ extern void runTKM();
 extern void runMIO();
 extern void loadEEPROM(uint Destination);
 extern void saveEEPROM(uint Source);
+extern uint getStarTimer(uchar playerID);
+extern uint getBooTimer(uchar playerID);
 
 extern ushort GetRGBA16(int R, int G, int B, int A);
 extern uint GetRGB32(int R, int G, int B);

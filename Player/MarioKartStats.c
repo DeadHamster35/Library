@@ -35,14 +35,14 @@ void dmaLoop(int loopCount)
      }
 }
 
-void unknown33(int mode)
+void Unknown33Func(int mode)
 {
      
      switch(mode)
      {
           case 0x00:
           {
-               *sourceAddress = 0xE36D0;
+               *sourceAddress = (long)(&Unknown33);
                *targetAddress = 0x800E2AD0;
                dataLength = 0x1E0;
                runDMA();
@@ -50,7 +50,7 @@ void unknown33(int mode)
           }
           case 0x01:
           {
-               *sourceAddress = 0xE3748;
+               *sourceAddress = (long)(&Unknown33) + 0x78;               
                dataLength = 0x3C;
                *targetAddress = 0x800E2AD0;
                dmaLoop(8);
@@ -62,13 +62,13 @@ void unknown33(int mode)
 
 
 
-void unknown41(int mode)
+void Unknown41Func(int mode)
 {
      switch(mode)
      {
           case 0x00:
           {
-               *sourceAddress = 0xE38B0;
+               *sourceAddress = (long)(&Unknown41);
                *targetAddress = 0x800E2CB0;
                dataLength = 0x1E0;
                runDMA();
@@ -76,7 +76,7 @@ void unknown41(int mode)
           }
           case 0x01:
           {
-               *sourceAddress = 0xE3A18;
+               *sourceAddress = (long)(&Unknown41) + 0x78;    
                *targetAddress = 0x800E2CB0;
                dataLength = 0x3C;
                dmaLoop(8);
@@ -86,21 +86,21 @@ void unknown41(int mode)
 }
 
 
-void accelTable(int mode)
+void AccelerationFunc(int mode)
 {    
      switch(mode)
      {
           case 0x00:
           {
-               *sourceAddress = 0xE3AD0;
-               *targetAddress = 0x800E2ED0 ;
+               *sourceAddress = (int)(&AccelerationTable);
+               *targetAddress = 0x800E2ED0;
                dataLength = 0x140;
                runDMA();
                break;
           }
           case 0x01:
           {
-               *sourceAddress = 0xE3B48;
+               *sourceAddress = (int)(&AccelerationTable) + 0x50;
                dataLength = 0x28;
                *targetAddress = 0x800E2ED0;
                dmaLoop(8);
@@ -339,9 +339,9 @@ void equalStats(int mode)
                
           }
      }
-     accelTable(mode);
-     unknown33(mode);
-     unknown41(mode);
+     AccelerationFunc(mode);
+     Unknown33Func(mode);
+     Unknown41Func(mode);
 
 
 

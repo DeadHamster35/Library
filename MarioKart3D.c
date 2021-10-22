@@ -5,7 +5,10 @@
 
 void DrawGeometryScale(float localPosition[], short localAngle[], int localAddress, float localScale)
 {
-
+	if ((GlobalController[0]->ButtonHeld & BTN_DUP) == BTN_DUP)
+	{
+		GlobalPlayer[0].position[1] += 5;
+	}
 	CreateModelingMatrix(AffineMatrix,localPosition,localAngle);
 	ScalingMatrix(AffineMatrix,localScale);
 	if(SetMatrix(AffineMatrix,0) == 0)
@@ -13,15 +16,6 @@ void DrawGeometryScale(float localPosition[], short localAngle[], int localAddre
 		return;
 	}
 	{
-
-		*(long*)*graphPointer = (long)(0xB7000000);
-		*graphPointer = *graphPointer + 4;
-		*(long*)*graphPointer = (long)(0x00000200);
-		*graphPointer = *graphPointer + 4;
-		*(long*)*graphPointer = (long)(0xB6000000);
-		*graphPointer = *graphPointer + 4;
-		*(long*)*graphPointer = (long)(0x00020000);
-		*graphPointer = *graphPointer + 4;
 		*(long*)*graphPointer = (long)(0x06000000);
 		*graphPointer = *graphPointer + 4;
 		*(long*)*graphPointer = (long)(localAddress);

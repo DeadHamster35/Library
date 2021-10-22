@@ -270,7 +270,6 @@ void PlayerSelectMenu(short StatsMode)
      stockASM();
      hsLabel = -1;
      GlobalBoolB = true;
-     GlobalBoolD = true;
 
      asm_BlinkCheck = 0x1420000E;
 
@@ -567,7 +566,6 @@ void PlayerSelectMenuAfter()
 void GameSelectMenu()
 {
      HotSwapID = 0;
-     GlobalBoolD = true;
      
      GlobalBoolC = false;
 
@@ -623,6 +621,8 @@ void MapSelectMenu()
      *(int*)(&PlayerOK) = 0;
      if (HotSwapID > 0)
      {
+          courseValue = -1;
+          gpCourseIndex = 0;
           switch(g_gameMode)
           {
                //GRAND PRIX
@@ -632,7 +632,6 @@ void MapSelectMenu()
                     if (courseValue != (g_cupSelect * 4))
                     {
                          courseValue = (g_cupSelect * 4);
-                         loadHotSwap(courseValue);
                     }
                     break;
                }
@@ -644,7 +643,7 @@ void MapSelectMenu()
                     {
 
                          courseValue = (g_cupSelect * 4) + g_courseSelect;
-                         loadHotSwap(courseValue);
+                         
                     }
                     break;
                }
@@ -652,7 +651,7 @@ void MapSelectMenu()
      }
      else
      {
-          loadHotSwap(-1);
+          LoadCustomHeader(-1);
      }
      
      if (KBGChange == 0)

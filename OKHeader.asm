@@ -8,7 +8,7 @@
 .definelabel ok_SaveSize, 0x28980
 .definelabel ok_HeaderSize, 0x1400
 .definelabel ok_MenuSize, 0x2800
-.definelabel ok_CourseHeaderSize, 0x90
+.definelabel ok_CourseHeaderSize, 0x98
 
 
 .definelabel ok_HeaderOffsets, RAM_END
@@ -20,13 +20,12 @@
 .definelabel ok_Target, ok_CourseTable + 0x30
 .definelabel ok_Source, ok_Target + 0x4
 .definelabel ok_Pointer, ok_Source + 0x4
-.definelabel ok_FreePointer, ok_Pointer + 0x4  //set value after loading data.
-.definelabel ok_RedCoinList, ok_FreePointer + 0x4
-.definelabel ok_Credits, ok_RedCoinList + 0x50 //8 bytes per coin * 10 for space
+.definelabel ok_FreePointer, ok_Pointer + 0x4  //set value after loading data.\
+.definelabel ok_Credits, ok_FreePointer + 0x4
 .definelabel ok_CourseName, ok_Credits + 0x20
 .definelabel ok_SerialKey, ok_CourseName + 0x40
 
-.definelabel ok_MapTextureData, ok_SerialKey + 0x10 // 
+.definelabel ok_MapTextureData, ok_SerialKey + 0x20 // 
 .definelabel ok_scrolltranslucent, ok_MapTextureData + 0x3000   
 
 
@@ -45,14 +44,15 @@
 .definelabel ok_USAudio, ok_FreeCamBackup + 0x50;
 .definelabel ok_Instrument, ok_USAudio + 0x10
 .definelabel ok_Sequence, ok_Instrument + 0x10
-.definelabel ok_TKMSpace, ok_Sequence + 0x10
+.definelabel ok_Bomb, ok_Sequence + 0x10
+.definelabel ok_TKMSpace, ok_Bomb + 0xB0
 .definelabel ok_FreeSpace, ok_TKMSpace + 0x2000
 
-.definelabel ok_Storage, ok_FreeSpace + 0x8000
+.definelabel ok_Storage, ok_FreeSpace + 0xB000
 
 //804396C4 targetAddress;?
 
-.definelabel lit_numberSprite, ok_Storage
+.definelabel lit_numberSprite, ok_Storage + 0x20000
 .definelabel lit_numberSprite0, lit_numberSprite
 .definelabel lit_numberSprite1, lit_numberSprite0 + 0x200
 .definelabel lit_numberSprite2, lit_numberSprite1 + 0x200

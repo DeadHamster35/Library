@@ -395,3 +395,68 @@ void SetLevelSounds()
 {
     LevelSoundDistanceCheck();
 }
+
+void PlayStarMusicHook(uchar playerID)
+{
+    NaPlyLevelStart(playerID,0x0100ff2c);
+
+    switch (g_musicUserVolumeFlag)
+    {
+        case 0:
+        {
+            MusSeqVolumeChange(0, 75, 5);
+            break;
+        }
+        case 1:
+        {
+            MusSeqVolumeChange(0, 42, 5);
+            break;
+        }
+        default:
+        {                
+            break;
+        }    
+    }
+}
+
+void StopStarMusicHook(uchar playerID)
+{
+    NaPlyLevelStop(playerID,0x0100ff2c);
+
+    for (char i = 0; i < 4; i++)
+    {
+        if (getStarTimer(i) < 9)
+        {
+            return;
+        }
+        
+    }
+    
+
+    if (g_lightningFlag == 0)
+    {
+        switch (g_musicUserVolumeFlag)
+        {
+            case 0:
+            {
+                MusSeqVolumeChange(0, 127, 25);
+                break;
+            }
+            case 1:
+            {
+                MusSeqVolumeChange(0, 75, 25);
+                break;
+            }
+            default:
+            {                
+                break;
+            }    
+        }
+    }
+}
+
+void PlayFinalLapMusicHook(uchar playerID)
+{
+    NaPlyLevelStart(playerID,0x1900ff3a);
+    MusSeqTempoPercent(0,125,150);
+}

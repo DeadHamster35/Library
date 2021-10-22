@@ -44,6 +44,12 @@ extern long itemChanceLo;
 
 extern long Pirate;
 extern long PirateEnd;
+extern long Crash;
+extern long CrashEnd;
 
 extern long ROMEOF;
+
+extern long Unknown33;
+extern long Unknown41;
+extern long AccelerationTable;
 #endif

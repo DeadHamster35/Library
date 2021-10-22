@@ -16,8 +16,11 @@ extern void setEcho();
 extern void setSky();
 extern void setWater();
 extern void loadHeaderOffsets();
-extern void loadHotSwap();
+extern void LoadCustomHeader(int inputID);
+extern void SetCustomData();
 extern void loadMinimap();
+extern void loadOKObjects();
+extern void setOKObjects();
 extern void setLabel();
 extern void setBanners();
 extern void setPreviews();
@@ -33,4 +36,5 @@ extern void Snow3DCameralook(int num, void* Camera);
 extern void EventDisplay(int player);
 extern void EventDisplay_After(int player);
 extern void CommonGameEventChart();
+extern void EmptyActionData(); 
 #endif

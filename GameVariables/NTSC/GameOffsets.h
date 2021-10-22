@@ -62,6 +62,7 @@ extern int CollisionSphere(void *Car, void *Object); //0x8029FB80
 
 
 extern void RouletteStart(int Player, int SpecialItem); //0x8007ABFC
+extern void KWAnmStart(int Player, int SpecialItem); //0x8007ABFC
 
 //math
 extern int CalcDisplayPosition(Screen *screen,Vector origin,float x,float y);
@@ -244,6 +245,13 @@ extern unsigned long* GraphPtr;
 extern long GraphPtrOffset;
 extern ushort KWLookCamera(float x,float z,Camera *camera);
 extern ushort KWLookCameraPitch(float y,float z,Camera *camera);
+extern void KWTexture2DRGBA32PT (int x,int y,unsigned short ang ,float scale,uchar *texaddr,void *vtxaddr,int sizex,int sizey,int cutx,int cuty);
+extern void KWTexture2DRGBA32BL (int x,int y,unsigned short ang ,float scale,uchar *texaddr,void *vtxaddr,int sizex,int sizey,int cutx,int cuty);
+extern void KWTexture2DCI8BL (int x,int y,unsigned short ang ,float scale,ushort *paladdr,uchar *idxaddr,void *vtxaddr,int sizex,int sizey,int cutx,int cuty);
+extern void KWTexture2DCI8AAPT (int x,int y,unsigned short ang ,float scale,ushort *paladdr,uchar *idxaddr,void *vtxaddr,int sizex,int sizey,int cutx,int cuty);
+extern void KWTexture2DCI8XLUPT (int x,int y,unsigned short ang ,float scale,uint alpha, ushort *paladdr,uchar *idxaddr,void *vtxaddr,int sizex,int sizey,int cutx,int cuty);
+extern void KWTexture2DCI8XLUBL (int x,int y,unsigned short ang ,float scale,uint alpha, ushort *paladdr,uchar *idxaddr,void *vtxaddr,int sizex,int sizey,int cutx,int cuty);
+extern void KWTexture2DCI8AAXLUPT (int x,int y,unsigned short ang ,float scale,uint alpha, ushort *paladdr,uchar *idxaddr,void *vtxaddr,int sizex,int sizey,int cutx,int cuty);
 extern void KWSprite(int cx,int cy,uint sizex,uint sizey,ushort *addr);
 extern void KWSpriteScale(int cx,int cy,float scale, ushort *addr, uint sizex,uint sizey);
 extern void KWSpriteDiv(int cx,int cy,ushort *addr,uint sizex,uint sizey,uint cuty);
@@ -694,6 +702,8 @@ extern long g_StarUseCounter[8]; // 8018D930
 extern long g_GhostUseCounter[8]; // 8018D950
 extern long g_GhostUseTimer[8]; // 8018D970
 extern long g_sfxPointer; //  803B7080
+extern int ActionData_Pointer[20];
+extern uint MaxPathPoints[4];
 extern short g_noSimpleKartFlag[8]; // 801633F8
 extern float g_charRadiusTbl[8];
 
@@ -936,10 +946,13 @@ extern void KWDisplayStar(int player);
 extern ushort RGBAFallingLeaf[];
 extern ushort RGBAQuestionMark[];
 extern ushort RGBALeaf[];
+extern void InitialMap();
+extern void LoadMapData();
 extern int FallingRockGFX_U; //default 0x3C0F0600
 extern int FallingRockGFX_L; //default 0x25EF6FE0
 extern int FallingRockShadowGFX_U; //default 0x3C0C0600
 extern int FallingRockShadowGFX_L; //default 0x258C6F88
+extern void DisplayGroupmap(int Address, Screen* PlayerScreen);
 extern int ShadowModel;
 extern int HoleModel;
 extern int ItemBoxModel;
