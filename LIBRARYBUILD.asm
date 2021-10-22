@@ -37,11 +37,11 @@
 .align 0x10
 
 Unknown33:
-.import "../library/data\stats\Unknown33.bin"
+.import "../library/data/stats/Unknown33.bin"
 .align 0x10
 Unknown41:
-.import "../library/data\stats\Unknown41.bin"
+.import "../library/data/stats/Unknown41.bin"
 .align 0x10
 AccelerationTable:
-.import "../library/data\stats\AccelerationTable.bin"
+.import "../library/data/stats/AccelerationTable.bin"
 .align 0x10
