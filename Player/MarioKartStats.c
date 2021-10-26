@@ -35,6 +35,15 @@ void dmaLoop(int loopCount)
      }
 }
 
+
+void RAMLoop(int loopCount)
+{
+     for(int currentPass = 0; currentPass < loopCount; currentPass++)
+     {
+          runRAM();
+          *targetAddress = *targetAddress + dataLength;
+     }
+}
 void Unknown33Func(int mode)
 {
      
@@ -42,7 +51,7 @@ void Unknown33Func(int mode)
      {
           case 0x00:
           {
-               *sourceAddress = (long)(&Unknown33);
+               *sourceAddress = 0xE3AB0;
                *targetAddress = 0x800E2AD0;
                dataLength = 0x1E0;
                runDMA();
@@ -53,7 +62,7 @@ void Unknown33Func(int mode)
                *sourceAddress = (long)(&Unknown33) + 0x78;               
                dataLength = 0x3C;
                *targetAddress = 0x800E2AD0;
-               dmaLoop(8);
+               RAMLoop(8);
                break;
           }
           
@@ -68,7 +77,7 @@ void Unknown41Func(int mode)
      {
           case 0x00:
           {
-               *sourceAddress = (long)(&Unknown41);
+               *sourceAddress = 0xE38B0;
                *targetAddress = 0x800E2CB0;
                dataLength = 0x1E0;
                runDMA();
@@ -79,7 +88,7 @@ void Unknown41Func(int mode)
                *sourceAddress = (long)(&Unknown41) + 0x78;    
                *targetAddress = 0x800E2CB0;
                dataLength = 0x3C;
-               dmaLoop(8);
+               RAMLoop(8);
                break;
           }
      }
@@ -92,7 +101,7 @@ void AccelerationFunc(int mode)
      {
           case 0x00:
           {
-               *sourceAddress = (int)(&AccelerationTable);
+               *sourceAddress = 0xE3AD0;
                *targetAddress = 0x800E2ED0;
                dataLength = 0x140;
                runDMA();
@@ -103,7 +112,7 @@ void AccelerationFunc(int mode)
                *sourceAddress = (int)(&AccelerationTable) + 0x50;
                dataLength = 0x28;
                *targetAddress = 0x800E2ED0;
-               dmaLoop(8);
+               RAMLoop(8);
                break;
           }
      }

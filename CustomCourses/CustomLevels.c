@@ -416,8 +416,7 @@ void setPath()
 		g_pathLength =(short)(OverKartHeader.PathLength) + 10;
 		
 		pathOffset = 0x06000A20;
-		pathOffsetB = pathOffset + ((OverKartHeader.PathLength + 1) * 8);
-
+		pathOffsetB = pathOffset + ((OverKartHeader.PathLength + 1) * 8);		
 	}
 	else
 	{

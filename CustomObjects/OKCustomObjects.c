@@ -35,12 +35,8 @@ void Draw3DRacer()
 
 
 
-		GlobalAddressB = (long)&bowserLOD0;
+		GlobalAddressB = (long)&BowserLOD0;
 		GlobalAddressA = (long)(&g_PlayerStructTable);
-
-		baseTurn = *(short*)(GlobalAddressA + 46);
-		addTurn = *(short*)(GlobalAddressA + 192);
-
 		objectPosition[0] = *(float*)(GlobalAddressA + 20);
 		objectPosition[1] = *(float*)(GlobalAddressA + 24) - 5;
 		objectPosition[2] = *(float*)(GlobalAddressA + 28);
@@ -50,8 +46,8 @@ void Draw3DRacer()
 
 		DrawGeometryScale(objectPosition,objectAngle,GlobalAddressB, 0.08);
 	}
-
 	*/
+	
 }
 
 
