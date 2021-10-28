@@ -375,6 +375,8 @@
 .definelabel r_CoursePreviewOffsets, 0x12C60C
 .definelabel g_CoursePreviewOffsets, 0x801993FC
 .definelabel g_CourseBannerOffsets, 0x801FA860
+.definelabel g_BattleBannerOffsets, 0x801F57F8
+.definelabel g_BattlePreviewOffsets, 0x801FF3F0
 .definelabel g_cup0preview0, 0x80199540
 .definelabel g_cup0preview1, 0x80199568
 .definelabel g_cup0preview2, 0x801994F0
@@ -681,6 +683,10 @@
 .definelabel g_menuPreviewValue2, 0x8018DBDF
 .definelabel g_menuPreviewValue3, 0x8018DC07
 .definelabel g_menuPreviewValue4, 0x8018DC2F
+.definelabel g_BattlePreviewValue1, 0x8018DAC7
+.definelabel g_BattlePreviewValue2, 0x8018DAEF
+.definelabel g_BattlePreviewValue3, 0x8018DB17
+.definelabel g_BattlePreviewValue4, 0x8018DB3F
 
 .definelabel g_zoomFOVPlayer1, 0x80150131 //20-zoomed in 70-zoomed out
 .definelabel g_zoomFOVPlayer2, 0x80150135 
@@ -972,6 +978,8 @@
 
 .definelabel RGBAFallingLeaf, 0x0D028DD8
 .definelabel RGBAQuestionMark, 0x0D001EE8
+.definelabel SearchListFile, 0x80290CAC
+.definelabel MakeCollision, 0x80295C6C
 .definelabel RGBALeaf, 0x0D0291D8
 .definelabel InitialMap, 0x80295D88
 .definelabel LoadMapData, 0x802AA918

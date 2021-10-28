@@ -51,7 +51,7 @@ void Unknown33Func(int mode)
      {
           case 0x00:
           {
-               *sourceAddress = 0xE3AB0;
+               *sourceAddress = 0xE36D0;
                *targetAddress = 0x800E2AD0;
                dataLength = 0x1E0;
                runDMA();

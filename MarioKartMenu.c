@@ -616,6 +616,7 @@ void MapSelectMenu()
           {
                swapHS(1);
           }
+          LoadCustomHeader(courseValue);
      }
 
      *(int*)(&PlayerOK) = 0;

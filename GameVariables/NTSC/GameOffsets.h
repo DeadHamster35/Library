@@ -364,6 +364,8 @@ extern long g_DEBUG;
 extern long r_CoursePreviewOffsets; // 0x12C750
 extern long g_CoursePreviewOffsets; // 0x80199540
 extern long g_CourseBannerOffsets;
+extern long g_BattleBannerOffsets;
+extern long g_BattlePreviewOffsets; // 0x80199540
 extern long g_cup0preview0; // 0x80199540
 extern long g_cup0preview1; // 0x80199568
 extern long g_cup0preview2; // 0x801994F0
@@ -666,6 +668,10 @@ extern char g_menuPreviewValue1;
 extern char g_menuPreviewValue2;
 extern char g_menuPreviewValue3;
 extern char g_menuPreviewValue4;
+extern char g_BattlePreviewValue1;
+extern char g_BattlePreviewValue2;
+extern char g_BattlePreviewValue3;
+extern char g_BattlePreviewValue4;
 
 extern char g_zoomFOVPlayer1;
 extern char g_zoomFOVPlayer2;
@@ -945,6 +951,8 @@ extern void KWDisplayStar(int player);
 
 extern ushort RGBAFallingLeaf[];
 extern ushort RGBAQuestionMark[];
+extern void SearchListFile(int addr);
+extern void MakeCollision();
 extern ushort RGBALeaf[];
 extern void InitialMap();
 extern void LoadMapData();

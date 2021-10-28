@@ -10,10 +10,20 @@
 
 void previewRefresh()
 {
-	g_menuPreviewValue1 = 9;
-	g_menuPreviewValue2 = 9;
-	g_menuPreviewValue3 = 9;
-	g_menuPreviewValue4 = 9;
+	if (g_gameMode != 3)
+	{
+		g_menuPreviewValue1 = 9;
+		g_menuPreviewValue2 = 9;
+		g_menuPreviewValue3 = 9;
+		g_menuPreviewValue4 = 9;
+	}
+	else
+	{
+		g_BattlePreviewValue1 = 9;
+		g_BattlePreviewValue2 = 9;
+		g_BattlePreviewValue3 = 9;
+		g_BattlePreviewValue4 = 9;
+	}
 }
 
 void copyCourseTable(int copyMode)
@@ -51,6 +61,10 @@ void hsTableSet()
 	g_cup3Array1 = 0;
 	g_cup3Array2 = 0;
 	g_cup3Array3 = 0;
+	g_cupBArray0 = 15;
+	g_cupBArray1 = 15;
+	g_cupBArray2 = 15;
+	g_cupBArray3 = 15;
 }
 
 /*
@@ -221,7 +235,7 @@ void overkartASM(void)
 	itemboxesA = 0x3C040600; //8029DBD4
 	itemboxesB = 0x248403C0; //8029DBDC
 
-	battleItemBoxesA = 0x24841938;
+	battleItemBoxesA = 0x24840008;
 
 	//8029E0D8
 
@@ -236,14 +250,6 @@ void overkartASM(void)
 
 	piranhadisplayA = 0x3C0F0600; //80298668
 	piranhadisplayB = 0x25EF0248; //8029866C
-
-
-	
-
-	battleDisplayA = 0x3C0F0600;
-	battleDisplayB = 0x35EF0008;
-	battleSurfaceA = 0x3C040600;
-	battleSurfaceB = 0x34840008;
 
 	unknownA1 = 0x3C190600; //0x802927FC   ;;3C190601 -> 3C190600
 	unknownB1 = 0x3C040600; //0x802927FC   ;;3C190601 -> 3C190600
@@ -281,6 +287,10 @@ void overkartASM(void)
 	g_cup3Array1 = 13;
 	g_cup3Array2 = 14;
 	g_cup3Array3 = 15;
+	g_cupBArray0 = 16;
+	g_cupBArray1 = 17;
+	g_cupBArray2 = 18;
+	g_cupBArray3 = 19;
 	asm_GPLevelSelect = 0xA420C5A0;
 }
 
@@ -1107,9 +1117,16 @@ void LoadCustomHeader(int inputID)
 			runRAM();
 
 			surfacemapA = 0x3C040600;   //3C040601
-			surfacemapB = 0x24840000 | (OverKartHeader.SurfaceMapPosition & 0xFFFF);  //24849650
+			surfacemapB = 0x24840000  | (OverKartHeader.SurfaceMapPosition & 0xFFFF);
 			sectionviewA = 0x3C040600;   //3C040601
 			sectionviewB = 0x24840000 | (OverKartHeader.SectionViewPosition & 0xFFFF);  //24849650
+
+			
+			battleDisplayA = 0x3C0F0600;
+			battleDisplayB = 0x35EF0000 | (OverKartHeader.SectionViewPosition & 0xFFFF); 
+			battleSurfaceA = 0x3C040600;
+			battleSurfaceB = 0x34840000; 
+
 		}
 		else
 		{
@@ -1192,167 +1209,201 @@ void setBanners()
 {
 	if (HotSwapID > 0)
 	{
-		for(int currentCourse = 0; currentCourse < 16; currentCourse++)
+		if (g_gameMode != 3)
 		{
-			GlobalAddressA = ((long)(&ok_MenuOffsets) + (currentCourse * 8) + ((HotSwapID-1) * 160) );
-			*sourceAddress = *(long*)(GlobalAddressA);
-			if ((*sourceAddress != 0x00000000) && (*sourceAddress != 0xFFFFFFFF))
+			for(int currentCourse = 0; currentCourse < 16; currentCourse++)
 			{
-				*targetAddress = (long)&ok_FreeSpace;
-				GlobalAddressB = (GlobalAddressA + 4);
-				dataLength = (*(long*)(GlobalAddressB) - *sourceAddress ) + 16;
-				runDMA();
-				*sourceAddress = (long)&ok_FreeSpace;
-			}
-			if (*sourceAddress == 0x00000000)
-			{
-				*sourceAddress = (long)&bannerU;
-			}
-			if (*sourceAddress == 0xFFFFFFFF)
-			{
-				*sourceAddress = (long)&bannerN;
-			}
-			GlobalAddressA = ((long)(&g_CourseBannerOffsets) + (currentCourse * 5056));
-			*targetAddress = GlobalAddressA;
-			runMIO();
+				GlobalAddressA = ((long)(&ok_MenuOffsets) + (currentCourse * 8) + ((HotSwapID-1) * 160) );
+				*sourceAddress = *(long*)(GlobalAddressA);
+				if ((*sourceAddress != 0x00000000) && (*sourceAddress != 0xFFFFFFFF))
+				{
+					*targetAddress = (long)&ok_FreeSpace;
+					GlobalAddressB = (GlobalAddressA + 4);
+					dataLength = (*(long*)(GlobalAddressB) - *sourceAddress ) + 16;
+					runDMA();
+					*sourceAddress = (long)&ok_FreeSpace;
+				}
+				if (*sourceAddress == 0x00000000)
+				{
+					*sourceAddress = (long)&bannerU;
+				}
+				if (*sourceAddress == 0xFFFFFFFF)
+				{
+					*sourceAddress = (long)&bannerN;
+				}
+				GlobalAddressA = ((long)(&g_CourseBannerOffsets) + (currentCourse * 5056));
+				*targetAddress = GlobalAddressA;
+				runMIO();
 
+			}
+		}
+		else
+		{
+			for(int currentCourse = 0; currentCourse < 4; currentCourse++)
+			{
+				GlobalAddressA = ((long)(&ok_MenuOffsets) + 128 + (currentCourse * 8) + ((HotSwapID-1) * 160) );
+				*sourceAddress = *(long*)(GlobalAddressA);
+				if ((*sourceAddress != 0x00000000) && (*sourceAddress != 0xFFFFFFFF))
+				{
+					*targetAddress = (long)&ok_FreeSpace;
+					GlobalAddressB = (GlobalAddressA + 4);
+					dataLength = (*(long*)(GlobalAddressB) - *sourceAddress ) + 16;
+					runDMA();
+					*sourceAddress = (long)&ok_FreeSpace;
+				}
+				if (*sourceAddress == 0x00000000)
+				{
+					*sourceAddress = (long)&bannerU;
+				}
+				if (*sourceAddress == 0xFFFFFFFF)
+				{
+					*sourceAddress = (long)&bannerN;
+				}
+				GlobalAddressA = ((long)(&g_BattleBannerOffsets) + (currentCourse * 5056));
+				*targetAddress = GlobalAddressA;
+				runMIO();
+
+			}
 		}
 	}
 	else
 	{
-		dataLength = 0x1000;
-		GlobalAddressA = (long)&g_CourseBannerOffsets;
+		if (g_gameMode != 3)
+			{
+			dataLength = 0x1000;
+			GlobalAddressA = (long)&g_CourseBannerOffsets;
 
-		*targetAddress = (long)&ok_FreeSpace;
-		*sourceAddress = 0x7FEFC0;
-		runDMA();
-		*targetAddress =  GlobalAddressA;
-		*sourceAddress = (long)&ok_FreeSpace;
-		runTKM();
-		GlobalAddressA = GlobalAddressA + 0x13C0;
+			*targetAddress = (long)&ok_FreeSpace;
+			*sourceAddress = 0x7FEFC0;
+			runDMA();
+			*targetAddress =  GlobalAddressA;
+			*sourceAddress = (long)&ok_FreeSpace;
+			runTKM();
+			GlobalAddressA = GlobalAddressA + 0x13C0;
 
-		*targetAddress = (long)&ok_FreeSpace;
-		*sourceAddress = 0x7FF3C0;
-		runDMA();
-		*targetAddress =  GlobalAddressA;
-		*sourceAddress = (long)&ok_FreeSpace;
-		runTKM();
-		GlobalAddressA = GlobalAddressA + 0x13C0;
+			*targetAddress = (long)&ok_FreeSpace;
+			*sourceAddress = 0x7FF3C0;
+			runDMA();
+			*targetAddress =  GlobalAddressA;
+			*sourceAddress = (long)&ok_FreeSpace;
+			runTKM();
+			GlobalAddressA = GlobalAddressA + 0x13C0;
 
-		*targetAddress = (long)&ok_FreeSpace;
-		*sourceAddress = 0x7fe6c0;
-		runDMA();
-		*targetAddress =  GlobalAddressA;
-		*sourceAddress = (long)&ok_FreeSpace;
-		runTKM();
-		GlobalAddressA = GlobalAddressA + 0x13C0;
+			*targetAddress = (long)&ok_FreeSpace;
+			*sourceAddress = 0x7fe6c0;
+			runDMA();
+			*targetAddress =  GlobalAddressA;
+			*sourceAddress = (long)&ok_FreeSpace;
+			runTKM();
+			GlobalAddressA = GlobalAddressA + 0x13C0;
 
-		*targetAddress = (long)&ok_FreeSpace;
-		*sourceAddress = 0x7ffcc0;
-		runDMA();
-		*targetAddress =  GlobalAddressA;
-		*sourceAddress = (long)&ok_FreeSpace;
-		runTKM();
-		GlobalAddressA = GlobalAddressA + 0x13C0;
-		//
-		//
-		*targetAddress = (long)&ok_FreeSpace;
-		*sourceAddress = 0x7ff7c0;
-		runDMA();
-		*targetAddress =  GlobalAddressA;
-		*sourceAddress = (long)&ok_FreeSpace;
-		runTKM();
-		GlobalAddressA = GlobalAddressA + 0x13C0;
+			*targetAddress = (long)&ok_FreeSpace;
+			*sourceAddress = 0x7ffcc0;
+			runDMA();
+			*targetAddress =  GlobalAddressA;
+			*sourceAddress = (long)&ok_FreeSpace;
+			runTKM();
+			GlobalAddressA = GlobalAddressA + 0x13C0;
+			//
+			//
+			*targetAddress = (long)&ok_FreeSpace;
+			*sourceAddress = 0x7ff7c0;
+			runDMA();
+			*targetAddress =  GlobalAddressA;
+			*sourceAddress = (long)&ok_FreeSpace;
+			runTKM();
+			GlobalAddressA = GlobalAddressA + 0x13C0;
 
-		*targetAddress = (long)&ok_FreeSpace;
-		*sourceAddress = 0x7fe1c0;
-		runDMA();
-		*targetAddress =  GlobalAddressA;
-		*sourceAddress = (long)&ok_FreeSpace;
-		runTKM();
-		GlobalAddressA = GlobalAddressA + 0x13C0;
+			*targetAddress = (long)&ok_FreeSpace;
+			*sourceAddress = 0x7fe1c0;
+			runDMA();
+			*targetAddress =  GlobalAddressA;
+			*sourceAddress = (long)&ok_FreeSpace;
+			runTKM();
+			GlobalAddressA = GlobalAddressA + 0x13C0;
 
-		*targetAddress = (long)&ok_FreeSpace;
-		*sourceAddress = 0x7fcdc0;
-		runDMA();
-		*targetAddress =  GlobalAddressA;
-		*sourceAddress = (long)&ok_FreeSpace;
-		runTKM();
-		GlobalAddressA = GlobalAddressA + 0x13C0;
+			*targetAddress = (long)&ok_FreeSpace;
+			*sourceAddress = 0x7fcdc0;
+			runDMA();
+			*targetAddress =  GlobalAddressA;
+			*sourceAddress = (long)&ok_FreeSpace;
+			runTKM();
+			GlobalAddressA = GlobalAddressA + 0x13C0;
 
-		*targetAddress = (long)&ok_FreeSpace;
-		*sourceAddress = 0x7fc8c0;
-		runDMA();
-		*targetAddress =  GlobalAddressA;
-		*sourceAddress = (long)&ok_FreeSpace;
-		runTKM();
-		GlobalAddressA = GlobalAddressA + 0x13C0;
-		//
-		//
-		*targetAddress = (long)&ok_FreeSpace;
-		*sourceAddress = 0x8008c0;
-		runDMA();
-		*targetAddress =  GlobalAddressA;
-		*sourceAddress = (long)&ok_FreeSpace;
-		runTKM();
-		GlobalAddressA = GlobalAddressA + 0x13C0;
+			*targetAddress = (long)&ok_FreeSpace;
+			*sourceAddress = 0x7fc8c0;
+			runDMA();
+			*targetAddress =  GlobalAddressA;
+			*sourceAddress = (long)&ok_FreeSpace;
+			runTKM();
+			GlobalAddressA = GlobalAddressA + 0x13C0;
+			//
+			//
+			*targetAddress = (long)&ok_FreeSpace;
+			*sourceAddress = 0x8008c0;
+			runDMA();
+			*targetAddress =  GlobalAddressA;
+			*sourceAddress = (long)&ok_FreeSpace;
+			runTKM();
+			GlobalAddressA = GlobalAddressA + 0x13C0;
 
-		*targetAddress = (long)&ok_FreeSpace;
-		*sourceAddress = 0x8000c0;
-		runDMA();
-		*targetAddress =  GlobalAddressA;
-		*sourceAddress = (long)&ok_FreeSpace;
-		runTKM();
-		GlobalAddressA = GlobalAddressA + 0x13C0;
+			*targetAddress = (long)&ok_FreeSpace;
+			*sourceAddress = 0x8000c0;
+			runDMA();
+			*targetAddress =  GlobalAddressA;
+			*sourceAddress = (long)&ok_FreeSpace;
+			runTKM();
+			GlobalAddressA = GlobalAddressA + 0x13C0;
 
-		*targetAddress = (long)&ok_FreeSpace;
-		*sourceAddress = 0x7febc0;
-		runDMA();
-		*targetAddress =  GlobalAddressA;
-		*sourceAddress = (long)&ok_FreeSpace;
-		runTKM();
-		GlobalAddressA = GlobalAddressA + 0x13C0;
+			*targetAddress = (long)&ok_FreeSpace;
+			*sourceAddress = 0x7febc0;
+			runDMA();
+			*targetAddress =  GlobalAddressA;
+			*sourceAddress = (long)&ok_FreeSpace;
+			runTKM();
+			GlobalAddressA = GlobalAddressA + 0x13C0;
 
-		*targetAddress = (long)&ok_FreeSpace;
-		*sourceAddress = 0x7fd2c0;
-		runDMA();
-		*targetAddress =  GlobalAddressA;
-		*sourceAddress = (long)&ok_FreeSpace;
-		runTKM();
-		GlobalAddressA = GlobalAddressA + 0x13C0;
-		//
-		//
-		*targetAddress = (long)&ok_FreeSpace;
-		*sourceAddress = 0x8018c0;
-		runDMA();
-		*targetAddress =  GlobalAddressA;
-		*sourceAddress = (long)&ok_FreeSpace;
-		runTKM();
-		GlobalAddressA = GlobalAddressA + 0x13C0;
+			*targetAddress = (long)&ok_FreeSpace;
+			*sourceAddress = 0x7fd2c0;
+			runDMA();
+			*targetAddress =  GlobalAddressA;
+			*sourceAddress = (long)&ok_FreeSpace;
+			runTKM();
+			GlobalAddressA = GlobalAddressA + 0x13C0;
+			//
+			//
+			*targetAddress = (long)&ok_FreeSpace;
+			*sourceAddress = 0x8018c0;
+			runDMA();
+			*targetAddress =  GlobalAddressA;
+			*sourceAddress = (long)&ok_FreeSpace;
+			runTKM();
+			GlobalAddressA = GlobalAddressA + 0x13C0;
 
-		*targetAddress = (long)&ok_FreeSpace;
-		*sourceAddress = 0x7fddc0;
-		runDMA();
-		*targetAddress =  GlobalAddressA;
-		*sourceAddress = (long)&ok_FreeSpace;
-		runTKM();
-		GlobalAddressA = GlobalAddressA + 0x13C0;
+			*targetAddress = (long)&ok_FreeSpace;
+			*sourceAddress = 0x7fddc0;
+			runDMA();
+			*targetAddress =  GlobalAddressA;
+			*sourceAddress = (long)&ok_FreeSpace;
+			runTKM();
+			GlobalAddressA = GlobalAddressA + 0x13C0;
 
-		*targetAddress = (long)&ok_FreeSpace;
-		*sourceAddress = 0x7fd7c0;
-		runDMA();
-		*targetAddress =  GlobalAddressA;
-		*sourceAddress = (long)&ok_FreeSpace;
-		runTKM();
-		GlobalAddressA = GlobalAddressA + 0x13C0;
+			*targetAddress = (long)&ok_FreeSpace;
+			*sourceAddress = 0x7fd7c0;
+			runDMA();
+			*targetAddress =  GlobalAddressA;
+			*sourceAddress = (long)&ok_FreeSpace;
+			runTKM();
+			GlobalAddressA = GlobalAddressA + 0x13C0;
 
-		*targetAddress = (long)&ok_FreeSpace;
-		*sourceAddress = 0x8004c0;
-		runDMA();
-		*targetAddress =  GlobalAddressA;
-		*sourceAddress = (long)&ok_FreeSpace;
-		runTKM();
-		GlobalAddressA = GlobalAddressA + 0x13C0;
+			*targetAddress = (long)&ok_FreeSpace;
+			*sourceAddress = 0x8004c0;
+			runDMA();
+			*targetAddress =  GlobalAddressA;
+			*sourceAddress = (long)&ok_FreeSpace;
+			runTKM();
+			GlobalAddressA = GlobalAddressA + 0x13C0;
+		}
 	}
 
 }
@@ -1378,6 +1429,7 @@ void setPreviews()
 			*sourceAddress += 0x98D65D0;
 			*(long*)(&g_CoursePreviewOffsets + 1 + (0xA * currentCourse)) = *sourceAddress;
 		}
+		
 	}
 	else
 	{
