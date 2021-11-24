@@ -12,6 +12,7 @@ extern void hsTableSet();
 extern void stockTableSet();
 extern void setSong();
 extern void setTempo();
+extern void setPath();
 extern void setEcho();
 extern void setSky();
 extern void setWater();

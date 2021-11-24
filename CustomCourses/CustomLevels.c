@@ -425,12 +425,22 @@ void setPath()
 	{
 		g_pathLength =(short)(OverKartHeader.PathLength) + 10;
 		
-		pathOffset = 0x06000A20;
+		*sourceAddress = OverKartHeader.PathOffset;
+		*targetAddress = (uint)(&pathOffset);
+		dataLength = 16;
+		runDMA();
 		pathOffsetB = pathOffset + ((OverKartHeader.PathLength + 1) * 8);		
 	}
 	else
 	{
 		g_pathLength = 0x0258;
+		*sourceAddress = 0xDD380;
+		*targetAddress = (uint)(&pathOffsetB);
+		dataLength = 16;
+		runDMA();
+		*sourceAddress = 0xDD4D0;
+		*targetAddress = (uint)(&pathOffset);
+		runDMA();
 	}
 }
 
@@ -1017,7 +1027,7 @@ void setOKObjects()
 	OverKartRAMHeader.ObjectHeader.ObjectTypeList = (OKObjectType*)(GlobalAddressC);
 
 	
-	GlobalAddressB = OverKartHeader.ObjectDataStart + 4 + (OverKartRAMHeader.ObjectHeader.ObjectTypeCount * 40); //32 bytes size of ObjectType
+	GlobalAddressB = OverKartHeader.ObjectDataStart + 4 + (OverKartRAMHeader.ObjectHeader.ObjectTypeCount * 44); //32 bytes size of ObjectType
 	OverKartRAMHeader.ObjectHeader.ObjectCount = *(int*)(GlobalAddressB);
 	GlobalAddressD = GlobalAddressB + 4;
 	OverKartRAMHeader.ObjectHeader.ObjectList = (OKObjectList*)(GlobalAddressD);	
@@ -1091,7 +1101,7 @@ void LoadBomb()
 void LoadCustomHeader(int inputID)
 {
 	//version 4
-	if (HotSwapID > 0)
+	if ((HotSwapID > 0) && (inputID != -1))
 	{
 		
 		//version 4
@@ -1127,6 +1137,8 @@ void LoadCustomHeader(int inputID)
 			battleSurfaceA = 0x3C040600;
 			battleSurfaceB = 0x34840000; 
 
+			pathOffset = 0x06000A20;
+
 		}
 		else
 		{
@@ -1143,7 +1155,6 @@ void LoadCustomHeader(int inputID)
 		dataLength = 0x30;
 		runDMA();
 	}
-	setPath();
 }
 
 void SetCustomData()

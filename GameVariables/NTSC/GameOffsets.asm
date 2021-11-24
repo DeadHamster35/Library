@@ -164,6 +164,8 @@
 .definelabel InitObjBlock, 0x8009E620
 .definelabel DoObjBlock, 0x800A7A4C
 
+.definelabel DispOBJBlock, 0x800A81E4
+
 .definelabel DOBPSelTurnIn, 0x800AAB90
 .definelabel DOBPSelTurnOut, 0x800AAA9C
 
@@ -184,6 +186,7 @@
 .definelabel GraphPtrOffset, 0x80150298
 .definelabel KWLookCamera, 0x800418AC
 .definelabel KWLookCameraPitch, 0x800418E8
+.definelabel KWTexture2DRGBA, 0x800463B0
 .definelabel KWTexture2DRGBA32PT, 0x80046720
 .definelabel KWTexture2DRGBA32BL, 0x80046794
 .definelabel KWTexture2DCI8BL, 0x80047910
@@ -254,6 +257,7 @@
 
 .definelabel initializePlayer, 0x800393C0
 .definelabel DelayInitialMap, 0x80002DAC
+.definelabel DrawLocalSkeletonShape, 0x80004DFC
 
 .definelabel TexBuffLoadP, 0x800996BC
 .definelabel GrayScaleTexBuf3, 0x8009B0A4
@@ -272,6 +276,8 @@
 .definelabel g_fadeOutCounter, 0x800DC5C4
 .definelabel g_fadeOutCounter2, 0x800DC5C8
 
+.definelabel DisplayBackground, 0x802A4A0C
+
 
 .definelabel asm_itemJump1A, 0x8007B084  //3C058016
 .definelabel asm_itemJump1B, 0x8007B098  //84A543BA
@@ -286,14 +292,13 @@
 
 .definelabel g_SegmentA, 0x80117974
 
-.definelabel gIntMesgQueue, 0x8014F0B8
-;;
 ;;
 
 .definelabel g_resetToggle, 0x800DC50C
 .definelabel g_startingIndicator, 0x800DC510
 .definelabel g_DebugSection, 0x800DC514
 .definelabel g_DebugMode, 0x800DC520
+.definelabel g_DispTimeFlag, 0x800DC660
 .definelabel g_SequenceMode, 0x800DC50C
 .definelabel g_NewSequenceMode, 0x800DC524
 .definelabel g_NextSequenceMode, 0x800DC528
@@ -488,7 +493,7 @@
 
 
 
-
+.definelabel gDynamicP, 0x8014EF40
 .definelabel g_aspectRatio, 0x80150148
 .definelabel g_farClip, 0x8015014C
 
@@ -921,7 +926,7 @@
 .definelabel g_waterVelocity, 0x8015F8E8
 .definelabel g_monitorCounter, 0x802B87D8
 .definelabel g_simpleObjectCount, 0x80150110
-.definelabel g_simpleObjectScreenCount, 0x80150112
+.definelabel gMatrixCount, 0x80150112
 .definelabel g_courseTotalPathPoints, 0x801645C8
 .definelabel g_pathPointPointer, 0x80164490
 
@@ -938,6 +943,10 @@
 .definelabel NaPlyLevelStop, 0x800C9018
 .definelabel NaSceneLevelStart, 0x800C9D80
 .definelabel NaSceneLevelStop, 0x800C9EF4
+
+
+.definelabel GUPerspective, 0x800CF330
+.definelabel GULookAt, 0x800CF648
 
 .definelabel g_musicUserVolumeFlag, 0x800DC5A8 //char 00=full, 01=half, 02=off, 04=disable L button
 .definelabel g_musicIDRaceways, 0x8028ECE6 
@@ -983,6 +992,8 @@
 .definelabel RGBALeaf, 0x0D0291D8
 .definelabel InitialMap, 0x80295D88
 .definelabel LoadMapData, 0x802AA918
+.definelabel InitRDP, 0x802A3E3C
+.definelabel InitialDrawCommon, 0x802A53A4
 .definelabel FallingRockGFX_U, 0x8029CBE8
 .definelabel FallingRockGFX_L, 0x8029CBEC
 .definelabel FallingRockShadowGFX_U, 0x8029CB9C

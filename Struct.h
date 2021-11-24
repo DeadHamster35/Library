@@ -164,6 +164,13 @@ typedef unsigned int     	uint;
 typedef long long			int64;
 typedef unsigned long long	uint64;
 
+
+typedef struct {
+    int type;
+    int pattern;
+    int pos_x,pos_y;
+} OBJBlock;
+
 typedef struct Bump{
 
 	unsigned short 	flag_xy;
@@ -341,6 +348,36 @@ typedef struct Object{
 
 } Object;
 
+
+typedef struct RSPTask{
+		OSTask 		task;
+		OSMesgQueue	*msgQ;
+		OSMesg		msg;
+		int 		status;
+		int		pad;
+}RSPTask;
+typedef struct Dynamic{
+	Mtx	projection;
+	Mtx	projection1;
+	Mtx	projection2;
+	Mtx	projection3;
+	Mtx	projection4;
+	Mtx	projection5;
+	Mtx	light;
+	Mtx	viewing;
+	Mtx	viewing1;
+	Mtx	viewing2;
+	Mtx	viewing3;
+	Mtx	modeling[800];
+	Mtx	objectmodeling[128];
+	Mtx	kagemodeling[8*4];
+	Mtx     kmodeling[8*4];
+	Mtx effectmodeling[660];	
+	Mtx	tmodeling[4];
+	Gfx	glist[7500];
+	RSPTask rsptask;
+} Dynamic;
+
 typedef struct Controller{
 
 	short			AnalogX;
@@ -412,6 +449,21 @@ typedef struct Marker{
 	short 	Position[3];
 	short	Group;
 } Marker;
+
+
+
+typedef unsigned long Hierarchy;
+
+typedef struct AnimeRecord{
+	short			attr;
+	short			code;
+	short			start;
+	short			loop;
+	short			anime_frame;
+	short			skeleton_total;
+	short		   	*param;
+	unsigned short 	*table;
+} AnimeRecord,*AnimePtr;
 
 
 typedef struct Hud{

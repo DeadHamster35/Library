@@ -167,7 +167,7 @@ extern void SetFadeOutB();
 extern void SetObjBlock(int kind, int x, int y, char pri);
 extern void InitObjBlock();
 extern void DoObjBlock(int pri_flag);
-
+extern void DispObjBlock(void* Target);
 
 extern unsigned long long  SaveFunc800B45E0; //0x800B45E0
 extern unsigned long long  SaveFunc800B4670; //0x800B4670
@@ -241,10 +241,14 @@ extern bool osEepromProbe(void *Queue);
 extern short g_fadeOutFlag;
 extern short g_fadeOutCounter, g_fadeOutCounter2;
 
+extern void DisplayBackground(Vtx_t *bg_vertex,Screen *screen,short screen_width,short screen_hight,float *screen_view_angle);
+
+
 extern unsigned long* GraphPtr;
 extern long GraphPtrOffset;
 extern ushort KWLookCamera(float x,float z,Camera *camera);
 extern ushort KWLookCameraPitch(float y,float z,Camera *camera);
+extern void KWTexture2DRGBA(int x, int y, unsigned short ang, float scale, uchar *texaddr, void *vtxaddr, int sizex, int sizey, int cutx, int cuty);
 extern void KWTexture2DRGBA32PT (int x,int y,unsigned short ang ,float scale,uchar *texaddr,void *vtxaddr,int sizex,int sizey,int cutx,int cuty);
 extern void KWTexture2DRGBA32BL (int x,int y,unsigned short ang ,float scale,uchar *texaddr,void *vtxaddr,int sizex,int sizey,int cutx,int cuty);
 extern void KWTexture2DCI8BL (int x,int y,unsigned short ang ,float scale,ushort *paladdr,uchar *idxaddr,void *vtxaddr,int sizex,int sizey,int cutx,int cuty);
@@ -270,6 +274,7 @@ extern void SetSegment(int number, int cpuAddr);
 
 extern void initializePlayer(int playerStructure, int characterID, float deltaX, float deltaZ, int characterID2, int unknown0xB000);
 extern void DelayInitialMap();
+extern void DrawLocalSkeletonShape(Hierarchy* Skeleton,AnimePtr* Anime,short AnimeNumber,short CurrentFrame);
 
 extern long asm_itemJump1A;// 0x8007B084  //3C058016
 extern long asm_itemJump1B;// 0x8007B098  //84A543BA
@@ -292,6 +297,7 @@ extern long g_resetToggle; //
 extern long g_startingIndicator; //0-Level Start 1-Demo Camera 2-Countdown 3-Racing 4-Finish Waiting 5-Race Finish 6-Fade Out 7-No Operation
 extern short g_DebugSection;
 extern short g_DebugMode;
+extern int g_DispTimeFlag;
 extern long g_SequenceMode;
 extern long g_NewSequenceMode;
 extern long g_NextSequenceMode;
@@ -467,7 +473,12 @@ extern struct Player g_PlayerStruct6;
 extern struct Player g_PlayerStruct7;
 extern struct Player g_PlayerStruct8;
 
-
+extern void InitRDP();
+extern void InitialDrawCommon();
+extern void GULookAt(Mtx *m, float xEye, float yEye, float zEye,
+	       float xAt,  float yAt,  float zAt,
+	       float xUp,  float yUp,  float zUp);
+extern void GUPerspective(Mtx *m, u16 *perspNorm, float fovy, float aspect, float near, float far, float scale);
 extern float g_aspectRatio;
 extern float g_farClip;
 
@@ -884,7 +895,7 @@ extern float g_waterHeight;
 extern float g_waterVelocity;
 extern short g_monitorCounter;
 extern short g_simpleObjectCount;
-extern short g_simpleObjectScreenCount;
+extern short gMatrixCount;
 extern ushort g_courseTotalPathPoints[4];
 extern struct CenterPathStruct *g_pathPointPointer;
 
@@ -911,6 +922,9 @@ extern void NaPlyLevelStart(char playerID, int soundID);
 extern void NaPlyLevelStop(char playerID, int soundID); 
 extern void NaSceneLevelStart(Vector ObjectPosition, Vector ObjectVelocity, int soundID);
 extern void NaSceneLevelStop(Vector ObjectPosition, int soundID);
+
+
+
 
 extern short g_musicUserVolumeFlag; // 0x800DC5A8 //char 00=full; // 01=half; // 02=off  04=disable L button
 extern short g_musicIDRaceways; // 0x8028ECE6 

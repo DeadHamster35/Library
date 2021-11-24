@@ -24,6 +24,7 @@ extern void ResetObject();
 extern void DrawBox(int X, int Y, int SizeX, int SizeY, int R, int G, int B, int A);
 extern char* printHex(char *buf, int num, int nDigits);
 extern void printNumberSprite(int X, int Y, int Value);
+extern void ShiftVertColor(uint address,uint counter,uint v_buff,char alpha,char red,char green,char blue);
 
 extern char ReturnStringLength(char *stringAddress);
 extern char CharacterConvert[];

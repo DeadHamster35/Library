@@ -45,14 +45,10 @@
 .definelabel ok_Instrument, ok_USAudio + 0x10
 .definelabel ok_Sequence, ok_Instrument + 0x10
 .definelabel ok_Bomb, ok_Sequence + 0x10
-.definelabel ok_TKMSpace, ok_Bomb + 0xB0
-.definelabel ok_FreeSpace, ok_TKMSpace + 0x2000
-
-.definelabel ok_Storage, ok_FreeSpace + 0xB000
 
 //804396C4 targetAddress;?
 
-.definelabel lit_numberSprite, ok_Storage + 0x20000
+.definelabel lit_numberSprite, ok_Bomb + 0xB0
 .definelabel lit_numberSprite0, lit_numberSprite
 .definelabel lit_numberSprite1, lit_numberSprite0 + 0x200
 .definelabel lit_numberSprite2, lit_numberSprite1 + 0x200
@@ -65,7 +61,13 @@
 .definelabel lit_numberSprite9, lit_numberSprite8 + 0x200
 .definelabel lit_numberSpriteX, lit_numberSprite9 + 0x200
 
-.definelabel lit_titleFrame, lit_numberSpriteX + 0x200
+
+.definelabel ok_TKMSpace, lit_numberSpriteX + 0x200
+.definelabel ok_FreeSpace, ok_TKMSpace + 0x2008
+
+.definelabel ok_Storage, ok_FreeSpace + 0x40000
+
+.definelabel lit_titleFrame, ok_Storage + 0x100000
 
 .definelabel lit_titleFrame_u, lit_titleFrame
 .definelabel lit_titleFrame_m, lit_titleFrame_u + 0x720

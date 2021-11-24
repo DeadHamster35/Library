@@ -13,46 +13,6 @@
 
 
 
-void Draw3DRacer()
-{
-	/*
-	if (SaveGame.RenderSettings.SplitMode == 0)
-	{
-		spriteKillA = 0x27BDFFA0;
-		spriteKillB = 0xAFBF;
-		spriteKillC = 0x27BDFFE8;
-		spriteKillD = 0xAFBF;
-	}
-	else
-	{
-		
-		spriteKillA = 0x03E00008;
-		spriteKillB = 0x2400;
-		spriteKillC = 0x03E00008;
-		spriteKillD = 0x2400;
-		
-
-
-
-
-		GlobalAddressB = (long)&BowserLOD0;
-		GlobalAddressA = (long)(&g_PlayerStructTable);
-		objectPosition[0] = *(float*)(GlobalAddressA + 20);
-		objectPosition[1] = *(float*)(GlobalAddressA + 24) - 5;
-		objectPosition[2] = *(float*)(GlobalAddressA + 28);
-		objectAngle[2] = baseTurn + addTurn;
-		objectAngle[0] = 0x3FFF - *(short*)(GlobalAddressA + 518) * 2;
-		objectAngle[1] = *(short*)(GlobalAddressA + 80) * -2;
-
-		DrawGeometryScale(objectPosition,objectAngle,GlobalAddressB, 0.08);
-	}
-	*/
-	
-}
-
-
-
-
 void DisplayCoinSprite()
 {
 
@@ -204,35 +164,37 @@ void OKObjectCollision(OKObject *InputObject)
 		
 	}
 
-	/*
-	if ((OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].SoundPlaying == 0) && (GlobalBoolA))
+	if (OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex].SoundID != 0xFFFFFFFF)
 	{
-		OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].SoundPlaying = 1;
-		if(OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex].SoundType == 0 && g_playerCount == 1)
+		if ((OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].SoundPlaying == 0) && (GlobalBoolA))
 		{
-			NaPlyLevelStart(0,OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex].SoundID); //Play globally
-		}
-		else
-		{
-			NaSceneLevelStart(objectPosition,ZeroVector,OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex].SoundID); //Play directionally
-		}
-	}
-	else
-	{
-		if ((OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].SoundPlaying == 1) && (!GlobalBoolA))
-		{
-			OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].SoundPlaying = 0;
+			OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].SoundPlaying = 1;
 			if(OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex].SoundType == 0 && g_playerCount == 1)
 			{
-				NaPlyLevelStop(0,OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex].SoundID); //Play globally
+				NaPlyLevelStart(0,OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex].SoundID); //Play globally
 			}
 			else
 			{
-				NaSceneLevelStop(objectPosition,OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex].SoundID); //Play directionally
+				NaSceneLevelStart(objectPosition,ZeroVector,OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex].SoundID); //Play directionally
+			}
+		}
+		else
+		{
+			if ((OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].SoundPlaying == 1) && (!GlobalBoolA))
+			{
+				OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].SoundPlaying = 0;
+				if(OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex].SoundType == 0 && g_playerCount == 1)
+				{
+					NaPlyLevelStop(0,OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex].SoundID); //Play globally
+				}
+				else
+				{
+					NaSceneLevelStop(objectPosition,OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex].SoundID); //Play directionally
+				}
 			}
 		}
 	}
-	*/
+	
 }
 
 
@@ -261,6 +223,11 @@ AffineMatrix[3][2] = (float)objectPosition[2];
 */
 
 
+
+void LoadSkeleton() 
+{
+	
+}
 void DrawOKObjectLoop(OKModel* ThisModel, int Player, int Type)
 {
 	*(long*)*graphPointer = (long)(0x06000000);
@@ -313,15 +280,64 @@ void DrawOKObjects(Camera* LocalCamera)
 		int CurrentPlayer = (*(long*)&LocalCamera - (long)&g_Camera1) / 0xB8;
 		for (int CurrentType = 0; CurrentType < OverKartRAMHeader.ObjectHeader.ObjectTypeCount; CurrentType++)
 		{
-			for (int CurrentModel = 0; CurrentModel < OverKartRAMHeader.ObjectHeader.ObjectTypeList[CurrentType].OKModelCount; CurrentModel++)
+			if (*(uint*)(&OverKartRAMHeader.ObjectHeader.ObjectTypeList[CurrentType].ObjectAnimations) == 0xFFFFFFFF)
 			{
-				OKModel* ThisModel = (OKModel*)GetRealAddress(0x0A000000 | (int)&OverKartRAMHeader.ObjectHeader.ObjectTypeList[CurrentType].ObjectModel[CurrentModel]);
-				DrawOKObjectLoop(ThisModel, CurrentPlayer, CurrentType);
+				for (int CurrentModel = 0; CurrentModel < OverKartRAMHeader.ObjectHeader.ObjectTypeList[CurrentType].OKModelCount; CurrentModel++)
+				{
+					OKModel* ThisModel = (OKModel*)GetRealAddress(0x0A000000 | (int)&OverKartRAMHeader.ObjectHeader.ObjectTypeList[CurrentType].ObjectModel[CurrentModel]);
+					DrawOKObjectLoop(ThisModel, CurrentPlayer, CurrentType);
+				}
+				for (int CurrentModel = 0; CurrentModel < OverKartRAMHeader.ObjectHeader.ObjectTypeList[CurrentType].OKXLUCount; CurrentModel++)
+				{
+					OKModel* ThisModel = (OKModel*)GetRealAddress(0x0A000000 | (int)&OverKartRAMHeader.ObjectHeader.ObjectTypeList[CurrentType].ObjectXLU[CurrentModel]);
+					DrawOKObjectLoop(ThisModel, CurrentPlayer, CurrentType);
+				}
 			}
-			for (int CurrentModel = 0; CurrentModel < OverKartRAMHeader.ObjectHeader.ObjectTypeList[CurrentType].OKXLUCount; CurrentModel++)
+			else
 			{
-				OKModel* ThisModel = (OKModel*)GetRealAddress(0x0A000000 | (int)&OverKartRAMHeader.ObjectHeader.ObjectTypeList[CurrentType].ObjectXLU[CurrentModel]);
-				DrawOKObjectLoop(ThisModel, CurrentPlayer, CurrentType);
+				
+				
+
+				
+				for (int CurrentObject = 0; CurrentObject < OverKartRAMHeader.ObjectHeader.ObjectCount; CurrentObject++)
+				{
+					if((OKObjectArray[CurrentObject].SubBehaviorClass != SUBBEHAVIOR_DEAD) && (OverKartRAMHeader.ObjectHeader.ObjectList[OKObjectArray[CurrentObject].ListIndex].ObjectIndex == CurrentType))
+					{
+						
+						objectPosition[0] = (float)OKObjectArray[CurrentObject].ObjectData.position[0];
+						objectPosition[1] = (float)OKObjectArray[CurrentObject].ObjectData.position[1];
+						objectPosition[2] = (float)OKObjectArray[CurrentObject].ObjectData.position[2];
+
+						if(TestCollideSphere(objectPosition, (float)(OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[OKObjectArray[CurrentObject].ListIndex].ObjectIndex].RenderRadius) ,GlobalPlayer[CurrentPlayer].position, GlobalPlayer[CurrentPlayer].radius))
+						{
+						
+							objectAngle[0] = (short)OKObjectArray[CurrentObject].ObjectData.angle[0];
+							objectAngle[1] = (short)(OKObjectArray[CurrentObject].ObjectData.angle[1] * -1);
+							objectAngle[2] = (short)OKObjectArray[CurrentObject].ObjectData.angle[2];	
+							CreateModelingMatrix(AffineMatrix,objectPosition,objectAngle);
+
+
+							ScalingMatrix(AffineMatrix,0.10);
+
+							if(SetMatrix(AffineMatrix,0) != 0)
+							{
+
+								GlobalUIntA = GetRealAddress(0x0A000000 | *(uint*)(&OverKartRAMHeader.ObjectHeader.ObjectTypeList[0].ObjectAnimations));				
+								OKAnimationTable* AnimationTable = (OKAnimationTable*)(GlobalUIntA);
+								AnimationTable->SkeletonOffset = GetRealAddress(AnimationTable->SkeletonOffset);
+								AnimationTable->WalkAnimation = GetRealAddress(AnimationTable->WalkAnimation);
+								Hierarchy* Skeleton = (Hierarchy*)(AnimationTable->SkeletonOffset) ;
+								AnimePtr* WalkAnime = (AnimePtr*)(&AnimationTable->WalkAnimation);
+								WalkAnime[0]->param = (short*)(GetRealAddress((int)WalkAnime[0]->param));
+								WalkAnime[0]->table = (ushort*)(GetRealAddress((int)WalkAnime[0]->table));
+
+								DrawLocalSkeletonShape(Skeleton,WalkAnime,0,AnimationTimer);
+							}
+						}
+					}
+				}
+				
+
 			}
 		}
 	}

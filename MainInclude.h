@@ -1,8 +1,14 @@
 #ifndef MainInclude
 #define MainInclude
+
 #include <sys/types.h>
 #include <math.h>
 #include <stdbool.h>
+#include <ultra64.h>
+
+#define F3DEX_GBI
+
+
 
 #include "Struct.h"
 #include "OKStruct.h"

@@ -1,12 +1,13 @@
 #ifndef LibraryVariablesH
 #define LibraryVariablesH
 #include "MainInclude.h"
+
+extern struct Dynamic *gDynamicP;
 extern uint GlobalAddressA, GlobalAddressB, GlobalAddressC, GlobalAddressD;
 extern int GlobalIntA, GlobalIntB, GlobalIntC, GlobalIntD;
 extern int64     GlobalInt64;
 extern uint64    GlobalUInt64;
 extern unsigned int GlobalUIntA, GlobalUIntB;
-extern int MenuIntA, MenuIntB, MenuIntC, MenuIntD;
 extern float GlobalFloatA, GlobalFloatB, GlobalFloatC, GlobalFloatD;
 extern char GlobalCharA,GlobalCharB,GlobalCharC,GlobalCharD,GlobalCharE,GlobalFrameChar;
 
@@ -14,8 +15,6 @@ extern short GlobalShortA, GlobalShortB, GlobalShortC, GlobalShortD;
 extern unsigned short GlobalUShortA, GlobalUShortB;
 extern bool GlobalBoolA, GlobalBoolB, GlobalBoolC, GlobalBoolD;
 extern unsigned long FreeSpaceAddress;
-extern short GlobalShortA, GlobalShortB;
-extern bool GlobalBoolA, GlobalBoolB, GlobalBoolC, GlobalBoolD;
 extern int LoopValue;
 
 extern bool ConsolePlatform, EmulatorPlatform, TempoBool, StopSwop;
@@ -24,6 +23,9 @@ extern short CloudCourseID, Snow3DCourseID;
 extern char CloudCourseValue, Snow3DCourseValue, WeatherCourseValue, PADCourseValue;
 
 extern short MenuPosition[2];
+extern ushort PerspectiveValue;
+
+
 extern int wholeNumber;
 extern int decimalNumber;
 extern int printOffsetA, printOffsetB, printOffsetC, printOffsetD;
@@ -33,6 +35,9 @@ extern int seconds;
 extern float DebugPosition[3];
 extern Object *GlobalObjectA, *GlobalObjectB;
 extern OKRAMHeader OverKartRAMHeader;
+
+
+extern short AnimationTimer;
 
 extern float ZeroVector[3];
 
@@ -135,14 +140,16 @@ extern short CoinPositions[8][3]; //8 Coins XYZ
 
 extern short FireParticlePositions[8][3];
 
-
+extern ushort MenuButtonHeld, MenuBlink, ButtonTimer, AudioLanguage;
 extern short gpCourseIndex, HotSwapID, hsGP, gpTimeCheck, courseValue;
+extern short MenuAngle[4];
+extern char ButtonHolding, MenuToggle;
 extern float gpTotalTime;
 
 
 extern int VersionNumber;
-extern char MenuButtonHeld, ButtonHeld, ButtonTimer, AudioLanguage;
 
+extern int MenuIndex, MenuType, MenuCup;
 //
 //
 

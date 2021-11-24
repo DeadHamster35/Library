@@ -111,8 +111,8 @@ extern long bigsignB; //0x802A2AA8   ;;254A9330
 
 
 extern short g_pathLength; //800DD9D0  - DE5D0
-extern long pathOffset; //0x800DC8D0  -  DD4D0
-extern long pathOffsetB; //0x800DC780
+extern uint pathOffset; //0x800DC8D0  -  DD4D0
+extern uint pathOffsetB; //0x800DC780
 
 
 // these are offsets to POP data inside segment 6.

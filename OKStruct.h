@@ -19,6 +19,7 @@ typedef struct OKHeader{
 	uint Maps;
 	uint ObjectDataStart;
 	uint ObjectModelStart;	
+	uint ObjectAnimationStart;
 	uint ObjectDataEnd;
 	uint BombOffset;
 	uint EchoStart;
@@ -29,7 +30,7 @@ typedef struct OKHeader{
 	short WaterType,WaterLevel;
 	uint ScrollOffset;
 	uint ScrollEnd;
-	int Garbage;
+	uint PathOffset;
 } OKHeader;
 
 
@@ -49,25 +50,57 @@ typedef struct OKObjectList{
 	short	OriginAngularVelocity[3];
 } OKObjectList;
 
+typedef struct OKSkeleton{
+	short 	Origin[3];
+	short 	MeshCount;
+	uint* 	MeshAddress; //array of offsets per MeshCount
+} OKSkeleton;
+
+typedef struct OKAnimationTable{
+
+	uint SkeletonOffset;
+	uint WalkAnimation;
+	uint TargetAnimation;
+	uint DeathAnimation;
+} OKAnimationTable;
+
+typedef struct SkeletonHeader{
+	OKSkeleton* 	BoneOffset;
+	int			ChildCount;	
+} SkeletonHeader;
+
+#define AnimationCount 3
+// Update for new animation types. 
+typedef struct OKAnimationSet{
+	
+	SkeletonHeader*	SkeletonHeader[AnimationCount];
+	uint				AnimationData[AnimationCount];
+	uint				AnimationTable[AnimationCount];
+	uint				AnimationSkeleton[AnimationCount];
+	
+} OKAnimationSet;
 
 typedef struct OKObjectType{
-	short 	BehaviorClass;
-	short 	StatusClass;
-	short 	EffectClass;
-	short 	Range;//
-	short 	Sight;
-	short 	Viewcone;	
-	short 	MaxSpeed;	
-	short	RenderRadius;//
-	short	CollisionRadius;
-	short	Hitbox;
-	short	SoundRadius;
-	short	SoundType;//
-	short	OKModelCount;
-	short	OKXLUCount;
-	int		SoundID;//
-	OKModel*	ObjectModel;
-	OKModel*	ObjectXLU;//
+
+	short 			BehaviorClass;
+	short 			StatusClass;
+	short 			EffectClass;
+	short 			Range;//
+	short 			Sight;
+	short 			Viewcone;	
+	short 			MaxSpeed;	
+	short			RenderRadius;//
+	short			CollisionRadius;
+	short			Hitbox;
+	short			SoundRadius;
+	short			SoundType;//
+	short			OKModelCount;
+	short			OKXLUCount;
+	int				SoundID;//
+	OKModel*			ObjectModel;
+	OKModel*			ObjectXLU;//
+	OKAnimationSet*	ObjectAnimations;
+
 } OKObjectType;
 
 typedef struct OKCollisionSphere{

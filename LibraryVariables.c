@@ -5,7 +5,7 @@ int GlobalIntA, GlobalIntB, GlobalIntC, GlobalIntD;
 int64     GlobalInt64;
 uint64    GlobalUInt64;
 uint GlobalUIntA, GlobalUIntB;
-int MenuIntA, MenuIntB, MenuIntC, MenuIntD;
+
 float GlobalFloatA, GlobalFloatB, GlobalFloatC, GlobalFloatD;
 char GlobalCharA,GlobalCharB,GlobalCharC,GlobalCharD,GlobalCharE,GlobalFrameChar;
 
@@ -23,6 +23,7 @@ short CloudCourseID, Snow3DCourseID;
 char CloudCourseValue, Snow3DCourseValue, WeatherCourseValue, PADCourseValue;;
 
 short MenuPosition [2];
+ushort PerspectiveValue;
 
 int wholeNumber = 0;
 int decimalNumber = 0;
@@ -34,6 +35,8 @@ float DebugPosition[3];
 Object *GlobalObjectA, *GlobalObjectB;
 float ZeroVector[3] = {0.0, 0.0, 0.0};
 OKRAMHeader OverKartRAMHeader;
+
+short AnimationTimer = 0;
 
 Controller *GlobalController[5] = 
 {
@@ -228,13 +231,17 @@ int currentHeaderAddress = 0;
 
 short FireParticlePositions[8][3];
 
-
+ushort MenuButtonHeld, MenuBlink, ButtonTimer, AudioLanguage;
 short gpCourseIndex, HotSwapID, hsGP, gpTimeCheck, courseValue = -1;
+short MenuAngle[4];
+
+char ButtonHolding, MenuToggle;
 float gpTotalTime = 0;
 
 
 int VersionNumber;
-char MenuButtonHeld, ButtonHeld, ButtonTimer, AudioLanguage;
+
+int MenuIndex, MenuType, MenuCup;
 
 
 

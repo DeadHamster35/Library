@@ -44,8 +44,22 @@ extern long itemChanceLo;
 
 extern long Pirate;
 extern long PirateEnd;
+extern long SplashLogo;
+extern long SplashEnd;
+extern long TitleLogo;
+extern long TitleEnd;
+extern long StartLogo;
+extern long BackDrop, BackDropEnd;
+extern long StartEnd;
+extern long BackgroundLogo;
+extern long Boo, BooEnd;
+extern long BackgroundEnd;
 extern long Crash;
 extern long CrashEnd;
+extern long Test32;
+extern long End32;
+extern long Splash3D, Splash3DEnd;
+
 
 extern long ROMEOF;
 

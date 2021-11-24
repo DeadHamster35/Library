@@ -135,6 +135,21 @@ bool CheckEmulator()
 }
 
 
+void ShiftVertColor(uint address,uint counter,uint v_buff,char alpha,char red,char green,char blue)
+{
+	uint number= SegmentNumber(address);
+	uint offset= SegmentOffset(address);
+	Vtx_t  *vt=(Vtx_t *)GetRealAddress(SegmentTable[number]+offset);
+	int i;
+	for(i=0;i<counter;i++)
+	{
+		vt->cn[0]+=red;
+		vt->cn[1]+=green;
+		vt->cn[2]+=blue;		
+		vt->cn[3]+=alpha;
+		++vt;
+	}	
+}
 
 int GetRealAddress(int RSPAddress)
 {
