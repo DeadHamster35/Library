@@ -40,6 +40,30 @@ float ObjectSubBehaviorLookTarget(OKObject* InputObject, float TargetPosition[3]
 	
 }
 
+float ObjectSubBehaviorLookedAt(OKObject* InputObject, int PlayerIndex, short LookAngle)
+{
+	OKObjectType *ThisType = (OKObjectType*)&(OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex]);
+	Player ThisPlayer = GlobalPlayer[PlayerIndex];
+	GlobalFloatA = (float)ThisType->Range;	
+	GlobalFloatB = (ThisPlayer.position[0] - InputObject->ObjectData.position[0]);
+	GlobalFloatC = (ThisPlayer.position[2] - InputObject->ObjectData.position[2]);
+	GlobalFloatD = (((GlobalFloatB * GlobalFloatB) + (GlobalFloatC * GlobalFloatC)) / (GlobalFloatA * GlobalFloatA));
+
+	GlobalShortA = (short)(CalcDirection(ThisPlayer.position, InputObject->ObjectData.position) * -1);
+	GlobalShortA -= ThisPlayer.direction[1];
+	
+	
+	if ((GlobalShortA < (DEG1 * (LookAngle/2))) && (GlobalShortA > (DEG1 * (LookAngle/-2))))
+	{	
+		return GlobalFloatD;
+		
+	}
+	
+	return 35000;
+	
+	
+}
+
 
 void ObjectBehaviorExist(OKObject* InputObject)
 {
@@ -139,6 +163,111 @@ void ObjectBehaviorWander(OKObject* InputObject)
 }
 
 
+
+
+void ObjectBehaviorFlee(OKObject* InputObject)
+{	
+	switch (InputObject->SubBehaviorClass)
+	{
+		case(SUBBEHAVIOR_DOCILE):
+		{			
+			InputObject->TargetDistance = 800;
+			if (g_gameMode == 00)
+			{
+				GlobalIntA = 8;			
+			}
+			else
+			{
+				GlobalIntA = g_playerCount;
+			}
+			for (int CurrentPlayer = 0; CurrentPlayer < GlobalIntA; CurrentPlayer++)
+			{
+				GlobalFloatD = ObjectSubBehaviorLookedAt(InputObject, CurrentPlayer, 90);
+				if ((GlobalFloatD < 1) && (GlobalFloatD < InputObject->TargetDistance))
+				{
+
+					InputObject->SubBehaviorClass = SUBBEHAVIOR_SURPRISE;
+					InputObject->TargetDistance = GlobalFloatD;
+					GlobalFloatD = 2.01 - GlobalFloatD;
+					InputObject->PlayerTarget = (short)CurrentPlayer;
+					InputObject->Counter[1] = 15 * GlobalFloatD; 
+					
+					InputObject->ObjectData.velocity[0] = 0;
+					InputObject->ObjectData.velocity[1] += 2 * GlobalFloatD;
+					InputObject->ObjectData.velocity[2] = 0;
+				}
+			}
+			if (InputObject->SubBehaviorClass == SUBBEHAVIOR_DOCILE)
+			{
+				ObjectBehaviorWander(InputObject);
+			}
+			break;
+		}
+		case(SUBBEHAVIOR_SURPRISE):
+		{
+			
+			
+			if (InputObject->Counter[1] <= 0)
+			{
+				InputObject->SubBehaviorClass = SUBBEHAVIOR_CHASE;
+			}
+			else
+			{
+				InputObject->Counter[1]--;
+			}
+			
+			ObjectBehaviorExist(InputObject);
+			break;
+		}
+		case(SUBBEHAVIOR_CHASE):
+		{
+			
+			GlobalFloatD = ObjectSubBehaviorLookTarget(InputObject, GlobalPlayer[InputObject->PlayerTarget].position);
+			if (GlobalFloatD < 2)
+			{
+				GlobalShortC = ObjectSubBehaviorTurnTarget(InputObject->ObjectData.position, InputObject->ObjectData.angle[1], GlobalPlayer[InputObject->PlayerTarget].position, 4);
+				InputObject->ObjectData.angle[1] += (DEG1 * -4 * GlobalShortC);
+				GlobalFloatA = (InputObject->ObjectData.velocity[0] * InputObject->ObjectData.velocity[0]) + (InputObject->ObjectData.velocity[2] * InputObject->ObjectData.velocity[2]);
+				if (GlobalFloatA < (2 * 2))
+				{
+					if (GlobalFloatA == 0)
+					{
+						GlobalFloatA = 0.25;
+					}
+					else
+					{
+						GlobalFloatA = Sqrtf(GlobalFloatA) + 0.25;
+					}
+				}
+				else
+				{
+					GlobalFloatA = 2;
+				}
+
+
+				if (GlobalShortC != 0)
+				{
+					GlobalFloatB = GlobalFloatA / 1.25;
+					ObjectBehaviorWalk(InputObject,GlobalFloatB);
+				}
+				else
+				{
+					ObjectBehaviorWalk(InputObject,GlobalFloatA);
+				}
+				
+
+			}
+			else
+			{
+				InputObject->SubBehaviorClass = SUBBEHAVIOR_DOCILE;
+				InputObject->Counter[1] = 0;
+				ObjectBehaviorExist(InputObject);
+			}
+			
+			break;
+		}
+	}
+}
 
 void ObjectBehaviorSearch(OKObject* InputObject)
 {	

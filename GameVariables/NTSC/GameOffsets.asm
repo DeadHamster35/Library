@@ -211,6 +211,7 @@
 
 .definelabel SetSegment, 0x802A7B94
 
+.definelabel BumpRoutin, 0x802ABF44
 .definelabel OoBCheck, 0x802ABDF4
 
 .definelabel SetStar, 0x8008F778
@@ -218,11 +219,20 @@
 .definelabel SetTurbo, 0x8008D3C4
 .definelabel SetWing, 0x8008D570
 .definelabel SetStorm, 0x8008D7B0
-.definelabel SetThunder, 0x8008DF98
 .definelabel ThunderWorld, 0x8009E5BC
 .definelabel VSGhost , 0x8008F8E4
 .definelabel SetVSGhost, 0x8008FA38
 .definelabel ResetVSGhost, 0x8008FB30
+
+
+.definelabel SetRollover, 0x8008C528
+.definelabel SetWheelspin, 0x8008CDC0
+.definelabel SetBroken, 0x8008DABC
+.definelabel SetThunder, 0x8008DF98
+.definelabel SetSpin, 0x8008C73C
+.definelabel SetBombThrowRollover, 0x8008EAE0
+.definelabel SetBombRollover, 0x8008E6C0
+.definelabel SetProWheelSpin, 0x8008D0FC
 
 .definelabel SetFastOoB, 0x80090868
 .definelabel CallLakitu, 0x80090868
@@ -678,6 +688,8 @@
 
 .definelabel g_placedBadGPadvance, 0x8028EFF0 // 0x10 = Retry; 0x00 = Advance
 .definelabel g_P1TopSpeed, 0x800F6BA4 
+
+.definelabel BalloonCount, 0x8018D8C0
 
 .definelabel g_menuUpdateTimer1, 0x8018DEEB
 .definelabel g_menuUpdateTimer2, 0x8018DF03

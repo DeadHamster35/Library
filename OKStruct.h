@@ -185,6 +185,7 @@ typedef struct OKEngine{
 #define BEHAVIOR_WANDER 	3
 #define BEHAVIOR_SEARCH	4
 #define BEHAVIOR_BOUNCE 	5
+#define BEHAVIOR_FLEE	6
 
 #define SUBBEHAVIOR_DEAD			-1
 #define SUBBEHAVIOR_DOCILE 		0

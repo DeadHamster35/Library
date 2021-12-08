@@ -153,7 +153,8 @@ Playercolor *GlobalPlayercolor[20] =
 };
 
 //MarioKart3D Variables
-int CoinCount = 0;
+short CoinCount[8] = {0,0,0,0,0,0,0,0};
+short IFrames[8] = {0,0,0,0,0,0,0,0};
 float AffineMatrix[4][4];
 float AffineMatrix2[4][4];
 float objectPosition[3] = {0,0,0};

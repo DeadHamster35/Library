@@ -26,7 +26,7 @@ extern ushort CheckBump2(Bump *bump,float Radius,float PositionX,float PositionY
 extern void LoadMap(int courseID);
 extern void InitialRaceSequence();
 extern void BumpVelocity(Vector Bump,float Distance ,Vector Velocity,float co);
-extern void CalcBumpVelocity(Bump InputBump, float Velocity);
+extern void CalcBumpVelocity(Bump* InputBump, Vector Velocity);
 extern void ScrollMapImage(int ObjectAddress,int ScrollS,int ScrollT);
 extern void MakeWaterVertex(int ObjectAddress, char alpha, char red, char green, char blue);
 extern void ramCopy(long output, long input, long Length);
@@ -183,19 +183,29 @@ extern void DOBPSelTurnOut(ObjBlock Target); //0x800AAA9C
 extern long SegmentTable[];
 extern void *g_CfbPtrs[3];
 
+extern void BumpRoutin(Vector bu,float dist ,Vector velo ,float co);
 extern long OoBCheck(ushort pointer);
 
 
 extern long SetStar(void *Car, int PlayerIndex);
 extern void ResetStar (void *Car, char PlayerIndex);
-extern long SetTurbo(void *Car, int PlayerIndex);
-extern long SetWing(void *Car, int PlayerIndex);
-extern long SetStorm(void *Car, int PlayerIndex);
-extern long SetThunder(void *Car, int PlayerIndex);
+extern long SetTurbo(void *Car, char PlayerIndex);
+extern long SetWing(void *Car, char PlayerIndex);
+extern long SetStorm(void *Car, char PlayerIndex);
 extern void ThunderWorld();
 extern void VSGhost(void *Car,char PlayerID);
 extern void SetVSGhost(void *Car,char PlayerID);
 extern void ResetVSGhost(void *Car,char PlayerID);
+
+
+extern void SetRollover(Player *Kart,char Place); //0x8008C528
+extern void SetWheelspin(Player *Kart,char Place); //0x8008CDC0
+extern void SetBroken(Player *Kart,char Place); //0x8008DABC
+extern void SetThunder(Player *Kart,char Place); //0x8008DF98
+extern void SetSpin(Player *Kart,char Place); //0x8008C73C
+extern void SetBombThrowRollover(Player *Kart,char Place); //0x8008EAE0
+extern void SetBombRollover(Player *Kart,char Place); //0x8008E6C0
+extern void SetProWheelSpin(Player *Kart,char Place); //0x8008D0FC
 
 extern void SetFastOoB(void *Car,char PlayerID);
 extern void CallLakitu(void *Car);
@@ -669,6 +679,8 @@ extern char g_menuMultiplayerSelection;
 
 extern char g_placedBadGPadvance;
 extern short g_P1TopSpeed;
+
+extern short BalloonCount[4];
 
 extern char g_menuUpdateTimer1;
 extern char g_menuUpdateTimer2;

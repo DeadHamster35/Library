@@ -221,6 +221,7 @@ void ChangeMaxSpeed(char playerID, float SpeedGain)
 	GlobalPlayer[(int)playerID].acc_maxcount += (float)SpeedGain;
 }
 
+
 void SetCamShiftUp(char playerID, float shift)
 {
 	GlobalCamera[(int)playerID]->camera_vector[1] = 9 + shift;

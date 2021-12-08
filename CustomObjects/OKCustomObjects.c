@@ -16,18 +16,18 @@
 void DisplayCoinSprite()
 {
 
-			for(int currentSprite = 1; (currentSprite <= CoinCount) & (currentSprite <= 8); currentSprite++)
+			for(int currentSprite = 1; (currentSprite <= CoinCount[0]) & (currentSprite <= 8); currentSprite++)
 			{
 				KWSprite((currentSprite* 4) + 30,220,16,16,(ushort*)&ok_RedCoinSprite);
 			}
 
-			if ((CoinCount != 0) && (CoinCount < 8))
+			if ((CoinCount[0] != 0) && (CoinCount[0] < 8))
 			{
 				KWSprite(21,219,16,16,(ushort*)&lit_numberSpriteX);
-				KWSprite(11,219,16,16,(ushort*)&lit_numberSprite+(CoinCount*0x100));
+				KWSprite(11,219,16,16,(ushort*)&lit_numberSprite+(CoinCount[0]*0x100));
 				return;
 			}
-			if (CoinCount >= 8)
+			if (CoinCount[0] >= 8)
 			{
 				KWSprite(21,219,16,16,(ushort*)&lit_numberSpriteX);
 				KWSprite(11,219,16,16,(ushort*)&lit_numberSprite8);

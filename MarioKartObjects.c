@@ -28,7 +28,7 @@ short CreateObjectRotation(float localPosition[], short localRotation[], short l
 	objectVelocity[1] = 0;
 	objectVelocity[2] = 0;
 
-	GlobalShortA = MasterCreateObject(localPosition,localRotation,objectVelocity,localID, 5);
+	GlobalShortA = MasterCreateObject(localPosition,localRotation,objectVelocity,localID, 5.0);
 	
 	return GlobalShortA;
 }
@@ -53,7 +53,7 @@ short CreateObject(float localPosition[], short localID)
 	objectVelocity[1] = 0;
 	objectVelocity[2] = 0;
 
-	return MasterCreateObject(localPosition,objectAngle,objectVelocity,localID, 5);
+	return MasterCreateObject(localPosition,objectAngle,objectVelocity,localID, 5.0);
 }
 
 short CreateObjectSimple(int XPosition, int YPosition, int ZPosition, int localRotation, int localID)
@@ -69,7 +69,7 @@ short CreateObjectSimple(int XPosition, int YPosition, int ZPosition, int localR
 	objectVelocity[1] = 0;
 	objectVelocity[2] = 0;
 
-	return MasterCreateObject(objectPosition,objectAngle,objectVelocity,localID, 5);
+	return MasterCreateObject(objectPosition,objectAngle,objectVelocity,localID, 5.0);
 }
 
 void UpdateObjectVelocity(Object* InputObject)

@@ -70,10 +70,12 @@ extern struct Playercolor *GlobalPlayercolor[];
 
 
 //MarioKart3D Variables
-extern int CoinCount;
+extern short CoinCount[8];
+extern short IFrames[8];
 extern float AffineMatrix[4][4];
 extern float AffineMatrix2[4][4];
 extern float objectPosition[3];
+extern Vector objectVector;
 extern float objectVelocity[3];
 extern short objectAngle[3];
 extern short objectIndex;
