@@ -45,3 +45,5 @@ Unknown41:
 AccelerationTable:
 .import "../library/data/stats/AccelerationTable.bin"
 .align 0x10
+NiceFontROM:
+.import "../library/data/nice_font.mio0.bin"

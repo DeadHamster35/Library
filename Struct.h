@@ -3,6 +3,13 @@
 
 #include "MainInclude.h"
 
+//LakituRaceSequence
+#define LAKITU_RACE_START 		1
+#define LAKITU_RACE_APPROACH 		2
+#define LAKITU_RACE_RACING		3
+#define LAKITU_RACE_FINISH		4
+#define LAKITU_RACE_VICTORYLAP	5
+
 //Player Flag
 #define MOTOR_ON	   		0x0010  
 #define IS_BOMB      		0x0040

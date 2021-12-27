@@ -26,12 +26,13 @@ extern long set4end;
 extern long LogoROM;
 extern long RCSpriteROM;
 extern long ArrowsSpriteROM;
+extern long NiceFontROM;
 extern long NumbersSpriteROM;
 extern long AlpacaSpriteROM;
 extern long HeartSpriteROM;
 extern long TitleMenuFrameROM;
 
-extern long NiceFontROM;
+
 extern long HudButtonsROM;
 
 extern long TestTexture;

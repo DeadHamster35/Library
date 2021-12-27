@@ -4,6 +4,7 @@
 extern int LoadData(int SourceInput, int SizeData);
 extern bool CheckPlatform();
 extern bool CheckEmulator();
+
 extern void runDMA();
 extern void runRAM();
 extern void runTKM();
@@ -20,6 +21,7 @@ extern void SetFontColor(int FontR, int FontG, int FontB, int ShadowR, int Shado
 extern void printFloat(int X, int Y, float Value);
 extern int GetRealAddress(int RSPAddress);
 
+extern void loadNiceFont();
 extern void ResetObject();
 extern void DrawBox(int X, int Y, int SizeX, int SizeY, int R, int G, int B, int A);
 extern char* printHex(char *buf, int num, int nDigits);
