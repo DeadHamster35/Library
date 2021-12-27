@@ -102,6 +102,61 @@ void UpdateObjectGravity(Object* InputObject)
 	*/
 }
 
+
+void ManualBump(Bump* BumpData, Vector Position )
+{
+     float dist;
+     dist = BumpData->distance_zx;
+     if ((BumpData->distance_zx < 0) && (BumpData->flag_zx == TRUE))     
+     {
+          Position[0] -= BumpData->bump_zx[0] * dist;
+          Position[1] -= BumpData->bump_zx[1] * dist;
+          Position[2] -= BumpData->bump_zx[2] * dist;
+     }
+     
+     dist = BumpData->distance_xy;
+     if ((BumpData->distance_xy < 0) && (BumpData->flag_xy == TRUE))
+     {
+          Position[0] -= BumpData->bump_xy[0] * dist;
+          Position[1] -= BumpData->bump_xy[1] * dist;
+          Position[2] -= BumpData->bump_xy[2] * dist;
+     }
+     
+     dist = BumpData->distance_yz;
+     if ((BumpData->distance_yz < 0) && (BumpData->flag_yz == TRUE))
+     {
+          Position[0] -= BumpData->bump_yz[0] * dist;
+          Position[1] -= BumpData->bump_yz[1] * dist;
+          Position[2] -= BumpData->bump_yz[2] * dist;
+     }
+}
+void ManualBounce(Vector BumpDistance, Vector Velocity)
+{
+     float fx, fy, fz;
+     float vx, vy, vz;
+     float m, LocalVelo, vv, LocalVelo2;
+
+     vx = Velocity[0];
+     vy = Velocity[1];
+     vz = Velocity[2];
+     LocalVelo = sqrtf(vx * vx + vy * vy + vz * vz);
+
+     m = BumpDistance[0] * vx + BumpDistance[1] * vy + BumpDistance[2] * vz;
+     fx = vx - m * BumpDistance[0];
+     fy = vy - m * BumpDistance[1];
+     fz = vz - m * BumpDistance[2];
+     vx = fx - m * BumpDistance[0];
+     vy = fy - m * BumpDistance[1];
+     vz = fz - m * BumpDistance[2];
+
+     LocalVelo2 = sqrtf(vx * vx + vy * vy + vz * vz);
+     vv = 1 / LocalVelo2 * LocalVelo;
+     Velocity[0] = vx * vv;
+     Velocity[1] = vy * vv;
+     Velocity[2] = vz * vv;
+}
+
+
 void UpdateObjectBump(Object* InputObject)
 {
 	CheckBump2Simple(InputObject);

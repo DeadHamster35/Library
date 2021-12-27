@@ -111,6 +111,7 @@
 .definelabel pathOffset, 0x800DC8D0
 
 .definelabel pathOffsetB, 0x800DC780
+.definelabel pathOffsetBlock, 0x800DC9C0
 
 
 ;; these are offsets to POP data inside segment 6.

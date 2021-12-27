@@ -34,7 +34,6 @@ extern void SpriteBtnDMid(int posx, int posy, float scale);
 extern void SpriteAnalogStick(int posx, int posy, float scale, char direction);
 
 
-extern void loadNiceFont();
 extern void PrintNiceText(int posx, int posy, float scale, char *text);
 extern void PrintNiceTextNumber(int posx, int posy, float scale, char *text, int value);
 

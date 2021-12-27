@@ -141,8 +141,6 @@ void stockASM(void)
 	itemboxesA = 0x3C040601; //8029DBD4
 	itemboxesB = 0x24849498; //8029DBDC
 
-	battleItemBoxesA = 0x24840038;
-
 	treeslistA = 0x3C040601; //8029DBBC
 	treeslistB = 0x24849570; //8029DBC4
 
@@ -235,7 +233,7 @@ void overkartASM(void)
 	itemboxesA = 0x3C040600; //8029DBD4
 	itemboxesB = 0x248403C0; //8029DBDC
 
-	battleItemBoxesA = 0x24840008;
+	battleItemBoxesA = 0x24840258;
 
 	//8029E0D8
 
@@ -426,10 +424,20 @@ void setPath()
 		g_pathLength =(short)(OverKartHeader.PathLength) + 10;
 		
 		*sourceAddress = OverKartHeader.PathOffset;
-		*targetAddress = (uint)(&pathOffset);
 		dataLength = 16;
-		runDMA();
-		pathOffsetB = pathOffset + ((OverKartHeader.PathLength + 1) * 8);		
+		if (g_gameMode != 3)
+		{
+			*targetAddress = (uint)(&pathOffset);			
+			runDMA();
+			pathOffsetB = pathOffset + ((OverKartHeader.PathLength + 1) * 8);		
+		}
+		else
+		{
+			*targetAddress = (uint)(&pathOffsetBlock);			
+			runDMA();
+			
+		}
+		
 	}
 	else
 	{
@@ -438,8 +446,16 @@ void setPath()
 		*targetAddress = (uint)(&pathOffsetB);
 		dataLength = 16;
 		runDMA();
-		*sourceAddress = 0xDD4D0;
-		*targetAddress = (uint)(&pathOffset);
+		if (g_gameMode !=3)
+		{
+			*sourceAddress = 0xDD4D0;
+			*targetAddress = (uint)(&pathOffset);
+		}
+		else
+		{
+			*sourceAddress = 0xDD5C0;
+			*targetAddress = (uint)(&pathOffsetBlock);
+		}
 		runDMA();
 	}
 }

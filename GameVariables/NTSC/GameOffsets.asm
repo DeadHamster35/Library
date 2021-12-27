@@ -676,6 +676,7 @@
 .definelabel GetWordLength, 0x80093034
 
 .definelabel g_RNG, 0x802BA290
+.definelabel ExecuteItem, 0x802B2FA0
 
 .definelabel g_CharacterSelections, 0x800E86A8
 

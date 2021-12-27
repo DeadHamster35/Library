@@ -674,6 +674,7 @@ extern char g_player3Character;
 extern char g_player4Character;
 
 extern unsigned short g_RNG;
+extern void ExecuteItem(Player* PlayerID);
 
 extern char g_menuMultiplayerSelection;
 

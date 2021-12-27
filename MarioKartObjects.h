@@ -10,6 +10,8 @@ extern short CreateObjectSimple(int XPosition, int YPosition, int ZPosition, int
 extern void UpdateObjectVelocity(Object* InputObject);
 extern void UpdateObjectAngle(Object* InputObject, short InputAngle[]);
 extern void UpdateObjectGravity(Object* InputObject);
+extern void ManualBump(Bump* BumpData, Vector Position );
+extern void ManualBounce(Vector BumpDistance, Vector Velocity);
 extern void UpdateObjectBump(Object* InputObject);
 extern void UpdateObjectFriction(Object* InputObject, float Friction);
 extern void UpdateObjectFrictionScale(Object* InputObject, float FrictionScale);

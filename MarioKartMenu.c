@@ -1384,22 +1384,6 @@ void SpriteAnalogStick(int posx, int posy, float scale, char direction)
      }
 }
 
-
-     
-/*
-void loadNiceFont()
-{
-	*sourceAddress = (int)(&NiceFontROM);
-	*targetAddress = (int)(&ok_FreeSpace);
-	dataLength = 0x4400;
-	runDMA();
-	*sourceAddress = (int)(&ok_FreeSpace);
-	*targetAddress = (int)(&nicefont);
-	runMIO();
-}
-*/
-
-
 void PrintNiceText(int posx, int posy, float scale, char *text)
 {
 	char *FontString = text;
