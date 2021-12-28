@@ -795,29 +795,11 @@
 
 .definelabel GlobalWeight, 0x802B8790
 
+
 .definelabel g_skyColorTopTable, 0x802B8AD0
 .definelabel g_skyColorBotTable, 0x802B8BCC
-
-.definelabel g_skyColorTop00, 0x802B8AD0
-.definelabel g_skyColorTop01, 0x802B8ADC   
-.definelabel g_skyColorTop02, 0x802B8AE8   
-.definelabel g_skyColorTop03, 0x802B8AF4   
-.definelabel g_skyColorTop04, 0x802B8B00  
-.definelabel g_skyColorTop05, 0x802B8B0C   
-.definelabel g_skyColorTop06, 0x802B8B18   
-.definelabel g_skyColorTop07, 0x802B8B24    
-.definelabel g_skyColorTop08, 0x802B8B30   
-.definelabel g_skyColorTop09, 0x802B8B3C    
-.definelabel g_skyColorTop0A, 0x802B8B48   
-.definelabel g_skyColorTop0B, 0x802B8B54   
-.definelabel g_skyColorTop0C, 0x802B8B60   
-.definelabel g_skyColorTop0D, 0x802B8B6C  
-.definelabel g_skyColorTop0E, 0x802B8B78
-.definelabel g_skyColorTop0F, 0x802B8B84
-.definelabel g_skyColorTop10, 0x802B8B90
-.definelabel g_skyColorTop11, 0x802B8B9C
-.definelabel g_skyColorTop12, 0x802B8BA8
-.definelabel g_skyColorTop13, 0x802B8BB4
+.definelabel GlobalSkyColorTop, g_skyColorTopTable;
+.definelabel GlobalSkyColorBot, g_skyColorBotTable;
 
 .definelabel g_SnowParticleTex, 0x801C8D10
 .definelabel g_MRCloudTexPtr, 0x8016D6FC

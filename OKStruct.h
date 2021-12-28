@@ -82,20 +82,14 @@ typedef struct OKAnimationSet{
 
 typedef struct OKObjectType{
 
-	short 			BehaviorClass;
-	short 			StatusClass;
-	short 			EffectClass;
-	short 			Range;//
-	short 			Sight;
-	short 			Viewcone;	
-	short 			MaxSpeed;	
-	short			RenderRadius;//
-	short			CollisionRadius;
-	short			Hitbox;
-	short			SoundRadius;
-	short			SoundType;//
-	short			OKModelCount;
-	short			OKXLUCount;
+	short 			BehaviorClass, StatusClass;
+	short 			EffectClass, Range;
+	short 			Sight, Viewcone;
+	short 			MaxSpeed, RenderRadius;
+	short			CollisionRadius, Hitbox;
+	short			SoundRadius, SoundType;
+	short			OKModelCount, OKXLUCount
+	//GravityToggle, CameraAlignToggle;
 	int				SoundID;//
 	OKModel*			ObjectModel;
 	OKModel*			ObjectXLU;//
@@ -186,6 +180,7 @@ typedef struct OKEngine{
 #define BEHAVIOR_SEARCH	4
 #define BEHAVIOR_BOUNCE 	5
 #define BEHAVIOR_FLEE	6
+#define BEHAVIOR_STRAFE	7
 
 #define SUBBEHAVIOR_DEAD			-1
 #define SUBBEHAVIOR_DOCILE 		0

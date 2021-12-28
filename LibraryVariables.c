@@ -115,29 +115,6 @@ char *GlobalLightning[8] =
      &g_lightningFlagPlayer8,
 };
 
-Skycolor *GlobalSkycolor[20] =
-{
-     &g_skyColorTop00,
-     &g_skyColorTop01,
-     &g_skyColorTop02,
-     &g_skyColorTop03,
-     &g_skyColorTop04,
-     &g_skyColorTop05,
-     &g_skyColorTop06,
-     &g_skyColorTop07,
-     &g_skyColorTop08,
-     &g_skyColorTop09,
-     &g_skyColorTop0A,
-     &g_skyColorTop0B,
-     &g_skyColorTop0C,
-     &g_skyColorTop0D,
-     &g_skyColorTop0E,
-     &g_skyColorTop0F,
-     &g_skyColorTop10,
-     &g_skyColorTop11,
-     &g_skyColorTop12,
-     &g_skyColorTop13,
-};
 
 Playercolor *GlobalPlayercolor[20] =
 {

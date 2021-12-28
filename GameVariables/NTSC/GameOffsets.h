@@ -779,27 +779,6 @@ extern int g_BombTable;
 extern long g_skyColorTopTable;
 extern long g_skyColorBotTable;
 
-extern struct Skycolor g_skyColorTop00; // 0x802B8AD0
-extern struct Skycolor g_skyColorTop01; // 0x802B8ADC   
-extern struct Skycolor g_skyColorTop02; // 0x802B8AE8   
-extern struct Skycolor g_skyColorTop03; // 0x802B8AF4   
-extern struct Skycolor g_skyColorTop04; // 0x802B8B00   
-extern struct Skycolor g_skyColorTop05; // 0x802B8B0C   
-extern struct Skycolor g_skyColorTop06; // 0x802B8B18   
-extern struct Skycolor g_skyColorTop07; // 0x802B8B24    
-extern struct Skycolor g_skyColorTop08; // 0x802B8B30   
-extern struct Skycolor g_skyColorTop09; // 0x802B8B3C    
-extern struct Skycolor g_skyColorTop0A; // 0x802B8B48   
-extern struct Skycolor g_skyColorTop0B; // 0x802B8B54   
-extern struct Skycolor g_skyColorTop0C; // 0x802B8B60   
-extern struct Skycolor g_skyColorTop0D; // 0x802B8B6C  
-extern struct Skycolor g_skyColorTop0E; // 0x802B8B78
-extern struct Skycolor g_skyColorTop0F; // 0x802B8B84
-extern struct Skycolor g_skyColorTop10; // 0x802B8B90
-extern struct Skycolor g_skyColorTop11; // 0x802B8B9C
-extern struct Skycolor g_skyColorTop12; // 0x802B8BA9
-extern struct Skycolor g_skyColorTop13; // 0x802B8BB4
-
 extern long g_SnowParticleTex[36];
 extern long *g_MRCloudTexPtr; // Set of four I4 cloud images, 0x400 length each.
 

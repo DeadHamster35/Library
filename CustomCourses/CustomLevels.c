@@ -784,7 +784,7 @@ void setSky()
 
 		
 	
-		*targetAddress = (long)&g_skyColorTop00;
+		*targetAddress = (long)&g_skyColorTopTable;
 		*sourceAddress = OverKartHeader.Sky;
 		dataLength = 0xC;
 		runDMA();
@@ -795,7 +795,7 @@ void setSky()
 	}
 	else
 	{
-		*targetAddress = (long)&g_skyColorTop00;
+		*targetAddress = (long)&g_skyColorTopTable;
 		*sourceAddress = 0x1220E0;
 		dataLength = 0xC;
 		runDMA();

@@ -62,7 +62,8 @@ extern FaceStruct *CourseFaceStruct;
 extern struct PlayerState *GlobalPlayerState[];  
 extern struct Hud *GlobalHud[];
 extern char *GlobalLightning[];
-extern struct Skycolor *GlobalSkycolor[];
+extern struct Skycolor *GlobalSkyColorTop[20];
+extern struct Skycolor *GlobalSkyColorBot[20];
 extern struct Playercolor *GlobalPlayercolor[];
 
 

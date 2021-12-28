@@ -727,11 +727,12 @@ typedef	struct AnmObject{ 			//0x80165C18
 
 } AnmObject;
 
-typedef struct Skycolor{
-		short	R1,G1,B1,R2,G2,B2;
-		short	dummy[120];
-		short	R3,G3,B3,R4,G4,B4;
-} Skycolor;
+typedef struct SkyColor{
+		short	RedHi, GreenHi, BlueHi;
+		short	RedLo, GreenLo, BlueLo;
+} SkyColor;
+
+
 
 typedef struct Playercolor{
 		short	R;

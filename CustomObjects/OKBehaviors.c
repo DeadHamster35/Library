@@ -89,6 +89,72 @@ void ObjectBehaviorWalk(OKObject* InputObject, float Speed)
 	ObjectBehaviorExist(InputObject);	
 }
 
+void ObjectBehaviorStrafe(OKObject* InputObject)
+{
+	OKObjectType *ThisType = (OKObjectType*)&(OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex]);
+	OKObjectList *ThisList = (OKObjectList*)&(OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex]);
+	GlobalFloatA = (float)ThisType->Range;
+	GlobalFloatB = GlobalFloatA * 0.1;
+	
+	GlobalIntA = (InputObject->ObjectData.position[0] - ThisList->OriginPosition[0]);
+	GlobalIntB = (InputObject->ObjectData.position[2] - ThisList->OriginPosition[2]);
+	
+	
+	switch (InputObject->WanderStatus)
+	{
+		case 0:
+		{
+			InputObject->ObjectData.velocity[0] = 0;
+			InputObject->ObjectData.velocity[1] = 0;
+			InputObject->ObjectData.velocity[2] = ThisType->MaxSpeed;
+
+			
+			if ((GlobalIntA * GlobalIntA) + (GlobalIntB * GlobalIntB) > (GlobalFloatA * GlobalFloatA))
+			{
+				InputObject->WanderStatus = 1;
+			}
+		}
+		case 1:
+		{
+			InputObject->ObjectData.velocity[0] = 0;
+			InputObject->ObjectData.velocity[1] = 0;
+			InputObject->ObjectData.velocity[2] -= (ThisType->MaxSpeed / 20);
+
+			if (InputObject->ObjectData.velocity[2] <= (ThisType->MaxSpeed * -1) )
+			{
+				InputObject->WanderStatus = 2;
+			}
+		}
+		case 2:
+		{
+			InputObject->ObjectData.velocity[0] = 0;
+			InputObject->ObjectData.velocity[1] = 0;
+			InputObject->ObjectData.velocity[2] = (ThisType->MaxSpeed * -1);
+
+			if ((GlobalIntA * GlobalIntA) + (GlobalIntB * GlobalIntB) > (GlobalFloatA * GlobalFloatA))
+			{
+				InputObject->WanderStatus = 3;
+			}
+		}
+		case 3:
+		{	
+			InputObject->ObjectData.velocity[0] = 0;
+			InputObject->ObjectData.velocity[1] = 0;
+			InputObject->ObjectData.velocity[2] += (ThisType->MaxSpeed / 20);
+
+			if (InputObject->ObjectData.velocity[2] >= ThisType->MaxSpeed)
+			{
+				InputObject->WanderStatus = 0;
+			}		
+		}
+		
+		MakeAlignVector(InputObject->ObjectData.velocity, InputObject->ObjectData.angle[1]);
+		ObjectBehaviorExist(InputObject);
+	}
+
+	
+}
+
 void ObjectBehaviorWander(OKObject* InputObject)
 {
 	OKObjectType *ThisType = (OKObjectType*)&(OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex]);
@@ -472,6 +538,12 @@ void Misbehave(OKObject* InputObject)
 		{
 			
 			ObjectBehaviorBounce(InputObject);
+			break;
+		}
+		case BEHAVIOR_STRAFE:
+		{
+
+			ObjectBehaviorStrafe(InputObject);
 			break;
 		}
 	}
