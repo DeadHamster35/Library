@@ -88,8 +88,7 @@ typedef struct OKObjectType{
 	short 			MaxSpeed, RenderRadius;
 	short			CollisionRadius, Hitbox;
 	short			SoundRadius, SoundType;
-	short			OKModelCount, OKXLUCount
-	//GravityToggle, CameraAlignToggle;
+	char				OKModelCount, OKXLUCount, GravityToggle, CameraAlignToggle;
 	int				SoundID;//
 	OKModel*			ObjectModel;
 	OKModel*			ObjectXLU;//

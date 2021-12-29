@@ -67,12 +67,26 @@ float ObjectSubBehaviorLookedAt(OKObject* InputObject, int PlayerIndex, short Lo
 
 void ObjectBehaviorExist(OKObject* InputObject)
 {
-	UpdateObjectGravity((Object*)&InputObject->ObjectData);
-	UpdateObjectVelocity((Object*)&InputObject->ObjectData);	
-	UpdateObjectBump((Object*)&InputObject->ObjectData);	
-	if(InputObject->ObjectData.bump.distance_zx < 0)
+	OKObjectType *ThisType = (OKObjectType*)&(OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex]);
+	if (ThisType->GravityToggle)
 	{
-		InputObject->ObjectData.velocity[1] = 0;
+		UpdateObjectGravity((Object*)&InputObject->ObjectData);
+	}
+	if (ThisType->CameraAlignToggle)
+	{
+		
+	}
+
+	UpdateObjectVelocity((Object*)&InputObject->ObjectData);	
+
+	if (ThisType->CollisionRadius > 0)
+	{
+		UpdateObjectBump((Object*)&InputObject->ObjectData);		
+	
+		if(InputObject->ObjectData.bump.distance_zx < 0)
+		{
+			InputObject->ObjectData.velocity[1] = 0;
+		}
 	}
 }
 

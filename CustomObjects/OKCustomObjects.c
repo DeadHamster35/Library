@@ -203,23 +203,6 @@ void OKObjectCollision(OKObject *InputObject)
 
 						
 /*
-AffineMatrix[0][0] =  cosB;
-AffineMatrix[1][0] =  0.0f;
-AffineMatrix[2][0] =  sinB;
-AffineMatrix[0][1] =  0.0f;
-AffineMatrix[1][1] =  1.0f;
-AffineMatrix[2][1] =  0.0f;
-AffineMatrix[0][2] = -sinB;
-AffineMatrix[1][2] =  0.0f;
-AffineMatrix[2][2] =  cosB;
-AffineMatrix[0][3] =  0.0f;
-AffineMatrix[1][3] =  0.0f;
-AffineMatrix[2][3] =  0.0f;
-AffineMatrix[3][3] =  1.0f; 
-
-AffineMatrix[3][0] = (float)objectPosition[0];
-AffineMatrix[3][1] = (float)objectPosition[1];
-AffineMatrix[3][2] = (float)objectPosition[2];
 */
 
 
@@ -242,16 +225,46 @@ void DrawOKObjectLoop(OKModel* ThisModel, int Player, int Type)
 			objectPosition[1] = (float)OKObjectArray[CurrentObject].ObjectData.position[1];
 			objectPosition[2] = (float)OKObjectArray[CurrentObject].ObjectData.position[2];
 
-			if(TestCollideSphere(objectPosition, (float)(OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[OKObjectArray[CurrentObject].ListIndex].ObjectIndex].RenderRadius) ,GlobalPlayer[Player].position, GlobalPlayer[Player].radius))
+			if(TestCollideSphere(objectPosition, (float)(OverKartRAMHeader.ObjectHeader.ObjectTypeList[Type].RenderRadius) ,GlobalPlayer[Player].position, GlobalPlayer[Player].radius))
 			{
 			
-				objectAngle[0] = (short)OKObjectArray[CurrentObject].ObjectData.angle[0];
-				objectAngle[1] = (short)(OKObjectArray[CurrentObject].ObjectData.angle[1] * -1);
-				objectAngle[2] = (short)OKObjectArray[CurrentObject].ObjectData.angle[2];	
+				
 
 				uint* MeshAddress = (uint*)GetRealAddress(0x0A000000 |ThisModel->MeshAddress);
+				if (OverKartRAMHeader.ObjectHeader.ObjectTypeList[Type].CameraAlignToggle)
+				{		
+					objectAngle[0] = 0;
+					objectAngle[1] = 0;
+					objectAngle[2] = 0;
 
-				CreateModelingMatrix(AffineMatrix,objectPosition,objectAngle);
+
+					AffineMatrix[0][0] =  cosB;
+					AffineMatrix[1][0] =  0.0f;
+					AffineMatrix[2][0] =  sinB;
+					AffineMatrix[0][1] =  0.0f;
+					AffineMatrix[1][1] =  1.0f;
+					AffineMatrix[2][1] =  0.0f;
+					AffineMatrix[0][2] = -sinB;
+					AffineMatrix[1][2] =  0.0f;
+					AffineMatrix[2][2] =  cosB;
+					AffineMatrix[0][3] =  0.0f;
+					AffineMatrix[1][3] =  0.0f;
+					AffineMatrix[2][3] =  0.0f;
+					AffineMatrix[3][3] =  1.0f; 
+
+					AffineMatrix[3][0] = (float)objectPosition[0];
+					AffineMatrix[3][1] = (float)objectPosition[1];
+					AffineMatrix[3][2] = (float)objectPosition[2];
+				}
+				else
+				{
+					objectAngle[0] = (short)OKObjectArray[CurrentObject].ObjectData.angle[0];
+					objectAngle[1] = (short)(OKObjectArray[CurrentObject].ObjectData.angle[1] * -1);
+					objectAngle[2] = (short)OKObjectArray[CurrentObject].ObjectData.angle[2];	
+
+					CreateModelingMatrix(AffineMatrix,objectPosition,objectAngle);
+				}
+				
 
 				
 				ScalingMatrix(AffineMatrix,((float)(ThisModel->MeshScale) / 100));

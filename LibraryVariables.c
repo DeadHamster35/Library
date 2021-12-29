@@ -116,7 +116,7 @@ char *GlobalLightning[8] =
 };
 
 
-Playercolor *GlobalPlayercolor[20] =
+Playercolor *GlobalPlayercolor[8] =
 {
      &g_colorPlayer0R,
      &g_colorPlayer1R,
@@ -125,7 +125,7 @@ Playercolor *GlobalPlayercolor[20] =
      &g_colorPlayer4R,
      &g_colorPlayer5R,
      &g_colorPlayer6R,
-     &g_colorPlayer7R,
+     &g_colorPlayer7R
 
 };
 
