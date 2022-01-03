@@ -106,7 +106,7 @@ typedef struct OKCollisionSphere{
 
 typedef struct OKObject{
 	short	ListIndex, SubBehaviorClass;
-	short	AngularVelocity[3], ZSort;
+	short	AngularVelocity[3], PAD;
 	float	ZBuffer;
 	float 	TargetDistance;	
 	uchar	TurnStatus,WanderStatus,SearchStatus,EMPTYSTATUS;
