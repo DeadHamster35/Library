@@ -476,11 +476,6 @@ void DrawOKObjects(Camera* LocalCamera)
 		
 	}
 }
-void XLUObjectDisplay()
-{
-	return;  
-	//handled via a second pass in DrawOKObjects - not required 
-}
 
 
 void CheckOKObjects()
