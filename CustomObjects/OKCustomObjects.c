@@ -197,16 +197,6 @@ void OKObjectCollision(OKObject *InputObject)
 	
 }
 
-
-
-
-
-						
-/*
-*/
-
-
-
 void LoadSkeleton() 
 {
 	
