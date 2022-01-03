@@ -1058,6 +1058,7 @@ void setOKObjects()
 		
 		OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginPosition[0] *= GlobalShortA;
 		
+		
 		OKObjectArray[This].ObjectData.position[0] = (float)OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginPosition[0];
 		OKObjectArray[This].ObjectData.position[1] = (float)OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginPosition[1];
 		OKObjectArray[This].ObjectData.position[2] = (float)OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginPosition[2];

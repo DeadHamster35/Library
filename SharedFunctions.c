@@ -139,10 +139,10 @@ void loadNiceFont()
 {
 	*sourceAddress = (int)(&NiceFontROM);
 	*targetAddress = (int)(&ok_FreeSpace);
-	dataLength = 0x4400;
+	dataLength = 0x5000;
 	runDMA();
 	*sourceAddress = (int)(&ok_FreeSpace);
-	*targetAddress = (int)(&nicefont);
+	*targetAddress = (int)(0x80467500);
 	runMIO();
 }
 

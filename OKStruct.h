@@ -87,9 +87,10 @@ typedef struct OKObjectType{
 	short 			Sight, Viewcone;
 	short 			MaxSpeed, RenderRadius;
 	short			CollisionRadius, Hitbox;
-	short			SoundRadius, SoundType;
-	char				OKModelCount, OKXLUCount, GravityToggle, CameraAlignToggle;
-	int				SoundID;//
+	short			SoundRadius;
+	uchar			SoundType, ZSortToggle;
+	uchar			OKModelCount, OKXLUCount, GravityToggle, CameraAlignToggle;
+	int				SoundID;
 	OKModel*			ObjectModel;
 	OKModel*			ObjectXLU;//
 	OKAnimationSet*	ObjectAnimations;
@@ -105,7 +106,8 @@ typedef struct OKCollisionSphere{
 
 typedef struct OKObject{
 	short	ListIndex, SubBehaviorClass;
-	short	AngularVelocity[3], PAD;
+	short	AngularVelocity[3], ZSort;
+	float	ZBuffer;
 	float 	TargetDistance;	
 	uchar	TurnStatus,WanderStatus,SearchStatus,EMPTYSTATUS;
 	short	Counter[2];

@@ -72,10 +72,6 @@ void ObjectBehaviorExist(OKObject* InputObject)
 	{
 		UpdateObjectGravity((Object*)&InputObject->ObjectData);
 	}
-	if (ThisType->CameraAlignToggle)
-	{
-		
-	}
 
 	UpdateObjectVelocity((Object*)&InputObject->ObjectData);	
 

@@ -211,6 +211,65 @@ void LoadSkeleton()
 {
 	
 }
+void DrawOKSub(OKModel* ThisModel, int CurrentPlayer, int CurrentType)
+{
+	for (int CurrentModel = 0; CurrentModel < (int)OverKartRAMHeader.ObjectHeader.ObjectTypeList[CurrentType].OKModelCount; CurrentModel++)
+	{
+		uint* MeshAddress = (uint*)GetRealAddress(0x0A000000 |ThisModel->MeshAddress);
+		if (OverKartRAMHeader.ObjectHeader.ObjectTypeList[CurrentType].CameraAlignToggle == 0x01)
+		{		
+			objectAngle[0] = 0;
+			objectAngle[1] = 0;
+			objectAngle[2] = 0;
+
+			
+			float sinB = sinT(GlobalCamera[CurrentPlayer]->camera_direction[1]-(DEG1 * 180));
+			float cosB = cosT(GlobalCamera[CurrentPlayer]->camera_direction[1]-(DEG1 * 180));
+
+			AffineMatrix[0][0] =  cosB;
+			AffineMatrix[1][0] =  0.0f;
+			AffineMatrix[2][0] =  sinB;
+			AffineMatrix[0][1] =  0.0f;
+			AffineMatrix[1][1] =  1.0f;
+			AffineMatrix[2][1] =  0.0f;
+			AffineMatrix[0][2] = -sinB;
+			AffineMatrix[1][2] =  0.0f;
+			AffineMatrix[2][2] =  cosB;
+			AffineMatrix[0][3] =  0.0f;
+			AffineMatrix[1][3] =  0.0f;
+			AffineMatrix[2][3] =  0.0f;
+			AffineMatrix[3][3] =  1.0f; 
+
+			AffineMatrix[3][0] = (float)objectPosition[0];
+			AffineMatrix[3][1] = (float)objectPosition[1];
+			AffineMatrix[3][2] = (float)objectPosition[2];
+		}
+		else
+		{
+			objectAngle[0] = (short)OKObjectArray[GlobalShortA].ObjectData.angle[0];
+			objectAngle[1] = (short)(OKObjectArray[GlobalShortA].ObjectData.angle[1] * -1);
+			objectAngle[2] = (short)OKObjectArray[GlobalShortA].ObjectData.angle[2];	
+
+			CreateModelingMatrix(AffineMatrix,objectPosition,objectAngle);
+		}
+		
+
+		
+		ScalingMatrix(AffineMatrix,((float)(ThisModel->MeshScale) / 100));
+
+		if(SetMatrix(AffineMatrix,0) != 0)
+		{
+			for (int CurrentMesh = 0; CurrentMesh < ThisModel->MeshCount; CurrentMesh++)
+			{
+				*(long*)*graphPointer = (long)(0x06000000);
+				*graphPointer = *graphPointer + 4;
+				*(long*)*graphPointer = (long)(0x0A000000 | MeshAddress[CurrentMesh]);
+				*graphPointer = *graphPointer + 4;
+			}	
+		}
+	}
+}
+
 void DrawOKObjectLoop(OKModel* ThisModel, int Player, int Type)
 {
 	*(long*)*graphPointer = (long)(0x06000000);
@@ -219,65 +278,67 @@ void DrawOKObjectLoop(OKModel* ThisModel, int Player, int Type)
 	*graphPointer = *graphPointer + 4;
 	for (int CurrentObject = 0; CurrentObject < OverKartRAMHeader.ObjectHeader.ObjectCount; CurrentObject++)
 	{
-		if((OKObjectArray[CurrentObject].SubBehaviorClass != SUBBEHAVIOR_DEAD) && (OverKartRAMHeader.ObjectHeader.ObjectList[OKObjectArray[CurrentObject].ListIndex].ObjectIndex == Type))
+		if(OverKartRAMHeader.ObjectHeader.ObjectList[OKObjectArray[CurrentObject].ListIndex].ObjectIndex == Type)
 		{
-			objectPosition[0] = (float)OKObjectArray[CurrentObject].ObjectData.position[0];
-			objectPosition[1] = (float)OKObjectArray[CurrentObject].ObjectData.position[1];
-			objectPosition[2] = (float)OKObjectArray[CurrentObject].ObjectData.position[2];
-
-			if(TestCollideSphere(objectPosition, (float)(OverKartRAMHeader.ObjectHeader.ObjectTypeList[Type].RenderRadius) ,GlobalPlayer[Player].position, GlobalPlayer[Player].radius))
+			if(OKObjectArray[CurrentObject].SubBehaviorClass != SUBBEHAVIOR_DEAD)
 			{
-			
-				
-
-				uint* MeshAddress = (uint*)GetRealAddress(0x0A000000 |ThisModel->MeshAddress);
-				if (OverKartRAMHeader.ObjectHeader.ObjectTypeList[Type].CameraAlignToggle)
-				{		
-					objectAngle[0] = 0;
-					objectAngle[1] = 0;
-					objectAngle[2] = 0;
-
-
-					AffineMatrix[0][0] =  cosB;
-					AffineMatrix[1][0] =  0.0f;
-					AffineMatrix[2][0] =  sinB;
-					AffineMatrix[0][1] =  0.0f;
-					AffineMatrix[1][1] =  1.0f;
-					AffineMatrix[2][1] =  0.0f;
-					AffineMatrix[0][2] = -sinB;
-					AffineMatrix[1][2] =  0.0f;
-					AffineMatrix[2][2] =  cosB;
-					AffineMatrix[0][3] =  0.0f;
-					AffineMatrix[1][3] =  0.0f;
-					AffineMatrix[2][3] =  0.0f;
-					AffineMatrix[3][3] =  1.0f; 
-
-					AffineMatrix[3][0] = (float)objectPosition[0];
-					AffineMatrix[3][1] = (float)objectPosition[1];
-					AffineMatrix[3][2] = (float)objectPosition[2];
-				}
-				else
+				if(TestCollideSphere(OKObjectArray[CurrentObject].ObjectData.position, (float)(OverKartRAMHeader.ObjectHeader.ObjectTypeList[Type].RenderRadius) ,GlobalPlayer[Player].position, GlobalPlayer[Player].radius))
 				{
-					objectAngle[0] = (short)OKObjectArray[CurrentObject].ObjectData.angle[0];
-					objectAngle[1] = (short)(OKObjectArray[CurrentObject].ObjectData.angle[1] * -1);
-					objectAngle[2] = (short)OKObjectArray[CurrentObject].ObjectData.angle[2];	
-
-					CreateModelingMatrix(AffineMatrix,objectPosition,objectAngle);
-				}
 				
+					
 
-				
-				ScalingMatrix(AffineMatrix,((float)(ThisModel->MeshScale) / 100));
+					uint* MeshAddress = (uint*)GetRealAddress(0x0A000000 |ThisModel->MeshAddress);
+					if (OverKartRAMHeader.ObjectHeader.ObjectTypeList[Type].CameraAlignToggle == 0x01)
+					{		
+						objectAngle[0] = 0;
+						objectAngle[1] = 0;
+						objectAngle[2] = 0;
 
-				if(SetMatrix(AffineMatrix,0) != 0)
-				{
-					for (int CurrentMesh = 0; CurrentMesh < ThisModel->MeshCount; CurrentMesh++)
+						
+						float sinB = sinT(GlobalCamera[Player]->camera_direction[1]-(DEG1 * 180));
+						float cosB = cosT(GlobalCamera[Player]->camera_direction[1]-(DEG1 * 180));
+
+						AffineMatrix[0][0] =  cosB;
+						AffineMatrix[1][0] =  0.0f;
+						AffineMatrix[2][0] =  sinB;
+						AffineMatrix[0][1] =  0.0f;
+						AffineMatrix[1][1] =  1.0f;
+						AffineMatrix[2][1] =  0.0f;
+						AffineMatrix[0][2] = -sinB;
+						AffineMatrix[1][2] =  0.0f;
+						AffineMatrix[2][2] =  cosB;
+						AffineMatrix[0][3] =  0.0f;
+						AffineMatrix[1][3] =  0.0f;
+						AffineMatrix[2][3] =  0.0f;
+						AffineMatrix[3][3] =  1.0f; 
+
+						AffineMatrix[3][0] = (float)objectPosition[0];
+						AffineMatrix[3][1] = (float)objectPosition[1];
+						AffineMatrix[3][2] = (float)objectPosition[2];
+					}
+					else
 					{
-						*(long*)*graphPointer = (long)(0x06000000);
-						*graphPointer = *graphPointer + 4;
-						*(long*)*graphPointer = (long)(0x0A000000 | MeshAddress[CurrentMesh]);
-						*graphPointer = *graphPointer + 4;
-					}	
+						objectAngle[0] = (short)OKObjectArray[CurrentObject].ObjectData.angle[0];
+						objectAngle[1] = (short)(OKObjectArray[CurrentObject].ObjectData.angle[1] * -1);
+						objectAngle[2] = (short)OKObjectArray[CurrentObject].ObjectData.angle[2];	
+
+						CreateModelingMatrix(AffineMatrix,objectPosition,objectAngle);
+					}
+					
+
+					
+					ScalingMatrix(AffineMatrix,((float)(ThisModel->MeshScale) / 100));
+
+					if(SetMatrix(AffineMatrix,0) != 0)
+					{
+						for (int CurrentMesh = 0; CurrentMesh < ThisModel->MeshCount; CurrentMesh++)
+						{
+							*(long*)*graphPointer = (long)(0x06000000);
+							*graphPointer = *graphPointer + 4;
+							*(long*)*graphPointer = (long)(0x0A000000 | MeshAddress[CurrentMesh]);
+							*graphPointer = *graphPointer + 4;
+						}	
+					}
 				}		
 			}
 		}
@@ -291,60 +352,64 @@ void DrawOKObjects(Camera* LocalCamera)
 	if (scrollLock)
 	{
 		int CurrentPlayer = (*(long*)&LocalCamera - (long)&g_Camera1) / 0xB8;
+
 		for (int CurrentType = 0; CurrentType < OverKartRAMHeader.ObjectHeader.ObjectTypeCount; CurrentType++)
 		{
-			if (*(uint*)(&OverKartRAMHeader.ObjectHeader.ObjectTypeList[CurrentType].ObjectAnimations) == 0xFFFFFFFF)
+			if (*(uint*)(&OverKartRAMHeader.ObjectHeader.ObjectTypeList[CurrentType].ObjectAnimations) == 0xFFFFFFFF)			
 			{
-				for (int CurrentModel = 0; CurrentModel < OverKartRAMHeader.ObjectHeader.ObjectTypeList[CurrentType].OKModelCount; CurrentModel++)
+				if (OverKartRAMHeader.ObjectHeader.ObjectTypeList[CurrentType].ZSortToggle == 0)
 				{
-					OKModel* ThisModel = (OKModel*)GetRealAddress(0x0A000000 | (int)&OverKartRAMHeader.ObjectHeader.ObjectTypeList[CurrentType].ObjectModel[CurrentModel]);
-					DrawOKObjectLoop(ThisModel, CurrentPlayer, CurrentType);
-				}
-				for (int CurrentModel = 0; CurrentModel < OverKartRAMHeader.ObjectHeader.ObjectTypeList[CurrentType].OKXLUCount; CurrentModel++)
-				{
-					OKModel* ThisModel = (OKModel*)GetRealAddress(0x0A000000 | (int)&OverKartRAMHeader.ObjectHeader.ObjectTypeList[CurrentType].ObjectXLU[CurrentModel]);
-					DrawOKObjectLoop(ThisModel, CurrentPlayer, CurrentType);
+					for (int CurrentModel = 0; CurrentModel < (int)OverKartRAMHeader.ObjectHeader.ObjectTypeList[CurrentType].OKModelCount; CurrentModel++)
+					{
+						OKModel* ThisModel = (OKModel*)GetRealAddress(0x0A000000 | (int)&OverKartRAMHeader.ObjectHeader.ObjectTypeList[CurrentType].ObjectModel[CurrentModel]);
+						DrawOKObjectLoop(ThisModel, CurrentPlayer, CurrentType);
+					}	
+						
+					for (int CurrentModel = 0; CurrentModel < (int)OverKartRAMHeader.ObjectHeader.ObjectTypeList[CurrentType].OKXLUCount; CurrentModel++)
+					{
+						OKModel* ThisModel = (OKModel*)GetRealAddress(0x0A000000 | (int)&OverKartRAMHeader.ObjectHeader.ObjectTypeList[CurrentType].ObjectXLU[CurrentModel]);
+						DrawOKObjectLoop(ThisModel, CurrentPlayer, CurrentType);
+					}				
 				}
 			}
 			else
-			{
-				
-				
-
-				
+			{	
 				for (int CurrentObject = 0; CurrentObject < OverKartRAMHeader.ObjectHeader.ObjectCount; CurrentObject++)
 				{
-					if((OKObjectArray[CurrentObject].SubBehaviorClass != SUBBEHAVIOR_DEAD) && (OverKartRAMHeader.ObjectHeader.ObjectList[OKObjectArray[CurrentObject].ListIndex].ObjectIndex == CurrentType))
+					if (OverKartRAMHeader.ObjectHeader.ObjectList[OKObjectArray[CurrentObject].ListIndex].ObjectIndex == CurrentType)
 					{
-						
-						objectPosition[0] = (float)OKObjectArray[CurrentObject].ObjectData.position[0];
-						objectPosition[1] = (float)OKObjectArray[CurrentObject].ObjectData.position[1];
-						objectPosition[2] = (float)OKObjectArray[CurrentObject].ObjectData.position[2];
-
-						if(TestCollideSphere(objectPosition, (float)(OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[OKObjectArray[CurrentObject].ListIndex].ObjectIndex].RenderRadius) ,GlobalPlayer[CurrentPlayer].position, GlobalPlayer[CurrentPlayer].radius))
+						if(OKObjectArray[CurrentObject].SubBehaviorClass != SUBBEHAVIOR_DEAD)
 						{
-						
-							objectAngle[0] = (short)OKObjectArray[CurrentObject].ObjectData.angle[0];
-							objectAngle[1] = (short)(OKObjectArray[CurrentObject].ObjectData.angle[1] * -1);
-							objectAngle[2] = (short)OKObjectArray[CurrentObject].ObjectData.angle[2];	
-							CreateModelingMatrix(AffineMatrix,objectPosition,objectAngle);
+							
+							objectPosition[0] = (float)OKObjectArray[CurrentObject].ObjectData.position[0];
+							objectPosition[1] = (float)OKObjectArray[CurrentObject].ObjectData.position[1];
+							objectPosition[2] = (float)OKObjectArray[CurrentObject].ObjectData.position[2];
 
-
-							ScalingMatrix(AffineMatrix,0.10);
-
-							if(SetMatrix(AffineMatrix,0) != 0)
+							if(TestCollideSphere(objectPosition, (float)(OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[OKObjectArray[CurrentObject].ListIndex].ObjectIndex].RenderRadius) ,GlobalPlayer[CurrentPlayer].position, GlobalPlayer[CurrentPlayer].radius))
 							{
+							
+								objectAngle[0] = (short)OKObjectArray[CurrentObject].ObjectData.angle[0];
+								objectAngle[1] = (short)(OKObjectArray[CurrentObject].ObjectData.angle[1] * -1);
+								objectAngle[2] = (short)OKObjectArray[CurrentObject].ObjectData.angle[2];	
+								CreateModelingMatrix(AffineMatrix,objectPosition,objectAngle);
 
-								GlobalUIntA = GetRealAddress(0x0A000000 | *(uint*)(&OverKartRAMHeader.ObjectHeader.ObjectTypeList[0].ObjectAnimations));				
-								OKAnimationTable* AnimationTable = (OKAnimationTable*)(GlobalUIntA);
-								AnimationTable->SkeletonOffset = GetRealAddress(AnimationTable->SkeletonOffset);
-								AnimationTable->WalkAnimation = GetRealAddress(AnimationTable->WalkAnimation);
-								Hierarchy* Skeleton = (Hierarchy*)(AnimationTable->SkeletonOffset) ;
-								AnimePtr* WalkAnime = (AnimePtr*)(&AnimationTable->WalkAnimation);
-								WalkAnime[0]->param = (short*)(GetRealAddress((int)WalkAnime[0]->param));
-								WalkAnime[0]->table = (ushort*)(GetRealAddress((int)WalkAnime[0]->table));
 
-								DrawLocalSkeletonShape(Skeleton,WalkAnime,0,AnimationTimer);
+								ScalingMatrix(AffineMatrix,0.10);
+
+								if(SetMatrix(AffineMatrix,0) != 0)
+								{
+
+									GlobalUIntA = GetRealAddress(0x0A000000 | *(uint*)(&OverKartRAMHeader.ObjectHeader.ObjectTypeList[0].ObjectAnimations));				
+									OKAnimationTable* AnimationTable = (OKAnimationTable*)(GlobalUIntA);
+									AnimationTable->SkeletonOffset = GetRealAddress(AnimationTable->SkeletonOffset);
+									AnimationTable->WalkAnimation = GetRealAddress(AnimationTable->WalkAnimation);
+									Hierarchy* Skeleton = (Hierarchy*)(AnimationTable->SkeletonOffset) ;
+									AnimePtr* WalkAnime = (AnimePtr*)(&AnimationTable->WalkAnimation);
+									WalkAnime[0]->param = (short*)(GetRealAddress((int)WalkAnime[0]->param));
+									WalkAnime[0]->table = (ushort*)(GetRealAddress((int)WalkAnime[0]->table));
+
+									DrawLocalSkeletonShape(Skeleton,WalkAnime,0,AnimationTimer);
+								}
 							}
 						}
 					}
@@ -353,6 +418,62 @@ void DrawOKObjects(Camera* LocalCamera)
 
 			}
 		}
+
+
+		
+		//Make Zbuffer
+		for (int ThisObject = 0; ThisObject < OverKartRAMHeader.ObjectHeader.ObjectCount; ThisObject++)
+		{
+			if (OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[OKObjectArray[ThisObject].ListIndex].ObjectIndex].ZSortToggle != 0)
+			{			
+				OKObjectArray[ThisObject].ZBuffer = CalcDistance(GlobalPlayer[CurrentPlayer].position, OKObjectArray[ThisObject].ObjectData.position);
+			}
+			else
+			{
+				OKObjectArray[ThisObject].ZBuffer = -1;
+			}	
+		}
+		
+		for (int ThisPass = 0; ThisPass < OverKartRAMHeader.ObjectHeader.ObjectCount; ThisPass++)
+		{
+			GlobalIntA = 0;
+			GlobalShortA = -1;
+			for (int SubObject = 0; SubObject < OverKartRAMHeader.ObjectHeader.ObjectCount; SubObject++)
+			{
+				if (GlobalIntA < OKObjectArray[SubObject].ZBuffer)
+				{
+					GlobalIntA = OKObjectArray[SubObject].ZBuffer;
+					GlobalShortA = SubObject;
+				}
+			}
+			if (GlobalShortA != -1)
+			{
+				OKObjectArray[GlobalShortA].ZBuffer = -1;
+				int Type = OverKartRAMHeader.ObjectHeader.ObjectList[OKObjectArray[GlobalShortA].ListIndex].ObjectIndex;
+
+				if(TestCollideSphere(
+					OKObjectArray[GlobalShortA].ObjectData.position, 
+					(float)(OverKartRAMHeader.ObjectHeader.ObjectTypeList[Type].RenderRadius),
+					GlobalPlayer[CurrentPlayer].position, GlobalPlayer[CurrentPlayer].radius)
+				)
+				{
+					if(OKObjectArray[GlobalShortA].SubBehaviorClass != SUBBEHAVIOR_DEAD)
+					{
+						for (int CurrentModel = 0; CurrentModel < OverKartRAMHeader.ObjectHeader.ObjectTypeList[Type].OKModelCount; CurrentModel++)
+						{
+							DrawOKSub(
+								(OKModel*)GetRealAddress(0x0A000000 | (int)&OverKartRAMHeader.ObjectHeader.ObjectTypeList[Type].ObjectModel[CurrentModel]), 
+								CurrentPlayer, Type
+							);
+						}
+					}		
+				}
+			}
+			
+		}
+			
+		
+		
 	}
 }
 void XLUObjectDisplay()
