@@ -10,6 +10,8 @@
 
 void previewRefresh()
 {
+	//This value will cause the game to try to reload preview images
+	//Used on the Map Select screen when we swap to a new set of custom levels.
 	if (g_gameMode != 3)
 	{
 		g_menuPreviewValue1 = 9;
@@ -28,6 +30,10 @@ void previewRefresh()
 
 void copyCourseTable(int copyMode)
 {
+	//This saves the course table to RAM as a backup copy
+	//Or reloads the backup copy back over the table.
+
+	//We need to switch the table for GP mode and Custom Sets.
 	//0 to load 1 to save.
 	dataLength = 0x28;
 	if (copyMode == 0)
@@ -296,6 +302,10 @@ void overkartASM(void)
 
 void setSong()
 {
+	//If a custom level, set the Song ID.
+	//If the SongID is greater than >0x50 it's a pointer to custom song data.
+
+	//If not a custom level, restore the standard Mario Raceway song code. 
 	if ((HotSwapID > 0) && (OverKartHeader.Version != 0xFFFFFFFF))
 	{
 		
@@ -343,6 +353,10 @@ void setSong()
 
 void setTempo(void)
 {
+	//Set the game tempo.
+	//tempo is used to handle lagging on console.
+
+
 	if (TempoBool == 0)
 	{
 		if (HotSwapID > 0)
@@ -418,7 +432,7 @@ void setTempo(void)
 }
 void setPath()
 {
-
+	
 	if ((HotSwapID > 0) && (OverKartHeader.Version != 0xFFFFFFFF))
 	{
 		g_pathLength =(short)(OverKartHeader.PathLength) + 10;
@@ -825,6 +839,12 @@ void loadTextureScrollTranslucent()
 
 void runTextureScroll()
 {
+	//Handle Texture Scrolling for custom levels.
+
+	//Check a header for the scroll data.
+	//Scroll Data contains the count followed by the texture loads.
+	//Loop through a byte until it overlaps. 
+
 	GlobalAddressA = (long)(&ok_scrolltranslucent);
 	LoopValue = *(long*)(&ok_scrolltranslucent);
 	if (LoopValue == 0xFFFFFFFF)
@@ -864,6 +884,8 @@ void runTextureScroll()
 
 void runWaterVertex()
 {
+	//This handles translucency by setting vertex alpha.
+	//Outdated; vertex alpha can be loaded directly now.
 	LoopValue = *(long*)(&ok_scrolltranslucent);
 	if (LoopValue == 0xFFFFFFFF)
 	{
@@ -928,6 +950,9 @@ void setText()
 
 void runDisplayScreen()
 {
+	//Handles the display of the buffer copy to texture.
+	//Allows for rendering the screen to a set of 6 textures. 
+
 	LoopValue = *(long*)(&ok_scrolltranslucent);
     if (LoopValue == 0xFFFFFFFF)
     {
@@ -1027,7 +1052,9 @@ void SetCourseNames(bool custom)
 
 void setOKObjects()
 {
-	
+	//This loads the Custom OK Objects from the header.
+
+	//If in mirror mode, we use this value to invert the X value.
 	GlobalShortA = 1;
 	if (g_mirrorMode == 1)
 	{
@@ -1036,8 +1063,10 @@ void setOKObjects()
 	
 	for (int This = 0; This < 100; This++)
 	{
+		//Clear all the existing objects.
 		ClearOKObject(This);
 	}
+	//Load data from the course header. 
 	OverKartRAMHeader.ObjectHeader.ObjectTypeCount = *(int*)(OverKartHeader.ObjectDataStart);
 	GlobalAddressC = OverKartHeader.ObjectDataStart + 4;
 	OverKartRAMHeader.ObjectHeader.ObjectTypeList = (OKObjectType*)(GlobalAddressC);
@@ -1050,6 +1079,8 @@ void setOKObjects()
 	
 	for (int This = 0; This < OverKartRAMHeader.ObjectHeader.ObjectCount; This++)
 	{
+		//Loop through the object count and set each individual object in the array.
+
 		OKObjectArray[This].ListIndex = This;
 		OKObjectArray[This].SubBehaviorClass = SUBBEHAVIOR_DOCILE;
 
@@ -1081,7 +1112,7 @@ void setOKObjects()
 
 void loadOKObjects()
 {
-	
+	//Load all the OKObject data from the Course Header.
 	GlobalIntA = OverKartHeader.ObjectDataEnd - OverKartHeader.ObjectModelStart;
 	SetSegment(0xA,LoadData(OverKartHeader.ObjectModelStart, GlobalIntA));
 	GlobalIntA = OverKartHeader.ObjectModelStart - OverKartHeader.ObjectDataStart;
@@ -1093,6 +1124,7 @@ void loadOKObjects()
 
 void loadHeaderOffsets()
 {
+	// Load the offsets to the custom course headers.
 	*targetAddress = (long)&ok_HeaderOffsets;
 	*sourceAddress = 0xBE9178;
 	dataLength = 0x3C00;
@@ -1117,11 +1149,11 @@ void LoadBomb()
 
 void LoadCustomHeader(int inputID)
 {
-	//version 4
+	//version 5? 6?
 	if ((HotSwapID > 0) && (inputID != -1))
 	{
 		
-		//version 4
+		
 		//first load the entire OverKart header into expansion RAM
 		*targetAddress = (long)&ok_CourseHeader;
 		*sourceAddress = *(long*)(&ok_HeaderOffsets + ((inputID) * 1) + ((HotSwapID-1) * 0x14));
@@ -1472,6 +1504,7 @@ void setPreviews()
 
 void swapHS(int direction)
 {
+	//This function will swap to a new set of custom levels.
 	if (direction == 0)
 	{
 		if  (HotSwapID > 0)
