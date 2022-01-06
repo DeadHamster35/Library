@@ -279,9 +279,12 @@
 .definelabel PutObject, 0x8029ED38
 
 
+.definelabel osInvalDCache, 0x800CDB80
 .definelabel osEepromLongRead, 0x800D0190
 .definelabel osEepromLongWrite, 0x800D0050
+.definelabel osWritebackDCacheAll, 0x800CD890
 .definelabel osEepromProbe, 0x800CE340
+
 .definelabel g_fadeOutFlag, 0x800DC5C0
 .definelabel g_fadeOutCounter, 0x800DC5C4
 .definelabel g_fadeOutCounter2, 0x800DC5C8

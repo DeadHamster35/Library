@@ -88,8 +88,8 @@ typedef struct OKObjectType{
 	short 			MaxSpeed, RenderRadius;
 	short			CollisionRadius, Hitbox;
 	short			SoundRadius;
-	uchar			SoundType, ZSortToggle;
-	uchar			OKModelCount, OKXLUCount, GravityToggle, CameraAlignToggle;
+	char				SoundType, ZSortToggle;
+	char				OKModelCount, OKXLUCount, GravityToggle, CameraAlignToggle;
 	int				SoundID;
 	OKModel*			ObjectModel;
 	OKModel*			ObjectXLU;//
@@ -130,6 +130,30 @@ typedef struct OKPathStruct{
 	uchar	ColorR,ColorG,ColorB;
 	uchar	AdjColorR,AdjColorG,AdjColorB;
 } OKPathStruct;
+
+
+typedef struct OKOption{
+	
+	uint		OptionName;
+	uint		ParameterCount;
+	uint*	ParameterNames;
+	int*		ParameterLengths;
+} OKOption;
+
+typedef struct OKPanel{
+
+	uint			NameAddress;
+	short		OptionCount, NameLength;
+	OKOption*		Options;	
+	char*		ParameterToggles;
+
+} OKPanel;
+
+
+typedef struct OKMenu{
+	uint		PanelCount;
+	OKPanel*	PanelAddress;
+} OKMenu;
 
 #define SKY_CLEAR 		0
 #define SKY_CLOUD 		1

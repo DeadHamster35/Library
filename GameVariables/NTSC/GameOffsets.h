@@ -244,9 +244,9 @@ extern void SetFadeOut(int Fade);
 extern short PutPylon(Vector pos,short number);
 extern short PutObject(Vector pos,int category);
 
-
 extern int osEepromLongRead(void *Queue, uchar Address, uchar *Destination, int Length);
 extern int osEepromLongWrite(void *Queue, uchar Address, uchar *Destination, int Length);
+extern void osWritebackDCacheAll();
 extern bool osEepromProbe(void *Queue);
 extern short g_fadeOutFlag;
 extern short g_fadeOutCounter, g_fadeOutCounter2;

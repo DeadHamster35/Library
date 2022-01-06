@@ -142,7 +142,7 @@ void loadNiceFont()
 	dataLength = 0x5000;
 	runDMA();
 	*sourceAddress = (int)(&ok_FreeSpace);
-	*targetAddress = (int)(0x80467500);
+	*targetAddress = (int)(&nicefont);
 	runMIO();
 }
 

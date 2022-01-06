@@ -203,6 +203,144 @@ void printMap(int devParameter)
 }
 
 
+void CourseMenu(int Alpha)
+{
+     
+     DrawBox(50,10,220,121,0,0,0,Alpha);
+     
+     DrawBox(48,8,2,124,255,0,0,255);
+     DrawBox(270,8,2,124,255,0,0,255);
+     DrawBox(50,8,220,2,255,0,0,255);
+     DrawBox(50,130,220,2,255,0,0,255);
+     DrawBox(60,32,200,1,0,0,0,255);
+
+     if (ParameterIndex == 0) //currentParameter
+     {
+          MenuPosition[0] = 157 -(10 * 4);
+          GraphPtr = FillRect1ColorF(GraphPtr, MenuPosition[0], 19, MenuPosition[0] + (10 * 8), 29, 200, 0, 0, 200);
+     }
+     else if (ParameterIndex == 1) //currentParameter
+     {
+          MenuPosition[0] = 155 - ((cupChar[MenuCup]) * 4);
+          GraphPtr = FillRect1ColorF(GraphPtr, MenuPosition[0], 41, MenuPosition[0] + (cupChar[MenuCup] * 8), 51, 0, 200, 0, 200);
+     }
+     else
+     {
+          if (SYSTEM_Region == 0x00)
+          {
+               GlobalAddressA = (cup_PAL + (MenuCup * 8) + ((ParameterIndex - 2) * 2));
+          }
+          else
+          {
+               GlobalAddressA = (cup_NTSC + (MenuCup * 8) + ((ParameterIndex - 2) * 2));
+          }
+          short *l_courseID = (short *)GlobalAddressA;
+          MenuPosition[0] = 157 - ((courseChar[(long)*l_courseID]) * 4);
+          MenuPosition[1] = ((ParameterIndex - 1) * 14) + 44;
+          GraphPtr = FillRect1ColorF(GraphPtr, MenuPosition[0], MenuPosition[1], MenuPosition[0] + (courseChar[(long)*l_courseID] * 8), MenuPosition[1]+11, 0, 0, 200, 200);
+     }
+     LoopValue = 0;
+     loadFont();
+     MenuPosition[0] = 135 - (cupChar[MenuCup] * 4);
+     printString(MenuPosition[0],22,cupNames[MenuCup]);
+     MenuPosition[1] = 40;
+     do{
+          if (SYSTEM_Region == 0x00)
+          {
+               GlobalAddressA = (cup_PAL + (MenuCup * 8) + LoopValue * 2);
+          }
+          else
+          {
+               GlobalAddressA = (cup_NTSC + (MenuCup * 8) + LoopValue * 2);
+          }
+          short *l_courseID = (short *)GlobalAddressA;
+          MenuPosition[0] = 138 - (courseChar[(long)*l_courseID] * 4);
+          printString(MenuPosition[0],MenuPosition[1],courseNames[(long)*l_courseID]);
+          MenuPosition[1] = MenuPosition[1] + 14;
+          LoopValue++;
+     } while (LoopValue < 4);
+}
+
+void ModularMenu(int Alpha, OKMenu OptionsMenu)
+{
+
+     
+
+     
+     DrawBox(50,10,220,121,0,0,0,Alpha);
+     
+     DrawBox(48,8,2,124,255,0,0,255);
+     DrawBox(270,8,2,124,255,0,0,255);
+     DrawBox(50,8,220,2,255,0,0,255);
+     DrawBox(50,130,220,2,255,0,0,255);
+     DrawBox(60,32,200,1,0,0,0,255);
+
+
+     if (ParameterIndex == 0) //currentParameter
+     {
+          MenuPosition[0] = 157 - ((OptionsMenu.PanelAddress[MenuIndex].NameLength) * 4);
+          GraphPtr = FillRect1ColorF(GraphPtr, MenuPosition[0], 19, MenuPosition[0] + ((OptionsMenu.PanelAddress[MenuIndex].NameLength) * 8), 29, 200, 0, 0, 200);
+     }
+     else
+     {
+          MenuPosition[1] = ParameterIndex * 18 + 33;
+          if (MenuBlink < 29)  
+          {
+               KWSprite(57,MenuPosition[1]+2,16,16,(ushort*)&lit_red_selecter);
+          }
+     }
+     
+     
+
+     LoopValue = 0;
+     MenuPosition[0] = 138 - ((OptionsMenu.PanelAddress[MenuIndex].NameLength) * 4);
+     
+     
+     
+     loadFont();
+     
+     
+     printString(MenuPosition[0],0,(char*)OptionsMenu.PanelAddress[MenuIndex].NameAddress);
+     
+     MenuPosition[1] = 30;
+     
+     for (LoopValue = 0; LoopValue < OptionsMenu.PanelAddress[MenuIndex].OptionCount; LoopValue++)
+     {
+          OKOption* ThisOption = (OKOption*)(&OptionsMenu.PanelAddress[MenuIndex].Options[LoopValue + (long)MenuOverflow]);          
+          printString(45,MenuPosition[1],(char*)ThisOption->OptionName);
+          GlobalShortA = (int)OptionsMenu.PanelAddress[MenuIndex].ParameterToggles[LoopValue];
+          MenuPosition[0] = 200 - (ThisOption->ParameterLengths[GlobalShortA] * 4);          
+          printString(MenuPosition[0],MenuPosition[1],(char*)ThisOption->ParameterNames[GlobalShortA]);
+          MenuPosition[1] = MenuPosition[1] + 18;          
+     } 
+
+     if ((MenuOverflow + 4) < OptionsMenu.PanelAddress[MenuIndex].OptionCount)  //menuOverflowIndex
+     {
+          if (MenuBlink < 15)  //used for blinking down arrow
+          {
+               KWSprite(161,120,16,16,(ushort*)&lit_arrowsprite_d);
+          }
+     }
+     if ((MenuOverflow - 4) < OptionsMenu.PanelAddress[MenuIndex].OptionCount)  //menuOverflowIndex
+     {
+          if (MenuBlink < 15)  //used for blinking down arrow
+          {
+               KWSprite(161,40,16,16,(ushort*)&lit_arrowsprite_u);
+          }
+     }
+     if (MenuIndex > 0)  //used for left arrow
+     {
+          KWSprite(80,22,16,16,(ushort*)&lit_arrowsprite_l);
+     }
+     if (MenuIndex < OptionsMenu.PanelCount)  //used for right arrow
+     {
+          KWSprite(240,22,16,16,(ushort*)&lit_arrowsprite_r);
+     }
+}
+
+
+
+
 
 
 
@@ -604,19 +742,21 @@ void MapSelectMenu()
      }
      if (menuScreenA == GlobalShortA)
      {
-          if ((GlobalController[0]->ButtonPressed & BTN_L) == BTN_L)
+          if ((GlobalController[0]->ButtonPressed & BTN_CLEFT) == BTN_CLEFT)
           {
                swapHS(0);
           }
-          if ((GlobalController[0]->ButtonPressed & BTN_Z) == BTN_Z)
-          {
-               swapHS(0);
-          }
-          else if ((GlobalController[0]->ButtonPressed & BTN_R) == BTN_R)
+          else if ((GlobalController[0]->ButtonPressed & BTN_CRIGHT) == BTN_CRIGHT)
           {
                swapHS(1);
           }
           LoadCustomHeader(courseValue);
+
+          
+          if ((GlobalController[0]->ButtonPressed & BTN_R) == BTN_R)
+          {
+               MenuToggle = !MenuToggle;
+          }
      }
 
      *(int*)(&PlayerOK) = 0;
@@ -653,15 +793,6 @@ void MapSelectMenu()
      else
      {
           LoadCustomHeader(-1);
-     }
-     
-     if (KBGChange == 0)
-     {          
-          if (hsLabel != HotSwapID)
-          {
-               setLabel();               
-               hsLabel = HotSwapID;
-          }
      }
      
 }

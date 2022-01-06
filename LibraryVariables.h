@@ -152,7 +152,7 @@ extern float gpTotalTime;
 
 extern int VersionNumber;
 
-extern int MenuIndex, MenuType, MenuCup;
+extern int ParameterIndex, MenuIndex, MenuCup, MenuOverflow;
 //
 //
 
@@ -162,6 +162,10 @@ extern int ScrollValues[32][2];
 
 
 
+extern char *cupNames[];
+extern int cupChar[];
+extern char *courseNames[];
+extern int courseChar[];
 
 
 #define 	BTN_A		0x8000 
