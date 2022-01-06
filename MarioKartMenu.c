@@ -304,7 +304,7 @@ void ModularMenu(int Alpha, OKMenu OptionsMenu)
      
      MenuPosition[1] = 30;
      
-     for (LoopValue = 0; LoopValue < OptionsMenu.PanelAddress[MenuIndex].OptionCount; LoopValue++)
+     for (LoopValue = 0; LoopValue < 4; LoopValue++)
      {
           OKOption* ThisOption = (OKOption*)(&OptionsMenu.PanelAddress[MenuIndex].Options[LoopValue + (long)MenuOverflow]);          
           printString(45,MenuPosition[1],(char*)ThisOption->OptionName);
