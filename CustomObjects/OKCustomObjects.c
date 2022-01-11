@@ -340,7 +340,7 @@ void DrawOKObjectLoop(OKModel* ThisModel, int Player, int Type)
 						objectAngle[1] = (short)(OKObjectArray[CurrentObject].ObjectData.angle[1] * -1);
 						objectAngle[2] = (short)OKObjectArray[CurrentObject].ObjectData.angle[2];	
 
-						CreateModelingMatrix(AffineMatrix,objectPosition,objectAngle);
+						CreateModelingMatrix(AffineMatrix,OKObjectArray[CurrentObject].ObjectData.position,objectAngle);
 					}
 					
 

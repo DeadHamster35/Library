@@ -213,6 +213,9 @@ void CourseMenu(int Alpha)
      DrawBox(50,8,220,2,255,0,0,255);
      DrawBox(50,130,220,2,255,0,0,255);
      DrawBox(60,32,200,1,0,0,0,255);
+     KWSprite(80,22,16,16,(ushort*)&lit_arrowsprite_l);
+     
+     
 
      if (ParameterIndex == 0) //currentParameter
      {
@@ -241,6 +244,7 @@ void CourseMenu(int Alpha)
      }
      LoopValue = 0;
      loadFont();
+     printString(98,0,"Cup Editor");
      MenuPosition[0] = 135 - (cupChar[MenuCup] * 4);
      printString(MenuPosition[0],22,cupNames[MenuCup]);
      MenuPosition[1] = 40;

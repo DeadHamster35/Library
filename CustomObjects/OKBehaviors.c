@@ -68,7 +68,7 @@ float ObjectSubBehaviorLookedAt(OKObject* InputObject, int PlayerIndex, short Lo
 void ObjectBehaviorExist(OKObject* InputObject)
 {
 	OKObjectType *ThisType = (OKObjectType*)&(OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[InputObject->ListIndex].ObjectIndex]);
-	if (ThisType->GravityToggle)
+	if (ThisType->GravityToggle == 1)
 	{
 		UpdateObjectGravity((Object*)&InputObject->ObjectData);
 	}
