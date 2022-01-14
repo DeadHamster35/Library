@@ -312,7 +312,7 @@ void ModularMenu(int Alpha, OKMenu OptionsMenu)
      {
           OKOption* ThisOption = (OKOption*)(&OptionsMenu.PanelAddress[MenuIndex].Options[LoopValue + (long)MenuOverflow]);          
           printString(45,MenuPosition[1],(char*)ThisOption->OptionName);
-          GlobalShortA = (int)OptionsMenu.PanelAddress[MenuIndex].ParameterToggles[LoopValue];
+          GlobalShortA = (int)OptionsMenu.PanelAddress[MenuIndex].ParameterToggles[LoopValue + (long)MenuOverflow];
           MenuPosition[0] = 200 - (ThisOption->ParameterLengths[GlobalShortA] * 4);          
           printString(MenuPosition[0],MenuPosition[1],(char*)ThisOption->ParameterNames[GlobalShortA]);
           MenuPosition[1] = MenuPosition[1] + 18;          
