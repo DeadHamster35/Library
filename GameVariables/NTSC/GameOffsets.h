@@ -59,6 +59,7 @@ extern short addObjectBuffer(Vector position, SVector angle, Vector velocity, sh
 //float radius,float hight,float param
 extern int CollisionCylinder(void *Car, Vector Position, float Radius, float Height, float Parameter); //0x8029EEB8
 extern int CollisionSphere(void *Car, void *Object); //0x8029FB80
+extern void KillObject(Object* ObjectTarget);
 
 
 extern void RouletteStart(int Player, int SpecialItem); //0x8007ABFC

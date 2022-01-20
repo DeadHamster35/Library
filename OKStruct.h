@@ -51,34 +51,13 @@ typedef struct OKObjectList{
 } OKObjectList;
 
 typedef struct OKSkeleton{
-	short 	Origin[3];
-	short 	MeshCount;
-	uint* 	MeshAddress; //array of offsets per MeshCount
+	uint			AnimationOffset;
+	int			MeshCount;
+	uint			MeshOffset;
+	int			ChildCount;
 } OKSkeleton;
 
-typedef struct OKAnimationTable{
-
-	uint SkeletonOffset;
-	uint WalkAnimation;
-	uint TargetAnimation;
-	uint DeathAnimation;
-} OKAnimationTable;
-
-typedef struct SkeletonHeader{
-	OKSkeleton* 	BoneOffset;
-	int			ChildCount;	
-} SkeletonHeader;
-
 #define AnimationCount 3
-// Update for new animation types. 
-typedef struct OKAnimationSet{
-	
-	SkeletonHeader*	SkeletonHeader[AnimationCount];
-	uint				AnimationData[AnimationCount];
-	uint				AnimationTable[AnimationCount];
-	uint				AnimationSkeleton[AnimationCount];
-	
-} OKAnimationSet;
 
 typedef struct OKObjectType{
 
@@ -88,12 +67,13 @@ typedef struct OKObjectType{
 	short 			MaxSpeed, RenderRadius;
 	short			CollisionRadius, Hitbox;
 	short			SoundRadius;
+	short			CollisionResult, DamagedResult;
 	char				SoundType, ZSortToggle;
 	char				OKModelCount, OKXLUCount, GravityToggle, CameraAlignToggle;
 	int				SoundID;
 	OKModel*			ObjectModel;
 	OKModel*			ObjectXLU;//
-	OKAnimationSet*	ObjectAnimations;
+	uint				ObjectAnimations;
 
 } OKObjectType;
 
@@ -106,7 +86,8 @@ typedef struct OKCollisionSphere{
 
 typedef struct OKObject{
 	short	ListIndex, SubBehaviorClass;
-	short	AngularVelocity[3], PAD;
+	short	AngularVelocity[3];
+	uchar	AnimationFrame, AnimationMax;
 	float	ZBuffer;
 	float 	TargetDistance;	
 	uchar	TurnStatus,WanderStatus,SearchStatus,EMPTYSTATUS;
@@ -195,7 +176,9 @@ typedef struct OKEngine{
 
 
 
-
+#define REACTION_NONE 	0
+#define REACTION_DEAD 	1
+#define REACTION_BOUNCE	2
 
 #define BEHAVIOR_DEAD	-1
 #define BEHAVIOR_STATIC 	0

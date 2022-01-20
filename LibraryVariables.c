@@ -30,8 +30,6 @@ int decimalNumber = 0;
 int printOffsetA, printOffsetB, printOffsetC, printOffsetD = 0;
 int minutes = 0;
 int seconds = 0;
-
-float DebugPosition[3];
 Object *GlobalObjectA, *GlobalObjectB;
 float ZeroVector[3] = {0.0, 0.0, 0.0};
 OKRAMHeader OverKartRAMHeader;

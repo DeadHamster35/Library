@@ -10,6 +10,20 @@
 #define LAKITU_RACE_FINISH		4
 #define LAKITU_RACE_VICTORYLAP	5
 
+#define EXISTOBJ   0x8000
+#define HITOBJ     0x4000
+#define MOVEOBJ    0x2000
+#define MYOBJ      0x1000
+#define HIDEOBJ     0x800
+#define FLYINGOBJ   0x400
+#define SEBANANAOBJ  0x200
+#define SEKAMEHITOBJ  0x100
+#define SEKAMEOUTOBJ   0x80
+#define ONSCREEN1     0x1
+#define ONSCREEN2     0x2
+#define ONSCREEN3     0x4
+#define ONSCREEN4     0x8
+
 //Player Flag
 #define MOTOR_ON	   		0x0010  
 #define IS_BOMB      		0x0040
@@ -62,6 +76,97 @@
 #define PRESS_BECOME_BOMB	0x04000000
 #define PRESS_IS_BOMB		0x08000000
 #define PRESS_STARTSPIN		0x10000000
+
+
+
+//////SLIP_FLAG
+#define BREAKE  		0x00000001
+#define D_JUMP 			0x00000002
+#define DASH_MIDJUMP    0x00000004
+#define N_JUMP 			0x00000008
+
+#define DRIFT 			0x00000010
+#define SPIN_TURN		0x00000020
+#define SPIN_R 			0x00000040
+#define SPIN_L 			0x00000080
+
+#define DRIFT_TURBO 	0x00000100   
+#define STAR 			0x00000200    
+#define ROLLOVER 		0x00000400
+#define WHEELSPIN		0x00000800  
+
+#define CENTER_LINE 	0x00001000 
+#define TURBO	 		0x00002000
+#define RAPID_ACC		0x00004000  
+#define CARHIT      	0x00008000
+
+#define ROLLOVER_FALL  	0x00010000   
+#define THUNDER_SPIN	0x00020000
+#define DISABLE_SPIN 	0x00040000
+#define WING 			0x00080000
+
+#define DASH_JUMP       0x00100000
+#define SLIP_STREAM     0x00200000
+#define REVERSE     	0x00400000    
+#define STORM     		0x00800000
+
+#define EXPLODE     	0x01000000  
+#define THROW_EXPLODE   0x02000000
+#define BROKEN     		0x04000000
+#define RESTORE    		0x08000000
+
+#define HEIGHT_JUMP   	0x10000000		
+#define STOPSTERR    	0x20000000
+#define THUNDER	    	0x40000000
+#define TERESA    		0x80000000
+
+
+#define DOSHIN   1	    //Kawaguti's Work
+#define TREE1    2
+#define TREE2    3
+#define TREE3    4
+#define IWA      5
+#define BANANA   6
+#define GSHELL	 7
+#define RSHELL	 8
+#define EGG	 9	    //KT5 yoshy's valley
+#define PAKKUN	 10
+#define PUKUPUKU 11
+#define IBOX   	 12
+#define FAKEIBOX 13
+#define SBANANA  14
+#define SL1      15
+#define SL2      16
+#define SL3      17
+#define COW      18
+#define TREE4    19
+#define PYLON    20	    //for example!!!!
+#define SGSHELL    21
+#define SRSHELL    22
+#define MKANBAN    23
+#define FIRE       24
+#define PALMTREE   25
+#define TREE5      26
+#define TREE6      27
+#define TREE7      28
+#define SNOWTREE   29
+#define SABOTEN1   30
+#define SABOTEN2   31
+#define SABOTEN3   32
+#define TREE8      33
+#define BLUEFIRE   34
+#define WKANBAN    35
+#define FIREPILLAR 36
+#define TRUCK1     37
+#define SHIP       38
+#define FUMIKIRI   39
+#define BUS        40
+#define TANKLORRY  41
+#define TSHELL	   42
+#define SIBOX	   43
+#define RV	   44
+#define SEDAN	   44
+#define NUTS	   45
 
 //Player Handling Flag
 #define    REVERSE_GEAR		0x0001

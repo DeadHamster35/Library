@@ -31,8 +31,6 @@ extern int decimalNumber;
 extern int printOffsetA, printOffsetB, printOffsetC, printOffsetD;
 extern int minutes;
 extern int seconds;
-
-extern float DebugPosition[3];
 extern Object *GlobalObjectA, *GlobalObjectB;
 extern OKRAMHeader OverKartRAMHeader;
 

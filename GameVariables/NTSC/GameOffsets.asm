@@ -56,6 +56,7 @@
 
 .definelabel CollisionCylinder, 0x8029EEB8
 .definelabel CollisionSphere, 0x8029FB80
+.definelabel KillObject, 0x8029FDC8
 
 .definelabel RouletteStart, 0x8007ABFC
 .definelabel KWAnmStart, 0x800723A4

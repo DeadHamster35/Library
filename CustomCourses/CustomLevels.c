@@ -804,7 +804,6 @@ void setSky()
 		runDMA();
 		*targetAddress = (long)&g_skyColorBotTable;
 		*sourceAddress = *sourceAddress + 0xC;
-		GlobalIntD = dataLength;
 		runDMA();
 	}
 	else
@@ -1072,7 +1071,7 @@ void setOKObjects()
 	OverKartRAMHeader.ObjectHeader.ObjectTypeList = (OKObjectType*)(GlobalAddressC);
 
 	
-	GlobalAddressB = OverKartHeader.ObjectDataStart + 4 + (OverKartRAMHeader.ObjectHeader.ObjectTypeCount * 44); //32 bytes size of ObjectType
+	GlobalAddressB = OverKartHeader.ObjectDataStart + 4 + (OverKartRAMHeader.ObjectHeader.ObjectTypeCount * 48); //32 bytes size of ObjectType
 	OverKartRAMHeader.ObjectHeader.ObjectCount = *(int*)(GlobalAddressB);
 	GlobalAddressD = GlobalAddressB + 4;
 	OverKartRAMHeader.ObjectHeader.ObjectList = (OKObjectList*)(GlobalAddressD);	

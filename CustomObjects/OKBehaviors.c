@@ -114,54 +114,74 @@ void ObjectBehaviorStrafe(OKObject* InputObject)
 	{
 		case 0:
 		{
-			InputObject->ObjectData.velocity[0] = 0;
+			InputObject->ObjectData.velocity[0] = (float)(ThisType->MaxSpeed / 100);
 			InputObject->ObjectData.velocity[1] = 0;
-			InputObject->ObjectData.velocity[2] = ThisType->MaxSpeed;
+			InputObject->ObjectData.velocity[2] = 0;
 
 			
-			if ((GlobalIntA * GlobalIntA) + (GlobalIntB * GlobalIntB) > (GlobalFloatA * GlobalFloatA))
+			if ((float)(GlobalIntA * GlobalIntA) + (float)(GlobalIntB * GlobalIntB) > (GlobalFloatA * GlobalFloatA))
 			{
 				InputObject->WanderStatus = 1;
 			}
+			break;
 		}
 		case 1:
 		{
-			InputObject->ObjectData.velocity[0] = 0;
-			InputObject->ObjectData.velocity[1] = 0;
-			InputObject->ObjectData.velocity[2] -= (ThisType->MaxSpeed / 20);
-
-			if (InputObject->ObjectData.velocity[2] <= (ThisType->MaxSpeed * -1) )
-			{
-				InputObject->WanderStatus = 2;
-			}
+			
+			InputObject->TargetDistance = ThisType->MaxSpeed / -100;
+			InputObject->WanderStatus = 2;
+			break;
 		}
 		case 2:
 		{
-			InputObject->ObjectData.velocity[0] = 0;
-			InputObject->ObjectData.velocity[1] = 0;
-			InputObject->ObjectData.velocity[2] = (ThisType->MaxSpeed * -1);
+			InputObject->TargetDistance += ((float)ThisType->MaxSpeed / 2000);
 
-			if ((GlobalIntA * GlobalIntA) + (GlobalIntB * GlobalIntB) > (GlobalFloatA * GlobalFloatA))
+			InputObject->ObjectData.velocity[0] = InputObject->TargetDistance;
+			InputObject->ObjectData.velocity[1] = 0;
+			InputObject->ObjectData.velocity[2] = 0;
+			if ((GlobalIntA * GlobalIntA) + (GlobalIntB * GlobalIntB) < (GlobalFloatB * GlobalFloatB))
 			{
 				InputObject->WanderStatus = 3;
 			}
+			break;
 		}
 		case 3:
-		{	
-			InputObject->ObjectData.velocity[0] = 0;
+		{
+			InputObject->ObjectData.velocity[0] = (float)(ThisType->MaxSpeed / -100);
 			InputObject->ObjectData.velocity[1] = 0;
-			InputObject->ObjectData.velocity[2] += (ThisType->MaxSpeed / 20);
+			InputObject->ObjectData.velocity[2] = 0;
 
-			if (InputObject->ObjectData.velocity[2] >= ThisType->MaxSpeed)
+			if ((GlobalIntA * GlobalIntA) + (GlobalIntB * GlobalIntB) > (GlobalFloatA * GlobalFloatA))
+			{
+				InputObject->WanderStatus = 4;
+			}
+			break;
+		}
+		case 4:
+		{
+			
+			InputObject->TargetDistance = ThisType->MaxSpeed / 100;
+			InputObject->WanderStatus = 5;
+			break;
+		}
+		case 5:
+		{
+			InputObject->TargetDistance -= ((float)ThisType->MaxSpeed / 2000);
+
+			InputObject->ObjectData.velocity[0] = InputObject->TargetDistance;
+			InputObject->ObjectData.velocity[1] = 0;
+			InputObject->ObjectData.velocity[2] = 0;
+			if ((GlobalIntA * GlobalIntA) + (GlobalIntB * GlobalIntB) < (GlobalFloatB * GlobalFloatB))
 			{
 				InputObject->WanderStatus = 0;
-			}		
+			}
+			break;
 		}
-		
-		MakeAlignVector(InputObject->ObjectData.velocity, InputObject->ObjectData.angle[1]);
-		ObjectBehaviorExist(InputObject);
 	}
 
+		
+	MakeAlignVector(InputObject->ObjectData.velocity, InputObject->ObjectData.angle[1]);
+	ObjectBehaviorExist(InputObject);
 	
 }
 
@@ -494,7 +514,7 @@ void ObjectBehaviorFollowPath(OKObject* InputObject, Marker* PathData)
 		objectPosition[2] = (float)PathData[InputObject->PathTarget].Position[2];
 		
 		InputObject->ObjectData.angle[1] += (DEG1 * 5 * ObjectSubBehaviorTurnTarget(InputObject->ObjectData.position, InputObject->ObjectData.angle[1], objectPosition, 5));
-		ObjectBehaviorWalk(InputObject, ThisType->MaxSpeed);
+		ObjectBehaviorWalk(InputObject, (float)ThisType->MaxSpeed);
 
 		if (TestCollideSphere(InputObject->ObjectData.position,6,objectPosition, 6))
 		{
