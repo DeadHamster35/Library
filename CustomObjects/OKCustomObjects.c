@@ -425,15 +425,7 @@ void DrawOKObjectLoop(OKModel* ThisModel, int Player, int Type)
 						objectAngle[1] = (short)(OKObjectArray[CurrentObject].ObjectData.angle[1] * -1);
 						objectAngle[2] = (short)OKObjectArray[CurrentObject].ObjectData.angle[2];	
 
-						CreateModelingMatrix(AffineMatrix,OKObjectArray[CurrentObject].ObjectData.position,objectAngle);
-					}
-					
-
-					//Now apply the scaling size of the object to the matrix and add the drawing code of the 3D model to the F3D. 
-					ScalingMatrix(AffineMatrix,((float)(ThisModel->MeshScale) / 100));
-
-					if(SetMatrix(AffineMatrix,0) != 0)
-					{
+					 
 						for (int CurrentMesh = 0; CurrentMesh < ThisModel->MeshCount; CurrentMesh++)
 						{
 							*(long*)*graphPointer = (long)(0x06000000);
@@ -451,28 +443,55 @@ void DrawOKObjectLoop(OKModel* ThisModel, int Player, int Type)
 
 
 
-void DrawSkeleton(OKModel* ThisModel, OKSkeleton* Skeleton, int CurrentObject)
+void DrawSkeleton(OKSkeleton* Skeleton, int CurrentObject)
 {
-	int Frame = OKObjectArray[CurrentObject].AnimationFrame;
+	int Frame = (int)(OKObjectArray[CurrentObject].AnimationFrame / 2);
 	
 	GlobalUIntA = Skeleton->AnimationOffset + 8;
-	//Otherwise we use the object's angle to get a perspective normalized view.
-	short* PositionData = (short*)(Skeleton->AnimationOffset);
-	SVector* AngleData = (SVector*)(GlobalUIntA);
+	
+	SVector* AngleData = (SVector*)((GetRealAddress(0x0A000000 | GlobalUIntA)));
+
+	GlobalUIntA += (OKObjectArray[CurrentObject].AnimationMax * 6);
+	if (OKObjectArray[CurrentObject].AnimationMax % 2 == 1)
+	{
+		GlobalUIntA += 2;
+	}
+
+	SVector* TranslationData = (SVector*)((GetRealAddress(0x0A000000 | GlobalUIntA)));
+
+	GlobalUIntA += (OKObjectArray[CurrentObject].AnimationMax * 6);
+	if (OKObjectArray[CurrentObject].AnimationMax % 2 == 1)
+	{
+		GlobalUIntA += 2;
+	}
+
+	SVector* ScalingData = (SVector*)((GetRealAddress(0x0A000000 | GlobalUIntA))); 
 
 	
-	objectPosition[0] = (short)(OKObjectArray[CurrentObject].ObjectData.position[0] + (PositionData[0] * (float)(ThisModel->MeshScale / 100)));
-	objectPosition[1] = (short)(OKObjectArray[CurrentObject].ObjectData.position[1] + (PositionData[1] * (float)(ThisModel->MeshScale / 100)));
-	objectPosition[2] = (short)(OKObjectArray[CurrentObject].ObjectData.position[2] + (PositionData[2] * (float)(ThisModel->MeshScale / 100)));
+	objectPosition[0] = (OKObjectArray[CurrentObject].ObjectData.position[0] 
+	
+	+ ((float)(Skeleton->MeshScale) * ((float)((float)(TranslationData[Frame][0]) / 100)))
+	);
 
-	objectAngle[0] = (short)OKObjectArray[CurrentObject].ObjectData.angle[0] + (AngleData[Frame][0] * DEG1);
-	objectAngle[1] = (short)(OKObjectArray[CurrentObject].ObjectData.angle[1] * -1) + (AngleData[Frame][1] * DEG1);
-	objectAngle[2] = (short)OKObjectArray[CurrentObject].ObjectData.angle[2] + (AngleData[Frame][2] * DEG1);	
+	objectPosition[1] = (OKObjectArray[CurrentObject].ObjectData.position[1]
+	
+	+ ((float)(Skeleton->MeshScale) * ((float)((float)(TranslationData[Frame][1]) / 100)))
+	);
+
+	objectPosition[2] = (OKObjectArray[CurrentObject].ObjectData.position[2] 
+	
+	+ ((float)(Skeleton->MeshScale) * ((float)((float)(TranslationData[Frame][2]) / 100)))
+	);
+
+	objectAngle[0] = (short)OKObjectArray[CurrentObject].ObjectData.angle[0] + (AngleData[Frame][0]);
+	objectAngle[1] = (short)(OKObjectArray[CurrentObject].ObjectData.angle[1] * -1) + (AngleData[Frame][1]);
+	objectAngle[2] = (short)OKObjectArray[CurrentObject].ObjectData.angle[2] + (AngleData[Frame][2]);	
 
 	CreateModelingMatrix(AffineMatrix,objectPosition,objectAngle);
 
 	//Now apply the scaling size of the object to the matrix and add the drawing code of the 3D model to the F3D. 
-	ScalingMatrix(AffineMatrix,((float)(ThisModel->MeshScale) / 100));
+	ScaleMatrixXYZFixed(AffineMatrix,ScalingData[Frame]);
+	ScalingMatrix(AffineMatrix, Skeleton->MeshScale);
 
 	if(SetMatrix(AffineMatrix,0) != 0)
 	{
@@ -480,24 +499,28 @@ void DrawSkeleton(OKModel* ThisModel, OKSkeleton* Skeleton, int CurrentObject)
 		uint* MeshAddress = (uint*)GetRealAddress(0x0A000000 | GlobalUIntA);
 		for (int CurrentMesh = 0; CurrentMesh < Skeleton->MeshCount; CurrentMesh++)
 		{
+			
+			GlobalUIntA = *(uint*)(0x0A000000 | MeshAddress[CurrentMesh]);
 			*(long*)*graphPointer = (long)(0x06000000);
 			*graphPointer = *graphPointer + 4;
-			*(long*)*graphPointer = (long)(0x0A000000 | MeshAddress[CurrentMesh]);
+			*(long*)*graphPointer = (long)(0x0A000000 | GlobalUIntA);
 			*graphPointer = *graphPointer + 4;
-		}	
+		}
 	}
 }
 
-void DrawOKAnimationLoop(OKSkeleton* Skeleton, int Player, int Type)
+void DrawOKAnimationLoop(OKSkeleton* Skeleton, int CurrentPlayer, int Type)
 {
 	// Add the Texture Draw F3D code
+	
+	GlobalUIntA = Skeleton->MeshOffset;
+	uint* MeshAddress = (uint*)GetRealAddress(0x0A000000 | GlobalUIntA);
 	*(long*)*graphPointer = (long)(0x06000000);
 	*graphPointer = *graphPointer + 4;
-	*(long*)*graphPointer = (long)(0x0A000000 | Skeleton->MeshOffset);
+	*(long*)*graphPointer = (long)(0x0A000000 | MeshAddress[0]);
 	*graphPointer = *graphPointer + 4;
-
 	//Now we have to parse for each individual object, and normalize the model to the location and angle.
-
+	
 	for (int CurrentObject = 0; CurrentObject < OverKartRAMHeader.ObjectHeader.ObjectCount; CurrentObject++)
 	{
 		if(OverKartRAMHeader.ObjectHeader.ObjectList[OKObjectArray[CurrentObject].ListIndex].ObjectIndex == Type)
@@ -506,21 +529,25 @@ void DrawOKAnimationLoop(OKSkeleton* Skeleton, int Player, int Type)
 			{
 				
 				OKObjectArray[CurrentObject].AnimationFrame++;
-				if (OKObjectArray[CurrentObject].AnimationFrame > OKObjectArray[CurrentObject].AnimationMax)
+				if ((OKObjectArray[CurrentObject].AnimationFrame / 2) >= OKObjectArray[CurrentObject].AnimationMax)
 				{
 					OKObjectArray[CurrentObject].AnimationFrame = 0;
 				}
 				//
 
 				//We use the sphere collision test to see if the character is within render radius.
-				if(TestCollideSphere(OKObjectArray[CurrentObject].ObjectData.position, (float)(OverKartRAMHeader.ObjectHeader.ObjectTypeList[Type].RenderRadius) ,GlobalPlayer[Player].position, GlobalPlayer[Player].radius))
+				if(TestCollideSphere(OKObjectArray[CurrentObject].ObjectData.position, (float)(OverKartRAMHeader.ObjectHeader.ObjectTypeList[Type].RenderRadius) ,GlobalPlayer[CurrentPlayer].position, GlobalPlayer[CurrentPlayer].radius))
 				{
-					
-					
+					DrawSkeleton(Skeleton, CurrentObject);
 				}		
 			}
 		}
 		
+	}
+	for (int ThisChild = 0; ThisChild < Skeleton->ChildCount; ThisChild++)
+	{
+		DrawOKAnimationLoop((OKSkeleton*)GlobalAddressA, CurrentPlayer, Type);
+		GlobalAddressA += 20;
 	}
 }
 
@@ -563,15 +590,14 @@ void DrawOKObjects(Camera* LocalCamera)
 			}
 			else
 			{	
+				GlobalIntA = GetRealAddress( 0x0A000000 | OverKartRAMHeader.ObjectHeader.ObjectTypeList[CurrentType].ObjectAnimations);		
+				uint* AnimationOffsets = (uint*)(GlobalIntA);
+				GlobalIntA = GetRealAddress( 0x0A000000 | AnimationOffsets[0]);
+				GlobalIntA += 4; //skip past the framecount, we stored this earlier.
+				GlobalAddressA = GlobalIntA + 20; //ooohhhh you.
+				OKSkeleton* Skeleton = (OKSkeleton*)(GlobalIntA); 
+				DrawOKAnimationLoop(Skeleton, CurrentPlayer, CurrentType);
 				
-				GlobalUIntA = (uint)GetRealAddress( 0x0A000000 | OverKartRAMHeader.ObjectHeader.ObjectTypeList[Type].ObjectAnimations);
-				uint* AnimationOffsets = (uint*)(GlobalUIntA);
-
-				GlobalUIntA = GetRealAddress ( 0x0A000000 | AnimationOffsets[0]);
-				GlobalUIntA += 4; //skip past the framecount, we stored this earlier.
-
-				OKSkeleton* Skeleton = (OKSkeleton*)(GlobalUIntA); 
-				DrawOKAnimationLoop(Skeleton, Player, Type);
 				//If the object is animated....we currently don't support it. :)
 				//But we'll still try.
 			}

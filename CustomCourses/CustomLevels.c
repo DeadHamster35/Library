@@ -1083,8 +1083,10 @@ void setOKObjects()
 		OKObjectArray[This].ListIndex = This;
 		OKObjectArray[This].SubBehaviorClass = SUBBEHAVIOR_DOCILE;
 
+		OKObjectType ThisType = OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[This].ObjectIndex];
+
 		OKObjectArray[This].ObjectData.flag = 0xC000;
-		OKObjectArray[This].ObjectData.radius = OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[This].ObjectIndex].CollisionRadius / 100;
+		OKObjectArray[This].ObjectData.radius = ThisType.CollisionRadius / 100;
 		
 		OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginPosition[0] *= GlobalShortA;
 		
@@ -1104,6 +1106,14 @@ void setOKObjects()
 		OKObjectArray[This].AngularVelocity[0] = OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginAngularVelocity[0] * DEG1;
 		OKObjectArray[This].AngularVelocity[1] = OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginAngularVelocity[2] * DEG1;
 		OKObjectArray[This].AngularVelocity[2] = OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginAngularVelocity[1] * DEG1;
+
+		if (ThisType.ObjectAnimations != 0xFFFFFFFF)
+		{
+			uint* AnimationOffsets = (uint*)(GetRealAddress( 0x0A000000 | ThisType.ObjectAnimations));
+			GlobalIntA = GetRealAddress ( 0x0A000000 | AnimationOffsets[0]);
+			OKObjectArray[This].AnimationMax = (uchar)*(int*)(GlobalIntA);
+			//OKObjectArray[This].AnimationFrame = MakeRandomLimmit((ushort)(OKObjectArray[This].AnimationMax));
+		}
 	}
 	
 }

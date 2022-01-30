@@ -1,28 +1,69 @@
+cd library
 
+echo Folder: Library 
+echo/
+
+
+
+cd CustomCourses
 ::  Custom Level Code
-ARMIPS\bin\mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -c "Library\CustomCourses\CustomLevels.c" -o "Library\CustomCourses\CustomLevels.o"
-ARMIPS\bin\mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -c "Library\CustomCourses\CustomSurfaces.c" -o "Library\CustomCourses\CustomSurfaces.o"
+
+set ListCustomCourses= "CustomLevels.c" "CustomSurfaces.c"
+
+(for %%a in (%ListCustomCourses%) do (
+   echo Working on %%a 
+..\..\ARMIPS\bin\mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -c %%a
+))
+
+cd ..
 
 
+cd CustomObjects
 ::  Custom Object Code
-ARMIPS\bin\mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -c "Library\CustomObjects\OKBehaviors.c" -o "Library\CustomObjects\OKBehaviors.o" 
-ARMIPS\bin\mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -c "Library\CustomObjects\OKCustomObjects.c" -o "Library\CustomObjects\OKCustomObjects.o"
+
+set ListCustomObjects= "OKBehaviors.c" "OKCustomObjects.c"
+
+(for %%a in (%ListCustomObjects%) do (
+   echo Working on %%a 
+..\..\ARMIPS\bin\mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -c %%a
+))
+
+cd ..
 
 
+cd MusicSound
 ::  Music and Sound Code
-ARMIPS\bin\mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -c "Library\MusicSound\CustomSounds.c" -o "Library\MusicSound\CustomSounds.o"
-ARMIPS\bin\mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -c "Library\MusicSound\MusicControl.c" -o "Library\MusicSound\MusicControl.o"
+
+set ListMusicSound= "CustomSounds.c" "MusicControl.c"
+
+(for %%a in (%ListMusicSound%) do (
+   echo Working on %%a 
+..\..\ARMIPS\bin\mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -c %%a
+))
+
+cd ..
 
 
+cd Player
 ::  Player Code
-ARMIPS\bin\mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -c "library\Player\MarioKartStats.c" -o "library\Player\MarioKartStats.o"
-ARMIPS\bin\mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -c "library\Player\PlayerChecks.c" -o "library\Player\PlayerChecks.o"
-ARMIPS\bin\mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -c "library\Player\PlayerEffects.c" -o "library\Player\PlayerEffects.o"
+
+set ListPlayer= "MarioKartStats.c" "PlayerChecks.c" "PlayerEffects.c"
+
+(for %%a in (%ListPlayer%) do (
+   echo Working on %%a 
+..\..\ARMIPS\bin\mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -c %%a
+))
+
+cd ..
 
 
 ::  Generic Code
-ARMIPS\bin\mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -c "library\LibraryVariables.c" -o "library\LibraryVariables.o" 
-ARMIPS\bin\mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -c "library\MarioKart3D.c" -o "library\MarioKart3D.o"
-ARMIPS\bin\mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -c "library\MarioKartMenu.c" -o "library\MarioKartMenu.o" 
-ARMIPS\bin\mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -c "library\MarioKartObjects.c" -o "library\MarioKartObjects.o"
-ARMIPS\bin\mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -c "library\SharedFunctions.c" -o "library\SharedFunctions.o" 
+
+set ListGeneric= "LibraryVariables.c" "MarioKart3D.c" "MarioKartMenu.c" "MarioKartObjects.c" "SharedFunctions.c"
+
+(for %%a in (%ListGeneric%) do (
+   echo Working on %%a 
+..\ARMIPS\bin\mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -c %%a
+))
+
+cd ..

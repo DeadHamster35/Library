@@ -53,6 +53,7 @@ typedef struct OKObjectList{
 typedef struct OKSkeleton{
 	uint			AnimationOffset;
 	int			MeshCount;
+	float		MeshScale;
 	uint			MeshOffset;
 	int			ChildCount;
 } OKSkeleton;

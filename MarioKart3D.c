@@ -1962,6 +1962,32 @@ Vtx_t V512x24032B[] = {
 
 };
 
+
+void ScaleMatrixXYZFixed(AffineMtx Matrix, SVector FScale)
+{
+    Matrix[0][0] *= (FScale[0] / 100);
+    Matrix[1][0] *= (FScale[0] / 100);
+    Matrix[2][0] *= (FScale[0] / 100);
+    Matrix[1][0] *= (FScale[1] / 100);
+    Matrix[1][1] *= (FScale[1] / 100);
+    Matrix[1][2] *= (FScale[1] / 100);
+    Matrix[2][0] *= (FScale[2] / 100);
+    Matrix[2][1] *= (FScale[2] / 100);
+    Matrix[2][2] *= (FScale[2] / 100);
+}
+void ScaleMatrixXYZ(AffineMtx Matrix, Vector Scale)
+{
+    Matrix[0][0] *= Scale[0];
+    Matrix[1][0] *= Scale[0];
+    Matrix[2][0] *= Scale[0];
+    Matrix[1][0] *= Scale[1];
+    Matrix[1][1] *= Scale[1];
+    Matrix[1][2] *= Scale[1];;
+    Matrix[2][0] *= Scale[2];
+    Matrix[2][1] *= Scale[2];
+    Matrix[2][2] *= Scale[2];
+}
+
 void DrawGeometryScale(float localPosition[], short localAngle[], int localAddress, float localScale)
 {
 	CreateModelingMatrix(AffineMatrix,localPosition,localAngle);

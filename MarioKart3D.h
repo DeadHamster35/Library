@@ -17,6 +17,8 @@ extern Vtx_t V256x12832B[];
 extern Vtx_t V512x24032B[];
 extern Vtx_t V352x24032B[];
 
+extern void ScaleMatrixXYZFixed(AffineMtx Matrix, SVector Vector);
+extern void ScaleMatrixXYZ(AffineMtx Matrix, Vector Vector);
 extern void DrawGeometryScale(float objectPosition[], short objectAngle[], int F3DEXAddress, float Scale);
 extern void DrawGeometry(float objectPosition[], short objectAngle[], int F3DEXAddress);
 
