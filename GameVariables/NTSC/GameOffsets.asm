@@ -557,6 +557,7 @@
 
 .definelabel g_CourseObstacle, 0x8016359C
 
+.definelabel g_PlayerRankTable, 0x801643B8
 .definelabel g_playerPosition1, 0x801643B8
 .definelabel g_playerPosition2, 0x801643BC
 .definelabel g_playerPosition3, 0x801643C0

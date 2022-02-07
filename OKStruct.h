@@ -3,6 +3,13 @@
 #include "MainInclude.h"
 
 
+#define ObjectSegment 		0x0A000000
+#define ModelSegment		0x08000000
+
+#define CourseDataSegment	0x06000000
+#define CourseF3DSEgment 	0x07000000
+#define TextureSegment		0x05000000
+
 typedef struct OKHeader{
 
 	int Version;
@@ -52,11 +59,17 @@ typedef struct OKObjectList{
 
 typedef struct OKSkeleton{
 	uint			AnimationOffset;
-	int			MeshCount;
+	int			NodeCount;
 	float		MeshScale;
-	uint			MeshOffset;
+	uint			NodeOffset;
 	int			ChildCount;
 } OKSkeleton;
+
+typedef struct OKNode{
+	uint TextureOffset;
+	uint	MeshCount;
+	uint	MeshOffset;
+}OKNode;
 
 #define AnimationCount 3
 

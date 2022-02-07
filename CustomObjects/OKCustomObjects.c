@@ -304,7 +304,7 @@ void DrawOKSub(OKModel* ThisModel, int CurrentPlayer, int CurrentType)
 {
 	for (int CurrentModel = 0; CurrentModel < (int)OverKartRAMHeader.ObjectHeader.ObjectTypeList[CurrentType].OKModelCount; CurrentModel++)
 	{
-		uint* MeshAddress = (uint*)GetRealAddress(0x0A000000 |ThisModel->MeshAddress);
+		uint* MeshAddress = (uint*)GetRealAddress(ObjectSegment |ThisModel->MeshAddress);
 		if (OverKartRAMHeader.ObjectHeader.ObjectTypeList[CurrentType].CameraAlignToggle == 0x01)
 		{		
 			objectAngle[0] = 0;
@@ -352,7 +352,7 @@ void DrawOKSub(OKModel* ThisModel, int CurrentPlayer, int CurrentType)
 			{
 				*(long*)*graphPointer = (long)(0x06000000);
 				*graphPointer = *graphPointer + 4;
-				*(long*)*graphPointer = (long)(0x0A000000 | MeshAddress[CurrentMesh]);
+				*(long*)*graphPointer = (long)(ObjectSegment | MeshAddress[CurrentMesh]);
 				*graphPointer = *graphPointer + 4;
 			}	
 		}
@@ -364,7 +364,7 @@ void DrawOKObjectLoop(OKModel* ThisModel, int Player, int Type)
 	// Add the Texture Draw F3D code
 	*(long*)*graphPointer = (long)(0x06000000);
 	*graphPointer = *graphPointer + 4;
-	*(long*)*graphPointer = (long)(0x0A000000 | ThisModel->TextureAddress);
+	*(long*)*graphPointer = (long)(ObjectSegment | ThisModel->TextureAddress);
 	*graphPointer = *graphPointer + 4;
 
 	//Now we have to parse for each individual object, and normalize the model to the location and angle.
@@ -382,7 +382,7 @@ void DrawOKObjectLoop(OKModel* ThisModel, int Player, int Type)
 				
 					
 
-					uint* MeshAddress = (uint*)GetRealAddress(0x0A000000 |ThisModel->MeshAddress);
+					uint* MeshAddress = (uint*)GetRealAddress(ObjectSegment |ThisModel->MeshAddress);
 
 					
 
@@ -430,7 +430,7 @@ void DrawOKObjectLoop(OKModel* ThisModel, int Player, int Type)
 						{
 							*(long*)*graphPointer = (long)(0x06000000);
 							*graphPointer = *graphPointer + 4;
-							*(long*)*graphPointer = (long)(0x0A000000 | MeshAddress[CurrentMesh]);
+							*(long*)*graphPointer = (long)(ObjectSegment | MeshAddress[CurrentMesh]);
 							*graphPointer = *graphPointer + 4;
 						}	
 					}
@@ -441,51 +441,40 @@ void DrawOKObjectLoop(OKModel* ThisModel, int Player, int Type)
 	}
 }
 
-
-
-void DrawSkeleton(OKSkeleton* Skeleton, int CurrentObject)
+bool SkeletalMatrix(OKSkeleton* Skeleton, Object ObjectData, int FrameCount, int CurrentFrame)
 {
-	int Frame = (int)(OKObjectArray[CurrentObject].AnimationFrame / 2);
-	
+	int Frame = (int)(CurrentFrame / 2);
+		
 	GlobalUIntA = Skeleton->AnimationOffset + 8;
-	
-	SVector* AngleData = (SVector*)((GetRealAddress(0x0A000000 | GlobalUIntA)));
+//	short* PositionData = (short*)((GetRealAddress(ObjectSegment | Skeleton->AnimationOffset)));
+	SVector* AngleData = (SVector*)((GetRealAddress(ObjectSegment | GlobalUIntA)));
 
-	GlobalUIntA += (OKObjectArray[CurrentObject].AnimationMax * 6);
-	if (OKObjectArray[CurrentObject].AnimationMax % 2 == 1)
+	GlobalUIntA += (FrameCount * 6);
+	if (FrameCount % 2 == 1)
 	{
 		GlobalUIntA += 2;
 	}
 
-	SVector* TranslationData = (SVector*)((GetRealAddress(0x0A000000 | GlobalUIntA)));
+	SVector* TranslationData = (SVector*)((GetRealAddress(ObjectSegment | GlobalUIntA)));
 
-	GlobalUIntA += (OKObjectArray[CurrentObject].AnimationMax * 6);
-	if (OKObjectArray[CurrentObject].AnimationMax % 2 == 1)
+	GlobalUIntA += (FrameCount * 6);
+	if (FrameCount % 2 == 1)
 	{
 		GlobalUIntA += 2;
 	}
 
-	SVector* ScalingData = (SVector*)((GetRealAddress(0x0A000000 | GlobalUIntA))); 
+	SVector* ScalingData = (SVector*)((GetRealAddress(ObjectSegment | GlobalUIntA))); 
 
 	
-	objectPosition[0] = (OKObjectArray[CurrentObject].ObjectData.position[0] 
-	
-	+ ((float)(Skeleton->MeshScale) * ((float)((float)(TranslationData[Frame][0]) / 100)))
-	);
+	objectPosition[0] = ObjectData.position[0] + ( (float)(Skeleton->MeshScale) * ((float)(TranslationData[Frame][0]) / 100) );
 
-	objectPosition[1] = (OKObjectArray[CurrentObject].ObjectData.position[1]
-	
-	+ ((float)(Skeleton->MeshScale) * ((float)((float)(TranslationData[Frame][1]) / 100)))
-	);
+	objectPosition[1] = ObjectData.position[1] + ( (float)(Skeleton->MeshScale) * ((float)(TranslationData[Frame][1]) / 100) );
 
-	objectPosition[2] = (OKObjectArray[CurrentObject].ObjectData.position[2] 
-	
-	+ ((float)(Skeleton->MeshScale) * ((float)((float)(TranslationData[Frame][2]) / 100)))
-	);
+	objectPosition[2] = ObjectData.position[2] + ( (float)(Skeleton->MeshScale) * ((float)(TranslationData[Frame][2]) / 100) );
 
-	objectAngle[0] = (short)OKObjectArray[CurrentObject].ObjectData.angle[0] + (AngleData[Frame][0]);
-	objectAngle[1] = (short)(OKObjectArray[CurrentObject].ObjectData.angle[1] * -1) + (AngleData[Frame][1]);
-	objectAngle[2] = (short)OKObjectArray[CurrentObject].ObjectData.angle[2] + (AngleData[Frame][2]);	
+	objectAngle[0] = (short)ObjectData.angle[0] + (AngleData[Frame][2]);
+	objectAngle[1] = (short)(ObjectData.angle[1] * -1) + (AngleData[Frame][1]);
+	objectAngle[2] = (short)ObjectData.angle[2] + (AngleData[Frame][0]);	
 
 	CreateModelingMatrix(AffineMatrix,objectPosition,objectAngle);
 
@@ -493,62 +482,66 @@ void DrawSkeleton(OKSkeleton* Skeleton, int CurrentObject)
 	ScaleMatrixXYZFixed(AffineMatrix,ScalingData[Frame]);
 	ScalingMatrix(AffineMatrix, Skeleton->MeshScale);
 
-	if(SetMatrix(AffineMatrix,0) != 0)
-	{
-		GlobalUIntA = Skeleton->MeshOffset + 4;
-		uint* MeshAddress = (uint*)GetRealAddress(0x0A000000 | GlobalUIntA);
-		for (int CurrentMesh = 0; CurrentMesh < Skeleton->MeshCount; CurrentMesh++)
-		{
-			
-			GlobalUIntA = *(uint*)(0x0A000000 | MeshAddress[CurrentMesh]);
-			*(long*)*graphPointer = (long)(0x06000000);
-			*graphPointer = *graphPointer + 4;
-			*(long*)*graphPointer = (long)(0x0A000000 | GlobalUIntA);
-			*graphPointer = *graphPointer + 4;
-		}
-	}
+	return SetMatrix(AffineMatrix,0);
 }
 
 void DrawOKAnimationLoop(OKSkeleton* Skeleton, int CurrentPlayer, int Type)
 {
-	// Add the Texture Draw F3D code
-	
-	GlobalUIntA = Skeleton->MeshOffset;
-	uint* MeshAddress = (uint*)GetRealAddress(0x0A000000 | GlobalUIntA);
-	*(long*)*graphPointer = (long)(0x06000000);
-	*graphPointer = *graphPointer + 4;
-	*(long*)*graphPointer = (long)(0x0A000000 | MeshAddress[0]);
-	*graphPointer = *graphPointer + 4;
-	//Now we have to parse for each individual object, and normalize the model to the location and angle.
-	
-	for (int CurrentObject = 0; CurrentObject < OverKartRAMHeader.ObjectHeader.ObjectCount; CurrentObject++)
-	{
-		if(OverKartRAMHeader.ObjectHeader.ObjectList[OKObjectArray[CurrentObject].ListIndex].ObjectIndex == Type)
-		{
-			if(OKObjectArray[CurrentObject].SubBehaviorClass != SUBBEHAVIOR_DEAD)
-			{
-				
-				OKObjectArray[CurrentObject].AnimationFrame++;
-				if ((OKObjectArray[CurrentObject].AnimationFrame / 2) >= OKObjectArray[CurrentObject].AnimationMax)
-				{
-					OKObjectArray[CurrentObject].AnimationFrame = 0;
-				}
-				//
 
-				//We use the sphere collision test to see if the character is within render radius.
-				if(TestCollideSphere(OKObjectArray[CurrentObject].ObjectData.position, (float)(OverKartRAMHeader.ObjectHeader.ObjectTypeList[Type].RenderRadius) ,GlobalPlayer[CurrentPlayer].position, GlobalPlayer[CurrentPlayer].radius))
+	/*
+	
+	bool TextureDrawn = false;
+	
+	
+	
+	for (int CurrentNode = 0; CurrentNode < Skeleton->NodeCount; CurrentMesh++)
+	{	
+		GlobalAddressA = (Skeleton->NodeOffset + (ThisNode * 12));
+		OKNode *ThisNode = (OKNode*)(GlobalAddressA);
+
+		for (int CurrentObject = 0; CurrentObject < OverKartRAMHeader.ObjectHeader.ObjectCount; CurrentObject++)
+		{
+			if(OverKartRAMHeader.ObjectHeader.ObjectList[OKObjectArray[CurrentObject].ListIndex].ObjectIndex == Type)
+			{
+				if(OKObjectArray[CurrentObject].SubBehaviorClass != SUBBEHAVIOR_DEAD)
 				{
-					DrawSkeleton(Skeleton, CurrentObject);
-				}		
+					
+					OKObjectArray[CurrentObject].AnimationFrame++;
+					if ((OKObjectArray[CurrentObject].AnimationFrame / 2) >= OKObjectArray[CurrentObject].AnimationMax)
+					{
+						OKObjectArray[CurrentObject].AnimationFrame = 0;
+					}
+					//
+
+					//We use the sphere collision test to see if the character is within render radius.
+					if(TestCollideSphere(OKObjectArray[CurrentObject].ObjectData.position, (float)(OverKartRAMHeader.ObjectHeader.ObjectTypeList[Type].RenderRadius) ,GlobalPlayer[CurrentPlayer].position, GlobalPlayer[CurrentPlayer].radius))
+					{
+						if (!TextureDrawn)
+						{
+							TextureDrawn = true;
+							gSPDisplayList(GraphPtr++, (uint)(ThisNode->TextureOffset | ObjectSegment);
+						}
+						uint *MeshPointer = (uint*)(ThisNode->MeshOffset | ObjectSegment);
+						if(SkeletalMatrix(Skeleton, OKObjectArray[CurrentObject].ObjectData, OKObjectArray[CurrentObject].AnimationMax) != 0)
+						{
+							for (int ThisMesh = 0; ThisMesh < ThisNode->MeshCount; ThisMesh++)
+							{
+								gSPDisplayList(GraphPTr++, (uint)(ThisNode->MeshOffset))
+							}
+						}
+					}
+				}
 			}
+						
 		}
-		
+		TextureDrawn = false; //reset texture for next node.
 	}
 	for (int ThisChild = 0; ThisChild < Skeleton->ChildCount; ThisChild++)
 	{
 		DrawOKAnimationLoop((OKSkeleton*)GlobalAddressA, CurrentPlayer, Type);
 		GlobalAddressA += 20;
 	}
+	*/
 }
 
 void DrawOKObjects(Camera* LocalCamera)
@@ -576,23 +569,23 @@ void DrawOKObjects(Camera* LocalCamera)
 
 				for (int CurrentModel = 0; CurrentModel < (int)OverKartRAMHeader.ObjectHeader.ObjectTypeList[CurrentType].OKModelCount; CurrentModel++)
 				{
-					OKModel* ThisModel = (OKModel*)GetRealAddress(0x0A000000 | (int)&OverKartRAMHeader.ObjectHeader.ObjectTypeList[CurrentType].ObjectModel[CurrentModel]);
+					OKModel* ThisModel = (OKModel*)GetRealAddress(ObjectSegment | (int)&OverKartRAMHeader.ObjectHeader.ObjectTypeList[CurrentType].ObjectModel[CurrentModel]);
 					DrawOKObjectLoop(ThisModel, CurrentPlayer, CurrentType);
 				}	
 				if (OverKartRAMHeader.ObjectHeader.ObjectTypeList[CurrentType].ZSortToggle == 0)
 				{	
 					for (int CurrentModel = 0; CurrentModel < (int)OverKartRAMHeader.ObjectHeader.ObjectTypeList[CurrentType].OKXLUCount; CurrentModel++)
 					{
-						OKModel* ThisModel = (OKModel*)GetRealAddress(0x0A000000 | (int)&OverKartRAMHeader.ObjectHeader.ObjectTypeList[CurrentType].ObjectXLU[CurrentModel]);
+						OKModel* ThisModel = (OKModel*)GetRealAddress(ObjectSegment | (int)&OverKartRAMHeader.ObjectHeader.ObjectTypeList[CurrentType].ObjectXLU[CurrentModel]);
 						DrawOKObjectLoop(ThisModel, CurrentPlayer, CurrentType);
 					}				
 				}
 			}
 			else
 			{	
-				GlobalIntA = GetRealAddress( 0x0A000000 | OverKartRAMHeader.ObjectHeader.ObjectTypeList[CurrentType].ObjectAnimations);		
+				GlobalIntA = GetRealAddress( ObjectSegment | OverKartRAMHeader.ObjectHeader.ObjectTypeList[CurrentType].ObjectAnimations);		
 				uint* AnimationOffsets = (uint*)(GlobalIntA);
-				GlobalIntA = GetRealAddress( 0x0A000000 | AnimationOffsets[0]);
+				GlobalIntA = GetRealAddress( ObjectSegment | AnimationOffsets[0]);
 				GlobalIntA += 4; //skip past the framecount, we stored this earlier.
 				GlobalAddressA = GlobalIntA + 20; //ooohhhh you.
 				OKSkeleton* Skeleton = (OKSkeleton*)(GlobalIntA); 
@@ -659,7 +652,7 @@ void DrawOKObjects(Camera* LocalCamera)
 						for (int CurrentModel = 0; CurrentModel < OverKartRAMHeader.ObjectHeader.ObjectTypeList[Type].OKXLUCount; CurrentModel++)
 						{
 							DrawOKSub(
-								(OKModel*)GetRealAddress(0x0A000000 | (int)&OverKartRAMHeader.ObjectHeader.ObjectTypeList[Type].ObjectXLU[CurrentModel]), 
+								(OKModel*)GetRealAddress(ObjectSegment | (int)&OverKartRAMHeader.ObjectHeader.ObjectTypeList[Type].ObjectXLU[CurrentModel]), 
 								CurrentPlayer, Type
 							);
 						}

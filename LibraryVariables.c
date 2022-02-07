@@ -176,7 +176,7 @@ long dataLength = 0; //
 int *targetAddress = &ok_Target;
 int *sourceAddress = &ok_Source;
 int *tempPointer = &ok_Pointer;
-long *graphPointer = &GraphPtrOffset;
+long *graphPointer = (long*)&GraphPtrOffset;
 int *tkmPoint = &ok_TKMSpace;
 int RSPNumber;
 int RSPOffset;

@@ -256,7 +256,7 @@ extern void DisplayBackground(Vtx_t *bg_vertex,Screen *screen,short screen_width
 
 
 extern unsigned long* GraphPtr;
-extern long GraphPtrOffset;
+extern Gfx GraphPtrOffset;
 extern ushort KWLookCamera(float x,float z,Camera *camera);
 extern ushort KWLookCameraPitch(float y,float z,Camera *camera);
 extern void KWTexture2DRGBA(int x, int y, unsigned short ang, float scale, uchar *texaddr, void *vtxaddr, int sizex, int sizey, int cutx, int cuty);
@@ -537,6 +537,7 @@ extern short g_progressValue;
 
 extern long g_CourseObstacle; //0x8016359C
 
+extern long g_PlayerRankTable[8];
 extern long g_playerPosition1;// 801643B8
 extern long g_playerPosition2;//, 801643BC
 extern long g_playerPosition3;//, 801643C0
