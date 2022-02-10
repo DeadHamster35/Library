@@ -27,6 +27,7 @@ extern long LogoROM;
 extern long RCSpriteROM;
 extern long ArrowsSpriteROM;
 extern long NiceFontROM;
+extern long BigFontROM;
 extern long NumbersSpriteROM;
 extern long AlpacaSpriteROM;
 extern long HeartSpriteROM;

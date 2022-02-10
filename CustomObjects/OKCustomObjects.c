@@ -472,9 +472,9 @@ bool SkeletalMatrix(OKSkeleton* Skeleton, Object ObjectData, int FrameCount, int
 
 	objectPosition[2] = ObjectData.position[2] + ( (float)(Skeleton->MeshScale) * ((float)(TranslationData[Frame][2]) / 100) );
 
-	objectAngle[0] = (short)ObjectData.angle[0] + (AngleData[Frame][2]);
+	objectAngle[0] = (short)ObjectData.angle[0] + (AngleData[Frame][0]);
 	objectAngle[1] = (short)(ObjectData.angle[1] * -1) + (AngleData[Frame][1]);
-	objectAngle[2] = (short)ObjectData.angle[2] + (AngleData[Frame][0]);	
+	objectAngle[2] = (short)ObjectData.angle[2] + (AngleData[Frame][2] * -1);	
 
 	CreateModelingMatrix(AffineMatrix,objectPosition,objectAngle);
 
@@ -487,31 +487,18 @@ bool SkeletalMatrix(OKSkeleton* Skeleton, Object ObjectData, int FrameCount, int
 
 void DrawOKAnimationLoop(OKSkeleton* Skeleton, int CurrentPlayer, int Type)
 {
+	bool TextureDrawn = false;	
 
-	/*
-	
-	bool TextureDrawn = false;
-	
-	
-	
-	for (int CurrentNode = 0; CurrentNode < Skeleton->NodeCount; CurrentMesh++)
+	for (int CurrentNode = 0; CurrentNode < Skeleton->NodeCount; CurrentNode++)
 	{	
-		GlobalAddressA = (Skeleton->NodeOffset + (ThisNode * 12));
-		OKNode *ThisNode = (OKNode*)(GlobalAddressA);
-
+		GlobalAddressB = ( GetRealAddress(ObjectSegment | Skeleton->NodeOffset) + (CurrentNode * 12));
+		OKNode *ThisNode = (OKNode*)(GlobalAddressB); 
 		for (int CurrentObject = 0; CurrentObject < OverKartRAMHeader.ObjectHeader.ObjectCount; CurrentObject++)
 		{
 			if(OverKartRAMHeader.ObjectHeader.ObjectList[OKObjectArray[CurrentObject].ListIndex].ObjectIndex == Type)
 			{
 				if(OKObjectArray[CurrentObject].SubBehaviorClass != SUBBEHAVIOR_DEAD)
 				{
-					
-					OKObjectArray[CurrentObject].AnimationFrame++;
-					if ((OKObjectArray[CurrentObject].AnimationFrame / 2) >= OKObjectArray[CurrentObject].AnimationMax)
-					{
-						OKObjectArray[CurrentObject].AnimationFrame = 0;
-					}
-					//
 
 					//We use the sphere collision test to see if the character is within render radius.
 					if(TestCollideSphere(OKObjectArray[CurrentObject].ObjectData.position, (float)(OverKartRAMHeader.ObjectHeader.ObjectTypeList[Type].RenderRadius) ,GlobalPlayer[CurrentPlayer].position, GlobalPlayer[CurrentPlayer].radius))
@@ -519,14 +506,14 @@ void DrawOKAnimationLoop(OKSkeleton* Skeleton, int CurrentPlayer, int Type)
 						if (!TextureDrawn)
 						{
 							TextureDrawn = true;
-							gSPDisplayList(GraphPtr++, (uint)(ThisNode->TextureOffset | ObjectSegment);
+							gSPDisplayList(GraphPtrOffset++,(ThisNode->TextureOffset | ObjectSegment));							
 						}
-						uint *MeshPointer = (uint*)(ThisNode->MeshOffset | ObjectSegment);
-						if(SkeletalMatrix(Skeleton, OKObjectArray[CurrentObject].ObjectData, OKObjectArray[CurrentObject].AnimationMax) != 0)
+						uint *MeshPointer = (uint*)GetRealAddress(ThisNode->MeshOffset | ObjectSegment);
+						if(SkeletalMatrix(Skeleton, OKObjectArray[CurrentObject].ObjectData, OKObjectArray[CurrentObject].AnimationMax, OKObjectArray[CurrentObject].AnimationFrame) != 0)
 						{
 							for (int ThisMesh = 0; ThisMesh < ThisNode->MeshCount; ThisMesh++)
 							{
-								gSPDisplayList(GraphPTr++, (uint)(ThisNode->MeshOffset))
+								gSPDisplayList(GraphPtrOffset++, (MeshPointer[ThisMesh] | ObjectSegment));
 							}
 						}
 					}
@@ -534,6 +521,7 @@ void DrawOKAnimationLoop(OKSkeleton* Skeleton, int CurrentPlayer, int Type)
 			}
 						
 		}
+
 		TextureDrawn = false; //reset texture for next node.
 	}
 	for (int ThisChild = 0; ThisChild < Skeleton->ChildCount; ThisChild++)
@@ -541,7 +529,6 @@ void DrawOKAnimationLoop(OKSkeleton* Skeleton, int CurrentPlayer, int Type)
 		DrawOKAnimationLoop((OKSkeleton*)GlobalAddressA, CurrentPlayer, Type);
 		GlobalAddressA += 20;
 	}
-	*/
 }
 
 void DrawOKObjects(Camera* LocalCamera)
@@ -589,7 +576,7 @@ void DrawOKObjects(Camera* LocalCamera)
 				GlobalIntA += 4; //skip past the framecount, we stored this earlier.
 				GlobalAddressA = GlobalIntA + 20; //ooohhhh you.
 				OKSkeleton* Skeleton = (OKSkeleton*)(GlobalIntA); 
-				DrawOKAnimationLoop(Skeleton, CurrentPlayer, CurrentType);
+				//DrawOKAnimationLoop(Skeleton, CurrentPlayer, CurrentType);
 				
 				//If the object is animated....we currently don't support it. :)
 				//But we'll still try.
@@ -675,6 +662,15 @@ void CheckOKObjects()
 	{
 		for (int CurrentObject = 0; CurrentObject < OverKartRAMHeader.ObjectHeader.ObjectCount; CurrentObject++)
 		{
+			if (OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[CurrentObject].ObjectIndex].ObjectAnimations != 0xFFFFFFFF)
+			{				
+				OKObjectArray[CurrentObject].AnimationFrame++;
+				if ((OKObjectArray[CurrentObject].AnimationFrame / 2) >= OKObjectArray[CurrentObject].AnimationMax)
+				{
+					OKObjectArray[CurrentObject].AnimationFrame = 0;
+				}
+			}		
+
 			if(OKObjectArray[CurrentObject].SubBehaviorClass != SUBBEHAVIOR_DEAD)
 			{
 				Misbehave((OKObject*)&OKObjectArray[CurrentObject]);

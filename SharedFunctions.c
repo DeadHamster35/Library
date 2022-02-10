@@ -146,6 +146,17 @@ void loadNiceFont()
 	runMIO();
 }
 
+void loadBigFont()
+{
+	*sourceAddress = (int)(&BigFontROM);
+	*targetAddress = (int)(&ok_FreeSpace);
+	dataLength = 0x5000;
+	runDMA();
+	*sourceAddress = (int)(&ok_FreeSpace);
+	*targetAddress = (int)(&nicefont);
+	runMIO();
+}
+
 void ShiftVertColor(uint address,uint counter,uint v_buff,char alpha,char red,char green,char blue)
 {
 	uint number= SegmentNumber(address);

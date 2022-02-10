@@ -16,6 +16,13 @@ Vtx_t V64[] ={
     {   { 31,    64,  0}, 0,  {(( 64-1)<<6),    (( 32-1)<<6)},   {0xff, 0xff, 0xff, 0xff} },
     {   {-32,    64,  0}, 0,  {0,               (( 32-1)<<6)},   {0xff, 0xff, 0xff, 0xff} },
 };
+__attribute__((aligned(16)))
+Vtx_t V1632[] ={
+    {   {-8,     0,  0}, 0,  {0,               0},              {0xff, 0xff, 0xff, 0xff} },
+    {   { 7,     0,  0}, 0,  {(( 16-1)<<6),     0},              {0xff, 0xff, 0xff, 0xff} },
+    {   { 7,    32,  0}, 0,  {(( 16-1)<<6),     (( 32-1)<<6)},   {0xff, 0xff, 0xff, 0xff} },
+    {   {-8,    32,  0}, 0,  {0,               (( 32-1)<<6)},   {0xff, 0xff, 0xff, 0xff} },
+};
 
 __attribute__((aligned(16)))
 Vtx_t V6432B[] ={
@@ -1986,6 +1993,162 @@ void ScaleMatrixXYZ(AffineMtx Matrix, Vector Scale)
     Matrix[2][0] *= Scale[2];
     Matrix[2][1] *= Scale[2];
     Matrix[2][2] *= Scale[2];
+}
+
+void DrawStereoscopic3D(short FocusValue)
+{
+	g_aspectRatio = (float)(240 / 160);
+	asm_BorderDraw = 0;
+	
+	GlobalScreen[0]->width = 160;
+	GlobalScreen[0]->height = 240;
+	GlobalScreen[0]->posx = 80;
+	GlobalScreen[0]->posy = 120;
+	KWLap[0].cx = 80;
+	KWLap[0].cx2 = 80;
+	KWLap[0].cx3 = 80;
+	KWLap[0].tx[0] = 80;
+	KWLap[0].tx[1] = 80;
+	KWLap[0].tx[2] = 80;
+	KWLap[0].tx[3] = 80;
+	KWLap[0].tx[4] = 80;
+	KWLap[0].ty = 20;
+	KWLap[0].cy = 40;
+	KWLap[0].ix = 40 - KWLap[0].addix;
+	KWLap[0].iy = 55;
+	KWLap[0].rgx = 0;
+	KWLap[0].rx = 40;
+	KWLap[0].ry = 0;
+	KWLap[0].rgy = 200;
+	KWLap[0].ranksw = 1;
+
+	KWRank[1] = KWRank[0];
+	
+
+	GlobalScreen[1]->width = 160;
+	GlobalScreen[1]->height = 240;
+	GlobalScreen[1]->posx = 240;
+	GlobalScreen[1]->posy = 120;
+	KWLap[1].cx = 240;
+	KWLap[1].cx2 = 240;
+	KWLap[1].cx3 = 240;
+	KWLap[1].tx[0] = 240;
+	KWLap[1].tx[1] = 240;
+	KWLap[1].tx[2] = 240;
+	KWLap[1].tx[3] = 240;
+	KWLap[1].tx[4] = 240;
+	KWLap[1].ty = 20;
+	KWLap[1].cy = 40;
+	KWLap[1].ix = 200 - KWLap[1].addix;
+	KWLap[1].iy = 55;
+	KWLap[1].rgx = 0;
+	KWLap[1].rx = 200;
+	KWLap[1].ry = 0;
+	KWLap[1].rgy = 200;
+	KWLap[1].ranksw = 1;
+	
+	
+
+	GlobalPlayer[1].position[0] = GlobalPlayer[0].position[0];
+	GlobalPlayer[1].position[1] = GlobalPlayer[0].position[1] + 20;
+	GlobalPlayer[1].position[2] = GlobalPlayer[0].position[2];
+	
+	GlobalPlayer[1].direction[1] = GlobalPlayer[0].direction[1];
+	GlobalPlayer[1].radius = 0.0001;
+	GlobalPlayer[1].offsetsize = 0.0001;
+	/*
+	GlobalPlayer[1].bump.bump_xy[0] = GlobalPlayer[0].bump.bump_xy[0];
+	GlobalPlayer[1].bump.bump_xy[1] = GlobalPlayer[0].bump.bump_xy[1];
+	GlobalPlayer[1].bump.bump_xy[2] = GlobalPlayer[0].bump.bump_xy[2];
+	GlobalPlayer[1].bump.bump_yz[0] = GlobalPlayer[0].bump.bump_yz[0];
+	GlobalPlayer[1].bump.bump_yz[1] = GlobalPlayer[0].bump.bump_yz[1];
+	GlobalPlayer[1].bump.bump_yz[2] = GlobalPlayer[0].bump.bump_yz[2];
+	GlobalPlayer[1].bump.bump_zx[0] = GlobalPlayer[0].bump.bump_zx[0];
+	GlobalPlayer[1].bump.bump_zx[1] = GlobalPlayer[0].bump.bump_zx[1];
+	GlobalPlayer[1].bump.bump_zx[2] = GlobalPlayer[0].bump.bump_zx[2];
+	
+	GlobalPlayer[1].bump.last_xy = GlobalPlayer[0].bump.last_xy;
+	GlobalPlayer[1].bump.last_yz = GlobalPlayer[0].bump.last_yz;
+	GlobalPlayer[1].bump.last_zx = GlobalPlayer[0].bump.last_zx;
+	GlobalPlayer[1].bump.flag_xy = GlobalPlayer[0].bump.flag_xy;
+	GlobalPlayer[1].bump.flag_yz = GlobalPlayer[0].bump.flag_yz;
+	
+	GlobalPlayer[1].bump.flag_zx = GlobalPlayer[0].bump.flag_zx;
+	*/
+	g_zoomFOVPlayer2 = g_zoomFOVPlayer1;
+	g_zoomLevelPlayer2 = g_zoomLevelPlayer1;
+
+	objectVelocity[0] = (float)(FocusValue * -0.1);
+	objectVelocity[1] = 0;
+	objectVelocity[2] = -5;
+	MakeAlignVector(objectVelocity,GlobalPlayer[0].direction[1]);
+
+	GlobalCamera[0]->camera_pos[0] +=objectVelocity[0];
+	GlobalCamera[0]->camera_pos[1] +=objectVelocity[1];
+	GlobalCamera[0]->camera_pos[2] +=objectVelocity[2];
+
+	
+	objectVelocity[0] = (float)(FocusValue * 0.2);	
+	objectVelocity[1] = 0;
+	objectVelocity[2] = 0;
+	MakeAlignVector(objectVelocity,GlobalPlayer[0].direction[1]);
+
+	GlobalCamera[1]->camera_pos[0] = GlobalCamera[0]->camera_pos[0] + (objectVelocity[0]);
+	GlobalCamera[1]->camera_pos[1] = GlobalCamera[0]->camera_pos[1] + (objectVelocity[1]);
+	GlobalCamera[1]->camera_pos[2] = GlobalCamera[0]->camera_pos[2] + (objectVelocity[2]);
+
+	GlobalCamera[1]->camera_direction[0] = GlobalCamera[0]->camera_direction[0];
+	GlobalCamera[1]->camera_direction[1] = GlobalCamera[0]->camera_direction[1];
+	GlobalCamera[1]->camera_direction[2] = GlobalCamera[0]->camera_direction[2];
+
+	GlobalCamera[1]->camera_vector[0] = GlobalCamera[0]->camera_vector[0];
+	GlobalCamera[1]->camera_vector[1] = GlobalCamera[0]->camera_vector[1];
+	GlobalCamera[1]->camera_vector[2] = GlobalCamera[0]->camera_vector[2];
+
+	objectVelocity[0] = (float)(FocusValue * 0.1);
+	objectVelocity[1] = 0;
+	objectVelocity[2] = 50;
+	MakeAlignVector(objectVelocity,GlobalPlayer[0].direction[1]);
+
+	GlobalCamera[1]->lookat_pos[0] = GlobalPlayer[0].position[0] + objectVelocity[0];
+	GlobalCamera[1]->lookat_pos[1] = GlobalPlayer[0].position[1] + objectVelocity[1];
+	GlobalCamera[1]->lookat_pos[2] = GlobalPlayer[0].position[2] + objectVelocity[2];
+
+	objectVelocity[0] = (float)(FocusValue * -0.1);
+	objectVelocity[1] = 0;
+	objectVelocity[2] = 50;
+	MakeAlignVector(objectVelocity,GlobalPlayer[0].direction[1]);
+
+	GlobalCamera[0]->lookat_pos[0] = GlobalPlayer[0].position[0] + objectVelocity[0];
+	GlobalCamera[0]->lookat_pos[1] = GlobalPlayer[0].position[1] + objectVelocity[1];
+	GlobalCamera[0]->lookat_pos[2] = GlobalPlayer[0].position[2] + objectVelocity[2];
+
+	GlobalCamera[1]->lookat_vector[0] = GlobalCamera[0]->lookat_vector[0];
+	GlobalCamera[1]->lookat_vector[1] = GlobalCamera[0]->lookat_vector[1];
+	GlobalCamera[1]->lookat_vector[2] = GlobalCamera[0]->lookat_vector[2];
+
+	GlobalCamera[1]->chase_direction = GlobalCamera[0]->chase_direction;
+	GlobalCamera[1]->old_chase_direction = GlobalCamera[0]->old_chase_direction;
+	GlobalCamera[1]->screen_view_angle = GlobalCamera[0]->screen_view_angle;
+	GlobalCamera[1]->flag = GlobalCamera[0]->flag;
+
+	GlobalCamera[1]->watch = GlobalCamera[0]->watch;
+	
+	
+	//g_DynamicObjects[ItemBoxAllocPtr[1]].texaddr = g_DynamicObjects[ItemBoxAllocPtr[0]].texaddr;
+	//g_DynamicObjects[ItemBoxAllocPtr[1]].indexaddr = g_DynamicObjects[ItemBoxAllocPtr[0]].indexaddr;
+	ItemBoxAllocPtr[1] = ItemBoxAllocPtr[0];
+	
+	KWDisplay2D(1);
+	KWDisplay2DAfter(1);
+
+	KWDisplay2D(2);
+	KWDisplay2DAfter(2);
+
+	KWDisplayRank(0);
+	KWDisplayRank(1);
+	
+	*(short*)0x800DC5B8	= 0;
 }
 
 void DrawGeometryScale(float localPosition[], short localAngle[], int localAddress, float localScale)

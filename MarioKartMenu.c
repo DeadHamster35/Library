@@ -1008,7 +1008,7 @@ char ReturnStringLength(char *stringAddress)
 
 
 ///////////////HUD Buttons///////////////
-/*
+
 void loadHudButtons()
 {
      *sourceAddress = (int)(&HudButtonsROM);
@@ -1019,7 +1019,7 @@ void loadHudButtons()
      *targetAddress = (int)(&hud_buttons);
      runMIO();
 }
-*/
+
 
 void SpriteBtnA(int posx, int posy, float scale, bool pressed)
 {
@@ -1572,6 +1572,43 @@ void PrintNiceText(int posx, int posy, float scale, char *text)
 				KWSprite(0,0,0,0,nicefont);
 				KWSpriteScale(posx+i*8*scale,posy,scale,(nicefont+0x80*(FontString[i]-32)-0x80),8,16);
 			}
+		}
+	}
+}
+
+
+void PrintBigText(int posx, int posy, float scale, char *text)
+{
+	char *FontString = text;
+
+
+	for (int i = 0; i < ReturnStringLength(text); i++)
+	{
+		if (text[i] < 33)
+		{
+			continue;
+		}
+
+		if (text[i] > 127)
+		{
+			continue;
+		}
+		if (text[i] >= 97 && text[i] <= 122)
+		{
+			GlobalAddressA = (uint)((&nicefont[0])+(0x200*(FontString[i]-64)-0x200));
+               KWTexture2DRGBA(posx+(scale*i*16),posy,0,scale,(uchar*)GlobalAddressA,(void*)(&V1632), 16, 32, 16, 32);
+			continue;
+		}
+		if (text[i] >= 123 && text[i] <= 127)
+		{
+			GlobalAddressA = (uint)((&nicefont[0])+(0x200*(FontString[i]-58)-0x200));
+               KWTexture2DRGBA(posx+(scale*i*16),posy,0,scale,(uchar*)GlobalAddressA,(void*)(&V1632), 16, 32, 16, 32);
+			continue;
+		}			
+		else
+		{
+			GlobalAddressA = (uint)((&nicefont[0])+(0x200*(FontString[i]-32)-0x200));
+               KWTexture2DRGBA(posx+(scale*i*16),posy,0,scale,(uchar*)GlobalAddressA,(void*)(&V1632), 16, 32, 16, 32);
 		}
 	}
 }

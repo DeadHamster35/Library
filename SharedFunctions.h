@@ -22,6 +22,7 @@ extern void printFloat(int X, int Y, float Value);
 extern int GetRealAddress(int RSPAddress);
 
 extern void loadNiceFont();
+extern void loadBigFont();
 extern void ResetObject();
 extern void DrawBox(int X, int Y, int SizeX, int SizeY, int R, int G, int B, int A);
 extern char* printHex(char *buf, int num, int nDigits);

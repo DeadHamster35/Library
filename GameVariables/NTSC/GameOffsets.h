@@ -163,6 +163,8 @@ extern void printStringUnsignedNumber(int xPosition, int yPosition, char *printT
 extern void printStringHex(int xPosition, int yPosition, char *printText, int printValue); //0x80057858
 extern void printStringUnsignedHex(int xPosition, int yPosition, char *printText, uint printValue); //0x800578B0
 extern void printStringUnsignedBinary(int xPosition, int yPosition, char *printText, uint printValue); //0x80057960
+extern void KWDisplay2D(int DisplaySwitch); //0x80058C20
+extern void KWDisplay2DAfter(int DisplaySwitch); //0x80058DB4
 extern unsigned long* FillRect1ColorF(unsigned long *buf, int x1, int y1, int x2, int y2, int r, int g, int b, int a);
 extern void SetFadeOutB();
 extern void SetObjBlock(int kind, int x, int y, char pri);
@@ -256,7 +258,7 @@ extern void DisplayBackground(Vtx_t *bg_vertex,Screen *screen,short screen_width
 
 
 extern unsigned long* GraphPtr;
-extern Gfx GraphPtrOffset;
+extern Gfx *GraphPtrOffset;
 extern ushort KWLookCamera(float x,float z,Camera *camera);
 extern ushort KWLookCameraPitch(float y,float z,Camera *camera);
 extern void KWTexture2DRGBA(int x, int y, unsigned short ang, float scale, uchar *texaddr, void *vtxaddr, int sizex, int sizey, int cutx, int cuty);
@@ -312,7 +314,7 @@ extern int g_DispTimeFlag;
 extern long g_SequenceMode;
 extern long g_NewSequenceMode;
 extern long g_NextSequenceMode;
-extern long g_screenSplitA;
+extern long g_ScreenSplitA;
 extern long g_ScreenSplitB;
 extern long g_playerCount; //
 extern long g_gameType;
@@ -574,7 +576,7 @@ extern struct Camera g_Camera2; //0x801647A8
 extern struct Camera g_Camera3; //0x80164860
 extern struct Camera g_Camera4; //0x80164918
 
-// extern long g_DynamicObjects; //0x80165C18
+extern AnmObject g_DynamicObjects[550]; //0x80165C18
 extern void KWAnmNext(int num); //0x80086FD4
 
 void KWDisplayEvent(int player);
@@ -587,10 +589,14 @@ void KWDisplayIceBlockShadow(int player);
 void KWDisplayBombKartBT(int player);
 
 
-extern char g_itemBoolean; //0x80165F5F
-extern char g_itemA;
-extern char g_itemB;
-extern char g_itemC;
+extern char itemBoolean; //0x80165F5F
+extern char itemA;
+extern char itemB;
+extern char itemC;
+extern char item2Boolean; //0x80165F5F
+extern char item2A;
+extern char item2B;
+extern char item2C;
 
 //extern long g_TimeLapTable; //0x8018CA70          !!! renamed to g_hudStruct !!!
 //extern char g_lapCheckA;                          !!! removed inside HUD struct now: finlineAnim2 !!! U use this in MarioKartPractice.c
@@ -600,8 +606,9 @@ extern struct Hud g_hudPlayer1;
 extern struct Hud g_hudPlayer2;
 extern struct Hud g_hudPlayer3;
 extern struct Hud g_hudPlayer4;
+extern int ItemBoxAllocPtr[4];
+extern struct KWLapStruct KWLap[4];
 
-//hud p1 p2
 extern char g_hudToggleFlag; // 0x80165808
 extern short g_hudToggleFlagP2; // 0x80165832
 extern short g_hudMapToggle; // 0x80165800
@@ -782,7 +789,7 @@ extern long g_skyColorTopTable;
 extern long g_skyColorBotTable;
 
 extern long g_SnowParticleTex[36];
-extern long *g_MRCloudTexPtr; // Set of four I4 cloud images, 0x400 length each.
+extern long *g_MRCloudTexPtr; // Set of four I4 cloud images; //0x400 length each.
 
 extern float g_skySnowScale;
 extern float g_skySnowVelocity;
@@ -946,6 +953,7 @@ extern SVector CaveFirePos[8];
 extern void KWGetCaveFire(int objnum);
 extern int CaveFireColCheck;
 extern void KWSet2Color(uint prim_r,uint prim_g,uint prim_b,uint env_r,uint env_g,uint env_b,uint a);
+extern void KWDisplayRank(int Player);
 extern void KWDisplayFireParticleSub(int num,uchar color,void* Camera);
 extern int FireParticleAllocArray[64];
 extern int FireParticleCounter;
@@ -953,6 +961,7 @@ extern int FireParticleCounter;
 extern int EffectAllocArray1[128];
 extern int EffectAllocArray2[128];
 extern int EffectAllocArray3[128];
+extern short KWRank[8];
 extern void KWGetStar(Vector position,int type);
 extern void KWChartStar(void);
 extern void KWDisplayStar(int player);

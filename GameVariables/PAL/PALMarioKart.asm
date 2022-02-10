@@ -59,7 +59,7 @@
 
 .definelabel g_resetToggle, 0x800DC52C
 .definelabel g_startingIndicator,  0x800DC530
-.definelabel g_screenSplitA, 0x800DC54C
+.definelabel g_ScreenSplitA, 0x800DC54C
 .definelabel g_ScreenSplitB, 0x800DC550
 .definelabel g_playerCount, 0x800DC558
 .definelabel g_raceClass, 0x800DC568

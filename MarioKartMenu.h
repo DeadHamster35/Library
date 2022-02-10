@@ -36,6 +36,7 @@ extern void ModularMenu(int Alpha, OKMenu OptionsMenu);
 extern void CourseMenu(int Alpha);
 
 extern void PrintNiceText(int posx, int posy, float scale, char *text);
+extern void PrintBigText(int posx, int posy, float scale, char *text);
 extern void PrintNiceTextNumber(int posx, int posy, float scale, char *text, int value);
 
 #endif

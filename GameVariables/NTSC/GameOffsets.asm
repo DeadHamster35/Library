@@ -159,6 +159,8 @@
 .definelabel printStringHex, 0x80057858
 .definelabel printStringUnsignedHex, 0x800578B0
 .definelabel printStringUnsignedBinary, 0x80057960
+.definelabel KWDisplay2D, 0x80058C20
+.definelabel KWDisplay2DAfter, 0x80058DB4
 .definelabel FillRect1ColorF, 0x80098DF8
 .definelabel SetFadeOutB, 0x8009E208
 .definelabel SetObjBlock, 0x8009E650
@@ -316,7 +318,7 @@
 .definelabel g_SequenceMode, 0x800DC50C
 .definelabel g_NewSequenceMode, 0x800DC524
 .definelabel g_NextSequenceMode, 0x800DC528
-.definelabel g_screenSplitA, 0x800DC52C
+.definelabel g_ScreenSplitA, 0x800DC52C
 .definelabel g_ScreenSplitB, 0x800DC530
 .definelabel g_playerCount, 0x800DC538
 .definelabel g_raceClass, 0x800DC548
@@ -601,6 +603,11 @@
 .definelabel itemB, 0x80165F5D
 .definelabel itemC, 0x80165F8A
 
+.definelabel item2Boolean, 0x8016603F
+.definelabel item2A, 0x80166603B
+.definelabel item2B, 0x80166603D
+.definelabel item2C, 0x80166606A
+
 //.definelabel g_TimeLapTable, 0x8018CA70           !!! renamed to g_hudStruct !!!
 //.definelabel g_lapCheckA, 0x8018CAE1              !!! removed inside HUD struct now: finlineAnim2 !!! U use this in MarioKartPractice.c
 //.definelabel g_lapCheckB, 0x8018CAE2              !!! removed inside HUD struct now: lapCount !!! U use this in MarioKartPractice.c
@@ -609,6 +616,8 @@
 .definelabel g_hudPlayer2, 0x8018CAF4
 .definelabel g_hudPlayer3, 0x8018CB78
 .definelabel g_hudPlayer4, 0x8018CBFC
+.definelabel ItemBoxAllocPtr, 0x80183E88
+.definelabel KWLap, 0x8018CA70
 
 //hud p1 p2
 .definelabel g_hudToggleFlag, 0x80165808
@@ -974,6 +983,7 @@
 .definelabel KWGetCaveFire, 0x800770F0
 .definelabel CaveFireColCheck, 0x800547CC
 .definelabel KWSet2Color, 0x8004B1C8
+.definelabel KWDisplayRank, 0x8004E800
 .definelabel KWDisplayFireParticleSub, 0x8005477C
 .definelabel FireParticleAllocArray, 0x8018C870
 .definelabel FireParticleCounter, 0x80183E6C
@@ -981,6 +991,7 @@
 .definelabel EffectAllocArray1, 0x8018C1B0
 .definelabel EffectAllocArray2, 0x8018C3F0
 .definelabel EffectAllocArray3, 0x8018C630
+.definelabel KWRank, 0x8018CF98
 .definelabel KWGetStar, 0x800773D8
 .definelabel KWChartStar, 0x80077640
 .definelabel KWDisplayStar, 0x80054BE8

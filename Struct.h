@@ -640,6 +640,67 @@ typedef struct Hud{
 		unsigned char		rankToggle;
 } Hud;
 
+typedef	struct KWLapStruct{
+	float	is;		/* item scaling */
+	float	rs;		/* rank scale */
+
+	int	totaltime;	/* total time */
+	int	laptime;	/* lap time */
+	int	gettime;	/* get lap time */
+	int	timebuf[3];	/* total time buffer */
+	int	laptimebuf[3];	/* lap time buffer */
+
+	int	plx;		/* player position X */
+	int	ply;		/* player position Y */
+	int	plz;		/* player position Z */
+
+	uint	flag;		/* status flag */
+
+	short	flashtm;	/* flash timer */
+	short	mx; 		/* speed meter x zahyou */
+	short	my; 		/* speed meter y zahyou */
+	short	ix; 		/* item x zahyou */
+	short	iy; 		/* item y zahyou */
+	short	addix; 		/* item x zahyou */
+	short	addiy; 		/* item y zahyou */
+
+	short	px; 		/* player number x zahyou */
+	short	py; 		/* player number y zahyou */
+	short	tx[5]; 		/* lap time x zahyou */
+	short	ty; 		/* lap time y zahyou */
+	short	cx;    		/* lap count x zahyou */
+	short	cx2;   		/* lap count x zahyou */
+	short	cx3;   		/* lap count x zahyou */
+	short	cy;    		/* lap count y zahyou */
+	short	rx;    		/* rank x zahyou */
+	short	ry;    		/* rank y zahyou */
+	short	rgx;    	/* rank goal x zahyou */
+	short	rgy;    	/* rank gaol y zahyou */
+	short	rank;		/* ranking */
+	short	bombx;		/* bomb kart panel x */
+	short	bomby;		/* bomb kart panel y */
+
+	char	goalsw;		/* (0,1,2,3) */
+	char	goal;		/* (0,1,2,3) */
+	char	lapcnt;		/* lap counter (0,1,2)*/
+	char	dispsw;		/* display (on/off) switch */
+	char	bomb;	        /* if bomb near*/	
+	char	ghostcnt;	/* kinoko item count */
+
+	uchar	item;		/* special item get */
+	uchar	sp_item;   	/* special item get */
+	uchar	mptr;		/* speed meter chart pointer */
+	uchar	hptr;		/* speed meter hari chart pointer */
+	uchar	tptr;		/* lap time chart pointer */
+	uchar	tptr2;		/* lap time chart pointer */
+	uchar	tptr3;		/* lap time chart pointer */
+	uchar	cptr;		/* lap count chart pointer */
+	uchar	cptr2;		/* lap count chart pointer */
+	uchar	cptr3;		/* lap count chart pointer */
+	uchar	iptr;		/* item box  chart pointer */
+	uchar	ranksw;		/* rank display switch */
+}KWLapStruct;
+
 typedef struct Lakitu{
 		char		unknown;
 		char		activeFlag; //busy

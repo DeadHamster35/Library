@@ -83,8 +83,9 @@
 .definelabel lit_red_selecter, lit_arrowsprite_r +  0x200 
 .definelabel ok_RedCoinSprite, lit_red_selecter +  0x200 
 .definelabel ok_menucoinsprite, ok_RedCoinSprite +  0x200
-.definelabel nicefont, ok_menucoinsprite +  0x200
-.definelabel hud_buttons, nicefont +  0x4400
+.definelabel hud_buttons, ok_RedCoinSprite +  0x4400
+.definelabel nicefont, hud_buttons +  0x4400
+
 
 //.definelabel lit_alpacasprite, hud_buttons +  0x4400
 //.definelabel lit_heartsprite, lit_alpacasprite +  0x800
