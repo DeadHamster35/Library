@@ -10,6 +10,20 @@
 #define LAKITU_RACE_FINISH		4
 #define LAKITU_RACE_VICTORYLAP	5
 
+//Speedmeter conversion
+#define SPEEDMETER(a)  (a/18)*216   ///18 = 1 METER, 1 frame = 60->60*60*60 = 216000/1000 = 216
+
+// Character Names
+#define CHAR_MARIO		0
+#define CHAR_LUIGI		1
+#define CHAR_YOSHI		2
+#define CHAR_TOAD		3
+#define CHAR_DONKEY		4
+#define CHAR_WARIO		5
+#define CHAR_PEACH		6
+#define CHAR_BOWSER		7
+
+//Object Flag
 #define EXISTOBJ   0x8000
 #define HITOBJ     0x4000
 #define MOVEOBJ    0x2000

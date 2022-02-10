@@ -219,6 +219,9 @@ extern long LakituIceBehavior;
 extern void ShakeCamera(Camera *camera);
 extern void ShakeHitCamera(Player *Car,float speed);
 
+extern void SlipCheck(Player *car,char kno);
+extern void AddGravity(Player *car);
+
 extern float CheckWaterLevel(void *Car);
 extern void CheckSplash(void *Car,int PlayerIndex);
 
@@ -253,6 +256,7 @@ extern void osWritebackDCacheAll();
 extern bool osEepromProbe(void *Queue);
 extern short g_fadeOutFlag;
 extern short g_fadeOutCounter, g_fadeOutCounter2;
+extern char g_FadingFlag[5];
 
 extern void DisplayBackground(Vtx_t *bg_vertex,Screen *screen,short screen_width,short screen_hight,float *screen_view_angle);
 
@@ -729,6 +733,14 @@ extern long g_RawAudio; //0x803B9260
 extern short g_surfaceCheckP1;
 
 extern char g_gamePausedFlag;
+
+extern void MakePos(Player *car,Smoke *data,float x,float y,float z,char status,char flag);
+extern void MakeStartup(Smoke *data,char number,float scale);
+extern void MakeRDP(Smoke *data,int col,short A);
+extern void MakeRandomRDP(Smoke *data,int col,short A);
+extern void InitRndSmoke(Player *car,short count,int kk,char kno,char place);
+extern void InitRapidSmoke(Player *car,short count,int kk,char kno,char place);
+extern void InitSpinSmoke(Player *car,short count,int kk,char kno,char place);
 
 extern void MakeBodyColor(void* Car, char Player, int Color, float Speed);
 extern void MakeBodyColorAdjust(void* Car, char Player, int Color, float Speed);

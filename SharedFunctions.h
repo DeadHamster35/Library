@@ -14,6 +14,8 @@ extern void saveEEPROM(uint Source);
 extern uint getStarTimer(uchar playerID);
 extern uint getBooTimer(uchar playerID);
 
+extern short CustomLevelID();
+
 extern ushort GetRGBA16(int R, int G, int B, int A);
 extern uint GetRGB32(int R, int G, int B);
 

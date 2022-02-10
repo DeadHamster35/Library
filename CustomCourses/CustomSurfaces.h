@@ -1,5 +1,5 @@
 #ifndef CustomSurfaceH
 #define CustomSurfaceH
 #include "../MainInclude.h"
-extern void GetSurfaceID();
+//extern void GetSurfaceID();
 #endif

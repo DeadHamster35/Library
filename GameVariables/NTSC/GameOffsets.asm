@@ -246,6 +246,9 @@
 .definelabel ShakeCamera, 0x8001CA10
 .definelabel ShakeHitCamera, 0x8001CA24
 
+.definelabel SlipCheck, 0x8002FCA8
+.definelabel AddGravity, 0x8002AB70
+
 .definelabel CheckWaterLevel, 0x802AAB4C
 .definelabel CheckSplash, 0x8002C4F8
 
@@ -291,6 +294,7 @@
 .definelabel g_fadeOutFlag, 0x800DC5C0
 .definelabel g_fadeOutCounter, 0x800DC5C4
 .definelabel g_fadeOutCounter2, 0x800DC5C8
+.definelabel g_FadingFlag, 0x8018E7AC
 
 .definelabel DisplayBackground, 0x802A4A0C
 
@@ -743,6 +747,14 @@
 .definelabel g_surfaceCheckP1, 0x800F6A88
 
 .definelabel g_gamePausedFlag, 0x800EA16C
+
+.definelabel MakePos, 0x8005D794
+.definelabel MakeStartup, 0x8005D7D8
+.definelabel MakeRDP, 0x8005D800
+.definelabel MakeRandomRDP, 0x8005D82C
+.definelabel InitRndSmoke, 0x8005DAF4
+.definelabel InitRapidSmoke, 0x8005ED48
+.definelabel InitSpinSmoke, 0x8005F90C
 
 .definelabel MakeBodyColor, 0x80022F14
 .definelabel MakeBodyColorAdjust, 0x80023038

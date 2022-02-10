@@ -73,7 +73,36 @@ uint getBooTimer(uchar playerID)
     return (int)g_gameTimer-g_GhostUseCounter[playerID];
 }
 
-
+//Returns custom course number
+short CustomLevelID()
+{
+    if (HotSwapID == 0)
+    {
+        return -1;
+    }
+    else
+    {
+		switch (g_cupSelect)
+		{
+		case 0:
+			return (g_courseSelect + (16 * (HotSwapID-1)));
+			break;
+		case 1:
+			return ((g_courseSelect+4) + (16 * (HotSwapID-1)));
+			break;
+		case 2:
+			return ((g_courseSelect+8) + (16 * (HotSwapID-1)));
+			break;
+		case 3:
+			return ((g_courseSelect+12) + (16 * (HotSwapID-1)));
+			break;
+		default:
+			return -1;
+			break;
+		}
+        
+    }
+}
 
 bool CheckPlatform()
 {
