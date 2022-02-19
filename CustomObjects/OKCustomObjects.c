@@ -446,7 +446,7 @@ bool SkeletalMatrix(OKSkeleton* Skeleton, Object ObjectData, int FrameCount, int
 	int Frame = (int)(CurrentFrame / 2);
 		
 	GlobalUIntA = Skeleton->AnimationOffset + 8;
-//	short* PositionData = (short*)((GetRealAddress(ObjectSegment | Skeleton->AnimationOffset)));
+	short* PositionData = (short*)((GetRealAddress(ObjectSegment | Skeleton->AnimationOffset)));
 	SVector* AngleData = (SVector*)((GetRealAddress(ObjectSegment | GlobalUIntA)));
 
 	GlobalUIntA += (FrameCount * 6);
@@ -466,11 +466,11 @@ bool SkeletalMatrix(OKSkeleton* Skeleton, Object ObjectData, int FrameCount, int
 	SVector* ScalingData = (SVector*)((GetRealAddress(ObjectSegment | GlobalUIntA))); 
 
 	
-	objectPosition[0] = ObjectData.position[0] + ( (float)(Skeleton->MeshScale) * ((float)(TranslationData[Frame][0]) / 100) );
+	objectPosition[0] = ObjectData.position[0] + ( (float)(Skeleton->MeshScale) * ((float)(PositionData[0] / 100) ) ) + ( (float)(Skeleton->MeshScale) * ((float)(TranslationData[Frame][0]) / 100) );
 
-	objectPosition[1] = ObjectData.position[1] + ( (float)(Skeleton->MeshScale) * ((float)(TranslationData[Frame][1]) / 100) );
+	objectPosition[1] = ObjectData.position[1] + ( (float)(Skeleton->MeshScale) * ((float)(PositionData[1] / 100) ) ) + ( (float)(Skeleton->MeshScale) * ((float)(TranslationData[Frame][1]) / 100) );
 
-	objectPosition[2] = ObjectData.position[2] + ( (float)(Skeleton->MeshScale) * ((float)(TranslationData[Frame][2]) / 100) );
+	objectPosition[2] = ObjectData.position[2] + ( (float)(Skeleton->MeshScale) * ((float)(PositionData[2] / 100) ) ) + ( (float)(Skeleton->MeshScale) * ((float)(TranslationData[Frame][2]) / 100) );
 
 	objectAngle[0] = (short)ObjectData.angle[0] + (AngleData[Frame][0]);
 	objectAngle[1] = (short)(ObjectData.angle[1] * -1) + (AngleData[Frame][1]);
@@ -576,7 +576,7 @@ void DrawOKObjects(Camera* LocalCamera)
 				GlobalIntA += 4; //skip past the framecount, we stored this earlier.
 				GlobalAddressA = GlobalIntA + 20; //ooohhhh you.
 				OKSkeleton* Skeleton = (OKSkeleton*)(GlobalIntA); 
-				//DrawOKAnimationLoop(Skeleton, CurrentPlayer, CurrentType);
+				DrawOKAnimationLoop(Skeleton, CurrentPlayer, CurrentType);
 				
 				//If the object is animated....we currently don't support it. :)
 				//But we'll still try.

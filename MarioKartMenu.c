@@ -774,22 +774,14 @@ void MapSelectMenu()
 
                case 0:
                {
-                    if (courseValue != (g_cupSelect * 4))
-                    {
-                         courseValue = (g_cupSelect * 4);
-                    }
+                    courseValue = (g_cupSelect * 4);                    
                     break;
                }
                case 1:
                case 2:
                case 3:
                {
-                    if (courseValue != (g_cupSelect * 4)  + g_courseSelect)
-                    {
-
-                         courseValue = (g_cupSelect * 4) + g_courseSelect;
-                         
-                    }
+                    courseValue = (g_cupSelect * 4) + g_courseSelect;
                     break;
                }
           }

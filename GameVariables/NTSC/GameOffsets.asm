@@ -174,11 +174,16 @@
 
 .definelabel DOBPSelAnimeKuppa, 0x800AA69C
 
+
+.definelabel MSelController, 0x800B3B58
+
 .definelabel SaveFunc800B45E0, 0x800B45E0
 .definelabel SaveFunc800B4670, 0x800B4670
 .definelabel SaveFunc800B4CB4, 0x800B4CB4
 .definelabel SaveFunc800B559C, 0x800B559C
 .definelabel SaveFunc800B5948, 0x800B5948
+
+
 
 .definelabel LoadFunc800B4A10, 0x800B4A10
 
@@ -286,6 +291,7 @@
 
 
 .definelabel osInvalDCache, 0x800CDB80
+.definelabel osGetTime, 0x800CDDE0
 .definelabel osEepromLongRead, 0x800D0190
 .definelabel osEepromLongWrite, 0x800D0050
 .definelabel osWritebackDCacheAll, 0x800CD890
