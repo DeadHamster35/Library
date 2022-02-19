@@ -385,7 +385,9 @@ void DrawOKObjectLoop(OKModel* ThisModel, int Player, int Type)
 					uint* MeshAddress = (uint*)GetRealAddress(ObjectSegment |ThisModel->MeshAddress);
 
 					
-
+					objectPosition[0] = (float)OKObjectArray[CurrentObject].ObjectData.position[0];
+					objectPosition[1] = (float)OKObjectArray[CurrentObject].ObjectData.position[1];
+					objectPosition[2] = (float)OKObjectArray[CurrentObject].ObjectData.position[2];
 					if (OverKartRAMHeader.ObjectHeader.ObjectTypeList[Type].CameraAlignToggle == 0x01)
 					{		
 						//If the CameraAlignToggle flag is enabled, then we align the object to the camera directly.
@@ -425,7 +427,16 @@ void DrawOKObjectLoop(OKModel* ThisModel, int Player, int Type)
 						objectAngle[1] = (short)(OKObjectArray[CurrentObject].ObjectData.angle[1] * -1);
 						objectAngle[2] = (short)OKObjectArray[CurrentObject].ObjectData.angle[2];	
 
-					 
+
+						CreateModelingMatrix(AffineMatrix,objectPosition,objectAngle);
+					}
+					
+
+						
+					ScalingMatrix(AffineMatrix,((float)(ThisModel->MeshScale) / 100));
+
+					if(SetMatrix(AffineMatrix,0) != 0)
+					{
 						for (int CurrentMesh = 0; CurrentMesh < ThisModel->MeshCount; CurrentMesh++)
 						{
 							*(long*)*graphPointer = (long)(0x06000000);
