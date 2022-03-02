@@ -1,5 +1,8 @@
 #include "../MainInclude.h"
 
+#define TRICK_GRAVITY				3600.0f
+#define TRICK_TRIGGER_SPEED_MIN		30
+
 #define IS_BROKEN (IS_SPINNING_OUT|SPINOUT_LEFT|SPINOUT_RIGHT|IS_MOMENTUM_HIT|IS_VERTICAL_HIT)
 
 #define FastOoB			251
@@ -17,7 +20,13 @@
 #define StarMan			239
 #define Boo		    	238
 #define GetItem			237
+#define TrickJump		236
 
+
+
+short SurfaceStorage[8];
+
+#define STORE_TRICK 0x0001
 
 
 void AddGravityEdit(Player *car)
@@ -31,6 +40,7 @@ void AddGravityEdit(Player *car)
 	{
 		car->max_power = 0;
 		CustomWaterHeight[car_number] = false;
+		SurfaceStorage[car_number] = 0;
 		return;
 	}
 
@@ -104,6 +114,30 @@ void AddGravityEdit(Player *car)
 		}				
 		car->turbo_timer = 80;
 		break;
+	}
+
+	// Storage flag routine //
+
+	if (car->slip_flag&IS_BROKEN)
+	{
+		SurfaceStorage[car_number] &= ~STORE_TRICK;
+	}
+
+	if (SurfaceStorage[car_number]&STORE_TRICK)
+	{
+		car->gravity = TRICK_GRAVITY;
+		
+		if (car->jumpcount == 0)
+		{
+			ResetWing(car);
+		}
+		if (!(car->flag&0x80))
+		{
+			SetAnimMusicNote(car_number);
+			SetTurbo(car, car_number);
+			car->turbo_timer = 3;
+			SurfaceStorage[car_number] &= ~STORE_TRICK;
+		}
 	}
 
 	// One time uses //
@@ -209,7 +243,20 @@ void AddGravityEdit(Player *car)
 			}
 		}
 		break;
-	
+	case TrickJump:
+		if (car->jumpcount == 0 && car->slip_flag&IS_JUMPING && SPEEDMETER(car->speed) >= TRICK_TRIGGER_SPEED_MIN && !(car->slip_flag&IS_BROKEN) && !(car->slip_flag&IS_FEATHER_JUMPING))
+		{
+			car->flag |= 0x80;
+			SetAnimBonkStars(car_number);
+			SetWing(car, car_number);
+			if (car->max_power != car->bump_status)
+			{
+				car->max_power = car->bump_status;
+			}
+			SurfaceStorage[car_number] |= STORE_TRICK;
+		}
+		break;
+
 	default:
 		if (car->max_power != car->bump_status)
 		{
@@ -240,12 +287,12 @@ void AddGravityEdit(Player *car)
 			SetGhostEffect(car_number, false);
 		}
 		break;
-	
 	default:
 		break;
 	}
-
 }
+
+
 
 //Useful types
 #define SMOKE_DRIFTLETTER	1

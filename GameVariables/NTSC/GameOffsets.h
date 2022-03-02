@@ -195,6 +195,7 @@ extern long SetStar(void *Car, int PlayerIndex);
 extern void ResetStar (void *Car, char PlayerIndex);
 extern long SetTurbo(void *Car, char PlayerIndex);
 extern long SetWing(void *Car, char PlayerIndex);
+extern void ResetWing(void *car);
 extern long SetStorm(void *Car, char PlayerIndex);
 extern void ThunderWorld();
 extern void VSGhost(void *Car,char PlayerID);

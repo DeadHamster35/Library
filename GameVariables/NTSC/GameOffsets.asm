@@ -226,6 +226,7 @@
 .definelabel ResetStar, 0x8008F86C
 .definelabel SetTurbo, 0x8008D3C4
 .definelabel SetWing, 0x8008D570
+.definelabel ResetWing, 0x8008D760
 .definelabel SetStorm, 0x8008D7B0
 .definelabel ThunderWorld, 0x8009E5BC
 .definelabel VSGhost , 0x8008F8E4
