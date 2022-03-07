@@ -102,7 +102,7 @@ bool TestCollideSphere(float SourcePosition[], float SourceRadius, float TargetP
 
 bool TestCollideSphereAngled(float SourcePosition[], float SourceRadius, short SourceAngle[], short BoxPosition[], float TargetPosition[], float TargetRadius)
 {
-	float TranslatedPoint[3];
+	float TranslatedPosition[3];
 	for (int CurrentVector = 0; CurrentVector < 3; CurrentVector++)
 	{
 		TranslatedPosition[CurrentVector] = (float)BoxPosition[CurrentVector];
@@ -114,7 +114,7 @@ bool TestCollideSphereAngled(float SourcePosition[], float SourceRadius, short S
 	{
 		TranslatedPosition[CurrentVector] += SourcePosition[CurrentVector];
 	}
-	TestCollideSphere(TranslatedPosition, SourceRadius, TargetPosition, TargetRadius);
+	return TestCollideSphere(TranslatedPosition, SourceRadius, TargetPosition, TargetRadius);
 }
 
 bool TestCollideBox(float SourcePosition[], short SourceAngle[], short BoxPosition[], short BoxSize[], short BoxAngle[], float BoxScale, float TargetPosition[], float TargetRadius)
@@ -185,19 +185,6 @@ void OKObjectReaction(OKObject* InputObject, short ResultType, int Player)
 			//Cheap reversal bounce; inaccurate for geometry
 			//but good enough for objects colliding.
 			
-			float ObjectVelocity[3], TargetVelocity[3];
-			
-			var u1x : Number =  this.dxdt
-			var u2x : Number = other.dxdt
-			var u1y : Number = this.dydt
-			var u2y : Number = other.dydt
-			var m1 : Number =   this.mass
-			var m2 : Number = other.mass
-			var m1_plus_m2 : Number = m1 + m2
-			this.dxdt = (C_R * m2 * (u2x-u1x) + m1 * u1x + m2 * u2x) / m1_plus_m2  
-			this.dydt = (C_R * m2 * (u2y-u1y) + m1 * u1y + m2 * u2y) / m1_plus_m2
-			other.dxdt = (C_R * m1 * (u1x-u2x) + m1 * u1x + m2 * u2x) / m1_plus_m2
-			other.dydt = (C_R * m1 * (u1y-u2y) + m1 * u1y + m2 * u2y) / m1_plus_m2 
 			
 			if (InputObject->ObjectData.velocity[0] > InputObject->ObjectData.velocity[2])
 			{
@@ -284,8 +271,8 @@ void OKObjectCollision(OKObject *InputObject)
 			{
 				
 				if (!TestCollideBox(InputObject->ObjectData.position, InputObject->ObjectData.angle, 
-				HitBox->Position, HitBox->Size, objectAngle, ((float)HitBox->Scale / 100)
-				GlobalPlayer[CurrentPlayer].position, GlobalPlayer[CurrentPlayer].radius)				
+				HitBox->Position, HitBox->Size, objectAngle, ((float)HitBox->Scale / 100),
+				GlobalPlayer[CurrentPlayer].position, GlobalPlayer[CurrentPlayer].radius) )				
 				{
 					return;
 				}
