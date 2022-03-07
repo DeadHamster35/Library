@@ -38,5 +38,7 @@ extern void CourseMenu(int Alpha);
 extern void PrintNiceText(int posx, int posy, float scale, char *text);
 extern void PrintBigText(int posx, int posy, float scale, char *text);
 extern void PrintNiceTextNumber(int posx, int posy, float scale, char *text, int value);
+extern void PrintBigTextNumber(int posx, int posy, float scale, char *text, int value);
+extern void DrawFPS(int X, int Y);
 
 #endif

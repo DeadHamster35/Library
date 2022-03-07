@@ -122,6 +122,16 @@ extern int *tkmPoint;
 extern int RSPNumber;
 extern int RSPOffset;
 extern char *hex;
+
+extern ushort RedTextPalette[];
+extern ushort BlueTextPalette[];
+extern ushort GreenTextPalette[];
+extern ushort WhiteTextPalette[];
+
+extern char RedPaletteF3D[];
+extern char BluePaletteF3D[];
+extern char GreenPaletteF3D[];
+extern char WhitePaletteF3D[];
 //
 
 //Stock Names

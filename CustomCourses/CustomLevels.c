@@ -1070,50 +1070,55 @@ void setOKObjects()
 		ClearOKObject(This);
 	}
 	//Load data from the course header. 
-	OverKartRAMHeader.ObjectHeader.ObjectTypeCount = *(int*)(OverKartHeader.ObjectDataStart);
+	OverKartRAMHeader.ObjectTypeCount = *(int*)(OverKartHeader.ObjectDataStart);
 	GlobalAddressC = OverKartHeader.ObjectDataStart + 4;
-	OverKartRAMHeader.ObjectHeader.ObjectTypeList = (OKObjectType*)(GlobalAddressC);
+	OverKartRAMHeader.ObjectTypeList = (OKObjectType*)(GlobalAddressC);
 
 	
-	GlobalAddressB = OverKartHeader.ObjectDataStart + 4 + (OverKartRAMHeader.ObjectHeader.ObjectTypeCount * 48); //32 bytes size of ObjectType
-	OverKartRAMHeader.ObjectHeader.ObjectCount = *(int*)(GlobalAddressB);
+	GlobalAddressB = OverKartHeader.ObjectDataStart + 4 + (OverKartRAMHeader.ObjectTypeCount * 48); //32 bytes size of ObjectType
+	OverKartRAMHeader.ObjectCount = *(int*)(GlobalAddressB);
 	GlobalAddressD = GlobalAddressB + 4;
-	OverKartRAMHeader.ObjectHeader.ObjectList = (OKObjectList*)(GlobalAddressD);	
+	OverKartRAMHeader.ObjectList = (OKObjectList*)(GlobalAddressD);	
 	
-	for (int This = 0; This < OverKartRAMHeader.ObjectHeader.ObjectCount; This++)
+	for (int This = 0; This < OverKartRAMHeader.ObjectCount; This++)
 	{
 		//Loop through the object count and set each individual object in the array.
 
 		OKObjectArray[This].ListIndex = This;
+		OKObjectArray[This].TypeIndex = OverKartRAMHeader.ObjectList[This].TypeIndex;
+		
 		OKObjectArray[This].SubBehaviorClass = SUBBEHAVIOR_DOCILE;
 
-		OKObjectType ThisType = OverKartRAMHeader.ObjectHeader.ObjectTypeList[OverKartRAMHeader.ObjectHeader.ObjectList[This].ObjectIndex];
+		OKObjectType ThisType = OverKartRAMHeader.ObjectTypeList[OKObjectArray[This].TypeIndex];
+		
 
 		OKObjectArray[This].ObjectData.flag = 0xC000;
-		OKObjectArray[This].ObjectData.radius = ThisType.CollisionRadius / 100;
+		OKObjectArray[This].ObjectData.radius = ThisType.BumpRadius / 100;  //used for level calcs BUMP
 		
-		OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginPosition[0] *= GlobalShortA;
+		OverKartRAMHeader.ObjectList[This].OriginPosition[0] *= GlobalShortA;
 		
 		
-		OKObjectArray[This].ObjectData.position[0] = (float)OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginPosition[0];
-		OKObjectArray[This].ObjectData.position[1] = (float)OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginPosition[1];
-		OKObjectArray[This].ObjectData.position[2] = (float)OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginPosition[2];
+		OKObjectArray[This].ObjectData.position[0] = (float)OverKartRAMHeader.ObjectList[This].OriginPosition[0];
+		OKObjectArray[This].ObjectData.position[1] = (float)OverKartRAMHeader.ObjectList[This].OriginPosition[1];
+		OKObjectArray[This].ObjectData.position[2] = (float)OverKartRAMHeader.ObjectList[This].OriginPosition[2];
 
-		OKObjectArray[This].ObjectData.angle[0] = OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginAngle[0] * DEG1;
-		OKObjectArray[This].ObjectData.angle[1] = OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginAngle[2] * DEG1;
-		OKObjectArray[This].ObjectData.angle[2] = OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginAngle[1] * DEG1;
+		OKObjectArray[This].ObjectData.angle[0] = OverKartRAMHeader.ObjectList[This].OriginAngle[0] * DEG1;
+		OKObjectArray[This].ObjectData.angle[1] = OverKartRAMHeader.ObjectList[This].OriginAngle[2] * DEG1;
+		OKObjectArray[This].ObjectData.angle[2] = OverKartRAMHeader.ObjectList[This].OriginAngle[1] * DEG1;
 
-		OKObjectArray[This].ObjectData.velocity[0] = (float)(OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginVelocity[0] * 100);
-		OKObjectArray[This].ObjectData.velocity[1] = (float)(OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginVelocity[1] * 100);
-		OKObjectArray[This].ObjectData.velocity[2] = (float)(OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginVelocity[2] * 100);
+		OKObjectArray[This].ObjectData.velocity[0] = (float)(OverKartRAMHeader.ObjectList[This].OriginVelocity[0] * 100);
+		OKObjectArray[This].ObjectData.velocity[1] = (float)(OverKartRAMHeader.ObjectList[This].OriginVelocity[1] * 100);
+		OKObjectArray[This].ObjectData.velocity[2] = (float)(OverKartRAMHeader.ObjectList[This].OriginVelocity[2] * 100);
 
-		OKObjectArray[This].AngularVelocity[0] = OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginAngularVelocity[0] * DEG1;
-		OKObjectArray[This].AngularVelocity[1] = OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginAngularVelocity[2] * DEG1;
-		OKObjectArray[This].AngularVelocity[2] = OverKartRAMHeader.ObjectHeader.ObjectList[This].OriginAngularVelocity[1] * DEG1;
+		OKObjectArray[This].AngularVelocity[0] = OverKartRAMHeader.ObjectList[This].OriginAngularVelocity[0] * DEG1;
+		OKObjectArray[This].AngularVelocity[1] = OverKartRAMHeader.ObjectList[This].OriginAngularVelocity[2] * DEG1;
+		OKObjectArray[This].AngularVelocity[2] = OverKartRAMHeader.ObjectList[This].OriginAngularVelocity[1] * DEG1;
 
-		if (ThisType.ObjectAnimations != 0xFFFFFFFF)
+
+		OKObjectArray[This].PathTarget = -1;
+		if (*ThisType.ObjectAnimations != 0xFFFFFFFF)
 		{
-			uint* AnimationOffsets = (uint*)(GetRealAddress( ObjectSegment | ThisType.ObjectAnimations));
+			uint* AnimationOffsets = (uint*)(GetRealAddress( ObjectSegment | *ThisType.ObjectAnimations));
 			GlobalIntA = GetRealAddress ( ObjectSegment | AnimationOffsets[0]);
 			OKObjectArray[This].AnimationMax = (uchar)*(int*)(GlobalIntA);
 			//OKObjectArray[This].AnimationFrame = MakeRandomLimmit((ushort)(OKObjectArray[This].AnimationMax));

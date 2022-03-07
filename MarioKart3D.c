@@ -2160,10 +2160,7 @@ void DrawGeometryScale(float localPosition[], short localAngle[], int localAddre
 		return;
 	}
 	{
-		*(long*)*graphPointer = (long)(0x06000000);
-		*graphPointer = *graphPointer + 4;
-		*(long*)*graphPointer = (long)(localAddress);
-		*graphPointer = *graphPointer + 4;
+		gSPDisplayList(GraphPtrOffset++,localAddress);		
 	}
 }
 

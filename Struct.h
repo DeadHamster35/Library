@@ -3,6 +3,9 @@
 
 #include "MainInclude.h"
 
+
+#define CPU2SEC 0x2CB5E16
+
 //LakituRaceSequence
 #define LAKITU_RACE_START 		1
 #define LAKITU_RACE_APPROACH 		2

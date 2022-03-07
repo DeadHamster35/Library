@@ -48,18 +48,10 @@ typedef struct OKModel{
 	short	MeshCount,MeshScale;
 } OKModel;
 
-typedef struct OKObjectList{
-	short	ObjectIndex;
-	char		SoundPlaying, ScriptID;
-	short	OriginPosition[3];
-	short 	OriginAngle[3];
-	short 	OriginVelocity[3];
-	short	OriginAngularVelocity[3];
-} OKObjectList;
 
 typedef struct OKSkeleton{
 	uint			AnimationOffset;
-	int			NodeCount;
+	short		NodeCount, CollisionCount;
 	float		MeshScale;
 	uint			NodeOffset;
 	int			ChildCount;
@@ -73,49 +65,58 @@ typedef struct OKNode{
 
 #define AnimationCount 3
 
+
+
+
+typedef struct OKCollisionSphere{
+	short		Type, Scale;
+	short		Position[3], Size[3];
+	uchar 		StatusClass, EffectClass, CollisionResult, DamagedResult;//
+} OKCollisionSphere;
+
+
+
+
 typedef struct OKObjectType{
 
-	short 			BehaviorClass, StatusClass;
-	short 			EffectClass, Range;
-	short 			Sight, Viewcone;
-	short 			MaxSpeed, RenderRadius;
-	short			CollisionRadius, Hitbox;
-	short			SoundRadius;
-	short			CollisionResult, DamagedResult;
-	char				SoundType, ZSortToggle;
-	char				OKModelCount, OKXLUCount, GravityToggle, CameraAlignToggle;
+	short 			BehaviorClass, Range;//
+	short			BumpRadius, MaxSpeed;//
+	short 			Sight, Viewcone;//
+	short 			SoundRadius, RenderRadius;//	
+	char				SoundType, ZSortToggle, GravityToggle, CameraAlignToggle; //
+	
+	char				OKModelCount, OKXLUCount, CollisionCount, ObjectFlag;
 	int				SoundID;
-	OKModel*			ObjectModel;
-	OKModel*			ObjectXLU;//
-	uint				ObjectAnimations;
+	
+	uint*			ObjectHitbox;	//OKCollisionSphere Address
+	uint*			ObjectModel;  		//OKModel Address
+	uint*			ObjectXLU;		//OKModel Address
+	uint*			ObjectAnimations;	//OKSkeleton Address
 
 } OKObjectType;
 
-typedef struct OKCollisionSphere{
-	float	Radius;
-	float	Scale;
-	short	Position[3], BoxSize[3], Angle[3];
-	short	CollisionType, EffectType;
-} OKCollisionSphere;
+
+typedef struct OKObjectList{
+	short	TypeIndex;
+	short	Flag;
+	short	OriginPosition[3];
+	short 	OriginAngle[3];
+	short 	OriginVelocity[3];
+	short	OriginAngularVelocity[3];
+} OKObjectList;
 
 typedef struct OKObject{
-	short	ListIndex, SubBehaviorClass;
+	short	ListIndex, TypeIndex;
+	short	SoundPlaying, SubBehaviorClass;//
 	short	AngularVelocity[3];
-	uchar	AnimationFrame, AnimationMax;
-	float	ZBuffer;
-	float 	TargetDistance;	
-	uchar	TurnStatus,WanderStatus,SearchStatus,EMPTYSTATUS;
-	short	Counter[2];
-	short	PathTarget,PlayerTarget;	
-	Object	ObjectData;
+	uchar	AnimationFrame, AnimationMax;//
+	float	ZBuffer;//
+	float 	TargetDistance;	//
+	uchar	TurnStatus,WanderStatus,SearchStatus,EMPTYSTATUS;//
+	short	Counter[2];//
+	short	PathTarget,PlayerTarget;	//
+	Object	ObjectData;//
 } OKObject;
-
-typedef struct OKObjectHeader{
-	int			ObjectTypeCount;
-	OKObjectType 	*ObjectTypeList;
-	int			ObjectCount;
-	OKObjectList	*ObjectList;
-} OKObjectHeader;
 
 typedef struct OKPathStruct{
 	short	PathStart;
@@ -169,13 +170,12 @@ typedef struct OKMenu{
 typedef struct OKRAMHeader{
 
 	int 			ScrollOffset;
-	int 			EchoOffset;
-	int 			CreditsOffset;
-	int 			CourseNameOffset;
-	int 			SerialKeyOffset;
-	int 			GhostOffset;
-	int 			MapsOffset;	
-	OKObjectHeader	ObjectHeader;
+	int 			EchoOffset;	
+	
+	int			ObjectTypeCount;
+	OKObjectType 	*ObjectTypeList;
+	int			ObjectCount;
+	OKObjectList	*ObjectList;
 
 } OKRAMHeader;
 
@@ -193,6 +193,7 @@ typedef struct OKEngine{
 #define REACTION_NONE 	0
 #define REACTION_DEAD 	1
 #define REACTION_BOUNCE	2
+#define REACTION_BALL	3
 
 #define BEHAVIOR_DEAD	-1
 #define BEHAVIOR_STATIC 	0

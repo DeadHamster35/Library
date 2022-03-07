@@ -43,6 +43,9 @@ extern ushort GetRGBA16(int R, int G, int B, int A);
 extern uint GetRGB32(int R, int G, int B);
 
 extern void SetFontColor(int FontR, int FontG, int FontB, int ShadowR, int ShadowG, int ShadowB);
+extern void LoadFontF3D(uint Address);
+extern void SetupFontF3D();
+extern void printDecimal(int X, int Y, float Value, int Length);
 extern void printFloat(int X, int Y, float Value);
 extern int GetRealAddress(int RSPAddress);
 
@@ -54,7 +57,7 @@ extern char* printHex(char *buf, int num, int nDigits);
 extern void printNumberSprite(int X, int Y, int Value);
 extern void ShiftVertColor(uint address,uint counter,uint v_buff,char alpha,char red,char green,char blue);
 
-extern char ReturnStringLength(char *stringAddress);
+extern int ReturnStringLength(char *stringAddress);
 extern char CharacterConvert[];
 extern char CharacterUnconvert[];
 #endif

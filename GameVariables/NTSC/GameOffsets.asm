@@ -122,6 +122,7 @@
 .definelabel MakeRandomLimmit, 0x802B7E34
 .definelabel MakeDirection, 0x802B7F34
 .definelabel MakeDirection3D, 0x802B7F7C
+.definelabel ChaseDir, 0x800224F0
 .definelabel sinT, 0x802B8018
 .definelabel cosT, 0x802B8038
 .definelabel sinF, 0x800D60F0
@@ -213,6 +214,7 @@
 .definelabel DrawLineVertical, 0x8004C148
 .definelabel KWLoadTextureBlockI4b, 0x80044DA0
 .definelabel KWLoadTextureBlockRGBA16B, 0x80043D50
+.definelabel ToumeIMode, 0x8004B5A8
 .definelabel SprDrawClip, 0x8004B97C
 .definelabel SprDrawClipST, 0x8004BA98
 .definelabel StockNumberSprites, 0x0D00C558
@@ -363,6 +365,7 @@
 
 .definelabel osInvalDCache, 0x800CDB80
 .definelabel osGetTime, 0x800CDDE0
+.definelabel osGetCount, 0x800D11A0
 .definelabel osEepromLongRead, 0x800D0190
 .definelabel osEepromLongWrite, 0x800D0050
 .definelabel osWritebackDCacheAll, 0x800CD890
@@ -454,6 +457,7 @@
 
 
 .definelabel g_DebugTextPalette, 0x801A6818
+.definelabel g_DebugPaletteOffset, 0x801A79D4
 
 .definelabel g_bannerTexture, 0x801F2750
 .definelabel g_previewTexture, 0x8020E460

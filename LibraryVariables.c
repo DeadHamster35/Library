@@ -184,6 +184,17 @@ int *tkmPoint = &ok_TKMSpace;
 int RSPNumber;
 int RSPOffset;
 char *hex = "0123456789ABCDEF";
+
+ushort RedTextPalette[4];
+ushort BlueTextPalette[4];
+ushort GreenTextPalette[4];
+ushort WhiteTextPalette[4];
+
+char RedPaletteF3D[0xC0];
+char BluePaletteF3D[0xC0];
+char GreenPaletteF3D[0xC0];
+char WhitePaletteF3D[0xC0];
+     
 //
 
 //Stock Names

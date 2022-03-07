@@ -11,6 +11,6 @@ extern void DrawOKObjectLoop();
 extern void CheckOKObjects();
 extern void ClearOKObject(short ObjectID);
 extern short FindOKObject();
-extern bool TestCollideBox(float SourcePosition[], short SourceSize[], short SourceAngle[], float TargetPosition[], float TargetRadius);
+extern bool TestCollideBox(float SourcePosition[], short SourceSize[], short SourceAngle[], float TargetPosition[], float TargetRadius, float BoxScale);
 extern bool TestCollideSphere(float SourcePosition[], float SourceRadius, float TargetPosition[], float TargetRadius);
 #endif

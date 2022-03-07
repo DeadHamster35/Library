@@ -48,6 +48,54 @@ void SetFontColor(int FontR, int FontG, int FontB, int ShadowR, int ShadowG, int
 	ColorValues[3] = 1; //0001 black
 }
 
+void SetFontColorPalette(uint Address, int FontR, int FontG, int FontB, int ShadowR, int ShadowG, int ShadowB)
+{
+	ushort *ColorValues = (ushort*)Address;
+	ColorValues[0] = 0; //0000 transparent
+	ColorValues[1] = GetRGBA16(FontR,FontG,FontB,1);
+	ColorValues[2] = GetRGBA16(ShadowR,ShadowG,ShadowB,1);
+	ColorValues[3] = 1; //0001 black
+}
+
+void LoadFontF3D(uint Address)
+{
+	gSPDisplayList(GraphPtrOffset++, 0x0D008108);
+	gSPDisplayList(GraphPtrOffset++, Address);
+	gDPSetAlphaCompare	(GraphPtrOffset++ ,G_AC_THRESHOLD);
+}
+
+void SetupFontF3D()
+{
+	
+	SetFontColorPalette((uint)&RedTextPalette, 24, 0, 0, 14, 0, 0);
+	SetFontColorPalette((uint)&BlueTextPalette, 0, 0, 24, 0, 0, 14);
+	SetFontColorPalette((uint)&GreenTextPalette, 0, 24, 0, 0, 14, 0);
+	SetFontColorPalette((uint)&WhiteTextPalette, 24, 24, 24, 14, 14, 14);
+
+	*sourceAddress = GetRealAddress(0x0D008080);	
+	dataLength = 0xB8;
+
+	*targetAddress = (uint)&RedPaletteF3D;
+	runRAM();
+	*targetAddress = (uint)&BluePaletteF3D;
+	runRAM();
+	*targetAddress = (uint)&GreenPaletteF3D;
+	runRAM();
+	*targetAddress = (uint)&WhitePaletteF3D;
+	runRAM();
+	
+	GlobalAddressA = (uint)(&RedPaletteF3D) + 0x14;
+	*(uint*)(GlobalAddressA) = (uint)&RedTextPalette;
+
+	GlobalAddressA = (uint)(&BluePaletteF3D) + 0x14;
+	*(uint*)(GlobalAddressA) = (uint)&BlueTextPalette;
+
+	GlobalAddressA = (uint)(&GreenPaletteF3D) + 0x14;
+	*(uint*)(GlobalAddressA) = (uint)&GreenTextPalette;
+
+	GlobalAddressA = (uint)(&WhitePaletteF3D) + 0x14;
+	*(uint*)(GlobalAddressA) = (uint)&WhiteTextPalette;
+}
 
 
 int LoadData (int SourceInput, int SizeData)
@@ -215,62 +263,69 @@ void DrawBox(int X, int Y, int SizeX, int SizeY, int R, int G, int B, int A)
 	GraphPtr = FillRect1ColorF(GraphPtr, X, Y, X + SizeX, Y + SizeY, R, G, B, A);
 }
 
-void printFloat(int X, int Y, float Value)
-{
 
-	int PrintOffset;
+
+int GetIntLength(int Input)
+{
+	if (Input < 0)
+	{
+		Input *= -1;
+	}
+	if (Input < 10) return 1;
+	if (Input < 100) return 2;
+	if (Input < 1000) return 3;
+	if (Input < 10000) return 4;
+	if (Input < 100000) return 5;
+	if (Input < 1000000) return 6;
+	if (Input < 10000000) return 7;
+	if (Input < 100000000) return 8;
+	if (Input < 1000000000) return 9;
+	return 0;
+}
+void printDecimal(int X, int Y, float Value, int Length)
+{
+	int PrintOffset = 0;
+	int PrintLength = 10;
+	for (int Loop = 1; Loop < Length; Loop++)
+	{
+		PrintLength *= 10;	
+	}
+	
 
 	wholeNumber = (int) Value;
-	decimalNumber = (int) ((Value - wholeNumber) * 100);
-	
-	PrintOffset = 8;
-
-
-	GlobalIntA = wholeNumber;
-	if (GlobalIntA < 0)
+	decimalNumber = (int) ((Value - wholeNumber) * PrintLength);
+	if (decimalNumber > (float)((Value - wholeNumber) * PrintLength))
 	{
-		GlobalIntA *= -1;
+		decimalNumber--;
 	}
-     if (GlobalIntA > 10)
-	{
-		PrintOffset = 16;
-		if (GlobalIntA > 100)
-		{
-			PrintOffset = 24;
-			if (GlobalIntA > 1000)
-			{
-				PrintOffset = 32;
-			}			
-		}
-	}
-	if (decimalNumber < 0)
-	{
-		decimalNumber *= -1;
-	}
-	
 
-     loadFont();
+	PrintOffset = 8 * GetIntLength(wholeNumber);
 
-
-	if (wholeNumber < 0)
+	if (Value < 0)
 	{
      	X -= 8;
 		PrintOffset += 8;
+		decimalNumber *= -1;
 	}
 
+
+     loadFont();
 	printStringNumber(X,Y,"",wholeNumber);
-		
-	printString(X + PrintOffset + 10, Y, ".");		
-	if (decimalNumber < 10)
+	printString((X + PrintOffset + 10), Y, ".");		
+	PrintOffset += 8;
+	if ((decimalNumber < (PrintLength / 10)) && (decimalNumber != 0))
 	{
-		printStringNumber(X+PrintOffset + 8,Y,"",0);
+		printStringNumber((X+PrintOffset),Y,"",0);
 		PrintOffset += 8;
 	}
-	printStringNumber(X+PrintOffset + 8,Y,"",decimalNumber);
+	printStringNumber((X+PrintOffset),Y,"",decimalNumber);
      
+}
 
 
-
+void printFloat(int X, int Y, float Value)
+{
+	printDecimal(X,Y,Value,2);	
 }
 
 void ResetObject()

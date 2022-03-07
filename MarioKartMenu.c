@@ -265,6 +265,17 @@ void CourseMenu(int Alpha)
      } while (LoopValue < 4);
 }
 
+uint ClockCycle, OldCycle;
+float CycleCount;
+void DrawFPS(int X, int Y)
+{
+     ClockCycle = osGetCount();
+     CycleCount = (ClockCycle - OldCycle);
+     GlobalFloatA = (1 * CPU2SEC) / CycleCount;
+     printDecimal(X,Y,GlobalFloatA, 1);
+     OldCycle = ClockCycle;
+}
+
 void ModularMenu(int Alpha, OKMenu OptionsMenu)
 {
 
@@ -981,20 +992,20 @@ void printNumberSprite(int X, int Y, int Value)
 	}
 }
 
-char ReturnStringLength(char *stringAddress)
+int ReturnStringLength(char *stringAddress)
 {
-	GlobalCharE = 0;
+	GlobalIntA = 0;
 	GlobalCharA = *(char*)stringAddress;
 	if(GlobalCharA != 0)
 	{
 		do
 		{
-			++GlobalCharE;
-			GlobalCharA = (*(char*)(stringAddress + GlobalCharE));
+			++GlobalIntA;
+			GlobalCharA = (*(char*)(stringAddress + GlobalIntA));
 		}
 		while (GlobalCharA != 0);
 	}
-	return(GlobalCharE);
+	return(GlobalIntA);
 }
 
 
@@ -1606,6 +1617,56 @@ void PrintBigText(int posx, int posy, float scale, char *text)
 }
 
 
+void PrintBigTextNumber(int posx, int posy, float scale, char *text, int value)
+{
+	PrintBigText(posx, posy, scale, text);
+
+	char negativeVal = 0;
+
+	if (value < 0)
+	{
+		value = value*-1;
+		negativeVal = 1;
+	}
+
+	int digit[9] = {
+	((value%10)),
+	((value%100)/10),
+	((value%1000)/100),
+	((value%10000)/1000),
+	((value%100000)/10000),
+	((value%1000000)/100000),
+	((value%10000000)/1000000),
+	((value%100000000)/10000000),
+	((value%1000000000)/100000000)
+	};
+
+
+
+
+	char valstring[50];
+	for (int a = 0; a < 50; a++)
+	{
+		valstring[a] = 32;
+	}
+	
+	for (int i = 0; i < numPlaces(value); i++)
+	{
+		if (i > 9)
+		{
+			continue;
+		}
+		valstring[i] = (digit[numPlaces(value)-1-i] + 48);
+	}
+
+	PrintBigText((scale*32)+posx+(ReturnStringLength(text))*15*scale, posy, scale, valstring);		
+
+	if (negativeVal == 1)
+	{
+		PrintBigText((scale*15)+posx+(ReturnStringLength(text))*15*scale, posy, scale, "-");
+		negativeVal = 0;
+	}
+}
 
 void PrintNiceTextNumber(int posx, int posy, float scale, char *text, int value)
 {
