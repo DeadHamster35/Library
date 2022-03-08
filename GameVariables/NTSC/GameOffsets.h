@@ -223,6 +223,7 @@ extern void ShakeHitCamera(Player *Car,float speed);
 
 extern void SlipCheck(Player *car,char kno);
 extern void AddGravity(Player *car);
+extern void ProStickAngle(Player *car, Controller *cont, char number);
 
 extern float CheckWaterLevel(void *Car);
 extern void CheckSplash(void *Car,int PlayerIndex);

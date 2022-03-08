@@ -254,6 +254,7 @@
 
 .definelabel SlipCheck, 0x8002FCA8
 .definelabel AddGravity, 0x8002AB70
+.definelabel ProStickAngle, 0x80033AE0
 
 .definelabel CheckWaterLevel, 0x802AAB4C
 .definelabel CheckSplash, 0x8002C4F8

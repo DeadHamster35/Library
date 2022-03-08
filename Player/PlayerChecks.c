@@ -381,7 +381,9 @@ void CheckPaths()
 		{			
 			SetPlayerEcho(playerID, 0);
 			SetCamShiftUp(playerID, 0);
-			g_noSimpleKartFlag[(int)playerID] = 0;		
+			g_noSimpleKartFlag[(int)playerID] = 0;
+			GlobalPlayer[(int)playerID].talk &= ~0x2; // Unused talk flag	
+		
 			for (int ThisValue = 0; ThisValue < GlobalIntA; ThisValue++)
 			{				
 				if(((GlobalPlayer[(int)playerID].flag & IS_PLAYER) != 0) && ((GlobalPlayer[(int)playerID].flag & IS_GHOST) == 0))			// Only run for existing racers
@@ -423,7 +425,7 @@ void CheckPaths()
 							}
 							case (PATH_AIRCONTROL):
 							{							
-								EnableAirControl(playerID);
+								GlobalPlayer[(int)playerID].talk |= 0x2; // Unused talk flag
 								break;
 							}
 						}

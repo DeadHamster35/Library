@@ -277,15 +277,17 @@ void playrandmCharacterSFX(char playerID)
 	NAPlyVoiceStart(playerID, 0x2900800C + (GlobalPlayer[(int)playerID].kart * 0x10));   //voice char jump sfx    
 }
 
-void EnableAirControl(char playerID)
+void ProStickAngleHook(Player *car, Controller *cont, char number)
 {
-	if(((GlobalPlayer[(int)playerID].slip_flag & IS_IN_AIR) != 0) && ((GlobalPlayer[(int)playerID].slip_flag & IS_BOOSTJUMP_ZONE) == 0) && ((GlobalPlayer[(int)playerID].slip_flag & IS_BOOST_JUMPING) == 0))
+	if(car->talk&0x2)
 	{
-		GlobalPlayer[(int)playerID].slip_flag ^= IS_IN_AIR;
-		if(((GlobalPlayer[(int)playerID].slip_flag & IS_JUMPING) == 0) && ((GlobalPlayer[(int)playerID].slip_flag & IS_DRIFTING) == 0))
+		ProStickAngle(car,cont,number);
+	}
+	else
+	{
+		if (!(car->slip_flag&IS_IN_AIR))
 		{
-			GlobalPlayer[(int)playerID].slip_flag |= IS_DRIFTING;
-			GlobalPlayer[(int)playerID].slip_flag |= IS_JUMPING;
+			ProStickAngle(car,cont,number);
 		}
 	}
 }
