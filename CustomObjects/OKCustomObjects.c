@@ -1,4 +1,3 @@
-
 #include "../MainInclude.h"
 
 
@@ -190,158 +189,180 @@ void OKObjectReaction(OKObject* InputObject, short ResultType, int Player)
 		}
 	}
 }
+
+bool CheckOKCollide(OKCollisionSphere* HitBox, Vector SourcePosition, SVector SourceAngle, Vector TargetPosition, float TargetRadius)
+{
+	switch(HitBox->Type)
+	{
+		case 0:
+		{
+			if (TestCollideSphere(SourcePosition, HitBox->Size[0], TargetPosition, TargetRadius))
+			{
+				return true;
+			}
+			break;
+		}
+		case 1:
+		{
+			float TempBoxSize[3] = {
+				HitBox->Size[0] * HitBox->Scale, 
+				HitBox->Size[1] * HitBox->Scale, 
+				HitBox->Size[2] * HitBox->Scale
+			};
+			short BoxAngles[3] = {
+
+				HitBox->Angle[0] + SourceAngle[0],
+				HitBox->Angle[1] + SourceAngle[1],
+				HitBox->Angle[2] + SourceAngle[2]
+			};
+			if (TestCollideBox(SourcePosition, TempBoxSize, BoxAngles, TargetPosition, TargetRadius))
+			{
+				return true; 
+			}
+			break;
+		}
+		case 2:
+		{
+			float TempPosition[3] = {
+				(float)(HitBox->Position[0]),
+				(float)(HitBox->Position[1]),
+				(float)(HitBox->Position[2])
+			};						
+			RotateVector(TempPosition, SourceAngle);
+			//Rotate the offset position of the hitbox by the object angle. 
+
+			TempPosition[0] += SourcePosition[0];
+			TempPosition[1] += SourcePosition[1];
+			TempPosition[2] += SourcePosition[2];
+			//Add the corrected vector to the base position of the object
+
+			if (TestCollideSphere(TempPosition, HitBox->Size[0], TargetPosition, TargetRadius))
+			{
+				return true; 
+			}
+			break;
+		}
+		case 3: //Collision Box with Offset
+		{
+
+			float TempPosition[3] = {
+				(float)(HitBox->Position[0]),
+				(float)(HitBox->Position[1]),
+				(float)(HitBox->Position[2])
+			};						
+			RotateVector(TempPosition, SourceAngle);
+			//Rotate the offset position of the hitbox by the object angle. 
+
+			TempPosition[0] += SourcePosition[0];
+			TempPosition[1] += SourcePosition[1];
+			TempPosition[2] += SourcePosition[2];
+			//Add the corrected vector to the base position of the object
+
+			float TempBoxSize[3] = {
+				(float)HitBox->Size[0] / HitBox->Scale, 
+				(float)HitBox->Size[1] / HitBox->Scale, 
+				(float)HitBox->Size[2] / HitBox->Scale
+			};
+			short BoxAngles[3] = {
+				HitBox->Angle[0] + SourceAngle[0],
+				HitBox->Angle[1] + SourceAngle[1],
+				HitBox->Angle[2] + SourceAngle[2]
+			};
+			if (TestCollideBox(SourcePosition, TempBoxSize, BoxAngles, TargetPosition, TargetRadius))
+			{
+				return true; 
+			}
+			break;
+		}
+
+	}
+	return false;
+}
+
 void OKObjectCollision(OKObject *InputObject)
 {
-	GlobalShortB = (short)(OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].CollisionCount); // Get Hitbox Count
-
-	if (GlobalShortB != -1)
-	{
-		GlobalAddressA = OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].ObjectHitbox;
-		OKCollisionSphere* HitBox = (OKCollisionSphere*)(GlobalAddressA);
-
-		//PlayerCount
-		if (g_gameMode == 0)
-		{
-			GlobalShortA = 8;  
-		}
-		else
-		{
-			GlobalShortA = g_playerCount;
-		}
-		
-		objectAngle[0] = 0;
-		objectAngle[1] = 0;
-		objectAngle[2] = 0;
-		GlobalBoolA = false; //Use for tracking movements of all 4 players for sound
-
-		for (int CurrentPlayer = 0; CurrentPlayer < GlobalShortA; CurrentPlayer++)
-		{	
-			for (int ThisBox = 0; ThisBox < GlobalShortB; ThisBox++)
-			{
-				switch(HitBox[ThisBox].Type)
-				{
-					case 0:
-					{
-						if (!TestCollideSphere(InputObject->ObjectData.position, HitBox->Size[0], GlobalPlayer[CurrentPlayer].position, GlobalPlayer[CurrentPlayer].radius))
-						{
-							continue; //if no collision, go to the next  hitbox
-						}
-						break;
-					}
-					case 1:
-					{
-						float TempBoxSize[3] = {
-							HitBox->Size[0] * HitBox->Scale, 
-							HitBox->Size[1] * HitBox->Scale, 
-							HitBox->Size[2] * HitBox->Scale
-						};
-						short BoxAngles[3] = {
-
-							HitBox->Angle[0] + InputObject->ObjectData.angle[0],
-							HitBox->Angle[1] + InputObject->ObjectData.angle[1],
-							HitBox->Angle[2] + InputObject->ObjectData.angle[2]
-						};
-						if (!TestCollideBox(InputObject->ObjectData.position, TempBoxSize, BoxAngles, GlobalPlayer[CurrentPlayer].position, GlobalPlayer[CurrentPlayer].radius))
-						{
-							continue; //if no collision, go to the next  hitbox
-						}
-						break;
-					}
-					case 2:
-					{
-						float TempPosition[3] = {
-							(float)(HitBox->Position[0]),
-							(float)(HitBox->Position[1]),
-							(float)(HitBox->Position[2])
-						};						
-						RotateVector(TempPosition, InputObject->ObjectData.angle);
-						//Rotate the offset position of the hitbox by the object angle. 
-
-						TempPosition[0] += InputObject->ObjectData.position[0];
-						TempPosition[1] += InputObject->ObjectData.position[1];
-						TempPosition[2] += InputObject->ObjectData.position[2];
-						//Add the corrected vector to the base position of the object
-
-						if (!TestCollideSphere(TempPosition, HitBox->Size[0], GlobalPlayer[CurrentPlayer].position, GlobalPlayer[CurrentPlayer].radius))
-						{
-							continue; //if no collision, go to the next  hitbox
-						}
-						break;
-					}
-					case 3: //Collision Box with Offset
-					{
-
-						float TempPosition[3] = {
-							(float)(HitBox->Position[0]),
-							(float)(HitBox->Position[1]),
-							(float)(HitBox->Position[2])
-						};						
-						RotateVector(TempPosition, InputObject->ObjectData.angle);
-						//Rotate the offset position of the hitbox by the object angle. 
-
-						TempPosition[0] += InputObject->ObjectData.position[0];
-						TempPosition[1] += InputObject->ObjectData.position[1];
-						TempPosition[2] += InputObject->ObjectData.position[2];
-						//Add the corrected vector to the base position of the object
-
-						float TempBoxSize[3] = {
-							(float)HitBox->Size[0] / HitBox->Scale, 
-							(float)HitBox->Size[1] / HitBox->Scale, 
-							(float)HitBox->Size[2] / HitBox->Scale
-						};
-						short BoxAngles[3] = {
-							HitBox->Angle[0] + InputObject->ObjectData.angle[0],
-							HitBox->Angle[1] + InputObject->ObjectData.angle[1],
-							HitBox->Angle[2] + InputObject->ObjectData.angle[2]
-						};
-						if (!TestCollideBox(InputObject->ObjectData.position, TempBoxSize, BoxAngles, GlobalPlayer[CurrentPlayer].position, GlobalPlayer[CurrentPlayer].radius))
-						{
-							continue; //if no collision, go to the next  hitbox
-						}
-						break;
-					}
-
-				}
-
-				if(GlobalPlayer[CurrentPlayer].slip_flag & STAR)
-				{
-					OKObjectReaction(InputObject, (short) HitBox[ThisBox].DamagedResult, CurrentPlayer);
-				}
-				else
-				{
-					OKObjectReaction(InputObject, (short) HitBox[ThisBox].CollisionResult, CurrentPlayer);
-				}
-
-				MasterStatus(CurrentPlayer, (short)HitBox[ThisBox].StatusClass);
-				MasterEffect(CurrentPlayer, (short)HitBox[ThisBox].EffectClass);	
-
-			}
-		}
-	}
-
 	if (InputObject->SubBehaviorClass != SUBBEHAVIOR_DEAD) //Do not do item checks if player destroyed OKObject in previous loop
 	{	
-		
-		for (int ThisObject = 0; ThisObject < 100; ThisObject++)
+		if (OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].CollisionCount != -1)
 		{
-			if (!(g_SimpleObjectArray[ThisObject].flag&EXISTOBJ))
-			{
-				continue;
-			}
-			if (!(g_SimpleObjectArray[ThisObject].flag&HITOBJ))
-			{
-				continue;
-			}
+			GlobalAddressA = OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].ObjectHitbox;
+			OKCollisionSphere* HitBox = (OKCollisionSphere*)(GlobalAddressA);
 
-			if(TestCollideSphere(InputObject->ObjectData.position, (float)(OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].Hitbox) ,g_SimpleObjectArray[ThisObject].position, g_SimpleObjectArray[ThisObject].radius))
+			//PlayerCount
+			if (g_gameMode == 0)
 			{
-				if (g_SimpleObjectArray[ThisObject].category != TSHELL)
+				GlobalShortA = 8;  
+			}
+			else
+			{
+				GlobalShortA = g_playerCount;
+			}
+			
+			objectAngle[0] = 0;
+			objectAngle[1] = 0;
+			objectAngle[2] = 0;
+			GlobalBoolA = false; //Use for tracking movements of all 4 players for sound
+
+			for (int CurrentPlayer = 0; CurrentPlayer < GlobalShortA; CurrentPlayer++)
+			{	
+				for (int ThisBox = 0; ThisBox < OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].CollisionCount; ThisBox++)
 				{
-					KillObject((Object*)&g_SimpleObjectArray[ThisObject]);
+					// run collision check for each hitbox and player
+					
+					if (CheckOKCollide(
+						(OKCollisionSphere*) &HitBox[ThisBox], 
+						InputObject->ObjectData.position, 
+						InputObject->ObjectData.angle,
+						GlobalPlayer[CurrentPlayer].position, 
+						GlobalPlayer[CurrentPlayer].radius))
+					{
+						if(GlobalPlayer[CurrentPlayer].slip_flag & STAR)
+						{
+							OKObjectReaction(InputObject, (short) HitBox[ThisBox].DamagedResult, CurrentPlayer);
+						}
+						else
+						{
+							OKObjectReaction(InputObject, (short) HitBox[ThisBox].CollisionResult, CurrentPlayer);
+						}
+
+						MasterStatus(CurrentPlayer, (short)HitBox[ThisBox].StatusClass);
+						MasterEffect(CurrentPlayer, (short)HitBox[ThisBox].EffectClass);	
+					}
+					//
 				}
+			}
+		
 
-				OKObjectReaction(InputObject, (short) HitBox[ThisBox].DamagedResult, -1);
+		
+			GlobalShortB = (short)(OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].CollisionCount); // Get Hitbox Count
+			for (int ThisObject = 0; ThisObject < 100; ThisObject++)
+			{
+				for (int ThisBox = 0; ThisBox < GlobalShortB; ThisBox++)
+				{
+					if (!(g_SimpleObjectArray[ThisObject].flag&EXISTOBJ))
+					{
+						continue;
+					}
+					if (!(g_SimpleObjectArray[ThisObject].flag&HITOBJ))
+					{
+						continue;
+					}
 
+					if (CheckOKCollide(
+							(OKCollisionSphere*) &HitBox[ThisBox], 
+							InputObject->ObjectData.position, 
+							InputObject->ObjectData.angle,
+							g_SimpleObjectArray[ThisObject].position, 
+							g_SimpleObjectArray[ThisObject].radius))
+					{
+						if (g_SimpleObjectArray[ThisObject].category != TSHELL)
+						{
+							KillObject((Object*)&g_SimpleObjectArray[ThisObject]);
+						}
+
+						OKObjectReaction(InputObject, (short) HitBox[ThisBox].DamagedResult, -1);
+					}
+				}
 			}
 		}
 		
