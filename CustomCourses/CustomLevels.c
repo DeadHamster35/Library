@@ -1116,9 +1116,9 @@ void setOKObjects()
 
 
 		OKObjectArray[This].PathTarget = -1;
-		if (*ThisType.ObjectAnimations != 0xFFFFFFFF)
+		if (ThisType.ObjectAnimations != 0xFFFFFFFF)
 		{
-			uint* AnimationOffsets = (uint*)(GetRealAddress( ObjectSegment | *ThisType.ObjectAnimations));
+			uint* AnimationOffsets = (uint*)(GetRealAddress( ObjectSegment | ThisType.ObjectAnimations));
 			GlobalIntA = GetRealAddress ( ObjectSegment | AnimationOffsets[0]);
 			OKObjectArray[This].AnimationMax = (uchar)*(int*)(GlobalIntA);
 			//OKObjectArray[This].AnimationFrame = MakeRandomLimmit((ushort)(OKObjectArray[This].AnimationMax));

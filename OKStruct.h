@@ -53,7 +53,8 @@ typedef struct OKSkeleton{
 	uint			AnimationOffset;
 	short		NodeCount, CollisionCount;
 	float		MeshScale;
-	uint			NodeOffset;
+	uint			NodeOffset;		//OKNode Offset
+	uint			CollisionOffset; 	//OKCollision Offset
 	int			ChildCount;
 } OKSkeleton;
 
@@ -70,7 +71,9 @@ typedef struct OKNode{
 
 typedef struct OKCollisionSphere{
 	short		Type, Scale;
-	short		Position[3], Size[3];
+	short		Angle[3];
+	short		Size[3];
+	short		Position[3];
 	uchar 		StatusClass, EffectClass, CollisionResult, DamagedResult;//
 } OKCollisionSphere;
 
@@ -88,10 +91,10 @@ typedef struct OKObjectType{
 	char				OKModelCount, OKXLUCount, CollisionCount, ObjectFlag;
 	int				SoundID;
 	
-	uint*			ObjectHitbox;	//OKCollisionSphere Address
-	uint*			ObjectModel;  		//OKModel Address
-	uint*			ObjectXLU;		//OKModel Address
-	uint*			ObjectAnimations;	//OKSkeleton Address
+	uint			ObjectHitbox;	//OKCollisionSphere Address
+	uint			ObjectModel;  		//OKModel Address
+	uint			ObjectXLU;		//OKModel Address
+	uint			ObjectAnimations;	//OKSkeleton Address
 
 } OKObjectType;
 
@@ -184,6 +187,22 @@ typedef struct OKEngine{
 	short	AccelerationCount; 	//Top Speed.
 	short	Acceleration[10]; 	//Acceleration.	
 } OKEngine;
+
+
+
+
+typedef struct OKPathfinder{
+     Vector    Position;
+     Vector    Target;
+	Vector	Checkpoint;
+	short	Status, Timer;
+	short	Angle;
+     Bump      Bump;
+	
+} OKPathfinder;
+
+
+
 #define ENGINE_ACCEL	0
 #define ENGINE_BALANCE	1
 #define ENGINE_SPEED	2

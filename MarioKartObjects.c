@@ -6,6 +6,11 @@ unsigned short CheckBump2Simple(Object *InputObject)
 	return CheckBump2((Bump*)&InputObject->bump, InputObject->radius, InputObject->position[0], InputObject->position[1], InputObject->position[2], InputObject->position[0] - InputObject->velocity[0], InputObject->position[1] - InputObject->velocity[1], InputObject->position[2] - InputObject->velocity[2] );
 }
 
+
+unsigned short CheckBump2Simple2(uint BumpAddress, float Radius, Vector InputPosition)
+{
+	return CheckBump2((Bump*)BumpAddress, Radius, InputPosition[0], InputPosition[1], InputPosition[2],  InputPosition[0], InputPosition[1], InputPosition[2] );
+}
 short MasterCreateObject(float localPosition[], short localRotation[], float localVelocity[], short localID, float radius)
 {
 	GlobalShortA = addObjectBuffer(localPosition,localRotation,objectVelocity,localID);

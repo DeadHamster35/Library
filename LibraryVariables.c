@@ -16,6 +16,7 @@ unsigned long FreeSpaceAddress;
 short GlobalShortA, GlobalShortB;
 bool GlobalBoolA, GlobalBoolB, GlobalBoolC, GlobalBoolD;
 int LoopValue;
+uint GlobalFrameCount;
 
 bool ConsolePlatform, EmulatorPlatform, TempoBool, StopSwop;
 bool CustomWaterHeight[8];
@@ -160,7 +161,7 @@ short EnginePowerDownRT[3][15] = {{0,0,0,3,0,0,0,9,9,0,0,9,0,9,9}, {0,0,0,2,0,0,
 short EnginePowerDownFT[3][15] = {{0,0,0,0,0,0,0,3,3,0,0,3,0,3,3}, {0,0,0,0,0,0,0,2,2,0,0,2,0,2,2}, {0,0,0,0,0,0,0,04,04,0,0,04,0,04,04}};
 
 
-char MenuBackup = 0, MenuChanged = 0, MenuTimer = 0;
+char MenuBackup = 0, MenuChanged = 0, MenuTimer = 0, StatsID = -1;
 char MenuFlash[4] = {0,0,0,0};
 char MenuProgress[4] = {0,0,0,0};
 char PlayerCharacterSelect[4] = {0,1,2,3};
@@ -171,7 +172,7 @@ struct PlayerTextureTable BackupNamePlateTable;
 struct PlayerTextureTable BackupPortraitTable[9];
 
 //Mario Kart Stats
-char StatsID = -1;
+
 
 
 //SharedFunctions

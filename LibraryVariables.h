@@ -16,6 +16,7 @@ extern unsigned short GlobalUShortA, GlobalUShortB;
 extern bool GlobalBoolA, GlobalBoolB, GlobalBoolC, GlobalBoolD;
 extern unsigned long FreeSpaceAddress;
 extern int LoopValue;
+extern uint GlobalFrameCount;
 
 extern bool ConsolePlatform, EmulatorPlatform, TempoBool, StopSwop;
 extern bool CustomWaterHeight[];
