@@ -29,6 +29,9 @@
 .definelabel MakeWaterVertex, 0x802AF8BC
 .definelabel ramCopy, 0x800D7FE0
 .definelabel CheckArea, 0x802ABD40
+.definelabel CheckMapBG_ZX, 0x8003F46C
+.definelabel CheckMapBG_XY, 0x8003F734
+.definelabel CheckMapBG_YZ, 0x8003FBAC
 
 .definelabel readControllers, 0x80000A28
 .definelabel InitControllers, 0x800008A4

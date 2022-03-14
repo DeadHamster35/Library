@@ -31,6 +31,9 @@ extern void ScrollMapImage(int ObjectAddress,int ScrollS,int ScrollT);
 extern void MakeWaterVertex(int ObjectAddress, char alpha, char red, char green, char blue);
 extern void ramCopy(long output, long input, long Length);
 extern short CheckArea(ushort pointer);
+extern void CheckMapBG_ZX(Player *car,Vector normal,Vector velocity,Vector g_vector,float *dist,float *new_x,float *new_y,float *new_z);
+extern void CheckMapBG_XY(Player *car,Vector normal,Vector velocity,float *dist,float *new_x,float *new_y,float *new_z);
+extern void CheckMapBG_YZ(Player *car,Vector normal,Vector velocity,float *dist,float *new_x,float *new_y,float *new_z);
 
 extern void InitControllers();
 extern void readControllers();

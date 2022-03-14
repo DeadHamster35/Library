@@ -47,36 +47,6 @@ void AddGravityEdit(Player *car)
 	// Keep using //
 	switch (car->bump_status)
 	{
-	case Water:
-		if ((car->bump.distance_zx <= 2) && ((car->jugemu_flag & ON_LAKITU_ROD) == 0))
-		{
-			CustomWaterHeight[car_number] = true;
-			g_waterlevelPlayer[car_number] = car->position[1] - car->bump.distance_zx -5;
-
-			if (car->bump.distance_zx <= 0.0)
-			{
-				car->radius = 0;
-				HangLakitu((void*)car, car_number);
-				car->position[1] = g_waterlevelPlayer[car_number] - 10;
-			}
-		}
-		if (car->flag&IS_PLAYER)
-		{
-			if (car->jugemu_flag&IS_FADING_OUT && car->erase <= 10)
-			{
-				CustomWaterHeight[car_number] = false;
-				car->radius = g_charRadiusTbl[car->kart];
-			}
-		}
-		else
-		{
-			if (car->radius == 0)
-			{
-				CustomWaterHeight[car_number] = false;
-				car->radius = g_charRadiusTbl[car->kart];
-			}				
-		}
-		break;
 	case GetItem:
 		if (car->jumpcount == 0 && car->wallhitcount == 0)
 		{
@@ -125,8 +95,11 @@ void AddGravityEdit(Player *car)
 
 	if (SurfaceStorage[car_number]&STORE_TRICK)
 	{
-		car->gravity = TRICK_GRAVITY;
-		
+		if (car->bump.distance_zx >= 0.2f)
+		{
+			car->gravity = TRICK_GRAVITY;
+		}
+
 		if (car->jumpcount == 0)
 		{
 			ResetWing(car);
@@ -137,6 +110,7 @@ void AddGravityEdit(Player *car)
 			SetTurbo(car, car_number);
 			car->turbo_timer = 3;
 			SurfaceStorage[car_number] &= ~STORE_TRICK;
+			car->velocity[1] = 0;
 		}
 	}
 
@@ -292,6 +266,23 @@ void AddGravityEdit(Player *car)
 	}
 }
 
+//Water Surface Check
+
+void CheckMapBG_ZX_Hook(Player *car, Vector normal, Vector velocity, Vector g_vector, float *dist, float *new_x, float *new_y, float *new_z)
+{
+	short car_number = car - &GlobalPlayer[0];
+
+	if (car->bump_status == Water)
+	{
+		CustomWaterHeight[car_number] = TRUE;
+		g_waterlevelPlayer[car_number] = car->position[1] - car->offsetsize - car->radius - car->bump.distance_zx;
+	}
+	else
+	{
+		CustomWaterHeight[car_number] = FALSE;
+		CheckMapBG_ZX(car,normal,velocity,g_vector,dist,new_x,new_y,new_z);
+	}
+}
 
 
 //Useful types
