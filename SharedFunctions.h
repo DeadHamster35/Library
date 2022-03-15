@@ -1,6 +1,29 @@
 #ifndef SharedFunctionsH
 #define SharedFunctionsH
 #include "MainInclude.h"
+
+
+#define SIZE_OF_ARRAY(array) (sizeof(array)/sizeof((array)[0]))
+
+#define ALIGN(x) __attribute__((aligned(x)))
+
+#define min(a, b) ((a) <= (b) ? (a) : (b))
+#define max(a, b) ((a) > (b) ? (a) : (b))
+
+#define sqr(x) ((x) * (x))
+
+#define SET_FLAG(n, f) ((n) |= (f)) 
+#define CLR_FLAG(n, f) ((n) &= ~(f)) 
+#define TGL_FLAG(n, f) ((n) ^= (f)) 
+#define CHK_FLAG(n, f) ((n) & (f))
+
+#define CHARS2SHORT(charA, charB) 				(charA & 0xFF)<<8 | (charB & 0xFF)
+#define CHARS2INT(charA, charB, charC, charD) 	(charA & 0xFF)<<24 | (charB & 0xFF)<<16 | (charC & 0xFF)<<8 | (charD & 0xFF)
+#define SHORTS2INT(shortA, shortB) 				(shortA & 0xFF)<<16 | (shortB & 0xFF)
+
+#define  deg(n)       ((short)(65536/360*n))
+
+
 extern int LoadData(int SourceInput, int SizeData);
 extern bool CheckPlatform();
 extern bool CheckEmulator();

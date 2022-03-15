@@ -228,6 +228,33 @@ extern void SlipCheck(Player *car,char kno);
 extern void AddGravity(Player *car);
 extern void ProStickAngle(Player *car, Controller *cont, char number);
 
+extern uint KW16GFTimer;
+extern uint KW8GFTimer;
+extern uint KW4GFTimer;
+extern uint KW2GFTimer;
+
+extern uint KW64GFCount;
+extern uint KW32GFCount;
+extern uint KW16GFCount;
+extern uint KW8GFCount;
+extern uint KW4GFCount;
+extern uint KW2GFCount;
+
+extern Vtx_t Vtx_KTile8x16[];
+extern Vtx_t Vtx_KTile16x16[];
+extern Vtx_t Vtx_KTile16x16XFlip[];
+extern Vtx_t Vtx_KTile40x32[];
+extern Vtx_t Vtx_KTile32x32[];
+extern Vtx_t Vtx_KTile32x32XFlip[];
+extern Vtx_t Vtx_KTile64x64BL[];
+extern Vtx_t Vtx_KTile64x64XFlipBL[];
+extern Vtx_t Vtx_KTile64x96BL[];
+extern Vtx_t Vtx_KTile96x16[];
+
+extern Gfx KWTextureRGBA_AAZBBL_Init[];
+extern Gfx KWTextureIA_AAZBBL_Init[];
+
+
 extern float CheckWaterLevel(void *Car);
 extern void CheckSplash(void *Car,int PlayerIndex);
 
@@ -291,6 +318,45 @@ extern void SPRDrawClip(int sx,int sy,int sizex,int sizey,int mode);
 extern void SprDrawClipST(int sx,int sy,int sizex,int sizey,int ss,int tt,int mode);
 extern ushort StockNumberSprites[];
 extern void DecodeMapImage1(uint romaddress,uint romsize,uint ramsize); //MR Tree (0x0F04F45C, 859, 2048)
+
+extern void	KWTextureRGBA_SubPT(ushort *texaddr,Vtx_t *vtxaddr,int sizex,int sizey,int cuty); //RGBA Point
+extern void	KWTextureRGBA_SubBL(ushort *texaddr,Vtx_t *vtxaddr,int sizex,int sizey,int cuty); //RGBA Bilinear
+extern void	KWTextureRGBA_SubBLMR(ushort *texaddr,Vtx_t *vtxaddr,int sizex,int sizey,int cuty,int power); //RGBA Bilinear Mirror
+extern void	KWTextureRGBMA_SubBL(ushort *texaddr,uchar *alphaaddr,Vtx_t *vtxaddr,int sizex,int sizey,int cuty); // Multi Bit RGBA
+extern void	KWTextureRGBA32_SubPT(uchar *texaddr,Vtx_t *vtxaddr,int sizex,int sizey,int cuty); //RGBA32 Point
+extern void	KWTextureRGBA32_SubBL(uchar *texaddr,Vtx_t *vtxaddr,int sizex,int sizey,int cuty); //RGBA32 Bilinear
+extern void	KWTextureCI8_SubPT(ushort *paladdr,uchar *idxaddr,Vtx_t *vtxaddr,int sizex,int sizey,int cutx,int cuty); //CI8 Point
+extern void	KWTextureCI8_SubBL(ushort *paladdr,uchar *idxaddr,Vtx_t *vtxaddr,int sizex,int sizey,int cutx,int cuty); //CI8 Bilinear
+extern void	KWTextureCI8_SubBLMR(ushort *paladdr,uchar *idxaddr,Vtx_t *vtxaddr,int sizex,int sizey,int cutx,int cuty,int power); //CI8 Bilinear Mirror
+extern void	KWTextureCI8_SubBLCutX(ushort *paladdr,uchar *idxaddr,Vtx_t *vtxaddr,int sizex,int sizey,int cutx); //CI8 Bilinear Cut X
+extern void	KWTextureIA16_Sub(ushort *texaddr,Vtx_t *vtxaddr,int sizex,int sizey,int cutx,int cuty); //IA16
+extern void	KWTextureIA8_Sub(uchar *texaddr,Vtx_t *vtxaddr,int sizex,int sizey,int cutx,int cuty); //IA8
+extern void	KWTextureIA4_Sub(uchar *texaddr,Vtx_t *vtxaddr,int sizex,int sizey,int cutx,int cuty); //IA4
+extern void	KWTextureA8_Sub(uchar *texaddr,Vtx_t *vtxaddr,int sizex,int sizey,int cutx,int cuty); //A8
+extern void	KWTextureA4_Sub(uchar *texaddr,Vtx_t *vtxaddr,int sizex,int sizey,int cutx,int cuty); //A4
+
+extern void	KWCreateAffine3D(Vector postion,USVector angle,float scale);
+extern void	KWCreateAffine3D_IceKage(Vector postion,USVector angle,float scale);
+extern void	KWCreateAffine3D_Board(Vector position,Vector camera,float scale);
+extern void	KWCreateAffine3D_Hole(Vector position,Vector direction,float scale);
+extern void	KWCreateAffine3D_Anm(int num);
+
+extern void KWSetPrimColor(uint r,uint g,uint b,uint a);
+extern void KWSetEnvColor(uint r,uint g,uint b,uint a);
+extern void KWSet2Color_(uint prim_r,uint prim_g,uint prim_b,uint env_r,uint env_g,uint env_b,uint a);
+extern void SubColorMode(uint r,uint g,uint b);
+extern void SubAlphaMode(uint a);
+extern void ToumeIAMode(uint a);
+extern void ToumeIMode(uint r,uint g,uint b,uint a);
+extern void SmokeMode(uint a);
+extern void SplashMode(uint r,uint g,uint b,uint a);
+extern void RadarMode(uint r,uint g,uint b);
+extern void RankMode(uint r,uint g,uint b,uint a);
+extern void WaterMode(uint a);
+extern void ColAddMode(uint prim_r,uint prim_g,uint prim_b,uint prim_a);
+extern void IceMode(uint prim_r,uint prim_g,uint prim_b,uint env_r,uint env_g,uint env_b,uint a);
+extern void SparkMode(uint r,uint g,uint b);
+extern void Color2Mode(uint prim_r,uint prim_g,uint prim_b,uint env_r,uint env_g,uint env_b,uint a);
 
 extern void BumpObject(Object* InputObject);
 extern void SetSegment(int number, int cpuAddr);

@@ -280,6 +280,7 @@
 
 typedef float	Vector[3];			/* 	3 floats	*/
 typedef short	SVector[3];			/* 	3 shorts	*/
+typedef ushort	USVector[3];		/* 	3 ushorts 	*/
 typedef	float	RotateMtx[3][3];			/* 3x3 rotation matrix					*/
 typedef 	float	AffineMtx[4][4];			/* 4x4 affine transformation matrix		*/
 typedef 	float	Matrix[3][3];			/* 4x4 affine transformation matrix		*/

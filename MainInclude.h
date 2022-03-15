@@ -19,6 +19,9 @@
 #include "CustomObjects/OKBehaviors.h"
 #include "CustomObjects/OKCustomObjects.h"
 
+#include "CustomParticles/ParticleStruct.h"
+#include "CustomParticles/CustomParticles.h"
+
 #include "GameVariables/NTSC/4.1Header.h"
 #include "GameVariables/NTSC/GameOffsets.h"
 #include "GameVariables/NTSC/OKAssembly.h"

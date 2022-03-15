@@ -772,6 +772,8 @@ void EventDisplay_After(int player)
 		KWDisplayIceBlock(player);
 		KWDisplayEvent_After(player);
 	}
+
+	DrawCustomParticle(player);
 }
 
 void CommonGameEventChart()
@@ -787,7 +789,9 @@ void CommonGameEventChart()
 			KWChartIceBlock();
 		}
 		KWGameEventCommon();
-	}	
+	}
+
+	MoveCustomParticle();
 }
 void setSky()
 {

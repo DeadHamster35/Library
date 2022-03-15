@@ -218,6 +218,45 @@
 .definelabel StockNumberSprites, 0x0D00C558
 .definelabel DecodeMapImage1, 0x802A84F4
 
+.definelabel KWTextureRGBA_SubPT, 0x80045D0C
+.definelabel KWTextureRGBA_SubBL, 0x80045E10
+.definelabel KWTextureRGBA_SubBLMR, 0x80045F18
+.definelabel KWTextureRGBMA_SubBL, 0x80046030
+.definelabel KWTextureRGBA32_SubPT, 0x800461A4
+.definelabel KWTextureRGBA32_SubBL, 0x800462A8
+.definelabel KWTextureCI8_SubPT, 0x80047068
+.definelabel KWTextureCI8_SubBL, 0x80047270
+.definelabel KWTextureCI8_SubBLMR, 0x8004747C
+.definelabel KWTextureCI8_SubBLCutX, 0x8004768C
+.definelabel KWTextureIA16_Sub, 0x80048F8C
+.definelabel KWTextureIA8_Sub, 0x800492D4
+.definelabel KWTextureIA4_Sub, 0x8004961C
+.definelabel KWTextureA8_Sub, 0x800497CC
+.definelabel KWTextureA4_Sub, 0x80049970
+
+.definelabel KWCreateAffine3D, 0x80042E00
+.definelabel KWCreateAffine3D_Board, 0x80042EB8
+.definelabel KWCreateAffine3D_IceKage, 0x80042F70
+.definelabel KWCreateAffine3D_Hole, 0x80043050
+.definelabel KWCreateAffine3D_Anm, 0x80043104
+
+.definelabel KWSetPrimColor, 0x8004B138
+.definelabel KWSetEnvColor, 0x8004B180
+.definelabel KWSet2Color_, 0x8004B1C8
+.definelabel SubColorMode, 0x8004B254
+.definelabel SubAlphaMode, 0x8004B2BC
+.definelabel ToumeIAMode, 0x8004B310
+.definelabel ToumeIMode, 0x8004B35C
+.definelabel SmokeMode, 0x8004B3C8
+.definelabel SplashMode, 0x8004B414
+.definelabel RadarMode, 0x8004B480
+.definelabel RankMode, 0x8004B4E8
+.definelabel WaterMode, 0x8004B554
+.definelabel ColAddMode, 0x8004B5A8
+.definelabel IceMode, 0x8004B614
+.definelabel SparkMode, 0x8004B6C4
+.definelabel Color2Mode, 0x8004B72C
+
 .definelabel BumpObject, 0x802B4E30
 
 .definelabel SetSegment, 0x802A7B94
@@ -258,6 +297,33 @@
 .definelabel SlipCheck, 0x8002FCA8
 .definelabel AddGravity, 0x8002AB70
 .definelabel ProStickAngle, 0x80033AE0
+
+.definelabel KW16GFTimer, 0x80165590
+.definelabel KW8GFTimer, 0x80165594
+.definelabel KW4GFTimer, 0x80165598
+.definelabel KW2GFTimer, 0x8016559C
+
+.definelabel KW64GFCount, 0x801655A4
+.definelabel KW32GFCount, 0x801655AC
+.definelabel KW16GFCount, 0x801655B4
+.definelabel KW8GFCount, 0x801655BC
+.definelabel KW4GFCount, 0x801655C4
+.definelabel KW2GFCount, 0x801655CC
+
+.definelabel Vtx_KTile8x16, 0x0D0054B0
+.definelabel Vtx_KTile16x16, 0x0D005770
+.definelabel Vtx_KTile16x16XFlip, 0x0D0057B0
+.definelabel Vtx_KTile40x32, 0x0D005C30
+.definelabel Vtx_KTile32x32, 0x0D005AE0
+.definelabel Vtx_KTile32x32XFlip, 0x0D005B20
+.definelabel Vtx_KTile64x64BL, 0x0D0060B0
+.definelabel Vtx_KTile64x64XFlipBL, 0x0D006130
+.definelabel Vtx_KTile64x96BL, 0x0D0063F0
+.definelabel Vtx_KTile96x16, 0x0D006830
+
+.definelabel KWTextureRGBA_AAZBBL_Init, 0x0D0079C8
+.definelabel KWTextureIA_AAZBBL_Init, 0x0D007B00
+
 
 .definelabel CheckWaterLevel, 0x802AAB4C
 .definelabel CheckSplash, 0x8002C4F8

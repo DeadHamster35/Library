@@ -33,6 +33,8 @@
 .align 0x10
 .importobj "../library/CustomObjects/OKCustomObjects.o"
 
+.align 0x10
+.importobj "../library/CustomParticles/CustomParticles.o"
 
 .align 0x10
 
