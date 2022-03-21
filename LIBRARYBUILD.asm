@@ -36,6 +36,8 @@
 .align 0x10
 .importobj "../library/CustomParticles/CustomParticles.o"
 
+.include "../library/CustomParticles/PARTICLES.asm"
+
 .align 0x10
 
 Unknown33:
