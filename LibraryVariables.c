@@ -36,13 +36,16 @@ OKRAMHeader OverKartRAMHeader;
 
 short AnimationTimer = 0;
 
-Controller *GlobalController[5] = 
+Controller *GlobalController[8] = 
 {
      &g_Controller1,
      &g_Controller2,
      &g_Controller3,
      &g_Controller4,
-     &g_ControllerMenu
+     &g_ControllerMenu,
+     &g_ControllerGhost1,
+     &g_ControllerGhost2,
+     &g_ControllerGhost3,
 };
 
 Screen *GlobalScreen[4] = 

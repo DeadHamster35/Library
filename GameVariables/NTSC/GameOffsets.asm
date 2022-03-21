@@ -524,6 +524,9 @@
 .definelabel g_Controller3, 0x800F6930
 .definelabel g_Controller4, 0x800F6940
 .definelabel g_ControllerMenu, 0x800F6950
+.definelabel g_ControllerGhost1, 0x800F6960
+.definelabel g_ControllerGhost2, 0x800F6970
+.definelabel g_ControllerGhost3, 0x800F6980
 
 .definelabel player1inputX, 0x800F6910
 .definelabel player1inputY, 0x800F6912

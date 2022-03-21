@@ -507,6 +507,9 @@ extern struct Controller g_Controller2; //0x800F6920
 extern struct Controller g_Controller3; //0x800F6930
 extern struct Controller g_Controller4; //0x800F6940
 extern struct Controller g_ControllerMenu; //0x800F6950
+extern struct Controller g_ControllerGhost1; //0x800F6960
+extern struct Controller g_ControllerGhost2; //0x800F6970
+extern struct Controller g_ControllerGhost3; //0x800F6980
 
 extern short player1inputX;
 extern short player1inputY;
