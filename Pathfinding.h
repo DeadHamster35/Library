@@ -8,3 +8,5 @@ typedef struct BKPathfinder{
 
 
 extern BKPathfinder AIPathfinder[4];
+
+extern void UpdateBKPath(BKPathfinder Pathfinder, Marker *PathArray[], short* MarkerCounts, short PathCount, short PlayerID);
