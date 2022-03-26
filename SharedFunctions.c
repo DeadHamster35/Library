@@ -98,7 +98,7 @@ void SetupFontF3D()
 }
 
 
-int LoadData (int SourceInput, int SizeData)
+int LoadData (int SourceInput, uint SizeData)
 {
 	*sourceAddress = SourceInput;
 	*targetAddress = FreeSpaceAddress;
@@ -307,9 +307,6 @@ void printDecimal(int X, int Y, float Value, int Length)
 		PrintOffset += 8;
 		decimalNumber *= -1;
 	}
-
-
-     loadFont();
 	printStringNumber(X,Y,"",wholeNumber);
 	printString((X + PrintOffset + 10), Y, ".");		
 	PrintOffset += 8;

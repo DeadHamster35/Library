@@ -292,6 +292,8 @@ extern bool osEepromProbe(void *Queue);
 extern short g_fadeOutFlag;
 extern short g_fadeOutCounter, g_fadeOutCounter2;
 extern char g_FadingFlag[5];
+extern int g_FadeCounter[5];
+extern int g_FadeCounter2[5];
 
 extern void DisplayBackground(Vtx_t *bg_vertex,Screen *screen,short screen_width,short screen_hight,float *screen_view_angle);
 
@@ -487,8 +489,9 @@ extern long g_cup3preview1; // 0x801994A0
 extern long g_cup3preview2; // 0x80199478
 extern long g_cup3preview3; // 0x80199608
 
-extern long g_NintendoLogoOffset; //0x8019F88C
-extern long g_NintendoLogoBorder;
+extern long 	g_NintendoLogoOffset; //0x8019F88C
+extern int	CheckContPackMenu();
+extern long 	g_NintendoLogoBorder;
 
 extern char g_lakituStatus; // 0x80165DCE
 extern struct Lakitu g_lakituStatusPlayer1; // 0x80165DCE
@@ -969,6 +972,8 @@ extern uchar g_4PRacePoints[4];
 extern uchar g_2PBattlePoints[2];
 extern uchar g_3PBattlePoints[3];
 extern uchar g_4PBattlePoints[4];
+
+extern void AllocDepthBuffer();
 
 //course
 extern float g_mirrorValue;

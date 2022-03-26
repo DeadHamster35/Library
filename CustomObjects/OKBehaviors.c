@@ -109,7 +109,6 @@ void ObjectBehaviorStrafe(OKObject* InputObject)
 	GlobalIntA = (InputObject->ObjectData.position[0] - ThisList->OriginPosition[0]);
 	GlobalIntB = (InputObject->ObjectData.position[2] - ThisList->OriginPosition[2]);
 	
-	
 	switch (InputObject->WanderStatus)
 	{
 		case 0:
@@ -180,7 +179,7 @@ void ObjectBehaviorStrafe(OKObject* InputObject)
 	}
 
 		
-	MakeAlignVector(InputObject->ObjectData.velocity, InputObject->ObjectData.angle[1]);
+	MakeAlignVector(InputObject->ObjectData.velocity, InputObject->ObjectData.angle[1] * -1);
 	ObjectBehaviorExist(InputObject);
 	
 }
@@ -519,10 +518,10 @@ void ObjectBehaviorFollowPath(OKObject* InputObject)
 		objectPosition[2] = (float)PathData[InputObject->PathTarget].Position[2];
 		
 
-		InputObject->ObjectData.angle[1] += (DEG1 * 4 *  ObjectSubBehaviorTurnTarget(InputObject->ObjectData.position, InputObject->ObjectData.angle[1], objectPosition, 8));
+		//InputObject->ObjectData.angle[1] += (DEG1 * 4 *  ObjectSubBehaviorTurnTarget(InputObject->ObjectData.position, InputObject->ObjectData.angle[1], objectPosition, 8));
 		
 
-		//ChaseDir(&InputObject->ObjectData.angle[1],(-1 * MakeDirection(InputObject->ObjectData.position[0],InputObject->ObjectData.position[2],objectPosition[0],objectPosition[2])), (DEG1 * 5));
+		ChaseDir(&InputObject->ObjectData.angle[1],(-1 * MakeDirection(InputObject->ObjectData.position[0],InputObject->ObjectData.position[2],objectPosition[0],objectPosition[2])), (DEG1 * 5));
 		ObjectBehaviorWalk(InputObject, (float)ThisType->MaxSpeed / 100);
 
 		if (TestCollideSphere(InputObject->ObjectData.position,60,objectPosition, 60))

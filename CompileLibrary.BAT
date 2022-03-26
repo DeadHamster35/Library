@@ -58,9 +58,7 @@ cd ..
 
 
 cd Player
-::  Player Code
-
-set ListPlayer= "MarioKartStats.c" "PlayerChecks.c" "PlayerEffects.c"
+::  PlayeistPlayer= "MarioKartStats.c" "Pathfinding.c" "PlayerChecks.c" "PlayerEffects.c"
 
 (for %%a in (%ListPlayer%) do (
    echo Working on %%a 
@@ -72,7 +70,7 @@ cd ..
 
 ::  Generic Code
 
-set ListGeneric= "LibraryVariables.c" "MarioKart3D.c" "MarioKartMenu.c" "MarioKartObjects.c" "SharedFunctions.c"
+set ListGeneric= "LibraryVariables.c" "MarioKart3D.c" "MarioKartMenu.c" "Pathfinding.c" "MarioKartObjects.c" "SharedFunctions.c"
 
 (for %%a in (%ListGeneric%) do (
    echo Working on %%a 

@@ -495,8 +495,8 @@ void setEcho()
 	if ((HotSwapID > 0) && (OverKartHeader.Version != 0xFFFFFFFF))
 	{		
 		OverKartRAMHeader.EchoOffset = 0;
-		GlobalIntA = OverKartHeader.EchoEnd - OverKartHeader.EchoStart;
-		OverKartRAMHeader.EchoOffset = LoadData(OverKartHeader.EchoStart, GlobalIntA);
+		GlobalUIntA = OverKartHeader.EchoEnd - OverKartHeader.EchoStart;
+		OverKartRAMHeader.EchoOffset = LoadData(OverKartHeader.EchoStart, GlobalUIntA);
 		g_EchoStart = 0;
 		g_EchoStop = 0;
 	}
@@ -1070,12 +1070,12 @@ void setOKObjects()
 		ClearOKObject(This);
 	}
 	//Load data from the course header. 
-	OverKartRAMHeader.ObjectTypeCount = *(int*)(OverKartHeader.ObjectDataStart);
-	GlobalAddressC = OverKartHeader.ObjectDataStart + 4;
+	OverKartRAMHeader.ObjectTypeCount = *(int*)(OverKartRAMHeader.ObjectDataStart);
+	GlobalAddressC = OverKartRAMHeader.ObjectDataStart + 4;
 	OverKartRAMHeader.ObjectTypeList = (OKObjectType*)(GlobalAddressC);
 
 	
-	GlobalAddressB = OverKartHeader.ObjectDataStart + 4 + (OverKartRAMHeader.ObjectTypeCount * 48); //32 bytes size of ObjectType
+	GlobalAddressB = OverKartRAMHeader.ObjectDataStart + 4 + (OverKartRAMHeader.ObjectTypeCount * sizeof(OKObjectType)); //32 bytes size of ObjectType
 	OverKartRAMHeader.ObjectCount = *(int*)(GlobalAddressB);
 	GlobalAddressD = GlobalAddressB + 4;
 	OverKartRAMHeader.ObjectList = (OKObjectList*)(GlobalAddressD);	
@@ -1119,8 +1119,8 @@ void setOKObjects()
 		if (ThisType.ObjectAnimations != 0xFFFFFFFF)
 		{
 			uint* AnimationOffsets = (uint*)(GetRealAddress( ObjectSegment | ThisType.ObjectAnimations));
-			GlobalIntA = GetRealAddress ( ObjectSegment | AnimationOffsets[0]);
-			OKObjectArray[This].AnimationMax = (uchar)*(int*)(GlobalIntA);
+			GlobalAddressA = GetRealAddress ( ObjectSegment | AnimationOffsets[0]);
+			OKObjectArray[This].AnimationMax = (uchar)*(int*)(GlobalAddressA);
 			//OKObjectArray[This].AnimationFrame = MakeRandomLimmit((ushort)(OKObjectArray[This].AnimationMax));
 		}
 	}
@@ -1131,11 +1131,11 @@ void setOKObjects()
 void loadOKObjects()
 {
 	//Load all the OKObject data from the Course Header.
-	GlobalIntA = OverKartHeader.ObjectDataEnd - OverKartHeader.ObjectModelStart;
-	SetSegment(0xA,LoadData(OverKartHeader.ObjectModelStart, GlobalIntA));
-	GlobalIntA = OverKartHeader.ObjectModelStart - OverKartHeader.ObjectDataStart;
-	GlobalAddressA = LoadData(OverKartHeader.ObjectDataStart, GlobalIntA);
-	OverKartHeader.ObjectDataStart = GlobalAddressA;
+	GlobalUIntA = OverKartHeader.ObjectDataEnd - OverKartHeader.ObjectModelStart;
+	SetSegment(0xA,LoadData(OverKartHeader.ObjectModelStart, GlobalUIntA));
+	GlobalUIntA = OverKartHeader.ObjectModelStart - OverKartHeader.ObjectDataStart;
+	GlobalAddressA = LoadData(OverKartHeader.ObjectDataStart, GlobalUIntA);
+	OverKartRAMHeader.ObjectDataStart = GlobalAddressA;
 }
 
 

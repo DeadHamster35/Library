@@ -4,8 +4,7 @@
 #include "MainInclude.h"
 
 
-#define CPU2SEC 0x2CB5E16
-
+#define CPU2SEC 	0x2CB5E16
 //LakituRaceSequence
 #define LAKITU_RACE_START 		1
 #define LAKITU_RACE_APPROACH 		2
@@ -486,6 +485,7 @@ typedef struct RSPTask{
 		int 		status;
 		int		pad;
 }RSPTask;
+
 typedef struct Dynamic{
 	Mtx	projection;
 	Mtx	projection1;

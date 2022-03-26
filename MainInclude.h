@@ -42,4 +42,5 @@
 #include "OKHeader.h"
 #include "SharedFunctions.h"
 #include "SubProgram.h"
+#include "Pathfinding.h"
 #endif

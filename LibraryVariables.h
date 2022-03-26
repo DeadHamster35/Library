@@ -17,6 +17,8 @@ extern bool GlobalBoolA, GlobalBoolB, GlobalBoolC, GlobalBoolD;
 extern unsigned long FreeSpaceAddress;
 extern int LoopValue;
 extern uint GlobalFrameCount;
+extern uint ClockCycle[2], OldCycle[2];
+extern uint CycleCount[2];
 
 extern bool ConsolePlatform, EmulatorPlatform, TempoBool, StopSwop;
 extern bool CustomWaterHeight[];
@@ -75,7 +77,7 @@ extern short IFrames[8];
 extern float AffineMatrix[4][4];
 extern float AffineMatrix2[4][4];
 extern float objectPosition[3];
-extern Vector objectVector;
+extern Vector objectVector[];
 extern float objectVelocity[3];
 extern short objectAngle[3];
 extern short objectIndex;

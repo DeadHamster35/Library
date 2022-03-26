@@ -103,6 +103,8 @@ bool TestCollideSphere(float SourcePosition[], float SourceRadius, float TargetP
 bool TestCollideBox(float BoxPosition[], float BoxSize[], short BoxAngle[], float TargetPosition[], float TargetRadius)
 {
 	//Does a test on a collision with a box of arbitrary length width and height.
+
+
 	float TempPosition[3];
 	for (int CurrentVector = 0; CurrentVector < 3; CurrentVector++)
 	{
@@ -112,17 +114,20 @@ bool TestCollideBox(float BoxPosition[], float BoxSize[], short BoxAngle[], floa
 
 	}	
 	// Rotate the Vector by the angle of the box.
-	RotateVector(TempPosition,BoxAngle);
+	MakeAlignVector(TempPosition,BoxAngle[1]);
 	for (int CurrentVector = 0; CurrentVector < 3; CurrentVector++)
 	{
 		//Take both sides of the box from the center
 		//If the position is greater than or less than the sides, return false.
 		GlobalFloatA = (BoxSize[CurrentVector] / 2) + TargetRadius;
-		if ((TempPosition[CurrentVector] > GlobalFloatA) || (TempPosition[CurrentVector] < GlobalFloatA * -1))
+		
+		if ((TempPosition[CurrentVector] * TempPosition[CurrentVector]) > (GlobalFloatA * GlobalFloatA))
 		{
 			return false;
+			
 		}
 	}
+	
 	//If we have not returned false from the prior checks, we must be inside the confines of the box. 
 	return true;
 }
@@ -192,36 +197,16 @@ void OKObjectReaction(OKObject* InputObject, short ResultType, int Player)
 
 bool CheckOKCollide(OKCollisionSphere* HitBox, Vector SourcePosition, SVector SourceAngle, Vector TargetPosition, float TargetRadius)
 {
+	
+	
 	switch(HitBox->Type)
 	{
-		case 0:
+		case 0: //Sphere 
 		{
-			if (TestCollideSphere(SourcePosition, HitBox->Size[0], TargetPosition, TargetRadius))
-			{
-				return true;
-			}
+			return (TestCollideSphere(SourcePosition, HitBox->Size[0], TargetPosition, TargetRadius));
 			break;
 		}
-		case 1:
-		{
-			float TempBoxSize[3] = {
-				HitBox->Size[0] * HitBox->Scale, 
-				HitBox->Size[1] * HitBox->Scale, 
-				HitBox->Size[2] * HitBox->Scale
-			};
-			short BoxAngles[3] = {
-
-				HitBox->Angle[0] + SourceAngle[0],
-				HitBox->Angle[1] + SourceAngle[1],
-				HitBox->Angle[2] + SourceAngle[2]
-			};
-			if (TestCollideBox(SourcePosition, TempBoxSize, BoxAngles, TargetPosition, TargetRadius))
-			{
-				return true; 
-			}
-			break;
-		}
-		case 2:
+		case 1:  //Sphere with Offset
 		{
 			float TempPosition[3] = {
 				(float)(HitBox->Position[0]),
@@ -236,10 +221,24 @@ bool CheckOKCollide(OKCollisionSphere* HitBox, Vector SourcePosition, SVector So
 			TempPosition[2] += SourcePosition[2];
 			//Add the corrected vector to the base position of the object
 
-			if (TestCollideSphere(TempPosition, HitBox->Size[0], TargetPosition, TargetRadius))
-			{
-				return true; 
-			}
+			return (TestCollideSphere(TempPosition, HitBox->Size[0], TargetPosition, TargetRadius));
+			break;
+		}		
+		case 2: //Box
+		{
+			
+			float TempBoxSize[3] = {
+				(float)HitBox->Size[0] / HitBox->Scale, 
+				(float)HitBox->Size[1] / HitBox->Scale, 
+				(float)HitBox->Size[2] / HitBox->Scale
+			};
+			short BoxAngles[3] = {
+
+				HitBox->Angle[0] + SourceAngle[0],
+				HitBox->Angle[1] + SourceAngle[1],
+				HitBox->Angle[2] + SourceAngle[2]
+			};
+			return TestCollideBox(SourcePosition, TempBoxSize, BoxAngles, TargetPosition, TargetRadius);
 			break;
 		}
 		case 3: //Collision Box with Offset
@@ -268,10 +267,7 @@ bool CheckOKCollide(OKCollisionSphere* HitBox, Vector SourcePosition, SVector So
 				HitBox->Angle[1] + SourceAngle[1],
 				HitBox->Angle[2] + SourceAngle[2]
 			};
-			if (TestCollideBox(SourcePosition, TempBoxSize, BoxAngles, TargetPosition, TargetRadius))
-			{
-				return true; 
-			}
+			return TestCollideBox(SourcePosition, TempBoxSize, BoxAngles, TargetPosition, TargetRadius);
 			break;
 		}
 
@@ -280,93 +276,87 @@ bool CheckOKCollide(OKCollisionSphere* HitBox, Vector SourcePosition, SVector So
 }
 
 void OKObjectCollision(OKObject *InputObject)
-{
-	if (InputObject->SubBehaviorClass != SUBBEHAVIOR_DEAD) //Do not do item checks if player destroyed OKObject in previous loop
+{	
+	
+	OKCollisionSphere* HitBox = (OKCollisionSphere*)GetRealAddress(ObjectSegment | OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].ObjectHitbox);
+
+	//PlayerCount
+	if (g_gameMode == 0)
+	{
+		GlobalShortA = 8;  
+	}
+	else
+	{
+		GlobalShortA = g_playerCount;
+	}
+	
+	GlobalBoolA = false; //Use for tracking movements of all 4 players for sound
+	GlobalBoolD = false;
+	for (int CurrentPlayer = 0; CurrentPlayer < GlobalShortA; CurrentPlayer++)
 	{	
-		if (OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].CollisionCount != -1)
+		for (int ThisBox = 0; ThisBox < OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].CollisionCount; ThisBox++)
 		{
-			GlobalAddressA = OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].ObjectHitbox;
-			OKCollisionSphere* HitBox = (OKCollisionSphere*)(GlobalAddressA);
-
-			//PlayerCount
-			if (g_gameMode == 0)
-			{
-				GlobalShortA = 8;  
-			}
-			else
-			{
-				GlobalShortA = g_playerCount;
-			}
+			// run collision check for each hitbox and player
 			
-			objectAngle[0] = 0;
-			objectAngle[1] = 0;
-			objectAngle[2] = 0;
-			GlobalBoolA = false; //Use for tracking movements of all 4 players for sound
-
-			for (int CurrentPlayer = 0; CurrentPlayer < GlobalShortA; CurrentPlayer++)
-			{	
-				for (int ThisBox = 0; ThisBox < OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].CollisionCount; ThisBox++)
-				{
-					// run collision check for each hitbox and player
-					
-					if (CheckOKCollide(
-						(OKCollisionSphere*) &HitBox[ThisBox], 
-						InputObject->ObjectData.position, 
-						InputObject->ObjectData.angle,
-						GlobalPlayer[CurrentPlayer].position, 
-						GlobalPlayer[CurrentPlayer].radius))
-					{
-						if(GlobalPlayer[CurrentPlayer].slip_flag & STAR)
-						{
-							OKObjectReaction(InputObject, (short) HitBox[ThisBox].DamagedResult, CurrentPlayer);
-						}
-						else
-						{
-							OKObjectReaction(InputObject, (short) HitBox[ThisBox].CollisionResult, CurrentPlayer);
-						}
-
-						MasterStatus(CurrentPlayer, (short)HitBox[ThisBox].StatusClass);
-						MasterEffect(CurrentPlayer, (short)HitBox[ThisBox].EffectClass);	
-					}
-					//
-				}
-			}
-		
-
-		
-			GlobalShortB = (short)(OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].CollisionCount); // Get Hitbox Count
-			for (int ThisObject = 0; ThisObject < 100; ThisObject++)
+			if (CheckOKCollide(
+				(OKCollisionSphere*) &HitBox[ThisBox], 
+				InputObject->ObjectData.position, 
+				InputObject->ObjectData.angle,
+				GlobalPlayer[CurrentPlayer].position, 
+				GlobalPlayer[CurrentPlayer].radius))
 			{
-				for (int ThisBox = 0; ThisBox < GlobalShortB; ThisBox++)
+				GlobalBoolD = true;
+				if(GlobalPlayer[CurrentPlayer].slip_flag & STAR)
 				{
-					if (!(g_SimpleObjectArray[ThisObject].flag&EXISTOBJ))
-					{
-						continue;
-					}
-					if (!(g_SimpleObjectArray[ThisObject].flag&HITOBJ))
-					{
-						continue;
-					}
-
-					if (CheckOKCollide(
-							(OKCollisionSphere*) &HitBox[ThisBox], 
-							InputObject->ObjectData.position, 
-							InputObject->ObjectData.angle,
-							g_SimpleObjectArray[ThisObject].position, 
-							g_SimpleObjectArray[ThisObject].radius))
-					{
-						if (g_SimpleObjectArray[ThisObject].category != TSHELL)
-						{
-							KillObject((Object*)&g_SimpleObjectArray[ThisObject]);
-						}
-
-						OKObjectReaction(InputObject, (short) HitBox[ThisBox].DamagedResult, -1);
-					}
+					OKObjectReaction(InputObject, (short) HitBox[ThisBox].DamagedResult, CurrentPlayer);
 				}
+				else
+				{
+					OKObjectReaction(InputObject, (short) HitBox[ThisBox].CollisionResult, CurrentPlayer);
+				}
+
+				MasterStatus(CurrentPlayer, (short)HitBox[ThisBox].StatusClass);
+				MasterEffect(CurrentPlayer, (short)HitBox[ThisBox].EffectClass);	
+			}
+			//
+		}
+	}
+
+
+
+	/*
+	for (int ThisObject = 0; ThisObject < 100; ThisObject++)
+	{
+		for (int ThisBox = 0; ThisBox < OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].CollisionCount; ThisBox++)
+		{
+			if (!(g_SimpleObjectArray[ThisObject].flag&EXISTOBJ))
+			{
+				continue;
+			}
+			if (!(g_SimpleObjectArray[ThisObject].flag&HITOBJ))
+			{
+				continue;
+			}
+
+			if (CheckOKCollide(
+					(OKCollisionSphere*) &HitBox[ThisBox], 
+					InputObject->ObjectData.position, 
+					InputObject->ObjectData.angle,
+					g_SimpleObjectArray[ThisObject].position, 
+					g_SimpleObjectArray[ThisObject].radius))
+			{
+				if (g_SimpleObjectArray[ThisObject].category != TSHELL)
+				{
+					KillObject((Object*)&g_SimpleObjectArray[ThisObject]);
+				}
+
+				OKObjectReaction(InputObject, (short) HitBox[ThisBox].DamagedResult, -1);
 			}
 		}
-		
 	}
+		
+		*/
+	
 
 	if (OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].SoundID != 0xFFFFFFFF)
 	{
@@ -485,7 +475,7 @@ void DrawOKObjectLoop(OKModel* ThisModel, int Player, int Type)
 
 bool SkeletalMatrix(OKSkeleton* Skeleton, Object ObjectData, int FrameCount, int CurrentFrame)
 {
-	int Frame = (int)(CurrentFrame / 2);
+	int Frame = (int)(CurrentFrame);
 		
 	GlobalUIntA = Skeleton->AnimationOffset + 8;
 	short* PositionData = (short*)((GetRealAddress(ObjectSegment | Skeleton->AnimationOffset)));
@@ -508,15 +498,15 @@ bool SkeletalMatrix(OKSkeleton* Skeleton, Object ObjectData, int FrameCount, int
 	SVector* ScalingData = (SVector*)((GetRealAddress(ObjectSegment | GlobalUIntA))); 
 
 	
-	objectPosition[0] = ObjectData.position[0] + ( (float)(Skeleton->MeshScale) * ((float)(PositionData[0] / 100) ) ) + ( (float)(Skeleton->MeshScale) * ((float)(TranslationData[Frame][0]) / 100) );
+	objectPosition[0] = ObjectData.position[0]  + ( (float)(Skeleton->MeshScale) * ((float)(TranslationData[Frame][0]) / 100) );
 
-	objectPosition[1] = ObjectData.position[1] + ( (float)(Skeleton->MeshScale) * ((float)(PositionData[1] / 100) ) ) + ( (float)(Skeleton->MeshScale) * ((float)(TranslationData[Frame][1]) / 100) );
+	objectPosition[1] = ObjectData.position[1] + ( (float)(Skeleton->MeshScale) * ((float)(TranslationData[Frame][1]) / 100) );
 
-	objectPosition[2] = ObjectData.position[2] + ( (float)(Skeleton->MeshScale) * ((float)(PositionData[2] / 100) ) ) + ( (float)(Skeleton->MeshScale) * ((float)(TranslationData[Frame][2]) / 100) );
+	objectPosition[2] = ObjectData.position[2] + ( (float)(Skeleton->MeshScale) * ((float)(TranslationData[Frame][2]) / 100) );
 
 	objectAngle[0] = (short)ObjectData.angle[0] + (AngleData[Frame][0]);
 	objectAngle[1] = (short)(ObjectData.angle[1] * -1) + (AngleData[Frame][1]);
-	objectAngle[2] = (short)ObjectData.angle[2] + (AngleData[Frame][2] * -1);	
+	objectAngle[2] = (short)ObjectData.angle[2] + (AngleData[Frame][2]);	
 
 	CreateModelingMatrix(AffineMatrix,objectPosition,objectAngle);
 
@@ -533,7 +523,7 @@ void DrawOKAnimationLoop(OKSkeleton* Skeleton, int CurrentPlayer, int Type)
 
 	for (int CurrentNode = 0; CurrentNode < Skeleton->NodeCount; CurrentNode++)
 	{	
-		GlobalAddressB = ( GetRealAddress(ObjectSegment | Skeleton->NodeOffset) + (CurrentNode * 12));
+		GlobalAddressB = ( GetRealAddress(ObjectSegment | Skeleton->NodeOffset) + (CurrentNode * sizeof(OKNode)));
 		OKNode *ThisNode = (OKNode*)(GlobalAddressB); 
 		for (int CurrentObject = 0; CurrentObject < OverKartRAMHeader.ObjectCount; CurrentObject++)
 		{
@@ -569,7 +559,7 @@ void DrawOKAnimationLoop(OKSkeleton* Skeleton, int CurrentPlayer, int Type)
 	for (int ThisChild = 0; ThisChild < Skeleton->ChildCount; ThisChild++)
 	{
 		DrawOKAnimationLoop((OKSkeleton*)GlobalAddressA, CurrentPlayer, Type);
-		GlobalAddressA += 20;
+		GlobalAddressA += sizeof(OKSkeleton);
 	}
 }
 
@@ -590,13 +580,13 @@ void DrawOKObjects(Camera* LocalCamera)
 		{
 			//For each object type, we first check if the object uses animations or not
 
-			if (*(uint*)(&OverKartRAMHeader.ObjectTypeList[CurrentType].ObjectAnimations) == 0xFFFFFFFF)			
+			if (OverKartRAMHeader.ObjectTypeList[CurrentType].ObjectAnimations == 0xFFFFFFFF)			
 			{
 				//When not using animations, we loop through the model count and draw each Opaque geometry.
 				//We will draw transparent geometry if the ZSortToggle flag is not active. Otherwise we'll draw it later.
 				//Each piece is then normalized to the object's location and angle by the DrawOKObjectLoop function.
 
-				OKModel* ModelData = (OKModel*)GetRealAddress(ObjectSegment | (int)&OverKartRAMHeader.ObjectTypeList[CurrentType].ObjectModel);
+				OKModel* ModelData = (OKModel*)GetRealAddress(ObjectSegment | (int)OverKartRAMHeader.ObjectTypeList[CurrentType].ObjectModel);
 				for (int CurrentModel = 0; CurrentModel < (int)OverKartRAMHeader.ObjectTypeList[CurrentType].OKModelCount; CurrentModel++)
 				{
 					DrawOKObjectLoop((OKModel*)&ModelData[CurrentModel], CurrentPlayer, CurrentType);
@@ -604,7 +594,7 @@ void DrawOKObjects(Camera* LocalCamera)
 
 				if (OverKartRAMHeader.ObjectTypeList[CurrentType].ZSortToggle == 0)
 				{	
-					OKModel* ModelData = (OKModel*)GetRealAddress(ObjectSegment | (int)&OverKartRAMHeader.ObjectTypeList[CurrentType].ObjectXLU);
+					OKModel* ModelData = (OKModel*)GetRealAddress(ObjectSegment | (int)OverKartRAMHeader.ObjectTypeList[CurrentType].ObjectXLU);
 					for (int CurrentModel = 0; CurrentModel < (int)OverKartRAMHeader.ObjectTypeList[CurrentType].OKXLUCount; CurrentModel++)
 					{						
 						DrawOKObjectLoop((OKModel*)&ModelData[CurrentModel], CurrentPlayer, CurrentType);
@@ -617,12 +607,11 @@ void DrawOKObjects(Camera* LocalCamera)
 				uint* AnimationOffsets = (uint*)(GlobalIntA);
 				GlobalIntA = GetRealAddress( ObjectSegment | AnimationOffsets[0]);
 				GlobalIntA += 4; //skip past the framecount, we stored this earlier.
-				GlobalAddressA = GlobalIntA + 20; //ooohhhh you.
+				GlobalAddressA = GlobalIntA + sizeof(OKSkeleton); //ooohhhh you.
 				OKSkeleton* Skeleton = (OKSkeleton*)(GlobalIntA); 
 				DrawOKAnimationLoop(Skeleton, CurrentPlayer, CurrentType);
 				
-				//If the object is animated....we currently don't support it. :)
-				//But we'll still try.
+				
 			}
 		}
 
@@ -678,7 +667,7 @@ void DrawOKObjects(Camera* LocalCamera)
 				{
 					if(OKObjectArray[GlobalShortA].SubBehaviorClass != SUBBEHAVIOR_DEAD)
 					{
-						OKModel* ModelData = (OKModel*)GetRealAddress(ObjectSegment | (int)&OverKartRAMHeader.ObjectTypeList[OKObjectArray[GlobalShortA].TypeIndex].ObjectXLU);
+						OKModel* ModelData = (OKModel*)GetRealAddress(ObjectSegment | (int)OverKartRAMHeader.ObjectTypeList[OKObjectArray[GlobalShortA].TypeIndex].ObjectXLU);
 						for (int CurrentModel = 0; CurrentModel < (int)OverKartRAMHeader.ObjectTypeList[OKObjectArray[GlobalShortA].TypeIndex].OKXLUCount; CurrentModel++)
 						{		
 							DrawOKObjectLoop((OKModel*)&ModelData[CurrentModel], CurrentPlayer, OKObjectArray[GlobalShortA].TypeIndex);
@@ -700,29 +689,26 @@ void CheckOKObjects()
 	{
 		
 		
-		for (int CurrentObject = 0; CurrentObject < (OverKartRAMHeader.ObjectCount / 2); CurrentObject++)
+		for (int CurrentObject = 0; CurrentObject < (OverKartRAMHeader.ObjectCount); CurrentObject++)
 		{
 			if (OverKartRAMHeader.ObjectTypeList[OKObjectArray[CurrentObject].TypeIndex].ObjectAnimations != 0xFFFFFFFF)
 			{				
 				OKObjectArray[CurrentObject].AnimationFrame++;
-				if ((OKObjectArray[CurrentObject].AnimationFrame / 2) >= OKObjectArray[CurrentObject].AnimationMax)
+				if ((OKObjectArray[CurrentObject].AnimationFrame) >= (OKObjectArray[CurrentObject].AnimationMax))
 				{
 					OKObjectArray[CurrentObject].AnimationFrame = 0;
 				}
 			}		
-
+			
 			if(OKObjectArray[CurrentObject].SubBehaviorClass != SUBBEHAVIOR_DEAD)
 			{
 				
 				Misbehave((OKObject*)&OKObjectArray[CurrentObject]);
-				if ((int)OverKartRAMHeader.ObjectTypeList[OKObjectArray[CurrentObject].TypeIndex].CollisionCount != -1)
+				if ((int)OverKartRAMHeader.ObjectTypeList[OKObjectArray[CurrentObject].TypeIndex].CollisionCount > 0)
 				{
 					OKObjectCollision((OKObject*)&OKObjectArray[CurrentObject]);
 				}
-				else
-				{
-
-				}
+				
 				
 			}
 		}

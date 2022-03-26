@@ -265,15 +265,13 @@ void CourseMenu(int Alpha)
      } while (LoopValue < 4);
 }
 
-uint ClockCycle, OldCycle;
-float CycleCount;
+
 void DrawFPS(int X, int Y)
-{
-     ClockCycle = osGetCount();
-     CycleCount = (ClockCycle - OldCycle);
-     GlobalFloatA = (1 * CPU2SEC) / CycleCount;
-     printDecimal(X,Y,GlobalFloatA, 1);
-     OldCycle = ClockCycle;
+{     
+     GlobalFloatA = (1 * CPU2SEC) / CycleCount[0];
+     printDecimal(X,Y,GlobalFloatA, 1);     
+     GlobalFloatA = (1 * CPU2SEC) / CycleCount[1];
+     printDecimal(X,Y + 10,GlobalFloatA, 1);     
 }
 
 void ModularMenu(int Alpha, OKMenu OptionsMenu)

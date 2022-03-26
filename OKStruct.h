@@ -48,13 +48,22 @@ typedef struct OKModel{
 	short	MeshCount,MeshScale;
 } OKModel;
 
-
+/*
 typedef struct OKSkeleton{
 	uint			AnimationOffset;
 	short		NodeCount, CollisionCount;
 	float		MeshScale;
 	uint			NodeOffset;		//OKNode Offset
 	uint			CollisionOffset; 	//OKCollision Offset
+	int			ChildCount;
+} OKSkeleton;
+*/
+
+typedef struct OKSkeleton{
+	uint			AnimationOffset;
+	int			NodeCount;
+	float		MeshScale;
+	uint			NodeOffset;
 	int			ChildCount;
 } OKSkeleton;
 
@@ -179,6 +188,7 @@ typedef struct OKRAMHeader{
 	OKObjectType 	*ObjectTypeList;
 	int			ObjectCount;
 	OKObjectList	*ObjectList;
+	uint 		ObjectDataStart;
 
 } OKRAMHeader;
 
@@ -190,16 +200,6 @@ typedef struct OKEngine{
 
 
 
-
-typedef struct OKPathfinder{
-     Vector    Position;
-     Vector    Target;
-	Vector	Checkpoint;
-	short	Status, Timer;
-	short	Angle;
-     Bump      Bump;
-	
-} OKPathfinder;
 
 
 

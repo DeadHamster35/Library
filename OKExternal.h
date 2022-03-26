@@ -58,6 +58,7 @@ extern long Boo, BooEnd;
 extern long BackgroundEnd;
 extern long Crash;
 extern long CrashEnd;
+extern long TESTROMIMG;
 extern long Test32;
 extern long End32;
 extern long Splash3D, Splash3DEnd;

@@ -41,6 +41,7 @@ extern long asm_tempo1A; //0x800015C4  ;;3C0F8015
 extern short asm_tempo1ASpeed; //0x800015C7  ;;speed value
 extern long asm_tempo1B; //0x800015C8  ;;8DEF0114
 extern short asm_tempo1BSpeed; //0x800015CB  ;; speed value
+extern long asmTempoFullScreen;
 
 extern long asm_tempo2A; //0x80001A38  ;;3C098015
 extern short asm_tempo2ASpeed; //0x80001A3B  ;;speed value

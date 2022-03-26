@@ -374,7 +374,7 @@
 .definelabel g_fadeOutFlag, 0x800DC5C0
 .definelabel g_fadeOutCounter, 0x800DC5C4
 .definelabel g_fadeOutCounter2, 0x800DC5C8
-.definelabel g_FadingFlag, 0x8018E7AC
+
 
 .definelabel DisplayBackground, 0x802A4A0C
 
@@ -462,6 +462,9 @@
 .definelabel g_bannerTexture, 0x801F2750
 .definelabel g_previewTexture, 0x8020E460
 .definelabel g_mapTexture, 0x8018D240
+.definelabel g_FadingFlag, 0x8018E7AC
+.definelabel g_FadeCounter, 0x8018E7B8
+.definelabel g_FadeCounter2, 0x8018E7D0
 .definelabel g_mapStartToggle, 0x8004F150 //0C0132B4
 .definelabel g_mapScale, 0x8018D2A0
 .definelabel g_mapX, 0x8018D2C0
@@ -507,6 +510,7 @@
 .definelabel g_cup3preview3, 0x80199608
 
 .definelabel g_NintendoLogoOffset, 0x8019F88C
+.definelabel CheckContPackMenu, 0x80091D74
 .definelabel g_NintendoLogoBorder, 0x800944AC
 
 .definelabel g_lakituStatus, 0x80165DCE
@@ -1015,6 +1019,7 @@
 .definelabel g_3PBattlePoints, 0x80000335
 .definelabel g_4PBattlePoints, 0x80000338
 
+.definelabel AllocDepthBuffer, 0x80000BEC
 //course
 .definelabel g_mirrorValue, 0x8015F784
 .definelabel g_goalBannerPos, 0x8015F8D0

@@ -38,6 +38,7 @@
 .definelabel asm_tempo1ASpeed, 0x800015C6  ;;speed value
 .definelabel asm_tempo1B, 0x800015C8  ;;8DEF0114
 .definelabel asm_tempo1BSpeed, 0x800015CA  ;; speed value
+.definelabel asmTempoFullScreen, 0x800014CC
 
 .definelabel asm_tempo2A, 0x80001A38  ;;3C098015
 .definelabel asm_tempo2ASpeed, 0x80001A3A  ;;speed value
