@@ -214,7 +214,6 @@
 .definelabel DrawLineVertical, 0x8004C148
 .definelabel KWLoadTextureBlockI4b, 0x80044DA0
 .definelabel KWLoadTextureBlockRGBA16B, 0x80043D50
-.definelabel ToumeIMode, 0x8004B5A8
 .definelabel SprDrawClip, 0x8004B97C
 .definelabel SprDrawClipST, 0x8004BA98
 .definelabel StockNumberSprites, 0x0D00C558

@@ -24,7 +24,7 @@
 #define  deg(n)       ((short)(65536/360*n))
 
 
-extern int LoadData(int SourceInput, int SizeData);
+extern int LoadData(uint SourceInput, uint SizeData);
 extern bool CheckPlatform();
 extern bool CheckEmulator();
 

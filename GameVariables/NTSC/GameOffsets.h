@@ -318,7 +318,6 @@ extern void DrawLineHorizontal(short tx,short ty,short length,ushort r,ushort g,
 extern void DrawLineVertical(short tx,short ty,short length,ushort r,ushort g,ushort b,ushort a);
 extern void KWLoadTextureBlockI4b(uchar *texaddr,int cutx,int cuty);
 extern void KWLoadTextureBlockRGBA16B(ushort *texaddr,int cutx,int cuty);
-extern void ToumeIMode(int R, int G, int B, int A);
 extern void SPRDrawClip(int sx,int sy,int sizex,int sizey,int mode);
 extern void SprDrawClipST(int sx,int sy,int sizex,int sizey,int ss,int tt,int mode);
 extern ushort StockNumberSprites[];

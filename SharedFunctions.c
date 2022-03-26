@@ -98,7 +98,7 @@ void SetupFontF3D()
 }
 
 
-int LoadData (int SourceInput, uint SizeData)
+int LoadData (uint SourceInput, uint SizeData)
 {
 	*sourceAddress = SourceInput;
 	*targetAddress = FreeSpaceAddress;
