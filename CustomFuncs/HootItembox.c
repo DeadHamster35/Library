@@ -46,6 +46,8 @@ MOVE INTO BUILD IF YOU WANT TO TO REMOVE THE MENU ITEMBOX CURSOR: //////////////
 COMPILE ERROR?
 	#define G_CCMUX_3	3 
 	#define G_CCMUX_4	4
+	#define G_ACMUX_3       3 
+	#define G_ACMUX_4       4
 
 */
 
