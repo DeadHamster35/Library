@@ -147,6 +147,7 @@ extern char *stockCharacterNames[];
 //Main
 
 extern struct OKObject OKObjectArray[];
+extern OKAIPath CPUPaths[];
 extern short hsLabel, raceStatus, startupSwitch, courseSwapped;
 extern bool scrollLock;
 extern int currentHeaderAddress;

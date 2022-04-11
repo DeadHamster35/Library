@@ -18,7 +18,7 @@ typedef struct OKHeader{
 	uint XLUSectionViewPosition;
 	uint SurfaceMapPosition;
 	uint Sky;
-	short SkyType, WeatherType;
+	char SkyType, WeatherType, PathSplit, PathCount;
 	uint Credits;
 	uint CourseName;
 	uint SerialKey;
@@ -31,15 +31,29 @@ typedef struct OKHeader{
 	uint BombOffset;
 	uint EchoStart;
 	uint EchoEnd;
-	char Tempo1, Tempo2, Tempo3, Tempo4;	
+	char Tempo[4];
+	char PathTrigger[4];	
 	uint MusicID;
-	int PathLength;
-	short WaterType,WaterLevel;
-	uint ScrollOffset;
-	uint ScrollEnd;
+	short PathLength[4];
+	char 	GhostCharacter, WaterType;
+	short	WaterLevel;
+	uint 	ScrollROM;
+	short	WVOffset, ScreenOffset, KDOffset, ScrollSize;
 	uint PathOffset;
 } OKHeader;
 
+typedef struct OKAIPath{
+	char	LastPath, CurrentPath, LastLap, PADDING;
+} OKAIPath;
+
+
+
+typedef struct KDKill
+{
+	char	GP, TT, VS, Battle, Fifty, Hundred, HundredFifty, Extra;
+	uint	MeshCount;
+	uint*	MeshAddresses;
+} KDKill;
 
 typedef struct OKModel{
 

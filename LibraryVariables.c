@@ -216,6 +216,10 @@ char *stockCharacterNames[] = {"MARIO", "LUIGI", "YOSHI", "TOAD", "D.K.", "WARIO
 
 struct OKObject OKObjectArray[100];
 
+
+//Multiple AI Paths Race Levels
+OKAIPath CPUPaths[8];
+
 //OKCustom Objects
 short CoinPositions[8][3]; //8 Coins XYZ
 

@@ -33,6 +33,7 @@
 #include "Player/MarioKartStats.h"
 #include "Player/PlayerChecks.h"
 #include "Player/PlayerEffects.h"
+#include "Player/Pathfinding.h"
 
 #include "LibraryVariables.h"
 #include "MarioKart3D.h"
@@ -42,5 +43,5 @@
 #include "OKHeader.h"
 #include "SharedFunctions.h"
 #include "SubProgram.h"
-#include "Pathfinding.h"
+
 #endif

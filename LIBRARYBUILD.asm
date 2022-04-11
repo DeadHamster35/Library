@@ -17,6 +17,8 @@
 .importobj "../library/Player/PlayerEffects.o"
 .align 0x10
 .importobj "../library/Player/PlayerChecks.o"
+.align 0x10
+.importobj "../library/Player/Pathfinding.o"
 
 .align 0x10
 .importobj "../library/CustomCourses/CustomLevels.o"
