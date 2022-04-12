@@ -2,6 +2,7 @@
 
 
 
+
 BKPathfinder AIPathfinder[4];
 
 
@@ -12,7 +13,8 @@ BKPathfinder AIPathfinder[4];
 
 void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *PathArray[], short* MarkerCounts, short PathCount, short PlayerID)
 {
-     float CheckHeightStart, CheckHeightEnd;
+     float CheckHeightStart; 
+     //float CheckHeightEnd;
      float CheckDistance;
      float diff_x, diff_y, diff_z;
      Pathfinder->Distance = 999999999.0; // Set an impossible value to ensure the first return is true. 

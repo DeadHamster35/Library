@@ -3,9 +3,28 @@
 #include "MainInclude.h"
 //for OverKart's BUILD.ASM
 
-extern void PrintMenuFunction();
-extern void DrawPerScreen(Camera* CameraPointer);
 
+
+
+
+
+
+
+
+//NEED OVERWRITE WITH OWN FUNCTIONS
+extern void gameCode();
+extern void titleMenu();
+extern void DisplayObject(void *Car, Object *InputObject);
+extern int CollideObject(void *Camera, void *Object);
+extern void DisplayCrashScreen();
+extern long RAMCheck, RAMCheckEnd;
+extern void PrintMenuFunction();
+
+//END OF OVERWRITE FUNCTIONS
+
+
+
+extern long ExpansionCheckAddress, PRELOAD_RAM, PAYLOAD_ROM, DMA_MAX_LENGTH;
 extern long StartRAMData;
 extern long EndRAMData;
 extern long ModelDataStart;

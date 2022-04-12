@@ -35,6 +35,9 @@
 #include "Player/PlayerEffects.h"
 #include "Player/Pathfinding.h"
 
+
+#include "Gametypes/CTF.h"
+
 #include "LibraryVariables.h"
 #include "MarioKart3D.h"
 #include "MarioKartMenu.h"

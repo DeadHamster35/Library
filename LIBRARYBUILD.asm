@@ -44,8 +44,12 @@
 
 .align 0x10
 .importobj "../library/CustomParticles/CustomParticles.o"
-
 .include "../library/CustomParticles/PARTICLES.asm"
+
+
+.align 0x10
+.importobj "../library/Gametypes/CTF.o"
+
 
 .align 0x10
 
@@ -119,7 +123,7 @@ ADDIU sp, sp, -0x20
 SW ra, 0x001C (sp)
 JAL	0x80095574 //run what we overwrote with our hook
 NOP
-JAL titleHandler
+JAL titleMenu
 NOP
 LW ra, 0x001C (sp)
 ADDIU sp, sp, 0x20
@@ -145,7 +149,7 @@ race1P:
 ADDIU sp, sp, -0x20
 SW ra, 0x001C (sp) //push ra to the stack
 NOP
-JAL GameCodeHandler
+JAL gameCode
 NOP
 LW ra, 0x001C (sp) //pop ra from the stack
 ADDIU sp, sp, 0x20
@@ -160,7 +164,7 @@ race2P:
 ADDIU sp, sp, -0x20
 SW ra, 0x001C (sp) //push ra to the stack
 NOP
-JAL GameCodeHandler
+JAL gameCode
 NOP
 LW ra, 0x001C (sp) //pop ra from the stack
 ADDIU sp, sp, 0x20
@@ -174,7 +178,7 @@ race2PLR:
 ADDIU sp, sp, -0x20
 SW ra, 0x001C (sp) //push ra to the stack
 NOP
-JAL GameCodeHandler
+JAL gameCode
 NOP
 LW ra, 0x001C (sp) //pop ra from the stack
 ADDIU sp, sp, 0x20
@@ -189,7 +193,7 @@ raceMP:
 ADDIU sp, sp, -0x20
 SW ra, 0x001C (sp) //push ra to the stack
 NOP
-JAL GameCodeHandler
+JAL gameCode
 NOP
 LW ra, 0x001C (sp) //pop ra from the stack
 ADDIU sp, sp, 0x20
@@ -206,7 +210,7 @@ NOP
 .align 0x10
 DisplayHop:
 MOVE  $a0, $s1
-JAL   DisplayObjectHandler
+JAL   DisplayObject
 MOVE  $a1, $s0
 J     0x802A34D4
 NOP
@@ -218,7 +222,7 @@ CollisionHop:
 LW    $t4, 0xbc($a3)
 MOVE  $a0, $a3
 LW    $ra, 0x1c($sp)
-JAL  CollideObjectHandler
+JAL  CollideObject
 MOVE  $a1, $s0
 J     0x802A0D44
 LW    $ra, 0x1c($sp)

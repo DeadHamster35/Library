@@ -263,7 +263,7 @@ J FreeDraw
 
 //Code for auto-displaying custom crash screen
 .org 0x0051E8
-JAL DisplayCrashHandler
+JAL DisplayCrashScreen
 .org 0x5200
 NOP
 .org 0x5240

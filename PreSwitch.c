@@ -1,9 +1,8 @@
 #include "MainInclude.h"
-extern long RAMCheck, RAMCheckEnd, ExpansionCheckAddress;
 
 //NEED TO OVERWRITE WITH OWN FUNCTION
-__attribute__((weak)) void allRun(){return;};
-__attribute__((weak)) void PrintMenuFunction(){return;};
+extern void allRun();
+extern void PrintMenuFunction();
 
 
 

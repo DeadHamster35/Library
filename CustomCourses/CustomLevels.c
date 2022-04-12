@@ -1820,6 +1820,20 @@ void EmptyActionData()
 }
 
 
+void DrawPerScreen(Camera* LocalCamera)
+{
+	if (scrollLock)
+	{
+		if(HotSwapID > 0)
+		{
+			DrawOKObjects(LocalCamera);
+		}
+		
+		DrawGameFlags(LocalCamera);
+	}
+	
+}
+
 
 void XLUDisplay(Screen* PlayerScreen)
 {	
