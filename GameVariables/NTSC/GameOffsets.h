@@ -20,10 +20,12 @@ extern void DMA(int output, int input, long Length);
 extern void decodeTKMK(int input, int *temp, int output, int transparent);
 
 extern void GetFramebuffer(int PixelX,int PixelY,int Width,int Height,unsigned short *Source,unsigned short *Destination);
+extern uint AllocateMemory(uint Size);
 extern ushort CheckBump(Bump *bump,float Radius,float PositionX,float PositionY,float PositionZ);
 extern ushort CheckBump2(Bump *bump,float Radius,float PositionX,float PositionY,float PositionZ,float LastX, float LastY,float LastZ);
 
 extern void LoadMap(int courseID);
+extern void KillDisplayList (uint Pointer);
 extern void InitialRaceSequence();
 extern void BumpVelocity(Vector Bump,float Distance ,Vector Velocity,float co);
 extern void CalcBumpVelocity(Bump* InputBump, Vector Velocity);
@@ -747,6 +749,46 @@ extern long asm_SongA;// 0x8028EC9C
 extern long asm_SongB;// 0x8028F9C4
 
 extern long g_courseTable;
+extern uint KeystockBuffer;
+extern uint KeystockCounter;
+extern SOUKOU_ZURE_TYPE LaneData[8];
+extern float g_RoadWidth[21]; // MR default: 50.0f
+
+extern void AreaBunkatuBP(int pathID);
+extern void SidePointCalcBP(int pathID);
+extern void CurveDataCalcBP(int pathID);
+extern void AngleDataCalcBP(int pathID);
+extern void ShortcutDataCalcBP(int pathID);
+
+extern Marker *CenterPathBP[4];
+extern Marker *SideLPathBP[4];
+extern Marker *SideRPathBP[4];
+extern short *CurvePathDataBP[4];
+extern short *AnglePathDataBP[4];
+extern short *ShortCutPathDataBP[4];
+extern ushort CurrentPathID[10];
+
+//-------------- ACTION DATA --------------
+#define OGA_ACT_NULL            0  // Null
+#define OGA_ACT_DRIFT            1  // Drift
+#define OGA_ACT_N_JUMP            2  // Jump
+#define OGA_ACT_CENTER            3  // Road Center
+#define OGA_ACT_LEFT            4  // Road Left
+#define OGA_ACT_RIGHT            5  // Road Right
+#define OGA_ACT_SPEED_FREE        6  // Speed Normal
+#define OGA_ACT_SPEED_MAX        7  // Speed Accel
+#define OGA_ACT_SPEED_MIN        8  // Speed Brake
+#define OGA_ACT_TENUKI_KINSI        9  // Avoid Calm
+#define OGA_ACT_TENUKI_KYOKA        10 // Avoid Hectic
+#define OGA_ACT_TURBO            11 // Allow Boost
+
+extern void ActionStartCheck(int num, Player *kart);
+extern ActionData *ActPointPtr;
+extern ActionData *ActData_Pointer;
+extern ushort ActionDataNumCustom[8];
+extern short g_driftFlg[10];
+extern ushort g_actionFlg[10];
+
 
 extern char PlayerOK[];
 extern char player1OK; //

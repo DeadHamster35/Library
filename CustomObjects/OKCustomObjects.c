@@ -477,8 +477,7 @@ bool SkeletalMatrix(OKSkeleton* Skeleton, Object ObjectData, int FrameCount, int
 {
 	int Frame = (int)(CurrentFrame);
 		
-	GlobalUIntA = Skeleton->AnimationOffset + 8;
-	short* PositionData = (short*)((GetRealAddress(ObjectSegment | Skeleton->AnimationOffset)));
+	GlobalUIntA = Skeleton->AnimationOffset + 8;	
 	SVector* AngleData = (SVector*)((GetRealAddress(ObjectSegment | GlobalUIntA)));
 
 	GlobalUIntA += (FrameCount * 6);

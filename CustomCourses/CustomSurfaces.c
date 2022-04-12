@@ -3,6 +3,8 @@
 #define TRICK_GRAVITY				4000.0f
 #define TRICK_TRIGGER_SPEED_MIN		30
 
+#define GAP_GRAVITY				2000.0f
+
 #define IS_BROKEN (IS_SPINNING_OUT|SPINOUT_LEFT|SPINOUT_RIGHT|IS_MOMENTUM_HIT|IS_VERTICAL_HIT)
 
 #define FastOoB			251
@@ -21,17 +23,20 @@
 #define Boo		    	238
 #define GetItem			237
 #define TrickJump		236
+#define GapJump			235
 
 
 
 short SurfaceStorage[8];
 
-#define STORE_TRICK 0x0001
-
+#define STORE_NONE 	0
+#define STORE_TRICK 1
+#define	STORE_GAP	2
 
 void AddGravityEdit(Player *car)
 {
 	short car_number = car - &GlobalPlayer[0];
+	
 	short cont_number = car_number;
 	if (car->flag&IS_GHOST)
 	{
@@ -95,10 +100,10 @@ void AddGravityEdit(Player *car)
 	}
 
 	// Storage flag routine //
-
+	
 	if (car->slip_flag&IS_BROKEN)
 	{
-		SurfaceStorage[car_number] &= ~STORE_TRICK;
+		SurfaceStorage[car_number] = STORE_NONE;
 	}
 
 	if (SurfaceStorage[car_number]&STORE_TRICK)
@@ -120,30 +125,108 @@ void AddGravityEdit(Player *car)
 			SetAnimMusicNote(car_number);
 			SetTurbo(car, car_number);
 			car->turbo_timer = 3;
-			SurfaceStorage[car_number] &= ~STORE_TRICK;
+			SurfaceStorage[car_number] = STORE_NONE;
 			car->velocity[1] = 0;
 			MakeBodyColor(car,car_number,0x00500050,2.0f);
 		}
 	}
 
-	switch ((int)car->max_power)
+
+
+	if (SurfaceStorage[car_number]&STORE_GAP)
 	{
-	case TrickJump:
-		if (car->jumpcount <= 10 && GlobalController[cont_number]->ButtonPressed&BTN_R && SPEEDMETER(car->speed) >= TRICK_TRIGGER_SPEED_MIN && !(car->slip_flag&IS_BROKEN) && !(car->slip_flag&IS_FEATHER_JUMPING) && !(SurfaceStorage[car_number]&STORE_TRICK))
+		if (car->bump.distance_zx >= 0.2f)
 		{
-			car->flag |= 0x80;
-			SetAnimBonkStars(car_number);
-			SetWing(car, car_number);
-			car->jumpcount = 0;
-			if (car->max_power != car->bump_status)
-			{
-				car->max_power = car->bump_status;
-			}
-			SurfaceStorage[car_number] |= STORE_TRICK;
+			car->gravity = GAP_GRAVITY;
 		}
-		break;
+		if (car->jumpcount >= 40)
+		{
+			car->slip_flag &= ~IS_FEATHER_JUMPING;
+		}
+		if (car->jumpcount == 0)
+		{
+			ResetWing(car);
+		}
+		if (!(car->flag&0x80))
+		{
+			SetAnimMusicNote(car_number);
+			SetTurbo(car, car_number);
+			car->turbo_timer = 3;
+			SurfaceStorage[car_number] = STORE_NONE;
+			car->velocity[1] = 0;
+			MakeBodyColor(car,car_number,0x00500050,2.0f);
+		}
 	}
 
+
+	
+	switch ((int)car->max_power)
+	{
+		case TrickJump:
+		{
+			if (car->jumpcount <= 10 && GlobalController[cont_number]->ButtonPressed&BTN_R && SPEEDMETER(car->speed) >= TRICK_TRIGGER_SPEED_MIN && !(car->slip_flag&IS_BROKEN) && !(car->slip_flag&IS_FEATHER_JUMPING) && !(SurfaceStorage[car_number]&STORE_TRICK))
+			{
+				car->flag |= 0x80;
+				SetAnimBonkStars(car_number);
+				SetWing(car, car_number);
+				car->jumpcount = 0;
+				if (car->max_power != car->bump_status)
+				{
+					car->max_power = car->bump_status;
+				}
+				SurfaceStorage[car_number] = STORE_TRICK;
+			}
+			else if (car->flag & IS_CPU_PLAYER)
+			{
+				if (car->tire_FL.Status != TrickJump)
+				{
+					car->flag |= 0x80;
+					SetAnimBonkStars(car_number);
+					SetWing(car, car_number);
+					car->jumpcount = 0;
+					if (car->max_power != car->bump_status)
+					{
+						car->max_power = car->bump_status;
+					}
+					SurfaceStorage[car_number] = STORE_TRICK;
+				}
+			}
+			break;
+		}
+
+		case GapJump:
+		{
+			if (car->jumpcount <= 10 && GlobalController[cont_number]->ButtonPressed&BTN_R && SPEEDMETER(car->speed) >= TRICK_TRIGGER_SPEED_MIN && !(car->slip_flag&IS_BROKEN) && !(car->slip_flag&IS_FEATHER_JUMPING) && !(SurfaceStorage[car_number]&STORE_TRICK))
+			{
+				car->flag |= 0x80;
+				SetAnimBonkStars(car_number);
+				SetWing(car, car_number);
+				car->jumpcount = 0;
+				if (car->max_power != car->bump_status)
+				{
+					car->max_power = car->bump_status;
+				}
+				SurfaceStorage[car_number] = STORE_GAP;
+			}
+			else if (car->flag & IS_CPU_PLAYER)
+			{
+				if (car->tire_FL.Status != GapJump)
+				{
+					car->flag |= 0x80;
+					SetAnimBonkStars(car_number);
+					SetWing(car, car_number);
+					car->jumpcount = 0;
+					if (car->max_power != car->bump_status)
+					{
+						car->max_power = car->bump_status;
+					}
+					SurfaceStorage[car_number] = STORE_GAP;
+				}
+			}
+			break;
+		}
+	}
+	
 	// One time uses //
 
 	if (car->max_power == car->bump_status)
@@ -287,16 +370,22 @@ void AddGravityEdit(Player *car)
 
 void CheckMapBG_ZX_Hook(Player *car, Vector normal, Vector velocity, Vector g_vector, float *dist, float *new_x, float *new_y, float *new_z)
 {
-	short car_number = car - &GlobalPlayer[0];
-
-	if (car->bump_status == Water)
+	if (HotSwapID > 0)
 	{
-		CustomWaterHeight[car_number] = TRUE;
-		g_waterlevelPlayer[car_number] = car->position[1] - car->offsetsize - car->radius - car->bump.distance_zx;
+		short car_number = car - &GlobalPlayer[0];
+		if (car->bump_status == Water)
+		{
+			CustomWaterHeight[car_number] = TRUE;
+			g_waterlevelPlayer[car_number] = car->position[1] - car->offsetsize - car->radius - car->bump.distance_zx;
+		}
+		else
+		{
+			CustomWaterHeight[car_number] = FALSE;
+			CheckMapBG_ZX(car,normal,velocity,g_vector,dist,new_x,new_y,new_z);
+		}
 	}
 	else
 	{
-		CustomWaterHeight[car_number] = FALSE;
 		CheckMapBG_ZX(car,normal,velocity,g_vector,dist,new_x,new_y,new_z);
 	}
 }

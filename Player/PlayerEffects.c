@@ -277,19 +277,25 @@ void playrandmCharacterSFX(char playerID)
 	NAPlyVoiceStart(playerID, 0x2900800C + (GlobalPlayer[(int)playerID].kart * 0x10));   //voice char jump sfx    
 }
 
+
+
 void ProStickAngleHook(Player *car, Controller *cont, char number)
 {
-	if(car->talk&0x2)
-	{
-		ProStickAngle(car,cont,number);
-	}
-	else
-	{
-		if (!(car->slip_flag&IS_IN_AIR))
-		{
-			ProStickAngle(car,cont,number);
-		}
-	}
+    if(car->talk&0x2 && (!(car->slip_flag&IS_DRIFTING) || ((car->slip_flag&IS_JUMPING) && (car->slip_flag&IS_DRIFTING))))
+    {
+        ProStickAngle(car,cont,number);
+    }
+    else
+    {
+        if (!(car->slip_flag&IS_IN_AIR))
+        {
+            ProStickAngle(car,cont,number);
+        }
+        else if(car->slip_flag&IS_JUMPING && car->bump.distance_zx <= 5)
+        {
+            ProStickAngle(car,cont,number);
+        }
+    }
 }
 
 

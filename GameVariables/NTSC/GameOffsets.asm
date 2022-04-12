@@ -19,9 +19,11 @@
 .definelabel DMA, 0x80001158
 .definelabel decodeTKMK, 0x800405D0
 .definelabel GetFramebuffer, 0x802A7658
+.definelabel AllocateMemory, 0x802A7B70
 .definelabel CheckBump, 0x802ADDC8
 .definelabel CheckBump2, 0x802AD950
 .definelabel LoadMap, 0x802AA918
+.definelabel KillDisplayList, 0x802AAA70
 .definelabel InitialRaceSequence, 0x80002A18
 .definelabel BumpVelocity, 0x802AC114
 .definelabel CalcBumpVelocity, 0x802AC098
@@ -766,6 +768,32 @@
 //802B8B70
 
 .definelabel g_courseTable, 0x802B8D80
+
+.definelabel KeystockBuffer, 0x802D2B80
+.definelabel KeystockCounter, 0x80162D9C 
+.definelabel LaneData, 0x801634F8
+.definelabel g_RoadWidth, 0x800DCA4C
+
+.definelabel CenterPathBP, 0x80164550
+.definelabel SideLPathBP, 0x80164560
+.definelabel SideRPathBP, 0x80164570
+.definelabel CurvePathDataBP, 0x80164580
+.definelabel AnglePathDataBP, 0x80164590
+.definelabel ShortCutPathDataBP, 0x801645A0
+.definelabel CurrentPathID, 0x801645B0
+
+.definelabel ActionStartCheck, 0x80011B14
+.definelabel ActPointPtr, 0x801632B0
+.definelabel ActData_Pointer, 0x80162EB8
+.definelabel ActionDataNumCustom, 0x80163578
+.definelabel g_driftFlg, 0x801630E8
+.definelabel g_actionFlg, 0x801632E8
+
+.definelabel AreaBunkatuBP, 0x800100F0
+.definelabel SidePointCalcBP, 0x80010218
+.definelabel CurveDataCalcBP, 0x800107C4
+.definelabel AngleDataCalcBP, 0x80010DBC
+.definelabel ShortcutDataCalcBP, 0x80010E6C
 
 .definelabel PlayerOK, 0x8018EDE8
 .definelabel player1OK, 0x8018EDE8

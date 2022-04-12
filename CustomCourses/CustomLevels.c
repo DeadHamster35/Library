@@ -351,49 +351,41 @@ void setSong()
 
 
 
-void setTempo(void)
+void setTempo()
 {
 	//Set the game tempo.
 	//tempo is used to handle lagging on console.
 
 
-	if (TempoBool == 0)
+	if (TempoBool)
 	{
 		if (HotSwapID > 0)
 		{
-
-			GlobalIntA = *(long*)(&OverKartHeader.Tempo1);
-			GlobalIntB = 0;
-			dataLength = 0xC;
 			switch(g_playerCount)
 			{
 				case 1:
 				asm_tempo1A = 0x240F0000;
 				asm_tempo1B = 0x240F0000;
-				GlobalIntB = GlobalIntA >> 24;
-				asm_tempo1ASpeed = (short)OverKartHeader.Tempo1;
-				asm_tempo1BSpeed = (short)OverKartHeader.Tempo1;
+				asm_tempo1ASpeed = (short)OverKartHeader.Tempo[0];
+				asm_tempo1BSpeed = (short)OverKartHeader.Tempo[0];
 				break;
 				case 2:
 				asm_tempo2A = 0x24090000;
 				asm_tempo2B = 0x24090000;
-				GlobalIntB = (GlobalIntA >> 16) & (0x00FF);
-				asm_tempo2ASpeed = (short)OverKartHeader.Tempo2;
-				asm_tempo2BSpeed = (short)OverKartHeader.Tempo2;
+				asm_tempo2ASpeed = (short)OverKartHeader.Tempo[1];
+				asm_tempo2BSpeed = (short)OverKartHeader.Tempo[1];
 				break;
 				case 3:
 				asm_tempo3A = 0x240A0000;
 				asm_tempo3B = 0x240A0000;
-				GlobalIntB = (GlobalIntA >> 8) & (0x00FF);
-				asm_tempo3ASpeed = (short)OverKartHeader.Tempo3;
-				asm_tempo3BSpeed = (short)OverKartHeader.Tempo3;
+				asm_tempo3ASpeed = (short)OverKartHeader.Tempo[2];
+				asm_tempo3BSpeed = (short)OverKartHeader.Tempo[2];
 				break;
 				case 4:
 				asm_tempo3A = 0x240A0000;
 				asm_tempo3B = 0x240A0000;
-				GlobalIntB = GlobalIntA & 0x00FF;
-				asm_tempo3ASpeed = (short)OverKartHeader.Tempo4;
-				asm_tempo3BSpeed = (short)OverKartHeader.Tempo4;
+				asm_tempo3ASpeed = (short)OverKartHeader.Tempo[3];
+				asm_tempo3BSpeed = (short)OverKartHeader.Tempo[3];
 				break;
 			}
 		}
@@ -430,12 +422,57 @@ void setTempo(void)
 
 
 }
-void setPath()
+void SetGhostData()
 {
-	
+	*(uint*)(0x80650000) = 0x35353535;
 	if ((HotSwapID > 0) && (OverKartHeader.Version != 0xFFFFFFFF))
 	{
-		g_pathLength =(short)(OverKartHeader.PathLength) + 10;
+		*(uint*)(0x80650004) = 0x35353535;
+		if (g_gameMode == 1)
+		{
+			*(uint*)(0x80650008) = 0x35353535;
+			if (OverKartHeader.Ghost != 0)
+			{
+				*sourceAddress = OverKartHeader.Ghost;
+				*targetAddress = (uint)(&ok_FreeSpace);
+				dataLength = 0x3C00;
+				runDMA();
+				*sourceAddress = (uint)(&ok_FreeSpace);
+				*targetAddress = (uint)(&KeystockBuffer);
+				runMIO();
+				KeystockCounter = KeystockBuffer & 0x00FF0000;
+			}
+			else
+			{
+				uint* KeystockData = (uint*)(&KeystockBuffer);
+				for (int ThisPass = 0; ThisPass < 64; ThisPass++)
+				{
+					KeystockData[ThisPass] = 0x00FF0000;
+				}
+
+				//Should be 9 minutes of idle.
+			
+			}
+		}
+	}
+}
+void setPath()
+{
+	short* PathLengths = (short*)(&g_pathLength);
+	uint* PathOffsets = (uint*)&pathOffset;
+
+	if ((HotSwapID > 0) && (OverKartHeader.Version != 0xFFFFFFFF))
+	{
+		
+
+		PathLengths[0] =(short)(OverKartHeader.PathLength[0]);
+		PathLengths[1] =(short)(OverKartHeader.PathLength[1]);
+		PathLengths[2] =(short)(OverKartHeader.PathLength[2]);
+		PathLengths[3] =(short)(OverKartHeader.PathLength[3]);
+
+		PathLengths = (short*)(&g_pathBLength);
+
+		PathLengths[0] =(short)(OverKartHeader.PathLength[0]);
 		
 		*sourceAddress = OverKartHeader.PathOffset;
 		dataLength = 16;
@@ -443,7 +480,7 @@ void setPath()
 		{
 			*targetAddress = (uint)(&pathOffset);			
 			runDMA();
-			pathOffsetB = pathOffset + ((OverKartHeader.PathLength + 1) * 8);		
+			pathOffsetB = pathOffset + ((OverKartHeader.PathLength[0] + 1) * 8);		
 		}
 		else
 		{
@@ -472,6 +509,13 @@ void setPath()
 		}
 		runDMA();
 	}
+
+	
+	for (int ThisPath = 1; ThisPath < OverKartHeader.PathCount; ThisPath++)
+	{		
+		MakeAlternativePath((Marker*)GetRealAddress(PathOffsets[ThisPath]),PathLengths[ThisPath],ThisPath);
+	}
+
 }
 
 void setWater()
@@ -828,11 +872,11 @@ void loadTextureScrollTranslucent()
 	*(long*)(&ok_scrolltranslucent) = 0xFFFFFFFF;
 	if (HotSwapID > 0)
 	{		
-		*sourceAddress = OverKartHeader.ScrollOffset;
+		*sourceAddress = OverKartHeader.ScrollROM;
 		if (*sourceAddress != 0)
 		{
 			*targetAddress = (long)&ok_scrolltranslucent;
-			dataLength = OverKartHeader.ScrollEnd - *sourceAddress;
+			dataLength = OverKartHeader.ScrollSize;
 			dataLength += 4;
 			runDMA();
 		}
@@ -850,10 +894,6 @@ void runTextureScroll()
 
 	GlobalAddressA = (long)(&ok_scrolltranslucent);
 	LoopValue = *(long*)(&ok_scrolltranslucent);
-	if (LoopValue == 0xFFFFFFFF)
-	{
-		return;
-	}
 	for (int CurrentScroll = 0; CurrentScroll < LoopValue; CurrentScroll++)
 	{
 		GlobalAddressB = *(long*)(GlobalAddressA + (CurrentScroll * 8) + 4);   //address of the texture command to scroll.
@@ -889,12 +929,7 @@ void runWaterVertex()
 {
 	//This handles translucency by setting vertex alpha.
 	//Outdated; vertex alpha can be loaded directly now.
-	LoopValue = *(long*)(&ok_scrolltranslucent);
-	if (LoopValue == 0xFFFFFFFF)
-	{
-		return;
-	}
-	GlobalAddressA = (long)(&ok_scrolltranslucent) + (LoopValue * 8) + 4;
+	GlobalAddressA = (long)(&ok_scrolltranslucent) + OverKartHeader.WVOffset;
 	LoopValue = *(long*)GlobalAddressA;
 	if (LoopValue == 0xFFFFFFFF)
 	{
@@ -909,70 +944,17 @@ void runWaterVertex()
 }
 
 
-
-void setText()
-{
-	
-	*sourceAddress = OverKartHeader.Credits;
-	*targetAddress = (long)&ok_Credits;
-	dataLength = 0x20;
-	if ((HotSwapID > 0) && (*sourceAddress != 0x00000000))
-	{
-		runDMA();
-	}
-	else
-	{
-		*(long*)(&ok_Credits) = 0;
-	}
-
-	*sourceAddress = OverKartHeader.CourseName;
-	*targetAddress = (long)&ok_CourseName;
-	dataLength = 0x40;
-	if ((HotSwapID > 0) && (*sourceAddress != 0x00000000))
-	{
-		runDMA();
-	}
-	else
-	{
-		*(long*)(&ok_CourseName) = 0;
-	}
-
-	*sourceAddress = OverKartHeader.SerialKey;
-	*targetAddress = (long)&ok_SerialKey;
-	dataLength = 0x40;
-	if ((HotSwapID > 0) && (*sourceAddress != 0x00000000))
-	{
-		runDMA();
-	}
-	else
-	{
-		*(long*)(&ok_SerialKey) = 0;
-	}
-}
-
-
 void runDisplayScreen()
 {
 	//Handles the display of the buffer copy to texture.
-	//Allows for rendering the screen to a set of 6 textures. 
-
-	LoopValue = *(long*)(&ok_scrolltranslucent);
-    if (LoopValue == 0xFFFFFFFF)
-    {
-        return;
-    }
-	GlobalAddressA = (long)(&ok_scrolltranslucent) + (LoopValue * 8) + 4;
+	//Allows for rendering the screen to a set of 6 textures.
+	GlobalAddressA = (long)(&ok_scrolltranslucent) + OverKartHeader.ScreenOffset;   ////Parse WaterVertex List
 	LoopValue = *(long*)GlobalAddressA;
-    if (LoopValue == 0xFFFFFFFF)
-    {
-        return;
-    }
-    	GlobalAddressB = GlobalAddressA + (LoopValue * 8) + 4;
-	LoopValue = *(long*)GlobalAddressB;
     if (LoopValue != 6)
     {
         return;
     }
+
 	for (int CurrentScreen = 0; CurrentScreen < 6; CurrentScreen++)
 	{
 		GlobalAddressC = *(long*)(GlobalAddressB + (CurrentScreen * 4) + 4);
@@ -985,10 +967,6 @@ void runDisplayScreen()
 		GlobalShortA=(short)(g_DispFrame)-1;
        	if(GlobalShortA<0)   GlobalShortA=2;
        	else if(GlobalShortA>2)   GlobalShortA=0;
-
-		*tempPointer = 0x00D100D3;
-		*sourceAddress = PhysToK0((int)g_CfbPtrs[GlobalShortA]);
-		*targetAddress = (GetRealAddress(GlobalAddressC));
 
        	switch(CurrentScreen)
 		{
@@ -1031,6 +1009,180 @@ void runDisplayScreen()
 	}
 }
 
+
+
+
+void runKillDisplayObjects()
+{
+	//Handles the display of the buffer copy to texture.
+	//Allows for rendering the screen to a set of 6 textures. 
+
+	
+	GlobalAddressA = ((uint)(&ok_scrolltranslucent)) + OverKartHeader.KDOffset;
+	LoopValue = *(int*)GlobalAddressA;	
+	GlobalAddressA += 4; //Pass Loop Count
+	
+	for (int CurrentKD = 0; CurrentKD < LoopValue; CurrentKD++)
+	{
+		KDKill *DisplayKill = (KDKill*)(GlobalAddressA);
+		
+		uint* MeshList = (uint*)(GlobalAddressA + 12);
+		switch (g_gameMode)
+		{
+			case 0:
+			{
+				//GP
+				if (DisplayKill->GP != 0)
+				{
+					for (int ThisMesh= 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
+					{
+						KillDisplayList(0x07000000 | MeshList[ThisMesh]);
+					}
+				}
+				break;
+			}
+			case 1:
+			{
+				//TIME TRIAL
+				if (DisplayKill->TT != 0)
+				{
+					for (int ThisMesh= 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
+					{
+						KillDisplayList(0x07000000 | MeshList[ThisMesh]);
+					}
+				}
+				break;
+			}
+			case 2:
+			{
+				//TIME VS
+				if (DisplayKill->VS != 0)
+				{
+					for (int ThisMesh= 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
+					{
+						KillDisplayList(0x07000000 | MeshList[ThisMesh]);
+					}
+				}
+				break;
+			}
+			case 3:
+			{
+				//BATTLE
+				if (DisplayKill->Battle != 0)
+				{
+					for (int ThisMesh= 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
+					{
+						KillDisplayList(0x07000000 | MeshList[ThisMesh]);
+					}
+				}
+				break;
+			}
+		}
+
+
+		switch (g_raceClass)
+		{
+			case 0:
+			{
+				//50
+				if (DisplayKill->Fifty != 0)
+				{
+					for (int ThisMesh= 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
+					{
+						KillDisplayList(0x07000000 | MeshList[ThisMesh]);
+					}
+				}
+				break;
+			}
+			case 1:
+			{
+				//100
+				if (DisplayKill->Hundred != 0)
+				{
+					for (int ThisMesh= 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
+					{
+						KillDisplayList(0x07000000 | MeshList[ThisMesh]);
+					}
+				}
+				break;
+			}
+			case 2:
+			{
+				//150
+				if (DisplayKill->HundredFifty != 0)
+				{
+					for (int ThisMesh= 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
+					{
+						KillDisplayList(0x07000000 | MeshList[ThisMesh]);
+					}
+				}
+				break;
+			}
+			case 3:
+			{
+				//EXTRA
+				if (DisplayKill->Extra != 0)
+				{
+					for (int ThisMesh= 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
+					{
+						KillDisplayList(0x07000000 | MeshList[ThisMesh]);
+					}
+				}
+				break;
+			}
+		}
+		
+
+		//Setup next Loop
+		GlobalAddressA = GlobalAddressA + 12 + (DisplayKill->MeshCount * 4);
+	}
+	
+}
+
+
+
+
+
+
+void setText()
+{
+	
+	*sourceAddress = OverKartHeader.Credits;
+	*targetAddress = (long)&ok_Credits;
+	dataLength = 0x20;
+	if ((HotSwapID > 0) && (*sourceAddress != 0x00000000))
+	{
+		runDMA();
+	}
+	else
+	{
+		*(long*)(&ok_Credits) = 0;
+	}
+
+	*sourceAddress = OverKartHeader.CourseName;
+	*targetAddress = (long)&ok_CourseName;
+	dataLength = 0x40;
+	if ((HotSwapID > 0) && (*sourceAddress != 0x00000000))
+	{
+		runDMA();
+	}
+	else
+	{
+		*(long*)(&ok_CourseName) = 0;
+	}
+
+	*sourceAddress = OverKartHeader.SerialKey;
+	*targetAddress = (long)&ok_SerialKey;
+	dataLength = 0x40;
+	if ((HotSwapID > 0) && (*sourceAddress != 0x00000000))
+	{
+		runDMA();
+	}
+	else
+	{
+		*(long*)(&ok_SerialKey) = 0;
+	}
+}
 void SetCourseNames(bool custom)
 {
 	int strtbl;
@@ -1175,7 +1327,7 @@ void LoadCustomHeader(int inputID)
 		//first load the entire OverKart header into expansion RAM
 		*targetAddress = (long)&ok_CourseHeader;
 		*sourceAddress = *(long*)(&ok_HeaderOffsets + ((inputID) * 1) + ((HotSwapID-1) * 0x14));
-		dataLength = 0x98;
+		dataLength = (sizeof(OKHeader));
 		if (*sourceAddress != 0xFFFFFFFF)
 		{
 			runDMA();

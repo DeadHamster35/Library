@@ -1051,6 +1051,21 @@ typedef struct CenterPathStruct{
 		short unknown;
 } CenterPathStruct;
 
+
+
+typedef struct ActionData{
+    short    start;        //16:
+    short    end;        //16:
+    uint    action;        //32:
+}ActionData;
+
+typedef struct SOUKOU_ZURE_TYPE{        // 128 bit  (16)byte
+    float lane;                            // 32 bit    (4)
+    float lane_target;                    // 32 bit    (4)
+    float speed;                        // 32 bit    (4)
+    float lane_free_drive;                // 32 bit    (4)
+}SOUKOU_ZURE_TYPE;
+
 #define CHANNEL_MUTE		0x10000000
 #define CHANNEL_PAUSE		0x20000000
 #define CHANNEL_IDLE		0x40000000
