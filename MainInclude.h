@@ -43,5 +43,8 @@
 #include "OKHeader.h"
 #include "SharedFunctions.h"
 #include "SubProgram.h"
+#include "PreCode.h"
+#include "PreSwitch.h"
+
 
 #endif

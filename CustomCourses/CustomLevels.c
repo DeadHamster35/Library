@@ -439,7 +439,7 @@ void SetGhostData()
 				runDMA();
 				*sourceAddress = (uint)(&ok_FreeSpace);
 				*targetAddress = (uint)(&KeystockBuffer);
-				runMIO();
+				GlobalUIntB = runMIO();
 				KeystockCounter = KeystockBuffer & 0x00FF0000;
 			}
 			else
@@ -1279,6 +1279,30 @@ void setOKObjects()
 	
 }
 
+void MapStartup(short InputID)
+{
+	LoadCustomHeader(courseValue + gpCourseIndex);
+	SetCustomData();
+	LoadMapData(InputID);
+	setPath();
+	
+
+	loadTextureScrollTranslucent();
+	runKillDisplayObjects();
+}
+void InitialMapCode()
+{
+	
+
+	
+	InitialMap();
+	
+	if ((HotSwapID > 0) && (g_gameMode == 3))
+	{
+		SearchListFile(0x06000000 | OverKartHeader.SurfaceMapPosition);
+		MakeCollision();
+	}
+}
 
 void loadOKObjects()
 {
@@ -1397,41 +1421,6 @@ void SetCustomData()
 	
 	
 
-}
-
-void setLabel(void)
-{
-	*targetAddress = (long)&g_bannerTexture;
-
-	switch (HotSwapID)
-	{
-		case 0:
-		{
-			*sourceAddress = (long)&set0;
-			break;
-		}
-		case 1:
-		{
-			*sourceAddress = (long)&set1;
-			break;
-		}
-		case 2:
-		{
-			*sourceAddress = (long)&set2;
-			break;
-		}
-		case 3:
-		{
-			*sourceAddress = (long)&set3;
-			break;
-		}
-		case 4:
-		{
-			*sourceAddress = (long)&set4;
-			break;
-		}
-	}
-	runMIO();
 }
 
 
@@ -1831,3 +1820,21 @@ void EmptyActionData()
 }
 
 
+
+void XLUDisplay(Screen* PlayerScreen)
+{	
+	if ((OverKartHeader.Version > 4) && (HotSwapID > 0))
+	{	
+		if (g_gameMode != 3)
+		{
+			DisplayGroupmap(GetRealAddress(SegmentAddress(6,OverKartHeader.XLUSectionViewPosition)), PlayerScreen);
+		}
+		else
+		{
+			*(long*)*graphPointer = (long)(0x06000000);
+			*graphPointer = *graphPointer + 4;
+			*(long*)*graphPointer = (long)(SegmentAddress(6,OverKartHeader.XLUSectionViewPosition));
+			*graphPointer = *graphPointer + 4;
+		}
+	}
+}

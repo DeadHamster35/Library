@@ -21,7 +21,7 @@ cd ..
 cd CustomObjects
 ::  Custom Object Code
 
-set ListCustomObjects= "OKBehaviors.c" "OKCustomObjects.c"
+set ListCustomObjects= "OKBehaviors.c" "OKCustomObjects.c" "ObjectHandler.c"
 
 (for %%a in (%ListCustomObjects%) do (
    echo Working on %%a 
@@ -72,7 +72,7 @@ cd ..
 
 ::  Generic Code
 
-set ListGeneric= "LibraryVariables.c" "MarioKart3D.c" "MarioKartMenu.c" "MarioKartObjects.c" "SharedFunctions.c"
+set ListGeneric= "LibraryVariables.c" "MarioKart3D.c" "MarioKartMenu.c" "MarioKartObjects.c" "Precode.c" "PreSwitch.c" "SharedFunctions.c"
 
 (for %%a in (%ListGeneric%) do (
    echo Working on %%a 

@@ -24,6 +24,8 @@
 #define  deg(n)       ((short)(65536/360*n))
 
 
+extern void gameCode();
+
 extern int LoadData(uint SourceInput, uint SizeData);
 extern bool CheckPlatform();
 extern bool CheckEmulator();
@@ -31,7 +33,7 @@ extern bool CheckEmulator();
 extern void runDMA();
 extern void runRAM();
 extern void runTKM();
-extern void runMIO();
+extern int runMIO();
 extern void loadEEPROM(uint Destination);
 extern void saveEEPROM(uint Source);
 extern uint getStarTimer(uchar playerID);

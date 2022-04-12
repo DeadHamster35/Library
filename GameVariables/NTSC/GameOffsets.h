@@ -15,7 +15,7 @@ extern short spriteKillD;
 
 
 
-extern void decodeMIO0(long input, long output);
+extern int decodeMIO0(long input, long output);
 extern void DMA(int output, int input, long Length);
 extern void decodeTKMK(int input, int *temp, int output, int transparent);
 

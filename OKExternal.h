@@ -3,7 +3,8 @@
 #include "MainInclude.h"
 //for OverKart's BUILD.ASM
 
-
+extern void PrintMenuFunction();
+extern void DrawPerScreen(Camera* CameraPointer);
 
 extern long StartRAMData;
 extern long EndRAMData;
@@ -12,16 +13,6 @@ extern long bannerN;
 extern long bannerU;
 extern long previewN;
 extern long previewU;
-extern long set0;
-extern long set1;
-extern long set2;
-extern long set3;
-extern long set4;
-extern long set0end;
-extern long set1end;
-extern long set2end;
-extern long set3end;
-extern long set4end;
 
 extern long LogoROM;
 extern long RCSpriteROM;

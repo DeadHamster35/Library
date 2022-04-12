@@ -1,6 +1,36 @@
 #include "MainInclude.h"
 
+//NEED OVERWRITE WITH OWN FUNCTIONS
+__attribute__((weak)) void gameCode(){return;};
+__attribute__((weak)) void titleMenu(){return;};
+__attribute__((weak)) void DisplayObject(void *Car, Object *InputObject){return;};
+__attribute__((weak)) void CollideObject(void* Camera, void* Object){return;};
+__attribute__((weak)) void DisplayCrashScreen(){return;};
 
+
+void GameCodeHandler()
+{
+	gameCode();
+}
+
+void titleHandler()
+{
+	titleMenu();
+}
+
+void DisplayCrashHandler()
+{
+	DisplayCrashScreen();
+}
+
+void DisplayObjectHandler(void *Car, Object *InputObject)
+{
+	DisplayObject(Car, InputObject);
+}
+void CollideObjectHandler(void* Camera, void* Object)
+{
+	CollideObject(Camera, Object);;
+}
 
 void runDMA()
 {
@@ -10,9 +40,9 @@ void runRAM()
 {
 	ramCopy(*targetAddress, *sourceAddress, dataLength);
 }
-void runMIO()
+int runMIO()
 {
-	decodeMIO0(*sourceAddress, *targetAddress);
+	return decodeMIO0(*sourceAddress, *targetAddress);
 }
 void runTKM()
 {

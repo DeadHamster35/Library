@@ -23,7 +23,6 @@ extern void SetCustomData();
 extern void loadMinimap();
 extern void loadOKObjects();
 extern void setOKObjects();
-extern void setLabel();
 extern void SetGhostData();
 extern void setBanners();
 extern void setPreviews();
