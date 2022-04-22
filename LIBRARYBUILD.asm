@@ -70,11 +70,11 @@ AccelerationTable:
 
 .align 0x10
 bannerN:
-.import "data\\banner_n.mio0.bin"        ;;  324
+.import "../library/data/banner_n.mio0.bin"        ;;  324
 
 .align 0x10
 bannerU:
-.import "data\\banner_U.mio0.bin"        ;;  311
+.import "../library/data/banner_U.mio0.bin"        ;;  311
 
 
 .align 0x10

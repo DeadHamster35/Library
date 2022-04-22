@@ -7,7 +7,7 @@ BigFontROM:
 .import "../library/data/big_font.mio0.bin"
 .align 0x10
 Crash:
-.import "Data\test\Crash512.bin"
+.import "../library/data/test/Crash512.bin"
 .align 0x10
 CrashEnd:
 
@@ -22,7 +22,7 @@ CrashEnd:
 
 .align 0x10
 PreCodeROM:
-.importobj "..\Library\PreCode.o"
+.importobj "../Library/PreCode.o"
 PreCodeEnd:
 
 
@@ -32,7 +32,7 @@ PreCodeEnd:
 .headersize 0
 //REPLACEMENT FOR InitializeSystemWorks
 BootCode:
-.import "..\Library\Data\BootCode.bin"
+.import "../library/data/BootCode.bin"
 
 
 //NEW CUSTOM BOOT CODE
@@ -61,7 +61,7 @@ NOP
 
 
 .align 0x10
-.importobj "..\Library\PreSwitch.o"
+.importobj "../Library/PreSwitch.o"
 
 .align 0x10
 PrintMenuHook:
