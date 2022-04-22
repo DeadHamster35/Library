@@ -1,4 +1,4 @@
-#include "..\Library\MainInclude.h"
+#include "../Library/MainInclude.h"
 #include "OKInclude.h"
 
 typedef struct ObjectivePlayer
