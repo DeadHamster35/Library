@@ -1835,13 +1835,53 @@ void DrawPerScreen(Camera* LocalCamera)
 }
 
 
-void XLUDisplay(Screen* PlayerScreen)
+
+
+void DisplayKT1Hook(Screen* Display)
 {	
+	if (HotSwapID > 0)
+	{	
+		if (OverKartHeader.FogStart > 0)
+		{
+			gDPSetCycleType(GraphPtrOffset++, G_CYC_2CYCLE);
+			gDPSetFogColor(GraphPtrOffset++, (uint)OverKartHeader.FogRGBA[0],(uint)OverKartHeader.FogRGBA[1],(uint)OverKartHeader.FogRGBA[2],(uint)OverKartHeader.FogRGBA[3]);
+			gSPFogPosition(GraphPtrOffset++, OverKartHeader.FogStart, OverKartHeader.FogStop);
+			gDPSetRenderMode(GraphPtrOffset++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_OPA_SURF2);
+			gSPSetGeometryMode(GraphPtrOffset++, (G_FOG | G_SHADING_SMOOTH));
+		}
+		
+		DisplayGroupmap(SegmentAddress(6,OverKartHeader.SectionViewPosition), Display);
+		//DisplayKT1(Display);
+		
+		if (OverKartHeader.FogStart > 0)
+		{
+			gDPSetCycleType(GraphPtrOffset++, G_CYC_1CYCLE);
+			gSPClearGeometryMode(GraphPtrOffset++, G_FOG);
+		}		
+	}
+	else
+	{
+		DisplayKT1(Display);
+	}
+}
+
+void XLUDisplay(Screen* Display)
+{	
+	return;
 	if ((OverKartHeader.Version > 4) && (HotSwapID > 0))
 	{	
+		/*
+		if (OverKartHeader.FogStart > 0)
+		{
+			gDPSetCycleType(GraphPtrOffset++, G_CYC_2CYCLE);
+			gDPSetFogColor(GraphPtrOffset++, (uint)OverKartHeader.FogRGBA[0],(uint)OverKartHeader.FogRGBA[1],(uint)OverKartHeader.FogRGBA[2],(uint)OverKartHeader.FogRGBA[3]);
+			gSPFogPosition(GraphPtrOffset++, OverKartHeader.FogStart, OverKartHeader.FogStop);
+			gSPSetGeometryMode(GraphPtrOffset++, G_FOG);
+		}
+		*/
 		if (g_gameMode != 3)
 		{
-			DisplayGroupmap(GetRealAddress(SegmentAddress(6,OverKartHeader.XLUSectionViewPosition)), PlayerScreen);
+			DisplayGroupmap(SegmentAddress(6,OverKartHeader.XLUSectionViewPosition), Display);
 		}
 		else
 		{
@@ -1850,5 +1890,12 @@ void XLUDisplay(Screen* PlayerScreen)
 			*(long*)*graphPointer = (long)(SegmentAddress(6,OverKartHeader.XLUSectionViewPosition));
 			*graphPointer = *graphPointer + 4;
 		}
+		/*
+		if (OverKartHeader.FogStart > 0)
+		{
+			gDPSetCycleType(GraphPtrOffset++, G_CYC_1CYCLE);
+			gSPClearGeometryMode(GraphPtrOffset++, G_FOG);
+		}
+		*/
 	}
 }
