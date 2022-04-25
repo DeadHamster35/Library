@@ -40,6 +40,8 @@ typedef struct OKHeader{
 	uint 	ScrollROM;
 	short	WVOffset, ScreenOffset, KDOffset, ScrollSize;
 	uint PathOffset;
+	short	FogStart, FogStop;
+	uchar	FogRGBA[4];
 } OKHeader;
 
 typedef struct OKAIPath{

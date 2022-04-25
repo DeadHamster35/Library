@@ -8,7 +8,7 @@
 .definelabel ok_SaveSize, 0x28980
 .definelabel ok_HeaderSize, 0x1400
 .definelabel ok_MenuSize, 0x2800
-.definelabel ok_CourseHeaderSize, 0x98
+.definelabel ok_CourseHeaderSize, 0xC0
 
 
 .definelabel ok_HeaderOffsets, RAM_END

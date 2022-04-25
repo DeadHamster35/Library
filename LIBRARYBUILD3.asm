@@ -49,6 +49,12 @@ JAL InitRapidSmokeHook
 JAL InitSpinSmokeHook
 
 
+
+
+//Display Custom Levels Hook
+.org 0x0FF0BC
+JAL DisplayKT1Hook
+
 //Map Startup Hooks
 .org 0x123B0C
 JAL MapStartup
