@@ -93,7 +93,7 @@ void DrawGameFlags(Camera* LocalCamera)
      }
 }
 
-void PlaceFlags()
+void PlaceFlags(uint BattleFlagF3D, uint[] PlayerFlagF3D)
 {
      if (HotSwapID > 0)
      {
@@ -153,7 +153,7 @@ void PlaceFlags()
           GameFlag[ThisFlag].Position[0] = GlobalPlayer[ThisFlag].position[0] + objectVelocity[0];
           GameFlag[ThisFlag].Position[1] = GlobalPlayer[ThisFlag].position[1] + objectVelocity[1] + 5;
           GameFlag[ThisFlag].Position[2] = GlobalPlayer[ThisFlag].position[2] + objectVelocity[2];
-          GameFlag[ThisFlag].F3D = (uint)&BattleFlag;
+          GameFlag[ThisFlag].F3D = BattleFlagF3D;
      }
      if (TeamMode != 1)
      {

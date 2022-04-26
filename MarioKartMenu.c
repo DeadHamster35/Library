@@ -1618,7 +1618,7 @@ void PrintBigText(int posx, int posy, float scale, char *text)
 void PrintBigTextNumber(int posx, int posy, float scale, char *text, int value)
 {
 	PrintBigText(posx, posy, scale, text);
-
+     
 	char negativeVal = 0;
 
 	if (value < 0)
