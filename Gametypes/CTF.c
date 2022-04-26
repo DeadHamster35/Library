@@ -1,5 +1,5 @@
-#include "../Library/MainInclude.h"
-#include "OKInclude.h"
+#include "../MainInclude.h"
+
 
 typedef struct ObjectivePlayer
 {
@@ -93,7 +93,7 @@ void DrawGameFlags(Camera* LocalCamera)
      }
 }
 
-void PlaceFlags(uint BattleFlagF3D, uint[] PlayerFlagF3D)
+void PlaceFlags(uint BattleFlagF3D, uint PlayerFlagF3D[])
 {
      if (HotSwapID > 0)
      {
