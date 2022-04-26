@@ -1,8 +1,5 @@
 #include "../MainInclude.h"
 
-//NEED TO OVERWRITE WITH OWN FUNCTION
-__attribute__((weak)) void CheckHit(int PlayerIndex);
-
 
 
 void BombThrowRolloverWrap(Player* Kart, char Kno)

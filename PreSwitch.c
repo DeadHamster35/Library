@@ -1,10 +1,5 @@
 #include "MainInclude.h"
 
-//NEED TO OVERWRITE WITH OWN FUNCTION
-extern void allRun();
-extern void PrintMenuFunction();
-
-
 
 void allRunSwitch()
 {

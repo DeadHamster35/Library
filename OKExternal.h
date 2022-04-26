@@ -19,6 +19,10 @@ extern int CollideObject(void *Camera, void *Object);
 extern void DisplayCrashScreen();
 extern long RAMCheck, RAMCheckEnd;
 extern void PrintMenuFunction();
+extern void DrawPerScreen(Camera* LocalCamera);
+extern void allRun();
+extern void PrintMenuFunction();
+extern void CheckHit(int PlayerIndex);
 
 //END OF OVERWRITE FUNCTIONS
 
