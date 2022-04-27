@@ -1,3 +1,6 @@
+.definelabel PRELOAD_RAM,          0x80200000
+.definelabel ExpansionCheckAddress,          0x80001264
+
 .align 0x10
 NiceFontROM:
 .import "../library/data/nice_font.mio0.bin"

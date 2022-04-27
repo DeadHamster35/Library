@@ -1279,16 +1279,18 @@ void setOKObjects()
 	
 }
 
-void MapStartup(short InputID)
+void MapStartup(short InputID) 
 {
 	LoadCustomHeader(courseValue + gpCourseIndex);
 	SetCustomData();
 	LoadMapData(InputID);
 	setPath();
 	
-
-	loadTextureScrollTranslucent();
-	runKillDisplayObjects();
+	if (HotSwapID > 0)
+	{
+		loadTextureScrollTranslucent();
+		runKillDisplayObjects();
+	}
 }
 void InitialMapCode()
 {
