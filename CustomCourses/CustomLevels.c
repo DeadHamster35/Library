@@ -1840,12 +1840,7 @@ void DisplayKT1Hook(Screen* Display)
 		
 		DisplayGroupmap(SegmentAddress(6,OverKartHeader.SectionViewPosition), Display);
 		//DisplayKT1(Display);
-		
-		if (OverKartHeader.FogStart > 0)
-		{
-			gDPSetCycleType(GraphPtrOffset++, G_CYC_1CYCLE);
-			gSPClearGeometryMode(GraphPtrOffset++, G_FOG);
-		}		
+			
 	}
 	else
 	{
@@ -1855,18 +1850,9 @@ void DisplayKT1Hook(Screen* Display)
 
 void XLUDisplay(Screen* Display)
 {	
-	return;
+	
 	if ((OverKartHeader.Version > 4) && (HotSwapID > 0))
 	{	
-		/*
-		if (OverKartHeader.FogStart > 0)
-		{
-			gDPSetCycleType(GraphPtrOffset++, G_CYC_2CYCLE);
-			gDPSetFogColor(GraphPtrOffset++, (uint)OverKartHeader.FogRGBA[0],(uint)OverKartHeader.FogRGBA[1],(uint)OverKartHeader.FogRGBA[2],(uint)OverKartHeader.FogRGBA[3]);
-			gSPFogPosition(GraphPtrOffset++, OverKartHeader.FogStart, OverKartHeader.FogStop);
-			gSPSetGeometryMode(GraphPtrOffset++, G_FOG);
-		}
-		*/
 		if (g_gameMode != 3)
 		{
 			DisplayGroupmap(SegmentAddress(6,OverKartHeader.XLUSectionViewPosition), Display);
@@ -1878,12 +1864,12 @@ void XLUDisplay(Screen* Display)
 			*(long*)*graphPointer = (long)(SegmentAddress(6,OverKartHeader.XLUSectionViewPosition));
 			*graphPointer = *graphPointer + 4;
 		}
-		/*
-		if (OverKartHeader.FogStart > 0)
-		{
-			gDPSetCycleType(GraphPtrOffset++, G_CYC_1CYCLE);
-			gSPClearGeometryMode(GraphPtrOffset++, G_FOG);
-		}
-		*/
 	}
+
+	
+	if (OverKartHeader.FogStart > 0)
+	{
+		gDPSetCycleType(GraphPtrOffset++, G_CYC_1CYCLE);
+		gSPClearGeometryMode(GraphPtrOffset++, G_FOG);
+	}	
 }

@@ -518,6 +518,7 @@ bool SkeletalMatrix(OKSkeleton* Skeleton, Object ObjectData, int FrameCount, int
 
 void DrawOKAnimationLoop(OKSkeleton* Skeleton, int CurrentPlayer, int Type)
 {
+	
 	bool TextureDrawn = false;	
 
 	for (int CurrentNode = 0; CurrentNode < Skeleton->NodeCount; CurrentNode++)
@@ -574,7 +575,6 @@ void DrawOKObjects(Camera* LocalCamera)
 		//This means running through each object TYPE, and drawing each piece of the model.
 		 
 
-
 		for (int CurrentType = 0; CurrentType < OverKartRAMHeader.ObjectTypeCount; CurrentType++)
 		{
 			//For each object type, we first check if the object uses animations or not
@@ -602,12 +602,14 @@ void DrawOKObjects(Camera* LocalCamera)
 			}
 			else
 			{	
+				
 				GlobalIntA = GetRealAddress( ObjectSegment | OverKartRAMHeader.ObjectTypeList[CurrentType].ObjectAnimations);		
 				uint* AnimationOffsets = (uint*)(GlobalIntA);
 				GlobalIntA = GetRealAddress( ObjectSegment | AnimationOffsets[0]);
 				GlobalIntA += 4; //skip past the framecount, we stored this earlier.
 				GlobalAddressA = GlobalIntA + sizeof(OKSkeleton); //ooohhhh you.
 				OKSkeleton* Skeleton = (OKSkeleton*)(GlobalIntA); 
+				*(uint*)(0x80600000 + CurrentType * 4) = GlobalIntA;
 				DrawOKAnimationLoop(Skeleton, CurrentPlayer, CurrentType);
 				
 				
@@ -677,6 +679,7 @@ void DrawOKObjects(Camera* LocalCamera)
 				OKObjectArray[GlobalShortA].ZBuffer = -1;
 			}
 		}
+
 	}
 }
 

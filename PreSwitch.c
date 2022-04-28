@@ -19,7 +19,7 @@ void printMenuSwitch()
      {
           if (*(uint*)((uint)&ExpansionCheckAddress) == 0x11223344)
 		{
-               KWSpriteDiv(256,120,(ushort*)((0x80200400 + (int)&RAMCheckEnd - (int)&RAMCheck)),512,240,4);     
+               KWSpriteDiv(256,120,(ushort*)((((uint)&PRELOAD_RAM + 0x400) + (int)&RAMCheckEnd - (int)&RAMCheck)),512,240,4);     
                g_FadeCounter2[4] = 1;     
 		}
      }
