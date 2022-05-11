@@ -1,11 +1,65 @@
 #include "../MainInclude.h"
 
+//Surface SFX
+
+#define SFX_STOP_ALL			21
+
+#define SFX_SLIP				1
+#define SFX_DRIFT				2
+#define SFX_MOTOR				3
+
+#define SFX_DIRT_TRAP_STEER		13
+#define SFX_SAND_TRAP_STEER		14
+#define SFX_STONE				15
+#define SFX_SNOW				16
+#define SFX_WOOD_STEER			17
+#define SFX_SPINOUT_ONCE		18
+#define SFX_SPINOUT				19
+#define SFX_ICE					20
+#define SFX_WOOD_BRIDGE			24
+#define SFX_WOOD_BRIDGE2		25
+#define SFX_RAILWAY				26
+#define SFX_BUBBLES				27
+
+#define SFX_GRASS_CENTER		4
+#define SFX_GRASS_LEFT			5
+#define SFX_GRASS_RIGHT			6
+#define SFX_WET_SAND_CENTER		7
+#define SFX_WET_SAND_LEFT		8
+#define SFX_WET_SAND_RIGHT		9
+#define SFX_SAND_CENTER			10
+#define SFX_SAND_LEFT			11
+#define SFX_SAND_RIGHT			12
+#define SFX_DIRT_CENTER			22
+#define SFX_DIRT_LEFT			23
+#define SFX_DIRT_RIGHT			24
+#define SFX_WET_SNOW_CENTER		28
+#define SFX_WET_SNOW_LEFT		29
+#define SFX_WET_SNOW_RIGHT		30
+
+
+void SurfaceSFX(Player *car, int SFX_ID, float min_Speed)
+{
+	short car_number = car - &GlobalPlayer[0];
+
+	if (SPEEDMETER(car->speed) >= min_Speed && car->flag&IS_PLAYER)
+	{
+		if (g_PlayerSurfaceSoundID[car_number] == 0)
+		{
+			g_PlayerSurfaceSoundID[car_number] = SFX_ID;
+		}
+	}	
+}
+
+
+
+
 #define TRICK_GRAVITY				4000.0f
 #define TRICK_TRIGGER_SPEED_MIN		30
 
 #define GAP_GRAVITY				2000.0f
 
-#define IS_BROKEN (IS_SPINNING_OUT|SPINOUT_LEFT|SPINOUT_RIGHT|IS_MOMENTUM_HIT|IS_VERTICAL_HIT)
+#define IS_BROKEN (IS_SPINNING_OUT|SPINOUT_LEFT|SPINOUT_RIGHT|IS_MOMENTUM_HIT|IS_VERTICAL_HIT|IS_TUMBLING|IS_WALL_TUMBLING)
 
 #define FastOoB			251
 #define Water			250
@@ -25,6 +79,7 @@
 #define TrickJump		236
 #define GapJump			235
 
+#define Mud				18
 
 
 short SurfaceStorage[8];
@@ -97,13 +152,21 @@ void AddGravityEdit(Player *car)
 		}				
 		car->turbo_timer = 80;
 		break;
+	case Mud:
+		if (car->jumpcount == 0 && car->wallhitcount == 0 && !(car->slip_flag&(IS_STAR|IS_BRAKING)))
+		{
+			SurfaceSFX(car,SFX_WET_SAND_CENTER,10.0f);
+			car->power_cont = 0.65f;
+		}
+		break;
 	}
 
 	// Storage flag routine //
 	
-	if (car->slip_flag&IS_BROKEN)
+	if (car->slip_flag&IS_BROKEN || car->jugemu_flag&ON_LAKITU_ROD)
 	{
 		SurfaceStorage[car_number] = STORE_NONE;
+		car->max_power = 0;
 	}
 
 	if (SurfaceStorage[car_number]&STORE_TRICK)
@@ -115,6 +178,7 @@ void AddGravityEdit(Player *car)
 		if (car->jumpcount >= 40)
 		{
 			car->slip_flag &= ~IS_FEATHER_JUMPING;
+			car->old_direction = car->direction[1];
 		}
 		if (car->jumpcount == 0)
 		{
@@ -123,8 +187,18 @@ void AddGravityEdit(Player *car)
 		if (!(car->flag&0x80))
 		{
 			SetAnimMusicNote(car_number);
-			SetTurbo(car, car_number);
-			car->turbo_timer = 3;
+			if (car->slip_flag&IS_TURBO_BOOSTING)
+			{
+				car->turbo_timer += 15;
+			}
+			else
+			{
+				if (!(car->slip_flag&IS_BROKEN))
+				{
+					SetTurbo(car, car_number);
+					car->turbo_timer = 3;
+				}
+			}
 			SurfaceStorage[car_number] = STORE_NONE;
 			car->velocity[1] = 0;
 			MakeBodyColor(car,car_number,0x00500050,2.0f);
@@ -142,6 +216,7 @@ void AddGravityEdit(Player *car)
 		if (car->jumpcount >= 40)
 		{
 			car->slip_flag &= ~IS_FEATHER_JUMPING;
+			car->old_direction = car->direction[1];
 		}
 		if (car->jumpcount == 0)
 		{
@@ -150,8 +225,18 @@ void AddGravityEdit(Player *car)
 		if (!(car->flag&0x80))
 		{
 			SetAnimMusicNote(car_number);
-			SetTurbo(car, car_number);
-			car->turbo_timer = 3;
+			if (car->slip_flag&IS_TURBO_BOOSTING)
+			{
+				car->turbo_timer += 15;
+			}
+			else
+			{
+				if (!(car->slip_flag&IS_BROKEN))
+				{
+					SetTurbo(car, car_number);
+					car->turbo_timer = 3;
+				}
+			}
 			SurfaceStorage[car_number] = STORE_NONE;
 			car->velocity[1] = 0;
 			MakeBodyColor(car,car_number,0x00500050,2.0f);
@@ -164,16 +249,26 @@ void AddGravityEdit(Player *car)
 	{
 		case TrickJump:
 		{
-			if (car->jumpcount <= 10 && GlobalController[cont_number]->ButtonPressed&BTN_R && SPEEDMETER(car->speed) >= TRICK_TRIGGER_SPEED_MIN && !(car->slip_flag&IS_BROKEN) && !(car->slip_flag&IS_FEATHER_JUMPING) && !(SurfaceStorage[car_number]&STORE_TRICK))
+		if (car->jumpcount <= 10 && GlobalController[cont_number]->ButtonPressed&BTN_R && SPEEDMETER(car->speed) >= TRICK_TRIGGER_SPEED_MIN && !(car->slip_flag&IS_BROKEN) && !(car->slip_flag&IS_FEATHER_JUMPING) && !(SurfaceStorage[car_number]&STORE_TRICK))
+		{
+			car->flag |= 0x80;
+			SetAnimBonkStars(car_number);
+			if (car->slip_flag&IS_TURBO_BOOSTING)
 			{
-				car->flag |= 0x80;
-				SetAnimBonkStars(car_number);
+				short turbo_store = car->turbo_timer;
 				SetWing(car, car_number);
-				car->jumpcount = 0;
-				if (car->max_power != car->bump_status)
-				{
-					car->max_power = car->bump_status;
-				}
+				car->slip_flag |= IS_TURBO_BOOSTING;
+				car->turbo_timer = turbo_store;
+			}
+			else
+			{
+				SetWing(car, car_number);
+			}
+			car->jumpcount = 0;
+			if (car->max_power != car->bump_status)
+			{
+				car->max_power = car->bump_status;
+			}
 				SurfaceStorage[car_number] = STORE_TRICK;
 			}
 			else if (car->flag & IS_CPU_PLAYER)
@@ -196,16 +291,26 @@ void AddGravityEdit(Player *car)
 
 		case GapJump:
 		{
-			if (car->jumpcount <= 10 && GlobalController[cont_number]->ButtonPressed&BTN_R && SPEEDMETER(car->speed) >= TRICK_TRIGGER_SPEED_MIN && !(car->slip_flag&IS_BROKEN) && !(car->slip_flag&IS_FEATHER_JUMPING) && !(SurfaceStorage[car_number]&STORE_TRICK))
+		if (car->jumpcount <= 10 && GlobalController[cont_number]->ButtonPressed&BTN_R && SPEEDMETER(car->speed) >= TRICK_TRIGGER_SPEED_MIN && !(car->slip_flag&IS_BROKEN) && !(car->slip_flag&IS_FEATHER_JUMPING) && !(SurfaceStorage[car_number]&STORE_GAP))
+		{
+			car->flag |= 0x80;
+			SetAnimBonkStars(car_number);
+			if (car->slip_flag&IS_TURBO_BOOSTING)
 			{
-				car->flag |= 0x80;
-				SetAnimBonkStars(car_number);
+				short turbo_store = car->turbo_timer;
 				SetWing(car, car_number);
-				car->jumpcount = 0;
-				if (car->max_power != car->bump_status)
-				{
-					car->max_power = car->bump_status;
-				}
+				car->slip_flag |= IS_TURBO_BOOSTING;
+				car->turbo_timer = turbo_store;
+			}
+			else
+			{
+				SetWing(car, car_number);
+			}
+			car->jumpcount = 0;
+			if (car->max_power != car->bump_status)
+			{
+				car->max_power = car->bump_status;
+			}
 				SurfaceStorage[car_number] = STORE_GAP;
 			}
 			else if (car->flag & IS_CPU_PLAYER)
@@ -397,29 +502,33 @@ void CheckMapBG_ZX_Hook(Player *car, Vector normal, Vector velocity, Vector g_ve
 #define SMOKE_GRASS			3
 #define SMOKE_RAPID			5
 
+//Smoke dither
+#define SMOKE_DITHERNONE	0
+#define SMOKE_DITHER		1
 
-void InitCustomSmoke(Player *car, Vector pos, short count, int kk, int surface, int LR_flag)
+void InitCustomSmoke(Player *car, Vector pos_R, Vector pos_F, short count, int kk, int surface, int LR_flag)
 {
 	int min_speed;
 	int color;
-	char alpha, dither;
+	char alpha;
+	short car_number = car-&GlobalPlayer[0];
 
 	switch (surface)
 	{
-	case Shrunken:
-		min_speed = 10;
-		color =  0x00FFD37A;
+	case Mud:
+		min_speed = 5;
+		color =  CHARS2INT(0,16,0,0);
 		alpha = 100;
-		dither = 100;
 
 		if(count == 0 && (car->smoke[kk].timer >= 1 || car->smoke[kk].flag == 0))
 		{
 			if(SPEEDMETER(car->speed) >= min_speed)
 			{
-				MakePos(car, &car->smoke[count], pos[0], pos[1], pos[2], surface, LR_flag);
+				MakePos(car, &car->smoke[count], pos_R[0], pos_R[1], pos_R[2], surface, LR_flag);
 				MakeStartup(&car->smoke[count], SMOKE_RANDOM, 0.75f);
 				MakeRDP(&car->smoke[count], color, alpha);
-				car->smoke[count].swork5 = dither;
+				car->smoke[count].swork5 = SMOKE_DITHER;
+				ParticleCreate_Local(PTCLGROUNDMUD, car_number, 0, -car->direction[1], pos_R, 0.3f, SPEEDMETER(car->speed)/200, 0, 0, 1, KWMODE_BL, FRAME_1, 1, LR_flag, CHARS2INT(230,140,40,175));
 			}
 		} 
 		else
@@ -428,10 +537,11 @@ void InitCustomSmoke(Player *car, Vector pos, short count, int kk, int surface, 
 			{
 				if(SPEEDMETER(car->speed) >= min_speed)
 				{
-					MakePos(car, &car->smoke[count], pos[0], pos[1], pos[2], surface, LR_flag);
-					MakeStartup(&car->smoke[count], SMOKE_RAPID, 0.75f);
+					MakePos(car, &car->smoke[count], pos_R[0], pos_R[1], pos_R[2], surface, LR_flag);
+					MakeStartup(&car->smoke[count], SMOKE_RAPID, 1.0f);
 					MakeRDP(&car->smoke[count], color, alpha);
-					car->smoke[count].swork5 = dither;
+					car->smoke[count].swork5 = SMOKE_DITHER;
+					ParticleCreate_Local(PTCLGROUNDMUD, car_number, 0, -car->direction[1], pos_R, 0.3f, SPEEDMETER(car->speed)/200, 0, 0, 1, KWMODE_BL, FRAME_1, 1, LR_flag, CHARS2INT(230,140,40,175));
 				}
 			}
 		}
@@ -445,26 +555,33 @@ void InitRndSmokeHook(Player *car,short count,int kk,char kno,char place)
 
 	ushort rndom = MakeRandomLimmit(10);
 	int	surface = 0xff, flag;
-	Vector pos = {0,0,0};
+	Vector pos_R = {0,0,0};
+	Vector pos_F = {0,0,0};
 
 	if(rndom==0 || rndom==8)
 	{
-		pos[0] = car->tire_RL.Position[0];
-		pos[1] = car->tire_RL.Height+2;
-		pos[2] = car->tire_RL.Position[2];
+		pos_R[0] = car->tire_RL.Position[0];
+		pos_R[1] = car->tire_RL.Height+2;
+		pos_R[2] = car->tire_RL.Position[2];
+		pos_F[0] = car->tire_FL.Position[0];
+		pos_F[1] = car->tire_FL.Height+2;
+		pos_F[2] = car->tire_FL.Position[2];
 		flag = 1; //LEFT
 		surface = car->tire_RL.Status;
 	}
 	if(rndom==2 || rndom==6)
 	{
-		pos[0] = car->tire_RR.Position[0];
-		pos[1] = car->tire_RR.Height+2;
-		pos[2] = car->tire_RR.Position[2];
+		pos_R[0] = car->tire_RR.Position[0];
+		pos_R[1] = car->tire_RR.Height+2;
+		pos_R[2] = car->tire_RR.Position[2];
+		pos_F[0] = car->tire_FR.Position[0];
+		pos_F[1] = car->tire_FR.Height+2;
+		pos_F[2] = car->tire_FR.Position[2];
 		flag = 0; //RIGHT
 		surface = car->tire_RR.Status;
 	}
 
-	InitCustomSmoke(car, pos, count, kk, surface, flag);
+	InitCustomSmoke(car, pos_R, pos_F, count, kk, surface, flag);
 }
 
 void InitRapidSmokeHook(Player *car,short count,int kk,char kno,char place)
@@ -473,26 +590,33 @@ void InitRapidSmokeHook(Player *car,short count,int kk,char kno,char place)
 
 	ushort rndom = MakeRandomLimmit(10);
 	int	surface = 0xff, flag;
-	Vector pos = {0,0,0};
+	Vector pos_R = {0,0,0};
+	Vector pos_F = {0,0,0};
 
 	if(rndom==0 || rndom==8)
 	{
-		pos[0] = car->tire_RL.Position[0];
-		pos[1] = car->tire_RL.Height+2;
-		pos[2] = car->tire_RL.Position[2];
+		pos_R[0] = car->tire_RL.Position[0];
+		pos_R[1] = car->tire_RL.Height+2;
+		pos_R[2] = car->tire_RL.Position[2];
+		pos_F[0] = car->tire_FL.Position[0];
+		pos_F[1] = car->tire_FL.Height+2;
+		pos_F[2] = car->tire_FL.Position[2];
 		flag = 1; //LEFT
 		surface = car->tire_RL.Status;
 	}
 	if(rndom==2 || rndom==6)
 	{
-		pos[0] = car->tire_RR.Position[0];
-		pos[1] = car->tire_RR.Height+2;
-		pos[2] = car->tire_RR.Position[2];
+		pos_R[0] = car->tire_RR.Position[0];
+		pos_R[1] = car->tire_RR.Height+2;
+		pos_R[2] = car->tire_RR.Position[2];
+		pos_F[0] = car->tire_FR.Position[0];
+		pos_F[1] = car->tire_FR.Height+2;
+		pos_F[2] = car->tire_FR.Position[2];
 		flag = 0; //RIGHT
 		surface = car->tire_RR.Status;
 	}
 
-	InitCustomSmoke(car, pos, count, kk, surface, flag);
+	InitCustomSmoke(car, pos_R, pos_F, count, kk, surface, flag);
 }
 
 void InitSpinSmokeHook(Player *car,short count,int kk,char kno,char place)
@@ -501,24 +625,31 @@ void InitSpinSmokeHook(Player *car,short count,int kk,char kno,char place)
 
 	ushort rndom = MakeRandomLimmit(10);
 	int	surface = 0xff, flag;
-	Vector pos = {0,0,0};
+	Vector pos_R = {0,0,0};
+	Vector pos_F = {0,0,0};
 
 	if(rndom==0 || rndom==8)
 	{
-		pos[0] = car->tire_RL.Position[0];
-		pos[1] = car->tire_RL.Height+2;
-		pos[2] = car->tire_RL.Position[2];
+		pos_R[0] = car->tire_RL.Position[0];
+		pos_R[1] = car->tire_RL.Height+2;
+		pos_R[2] = car->tire_RL.Position[2];
+		pos_F[0] = car->tire_FL.Position[0];
+		pos_F[1] = car->tire_FL.Height+2;
+		pos_F[2] = car->tire_FL.Position[2];
 		flag = 1; //LEFT
 		surface = car->tire_RL.Status;
 	}
 	if(rndom==2 || rndom==6)
 	{
-		pos[0] = car->tire_RR.Position[0];
-		pos[1] = car->tire_RR.Height+2;
-		pos[2] = car->tire_RR.Position[2];
+		pos_R[0] = car->tire_RR.Position[0];
+		pos_R[1] = car->tire_RR.Height+2;
+		pos_R[2] = car->tire_RR.Position[2];
+		pos_F[0] = car->tire_FR.Position[0];
+		pos_F[1] = car->tire_FR.Height+2;
+		pos_F[2] = car->tire_FR.Position[2];
 		flag = 0; //RIGHT
 		surface = car->tire_RR.Status;
 	}
 
-	InitCustomSmoke(car, pos, count, kk, surface, flag);
-} 
+	InitCustomSmoke(car, pos_R, pos_F, count, kk, surface, flag);
+}

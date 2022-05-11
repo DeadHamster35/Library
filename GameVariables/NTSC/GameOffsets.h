@@ -853,6 +853,7 @@ extern long g_InstrumentTable; //0x803B90B0
 extern long g_RawAudio; //0x803B9260
 
 extern short g_surfaceCheckP1;
+extern uint g_PlayerSurfaceSoundID[4];
 
 extern char g_gamePausedFlag;
 

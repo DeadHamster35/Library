@@ -860,6 +860,7 @@
 
 
 .definelabel g_surfaceCheckP1, 0x800F6A88
+.definelabel g_PlayerSurfaceSoundID, 0x800E9E74
 
 .definelabel g_gamePausedFlag, 0x800EA16C
 
