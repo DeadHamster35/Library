@@ -548,7 +548,11 @@ void Misbehave(OKObject* InputObject)
 	{
 		case BEHAVIOR_STATIC:
 		{
-			UpdateObjectAngle((Object*)(&InputObject->ObjectData), InputObject->AngularVelocity);
+			
+			Vector FAngle = {(float)InputObject->AngularVelocity[0],(float)InputObject->AngularVelocity[1],(float)InputObject->AngularVelocity[2] };
+			MakeAlignVector(FAngle, OverKartRAMHeader.ObjectList[InputObject->ListIndex].OriginAngle[1]);
+			SVector SAngle = {(short)FAngle[0],(short)FAngle[1],(short)FAngle[2]};
+			UpdateObjectAngle((Object*)(&InputObject->ObjectData), SAngle);
 			ObjectBehaviorExist(InputObject);
 			break;
 		}

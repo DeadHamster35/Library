@@ -408,6 +408,7 @@ extern long g_gameMode; //0 = gp 1 = time trials 2 = vs 3 =battle
 extern unsigned short g_DispFrame;
 extern long g_mirrorMode;
 extern short g_DebugBars;
+extern short g_ItemSetFlag;
 
 extern uint PathTable[20][4];
 
@@ -1089,6 +1090,9 @@ extern void NAIFxFlagEntry(uint A, float B[3], uchar C, float *D, float *E, char
 extern SVector CaveFirePos[8];
 extern void KWGetCaveFire(int objnum);
 extern int CaveFireColCheck;
+extern int KWChaseSVal(short *var,short val,short step);
+extern int KWChaseIVal(int   *var,int   val,int   step);
+extern int KWChaseFVal(float *var,float val,float step);
 extern void KWSet2Color(uint prim_r,uint prim_g,uint prim_b,uint env_r,uint env_g,uint env_b,uint a);
 extern void KWDisplayRank(int Player);
 extern void KWDisplayFireParticleSub(int num,uchar color,void* Camera);

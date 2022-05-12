@@ -883,46 +883,60 @@ void loadTextureScrollTranslucent()
 	}
 }
 
-
 void runTextureScroll()
 {
-	//Handle Texture Scrolling for custom levels.
+    GlobalAddressA = (long)(&ok_scrolltranslucent);
+    LoopValue = *(long*)(&ok_scrolltranslucent);
+    if (LoopValue == 0xFFFFFFFF)
+    {
+        return;
+    }
+    for (int CurrentScroll = 0; CurrentScroll < LoopValue; CurrentScroll++)
+    {
+        GlobalAddressB = *(long*)(GlobalAddressA + (CurrentScroll * 8) + 4);   //address of the texture command to scroll.
+        GlobalIntA = *(long*)(GlobalAddressA + (CurrentScroll * 8) + 8);
+        GlobalShortA = (GlobalIntA >> 16) & (0xFFFF); // S value
+        GlobalShortB = GlobalIntA & 0xFFFF; // T value
 
-	//Check a header for the scroll data.
-	//Scroll Data contains the count followed by the texture loads.
-	//Loop through a byte until it overlaps. 
+        // Chase S
+        if (GlobalShortA > 0)
+        {
+            KWChaseIVal(&ScrollValues[CurrentScroll][0],255,GlobalShortA);
+            if (ScrollValues[CurrentScroll][0] >= 255)
+            {
+                ScrollValues[CurrentScroll][0] = 0;
+            }
+        }
+        if (GlobalShortA < 0)
+        {
+            KWChaseIVal(&ScrollValues[CurrentScroll][0],0,GlobalShortA);
+            if (ScrollValues[CurrentScroll][0] <= 0)
+            {
+                ScrollValues[CurrentScroll][0] = 255;
+            }
+        }        
 
-	GlobalAddressA = (long)(&ok_scrolltranslucent);
-	LoopValue = *(long*)(&ok_scrolltranslucent);
-	for (int CurrentScroll = 0; CurrentScroll < LoopValue; CurrentScroll++)
-	{
-		GlobalAddressB = *(long*)(GlobalAddressA + (CurrentScroll * 8) + 4);   //address of the texture command to scroll.
-		GlobalIntA = *(long*)(GlobalAddressA + (CurrentScroll * 8) + 8);
-		ScrollValues[CurrentScroll][0] += (GlobalIntA >> 16) & (0xFFFF);
-		ScrollValues[CurrentScroll][1] += GlobalIntA & 0xFFFF;
+        // Chase T
+        if (GlobalShortB > 0)
+        {
+            KWChaseIVal(&ScrollValues[CurrentScroll][1],255,GlobalShortB);
+            if (ScrollValues[CurrentScroll][1] >= 255)
+            {
+                ScrollValues[CurrentScroll][1] = 0;
+            }
+        }
+        if (GlobalShortB < 0)
+        {
+            KWChaseIVal(&ScrollValues[CurrentScroll][1],0,GlobalShortB);
+            if (ScrollValues[CurrentScroll][1] <= 0)
+            {
+                ScrollValues[CurrentScroll][1] = 255;
+            }
+        }    
 
-
-		if (ScrollValues[CurrentScroll][0] > 255)
-		{
-			ScrollValues[CurrentScroll][0] -= 255;
-		}
-		if (ScrollValues[CurrentScroll][0] < 0)
-		{
-			ScrollValues[CurrentScroll][0] += 255;
-		}
-		if (ScrollValues[CurrentScroll][1] > 255)
-		{
-			ScrollValues[CurrentScroll][1] -= 255;
-		}
-		if (ScrollValues[CurrentScroll][1] < 0)
-		{
-			ScrollValues[CurrentScroll][1] += 255;
-		}
-
-
-		ScrollMapImage(GlobalAddressB,ScrollValues[CurrentScroll][0],ScrollValues[CurrentScroll][1]);
-
-	}
+        // Run stock func
+        ScrollMapImage(GlobalAddressB,ScrollValues[CurrentScroll][0],ScrollValues[CurrentScroll][1]);
+    }
 }
 
 void runWaterVertex()
@@ -954,10 +968,9 @@ void runDisplayScreen()
     {
         return;
     }
-
 	for (int CurrentScreen = 0; CurrentScreen < 6; CurrentScreen++)
 	{
-		GlobalAddressC = *(long*)(GlobalAddressB + (CurrentScreen * 4) + 4);
+		GlobalAddressC = *(long*)(GlobalAddressA + (CurrentScreen * 4) + 4);
 		
 		
 
@@ -967,7 +980,6 @@ void runDisplayScreen()
 		GlobalShortA=(short)(g_DispFrame)-1;
        	if(GlobalShortA<0)   GlobalShortA=2;
        	else if(GlobalShortA>2)   GlobalShortA=0;
-
        	switch(CurrentScreen)
 		{
 			case 0:
@@ -1006,6 +1018,7 @@ void runDisplayScreen()
 			}
 			
 		}
+		
 	}
 }
 

@@ -15,7 +15,7 @@
 extern void gameCode();
 extern void titleMenu();
 extern void DisplayObject(void *Car, Object *InputObject);
-extern int CollideObject(void *Camera, void *Object);
+extern int CollideObject(Player* Car, Object* Target);
 extern void DisplayCrashScreen();
 extern long RAMCheck, RAMCheckEnd;
 extern void PrintMenuFunction();

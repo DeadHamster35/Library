@@ -258,3 +258,17 @@ int cupChar[] = {12,10,8,11};
 char *courseNames[] = {"Mario Raceway", "Choco Mountain", "Bowser Castle", "Banshee Boardwalk","Yoshi Valley", "Frappe Snowland", "Koopa Troopa Beach", "Royal Raceway",
 "Luigi Raceway", "Moo Moo Farm", "Toad Turnpike","Kalimari Desert","Sherbet Land","Rainbow Road","Wario Stadium", "Block Fort", "Skyscraper", "Double Deck", "DK Jungle Parkway","Big Donut"};
 int courseChar[] = {13,14,13,17,12,15,18,13,13,12,13,15,11,12,13,10,10,11,17,9};
+
+Vector Origin = {0,0,0,};
+ObjectivePlayer       Objectives[4];
+ObjectiveObject     GameFlag[4];
+ObjectiveObject     GameBase[4];
+
+Marker* PlayerSpawnPoints;
+Marker* ObjectivePoints;
+
+float SpawnPoint[4][3];
+char      FlagCount, TeamMode;
+char      ScoreToWin, ObjectiveCount;
+short     SpawnTime, HitstunTime;
+short     TeamScore[2];

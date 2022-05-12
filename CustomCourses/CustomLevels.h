@@ -39,5 +39,4 @@ extern void EventDisplay(int player);
 extern void EventDisplay_After(int player);
 extern void CommonGameEventChart();
 extern void EmptyActionData(); 
-extern void DrawPerScreen(Camera* LocalCamera);
 #endif

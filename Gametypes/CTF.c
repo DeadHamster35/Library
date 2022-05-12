@@ -1,40 +1,23 @@
 #include "../MainInclude.h"
 
 
-typedef struct ObjectivePlayer
+
+
+void ResetFlag(int ThisFlag)
 {
-     char      FlagHeld, TeamIndex;
-     short     FlagTimer;
-     short     IFrames, Score;
-} ObjectivePlayer;
+     GameFlag[ThisFlag].Position[0] = SpawnPoint[ThisFlag][0];
+     GameFlag[ThisFlag].Position[1] = SpawnPoint[ThisFlag][1];
+     GameFlag[ThisFlag].Position[2] = SpawnPoint[ThisFlag][2];
 
-typedef struct ObjectiveObject
-{
-     float     Position[3];
-     float     Velocity[3];
-     short     RespawnTimer, IFrames;
-     char      PlayerHolding, TeamIndex;     
-     short     Angle;
-     uint      F3D;
-     Bump      BumpData;
-} ObjectiveObject;
+     GameFlag[ThisFlag].Velocity[0] = 0;
+     GameFlag[ThisFlag].Velocity[1] = 0;
+     GameFlag[ThisFlag].Velocity[2] = 0;
 
-ObjectivePlayer       Objectives[4];
-ObjectiveObject     GameFlag[4];
-ObjectiveObject     GameBase[4];
-
-Marker* PlayerSpawnPoints;
-Marker* ObjectivePoints;
-
-float SpawnPoint[4][3];
-char      FlagCount, TeamMode;
-char      ScoreToWin, ObjectiveCount;
-short     SpawnTime, HitstunTime;
-short     TeamScore[2];
-
-Vector Origin = {0,0,0,};
-
-
+     GameFlag[ThisFlag].PlayerHolding = -1;
+     GameFlag[ThisFlag].IFrames = 0;
+     GameFlag[ThisFlag].RespawnTimer = 0;
+     GameFlag[ThisFlag].Angle = 0;
+}
 
 
 void DrawGameFlags(Camera* LocalCamera)
@@ -168,7 +151,7 @@ void PlaceFlags(uint BattleFlagF3D, uint PlayerFlagF3D[])
                SpawnPoint[ThisFlag][1] = GlobalPlayer[ThisFlag].position[1];
                SpawnPoint[ThisFlag][2] = GlobalPlayer[ThisFlag].position[2] - objectVelocity[2] * 2;
 
-               //ResetFlag(ThisFlag);
+               ResetFlag(ThisFlag);
           }
      }
      FlagCount = g_playerCount;
@@ -204,6 +187,7 @@ void CaptureFlag()
                               {
                                    if (TestCollideSphere(GlobalPlayer[ThisPlayer].position, GlobalPlayer[ThisPlayer].radius, GameFlag[ThisFlag].Position, 5.0))
                                    {
+                                        
                                         Objectives[ThisPlayer].FlagHeld = ThisFlag;
                                         GameFlag[ThisFlag].PlayerHolding = ThisPlayer;
                                         ChangeMaxSpeed(ThisPlayer, -60);
@@ -234,12 +218,24 @@ void CaptureFlag()
                          }
                          GameFlag[(int)Objectives[ThisPlayer].FlagHeld].PlayerHolding = -1;
                          GameFlag[(int)Objectives[ThisPlayer].FlagHeld].RespawnTimer = SpawnTime;
-                         Objectives[ThisPlayer].FlagHeld = -1;                         
+                         Objectives[ThisPlayer].FlagHeld = -1;  
+                                                
                     }
                }
           }
      }
      
+     for (int ThisFlag = 0; ThisFlag < FlagCount; ThisFlag++)
+     {
+          if (GameFlag[ThisFlag].RespawnTimer > 0)
+          {
+               GameFlag[ThisFlag].RespawnTimer--;
+          }
+          else if (GameFlag[ThisFlag].RespawnTimer == 0)
+          {
+               ResetFlag(ThisFlag);     
+          }
+     }
 }
 void DropFlag(int PlayerIndex)
 {

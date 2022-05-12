@@ -414,7 +414,7 @@
 .definelabel g_DispFrame, 0x800DC55C
 .definelabel g_mirrorMode, 0x800DC604
 .definelabel g_DebugBars, 0x800DC662
-
+.definelabel g_ItemSetFlag, 0x800DC648
 .definelabel PathTable, 0x800DC8D0
 
 .definelabel g_courseFaceStructPtr, 0x8015F580
@@ -1111,6 +1111,9 @@
 .definelabel CaveFirePos, 0x800E6788
 .definelabel KWGetCaveFire, 0x800770F0
 .definelabel CaveFireColCheck, 0x800547CC
+.definelabel KWChaseSVal, 0x80041288
+.definelabel KWChaseIVal, 0x8004132C
+.definelabel KWChaseFVal, 0x800413B8
 .definelabel KWSet2Color, 0x8004B1C8
 .definelabel KWDisplayRank, 0x8004E800
 .definelabel KWDisplayFireParticleSub, 0x8005477C

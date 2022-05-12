@@ -146,6 +146,25 @@ typedef struct OKObject{
 	Object	ObjectData;//
 } OKObject;
 
+
+typedef struct ObjectivePlayer
+{
+     char      FlagHeld, TeamIndex;
+     short     FlagTimer;
+     short     IFrames, Score;
+} ObjectivePlayer;
+
+typedef struct ObjectiveObject
+{
+     float     Position[3];
+     float     Velocity[3];
+     short     RespawnTimer, IFrames;
+     char      PlayerHolding, TeamIndex;     
+     short     Angle;
+     uint      F3D;
+     Bump      BumpData;
+} ObjectiveObject;
+
 typedef struct OKPathStruct{
 	short	PathStart;
 	short	PathStop;

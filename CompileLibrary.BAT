@@ -75,7 +75,7 @@ cd ..
 cd Gametypes
 ::  GameTypes
 
-set ListGT= "CTF.c"
+set ListGT= "CTF.c" "Soccer.c"
 
 (for %%a in (%ListGT%) do (
    echo Working on %%a 

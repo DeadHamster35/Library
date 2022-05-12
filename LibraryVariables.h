@@ -180,6 +180,21 @@ extern char *courseNames[];
 extern int courseChar[];
 
 
+extern Vector Origin;
+extern ObjectivePlayer       Objectives[4];
+extern ObjectiveObject     GameFlag[4];
+extern ObjectiveObject     GameBase[4];
+
+extern Marker* PlayerSpawnPoints;
+extern Marker* ObjectivePoints;
+
+extern float SpawnPoint[4][3];
+extern char      FlagCount, TeamMode;
+extern char      ScoreToWin, ObjectiveCount;
+extern short     SpawnTime, HitstunTime;
+extern short     TeamScore[2];
+
+
 #define 	BTN_A		0x8000 
 #define 	BTN_B		0x4000 
 #define 	BTN_Z		0x2000 

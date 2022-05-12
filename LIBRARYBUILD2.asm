@@ -9,10 +9,6 @@ HudButtonsROM:
 BigFontROM:
 .import "../library/data/big_font.mio0.bin"
 .align 0x10
-Crash:
-.import "../library/data/test/Crash512.bin"
-.align 0x10
-CrashEnd:
 
 
 

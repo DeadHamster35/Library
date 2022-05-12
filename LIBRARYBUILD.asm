@@ -49,6 +49,7 @@
 
 .align 0x10
 .importobj "../library/Gametypes/CTF.o"
+.importobj "../library/Gametypes/Soccer.o"
 
 
 .align 0x10
