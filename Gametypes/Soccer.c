@@ -34,7 +34,7 @@ void DrawGameBalls(Camera* LocalCamera)
     for (int ThisBall = 0; ThisBall < FlagCount; ThisBall++)
     {
         GlobalIntA = (int)GameFlag[ThisBall].PlayerHolding;
-        GameFlag->Angle += (DEG1 * 2);
+        
         if (GlobalIntA != -1)
         {
             GameFlag[ThisBall].Position[0] = GlobalPlayer[GlobalIntA].position[0];
@@ -75,7 +75,12 @@ void DrawGameBalls(Camera* LocalCamera)
             }
         }
                 
-        objectAngle[1] = GameFlag->Angle;
+        objectVelocity[0] = 0;
+        objectVelocity[1] = 0;
+        objectVelocity[2] = DEG1 * 2;
+        MakeAlignVector(objectVelocity, GameFlag->Angle);
+        objectAngle[0] = (short)objectVelocity[0];
+        objectAngle[2] = (short)objectVelocity[0];
         DrawGeometryScale(GameFlag[ThisBall].Position, objectAngle, (int)GameFlag[ThisBall].F3D, 0.1);
     }
 }
@@ -150,7 +155,7 @@ void PlaceBalls(uint BattleFlagF3D, uint PlayerFlagF3D[])
 
 
 
-void ScoreGoal()
+void CaptureBalls()
 {
     //Decrement the I-Frames for the Flag.
     for (int ThisBall = 0; ThisBall < FlagCount; ThisBall++)
@@ -243,7 +248,7 @@ void ScoreGoal()
     }
      
 }
-void DropBall(int PlayerIndex)
+void DropBalls(int PlayerIndex)
 {
     if (Objectives[PlayerIndex].FlagHeld != -1)
     {
@@ -266,7 +271,6 @@ void DropBall(int PlayerIndex)
         Objectives[PlayerIndex].FlagHeld= -1;
         Objectives[PlayerIndex].IFrames = 90;
     }       
-	
 }
 
 

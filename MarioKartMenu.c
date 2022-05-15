@@ -317,7 +317,15 @@ void ModularMenu(int Alpha, OKMenu OptionsMenu)
      
      MenuPosition[1] = 30;
      
-     for (LoopValue = 0; LoopValue < 4; LoopValue++)
+     if (OptionsMenu.PanelAddress[MenuIndex].OptionCount > 4)
+     {
+          GlobalShortB = 4;
+     }
+     else
+     {
+          GlobalShortB = OptionsMenu.PanelAddress[MenuIndex].OptionCount;
+     }
+     for (LoopValue = 0; LoopValue < GlobalShortB; LoopValue++)
      {
           OKOption* ThisOption = (OKOption*)(&OptionsMenu.PanelAddress[MenuIndex].Options[LoopValue + (long)MenuOverflow]);          
           printString(45,MenuPosition[1],(char*)ThisOption->OptionName);
@@ -326,7 +334,7 @@ void ModularMenu(int Alpha, OKMenu OptionsMenu)
           printString(MenuPosition[0],MenuPosition[1],(char*)ThisOption->ParameterNames[GlobalShortA]);
           MenuPosition[1] = MenuPosition[1] + 18;          
      } 
-
+     
      if ((MenuOverflow + 4) < OptionsMenu.PanelAddress[MenuIndex].OptionCount)  //menuOverflowIndex
      {
           if (MenuBlink < 15)  //used for blinking down arrow

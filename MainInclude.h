@@ -37,6 +37,7 @@
 
 
 #include "Gametypes/CTF.h"
+#include "Gametypes/Soccer.h"
 
 #include "LibraryVariables.h"
 #include "MarioKart3D.h"

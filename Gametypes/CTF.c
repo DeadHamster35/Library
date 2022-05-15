@@ -20,6 +20,19 @@ void ResetFlag(int ThisFlag)
 }
 
 
+
+void DrawGameBase(Camera* LocalCamera)
+{    
+     //Draw GameFlags
+     objectAngle[0] = 0;    
+     objectAngle[1] = 0; 
+     objectAngle[2] = 0;
+     for (int ThisFlag = 0; ThisFlag < FlagCount; ThisFlag++)
+     {    
+          DrawGeometryScale(GameBase[ThisFlag].Position, objectAngle, (int)GameBase[ThisFlag].F3D, 0.35);
+     }
+}
+
 void DrawGameFlags(Camera* LocalCamera)
 {
      
@@ -76,7 +89,7 @@ void DrawGameFlags(Camera* LocalCamera)
      }
 }
 
-void PlaceFlags(uint BattleFlagF3D, uint PlayerFlagF3D[])
+void PlaceFlags(uint BattleFlagF3D, uint PlayerFlagF3D[], uint BattleBaseF3D, uint PlayerBaseF3D[])
 {
      if (HotSwapID > 0)
      {
@@ -128,30 +141,39 @@ void PlaceFlags(uint BattleFlagF3D, uint PlayerFlagF3D[])
           GameFlag[ThisFlag].Velocity[1] = 0;
           GameFlag[ThisFlag].Velocity[2] = 0;
 
-          objectVelocity[0] = 0;
-          objectVelocity[1] = 0;
+          objectVelocity[0] = 10;
+          objectVelocity[1] = 5;
           objectVelocity[2] = 15;
           MakeAlignVector(objectVelocity, GameFlag[ThisFlag].Angle);
 
-          GameFlag[ThisFlag].Position[0] = GlobalPlayer[ThisFlag].position[0] + objectVelocity[0];
-          GameFlag[ThisFlag].Position[1] = GlobalPlayer[ThisFlag].position[1] + objectVelocity[1] + 5;
-          GameFlag[ThisFlag].Position[2] = GlobalPlayer[ThisFlag].position[2] + objectVelocity[2];
-          GameFlag[ThisFlag].F3D = BattleFlagF3D;
+          SpawnPoint[ThisFlag][0] = GlobalPlayer[ThisFlag].position[0] - objectVelocity[0];
+          SpawnPoint[ThisFlag][1] = GlobalPlayer[ThisFlag].position[1] - objectVelocity[1];
+          SpawnPoint[ThisFlag][2] = GlobalPlayer[ThisFlag].position[2] - objectVelocity[2];
+          ResetFlag(ThisFlag);
+          
+          GameFlag[ThisFlag].F3D = PlayerFlagF3D[GlobalPlayer[ThisFlag].kart];
+          
+          GameBase[ThisFlag].Position[0] = GlobalPlayer[ThisFlag].position[0] - (objectVelocity[0] * 2);
+          GameBase[ThisFlag].Position[1] = GlobalPlayer[ThisFlag].position[1] - (objectVelocity[1] * 2);
+          GameBase[ThisFlag].Position[2] = GlobalPlayer[ThisFlag].position[2] - (objectVelocity[2] * 2);
+          
+          GameBase[ThisFlag].F3D = PlayerBaseF3D[GlobalPlayer[ThisFlag].kart];
+          
+          ResetFlag(ThisFlag);
      }
-     if (TeamMode != 1)
+     if (TeamMode == 0)
      {
           for (int ThisFlag = g_playerCount; ThisFlag < 4; ThisFlag++)
           {
-               objectVelocity[0] = 5;
-               objectVelocity[1] = 0;
-               objectVelocity[2] = 15;
-               MakeAlignVector(objectVelocity, GlobalPlayer[ThisFlag].direction[1]);
+               
 
-               SpawnPoint[ThisFlag][0] = GlobalPlayer[ThisFlag].position[0] - objectVelocity[0] * 2;
-               SpawnPoint[ThisFlag][1] = GlobalPlayer[ThisFlag].position[1];
-               SpawnPoint[ThisFlag][2] = GlobalPlayer[ThisFlag].position[2] - objectVelocity[2] * 2;
+               SpawnPoint[ThisFlag][0] = -65535;
+               SpawnPoint[ThisFlag][1] = -65535;
+               SpawnPoint[ThisFlag][2] = -65535;
 
+               GameBase[ThisFlag].F3D = BattleFlagF3D;
                ResetFlag(ThisFlag);
+
           }
      }
      FlagCount = g_playerCount;
