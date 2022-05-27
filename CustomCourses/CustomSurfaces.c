@@ -156,6 +156,11 @@ void AddGravityEdit(Player *car)
 		if (car->jumpcount == 0 && car->wallhitcount == 0 && !(car->slip_flag&(IS_STAR|IS_BRAKING)))
 		{
 			SurfaceSFX(car,SFX_WET_SAND_CENTER,10.0f);
+			if (car->flag&IS_CPU_PLAYER && car->handling_flag&CPU_SIMPLE_KART)
+			{
+				car->bump_status = 1;
+				break;
+			}
 			car->power_cont = 0.65f;
 		}
 		break;

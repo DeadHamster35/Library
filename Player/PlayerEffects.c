@@ -253,6 +253,10 @@ void SetPlayerColor(char playerID, int Colors, int AdjColor, float speed)
 
 void SetPlayerEcho(char playerID, char echo)
 {
+	if (!(GlobalPlayer[(int)playerID].flag&IS_PLAYER))
+	{
+		return;
+	}	
 	GlobalAddressA = (long)(&g_playerEcho) + (0x3C * playerID);
 	*(char*)GlobalAddressA = echo;
 }
