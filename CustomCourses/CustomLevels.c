@@ -898,6 +898,16 @@ void runTextureScroll()
         GlobalShortA = (GlobalIntA >> 16) & (0xFFFF); // S value
         GlobalShortB = GlobalIntA & 0xFFFF; // T value
 
+		// Set to 0
+		if (((GlobalIntA >> 16) & (0xFFFF)) == 0)
+		{
+			ScrollValues[CurrentScroll][0] = 0;
+		}
+		if ((GlobalIntA & 0xFFFF) == 0)
+		{
+			ScrollValues[CurrentScroll][1] = 0;
+		}
+
         // Chase S
         if (GlobalShortA > 0)
         {
