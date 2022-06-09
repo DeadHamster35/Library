@@ -616,6 +616,9 @@ extern short g_player4ScreenY; //0x8015F432
 extern short g_player4View; //0x8015F434
 extern short g_player4Section; //0x8015F438
 
+extern uint LastMemoryPointer;
+extern uint FreeMemoryPointer;
+
 extern float g_TrialTime;
 extern float g_lap2Time;
 extern float g_lap3Time;
@@ -1008,6 +1011,10 @@ extern char g_ShadowflagPlayer3;
 //GP points
 extern uchar g_playerGPpoints[8]; //name to num: Mario, Luigi, Yoshi, Toad, D.K., Wario, Peach, Bowser
 
+
+extern uint OSMemSize;
+
+
 //multiplayer points
 extern uchar g_2PRacePoints[2];
 extern uchar g_3PRacePoints[3];
@@ -1123,3 +1130,4 @@ extern int ShadowModel;
 extern int HoleModel;
 extern int ItemBoxModel;
 extern void MoveFallingRock(Object *obj);
+extern void DisplayFlagGate(Camera* PlayerCamera);

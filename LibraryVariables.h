@@ -186,7 +186,8 @@ extern ObjectiveObject     GameFlag[4];
 extern ObjectiveObject     GameBase[4];
 
 extern Marker* PlayerSpawnPoints;
-extern Marker* ObjectivePoints;
+extern CTFSpawn* ObjectivePoints;
+extern BattleObjectivePoint* CustomObjectivePoints;
 
 extern float SpawnPoint[4][3];
 extern char      FlagCount, TeamMode;

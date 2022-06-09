@@ -500,7 +500,7 @@ short ObjectSearchClosestMarker(float ObjectPostion[], Marker* PathData)
 
 void ObjectBehaviorFollowPath(OKObject* InputObject)
 {
-	uint* PathOffsets = (uint*)&pathOffset;
+	uint* PathOffsets = (uint*)&pathOffset; 
 	OKObjectType *ThisType = (OKObjectType*)&(OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex]);
 	Marker* PathData = (Marker*)(GetRealAddress(PathOffsets[ThisType->Range]));
 	if (InputObject->PathTarget == -1)
@@ -535,6 +535,8 @@ void ObjectBehaviorFollowPath(OKObject* InputObject)
 	}
 	
 }
+
+
 
 void ObjectBehaviorBounce(OKObject* InputObject)
 {

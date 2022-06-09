@@ -281,7 +281,7 @@ void OKObjectCollision(OKObject *InputObject)
 	OKCollisionSphere* HitBox = (OKCollisionSphere*)GetRealAddress(ObjectSegment | OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].ObjectHitbox);
 
 	//PlayerCount
-	if (g_gameMode == 0)
+	if (g_gameMode == GAMEMODE_GP)
 	{
 		GlobalShortA = 8;  
 	}

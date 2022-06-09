@@ -75,6 +75,25 @@ typedef struct OKSkeleton{
 } OKSkeleton;
 */
 
+#define BATTLE_GAMETYPE		0
+#define CTF_GAMETYPE 		1
+#define SOCCER_GAMETYPE		2
+
+
+typedef struct BattleObjectivePoint{
+	SVector 	Position;
+	short		Flag;
+	short		Player, Type;
+} BattleObjectivePoint;
+
+
+typedef struct CTFSpawn{
+
+     SVector Position[2][3][4];
+
+} CTFSpawn;
+
+
 typedef struct OKSkeleton{
 	uint			AnimationOffset;
 	int			NodeCount;
@@ -156,14 +175,19 @@ typedef struct ObjectivePlayer
 
 typedef struct ObjectiveObject
 {
-     float     Position[3];
-     float     Velocity[3];
-     short     RespawnTimer, IFrames;
-     char      PlayerHolding, TeamIndex;     
-     short     Angle;
-     uint      F3D;
-     Bump      BumpData;
+	float     	Position[3];
+	float     	Velocity[3];
+	short		AngularVel[3];
+	short		Scale;
+	short		Friction, Bounce;
+	short		Gravity, Lift;
+	short     	RespawnTimer, IFrames;
+	char      	PlayerHolding, TeamIndex;     
+	short     	Angle[3];
+	uint      	F3D;
+	Bump      	BumpData;
 } ObjectiveObject;
+
 
 typedef struct OKPathStruct{
 	short	PathStart;

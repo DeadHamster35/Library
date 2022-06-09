@@ -189,12 +189,6 @@ void CreateCustomItemBox(uint RSPAddress)
 	GlobalAddressA = GetRealAddress(RSPAddress);
 	Marker *BoxArray = (Marker*)(GlobalAddressA);
 	
-	if ( (g_gameMode == 1) || (g_ItemSetFlag == 0))
-	{
-		*(uint*)(0x80650000) = 0x11342345;
-		return;
-	}
-
 	for (int Vector = 0; Vector < 3; Vector++)
 	{
 		objectVelocity[Vector] = 0;

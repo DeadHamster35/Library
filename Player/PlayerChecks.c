@@ -2,6 +2,8 @@
 
 
 
+
+
 //bool IceSoundPlayed[8];
 
 void CheckSplashRepl(char WaterType)
@@ -351,7 +353,7 @@ void EffectBGMReplace()
 			}
 		}
 	}
-	if (g_gameMode == 3 && g_playerCount >= 3 && g_startingIndicator == 5)
+	if (g_gameMode == GAMEMODE_BATTLE && g_playerCount >= 3 && g_startingIndicator == 5)
 	{
 		NAMusicVolume(0);
 	}	

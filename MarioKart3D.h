@@ -17,6 +17,7 @@ extern Vtx_t V25632B[];
 extern Vtx_t V256x12832B[];
 extern Vtx_t V512x24032B[];
 extern Vtx_t V352x24032B[];
+extern Vtx_t tree1_v[];
 
 extern void DrawStereoscopic3D(short FocusValue);
 extern void ScaleMatrixXYZFixed(AffineMtx Matrix, SVector Vector);

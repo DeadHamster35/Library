@@ -2,6 +2,42 @@
 
 
 
+void gameCodeDefault();
+void titleMenuDefault();
+void DisplayObjectDefault(void *Car, Object *InputObject);
+int CollideObjectDefault(Player* Car, Object* Target)
+{
+	return 0;
+}
+void DisplayCrashScreenDefault();
+long RAMCheckDefault, RAMCheckEndDefault;
+void PrintMenuFunctionDefault();
+void DrawPerScreenDefault(Camera* LocalCamera);
+void allRunDefault();
+void PrintMenuFunctionDefault();
+void CheckHitDefault(int PlayerIndex);
+void ExecuteItemHookDefault(Player* Car)
+{
+	ExecuteItem(Car);
+}
+
+
+//NEED OVERWRITE WITH OWN FUNCTIONS
+extern void gameCode();
+extern void titleMenu();
+extern void DisplayObject(void *Car, Object *InputObject);
+extern int CollideObject(Player* Car, Object* Target);
+extern void DisplayCrashScreen();
+extern long RAMCheck, RAMCheckEnd;
+extern void PrintMenuFunction();
+extern void DrawPerScreen(Camera* LocalCamera);
+extern void allRun();
+extern void PrintMenuFunction();
+extern void CheckHit(int PlayerIndex);
+
+//END OF OVERWRITE FUNCTIONS
+
+
 
 void runDMA()
 {
@@ -99,7 +135,7 @@ void SetupFontF3D()
 }
 
 
-int LoadData (uint SourceInput, uint SizeData)
+int LoadOKData (uint SourceInput, uint SizeData)
 {
 	*sourceAddress = SourceInput;
 	*targetAddress = FreeSpaceAddress;
@@ -108,6 +144,33 @@ int LoadData (uint SourceInput, uint SizeData)
 	FreeSpaceAddress = FreeSpaceAddress + SizeData + GlobalShortA;
 	runDMA();	
 	return *targetAddress;
+}
+
+int LoadDataBypass(uint RomStart, uint RomEnd)
+{
+	*sourceAddress = RomStart;	
+	dataLength = RomEnd - RomStart;
+	LastMemoryPointer -= dataLength;
+	*targetAddress = LastMemoryPointer;
+	runDMA();
+	return LastMemoryPointer;
+}
+
+int LoadPressDataBypass(uint RomStart, uint RomEnd)
+{
+	*sourceAddress = RomStart;	
+	dataLength = RomEnd - RomStart;
+	LastMemoryPointer -= dataLength;
+	*targetAddress = LastMemoryPointer;
+	runDMA();
+	
+	dataLength = *(uint*)(*targetAddress + 4);  //size of decompressed data stored in MIO0 header.
+
+	*sourceAddress = LastMemoryPointer;
+	LastMemoryPointer -= dataLength;
+	*targetAddress = LastMemoryPointer;
+	runMIO();
+	return LastMemoryPointer;
 }
 
 /* Get Status Timer */

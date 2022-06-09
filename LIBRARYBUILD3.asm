@@ -30,6 +30,49 @@ NOP
 
 
 
+//KT1 Tree Bypass for proper Fog
+.org 0x10C7FC
+JAL DisplayTree1Bypass
+
+
+/*   Disabled
+//Load all object textures into RAM
+.org 0x1079B8
+NOP
+.org 0x107A90
+NOP
+.org 0x107AAC
+NOP
+.org 0x107AC8
+NOP
+.org 0x107AF8
+NOP
+.org 0x107BE4
+NOP
+.org 0x107C14
+NOP
+.org 0x107D0C
+NOP
+.org 0x107D78
+NOP
+*/    //End
+
+// Move FreeMemoryPointer loads to EOF using new funcs and rewrites
+
+
+// Rewrite for Segment 9 LoadData
+.org 0x113FD8
+JAL LoadDataBypass
+
+// Rewrite for Segment 6 LoadPressData
+.org 0x114004
+JAL LoadPressDataBypass
+
+// Rewrite for Segment 47 TransGFXData
+.org 0x114028
+JAL LoadDataBypass
+
+
 
 //AddGravityHooks
 .org 0x2E00C
@@ -179,7 +222,8 @@ JAL StopStarMusicHook
 .org 0xF8954
 JAL PlayFinalLapMusicHook
 
-
+.org 0x11C890
+JAL ExecuteItemHook
 
 
 //original hook placement

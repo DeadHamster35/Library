@@ -641,7 +641,8 @@
 .definelabel g_player4View, 0x8015F574
 .definelabel g_player4Section, 0x8015F578
 
-.definelabel lastLoadedAddress, 0x8015F728
+.definelabel FreeMemoryPointer, 0x8015F728
+.definelabel LastMemoryPointer, 0x8015F72C
 .definelabel g_TrialTime, 0x8015F898
 .definelabel g_lap2Time, 0x8015F89C
 .definelabel g_lap3Time, 0x8015F8A0
@@ -1039,6 +1040,9 @@
 //GP points
 .definelabel g_playerGPpoints, 0x8018D9C8
 
+
+.definelabel OSMemSize, 0x80000318
+
 //multiplayer points
 .definelabel g_2PRacePoints, 0x8000031C
 .definelabel g_3PRacePoints, 0x8000031E
@@ -1146,3 +1150,5 @@
 .definelabel HoleModel, 0x0D007C10
 .definelabel ItemBoxModel, 0x0D003288
 .definelabel MoveFallingRock, 0x8029D188
+
+.definelabel DisplayFlagGate, 0x80297340

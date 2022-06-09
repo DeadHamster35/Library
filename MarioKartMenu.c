@@ -753,7 +753,7 @@ void GameSelectMenu()
 void MapSelectMenu()
 {
      
-     if (g_gameMode == 3)
+     if (g_gameMode == GAMEMODE_BATTLE)
      {
           GlobalShortA = 4;
      }

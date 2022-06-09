@@ -50,6 +50,7 @@
 .align 0x10
 .importobj "../library/Gametypes/CTF.o"
 .importobj "../library/Gametypes/Soccer.o"
+.importobj "../library/Gametypes/GameTypesGeneric.o"
 
 
 .align 0x10

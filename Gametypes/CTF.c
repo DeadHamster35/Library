@@ -1,122 +1,241 @@
 #include "../MainInclude.h"
 
 
-
-
-void ResetFlag(int ThisFlag)
+/*
 {
-     GameFlag[ThisFlag].Position[0] = SpawnPoint[ThisFlag][0];
-     GameFlag[ThisFlag].Position[1] = SpawnPoint[ThisFlag][1];
-     GameFlag[ThisFlag].Position[2] = SpawnPoint[ThisFlag][2];
+     EASY
+     {BASE},
+     {FLAG},
+     {PLAYER}
 
-     GameFlag[ThisFlag].Velocity[0] = 0;
-     GameFlag[ThisFlag].Velocity[1] = 0;
-     GameFlag[ThisFlag].Velocity[2] = 0;
-
-     GameFlag[ThisFlag].PlayerHolding = -1;
-     GameFlag[ThisFlag].IFrames = 0;
-     GameFlag[ThisFlag].RespawnTimer = 0;
-     GameFlag[ThisFlag].Angle = 0;
+     HARD
+     {BASE},
+     {FLAG},
+     {PLAYER}
 }
+*/
 
 
-
-void DrawGameBase(Camera* LocalCamera)
-{    
-     //Draw GameFlags
-     objectAngle[0] = 0;    
-     objectAngle[1] = 0; 
-     objectAngle[2] = 0;
-     for (int ThisFlag = 0; ThisFlag < FlagCount; ThisFlag++)
-     {    
-          DrawGeometryScale(GameBase[ThisFlag].Position, objectAngle, (int)GameBase[ThisFlag].F3D, 0.35);
-     }
-}
-
-void DrawGameFlags(Camera* LocalCamera)
-{
-     
-     //Draw GameFlags
-     
-     objectAngle[0] = 0;     
-     objectAngle[2] = 0;
-     for (int ThisFlag = 0; ThisFlag < FlagCount; ThisFlag++)
+const CTFSpawn SkyscraperSpawns = 
+{ 
      {
-          GlobalIntA = (int)GameFlag[ThisFlag].PlayerHolding;
-          GameFlag->Angle += (DEG1 * 2);
-          if (GlobalIntA != -1)
+               //EASY
           {
-               GameFlag[ThisFlag].Position[0] = GlobalPlayer[GlobalIntA].position[0];
-               GameFlag[ThisFlag].Position[1] = GlobalPlayer[GlobalIntA].position[1] + 5;
-               GameFlag[ThisFlag].Position[2] = GlobalPlayer[GlobalIntA].position[2];               
-          }
-          else
+               { {0,480,-480}, {0,480,480}, {-480,480,0}, {480,480,0} }, 
+               { {0,480,-435}, {0,480,435}, {-435,480,0}, {435,480,0} },
+               { {0,480,-350}, {0,480,350}, {-350,480,0}, {350,480,0} }
+          },
+          //HARD
           {
-               GameFlag[ThisFlag].Position[0] += GameFlag[ThisFlag].Velocity[0];
-               GameFlag[ThisFlag].Position[1] += GameFlag[ThisFlag].Velocity[1];
-               GameFlag[ThisFlag].Position[2] += GameFlag[ThisFlag].Velocity[2];
-
-               
-
-               CheckBump2((Bump*)&GameFlag[ThisFlag].BumpData, 4.0, GameFlag[ThisFlag].Position[0], GameFlag[ThisFlag].Position[1], GameFlag[ThisFlag].Position[2], GameFlag[ThisFlag].Position[0] - GameFlag[ThisFlag].Velocity[0], GameFlag[ThisFlag].Position[1] - GameFlag[ThisFlag].Velocity[1], GameFlag[ThisFlag].Position[2] - GameFlag[ThisFlag].Velocity[2] );
-               ManualBump((Bump*)&GameFlag[ThisFlag].BumpData, GameFlag[ThisFlag].Position);     
-               if (GameFlag[ThisFlag].BumpData.distance_xy < 0)               
-               {
-                    ManualBounce(GameFlag[ThisFlag].BumpData.bump_xy, GameFlag[ThisFlag].Velocity);                    
-               }
-               if (GameFlag[ThisFlag].BumpData.distance_yz < 0)
-               {
-                    ManualBounce(GameFlag[ThisFlag].BumpData.bump_yz, GameFlag[ThisFlag].Velocity);
-               }
-               if(GameFlag[ThisFlag].BumpData.distance_zx < 0)
-               {
-                    GameFlag[ThisFlag].Velocity[0] *= (1.0 - (0.7 / 30));
-                    GameFlag[ThisFlag].Velocity[1] = 0;
-                    GameFlag[ThisFlag].Velocity[2] *= (1.0 - (0.7 / 30));
-               }
-               else
-               {
-                    GameFlag[ThisFlag].Velocity[1] -= 0.5;
-                    if (GameFlag[ThisFlag].Velocity[1] < -2.0)
-                    {
-                         GameFlag[ThisFlag].Velocity[1] = -2.0;
-                    }
-               }
+               { {0,480,-75}, {0,480,75}, {-75,480,0}, {75,480,0} }, 
+               { {0,480,-435}, {0,480,435}, {-435,480,0}, {435,480,0} },
+               { {0,480,-350}, {0,480,350}, {-350,480,0}, {350,480,0} }
           }
-                    
-          objectAngle[1] = GameFlag->Angle;
-          DrawGeometryScale(GameFlag[ThisFlag].Position, objectAngle, (int)GameFlag[ThisFlag].F3D, 0.1);
      }
-}
+};
 
-void PlaceFlags(uint BattleFlagF3D, uint PlayerFlagF3D[], uint BattleBaseF3D, uint PlayerBaseF3D[])
-{
+const CTFSpawn BlockFortSpawns = 
+{ 
+     {
+          //EASY
+          {
+               { {0,0,-650}, {0,0,650}, {-650,0,0}, {650,0,0} }, 
+               { {0,0,-700}, {0,0,700}, {-700,0,0}, {700,0,0} },
+               { {0,0,-500}, {0,0,500}, {-500,0,0}, {500,0,0} }
+          },
+
+          //HARD
+          {
+               { {-450,92,-450}, {450,92,450}, {-450,92,450}, {450,92,-450} },
+               { {-700,0,-700}, {700,0,700}, {-700,0,700}, {700,0,-700} },
+               { {-150,47,-150}, {150,47,150}, {-150,47,150}, {150,47,-150} }
+          }
+     }
+};
+
+
+const CTFSpawn DoubleDeckerSpawns = 
+{ 
+     {
+          //EASY
+          {
+               { {0,60,-675}, {0,60,675}, {-675,60,0}, {675,60,0} }, 
+               { {0,50,-50}, {0,50,50}, {-50,50,0}, {50,50,0} },
+               { {0,100,-635}, {0,100,635}, {-635,100,0}, {635,100,0} }
+          },
+          //HARD
+          {
+               { {0,90,-275}, {0,90,275}, {-275,90,0}, {275,90,0} }, 
+               { {0,0,-675}, {0,0,675}, {-675,0,0}, {675,0,0} },
+               { {0,0,-635}, {0,0,635}, {-635,0,0}, {635,0,0} },
+          }
+     }    
+};
+
+const CTFSpawn BigDonutSpawns =
+{ 
+     {
+          //EASY
+          {
+               { {0,200,-615}, {0,200,615}, {-615,200,0}, {615,200,0} }, 
+               { {0,210,-750}, {0,210,750}, {-750,210,0}, {750,210,0} },
+               { {0,230,-875}, {0,230,875}, {-875,230,0}, {875,230,0} }
+          },
+          //HARD
+          {
+               { {0,230,-875}, {0,230,875}, {-875,230,0}, {875,230,0} }, 
+               { {0,210,-750}, {0,210,750}, {-750,210,0}, {750,210,0} },
+               { {0,200,-615}, {0,200,615}, {-615,200,0}, {615,200,0} }
+          }
+     }
+};
+
+CTFSpawn GameSpawns[4] = {BigDonutSpawns, BlockFortSpawns, DoubleDeckerSpawns, SkyscraperSpawns};
+
+#define SPAWN_POINT      0
+#define FLAG_POINT       1
+#define BASE_POINT       2
+
+
+
+void PlaceFlags(uint BattleFlagF3D, uint PlayerFlagF3D[], uint BattleBaseF3D, uint PlayerBaseF3D[], uint Difficulty)
+{    
      if (HotSwapID > 0)
      {
-          PlayerSpawnPoints = (Marker*)(GetRealAddress(0x06000008));
-          ObjectivePoints = (Marker*)(GetRealAddress(0x06000030));
+          CustomObjectivePoints = (BattleObjectivePoint*)(GetRealAddress(0x06000210));
 
-          for (ObjectiveCount = 0; ObjectiveCount < 64; ObjectiveCount++)
+          for (int ThisObj = 0; ThisObj < 64; ThisObj++)
           {
-               if ((ushort)ObjectivePoints[(int)ObjectiveCount].Position[0] == 0x8000)
+               if ((ushort)CustomObjectivePoints[(int)ObjectiveCount].Position[0] == 0x8000)
                {
                     break;
                }
+               else
+               {    
+                    if (CustomObjectivePoints[ThisObj].Flag == CTF_GAMETYPE)
+                    {
+                         switch (CustomObjectivePoints[ThisObj].Type)
+                         {
+                              case (SPAWN_POINT):
+                              {
+                                   PlacePlayerSpawn(CustomObjectivePoints[ThisObj].Position, CustomObjectivePoints[ThisObj].Player);
+                                   break;
+                              }
+                              case (FLAG_POINT):
+                              {
+                                   PlaceFlagSpawn(CustomObjectivePoints[ThisObj].Position, CustomObjectivePoints[ThisObj].Player);
+                                   GameFlag[CustomObjectivePoints[ThisObj].Player].F3D = PlayerFlagF3D[CustomObjectivePoints[ThisObj].Player];
+                                   GameFlag[CustomObjectivePoints[ThisObj].Player].TeamIndex = CustomObjectivePoints[ThisObj].Player;
+                                   GameFlag[CustomObjectivePoints[ThisObj].Player].Friction = 950;
+                                   GameFlag[CustomObjectivePoints[ThisObj].Player].Bounce = 500;
+                                   GameFlag[CustomObjectivePoints[ThisObj].Player].Gravity = 500;
+                                   GameFlag[CustomObjectivePoints[ThisObj].Player].Lift = 10000;    
+                                   GameFlag[CustomObjectivePoints[ThisObj].Player].Scale = 10;
+                                   GameFlag[CustomObjectivePoints[ThisObj].Player].AngularVel[0] = 0;
+                                   GameFlag[CustomObjectivePoints[ThisObj].Player].AngularVel[1] = 2;
+                                   GameFlag[CustomObjectivePoints[ThisObj].Player].AngularVel[2] = 0;
+                                             
+
+                                   break;
+                              }
+                              case (BASE_POINT):
+                              {
+                                   PlaceBaseSpawn(CustomObjectivePoints[ThisObj].Position, CustomObjectivePoints[ThisObj].Player);
+                                   GameBase[CustomObjectivePoints[ThisObj].Player].F3D = PlayerBaseF3D[CustomObjectivePoints[ThisObj].Player];
+                                   break;
+                              }
+                         }
+                    }
+               }
           }
+
+          for (int ThisFlag = 0; ThisFlag < g_playerCount; ThisFlag++)
+          {    
+               Objectives[ThisFlag].FlagHeld = -1;
+               Objectives[ThisFlag].FlagTimer = 0;
+               Objectives[ThisFlag].IFrames = 0;
+               Objectives[ThisFlag].Score = 0;
+          }
+
+     }
+     else
+     {
+          /*
+          0x0F	Block Fort
+          0x10	Skyscraper
+          0x11	Double Deck
+          0x12	DK's Jungle Parkway
+          0x13	Big Donut
+          */
+          switch (g_courseID)
+          {
+               case 15:
+               {
+                    ObjectiveMapID = 1;
+                    break;
+               }
+               case 16:
+               {
+                    ObjectiveMapID = 3;
+                    break;
+               }
+               case 17:
+               {
+                    ObjectiveMapID = 2;
+                    break;
+               }
+               case 19:
+               {
+                    ObjectiveMapID = 0;
+                    break;
+               }
+               default:
+               {
+                    ObjectiveMapID = -1;
+                    //wtf
+                    break;
+               }
+          }
+          
+          if (ObjectiveMapID != -1)
+          {    
+               
+               for (int ThisFlag = 0; ThisFlag < g_playerCount; ThisFlag++)
+               {
+                    Objectives[ThisFlag].FlagHeld = -1;
+                    Objectives[ThisFlag].FlagTimer = 0;
+                    Objectives[ThisFlag].IFrames = 0;
+                    Objectives[ThisFlag].Score = 0;
+
+                    
+                    
+                    PlaceBaseSpawn(GameSpawns[ObjectiveMapID].Position[Difficulty][0][ThisFlag], ThisFlag);
+                    GameBase[ThisFlag].F3D = PlayerBaseF3D[ThisFlag];
+
+                    PlaceFlagSpawn(GameSpawns[ObjectiveMapID].Position[Difficulty][1][ThisFlag], ThisFlag);
+                    GameFlag[ThisFlag].F3D = PlayerFlagF3D[ThisFlag];
+                    GameFlag[ThisFlag].TeamIndex = ThisFlag;
+                    GameFlag[ThisFlag].Friction = 850;
+                    GameFlag[ThisFlag].Bounce = 500;
+                    GameFlag[ThisFlag].Gravity = 500;
+                    GameFlag[ThisFlag].Lift = 10000;
+                     
+                    GameFlag[ThisFlag].Scale = 10;
+                    GameFlag[ThisFlag].AngularVel[0] = 0;
+                    GameFlag[ThisFlag].AngularVel[1] = 2;
+                    GameFlag[ThisFlag].AngularVel[2] = 0;
+
+
+                    PlacePlayerSpawn(GameSpawns[ObjectiveMapID].Position[Difficulty][2][ThisFlag], ThisFlag);
+                    
+                    
+               }
+          }
+          
      }
      for (int ThisFlag = 0; ThisFlag < g_playerCount; ThisFlag++)
      {
-          if (HotSwapID > 0)
-          {
-               GlobalPlayer[ThisFlag].position[0] = PlayerSpawnPoints[ThisFlag].Position[0];
-               GlobalPlayer[ThisFlag].position[1] = PlayerSpawnPoints[ThisFlag].Position[1] + 5;
-               GlobalPlayer[ThisFlag].position[2] = PlayerSpawnPoints[ThisFlag].Position[2];
-               GlobalPlayer[ThisFlag].direction[1] = (short)(CalcDirection(GlobalPlayer[ThisFlag].position, Origin));
-          }
-          Objectives[ThisFlag].FlagHeld = -1;
-          Objectives[ThisFlag].FlagTimer = 0;
-          Objectives[ThisFlag].IFrames = 0;
-          Objectives[ThisFlag].Score = 0;
+          
           
           if (TeamMode == 1)
           {
@@ -133,48 +252,20 @@ void PlaceFlags(uint BattleFlagF3D, uint PlayerFlagF3D[], uint BattleBaseF3D, ui
           {
                Objectives[ThisFlag].TeamIndex = ThisFlag;
           }
-          GameFlag[ThisFlag].PlayerHolding = -1;
-          GameFlag[ThisFlag].IFrames = 0;
-          GameFlag[ThisFlag].RespawnTimer = 0;
-          GameFlag[ThisFlag].Angle = GlobalPlayer[ThisFlag].direction[1];
-          GameFlag[ThisFlag].Velocity[0] = 0;
-          GameFlag[ThisFlag].Velocity[1] = 0;
-          GameFlag[ThisFlag].Velocity[2] = 0;
-
-          objectVelocity[0] = 10;
-          objectVelocity[1] = 5;
-          objectVelocity[2] = 15;
-          MakeAlignVector(objectVelocity, GameFlag[ThisFlag].Angle);
-
-          SpawnPoint[ThisFlag][0] = GlobalPlayer[ThisFlag].position[0] - objectVelocity[0];
-          SpawnPoint[ThisFlag][1] = GlobalPlayer[ThisFlag].position[1] - objectVelocity[1];
-          SpawnPoint[ThisFlag][2] = GlobalPlayer[ThisFlag].position[2] - objectVelocity[2];
-          ResetFlag(ThisFlag);
           
-          GameFlag[ThisFlag].F3D = PlayerFlagF3D[GlobalPlayer[ThisFlag].kart];
-          
-          GameBase[ThisFlag].Position[0] = GlobalPlayer[ThisFlag].position[0] - (objectVelocity[0] * 2);
-          GameBase[ThisFlag].Position[1] = GlobalPlayer[ThisFlag].position[1] - (objectVelocity[1] * 2);
-          GameBase[ThisFlag].Position[2] = GlobalPlayer[ThisFlag].position[2] - (objectVelocity[2] * 2);
-          
-          GameBase[ThisFlag].F3D = PlayerBaseF3D[GlobalPlayer[ThisFlag].kart];
-          
-          ResetFlag(ThisFlag);
      }
-     if (TeamMode == 0)
+     for (int ThisFlag = g_playerCount; ThisFlag < 4; ThisFlag++)
      {
-          for (int ThisFlag = g_playerCount; ThisFlag < 4; ThisFlag++)
-          {
-               
+          
 
-               SpawnPoint[ThisFlag][0] = -65535;
-               SpawnPoint[ThisFlag][1] = -65535;
-               SpawnPoint[ThisFlag][2] = -65535;
+          SpawnPoint[ThisFlag][0] = -65535;
+          SpawnPoint[ThisFlag][1] = -65535;
+          SpawnPoint[ThisFlag][2] = -65535;
 
-               GameBase[ThisFlag].F3D = BattleFlagF3D;
-               ResetFlag(ThisFlag);
+          GameBase[ThisFlag].F3D = BattleFlagF3D;
+          GameFlag[ThisFlag].TeamIndex = -1;
+          ResetFlag(ThisFlag);
 
-          }
      }
      FlagCount = g_playerCount;
 }
@@ -203,16 +294,18 @@ void CaptureFlag()
                {
                     for (int ThisFlag = 0; ThisFlag < FlagCount; ThisFlag++)
                     {
-                         if (GameFlag[ThisFlag].PlayerHolding == -1)
+                         if (GameFlag[ThisFlag].TeamIndex != Objectives[ThisPlayer].TeamIndex)
                          {
-                              if (GameFlag[ThisFlag].IFrames == 0)
+                              if (GameFlag[ThisFlag].PlayerHolding == -1)
                               {
-                                   if (TestCollideSphere(GlobalPlayer[ThisPlayer].position, GlobalPlayer[ThisPlayer].radius, GameFlag[ThisFlag].Position, 5.0))
+                                   if (GameFlag[ThisFlag].IFrames == 0)
                                    {
-                                        
-                                        Objectives[ThisPlayer].FlagHeld = ThisFlag;
-                                        GameFlag[ThisFlag].PlayerHolding = ThisPlayer;
-                                        ChangeMaxSpeed(ThisPlayer, -60);
+                                        if (TestCollideSphere(GlobalPlayer[ThisPlayer].position, GlobalPlayer[ThisPlayer].radius, GameFlag[ThisFlag].Position, 5.0))
+                                        {
+                                             Objectives[ThisPlayer].FlagHeld = ThisFlag;
+                                             GameFlag[ThisFlag].PlayerHolding = ThisPlayer;
+                                             ChangeMaxSpeed(ThisPlayer, -60);
+                                        }
                                    }
                               }
                          }
@@ -228,7 +321,7 @@ void CaptureFlag()
           {
                for (int ThisBase = 0; ThisBase < FlagCount; ThisBase++)
                {
-                    if (TestCollideSphere(GlobalPlayer[ThisPlayer].position, GlobalPlayer[ThisPlayer].radius, GameBase[ThisBase].Position, 5.0))
+                    if (TestCollideSphere(GlobalPlayer[ThisPlayer].position, GlobalPlayer[ThisPlayer].radius, GameBase[ThisBase].Position, 8.0))
                     {
                          if (TeamMode == 1)
                          {
@@ -238,10 +331,9 @@ void CaptureFlag()
                          {
                               Objectives[ThisPlayer].Score++;
                          }
-                         GameFlag[(int)Objectives[ThisPlayer].FlagHeld].PlayerHolding = -1;
-                         GameFlag[(int)Objectives[ThisPlayer].FlagHeld].RespawnTimer = SpawnTime;
-                         Objectives[ThisPlayer].FlagHeld = -1;  
-                                                
+                         ChangeMaxSpeed(ThisPlayer, 60);
+                         ResetFlag(Objectives[ThisPlayer].FlagHeld);
+                         Objectives[ThisPlayer].FlagHeld = -1;
                     }
                }
           }
@@ -253,34 +345,10 @@ void CaptureFlag()
           {
                GameFlag[ThisFlag].RespawnTimer--;
           }
-          else if (GameFlag[ThisFlag].RespawnTimer == 0)
+          else if (GameFlag[ThisFlag].RespawnTimer == 1)
           {
                ResetFlag(ThisFlag);     
           }
      }
-}
-void DropFlag(int PlayerIndex)
-{
-     if (Objectives[PlayerIndex].FlagHeld != -1)
-     {
-          GlobalIntA = (int)Objectives[PlayerIndex].FlagHeld;
-          GameFlag[GlobalIntA].Position[0] = GlobalPlayer[PlayerIndex].position[0];
-          GameFlag[GlobalIntA].Position[1] = GlobalPlayer[PlayerIndex].position[1] + 5;
-          GameFlag[GlobalIntA].Position[2] = GlobalPlayer[PlayerIndex].position[2];
 
-          
-          GameFlag[GlobalIntA].Velocity[0] = -6 + (MakeRandomLimmit(12));
-          GameFlag[GlobalIntA].Velocity[1] = 5;
-          GameFlag[GlobalIntA].Velocity[2] = -8 + (MakeRandomLimmit(16));
-
-          MakeAlignVector(objectVelocity,(GlobalPlayer[PlayerIndex].direction[1]));
-          
-          ChangeMaxSpeed((char)PlayerIndex, 60);
-
-          GameFlag[(int)Objectives[PlayerIndex].FlagHeld].PlayerHolding = -1;
-          GameFlag[(int)Objectives[PlayerIndex].FlagHeld].IFrames = 30;
-          Objectives[PlayerIndex].FlagHeld= -1;
-          Objectives[PlayerIndex].IFrames = 90;
-     }       
-	
 }
