@@ -56,6 +56,8 @@ extern void SmokeDisp4P(void* Car, char kno, char place); //0x8006E744
 extern float CheckHight(float X_value, float Y_value, float Z_value);
 extern int KWCheckRadiusXZ(float x1,float y1,float x2,float y2,float radius);
 extern void DisplayKT1(Screen* Display);
+extern void DisplayShadow(Vector Position, SVector Angle, float Size);
+extern void DisplayFlagGate(Camera* PlayerCamera);
 extern void MoveIWA(Object *ObjectPointer);
 extern short deleteObjectBuffer(void *Object);
 extern short addObjectBuffer(Vector position, SVector angle, Vector velocity, short objectID);
@@ -191,6 +193,7 @@ extern unsigned long long  LoadFunc800B4A10; //0x800B4A10
 extern void DOBPSelTurnIn(ObjBlock Target); //0x800AAB90
 extern void DOBPSelTurnOut(ObjBlock Target); //0x800AAA9C
 
+extern float ScreenViewAngle[3];
 extern long SegmentTable[];
 extern void *g_CfbPtrs[3];
 
@@ -1130,4 +1133,3 @@ extern int ShadowModel;
 extern int HoleModel;
 extern int ItemBoxModel;
 extern void MoveFallingRock(Object *obj);
-extern void DisplayFlagGate(Camera* PlayerCamera);

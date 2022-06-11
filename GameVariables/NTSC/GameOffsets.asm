@@ -54,7 +54,11 @@
 .definelabel CheckHight, 0x802AE1C0
 .definelabel KWCheckRadiusXZ, 0x80041608
 
+
 .definelabel DisplayKT1, 0x80292464
+
+.definelabel DisplayFlagGate, 0x80297340
+.definelabel DisplayShadow, 0x8029794C
 .definelabel MoveIWA, 0x8029D188
 .definelabel deleteObjectBuffer, 0x8029E854
 .definelabel addObjectBuffer, 0x8029EC88
@@ -193,6 +197,7 @@
 
 .definelabel LoadFunc800B4A10, 0x800B4A10
 
+.definelabel ScreenViewAngle, 0x80150130
 .definelabel SegmentTable, 0x80150258
 .definelabel g_CfbPtrs, 0x801502A8
 
@@ -1151,4 +1156,3 @@
 .definelabel ItemBoxModel, 0x0D003288
 .definelabel MoveFallingRock, 0x8029D188
 
-.definelabel DisplayFlagGate, 0x80297340

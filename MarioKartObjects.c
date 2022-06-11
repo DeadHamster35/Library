@@ -217,6 +217,31 @@ void CreateCustomItemBox(uint RSPAddress)
 
 }
 
+void PakkunStrategyOverride(Object* PiranhaPlant)
+{
+    PakkunObject *Pakkun = (PakkunObject*)(PiranhaPlant);
+    if(PiranhaPlant->flag&HIDEOBJ)
+    {
+        return;
+    }
+    if(PiranhaPlant->flag&FLYINGOBJ)
+    {
+        PiranhaPlant->position[1]+=4.0f;
+        if(PiranhaPlant->position[1]>800.0f)
+        {
+            PiranhaPlant->flag|=HIDEOBJ;
+            return;
+        }
+    }
+
+	Pakkun->counter1 ++;
+	if (Pakkun->counter1 > 60)
+	{
+		Pakkun->counter1 = 0;
+	}
+	
+}
+
 /*
 
 set_itembox_object(uint address)

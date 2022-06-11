@@ -2114,6 +2114,54 @@ Vtx_t tree1_v[4]={
 	{ {0,-10,0},	0, {512, 2161},  	{255, 254, 254, 255} }
 };
 
+__attribute__((aligned(16)))
+Vtx_t pakkun_v[]={
+	{ {-15,30,0}, 0, 	{   0, 	   0},  {255, 255, 254, 255} },
+	{ {-15, 0,0}, 0, 	{   0, 	2048},  {255, 255, 254, 255} },
+	{ { 15, 0,0}, 0, 	{2048, 	2048},  {255, 255, 254, 255} },
+	{ { 15,30,0}, 0, 	{2048, 	   0},  {255, 255, 254, 255} }
+};
+__attribute__((aligned(16)))
+unsigned short PakkunColor[]={
+0x0000,0x0101,0x0141,0x0181,0x01c1,0x0901,0x09c1,
+0x0a01,0x0a41,0x0ac1,0x1201,0x1343,0x1981,0x1b85,
+0x1d83,0x2385,0x23c7,0x2543,0x2901,0x2b03,0x2bc7,
+0x2c45,0x2d05,0x2d45,0x2d47,0x3101,0x3183,0x31c3,
+0x3243,0x3589,0x3801,0x38c1,0x3e0b,0x3e8b,0x4001,
+0x4041,0x4043,0x40c3,0x4101,0x4149,0x4485,0x46cb,
+0x46cd,0x470d,0x4801,0x4843,0x4885,0x4907,0x4983,
+0x498d,0x49cd,0x4a03,0x4a0f,0x4e0d,0x4e8d,0x4ecd,
+0x4f0d,0x4f0f,0x4f4f,0x5001,0x5043,0x5085,0x50c7,
+0x5109,0x514b,0x51cf,0x5211,0x5241,0x56cf,0x574f,
+0x5751,0x5801,0x5843,0x5883,0x58c1,0x59cf,0x5a11,
+0x5a53,0x5a95,0x5ac1,0x5ad7,0x5f53,0x5f93,0x6001,
+0x6043,0x60c1,0x6145,0x6183,0x6211,0x6241,0x6253,
+0x6295,0x62c1,0x6301,0x6793,0x6801,0x6843,0x6881,
+0x6883,0x68c3,0x698d,0x69c1,0x6a53,0x6ad7,0x6b01,
+0x6b41,0x7001,0x7043,0x7083,0x7319,0x735b,0x7381,
+0x739d,0x7801,0x7a53,0x8001,0x80c7,0x8109,0x8149,
+0x83c1,0x8401,0x8421,0x8801,0x8843,0x8885,0x8a11,
+0x8ad7,0x8b05,0x8b9d,0x8c63,0x9001,0x9405,0x9801,
+0x9843,0x9a47,0x9b19,0x9c81,0x9ca5,0xa001,0xa0c7,
+0xa1c5,0xa463,0xa4e7,0xa501,0xa801,0xa843,0xa885,
+0xa94b,0xaa0f,0xaa95,0xacc1,0xb001,0xb463,0xb56b,
+0xb5ad,0xb801,0xb843,0xb885,0xb8c5,0xb98d,0xbd81,
+0xbdc1,0xbdef,0xc001,0xc081,0xc0c5,0xc251,0xc35b,
+0xc801,0xcad5,0xcdc1,0xce01,0xce31,0xd001,0xd083,
+0xd5ad,0xd681,0xd6b5,0xd801,0xdce7,0xddef,0xde73,
+0xdef7,0xe001,0xe043,0xe085,0xe18d,0xe211,0xe319,
+0xe35b,0xe39d,0xe463,0xe569,0xe739,0xe801,0xe841,
+0xe8c7,0xe909,0xe9cf,0xea95,0xec21,0xee31,0xef41,
+0xef4b,0xef7b,0xf001,0xf085,0xf14b,0xf463,0xf781,
+0xf785,0xf7bd,0xf801,0xf843,0xf885,0xf8c7,0xf909,
+0xf94b,0xf98d,0xf9cf,0xfa11,0xfa53,0xfa95,0xfad7,
+0xfb19,0xfb5b,0xfb9d,0xfbdf,0xfc21,0xfc63,0xfca5,
+0xfce7,0xfd29,0xfd6b,0xfdad,0xfdef,0xfe31,0xfe73,
+0xfeb5,0xfef7,0xff39,0xff41,0xff7b,0xff81,0xffbd,
+0xffc1,0xffc5,0xffc7,0xffcd,0xffff,0x0000,0x0000,
+0x0000,0x0000,0x0000,0x0000
+};
+
 
 ///
 
@@ -2345,60 +2393,212 @@ void DrawPaths(long RSPInput)
 }
 
 
+void GFXPiranha(int PakkunAddress, float Distance)
+{
+	//Load Texture Block
+	//
+	gDPLoadTextureBlock
+	(
+		GraphPtrOffset++, PakkunAddress, G_IM_FMT_CI, G_IM_SIZ_8b, 32, 64, 0,
+		G_TX_MIRROR,   G_TX_CLAMP ,
+		G_TX_NOMASK, G_TX_NOMASK,     G_TX_NOLOD, G_TX_NOLOD
+	);
+	//
+	//
+
+
+	gSPTexture(GraphPtrOffset++, 65535, 65535,0, 0, 1);
+	gDPPipeSync(GraphPtrOffset++);
+	gDPSetCombineMode(GraphPtrOffset++, G_CC_MODULATERGBDECALA,G_CC_MODULATERGBDECALA);
+	
+	//fogtest
+	if ((HotSwapID > 0) && (OverKartHeader.FogStart > 0) && (Distance > 62500))
+	{
+		gDPSetRenderMode(GraphPtrOffset++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_TEX_EDGE2);		
+	}
+	else
+	{
+		gDPSetRenderMode(GraphPtrOffset++, G_RM_AA_ZB_TEX_EDGE,G_RM_AA_ZB_TEX_EDGE2);
+	}
+	
+	
+	
+
+	gDPTileSync(GraphPtrOffset++);
+	gDPSetTile(GraphPtrOffset++, G_IM_FMT_CI,G_IM_SIZ_8b,((32 + 7)>>3),0,0,0,G_TX_CLAMP,6,0,G_TX_MIRROR,5,0);	
+	gDPSetTileSize(GraphPtrOffset++, 0,0,0,(32-1)<<2,(64-1)<<2);
+
+	gDPSetTextureLUT(GraphPtrOffset++, G_TT_RGBA16);
+	
+	
+	gDPSetTextureImage(GraphPtrOffset++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, &PakkunColor);
+	gDPTileSync(GraphPtrOffset++);
+	gDPSetTile(GraphPtrOffset++, 0, 0, 0, 256, G_TX_LOADTILE, 0 , 0, 0, 0, 0, 0, 0);
+	gDPLoadSync(GraphPtrOffset++);
+	gDPLoadTLUTCmd(GraphPtrOffset++, G_TX_LOADTILE, 255);
+	gDPPipeSync(GraphPtrOffset++);
 
 
 
+	gSPVertex(GraphPtrOffset++, &pakkun_v[0], 4, 0);
+	gSP2Triangles(GraphPtrOffset++, 0, 1, 2, 0 ,0, 2, 3, 0);
+	gDPSetTextureLUT(GraphPtrOffset++, G_TT_NONE);
+
+	
+}
+
+void GFXTree1(float Distance)
+{
+	gDPSetTextureImage(GraphPtrOffset++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, &TreePalette);
+	gDPTileSync(GraphPtrOffset++);
+	gDPSetTile(GraphPtrOffset++, 0, 0, 0, 256, G_TX_LOADTILE, 0 , 0, 0, 0, 0, 0, 0);
+	gDPLoadSync(GraphPtrOffset++);
+	gDPLoadTLUTCmd(GraphPtrOffset++, G_TX_LOADTILE, 255);
+	gDPPipeSync(GraphPtrOffset++);
+
+	gDPSetCombineMode(GraphPtrOffset++, G_CC_MODULATERGBA,G_CC_MODULATERGBA);
+	
+	//fogtest
+	
+	if ((HotSwapID > 0) && (OverKartHeader.FogStart > 0))
+	{
+		if (Distance > 15625)
+		{
+			
+			gDPSetRenderMode(GraphPtrOffset++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_TEX_EDGE2);		
+		}
+		else
+		{
+			gDPSetCycleType(GraphPtrOffset++, G_CYC_1CYCLE);
+			gSPClearGeometryMode(GraphPtrOffset++, G_FOG);
+			gDPSetRenderMode(GraphPtrOffset++, G_RM_AA_ZB_TEX_EDGE,G_RM_AA_ZB_TEX_EDGE2);
+		}
+		
+	}
+	else
+	{
+		gDPSetRenderMode(GraphPtrOffset++, G_RM_AA_ZB_TEX_EDGE,G_RM_AA_ZB_TEX_EDGE2);
+	}
+	
+	gSPTexture(GraphPtrOffset++, 0xFFFF,0xFFFF, 0, G_TX_RENDERTILE, G_ON);
+	gDPSetTextureLUT(GraphPtrOffset++, G_TT_RGBA16);
+	
+	gDPTileSync(GraphPtrOffset++);
+	gDPSetTile(GraphPtrOffset++, G_IM_FMT_CI,G_IM_SIZ_8b,((32 + 7)>>3),0,0,0,G_TX_CLAMP,6,0,G_TX_CLAMP,5,0);
+	
+	gDPSetTileSize(GraphPtrOffset++, 0,0,0,(32-1)<<2,(64-1)<<2);
+	
+	//Load Texture Block
+	//
+	gDPLoadTextureBlock
+	(
+		GraphPtrOffset++, 0x03009000, G_IM_FMT_CI, G_IM_SIZ_8b, 32, 64, 0,
+		G_TX_CLAMP | G_TX_NOMIRROR,   G_TX_CLAMP | G_TX_NOMIRROR,
+		G_TX_NOMASK, G_TX_NOMASK,     G_TX_NOLOD, G_TX_NOLOD
+	);
+	//
+	//
+	
+	gSPVertex(GraphPtrOffset++, &tree1_v[0], 4, 0);
+	
+	gSP2Triangles(GraphPtrOffset++, 0, 1, 2, 0,		0, 2, 3, 0);
+	
+	gDPSetTextureLUT(GraphPtrOffset++, G_TT_NONE);
+
+	if (Distance < 40000)
+	{
+		gDPSetCycleType(GraphPtrOffset++, G_CYC_2CYCLE);
+		gSPSetGeometryMode(GraphPtrOffset++, (G_FOG | G_SHADING_SMOOTH));
+	}
+}
+
+
+void DisplayPiranhaBypass(Camera* PlayerCamera, AffineMtx Affine, Object* PiranhaObject)
+{
+	int LocalPlayer = (int)( ( (uint)(PlayerCamera) - (uint)(&g_CameraTable) ) / (sizeof(Camera) ) );
+
+	// Calc Distance
+	float LocalDistance = 
+	CheckDisplayRange(
+		PlayerCamera->camera_pos,
+		PiranhaObject->position,
+		PlayerCamera->camera_direction[1],
+		0,
+		ScreenViewAngle[LocalPlayer],
+		1000000
+	);
+	//
+
+	if 	(LocalDistance < 0)
+	{
+		return;
+	}
+	
+
+	Affine[3][0] =  PiranhaObject->position[0];
+	Affine[3][1] =  PiranhaObject->position[1];
+	Affine[3][2] =  PiranhaObject->position[2];
+	
+	if(SetMatrix(Affine,0))  
+	{
+		
+		PakkunObject *Pakkun = (PakkunObject*)(PiranhaObject);
+		int LocalCounter = (Pakkun->counter1 / 6);
+		if (LocalCounter > 8)
+		{
+			LocalCounter = 8;
+		}
+		int PakkunAddress;
+		if ((HotSwapID > 0) || (g_courseID == 0))
+		{
+			//Custom Levels, Mario Raceway
+			PakkunAddress = (LocalCounter * 2048) + GetRealAddress(0x03009800);
+		}
+		else
+		{
+			//Royal Raceway
+			PakkunAddress = (LocalCounter * 2048) + GetRealAddress(0x0300A000);
+		}
+
+		GFXPiranha(PakkunAddress, LocalDistance);
+	}
+
+}
 void DisplayTree1Bypass(Camera* PlayerCamera, AffineMtx Affine, Object* TreeObj)
 {
+	int LocalPlayer = (int)( ( (uint)(PlayerCamera) - (uint)(&g_CameraTable) ) / (sizeof(Camera) ) );
+
+	// Calc Distance
+	//
+	float LocalDistance = 
+	CheckDisplayRange(
+		PlayerCamera->camera_pos,
+		TreeObj->position,
+		PlayerCamera->camera_direction[1],
+		0,
+		ScreenViewAngle[LocalPlayer],
+		16000000
+	);
+	//
+	//
+
+	if 	(LocalDistance < 0)
+	{
+		return;
+	}
 	
+	if( !(TreeObj->flag & FLYINGOBJ) && (LocalDistance < 250000) )
+	{
+		DisplayShadow(TreeObj->position,TreeObj->angle,3.0f);	
+	}
+
 	Affine[3][0] =  TreeObj->position[0];
 	Affine[3][1] =  TreeObj->position[1];
 	Affine[3][2] =  TreeObj->position[2];
 	
 	if(SetMatrix(Affine,0))  
 	{
-		
-		gDPSetTextureImage(GraphPtrOffset++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, &TreePalette);
-		gDPTileSync(GraphPtrOffset++);
-		gDPSetTile(GraphPtrOffset++, 0, 0, 0, 256, G_TX_LOADTILE, 0 , 0, 0, 0, 0, 0, 0);
-		gDPLoadSync(GraphPtrOffset++);
-		gDPLoadTLUTCmd(GraphPtrOffset++, G_TX_LOADTILE, 255);
-		gDPPipeSync(GraphPtrOffset++);
-
-		gDPSetCombineMode(GraphPtrOffset++, G_CC_MODULATERGBA,G_CC_MODULATERGBA);
-		//fogtest
-		if ((HotSwapID > 0) && (OverKartHeader.FogStart > 0))
-		{
-			gDPSetRenderMode(GraphPtrOffset++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_TEX_EDGE2);		
-		}
-		else
-		{
-			gDPSetRenderMode(GraphPtrOffset++, G_RM_AA_ZB_TEX_EDGE,G_RM_AA_ZB_TEX_EDGE2);
-		}
-		
-		gSPTexture(GraphPtrOffset++, 0xFFFF,0xFFFF, 0, G_TX_RENDERTILE, G_ON);
-		gDPSetTextureLUT(GraphPtrOffset++, G_TT_RGBA16);
-		
-		gDPTileSync(GraphPtrOffset++);
-		gDPSetTile(GraphPtrOffset++, G_IM_FMT_CI,G_IM_SIZ_8b,((32 + 7)>>3),0,0,0,G_TX_CLAMP,6,0,G_TX_CLAMP,5,0);
-		
-		gDPSetTileSize(GraphPtrOffset++, 0,0,0,(32-1)<<2,(64-1)<<2);
-
-
-		
-		gDPLoadTextureBlock(GraphPtrOffset++, 0x03009000, G_IM_FMT_CI, G_IM_SIZ_8b, 32, 64, 0,
-						G_TX_CLAMP | G_TX_NOMIRROR,   G_TX_CLAMP | G_TX_NOMIRROR,
-						G_TX_NOMASK, G_TX_NOMASK,     G_TX_NOLOD, G_TX_NOLOD);
-						
-		
-		//gSP1Triangle(GraphPtrOffset++, 0, 1, 2, 0);
-		//gSP1Triangle(GraphPtrOffset++, 0, 2, 3, 0);
-		
-		gSPVertex(GraphPtrOffset++, &tree1_v[0], 4, 0);
-		
-		gSP2Triangles(GraphPtrOffset++, 0, 1, 2, 0,		0, 2, 3, 0);
-		
-		gDPSetTextureLUT(GraphPtrOffset++, G_TT_NONE);
+		GFXTree1(LocalDistance);
 	}
 }
 /*

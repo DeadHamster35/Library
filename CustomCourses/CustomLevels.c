@@ -899,46 +899,7 @@ void runTextureScroll()
         GlobalIntA = *(long*)(GlobalAddressA + (CurrentScroll * 8) + 8);
         GlobalShortA = (GlobalIntA >> 16) & (0xFFFF); // S value
         GlobalShortB = GlobalIntA & 0xFFFF; // T value
-		/*
 		
-        // Chase S
-        if (GlobalShortA > 0)
-        {
-            KWChaseIVal(&ScrollValues[CurrentScroll][0],255,GlobalShortA);
-            if (ScrollValues[CurrentScroll][0] >= 255)
-            {
-                ScrollValues[CurrentScroll][0] = 0;
-            }
-        }
-        if (GlobalShortA < 0)
-        {
-            KWChaseIVal(&ScrollValues[CurrentScroll][0],0,GlobalShortA);
-            if (ScrollValues[CurrentScroll][0] <= 0)
-            {
-                ScrollValues[CurrentScroll][0] = 255;
-            }
-        }       
-
-		
-        // Chase T
-        if (GlobalShortB > 0)
-        {
-            KWChaseIVal(&ScrollValues[CurrentScroll][1],255,GlobalShortB);
-            if (ScrollValues[CurrentScroll][1] >= 255)
-            {
-                ScrollValues[CurrentScroll][1] = 0;
-            }
-        }
-        if (GlobalShortB < 0)
-        {
-            KWChaseIVal(&ScrollValues[CurrentScroll][1],0,GlobalShortB);
-            if (ScrollValues[CurrentScroll][1] <= 0)
-            {
-                ScrollValues[CurrentScroll][1] = 255;
-            }
-        }    
-
-		*/
 		ScrollValues[CurrentScroll][0] += GlobalShortA;
 		if (ScrollValues[CurrentScroll][0] >= 255)
 		{

@@ -27,12 +27,24 @@ NOP
 NOP
 .org 0x00335C
 NOP
+//
+//
+//
 
 
-
-//KT1 Tree Bypass for proper Fog
+//KT1 Tree Display Call
 .org 0x10C7FC
 JAL DisplayTree1Bypass
+
+//Pakkun Display Call for PiranhaPlants
+.org 0x10C990
+JAL DisplayPiranhaBypass
+
+//Pakkun Strategy Hook for PiranhaPlants
+.org 0x10CC70
+JAL PakkunStrategyOverride
+
+
 
 
 /*   Disabled

@@ -491,6 +491,25 @@ typedef struct Object{
 } Object;
 
 
+typedef struct PakkunObject{
+	short   category;
+	short   flag;
+	short   screen1;
+	short   screen2;
+	short   screen3;
+	short   screen4;
+	float   radius;
+	SVector angle;
+	Vector 	position;
+	short   counter1;
+	short   counter2;
+	short   counter3;
+	short   counter4;
+	float   pad;
+	Bump    bump;
+} PakkunObject;
+
+
 typedef struct RSPTask{
 		OSTask 		task;
 		OSMesgQueue	*msgQ;
