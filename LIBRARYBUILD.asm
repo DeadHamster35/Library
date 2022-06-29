@@ -51,6 +51,7 @@
 .importobj "../library/Gametypes/CTF.o"
 .importobj "../library/Gametypes/Soccer.o"
 .importobj "../library/Gametypes/GameTypesGeneric.o"
+.importobj "../library/Gametypes/GBI/SNet.o"
 
 
 .align 0x10

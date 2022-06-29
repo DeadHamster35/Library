@@ -82,6 +82,17 @@ set ListGT= "CTF.c" "Soccer.c" "GameTypesGeneric.c"
 ..\..\ARMIPS\bin\mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -c %%a
 ))
 
+
+cd GBI
+::Gametypes GBI Data
+
+set ListGBIGBI= "SNet.c"
+(for %%a in (%ListGBIGBI%) do (
+   echo Working on %%a 
+..\..\..\ARMIPS\bin\mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -c %%a
+))
+
+cd ..
 cd ..
 
 

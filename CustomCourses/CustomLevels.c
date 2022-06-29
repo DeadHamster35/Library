@@ -246,16 +246,10 @@ void overkartASM(void)
 	//8029E0D8
 
 	treeslistA = 0x3C040600; //8029DBBC
-	treeslistB = 0x248405C8; //8029DBC4
-
-	treesdisplayA = 0x3C180600; //802992C8
-	treesdisplayB = 0x27180320; //802992E0
+	treeslistB = 0x24840210; //8029DBC4
 
 	piranhalistA = 0x3C040600; //8029DBC8
-	piranhalistB = 0x248407D0; //8029DBD0
-
-	piranhadisplayA = 0x3C0F0600; //80298668
-	piranhadisplayB = 0x25EF0248; //8029866C
+	piranhalistB = 0x24840418; //8029DBD0
 
 	unknownA1 = 0x3C190600; //0x802927FC   ;;3C190601 -> 3C190600
 	unknownB1 = 0x3C040600; //0x802927FC   ;;3C190601 -> 3C190600
