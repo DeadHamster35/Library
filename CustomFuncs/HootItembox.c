@@ -418,7 +418,7 @@ void move_fake_itembox_hook (Object *obj)
 			dd = Sqrtf(dx*dx+dy*dy+dz*dz)/10.0f;
 			dy /= dd;	
 			obj->position[1]= GlobalPlayer[(int)obj->velocity[0]].position[1] -(dy*ib_blender_scale) -2.5f;//OG: -dy -1.0f;
-
+			
 			//RADIUS FIX
 			obj->radius=5.5f*0.35f;
 			break; 

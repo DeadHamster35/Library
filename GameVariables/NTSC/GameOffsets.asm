@@ -54,7 +54,11 @@
 .definelabel CheckHight, 0x802AE1C0
 .definelabel KWCheckRadiusXZ, 0x80041608
 
+
 .definelabel DisplayKT1, 0x80292464
+
+.definelabel DisplayFlagGate, 0x80297340
+.definelabel DisplayShadow, 0x8029794C
 .definelabel MoveIWA, 0x8029D188
 .definelabel deleteObjectBuffer, 0x8029E854
 .definelabel addObjectBuffer, 0x8029EC88
@@ -193,6 +197,7 @@
 
 .definelabel LoadFunc800B4A10, 0x800B4A10
 
+.definelabel ScreenViewAngle, 0x80150130
 .definelabel SegmentTable, 0x80150258
 .definelabel g_CfbPtrs, 0x801502A8
 
@@ -643,7 +648,8 @@
 .definelabel g_player4View, 0x8015F574
 .definelabel g_player4Section, 0x8015F578
 
-.definelabel lastLoadedAddress, 0x8015F728
+.definelabel FreeMemoryPointer, 0x8015F728
+.definelabel LastMemoryPointer, 0x8015F72C
 .definelabel g_TrialTime, 0x8015F898
 .definelabel g_lap2Time, 0x8015F89C
 .definelabel g_lap3Time, 0x8015F8A0
@@ -1042,6 +1048,9 @@
 //GP points
 .definelabel g_playerGPpoints, 0x8018D9C8
 
+
+.definelabel OSMemSize, 0x80000318
+
 //multiplayer points
 .definelabel g_2PRacePoints, 0x8000031C
 .definelabel g_3PRacePoints, 0x8000031E
@@ -1149,3 +1158,4 @@
 .definelabel HoleModel, 0x0D007C10
 .definelabel ItemBoxModel, 0x0D003288
 .definelabel MoveFallingRock, 0x8029D188
+

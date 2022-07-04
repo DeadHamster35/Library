@@ -1,12 +1,13 @@
 #ifndef MainInclude
 #define MainInclude
 
+
+
+#define F3DEX_GBI
 #include <sys/types.h>
 #include <math.h>
 #include <stdbool.h>
 #include <ultra64.h>
-
-#define F3DEX_GBI
 
 
 
@@ -37,6 +38,7 @@
 
 
 #include "Gametypes/CTF.h"
+#include "Gametypes/GameTypesGeneric.h"
 #include "Gametypes/Soccer.h"
 
 #include "LibraryVariables.h"

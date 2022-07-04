@@ -189,12 +189,6 @@ void CreateCustomItemBox(uint RSPAddress)
 	GlobalAddressA = GetRealAddress(RSPAddress);
 	Marker *BoxArray = (Marker*)(GlobalAddressA);
 	
-	if ( (g_gameMode == 1) || (g_ItemSetFlag == 0))
-	{
-		*(uint*)(0x80650000) = 0x11342345;
-		return;
-	}
-
 	for (int Vector = 0; Vector < 3; Vector++)
 	{
 		objectVelocity[Vector] = 0;
@@ -221,6 +215,31 @@ void CreateCustomItemBox(uint RSPAddress)
 		g_SimpleObjectArray[GlobalIntA].flag = BoxArray[ThisBox].Group;
 	}
 
+}
+
+void PakkunStrategyOverride(Object* PiranhaPlant)
+{
+    PakkunObject *Pakkun = (PakkunObject*)(PiranhaPlant);
+    if(PiranhaPlant->flag&HIDEOBJ)
+    {
+        return;
+    }
+    if(PiranhaPlant->flag&FLYINGOBJ)
+    {
+        PiranhaPlant->position[1]+=4.0f;
+        if(PiranhaPlant->position[1]>800.0f)
+        {
+            PiranhaPlant->flag|=HIDEOBJ;
+            return;
+        }
+    }
+
+	Pakkun->counter1 ++;
+	if (Pakkun->counter1 > 60)
+	{
+		Pakkun->counter1 = 0;
+	}
+	
 }
 
 /*

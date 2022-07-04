@@ -25,6 +25,14 @@
 #define CHAR_PEACH		6
 #define CHAR_BOWSER		7
 
+
+#define GAMEMODE_GP			0
+#define GAMEMODE_TT			1
+#define GAMEMODE_VS			2
+#define GAMEMODE_BATTLE		3
+
+#define MAX_OBJECT 100
+
 //Object Flag
 #define EXISTOBJ   0x8000
 #define HITOBJ     0x4000
@@ -93,6 +101,11 @@
 #define PRESS_IS_BOMB		0x08000000
 #define PRESS_STARTSPIN		0x10000000
 
+
+#define	G_TX_MIRROR			0x1
+#define	G_TX_CLAMP			0x2
+#define	G_TX_NOMASK	0
+#define	G_TX_NOLOD	0
 
 
 //////SLIP_FLAG
@@ -476,6 +489,25 @@ typedef struct Object{
 	Bump    bump;
 
 } Object;
+
+
+typedef struct PakkunObject{
+	short   category;
+	short   flag;
+	short   screen1;
+	short   screen2;
+	short   screen3;
+	short   screen4;
+	float   radius;
+	SVector angle;
+	Vector 	position;
+	short   counter1;
+	short   counter2;
+	short   counter3;
+	short   counter4;
+	float   pad;
+	Bump    bump;
+} PakkunObject;
 
 
 typedef struct RSPTask{

@@ -11,22 +11,6 @@
 
 
 
-//NEED OVERWRITE WITH OWN FUNCTIONS
-extern void gameCode();
-extern void titleMenu();
-extern void DisplayObject(void *Car, Object *InputObject);
-extern int CollideObject(Player* Car, Object* Target);
-extern void DisplayCrashScreen();
-extern long RAMCheck, RAMCheckEnd;
-extern void PrintMenuFunction();
-extern void DrawPerScreen(Camera* LocalCamera);
-extern void allRun();
-extern void PrintMenuFunction();
-extern void CheckHit(int PlayerIndex);
-
-//END OF OVERWRITE FUNCTIONS
-
-
 
 extern long ExpansionCheckAddress, PRELOAD_RAM, PAYLOAD_ROM, DMA_MAX_LENGTH;
 extern long StartRAMData;

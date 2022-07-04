@@ -12,7 +12,7 @@ void previewRefresh()
 {
 	//This value will cause the game to try to reload preview images
 	//Used on the Map Select screen when we swap to a new set of custom levels.
-	if (g_gameMode != 3)
+	if (g_gameMode != GAMEMODE_BATTLE)
 	{
 		g_menuPreviewValue1 = 9;
 		g_menuPreviewValue2 = 9;
@@ -147,6 +147,8 @@ void stockASM(void)
 	itemboxesA = 0x3C040601; //8029DBD4
 	itemboxesB = 0x24849498; //8029DBDC
 
+	battleItemBoxesA = 0x24840038;
+
 	treeslistA = 0x3C040601; //8029DBBC
 	treeslistB = 0x24849570; //8029DBC4
 
@@ -237,23 +239,17 @@ void overkartASM(void)
 	bigsignB= 0x254A0000;   //254A9330
 
 	itemboxesA = 0x3C040600; //8029DBD4
-	itemboxesB = 0x248403C0; //8029DBDC
+	itemboxesB = 0x24840008; //8029DBDC
 
-	battleItemBoxesA = 0x24840258;
+	battleItemBoxesA = 0x24840008;
 
 	//8029E0D8
 
 	treeslistA = 0x3C040600; //8029DBBC
-	treeslistB = 0x248405C8; //8029DBC4
-
-	treesdisplayA = 0x3C180600; //802992C8
-	treesdisplayB = 0x27180320; //802992E0
+	treeslistB = 0x24840210; //8029DBC4
 
 	piranhalistA = 0x3C040600; //8029DBC8
-	piranhalistB = 0x248407D0; //8029DBD0
-
-	piranhadisplayA = 0x3C0F0600; //80298668
-	piranhadisplayB = 0x25EF0248; //8029866C
+	piranhalistB = 0x24840418; //8029DBD0
 
 	unknownA1 = 0x3C190600; //0x802927FC   ;;3C190601 -> 3C190600
 	unknownB1 = 0x3C040600; //0x802927FC   ;;3C190601 -> 3C190600
@@ -428,7 +424,7 @@ void SetGhostData()
 	if ((HotSwapID > 0) && (OverKartHeader.Version != 0xFFFFFFFF))
 	{
 		*(uint*)(0x80650004) = 0x35353535;
-		if (g_gameMode == 1)
+		if (g_gameMode == GAMEMODE_TT)
 		{
 			*(uint*)(0x80650008) = 0x35353535;
 			if (OverKartHeader.Ghost != 0)
@@ -476,7 +472,7 @@ void setPath()
 		
 		*sourceAddress = OverKartHeader.PathOffset;
 		dataLength = 16;
-		if (g_gameMode != 3)
+		if (g_gameMode != GAMEMODE_BATTLE)
 		{
 			*targetAddress = (uint)(&pathOffset);			
 			runDMA();
@@ -497,7 +493,7 @@ void setPath()
 		*targetAddress = (uint)(&pathOffsetB);
 		dataLength = 16;
 		runDMA();
-		if (g_gameMode !=3)
+		if (g_gameMode !=GAMEMODE_BATTLE)
 		{
 			*sourceAddress = 0xDD4D0;
 			*targetAddress = (uint)(&pathOffset);
@@ -540,7 +536,7 @@ void setEcho()
 	{		
 		OverKartRAMHeader.EchoOffset = 0;
 		GlobalUIntA = OverKartHeader.EchoEnd - OverKartHeader.EchoStart;
-		OverKartRAMHeader.EchoOffset = LoadData(OverKartHeader.EchoStart, GlobalUIntA);
+		OverKartRAMHeader.EchoOffset = LoadOKData(OverKartHeader.EchoStart, GlobalUIntA);
 		g_EchoStart = 0;
 		g_EchoStop = 0;
 	}
@@ -922,52 +918,26 @@ void runTextureScroll()
         GlobalIntA = *(long*)(GlobalAddressA + (CurrentScroll * 8) + 8);
         GlobalShortA = (GlobalIntA >> 16) & (0xFFFF); // S value
         GlobalShortB = GlobalIntA & 0xFFFF; // T value
-
-		// Set to 0
-		if (((GlobalIntA >> 16) & (0xFFFF)) == 0)
+		
+		ScrollValues[CurrentScroll][0] += GlobalShortA;
+		if (ScrollValues[CurrentScroll][0] >= 255)
 		{
-			ScrollValues[CurrentScroll][0] = 0;
+			ScrollValues[CurrentScroll][0] -= 255;
 		}
-		if ((GlobalIntA & 0xFFFF) == 0)
+		if (ScrollValues[CurrentScroll][0] <= 0)
 		{
-			ScrollValues[CurrentScroll][1] = 0;
+			ScrollValues[CurrentScroll][0] += 255;
 		}
 
-        // Chase S
-        if (GlobalShortA > 0)
-        {
-            KWChaseIVal(&ScrollValues[CurrentScroll][0],255,GlobalShortA);
-            if (ScrollValues[CurrentScroll][0] >= 255)
-            {
-                ScrollValues[CurrentScroll][0] = 0;
-            }
-        }
-        if (GlobalShortA < 0)
-        {
-            KWChaseIVal(&ScrollValues[CurrentScroll][0],0,GlobalShortA);
-            if (ScrollValues[CurrentScroll][0] <= 0)
-            {
-                ScrollValues[CurrentScroll][0] = 255;
-            }
-        }        
-
-        // Chase T
-        if (GlobalShortB > 0)
-        {
-            KWChaseIVal(&ScrollValues[CurrentScroll][1],255,GlobalShortB);
-            if (ScrollValues[CurrentScroll][1] >= 255)
-            {
-                ScrollValues[CurrentScroll][1] = 0;
-            }
-        }
-        if (GlobalShortB < 0)
-        {
-            KWChaseIVal(&ScrollValues[CurrentScroll][1],0,GlobalShortB);
-            if (ScrollValues[CurrentScroll][1] <= 0)
-            {
-                ScrollValues[CurrentScroll][1] = 255;
-            }
-        }    
+		ScrollValues[CurrentScroll][1] += GlobalShortB;
+		if (ScrollValues[CurrentScroll][1] >= 255)
+		{
+			ScrollValues[CurrentScroll][1] -= 255;
+		}
+		if (ScrollValues[CurrentScroll][1] <= 0)
+		{
+			ScrollValues[CurrentScroll][1] += 255;
+		}
 
         // Run stock func
         ScrollMapImage(GlobalAddressB,ScrollValues[CurrentScroll][0],ScrollValues[CurrentScroll][1]);
@@ -1077,7 +1047,7 @@ void runKillDisplayObjects()
 		uint* MeshList = (uint*)(GlobalAddressA + 12);
 		switch (g_gameMode)
 		{
-			case 0:
+			case GAMEMODE_GP:
 			{
 				//GP
 				if (DisplayKill->GP != 0)
@@ -1089,7 +1059,7 @@ void runKillDisplayObjects()
 				}
 				break;
 			}
-			case 1:
+			case GAMEMODE_TT:
 			{
 				//TIME TRIAL
 				if (DisplayKill->TT != 0)
@@ -1101,7 +1071,7 @@ void runKillDisplayObjects()
 				}
 				break;
 			}
-			case 2:
+			case GAMEMODE_VS:
 			{
 				//TIME VS
 				if (DisplayKill->VS != 0)
@@ -1113,7 +1083,7 @@ void runKillDisplayObjects()
 				}
 				break;
 			}
-			case 3:
+			case GAMEMODE_BATTLE:
 			{
 				//BATTLE
 				if (DisplayKill->Battle != 0)
@@ -1347,7 +1317,7 @@ void InitialMapCode()
 	
 	InitialMap();
 	
-	if ((HotSwapID > 0) && (g_gameMode == 3))
+	if ((HotSwapID > 0) && (g_gameMode == GAMEMODE_BATTLE))
 	{
 		SearchListFile(0x06000000 | OverKartHeader.SurfaceMapPosition);
 		MakeCollision();
@@ -1358,9 +1328,9 @@ void loadOKObjects()
 {
 	//Load all the OKObject data from the Course Header.
 	GlobalUIntA = OverKartHeader.ObjectDataEnd - OverKartHeader.ObjectModelStart;
-	SetSegment(0xA,LoadData(OverKartHeader.ObjectModelStart, GlobalUIntA));
+	SetSegment(0xA,LoadOKData(OverKartHeader.ObjectModelStart, GlobalUIntA));
 	GlobalUIntA = OverKartHeader.ObjectModelStart - OverKartHeader.ObjectDataStart;
-	GlobalAddressA = LoadData(OverKartHeader.ObjectDataStart, GlobalUIntA);
+	GlobalAddressA = LoadOKData(OverKartHeader.ObjectDataStart, GlobalUIntA);
 	OverKartRAMHeader.ObjectDataStart = GlobalAddressA;
 }
 
@@ -1410,7 +1380,7 @@ void LoadCustomHeader(int inputID)
 			//load the standard course loadHeaderOffsets
 			*targetAddress = (long)&g_courseTable;
 			
-			if (g_gameMode == 3)
+			if (g_gameMode == GAMEMODE_BATTLE)
 			{
 				*targetAddress += 0x2D0;
 			}
@@ -1478,7 +1448,7 @@ void setBanners()
 {
 	if (HotSwapID > 0)
 	{
-		if (g_gameMode != 3)
+		if (g_gameMode != GAMEMODE_BATTLE)
 		{
 			for(int currentCourse = 0; currentCourse < 16; currentCourse++)
 			{
@@ -1537,7 +1507,7 @@ void setBanners()
 	}
 	else
 	{
-		if (g_gameMode != 3)
+		if (g_gameMode != GAMEMODE_BATTLE)
 			{
 			dataLength = 0x1000;
 			GlobalAddressA = (long)&g_CourseBannerOffsets;
@@ -1875,6 +1845,9 @@ void EmptyActionData()
 
 void DisplayKT1Hook(Screen* Display)
 {	
+	ClockCycle[1] = osGetCount();
+	CycleCount[1] = (ClockCycle[1] - OldCycle[1]);     
+	OldCycle[1] = ClockCycle[1];
 	if (HotSwapID > 0)
 	{	
 		if (OverKartHeader.FogStart > 0)
@@ -1888,7 +1861,7 @@ void DisplayKT1Hook(Screen* Display)
 		
 		DisplayGroupmap(SegmentAddress(6,OverKartHeader.SectionViewPosition), Display);
 		//DisplayKT1(Display);
-			
+		
 	}
 	else
 	{
@@ -1901,7 +1874,7 @@ void XLUDisplay(Screen* Display)
 	
 	if ((OverKartHeader.Version > 4) && (HotSwapID > 0))
 	{	
-		if (g_gameMode != 3)
+		if (g_gameMode != GAMEMODE_BATTLE)
 		{
 			DisplayGroupmap(SegmentAddress(6,OverKartHeader.XLUSectionViewPosition), Display);
 		}

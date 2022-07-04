@@ -265,7 +265,8 @@ ObjectiveObject     GameFlag[4];
 ObjectiveObject     GameBase[4];
 
 Marker* PlayerSpawnPoints;
-Marker* ObjectivePoints;
+CTFSpawn* ObjectivePoints;
+BattleObjectivePoint* CustomObjectivePoints;
 
 float SpawnPoint[4][3];
 char      FlagCount, TeamMode;

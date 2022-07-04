@@ -24,9 +24,27 @@
 #define  deg(n)       ((short)(65536/360*n))
 
 
-extern void gameCode();
 
-extern int LoadData(uint SourceInput, uint SizeData);
+//NEED OVERWRITE WITH OWN FUNCTIONS
+extern void gameCode();
+extern void titleMenu();
+extern void DisplayObject(void *Car, Object *InputObject);
+extern int CollideObject(Player* Car, Object* Target);
+extern void DisplayCrashScreen();
+extern long RAMCheck, RAMCheckEnd;
+extern void PrintMenuFunction();
+extern void DrawPerScreen(Camera* LocalCamera);
+extern void allRun();
+extern void PrintMenuFunction();
+extern void CheckHit(int PlayerIndex);
+extern void ExecuteItemHook(Player* Car);
+
+//END OF OVERWRITE FUNCTIONS
+
+
+extern int LoadOKData(uint SourceInput, uint SizeData);
+extern int LoadDataBypass(uint RomStart, uint RomEnd);
+extern int LoadPressDataBypass(uint RomStart, uint RomEnd);
 extern bool CheckPlatform();
 extern bool CheckEmulator();
 
