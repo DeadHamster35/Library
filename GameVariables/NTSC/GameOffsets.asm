@@ -346,8 +346,6 @@
 .definelabel CheckPlayStarBGMJAL, 0x8008F820
 
 // Edit cloud call func
-.definelabel KWKumo_Alloc, 0x8007055C
-.definelabel KWChart_Kumo, 0x80078C70
 .definelabel CloudTypeMapCheck1, 0x80070560
 .definelabel CloudTypeMapCheck2, 0x80070564
 .definelabel CloudAmountMapCheck1, 0x80078DD8
@@ -953,7 +951,6 @@
 
 .definelabel g_SnowParticleTex, 0x801C8D10
 .definelabel g_MRCloudTexPtr, 0x8016D6FC
-.definelabel g_CloudAllocate, 0x8018CC80
 
 .definelabel g_skySnowScale, 0x800EEB3C
 .definelabel g_skySnowVelocity, 0x800EEB40
