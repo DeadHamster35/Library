@@ -269,6 +269,8 @@ extern long CheckSplashJAL3;
 extern long CheckFinalLapFanfareJAL;
 extern long CheckPlayStarBGMJAL;
 
+extern void KWKumo_Alloc();
+extern void KWChart_Kumo(int screen_num);
 extern long CloudTypeMapCheck1;
 extern long CloudTypeMapCheck2;
 extern long CloudAmountMapCheck1;
@@ -926,6 +928,7 @@ extern long g_skyColorBotTable;
 
 extern long g_SnowParticleTex[36];
 extern long *g_MRCloudTexPtr; // Set of four I4 cloud images; //0x400 length each.
+extern int g_CloudAllocate[100];
 
 extern float g_skySnowScale;
 extern float g_skySnowVelocity;
