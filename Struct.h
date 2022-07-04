@@ -844,7 +844,7 @@ typedef	struct AnmObject{ 			//0x80165C18
 
 //velocity
 	float	vel;				/* velocity */
-	float	velocity[3];;		/* velocity (vx,vy,vz) */
+	float	velocity[3];		/* velocity (vx,vy,vz) */
 
 //ground coord
 	float	ground;				/* Ground coord */
