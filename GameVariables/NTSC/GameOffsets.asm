@@ -346,6 +346,8 @@
 .definelabel CheckPlayStarBGMJAL, 0x8008F820
 
 // Edit cloud call func
+.definelabel CloudCount1P, 0x8018D1F0
+.definelabel CloudCount2P, 0x8018D1F8
 .definelabel KWKumo_Alloc, 0x8007055C
 .definelabel KWChart_Kumo, 0x80078C70
 .definelabel CloudTypeMapCheck1, 0x80070560

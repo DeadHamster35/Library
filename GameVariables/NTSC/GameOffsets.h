@@ -272,6 +272,8 @@ extern long CheckSplashJAL3;
 extern long CheckFinalLapFanfareJAL;
 extern long CheckPlayStarBGMJAL;
 
+extern int CloudCount1P;
+extern int CloudCount2P;
 extern void KWKumo_Alloc();
 extern void KWChart_Kumo(int screen_num);
 extern long CloudTypeMapCheck1;

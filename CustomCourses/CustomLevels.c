@@ -799,7 +799,13 @@ void KWChart_Kumo_Hook(int screen_num)
 	}
 	
 	AnmObject *cloud;
-	for (int i = 0; i < 100; i++)
+	int cloudcount = CloudCount1P;
+	if (g_playerCount == 2)
+	{
+		cloudcount = CloudCount2P;
+	}
+	
+	for (int i = 0; i < cloudcount; i++)
 	{
 		if(g_CloudAllocate[i] == 0)
 		{
