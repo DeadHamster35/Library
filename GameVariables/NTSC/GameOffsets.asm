@@ -282,6 +282,7 @@
 .definelabel VSGhost , 0x8008F8E4
 .definelabel SetVSGhost, 0x8008FA38
 .definelabel ResetVSGhost, 0x8008FB30
+.definelabel SetHeightJump, 0x8008FDF4
 
 
 .definelabel SetRollover, 0x8008C528

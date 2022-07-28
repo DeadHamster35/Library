@@ -1,6 +1,8 @@
 #ifndef CustomLebelsH
 #define CustomLevelsH
 #include "../MainInclude.h"
+extern void FPS_Check();
+extern void DynamicTempo();
 extern void stockASM();
 extern void overkartASM();
 extern void runTextureScroll();

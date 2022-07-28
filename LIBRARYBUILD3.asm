@@ -352,3 +352,13 @@ NOP
 .org 0x109A92
 .halfword(100)
 
+
+//Disable the Goal Flag Gate / Starting Line Banner
+//Ran manually from DrawPerScreen
+.org 0x10C7A4
+NOP
+NOP
+
+
+
+

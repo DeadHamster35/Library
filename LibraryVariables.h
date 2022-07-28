@@ -40,6 +40,8 @@ extern OKRAMHeader OverKartRAMHeader;
 
 extern short AnimationTimer;
 
+extern short DynFPSModifier;
+
 extern float ZeroVector[3];
 
 extern struct POSXY PlayerSelectPositions[];

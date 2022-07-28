@@ -3,7 +3,67 @@
 
 
 
+void FPS_Check()
+{
+    static uint ClockCycle, OldCycle;
+    static float CycleCount;
+    static float FPS;
+    short FPS_Check;
+     
+    ClockCycle = osGetCount();
+    CycleCount = (ClockCycle - OldCycle);
+    /* CPU2SEC */
+    FPS = (1 * 0x2CB5E16) / CycleCount;
 
+    FPS_Check = (short)FPS;
+    OldCycle = ClockCycle;
+
+
+    /* Modifiers for FPS drops */
+    /* Those values work well already, but can be tweaked further */
+    if (FPS_Check >= 22)
+    {
+        DynFPSModifier = 2;
+    }
+
+    else if (FPS_Check >= 15)
+    {
+        DynFPSModifier = 3;
+    }
+
+    else if (FPS_Check >= 11)
+    {
+        DynFPSModifier = 4;
+    }    
+
+    else if (FPS_Check >= 8)
+    {
+        DynFPSModifier = 5;
+    }
+
+    else
+    {
+        DynFPSModifier = 6;
+    }    
+}
+
+void DynamicTempo()
+{
+    FPS_Check();
+
+    asm_tempo1A = 0x240F0000;
+    asm_tempo1ASpeed = DynFPSModifier;
+    asm_tempo1B = 0x240F0000;
+    asm_tempo1BSpeed = DynFPSModifier;
+    asm_tempo2A = 0x24090000;
+    asm_tempo2ASpeed = DynFPSModifier;
+    asm_tempo2B = 0x24090000;
+    asm_tempo2BSpeed = DynFPSModifier;
+    asm_tempo3A = 0x240A0000;
+    asm_tempo3ASpeed = DynFPSModifier;
+    asm_tempo3B = 0x240A0000;
+    asm_tempo3BSpeed = DynFPSModifier;
+}
 
 
 
@@ -347,77 +407,6 @@ void setSong()
 
 
 
-void setTempo()
-{
-	//Set the game tempo.
-	//tempo is used to handle lagging on console.
-
-
-	if (TempoBool)
-	{
-		if (HotSwapID > 0)
-		{
-			switch(g_playerCount)
-			{
-				case 1:
-				asm_tempo1A = 0x240F0000;
-				asm_tempo1B = 0x240F0000;
-				asm_tempo1ASpeed = (short)OverKartHeader.Tempo[0];
-				asm_tempo1BSpeed = (short)OverKartHeader.Tempo[0];
-				break;
-				case 2:
-				asm_tempo2A = 0x24090000;
-				asm_tempo2B = 0x24090000;
-				asm_tempo2ASpeed = (short)OverKartHeader.Tempo[1];
-				asm_tempo2BSpeed = (short)OverKartHeader.Tempo[1];
-				break;
-				case 3:
-				asm_tempo3A = 0x240A0000;
-				asm_tempo3B = 0x240A0000;
-				asm_tempo3ASpeed = (short)OverKartHeader.Tempo[2];
-				asm_tempo3BSpeed = (short)OverKartHeader.Tempo[2];
-				break;
-				case 4:
-				asm_tempo3A = 0x240A0000;
-				asm_tempo3B = 0x240A0000;
-				asm_tempo3ASpeed = (short)OverKartHeader.Tempo[3];
-				asm_tempo3BSpeed = (short)OverKartHeader.Tempo[3];
-				break;
-			}
-		}
-		else
-		{
-			asm_tempo1A = 0x3C0F8015;
-			asm_tempo1B = 0x8DEF0114;
-
-			asm_tempo2A = 0x3C098015;
-			asm_tempo2B = 0x8D290114;
-
-			asm_tempo3A = 0x3C0A8015;
-			asm_tempo3B = 0x8D4A0114;
-		}
-	}
-	else
-	{
-		asm_tempo1A = 0x240F0000;
-		asm_tempo1B = 0x240F0000;
-		asm_tempo1ASpeed = (short)2;
-		asm_tempo1BSpeed = (short)2;
-
-		asm_tempo2A = 0x24090000;
-		asm_tempo2B = 0x24090000;
-		asm_tempo2ASpeed = (short)2;
-		asm_tempo2BSpeed = (short)2;
-
-		asm_tempo3A = 0x240A0000;
-		asm_tempo3B = 0x240A0000;
-		asm_tempo3ASpeed = (short)2;
-		asm_tempo3BSpeed = (short)2;
-	}
-	
-
-
-}
 void SetGhostData()
 {
 	*(uint*)(0x80650000) = 0x35353535;
@@ -1430,7 +1419,6 @@ void SetCustomData()
 {
 	
 
-	setTempo();
 	setText();
 	setEcho();
 	setSong();

@@ -2503,16 +2503,20 @@ void GFXTree1(float Distance)
 	
 	gDPSetTextureLUT(GraphPtrOffset++, G_TT_NONE);
 
-	if (Distance < 40000)
+	if ((HotSwapID > 0) && (OverKartHeader.FogStart > 0))
 	{
-		gDPSetCycleType(GraphPtrOffset++, G_CYC_2CYCLE);
-		gSPSetGeometryMode(GraphPtrOffset++, (G_FOG | G_SHADING_SMOOTH));
+		if (Distance < 40000)
+		{
+			gDPSetCycleType(GraphPtrOffset++, G_CYC_2CYCLE);
+			gSPSetGeometryMode(GraphPtrOffset++, (G_FOG | G_SHADING_SMOOTH));
+		}
 	}
 }
 
 
 void DisplayPiranhaBypass(Camera* PlayerCamera, AffineMtx Affine, Object* PiranhaObject)
 {
+	
 	int LocalPlayer = (int)( ( (uint)(PlayerCamera) - (uint)(&g_CameraTable) ) / (sizeof(Camera) ) );
 
 	// Calc Distance

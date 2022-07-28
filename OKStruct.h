@@ -12,36 +12,38 @@
 
 typedef struct OKHeader{
 
-	int Version;
-	CourseHeader MapHeader;
-	uint SectionViewPosition;
-	uint XLUSectionViewPosition;
-	uint SurfaceMapPosition;
-	uint Sky;
-	char SkyType, WeatherType, PathSplit, PathCount;
-	uint Credits;
-	uint CourseName;
-	uint SerialKey;
-	uint Ghost;
-	uint Maps;
-	uint ObjectDataStart;
-	uint ObjectModelStart;	
-	uint ObjectAnimationStart;
-	uint ObjectDataEnd;
-	uint BombOffset;
-	uint EchoStart;
-	uint EchoEnd;
-	char Tempo[4];
-	char PathTrigger[4];	
-	uint MusicID;
-	short PathLength[4];
-	char 	GhostCharacter, WaterType;
-	short	WaterLevel;
-	uint 	ScrollROM;
-	short	WVOffset, ScreenOffset, KDOffset, ScrollSize;
-	uint PathOffset;
-	short	FogStart, FogStop;
-	uchar	FogRGBA[4];
+	int 			Version;
+	CourseHeader 	MapHeader;
+	uint 			SectionViewPosition;
+	uint 			XLUSectionViewPosition;
+	uint 			SurfaceMapPosition;
+	uint 			Sky;
+	char 			SkyType, WeatherType, PathSplit, PathCount;
+	uint 			Credits;
+	uint 			CourseName;
+	uint 			SerialKey;
+	uint 			Ghost;
+	uint			Maps;
+	uint 			ObjectDataStart;
+	uint 			ObjectModelStart;	
+	uint 			ObjectAnimationStart;
+	uint 			ObjectDataEnd;
+	uint 			BombOffset;
+	uint 			EchoStart;
+	uint 			EchoEnd;
+	char			GoalBannerToggle;
+	char			Padding[3];
+	char 			PathTrigger[4];	
+	uint 			MusicID;
+	short 			PathLength[4];
+	char 			GhostCharacter, WaterType;
+	short			WaterLevel;
+	uint 			ScrollROM;
+	short			WVOffset, ScreenOffset, KDOffset, ScrollSize;
+	uint 			PathOffset;
+	short			FogStart, FogStop;
+	uchar		 	FogRGBA[4];
+	char			StartBannerToggle, PAD1, PAD2, PAD3;
 } OKHeader;
 
 typedef struct OKAIPath{

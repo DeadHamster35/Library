@@ -211,6 +211,7 @@ extern void ThunderWorld();
 extern void VSGhost(void *Car,char PlayerID);
 extern void SetVSGhost(void *Car,char PlayerID);
 extern void ResetVSGhost(void *Car,char PlayerID);
+extern void SetHeightJump(void *Car,char PlayerID);
 
 
 extern void SetRollover(Player *Kart,char Place); //0x8008C528

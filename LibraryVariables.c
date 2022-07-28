@@ -38,6 +38,7 @@ float ZeroVector[3] = {0.0, 0.0, 0.0};
 OKRAMHeader OverKartRAMHeader;
 
 short AnimationTimer = 0;
+short DynFPSModifier = 2;
 
 Controller *GlobalController[8] = 
 {

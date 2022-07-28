@@ -12,7 +12,20 @@ int CollideObjectDefault(Player* Car, Object* Target)
 void DisplayCrashScreenDefault();
 long RAMCheckDefault, RAMCheckEndDefault;
 void PrintMenuFunctionDefault();
-void DrawPerScreenDefault(Camera* LocalCamera);
+void DrawPerScreenDefault(Camera* LocalCamera)
+{
+	if (scrollLock)
+	{
+		if(HotSwapID > 0)
+		{
+			DrawOKObjects(LocalCamera);
+		}
+	}
+	if ((HotSwapID > 0) && (OverKartHeader.GoalBannerToggle != 0))
+	{	
+		DisplayFlagGate(LocalCamera);
+	}
+};
 void allRunDefault();
 void PrintMenuFunctionDefault();
 void CheckHitDefault(int PlayerIndex);
