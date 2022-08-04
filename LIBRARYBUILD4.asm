@@ -52,7 +52,7 @@
 
 .ifndef Crash
 Crash:
-.import "data/test/Crash512.bin"
+.import "../library/data/test/Crash512.bin"
 .align 0x10
 CrashEnd:
 .endif
