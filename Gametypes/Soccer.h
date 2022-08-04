@@ -1,4 +1,4 @@
-#include "..\MainInclude.h"
+#include "../MainInclude.h"
 #ifndef OKSoccerH
 #define OKSoccerH
 extern void PlaceBalls(uint BattleFlagF3D, uint BattleBaseF3D, uint PlayerBaseF3D[], uint Difficulty);
