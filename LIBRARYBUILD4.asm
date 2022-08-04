@@ -50,5 +50,10 @@
 .definelabel ExecuteItemHook, ExecuteItemHookDefault
 .endif
 
-
+.ifndef Crash
+Crash:
+.import "data/test/Crash512.bin"
+.align 0x10
+CrashEnd:
+.endif
 
