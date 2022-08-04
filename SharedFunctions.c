@@ -28,7 +28,7 @@ void DrawPerScreenDefault(Camera* LocalCamera)
 };
 void allRunDefault();
 void PrintMenuFunctionDefault();
-void CheckHitDefault(int PlayerIndex);
+void CheckHitDefault(int PlayerIndex, int HitType);
 void ExecuteItemHookDefault(Player* Car)
 {
 	ExecuteItem(Car);
@@ -46,7 +46,7 @@ extern void PrintMenuFunction();
 extern void DrawPerScreen(Camera* LocalCamera);
 extern void allRun();
 extern void PrintMenuFunction();
-extern void CheckHit(int PlayerIndex);
+extern void CheckHit(int PlayerIndex, int HitType);
 
 //END OF OVERWRITE FUNCTIONS
 

@@ -82,6 +82,16 @@ typedef struct OKSkeleton{
 #define SOCCER_GAMETYPE		2
 
 
+#define 	BombThrowRolloverHT 	0
+#define 	RolloverHT				1
+#define 	WheelSpinHT				2
+#define		BrokenHT				3
+#define 	ThunderHT				4
+#define		SpinHT					5
+#define		BombRolloverHT			6
+#define		ProWheelSpinHT			7
+
+
 typedef struct BattleObjectivePoint{
 	SVector 	Position;
 	short		Flag;

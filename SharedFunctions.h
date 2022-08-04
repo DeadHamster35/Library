@@ -36,7 +36,7 @@ extern void PrintMenuFunction();
 extern void DrawPerScreen(Camera* LocalCamera);
 extern void allRun();
 extern void PrintMenuFunction();
-extern void CheckHit(int PlayerIndex);
+extern void CheckHit(int PlayerIndex, int HitType);
 extern void ExecuteItemHook(Player* Car);
 
 //END OF OVERWRITE FUNCTIONS
