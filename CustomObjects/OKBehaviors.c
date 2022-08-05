@@ -13,7 +13,7 @@ short ObjectSubBehaviorTurnTarget(float InputPosition[3], short InputAngle, floa
 	{
 		return -1;
 	}
-	MakeAlignVector(GlobalPlayer[0].velocity, GlobalPlayer[0].direction[1]);
+
 	return 0;
 }
 
