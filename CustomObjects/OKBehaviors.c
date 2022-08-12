@@ -13,7 +13,6 @@ short ObjectSubBehaviorTurnTarget(float InputPosition[3], short InputAngle, floa
 	{
 		return -1;
 	}
-
 	return 0;
 }
 

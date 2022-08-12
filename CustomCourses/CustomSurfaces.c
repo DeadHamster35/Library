@@ -61,6 +61,37 @@ void SurfaceSFX(Player *car, int SFX_ID, float min_Speed)
 
 #define IS_BROKEN (IS_SPINNING_OUT|SPINOUT_LEFT|SPINOUT_RIGHT|IS_MOMENTUM_HIT|IS_VERTICAL_HIT|IS_TUMBLING|IS_WALL_TUMBLING)
 
+
+
+#define NOTHING 		0
+#define ASPHALT 		1
+#define DIRT			2
+#define SAND			3
+#define STONE			4
+#define SNOW                    5
+#define WOOD			6
+#define SAND_TRAP		7
+#define GRASS			8
+#define ICE  			9
+#define WET_SAND		10
+#define WET_SNOW                11
+#define ROCK                    12
+#define DIRT_TRAP               13
+#define RAILWAY                 14
+#define CAVE                    15
+#define BRIDGE                  16
+#define KIBASHI                 17
+
+
+
+
+#define DASHMARK2		252	    //for JUNGLE
+#define JUMPMARK		253	    //for JUNGLE
+#define DASHMARK		254	    //for PEACH CIRCUIT
+#define OTHER 			255
+
+
+
 #define FastOoB			251
 #define Water			250
 #define MushroomBoost	249
