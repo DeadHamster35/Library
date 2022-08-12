@@ -13,7 +13,7 @@ BKPathfinder AIPathfinder[4];
 
 void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *PathArray[], short* MarkerCounts, short PathCount, short PlayerID)
 {
-     float CheckHeightStart; 
+     //float CheckHeightStart; 
      //float CheckHeightEnd;
      float CheckDistance;
      float diff_x, diff_y, diff_z;
@@ -27,21 +27,21 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
           objectPosition[1] = (float)PathArray[ThisPath][0].Position[1];
           objectPosition[2] = (float)PathArray[ThisPath][0].Position[2];
 
-          if (TestCollideSphere(GlobalPlayer[PlayerID].position, FirstMarkerDistance, objectPosition, 5) && (ThisPath != Pathfinder->LastPath))  //check if the first marker is within 125 units of the player
+          if (TestCollideSphere(GlobalPlayer[PlayerID].position, FirstMarkerDistance, objectPosition, 5)) //&& (ThisPath != Pathfinder->LastPath))  //check if the first marker is within 125 units of the player
           {
                //First Marker has hit true, check distance of last marker
                diff_x = ((float)PathArray[ThisPath][MarkerCounts[ThisPath]-1].Position[0] - Pathfinder->Target[0]);
                diff_y = ((float)PathArray[ThisPath][MarkerCounts[ThisPath]-1].Position[1] - Pathfinder->Target[1]);
                diff_z = ((float)PathArray[ThisPath][MarkerCounts[ThisPath]-1].Position[2] - Pathfinder->Target[2]);
-               CheckDistance = diff_x*diff_x + diff_y*diff_y*100000.0 + diff_z*diff_z;  //(A^2 + B^2 + C^2) = d
+               CheckDistance = diff_x*diff_x + diff_y*diff_y + diff_z*diff_z;  //(A^2 + B^2 + C^2) = d
 
-               diff_y = (float)PathArray[ThisPath][0].Position[1] - GlobalPlayer[PlayerID].position[1]; //Check height of end of path nearest bot
-               CheckHeightStart = diff_y*diff_y;
+               //diff_y = (float)PathArray[ThisPath][0].Position[1] - GlobalPlayer[PlayerID].position[1]; //Check height of end of path nearest bot
+               // CheckHeightStart = diff_y*diff_y;
 
                // diff_y = (float)PathArray[ThisPath][MarkerCounts[ThisPath]-1].Position[1] - GlobalPlayer[PlayerID].position[1]; //Check height of end of path nearest target
                // CheckHeightEnd = diff_y*diff_y;
                
-               if (CheckDistance < Pathfinder->Distance && CheckHeightStart < 500.0)// && CheckHeightEnd < 500.0)  //compare distance, if less than the current update
+               if (CheckDistance < Pathfinder->Distance)// && CheckHeightEnd < 500.0)  //compare distance, if less than the current update
                {
                     Pathfinder->Distance = CheckDistance;
                     Pathfinder->TargetPath = ThisPath;
@@ -57,22 +57,22 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
           objectPosition[1] = (float)PathArray[ThisPath][MarkerCounts[ThisPath]-1].Position[1];
           objectPosition[2] = (float)PathArray[ThisPath][MarkerCounts[ThisPath]-1].Position[2];
 
-          if (TestCollideSphere(GlobalPlayer[PlayerID].position, FirstMarkerDistance, objectPosition, 5) && (ThisPath != Pathfinder->LastPath))  //check if the last marker is within 125 units of the player
+          if (TestCollideSphere(GlobalPlayer[PlayerID].position, FirstMarkerDistance, objectPosition, 5))// && (ThisPath != Pathfinder->LastPath))  //check if the last marker is within 125 units of the player
           {
                //First Marker has hit true, check distance of last marker
                diff_x = ((float)PathArray[ThisPath][0].Position[0] - Pathfinder->Target[0]);
                diff_y = ((float)PathArray[ThisPath][0].Position[1] - Pathfinder->Target[1]);
                diff_z = ((float)PathArray[ThisPath][0].Position[2] - Pathfinder->Target[2]);
-               CheckDistance = diff_x*diff_x + diff_y*diff_y*100000.0 + diff_z*diff_z;  //(A^2 + B^2 + C^2) = d
+               CheckDistance = diff_x*diff_x + diff_y*diff_y + diff_z*diff_z;  //(A^2 + B^2 + C^2) = d
 
 
-               diff_y = (float)PathArray[ThisPath][MarkerCounts[ThisPath]-1].Position[1] - GlobalPlayer[PlayerID].position[1]; //Check height of end of path nearest bot
-               CheckHeightStart = diff_y*diff_y;
+               //diff_y = (float)PathArray[ThisPath][MarkerCounts[ThisPath]-1].Position[1] - GlobalPlayer[PlayerID].position[1]; //Check height of end of path nearest bot
+               //CheckHeightStart = diff_y*diff_y;
 
                // diff_y = (float)PathArray[ThisPath][0].Position[1] - GlobalPlayer[PlayerID].position[1]; //Check height of end of path nearest target
                // CheckHeightEnd = diff_y*diff_y;
 
-               if (CheckDistance < Pathfinder->Distance && CheckHeightStart < 500.0)// && CheckHeightEnd < 500.0)  //compare distance, if less than the current update
+               if (CheckDistance < Pathfinder->Distance)// && CheckHeightEnd < 500.0)  //compare distance, if less than the current update
                {
                     Pathfinder->Distance = CheckDistance;
                     Pathfinder->TargetPath = ThisPath;
