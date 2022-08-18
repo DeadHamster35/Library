@@ -11,20 +11,68 @@ BKPathfinder AIPathfinder[4];
 //Before running the function below, ensure that you've set the `Target` value 
 //of the BKPathfinder to the float-position of the position you wish to drive towards. 
 
-void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *PathArray[], short* MarkerCounts, short PathCount, short PlayerID)
+void FindNearestPathNode(float CurrentPosition[], float TargetPosition[], Marker* PathArray[], short* MarkerCounts, short PathCount)
+{
+    float Distance = 9999999.0;
+    float CheckDistance;
+    float height_check;
+    short use_this_path= 0;
+    short use_this_marker=0;
+    float diff_x, diff_z;
+    for (int ThisPath = 0; ThisPath < PathCount; ThisPath++) //Loop through each possible path and check the beginning and ending nodes and save the closest one to CurrentPosition
+    {
+        //Check beginning of path
+        height_check = CurrentPosition[1] - (float)PathArray[ThisPath][0].Position[1];
+        if (height_check*height_check < 400) //If on same level
+        {
+            diff_x = CurrentPosition[0] - (float)PathArray[ThisPath][0].Position[0];
+            diff_z = CurrentPosition[2] - (float)PathArray[ThisPath][0].Position[2];
+            CheckDistance = diff_x*diff_x + diff_z*diff_z;
+            if (CheckDistance < Distance)
+            {
+                Distance = CheckDistance;
+                use_this_path = ThisPath;
+                use_this_marker = 0;
+            }
+        }
+        //Check end of path
+        height_check = CurrentPosition[1] - (float)PathArray[ThisPath][MarkerCounts[ThisPath]-1].Position[1];
+        if (height_check*height_check < 400) //If on same level
+        {
+            diff_x = CurrentPosition[0] - (float)PathArray[ThisPath][MarkerCounts[ThisPath]-1].Position[0];
+            diff_z = CurrentPosition[2] - (float)PathArray[ThisPath][MarkerCounts[ThisPath]-1].Position[2];
+            CheckDistance = diff_x*diff_x + diff_z*diff_z;
+            if (CheckDistance < Distance)
+            {
+                Distance = CheckDistance;
+                use_this_path = ThisPath;
+                use_this_marker = MarkerCounts[ThisPath]-1;
+            }
+        }
+    }   
+    //Vector that will be returned
+    TargetPosition[0] = (float)PathArray[use_this_path][use_this_marker].Position[0]; 
+    TargetPosition[1] = (float)PathArray[use_this_path][use_this_marker].Position[1];
+    TargetPosition[2] = (float)PathArray[use_this_path][use_this_marker].Position[2];
+}
+
+
+
+void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *PathArray[], short* MarkerCounts, short PathCount, short PlayerID, char TypeOfPath)
 {
      //float CheckHeightStart; 
      //float CheckHeightEnd;
      float CheckDistance;
      //float diff_x, diff_y, diff_z;
      float diff_x, diff_z;
+     float height_check;
      Pathfinder->Distance = 9999999.0; // Set an impossible value to ensure the first return is true. 
 
      Pathfinder->LastPath = Pathfinder->TargetPath; //Set the last path as we get ready to update.
      for (int ThisPath = 0; ThisPath < PathCount; ThisPath++)
      {
-        float height_check = GlobalPlayer[PlayerID].position[1] - (float)PathArray[ThisPath][0].Position[1];
-        if (height_check*height_check < 400)
+        height_check = GlobalPlayer[PlayerID].position[1] - (float)PathArray[ThisPath][0].Position[1];
+        if (height_check*height_check < 400) //If on same level
         {
             //Test first marker to see if in range.
             objectPosition[0] = (float)PathArray[ThisPath][0].Position[0];
@@ -49,9 +97,14 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
                     // Pathfinder->Direction = -1;
                     Pathfinder->Progression = 0;
                     Pathfinder->Direction = 1;
+                    Pathfinder->PathType = TypeOfPath;
                 }
             }
+        }
 
+        height_check =  GlobalPlayer[PlayerID].position[1] - (float)PathArray[ThisPath][MarkerCounts[ThisPath]-1].Position[1];
+        if (height_check*height_check < 400) //If on same level
+        {
             //Test last marker to see if in range.
             objectPosition[0] = (float)PathArray[ThisPath][MarkerCounts[ThisPath]-1].Position[0];
             objectPosition[1] = (float)PathArray[ThisPath][MarkerCounts[ThisPath]-1].Position[1];
@@ -74,6 +127,7 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
                     // Pathfinder->Direction = 1;
                     Pathfinder->Progression = MarkerCounts[ThisPath]-1;
                     Pathfinder->Direction = -1;
+                    Pathfinder->PathType = TypeOfPath;
                }
             }
         }
