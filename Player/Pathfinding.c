@@ -206,3 +206,51 @@ void MakeAlternativePath(Marker *altPath, short length, char pathID)
     AngleDataCalcBP((int)pathID);
     ShortcutDataCalcBP((int)pathID);
 }
+
+Vector* FindNearestPathNode(Vector CurrentPosition, Marker *PathArray[], short* MarkerCounts, short PathCount)
+{
+    Vector ReturnValue;
+    float Distance = 9999999.0;
+    float CheckDistance;
+    float height_check;
+    short use_this_path;
+    short use_this_marker;
+    float diff_x, diff_z;
+    for (int ThisPath = 0; ThisPath < PathCount; ThisPath++) //Loop through each possible path and check the beginning and ending nodes and save the closest one to CurrentPosition
+    {
+        //Check beginning of path
+        height_check = CurrentPosition[1] - (float)PathArray[ThisPath][0].Position[1];
+        if (height_check*height_check < 400) //If on same level
+        {
+            diff_x = CurrentPosition[0] - (float)PathArray[ThisPath][0].Position[0];
+            diff_z = CurrentPosition[2] - (float)PathArray[ThisPath][0].Position[2];
+            CheckDistance = diff_x*diff_x + diff_z*diff_z;
+            if (CheckDistance < Distance)
+            {
+                Distance = CheckDistance;
+                use_this_path = ThisPath;
+                use_this_marker = 0;
+            }
+        }
+        //Check end of path
+        height_check = CurrentPosition[1] - (float)PathArray[ThisPath][MarkerCounts[ThisPath]-1].Position[1];
+        if (height_check*height_check < 400) //If on same level
+        {
+            diff_x = CurrentPosition[0] - (float)PathArray[ThisPath][MarkerCounts[ThisPath]-1].Position[0];
+            diff_z = CurrentPosition[2] - (float)PathArray[ThisPath][MarkerCounts[ThisPath]-1].Position[2];
+            CheckDistance = diff_x*diff_x + diff_z*diff_z;
+            if (CheckDistance < Distance)
+            {
+                Distance = CheckDistance;
+                use_this_path = ThisPath;
+                use_this_marker = MarkerCounts[ThisPath]-1;
+            }
+        }
+    }   
+
+    
+    ReturnValue[0] = (float)PathArray[use_this_path][use_this_marker].Position[0];
+    ReturnValue[1] = (float)PathArray[use_this_path][use_this_marker].Position[1];
+    ReturnValue[2] = (float)PathArray[use_this_path][use_this_marker].Position[2];
+    return((Vector *)&ReturnValue)
+}

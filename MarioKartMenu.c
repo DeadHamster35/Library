@@ -269,9 +269,9 @@ void CourseMenu(int Alpha)
 void DrawFPS(int X, int Y)
 {     
      GlobalFloatA = (1 * CPU2SEC) / CycleCount[0];
-     printDecimal(X,Y,GlobalFloatA, 1);     
+     printDecimal(X,Y,GlobalFloatA, 2);     
      GlobalFloatA = (1 * CPU2SEC) / CycleCount[1];
-     printDecimal(X,Y + 10,GlobalFloatA, 1);     
+     printDecimal(X,Y + 10,GlobalFloatA, 2); 
 }
 
 void ModularMenu(int Alpha, OKMenu OptionsMenu)
