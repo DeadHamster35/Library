@@ -11,19 +11,25 @@ BKPathfinder AIPathfinder[4];
 //Before running the function below, ensure that you've set the `Target` value 
 //of the BKPathfinder to the float-position of the position you wish to drive towards. 
 
-void FindNearestPathNode(float CurrentPosition[], float TargetPosition[], Marker* PathArray[], short* MarkerCounts, short PathCount)
+void FindNearestRampNode(float CurrentPosition[], float TargetPosition[], bool target_is_above,  Marker* PathArray[], short* MarkerCounts, short PathCount)
 {
     float Distance = 9999999.0;
     float CheckDistance;
-    float height_check;
+    float path_height_start_node, path_height_end_node;
+    float height_check, node_diff;
     short use_this_path= 0;
     short use_this_marker=0;
     float diff_x, diff_z;
     for (int ThisPath = 0; ThisPath < PathCount; ThisPath++) //Loop through each possible path and check the beginning and ending nodes and save the closest one to CurrentPosition
     {
+        path_height_start_node = (float)PathArray[ThisPath][0].Position[1];
+        path_height_end_node = (float)PathArray[ThisPath][MarkerCounts[ThisPath]-1].Position[1];
+
+        height_check = CurrentPosition[1] - path_height_start_node;
+        node_diff = path_height_end_node - path_height_start_node;
+
         //Check beginning of path
-        height_check = CurrentPosition[1] - (float)PathArray[ThisPath][0].Position[1];
-        if (height_check*height_check < 400) //If on same level
+        if ((height_check*height_check < 400) && ((target_is_above && node_diff > 0) || (!target_is_above && (node_diff < 0))) ) //If on same level and end of path is towards bot in y
         {
             diff_x = CurrentPosition[0] - (float)PathArray[ThisPath][0].Position[0];
             diff_z = CurrentPosition[2] - (float)PathArray[ThisPath][0].Position[2];
@@ -36,8 +42,10 @@ void FindNearestPathNode(float CurrentPosition[], float TargetPosition[], Marker
             }
         }
         //Check end of path
-        height_check = CurrentPosition[1] - (float)PathArray[ThisPath][MarkerCounts[ThisPath]-1].Position[1];
-        if (height_check*height_check < 400) //If on same level
+        height_check = CurrentPosition[1] - path_height_end_node;
+        node_diff = path_height_start_node - path_height_end_node;
+
+        if ((height_check*height_check < 400) && ((target_is_above && node_diff > 0) || (!target_is_above && (node_diff < 0)))) //If on same level and end of path is towards bot in y
         {
             diff_x = CurrentPosition[0] - (float)PathArray[ThisPath][MarkerCounts[ThisPath]-1].Position[0];
             diff_z = CurrentPosition[2] - (float)PathArray[ThisPath][MarkerCounts[ThisPath]-1].Position[2];
@@ -85,8 +93,8 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
                 diff_x = ((float)PathArray[ThisPath][MarkerCounts[ThisPath]-1].Position[0] - Pathfinder->Target[0]);
                 //diff_y = ((float)PathArray[ThisPath][MarkerCounts[ThisPath]-1].Position[1] - Pathfinder->Target[1]);
                 diff_z = ((float)PathArray[ThisPath][MarkerCounts[ThisPath]-1].Position[2] - Pathfinder->Target[2]);
-                //CheckDistance = diff_x*diff_x + diff_y*diff_y + diff_z*diff_z;  //(A^2 + B^2 + C^2) = d
-                CheckDistance = diff_x*diff_x + diff_z*diff_z;
+                CheckDistance = diff_x*diff_x + diff_z*diff_z;  //(A^2 + B^2 + C^2) = d
+                // CheckDistance = diff_x*diff_x + diff_z*diff_z;
 
 
                 if (CheckDistance < Pathfinder->Distance)  //compare distance, if less than the current update
@@ -95,7 +103,7 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
                     Pathfinder->TargetPath = ThisPath;
                     // Pathfinder->Progression = MarkerCounts[ThisPath]-1;
                     // Pathfinder->Direction = -1;
-                    Pathfinder->Progression = 0;
+                    Pathfinder->Progression = 1;
                     Pathfinder->Direction = 1;
                     Pathfinder->PathType = TypeOfPath;
                 }
@@ -116,8 +124,8 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
                diff_x = ((float)PathArray[ThisPath][0].Position[0] - Pathfinder->Target[0]);
                //diff_y = ((float)PathArray[ThisPath][0].Position[1] - Pathfinder->Target[1]);
                diff_z = ((float)PathArray[ThisPath][0].Position[2] - Pathfinder->Target[2]);
-               //CheckDistance = diff_x*diff_x + diff_y*diff_y+ diff_z*diff_z;  //(A^2 + B^2 + C^2) = d
                CheckDistance = diff_x*diff_x + diff_z*diff_z;  //(A^2 + B^2 + C^2) = d
+               // CheckDistance = diff_x*diff_x + diff_z*diff_z;  //(A^2 + B^2 + C^2) = d
 
                if (CheckDistance < Pathfinder->Distance)  //compare distance, if less than the current update
                {
@@ -125,7 +133,7 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
                     Pathfinder->TargetPath = ThisPath;
                     // Pathfinder->Progression = 0;
                     // Pathfinder->Direction = 1;
-                    Pathfinder->Progression = MarkerCounts[ThisPath]-1;
+                    Pathfinder->Progression = MarkerCounts[ThisPath]-2;
                     Pathfinder->Direction = -1;
                     Pathfinder->PathType = TypeOfPath;
                }

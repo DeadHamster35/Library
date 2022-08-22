@@ -13,7 +13,7 @@ typedef struct BKPathfinder{
 
 extern BKPathfinder AIPathfinder[4];
 
-extern void FindNearestPathNode(float CurrentPosition[], float TargetPosition[], Marker *PathArray[], short* MarkerCounts, short PathCount);
+extern void FindNearestRampNode(float CurrentPosition[], float TargetPosition[], bool target_is_above, Marker *PathArray[], short* MarkerCounts, short PathCount);
 
 extern void UpdateBKPath(BKPathfinder *Pathfinder, short FirstMarkerDistance, Marker *PathArray[], short* MarkerCounts, short PathCount, short PlayerID, char TypeOfPath);
 
