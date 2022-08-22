@@ -16,45 +16,60 @@ void FindNearestRampNode(float CurrentPosition[], float TargetPosition[], bool t
     float Distance = 9999999.0;
     float CheckDistance;
     float path_height_start_node, path_height_end_node;
-    float height_check, node_diff;
+    float height_check;
     short use_this_path= 0;
     short use_this_marker=0;
     float diff_x, diff_z;
+
+    float PathDistanceDifference = -1;
+    float TargetHeightDifference = CurrentPosition[1] - TargetPosition[1];
+    TargetHeightDifference *= TargetHeightDifference; //Square to get absolute distance. 
+    
     for (int ThisPath = 0; ThisPath < PathCount; ThisPath++) //Loop through each possible path and check the beginning and ending nodes and save the closest one to CurrentPosition
     {
         path_height_start_node = (float)PathArray[ThisPath][0].Position[1];
         path_height_end_node = (float)PathArray[ThisPath][MarkerCounts[ThisPath]-1].Position[1];
 
         height_check = CurrentPosition[1] - path_height_start_node;
-        node_diff = path_height_end_node - path_height_start_node;
 
         //Check beginning of path
-        if ((height_check*height_check < 400) && ((target_is_above && node_diff > 0) || (!target_is_above && (node_diff < 0))) ) //If on same level and end of path is towards bot in y
+        if (height_check*height_check < 400)
         {
-            diff_x = CurrentPosition[0] - (float)PathArray[ThisPath][0].Position[0];
-            diff_z = CurrentPosition[2] - (float)PathArray[ThisPath][0].Position[2];
-            CheckDistance = diff_x*diff_x + diff_z*diff_z;
-            if (CheckDistance < Distance)
+            
+            PathDistanceDifference = path_height_end_node - TargetPosition[1];
+            PathDistanceDifference *= PathDistanceDifference;
+            if (PathDistanceDifference < TargetHeightDifference)
             {
-                Distance = CheckDistance;
-                use_this_path = ThisPath;
-                use_this_marker = 0;
+                diff_x = CurrentPosition[0] - (float)PathArray[ThisPath][0].Position[0];
+                diff_z = CurrentPosition[2] - (float)PathArray[ThisPath][0].Position[2];
+                CheckDistance = diff_x*diff_x + diff_z*diff_z;
+                if (CheckDistance < Distance)
+                {
+                    Distance = CheckDistance;
+                    use_this_path = ThisPath;
+                    use_this_marker = 0;
+                }
             }
         }
         //Check end of path
         height_check = CurrentPosition[1] - path_height_end_node;
-        node_diff = path_height_start_node - path_height_end_node;
 
-        if ((height_check*height_check < 400) && ((target_is_above && node_diff > 0) || (!target_is_above && (node_diff < 0)))) //If on same level and end of path is towards bot in y
+        if (height_check*height_check < 400)
         {
-            diff_x = CurrentPosition[0] - (float)PathArray[ThisPath][MarkerCounts[ThisPath]-1].Position[0];
-            diff_z = CurrentPosition[2] - (float)PathArray[ThisPath][MarkerCounts[ThisPath]-1].Position[2];
-            CheckDistance = diff_x*diff_x + diff_z*diff_z;
-            if (CheckDistance < Distance)
+        
+            PathDistanceDifference = path_height_start_node - TargetPosition[1];
+            PathDistanceDifference *= PathDistanceDifference;
+            if (PathDistanceDifference < TargetHeightDifference)
             {
-                Distance = CheckDistance;
-                use_this_path = ThisPath;
-                use_this_marker = MarkerCounts[ThisPath]-1;
+                diff_x = CurrentPosition[0] - (float)PathArray[ThisPath][MarkerCounts[ThisPath]-1].Position[0];
+                diff_z = CurrentPosition[2] - (float)PathArray[ThisPath][MarkerCounts[ThisPath]-1].Position[2];
+                CheckDistance = diff_x*diff_x + diff_z*diff_z;
+                if (CheckDistance < Distance)
+                {
+                    Distance = CheckDistance;
+                    use_this_path = ThisPath;
+                    use_this_marker = MarkerCounts[ThisPath]-1;
+                }
             }
         }
     }   

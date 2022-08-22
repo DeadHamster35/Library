@@ -16,6 +16,7 @@ short ObjectSubBehaviorTurnTarget(float InputPosition[3], short InputAngle, floa
 	return 0;
 }
 
+
 float ObjectSubBehaviorLookTarget(OKObject* InputObject, float TargetPosition[3])
 {
 	OKObjectType *ThisType = (OKObjectType*)&(OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex]);
