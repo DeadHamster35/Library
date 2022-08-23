@@ -11,7 +11,7 @@ BKPathfinder AIPathfinder[4];
 //Before running the function below, ensure that you've set the `Target` value 
 //of the BKPathfinder to the float-position of the position you wish to drive towards. 
 
-void FindNearestRampNode(float CurrentPosition[], float FoundNodePosition[], float TargetY, Marker* PathArray[], short* MarkerCounts, short PathCount)
+int FindNearestRampNode(float CurrentPosition[], float FoundNodePosition[], float TargetY, Marker* PathArray[], short* MarkerCounts, short PathCount)
 {
     float Distance = 9999999.0;
     float CheckDistance;
@@ -77,6 +77,8 @@ void FindNearestRampNode(float CurrentPosition[], float FoundNodePosition[], flo
     FoundNodePosition[0] = (float)PathArray[use_this_path][use_this_marker].Position[0]; 
     FoundNodePosition[1] = (float)PathArray[use_this_path][use_this_marker].Position[1];
     FoundNodePosition[2] = (float)PathArray[use_this_path][use_this_marker].Position[2];
+
+    return(use_this_path);
 }
 
 
