@@ -11,7 +11,7 @@ BKPathfinder AIPathfinder[4];
 //Before running the function below, ensure that you've set the `Target` value 
 //of the BKPathfinder to the float-position of the position you wish to drive towards. 
 
-void FindNearestRampNode(float CurrentPosition[], float TargetPosition[], bool target_is_above,  Marker* PathArray[], short* MarkerCounts, short PathCount)
+void FindNearestRampNode(float CurrentPosition[], float FoundNodePosition[], float TargetY, Marker* PathArray[], short* MarkerCounts, short PathCount)
 {
     float Distance = 9999999.0;
     float CheckDistance;
@@ -22,7 +22,7 @@ void FindNearestRampNode(float CurrentPosition[], float TargetPosition[], bool t
     float diff_x, diff_z;
 
     float PathDistanceDifference = -1;
-    float TargetHeightDifference = CurrentPosition[1] - TargetPosition[1];
+    float TargetHeightDifference = CurrentPosition[1] - TargetY;
     TargetHeightDifference *= TargetHeightDifference; //Square to get absolute distance. 
     
     for (int ThisPath = 0; ThisPath < PathCount; ThisPath++) //Loop through each possible path and check the beginning and ending nodes and save the closest one to CurrentPosition
@@ -36,7 +36,7 @@ void FindNearestRampNode(float CurrentPosition[], float TargetPosition[], bool t
         if (height_check*height_check < 400)
         {
             
-            PathDistanceDifference = path_height_end_node - TargetPosition[1];
+            PathDistanceDifference = path_height_end_node - TargetY;
             PathDistanceDifference *= PathDistanceDifference;
             if (PathDistanceDifference < TargetHeightDifference)
             {
@@ -57,7 +57,7 @@ void FindNearestRampNode(float CurrentPosition[], float TargetPosition[], bool t
         if (height_check*height_check < 400)
         {
         
-            PathDistanceDifference = path_height_start_node - TargetPosition[1];
+            PathDistanceDifference = path_height_start_node - TargetY;
             PathDistanceDifference *= PathDistanceDifference;
             if (PathDistanceDifference < TargetHeightDifference)
             {
@@ -74,9 +74,9 @@ void FindNearestRampNode(float CurrentPosition[], float TargetPosition[], bool t
         }
     }   
     //Vector that will be returned
-    TargetPosition[0] = (float)PathArray[use_this_path][use_this_marker].Position[0]; 
-    TargetPosition[1] = (float)PathArray[use_this_path][use_this_marker].Position[1];
-    TargetPosition[2] = (float)PathArray[use_this_path][use_this_marker].Position[2];
+    FoundNodePosition[0] = (float)PathArray[use_this_path][use_this_marker].Position[0]; 
+    FoundNodePosition[1] = (float)PathArray[use_this_path][use_this_marker].Position[1];
+    FoundNodePosition[2] = (float)PathArray[use_this_path][use_this_marker].Position[2];
 }
 
 
