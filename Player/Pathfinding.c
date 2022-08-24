@@ -28,7 +28,7 @@ int FindNearestRampNode(float CurrentPosition[], float FoundNodePosition[], floa
     for (int ThisPath = 0; ThisPath < PathCount; ThisPath++) //Loop through each possible path and check the beginning and ending nodes and save the closest one to CurrentPosition
     {
         path_height_start_node = (float)PathArray[ThisPath][0].Position[1];
-        path_height_end_node = (float)PathArray[ThisPath][MarkerCounts[ThisPath]-1].Position[1];
+        path_height_end_node = (float)PathArray[ThisPath][MarkerCounts[ThisPath]].Position[1];
 
         height_check = CurrentPosition[1] - path_height_start_node;
 
@@ -61,14 +61,14 @@ int FindNearestRampNode(float CurrentPosition[], float FoundNodePosition[], floa
             PathDistanceDifference *= PathDistanceDifference;
             if (PathDistanceDifference < TargetHeightDifference)
             {
-                diff_x = CurrentPosition[0] - (float)PathArray[ThisPath][MarkerCounts[ThisPath]-1].Position[0];
-                diff_z = CurrentPosition[2] - (float)PathArray[ThisPath][MarkerCounts[ThisPath]-1].Position[2];
+                diff_x = CurrentPosition[0] - (float)PathArray[ThisPath][MarkerCounts[ThisPath]].Position[0];
+                diff_z = CurrentPosition[2] - (float)PathArray[ThisPath][MarkerCounts[ThisPath]].Position[2];
                 CheckDistance = diff_x*diff_x + diff_z*diff_z;
                 if (CheckDistance < Distance)
                 {
                     Distance = CheckDistance;
                     use_this_path = ThisPath;
-                    use_this_marker = MarkerCounts[ThisPath]-1;
+                    use_this_marker = MarkerCounts[ThisPath];
                 }
             }
         }
@@ -92,7 +92,7 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
      float diff_x, diff_z;
      float height_check;
      Pathfinder->Distance = 9999999.0; // Set an impossible value to ensure the first return is true. 
-
+     Pathfinder->TargetPath = -1;
      Pathfinder->LastPath = Pathfinder->TargetPath; //Set the last path as we get ready to update.
      for (int ThisPath = 0; ThisPath < PathCount; ThisPath++)
      {
@@ -156,6 +156,12 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
                }
             }
         }
+    }
+    if (Pathfinder->TargetPath == -1)
+    {
+        //Default catch for no found paths
+        Pathfinder->TargetPath = Pathfinder->LastPath;
+        
     }
 }
 
