@@ -11,6 +11,55 @@ BKPathfinder AIPathfinder[4];
 //Before running the function below, ensure that you've set the `Target` value 
 //of the BKPathfinder to the float-position of the position you wish to drive towards. 
 
+
+
+
+
+bool PathfinderComplete(BKPathfinder *Pathfinder, short *PathLengths, short *RampLengths, short *DropLengths)
+{
+    switch (Pathfinder->PathType)
+    {
+        case FLATPATH:
+        {            
+            return 
+            (
+                (Pathfinder->TargetPath == -1) 
+                || (Pathfinder->NearestMarker==0 && Pathfinder->Direction==-1)  
+                || (Pathfinder->NearestMarker==PathLengths[Pathfinder->TargetPath] && Pathfinder->Direction==1) 
+                || (Pathfinder->NearestMarker < 0) 
+                || (Pathfinder->NearestMarker > PathLengths[Pathfinder->TargetPath])
+            ); //If bot reaches end of path
+            break;
+        }
+
+        case RAMPPATH:
+        {            
+            return 
+            (
+                (Pathfinder->TargetPath == -1) 
+                || (Pathfinder->NearestMarker==0 && Pathfinder->Direction==-1)  
+                || (Pathfinder->NearestMarker==RampLengths[Pathfinder->TargetPath] && Pathfinder->Direction==1) 
+                || (Pathfinder->NearestMarker < 0) 
+                || (Pathfinder->NearestMarker > RampLengths[Pathfinder->TargetPath])
+            ); //If bot reaches end of path
+            break;
+        }
+
+        case DROPPATH:
+        {            
+            return 
+            (
+                (Pathfinder->TargetPath == -1) 
+                || (Pathfinder->NearestMarker==0 && Pathfinder->Direction==-1)  
+                || (Pathfinder->NearestMarker==DropLengths[Pathfinder->TargetPath] && Pathfinder->Direction==1) 
+                || (Pathfinder->NearestMarker < 0) 
+                || (Pathfinder->NearestMarker > DropLengths[Pathfinder->TargetPath])
+            ); //If bot reaches end of path
+            break;
+        }
+    }
+    return false;
+}
 int FindNearestRampNode(float CurrentPosition[], float FoundNodePosition[], float TargetY, Marker* PathArray[], short* MarkerCounts, short PathCount)
 {
     float Distance = 9999999.0;
@@ -85,17 +134,20 @@ int FindNearestRampNode(float CurrentPosition[], float FoundNodePosition[], floa
 
 void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *PathArray[], short* MarkerCounts, short PathCount, short PlayerID, char TypeOfPath)
 {
-     //float CheckHeightStart; 
-     //float CheckHeightEnd;
-     float CheckDistance;
-     //float diff_x, diff_y, diff_z;
-     float diff_x, diff_z;
-     float height_check;
-     Pathfinder->Distance = 9999999.0; // Set an impossible value to ensure the first return is true. 
-     Pathfinder->TargetPath = -1;
-     Pathfinder->LastPath = Pathfinder->TargetPath; //Set the last path as we get ready to update.
-     for (int ThisPath = 0; ThisPath < PathCount; ThisPath++)
-     {
+    //float CheckHeightStart; 
+    //float CheckHeightEnd;
+    float CheckDistance;
+    //float diff_x, diff_y, diff_z;
+    float diff_x, diff_z;
+    float height_check;
+    Pathfinder->Distance = 9999999.0; // Set an impossible value to ensure the first return is true. 
+    if (Pathfinder->TargetPath != -1)
+    {
+        Pathfinder->LastPath = Pathfinder->TargetPath; //Set the last path as we get ready to update.
+    }
+    Pathfinder->TargetPath = -1;     
+    for (int ThisPath = 0; ThisPath < PathCount; ThisPath++)
+    {
         height_check = GlobalPlayer[PlayerID].position[1] - (float)PathArray[ThisPath][0].Position[1];
         if (height_check*height_check < 400) //If on same level
         {
@@ -120,7 +172,7 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
                     Pathfinder->TargetPath = ThisPath;
                     // Pathfinder->Progression = MarkerCounts[ThisPath]-1;
                     // Pathfinder->Direction = -1;
-                    Pathfinder->Progression = 1;
+                    Pathfinder->Progression = 0;
                     Pathfinder->Direction = 1;
                     Pathfinder->PathType = TypeOfPath;
                 }
@@ -137,30 +189,40 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
 
             if (TestCollideSphere(GlobalPlayer[PlayerID].position, FirstMarkerDistance, objectPosition, 5))// && (ThisPath != Pathfinder->LastPath))  //check if the last marker is within 125 units of the player
             {
-               //First Marker has hit true, check distance of last marker
-               diff_x = ((float)PathArray[ThisPath][0].Position[0] - Pathfinder->Target[0]);
-               //diff_y = ((float)PathArray[ThisPath][0].Position[1] - Pathfinder->Target[1]);
-               diff_z = ((float)PathArray[ThisPath][0].Position[2] - Pathfinder->Target[2]);
-               CheckDistance = diff_x*diff_x + diff_z*diff_z;  //(A^2 + B^2 + C^2) = d
-               // CheckDistance = diff_x*diff_x + diff_z*diff_z;  //(A^2 + B^2 + C^2) = d
+                //First Marker has hit true, check distance of last marker
+                diff_x = ((float)PathArray[ThisPath][0].Position[0] - Pathfinder->Target[0]);
+                //diff_y = ((float)PathArray[ThisPath][0].Position[1] - Pathfinder->Target[1]);
+                diff_z = ((float)PathArray[ThisPath][0].Position[2] - Pathfinder->Target[2]);
+                CheckDistance = diff_x*diff_x + diff_z*diff_z;  //(A^2 + B^2 + C^2) = d
+                // CheckDistance = diff_x*diff_x + diff_z*diff_z;  //(A^2 + B^2 + C^2) = d
 
-               if (CheckDistance < Pathfinder->Distance)  //compare distance, if less than the current update
-               {
+                if (CheckDistance < Pathfinder->Distance)  //compare distance, if less than the current update
+                {
                     Pathfinder->Distance = CheckDistance;
                     Pathfinder->TargetPath = ThisPath;
                     // Pathfinder->Progression = 0;
                     // Pathfinder->Direction = 1;
-                    Pathfinder->Progression = MarkerCounts[ThisPath]-2;
+                    Pathfinder->Progression = MarkerCounts[ThisPath];
                     Pathfinder->Direction = -1;
                     Pathfinder->PathType = TypeOfPath;
-               }
+                }
             }
         }
     }
+
+
     if (Pathfinder->TargetPath == -1)
     {
         //Default catch for no found paths
         Pathfinder->TargetPath = Pathfinder->LastPath;
+        if (Pathfinder->Direction == 0)
+        {
+            Pathfinder->Progression = 0;
+        }
+        else
+        {
+            Pathfinder->Progression = MarkerCounts[Pathfinder->TargetPath];
+        }
         
     }
 }

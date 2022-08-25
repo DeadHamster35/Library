@@ -10,6 +10,7 @@ typedef struct BKPathfinder{
 	
 } BKPathfinder;
 
+extern bool PathfinderComplete(BKPathfinder *Pathfinder, short *PathLengths, short *RampLengths, short *DropLengths);
 
 extern BKPathfinder AIPathfinder[4];
 
@@ -26,3 +27,20 @@ extern void ChangePathAndPoint(int playerID, short pointCheckMin, short pointChe
 
 extern void MakeAlternativePath(Marker *altPath, short length, char pathID);
 
+
+
+#define FLATPATH     0
+#define RAMPPATH     1
+#define DROPPATH     2
+
+#define STANDARD_AI     0
+#define SEEKER_AI       1
+#define RANDOM_AI       2
+
+#define STOPTURN ((DEG1 * 60) * (DEG1 * 60))
+#define DRIFTTURN ((DEG1 * 40) * (DEG1 * 40))
+#define WIDETURN ((DEG1 * 25) * (DEG1 * 25))
+#define MIDTURN ((DEG1 * 12) * (DEG1 * 12))
+
+#define SHORTTURN ((DEG1 * 5) * (DEG1 * 5))
+#define NOTURN ((DEG1 * 2) * (DEG1 * 2))
