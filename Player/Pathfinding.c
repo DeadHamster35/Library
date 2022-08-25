@@ -23,7 +23,8 @@ bool PathfinderComplete(BKPathfinder *Pathfinder, short *PathLengths, short *Ram
         {            
             return 
             (
-                (Pathfinder->TargetPath == -1) 
+                (Pathfinder->ProgressTimer > 60)
+                || (Pathfinder->TargetPath == -1) 
                 || (Pathfinder->NearestMarker==0 && Pathfinder->Direction==-1)  
                 || (Pathfinder->NearestMarker==PathLengths[Pathfinder->TargetPath] && Pathfinder->Direction==1) 
                 || (Pathfinder->NearestMarker < 0) 
@@ -175,6 +176,7 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
                     Pathfinder->Progression = 0;
                     Pathfinder->Direction = 1;
                     Pathfinder->PathType = TypeOfPath;
+                    Pathfinder->NearestMarker = 0;
                 }
             }
         }
@@ -205,6 +207,7 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
                     Pathfinder->Progression = MarkerCounts[ThisPath];
                     Pathfinder->Direction = -1;
                     Pathfinder->PathType = TypeOfPath;
+                    Pathfinder->NearestMarker = MarkerCounts[ThisPath];
                 }
             }
         }

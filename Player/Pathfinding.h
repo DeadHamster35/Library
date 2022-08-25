@@ -3,8 +3,9 @@ typedef struct BKPathfinder{
      short	TargetPath, LastPath; //Current and last path indicies
 	float	Distance; //Distance from end/beginning of path
 	Vector	Target; //Array of floats giving x,y,z position of target (e.g. a rival or flag)
-     char     Progression, NearestMarker; //Step along the path
-     char     Direction; //Direction along the path, +1 or -1, if the start of the path is IDed, will be +1, if the end of the path is IDed, will be -1
+     short     Progression, NearestMarker; //Step along the path
+     short     ProgressTimer;
+     char      Direction; //Direction along the path, +1 or -1, if the start of the path is IDed, will be +1, if the end of the path is IDed, will be -1
      char 	PathType; //0=regular flat path, 1=ramp, 2=drop
 
 	
@@ -28,6 +29,9 @@ extern void ChangePathAndPoint(int playerID, short pointCheckMin, short pointChe
 extern void MakeAlternativePath(Marker *altPath, short length, char pathID);
 
 
+
+#define RAMPDISTANCESQUARE 40000.0
+#define PATHDISTANCECHECK 350.0
 
 #define FLATPATH     0
 #define RAMPPATH     1
