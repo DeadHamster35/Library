@@ -409,13 +409,10 @@ void setSong()
 
 void SetGhostData()
 {
-	*(uint*)(0x80650000) = 0x35353535;
 	if ((HotSwapID > 0) && (OverKartHeader.Version != 0xFFFFFFFF))
 	{
-		*(uint*)(0x80650004) = 0x35353535;
 		if (g_gameMode == GAMEMODE_TT)
 		{
-			*(uint*)(0x80650008) = 0x35353535;
 			if (OverKartHeader.Ghost != 0)
 			{
 				*sourceAddress = OverKartHeader.Ghost;

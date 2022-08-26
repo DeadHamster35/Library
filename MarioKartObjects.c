@@ -193,7 +193,7 @@ void CreateCustomItemBox(uint RSPAddress)
 	{
 		objectVelocity[Vector] = 0;
 	}
-	for (int ThisBox = 0; ; ThisBox++)
+	for (int ThisBox = 0; ThisBox < 999; ThisBox++)
 	{
 		if (BoxArray[ThisBox].Position[0] == -32768)
 		{

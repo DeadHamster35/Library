@@ -23,7 +23,7 @@ bool PathfinderComplete(BKPathfinder *Pathfinder, short *PathLengths, short *Ram
         {            
             return 
             (
-                (Pathfinder->ProgressTimer > 60)
+                (Pathfinder->ProgressTimer >= 60)
                 || (Pathfinder->TargetPath == -1) 
                 || (Pathfinder->NearestMarker==0 && Pathfinder->Direction==-1)  
                 || (Pathfinder->NearestMarker==PathLengths[Pathfinder->TargetPath] && Pathfinder->Direction==1) 
@@ -37,7 +37,8 @@ bool PathfinderComplete(BKPathfinder *Pathfinder, short *PathLengths, short *Ram
         {            
             return 
             (
-                (Pathfinder->TargetPath == -1) 
+                (Pathfinder->ProgressTimer >= 60)
+                || (Pathfinder->TargetPath == -1) 
                 || (Pathfinder->NearestMarker==0 && Pathfinder->Direction==-1)  
                 || (Pathfinder->NearestMarker==RampLengths[Pathfinder->TargetPath] && Pathfinder->Direction==1) 
                 || (Pathfinder->NearestMarker < 0) 
@@ -50,7 +51,8 @@ bool PathfinderComplete(BKPathfinder *Pathfinder, short *PathLengths, short *Ram
         {            
             return 
             (
-                (Pathfinder->TargetPath == -1) 
+                (Pathfinder->ProgressTimer >= 60)
+                || (Pathfinder->TargetPath == -1) 
                 || (Pathfinder->NearestMarker==0 && Pathfinder->Direction==-1)  
                 || (Pathfinder->NearestMarker==DropLengths[Pathfinder->TargetPath] && Pathfinder->Direction==1) 
                 || (Pathfinder->NearestMarker < 0) 
@@ -177,6 +179,7 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
                     Pathfinder->Direction = 1;
                     Pathfinder->PathType = TypeOfPath;
                     Pathfinder->NearestMarker = 0;
+                    Pathfinder->ProgressTimer = 0;
                 }
             }
         }
@@ -208,6 +211,7 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
                     Pathfinder->Direction = -1;
                     Pathfinder->PathType = TypeOfPath;
                     Pathfinder->NearestMarker = MarkerCounts[ThisPath];
+                    Pathfinder->ProgressTimer = 0;
                 }
             }
         }
