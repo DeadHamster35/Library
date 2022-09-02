@@ -135,6 +135,58 @@ int FindNearestRampNode(float CurrentPosition[], float FoundNodePosition[], floa
 
 
 
+int FindNearestDropNode(float CurrentPosition[], float FoundNodePosition[], float TargetY, Marker* PathArray[], short* MarkerCounts, short PathCount)
+{
+    float Distance = 9999999.0;
+    float CheckDistance;
+    float path_height_start_node, path_height_end_node;
+    float height_check;
+    short use_this_path= 0;
+    short use_this_marker=0;
+    float diff_x, diff_z;
+
+    float PathDistanceDifference = -1;
+    float TargetHeightDifference = CurrentPosition[1] - TargetY;
+    TargetHeightDifference *= TargetHeightDifference; //Square to get absolute distance. 
+    
+    for (int ThisPath = 0; ThisPath < PathCount; ThisPath++) //Loop through each possible path and check the beginning and ending nodes and save the closest one to CurrentPosition
+    {
+        path_height_start_node = (float)PathArray[ThisPath][0].Position[1];
+        path_height_end_node = (float)PathArray[ThisPath][MarkerCounts[ThisPath]].Position[1];
+
+        height_check = CurrentPosition[1] - path_height_start_node;
+
+        //Check beginning of path, which is the tart of the drop
+        if (height_check*height_check < 400)
+        {
+            
+            PathDistanceDifference = path_height_end_node - TargetY;
+            PathDistanceDifference *= PathDistanceDifference;
+            if (PathDistanceDifference < TargetHeightDifference)
+            {
+                diff_x = CurrentPosition[0] - (float)PathArray[ThisPath][0].Position[0];
+                diff_z = CurrentPosition[2] - (float)PathArray[ThisPath][0].Position[2];
+                CheckDistance = diff_x*diff_x + diff_z*diff_z;
+                if (CheckDistance < Distance)
+                {
+                    Distance = CheckDistance;
+                    use_this_path = ThisPath;
+                    use_this_marker = 0;
+                }
+            }
+        }
+        //Note that the end of a drop is not where we want to go so we don't check it like we would a ramp
+    }   
+    //Vector that will be returned
+    FoundNodePosition[0] = (float)PathArray[use_this_path][use_this_marker].Position[0]; 
+    FoundNodePosition[1] = (float)PathArray[use_this_path][use_this_marker].Position[1];
+    FoundNodePosition[2] = (float)PathArray[use_this_path][use_this_marker].Position[2];
+
+    return(use_this_path);
+}
+
+
+
 void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *PathArray[], short* MarkerCounts, short PathCount, short PlayerID, char TypeOfPath)
 {
     //float CheckHeightStart; 
