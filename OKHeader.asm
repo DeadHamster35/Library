@@ -82,7 +82,7 @@
 .definelabel ok_menucoinsprite, ok_RedCoinSprite +  0x200
 .definelabel hud_buttons, ok_RedCoinSprite +  0x200
 .definelabel nicefont, hud_buttons +  0x4400
-.definelabel OKHeaderEND, nicefont + 0x5000
+.definelabel OKHeaderEND, nicefont + 0x50000
 
 //.definelabel lit_alpacasprite, hud_buttons +  0x4400
 //.definelabel lit_heartsprite, lit_alpacasprite +  0x800

@@ -32,7 +32,8 @@ typedef struct OKHeader{
 	uint 			EchoStart;
 	uint 			EchoEnd;
 	char			GoalBannerToggle;
-	char			Padding[3];
+	char			BackgroundToggle;
+	char			Padding[2];
 	char 			PathTrigger[4];	
 	uint 			MusicID;
 	short 			PathLength[4];

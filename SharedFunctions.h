@@ -53,7 +53,7 @@ extern bool CheckEmulator();
 extern void runDMA();
 extern void runRAM();
 extern void runTKM();
-extern int runMIO();
+extern uint runMIO();
 extern void loadEEPROM(uint Destination);
 extern void saveEEPROM(uint Source);
 extern uint getStarTimer(uchar playerID);

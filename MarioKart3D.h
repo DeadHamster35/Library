@@ -19,6 +19,10 @@ extern Vtx V512x24032B[];
 extern Vtx V352x24032B[];
 extern Vtx tree1_v[];
 
+extern void WaveRace(Vtx_t *VertexBuffer, int Count, float Intensity);
+extern short WaveTime, WaveDirection;
+
+
 extern void DrawStereoscopic3D(short FocusValue);
 extern void ScaleMatrixXYZFixed(AffineMtx Matrix, SVector Vector);
 extern void ScaleMatrixXYZ(AffineMtx Matrix, Vector Vector);

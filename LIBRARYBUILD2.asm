@@ -1,15 +1,35 @@
 .definelabel PRELOAD_RAM,          0x80200000
 .definelabel ExpansionCheckAddress,          0x80001264
 
-.align 0x10
-NiceFontROM:
-.import "../library/data/nice_font.mio0.bin"
-HudButtonsROM:
-.import "../library/data/hud_buttons.mio0.bin"
-BigFontROM:
-.import "../library/data/big_font.mio0.bin"
-.align 0x10
 
+
+
+.ifndef OverwriteCrash
+    .notice "Using Default Crash Screen"
+    Crash:
+    .import "../library/data/test/Crash512.bin"
+    .align 0x10
+    CrashEnd:
+.endif
+
+
+.align 0x10
+.ifndef OverwriteFonts
+    .notice "Using Default Fonts"
+    
+    NiceFontROMDefault:
+    .definelabel NiceFontROM, NiceFontROMDefault
+    .import "../library/data/nice_font.mio0.bin"
+
+    HudButtonsROMDefault:
+    .definelabel HudButtonsROM, HudButtonsROMDefault
+    .import "../library/data/hud_buttons.mio0.bin"
+
+    BigFontROMDefault:
+    .definelabel BigFontROM, BigFontROMDefault
+    .import "../library/data/big_font.mio0.bin"
+.endif
+.align 0x10
 
 
 

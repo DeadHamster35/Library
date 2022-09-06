@@ -137,6 +137,9 @@
 .definelabel CheckDisplayRange, 0x802B80D0
 .definelabel RotateLightMatrix, 0x802B8414
 .definelabel SetUpVector, 0x802B8614
+.definelabel SinTable, 0x802BA370
+.definelabel CosTable, 0x802BB370
+.definelabel AtnTable, 0x802BF370
 .definelabel Ipower, 0x80091750
 .definelabel Power, 0x800917B0
 .definelabel Llog, 0x8009186C
@@ -941,7 +944,7 @@
 //sky & clouds
 .definelabel g_cloudsToggle, 0x801657C8 //00 on 01 off
 .definelabel g_skyToggle, 0x800DC5BC
-.definelabel g_skyboxToggle, 0x800DC5B4 
+.definelabel gBackgroundFlag, 0x800DC5B4 
 .definelabel g_daytimeToggle, 0x800DC518
 
 .definelabel g_BombTable, 0x800DCC08

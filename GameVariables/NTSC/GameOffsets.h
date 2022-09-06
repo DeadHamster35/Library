@@ -15,7 +15,7 @@ extern short spriteKillD;
 
 
 
-extern int decodeMIO0(long input, long output);
+extern uint decodeMIO0(long input, long output);
 extern void DMA(int output, int input, long Length);
 extern void decodeTKMK(int input, int *temp, int output, int transparent);
 
@@ -140,6 +140,9 @@ extern int CheckCone(ushort left,ushort right,ushort direction);
 extern float CheckDisplayRange(Vector basepos, Vector markpos, ushort camera_direction, float radius, float angle2, float limmit_distance);
 extern void RotateLightMatrix(uint lpointer,AffineMtx m,short yaw,short pitch,int count);
 extern void SetUpVector(void *Car);
+extern float SinTable[1024];
+extern float CosTable[4096];
+extern short AtnTable[1024];	
 extern double Ipower(double x,int n);
 extern double Power(double x,double y);
 extern double Llog(double x);
@@ -927,7 +930,7 @@ extern int titlePushBlink; // long/int?
 //sky & clouds
 extern char g_cloudsToggle; // 0x801657C8 //00 on 01 off
 extern short g_skyToggle; // 0x800DC5BC 
-extern char g_skyboxToggle; // 0x800DC5B4 
+extern short gBackgroundFlag; // 0x800DC5B4 
 extern short g_daytimeToggle; // 0x800DC518 
 
 extern int g_BombTable;

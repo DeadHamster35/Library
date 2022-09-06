@@ -200,7 +200,7 @@ void CreateCustomItemBox(uint RSPAddress)
 			*(uint*)(0x80650004) = ThisBox;
 			return;
 		}
-		*(uint*)(0x80650008 + (ThisBox * 4)) = (uint)BoxArray[ThisBox].Position;
+		*(uint*)(0x80650008 + (ThisBox * 8)) = (uint)BoxArray[ThisBox].Position;
 		for (int Vector = 0; Vector < 3; Vector++)
 		{
 			objectPosition[Vector] = (float)BoxArray[ThisBox].Position[Vector];
@@ -209,6 +209,7 @@ void CreateCustomItemBox(uint RSPAddress)
 		objectPosition[0] *= g_mirrorValue;
 		
 		GlobalIntA = addObjectBuffer(objectPosition, objectAngle, objectVelocity, IBOX);
+		*(uint*)(0x80650008 + (ThisBox * 8) + 4) = GlobalIntA;
 		g_SimpleObjectArray[GlobalIntA].fparam = CheckHight(objectPosition[0],objectPosition[1] + 10,objectPosition[2]);
 		g_SimpleObjectArray[GlobalIntA].velocity[0]=objectPosition[1];
 		g_SimpleObjectArray[GlobalIntA].position[1] = g_SimpleObjectArray[GlobalIntA].fparam - 20;		

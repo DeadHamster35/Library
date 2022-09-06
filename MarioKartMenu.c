@@ -396,21 +396,14 @@ short CheckPlayerSelect(int TargetController, short Direction)
      }
 }
 
-void PlayerSelectMenuStart()
-{
-     if (MenuChanged != 12)
-     {
-          MenuProgress[0] = 0;
-          MenuProgress[1] = 0;
-          MenuProgress[2] = 0;
-          MenuProgress[3] = 0;
-          MenuChanged = 12;          
-     }
-}
-
 void PlayerSelectMenu(short StatsMode)
 {
      
+     
+     if ((GlobalController[4]->ButtonPressed & BTN_R) == BTN_R)
+     {
+          MenuToggle = !MenuToggle;
+     }
      
      GlobalIntC = *(int*)(long)(&PlayerOK);
      
@@ -428,7 +421,6 @@ void PlayerSelectMenu(short StatsMode)
      HotSwapID = 0;
      stockASM();
      hsLabel = -1;
-     GlobalBoolB = true;
 
      asm_BlinkCheck = 0x1420000E;
 
@@ -443,36 +435,7 @@ void PlayerSelectMenu(short StatsMode)
           SelectNamePlateTable.TextureOffset[ThisController] = BackupNamePlateTable.TextureOffset[(int)PlayerCharacterSelect[ThisController]];	
           //
 
-
-
-
-          //Check Button Response
-          if ((GlobalController[ThisController]->ButtonPressed & BTN_A) == BTN_A)
-          {    
-               if (PlayerOK[ThisController] < 2)
-               {
-                    PlayerOK[ThisController]++;
-                    asm_DispOBSubPSelCursor1[ThisController] = 0x800A00FC;
-               }
-          }
-          if ((GlobalController[ThisController]->ButtonPressed & BTN_B) == BTN_B)
-          {
-               if (PlayerOK[ThisController] > 0)
-               {
-                    PlayerOK[ThisController]--;
-                    if (PlayerOK[ThisController] == 0)
-                    {
-                         asm_DispOBSubPSelCursor1[ThisController] = 0x800A08C8;     
-                    }                    
-               }
-          }
-
-
-          if (PlayerOK[ThisController] == 0)
-          {
-               GlobalBoolB = false;
-               
-          }
+          
           jtbl_DispObjPsel[ThisController] = 0x800A01BC;
      }
      
@@ -481,7 +444,6 @@ void PlayerSelectMenu(short StatsMode)
      {    
           if (StatsMode == 2)
           {
-               GlobalBoolB = true;
                
                for (int ThisController = 0; ThisController < g_playerCount; ThisController++)
                {
@@ -499,6 +461,7 @@ void PlayerSelectMenu(short StatsMode)
                          {
                               if (CheckPlayerSelect(ThisController,-1) != -1)
                               {
+                                   playSound(0x49008001);
                                    PlayerCharacterSelect[ThisController] = CheckPlayerSelect(ThisController, -1);
                               }
                               asm_BlinkCheck = 0;
@@ -507,18 +470,26 @@ void PlayerSelectMenu(short StatsMode)
                          {
                               if (CheckPlayerSelect(ThisController,1) != -1)
                               {
+                                   playSound(0x49008001);
                                    PlayerCharacterSelect[ThisController] = CheckPlayerSelect(ThisController, 1);
                               }                         
                               asm_BlinkCheck = 0;
                          }
                          if ((GlobalController[ThisController]->ButtonPressed & BTN_A) == BTN_A)
                          {    
+                              playSound(0x49008001);
                               MenuProgress[ThisController]++;
                          }
+                         
+                         if ((GlobalController[ThisController]->ButtonPressed & BTN_B) == BTN_B)
+                         {
+                              SetFadeOutB();
+                              *(int*)(long)&PlayerShowStats = 0;
+                              MenuBackup = 1;
+                         }   
                     }
                     else if (MenuProgress[ThisController] == 1)
                     {
-                         GlobalBoolB = false;
                          PlayerOK[ThisController] = 0;
                          PlayerShowStats[ThisController] = 1;
                          asm_DispOBSubPSelCursor1[ThisController] = 0x800A00FC;
@@ -527,6 +498,7 @@ void PlayerSelectMenu(short StatsMode)
                          {
                               if ((int)PlayerEngineSelect[ThisController] > 0)
                               {
+                                   playSound(0x49008001);
                                    PlayerEngineSelect[ThisController]--;                                   
                               }                         
                          }
@@ -534,21 +506,23 @@ void PlayerSelectMenu(short StatsMode)
                          {
                               if ((int)PlayerEngineSelect[ThisController] < 2)
                               {
+                                   playSound(0x49008001);
                                    PlayerEngineSelect[ThisController]++;                                   
                               }                         
                          }
                          if ((GlobalController[ThisController]->ButtonPressed & BTN_A) == BTN_A)
                          {    
+                              playSound(0x49008001);
                               MenuProgress[ThisController]++;
                          }
                          if ((GlobalController[ThisController]->ButtonPressed & BTN_B) == BTN_B)
                          {    
+                              playSound(0x49008002);
                               MenuProgress[ThisController]--;
                          }
                     }
                     else if (MenuProgress[ThisController] == 2)
                     {
-                         GlobalBoolB = false;
                          PlayerOK[ThisController] = 0;
                          PlayerShowStats[ThisController] = 1;
                          asm_DispOBSubPSelCursor1[ThisController] = 0x800A00FC;
@@ -557,6 +531,7 @@ void PlayerSelectMenu(short StatsMode)
                          {
                               if ((int)PlayerSteerSelect[ThisController] > 0)
                               {
+                                   playSound(0x49008001);
                                    PlayerSteerSelect[ThisController]--;                                   
                               }                        
                          }
@@ -564,90 +539,103 @@ void PlayerSelectMenu(short StatsMode)
                          {
                               if ((int)PlayerSteerSelect[ThisController] < 2)
                               {
+                                   playSound(0x49008001);
                                    PlayerSteerSelect[ThisController]++;                                   
                               }                         
                          }
                          if ((GlobalController[ThisController]->ButtonPressed & BTN_A) == BTN_A)
-                         {    
+                         { 
+                              playSound(0x49008001);   
                               MenuProgress[ThisController]++;
                          }
                          if ((GlobalController[ThisController]->ButtonPressed & BTN_B) == BTN_B)
                          {    
+                              playSound(0x49008002);
                               MenuProgress[ThisController]--;
                          }
                     }
                     else if (MenuProgress[ThisController] == 3)
                     {
-                         GlobalBoolB = false;
                          PlayerShowStats[ThisController] = 0;
-                         PlayerOK[ThisController] = 1;
+                         if (PlayerOK[ThisController] != 1)
+                         {
+                              PlayerOK[ThisController] = 1;
+                              int SoundOffset = (0x10 * CharacterConvert[(int)PlayerCharacterSelect[ThisController] + 1]);
+                              playSound(0x2900800e + SoundOffset);  
+                         }
                          if ((GlobalController[ThisController]->ButtonPressed & BTN_B) == BTN_B)
                          {    
+                              playSound(0x49008002);
                               MenuProgress[ThisController]--;
                          }
                     }
                }
-               if (GlobalBoolB)
-               {
-                    if ((GlobalController[4]->ButtonPressed & BTN_B) == BTN_B)
-                    {
-                         SetFadeOutB();
-                         *(int*)(long)&PlayerShowStats = 0;
-                         MenuBackup = 1;
-                    }   
-               }
           }
           else
           {
-               GlobalBoolB = true;
+               
                for (int ThisController = 0; ThisController < g_playerCount; ThisController++)
                {
-                    if (MenuProgress[ThisController] == 0)
+                    switch (MenuProgress[ThisController])
                     {
-                         PlayerShowStats[ThisController] = 1;
-                         asm_DispOBSubPSelCursor1[ThisController] = 0x800A08C8;
-                         PlayerOK[ThisController] = 0;
+                         case 0:
+                         {
+                              PlayerShowStats[ThisController] = 1;
+                              asm_DispOBSubPSelCursor1[ThisController] = 0x800A08C8;
+                              PlayerOK[ThisController] = 0;
 
-                         if ((GlobalController[ThisController]->AnalogPressed & BTN_DLEFT) == BTN_DLEFT)
-                         {
-                              if (CheckPlayerSelect(ThisController,-1) != -1)
+                              if ((GlobalController[ThisController]->AnalogPressed & BTN_DLEFT) == BTN_DLEFT)
                               {
-                                   PlayerCharacterSelect[ThisController] = CheckPlayerSelect(ThisController, -1);
-                              }                         
-                              asm_BlinkCheck = 0;
-                         }
-                         else if ((GlobalController[ThisController]->AnalogPressed & BTN_DRIGHT) == BTN_DRIGHT)
-                         {
-                              if (CheckPlayerSelect(ThisController,1) != -1)
+                                   if (CheckPlayerSelect(ThisController,-1) != -1)
+                                   {
+                                        playSound(0x49008001);
+                                        PlayerCharacterSelect[ThisController] = CheckPlayerSelect(ThisController, -1);
+                                   }                         
+                                   asm_BlinkCheck = 0;
+                              }
+                              else if ((GlobalController[ThisController]->AnalogPressed & BTN_DRIGHT) == BTN_DRIGHT)
                               {
-                                   PlayerCharacterSelect[ThisController] = CheckPlayerSelect(ThisController, 1);
-                              }                         
-                              asm_BlinkCheck = 0;
+                                   if (CheckPlayerSelect(ThisController,1) != -1)
+                                   {
+                                        playSound(0x49008001);
+                                        PlayerCharacterSelect[ThisController] = CheckPlayerSelect(ThisController, 1);
+                                   }                         
+                                   asm_BlinkCheck = 0;
+                              }
+                              if ((GlobalController[ThisController]->ButtonPressed & BTN_A) == BTN_A)
+                              {    
+                                   playSound(0x49008001);
+                                   MenuProgress[ThisController]++;
+                              }
+                              if ((GlobalController[ThisController]->ButtonPressed & BTN_B) == BTN_B)
+                              {
+                                   SetFadeOutB();
+                                   *(int*)(long)&PlayerShowStats = 0;
+                                   MenuBackup = 1;
+                              } 
+                              break;  
                          }
-                         if ((GlobalController[ThisController]->ButtonPressed & BTN_A) == BTN_A)
-                         {    
-                              MenuProgress[ThisController]++;
+                         case 1:
+                         {
+                              PlayerShowStats[ThisController] = 0;
+                              if (PlayerOK[ThisController] != 1)
+                              {
+                                   PlayerOK[ThisController] = 1;
+                                   int SoundOffset = (0x10 * CharacterConvert[(int)PlayerCharacterSelect[ThisController] + 1]);
+                                   playSound(0x2900800e + SoundOffset);  
+                              }
+                              
+                              asm_DispOBSubPSelCursor1[ThisController] = 0x800A00FC;
+
+                                
+                              if ((GlobalController[ThisController]->ButtonPressed & BTN_B) == BTN_B)
+                              {    
+                                   playSound(0x49008002);
+                                   MenuProgress[ThisController]--;
+                              }
+                              break;
                          }
                     }
-                    else if (MenuProgress[ThisController] == 1)
-                    {
-                         PlayerShowStats[ThisController] = 0;
-                         PlayerOK[ThisController] = 1;
-                         asm_DispOBSubPSelCursor1[ThisController] = 0x800A00FC;
-
-                         GlobalBoolB = false;
-
-                         
-                    }
-               }                              
-               if (GlobalBoolB)
-               {
-                    if ((GlobalController[4]->ButtonPressed & BTN_B) == BTN_B)
-                    {
-                         SetFadeOutB();
-                         *(int*)(long)&PlayerShowStats = 0;
-                         MenuBackup = 1;
-                    }   
                }            
           }          
      }
@@ -670,6 +658,7 @@ void PlayerSelectMenu(short StatsMode)
           {
                if ((GlobalController[4]->ButtonPressed & BTN_A) == BTN_A)
                {
+                    playSound(0x49008000);
                     SetFadeOut(30);
                }
           }
@@ -678,11 +667,11 @@ void PlayerSelectMenu(short StatsMode)
 
      if ((menuScreenC == 2) && ((GlobalController[4]->ButtonPressed & BTN_B) == BTN_B))
      {
-          menuScreenC = 1;
+          menuScreenC = 0;
           for (int ThisController = 0; ThisController < g_playerCount; ThisController++)
           {
                PlayerOK[ThisController] = 0;
-               if (StatsMode == 0)
+               if (StatsMode == 2)
                {
                     MenuProgress[ThisController] = 1;
                }
@@ -708,25 +697,18 @@ void PlayerSelectMenu(short StatsMode)
 
 void PlayerSelectMenuAfter()
 {
-     HotSwapID = 0;
-     if (MenuChanged != 13)
+     for (int ThisController = 0; ThisController < g_playerCount; ThisController++)
      {
-          for (int ThisController = 0; ThisController < g_playerCount; ThisController++)
-          {
-               asm_DispOBSubPSelCursor1[ThisController] = 0x800A08C8;
-               g_CharacterSelections[ThisController] = CharacterConvert[(int)PlayerCharacterSelect[ThisController] + 1];
-               PlayerCharacterSelect[ThisController] = ThisController;
-               MenuProgress[ThisController] = 0;
-          }
-          MenuChanged = 13;
+          asm_DispOBSubPSelCursor1[ThisController] = 0x800A08C8;
+          g_CharacterSelections[ThisController] = CharacterConvert[(int)PlayerCharacterSelect[ThisController] + 1];
+          PlayerCharacterSelect[ThisController] = ThisController;
+          MenuProgress[ThisController] = 0;
      }
 }
 
-void GameSelectMenu()
+
+void PlayerSelectMenuBefore()
 {
-     HotSwapID = 0;
-     
-     GlobalBoolC = false;
 
      GlobalIntA = 160 - ((g_playerCount * 64 + ((g_playerCount - 1) * 6)) / 2);
      for (int ThisPlayer = 0; ThisPlayer < g_playerCount; ThisPlayer++)
@@ -735,21 +717,12 @@ void GameSelectMenu()
           GlobalIntA += 70;
      }
      MenuBackup = 0;
-
-     if (MenuChanged != 11)
-     {
-          for (int ThisController = 0; ThisController < g_playerCount; ThisController++)
-          {						
-               PlayerCharacterSelect[ThisController] = ThisController;
-               asm_DispOBSubPSelCursor1[ThisController] = 0x800A08C8;
-          }
-          MenuChanged = 11;
+     for (int ThisController = 0; ThisController < g_playerCount; ThisController++)
+     {						
+          PlayerCharacterSelect[ThisController] = ThisController;
+          asm_DispOBSubPSelCursor1[ThisController] = 0x800A08C8;
      }
-     
 }
-
-
-
 void MapSelectMenu()
 {
      
@@ -763,18 +736,18 @@ void MapSelectMenu()
      }
      if (menuScreenA == GlobalShortA)
      {
-          if ((GlobalController[0]->ButtonPressed & BTN_CLEFT) == BTN_CLEFT)
+          if ((GlobalController[4]->ButtonPressed & BTN_CLEFT) == BTN_CLEFT)
           {
                swapHS(0);
           }
-          else if ((GlobalController[0]->ButtonPressed & BTN_CRIGHT) == BTN_CRIGHT)
+          else if ((GlobalController[4]->ButtonPressed & BTN_CRIGHT) == BTN_CRIGHT)
           {
                swapHS(1);
           }
           LoadCustomHeader(courseValue);
 
           
-          if ((GlobalController[0]->ButtonPressed & BTN_R) == BTN_R)
+          if ((GlobalController[4]->ButtonPressed & BTN_R) == BTN_R)
           {
                MenuToggle = !MenuToggle;
           }
@@ -810,10 +783,36 @@ void MapSelectMenu()
      
 }
 
+void DrawGameSelect()
+{
+     DrawBox(65,18,190,25,0,0,0,175);
+     PrintBigText(75,16, 0.9f,"Game Options");
 
+     
+}
+void DrawMapSelect()
+{
+     DrawBox(65,18,190,25,0,0,0,175);
+     if (HotSwapID == 0)
+     {
+          PrintBigText(80,16, 0.9f,"Original Set");
+     }
+     else if (HotSwapID < 10)
+     {
+          PrintBigTextNumberNoGap(80,16, 0.9f,"Custom Set ",HotSwapID);
+     }
+     else
+     {
+          PrintBigTextNumberNoGap(80,16, 0.9f,"Custom Set",HotSwapID);
+     }
+     SpriteBtnCLeft(45,35,1.0,false);
+     SpriteBtnCRight(279,35,1.0,false);
+     
+}
 void DrawPlayerSelect(short StatsMode)
 {
-     
+     DrawBox(65,18,190,25,0,0,0,175);
+     PrintBigText(75,16, 0.9f,"Player Select");
      for (int CurrentPlayer = 0; CurrentPlayer < g_playerCount; CurrentPlayer++)
      {	
           
@@ -822,8 +821,8 @@ void DrawPlayerSelect(short StatsMode)
           if (PlayerShowStats[CurrentPlayer])
           {
                //printStringNumber(5,5,"PlayerSelect",GlobalIntC);
-               GlobalIntA = PlayerSelectPositions[CurrentPlayer].x -1;
-               GlobalIntB = PlayerSelectPositions[CurrentPlayer].y +79;
+               GlobalIntA = PlayerSelectPositions[CurrentPlayer].x ;
+               GlobalIntB = PlayerSelectPositions[CurrentPlayer].y +76;
                
                if ((MenuProgress[CurrentPlayer] == 1) && (StatsMode == 2))
                {
@@ -835,40 +834,25 @@ void DrawPlayerSelect(short StatsMode)
                     {
                          MenuFlash[CurrentPlayer]+=10;
                     }		
-                    GraphPtr = FillRect1ColorF(GraphPtr,GlobalIntA - 1,GlobalIntB - 1,GlobalIntA + 65,GlobalIntB + 51,(int)MenuFlash[CurrentPlayer],(int)MenuFlash[CurrentPlayer],(int)MenuFlash[CurrentPlayer],255);	
+                    GraphPtr = FillRect1ColorF(GraphPtr,GlobalIntA - 1,GlobalIntB - 1,GlobalIntA + 66,GlobalIntB + 71,(int)MenuFlash[CurrentPlayer],(int)MenuFlash[CurrentPlayer],(int)MenuFlash[CurrentPlayer],255);	
                               
                }
-               GraphPtr = FillRect1ColorF(GraphPtr,GlobalIntA,GlobalIntB,GlobalIntA + 64,GlobalIntB + 50,0,0,0,255);	
+               GraphPtr = FillRect1ColorF(GraphPtr,GlobalIntA,GlobalIntB,GlobalIntA + 64,GlobalIntB + 69,0,0,0,255);	
                
-               
-
-               if ((MenuProgress[CurrentPlayer] == 2) && (StatsMode == 2))
-               {
-                    if (MenuFlash[CurrentPlayer] > 255)
-                    {
-                         MenuFlash[CurrentPlayer] = 0;
-                    }
-                    else
-                    {
-                         MenuFlash[CurrentPlayer]+=10;
-                    }		
-                    GraphPtr = FillRect1ColorF(GraphPtr,GlobalIntA-1,GlobalIntB + 53,GlobalIntA + 65,GlobalIntB + 71,(int)MenuFlash[CurrentPlayer],(int)MenuFlash[CurrentPlayer],(int)MenuFlash[CurrentPlayer],255);			
-               }
-               GraphPtr = FillRect1ColorF(GraphPtr,GlobalIntA,GlobalIntB + 54,GlobalIntA + 64,GlobalIntB + 70,0,0,0,255);
                
                
                GlobalIntA = PlayerSelectPositions[CurrentPlayer].x + 3;
                for (int ThisBox = 0; ThisBox < 6; ThisBox++)
                {
                     
-                    GlobalIntB = PlayerSelectPositions[CurrentPlayer].y + 91;
-                    GraphPtr = FillRect1ColorF(GraphPtr,GlobalIntA,GlobalIntB,GlobalIntA + 8,GlobalIntB + 3,255,255,255,255);
+                    GlobalIntB = PlayerSelectPositions[CurrentPlayer].y + 88;
+                    GraphPtr = FillRect1ColorF(GraphPtr,GlobalIntA,GlobalIntB,GlobalIntA + 8,GlobalIntB + 4,255,255,255,255);
                     GlobalIntB +=17;
-                    GraphPtr = FillRect1ColorF(GraphPtr,GlobalIntA,GlobalIntB,GlobalIntA + 8,GlobalIntB + 3,255,255,255,255);
+                    GraphPtr = FillRect1ColorF(GraphPtr,GlobalIntA,GlobalIntB,GlobalIntA + 8,GlobalIntB + 4,255,255,255,255);
                     GlobalIntB +=17;
-                    GraphPtr = FillRect1ColorF(GraphPtr,GlobalIntA,GlobalIntB,GlobalIntA + 8,GlobalIntB + 3,255,255,255,255);
-                    GlobalIntB +=20;
-                    GraphPtr = FillRect1ColorF(GraphPtr,GlobalIntA,GlobalIntB,GlobalIntA + 8,GlobalIntB + 3,255,255,255,255);
+                    GraphPtr = FillRect1ColorF(GraphPtr,GlobalIntA,GlobalIntB,GlobalIntA + 8,GlobalIntB + 4,255,255,255,255);
+                    GlobalIntB +=17;
+                    GraphPtr = FillRect1ColorF(GraphPtr,GlobalIntA,GlobalIntB,GlobalIntA + 8,GlobalIntB + 4,255,255,255,255);
                     GlobalIntA += 10;
                }
                
@@ -877,64 +861,66 @@ void DrawPlayerSelect(short StatsMode)
                
                
                GlobalIntA = PlayerSelectPositions[CurrentPlayer].x + 3;
-               GlobalIntB = PlayerSelectPositions[CurrentPlayer].y +79;
+               GlobalIntB = PlayerSelectPositions[CurrentPlayer].y +76;
 
                GlobalIntB +=12;
                if (StatsMode != 2)
                {
                     GlobalIntC = 58 - (58 * 8 * (1 - (GlobalStat.AccelerationCount[g_raceClass][(int)CharacterConvert[(int)PlayerCharacterSelect[CurrentPlayer] + 1]] / GlobalStat.AccelerationCount[g_raceClass][6])));
                     
-                    GraphPtr = FillRect1ColorF(GraphPtr,GlobalIntA,GlobalIntB + 1,GlobalIntA + GlobalIntC,GlobalIntB + 2,255,0,0,255);
+                    GraphPtr = FillRect1ColorF(GraphPtr,GlobalIntA,GlobalIntB + 1,GlobalIntA + GlobalIntC,GlobalIntB + 3,255,0,0,255);
                     GlobalIntB +=17;
                     GlobalIntC = 58 + (58 * (1 - (GlobalStat.PowerDownRT[(int)CharacterConvert[(int)PlayerCharacterSelect[CurrentPlayer] +1]][7] / GlobalStat.PowerDownRT[6][7])));
                     
-                    GraphPtr = FillRect1ColorF(GraphPtr,GlobalIntA,GlobalIntB + 1,GlobalIntA + GlobalIntC,GlobalIntB + 2,255,0,0,255);
+                    GraphPtr = FillRect1ColorF(GraphPtr,GlobalIntA,GlobalIntB + 1,GlobalIntA + GlobalIntC,GlobalIntB + 3,0,255,0,255);
                     GlobalIntB +=17;
                     GlobalIntC = 58 * (GlobalStat.PowerBandAcceleration[(int)CharacterConvert[(int)PlayerCharacterSelect[CurrentPlayer] + 1]] / GlobalStat.PowerBandAcceleration[6]);
                     
-                    GraphPtr = FillRect1ColorF(GraphPtr,GlobalIntA,GlobalIntB + 1,GlobalIntA + GlobalIntC,GlobalIntB + 2,255,0,0,255);
-                    GlobalIntB +=20;
+                    GraphPtr = FillRect1ColorF(GraphPtr,GlobalIntA,GlobalIntB + 1,GlobalIntA + GlobalIntC,GlobalIntB + 3,0,0,255,255);
+                    GlobalIntB +=17;
                     GlobalIntC = 58 + (58 * (1 - (GlobalStat.ProOffsetAngle[(int)CharacterConvert[(int)PlayerCharacterSelect[CurrentPlayer] + 1]] / GlobalStat.ProOffsetAngle[7])));
                     
-                    GraphPtr = FillRect1ColorF(GraphPtr,GlobalIntA,GlobalIntB + 1,GlobalIntA + GlobalIntC,GlobalIntB + 2,255,0,0,255);
+                    GraphPtr = FillRect1ColorF(GraphPtr,GlobalIntA,GlobalIntB + 1,GlobalIntA + GlobalIntC,GlobalIntB + 3,255,0,0,255);
                }
                else
                {
                     GlobalIntC = 58 - (58 * 8 * (1 - (GlobalStat.AccelerationCount[g_raceClass][(int)CharacterConvert[(int)PlayerCharacterSelect[CurrentPlayer] + 1]] / (float)(EngineSpeed[g_raceClass][2]))));
                     
-                    GraphPtr = FillRect1ColorF(GraphPtr,GlobalIntA,GlobalIntB + 1,GlobalIntA + GlobalIntC,GlobalIntB + 2,255,0,0,255);
+                    GraphPtr = FillRect1ColorF(GraphPtr,GlobalIntA,GlobalIntB + 1,GlobalIntA + GlobalIntC,GlobalIntB + 3,255,0,0,255);
                     GlobalIntB +=17;
                     GlobalIntC = 58 + (58 * (1 - (GlobalStat.PowerDownRT[(int)CharacterConvert[(int)PlayerCharacterSelect[CurrentPlayer] +1]][7] /((float)EnginePowerDownRT[1][7] / 100))));
                     
-                    GraphPtr = FillRect1ColorF(GraphPtr,GlobalIntA,GlobalIntB + 1,GlobalIntA + GlobalIntC,GlobalIntB + 2,255,0,0,255);
+                    GraphPtr = FillRect1ColorF(GraphPtr,GlobalIntA,GlobalIntB + 1,GlobalIntA + GlobalIntC,GlobalIntB + 3,0,255,0,255);
                     GlobalIntB +=17;
                     GlobalIntC = 29 + (29 * (GlobalStat.PowerBandAcceleration[(int)CharacterConvert[(int)PlayerCharacterSelect[CurrentPlayer] + 1]] /((float)PowerBand[1] / 10)));
                     
-                    GraphPtr = FillRect1ColorF(GraphPtr,GlobalIntA,GlobalIntB + 1,GlobalIntA + GlobalIntC,GlobalIntB + 2,255,0,0,255);
-                    GlobalIntB +=20;
+                    GraphPtr = FillRect1ColorF(GraphPtr,GlobalIntA,GlobalIntB + 1,GlobalIntA + GlobalIntC,GlobalIntB + 3,0,0,255,255);
+                    GlobalIntB +=17;
                     GlobalIntC = 58 + (58 * (1 - (GlobalStat.ProOffsetAngle[(int)CharacterConvert[(int)PlayerCharacterSelect[CurrentPlayer] + 1]] /((float)SteerAngle[2] / 100))));
                     
-                    GraphPtr = FillRect1ColorF(GraphPtr,GlobalIntA,GlobalIntB + 1,GlobalIntA + GlobalIntC,GlobalIntB + 2,255,0,0,255);					
+                    GraphPtr = FillRect1ColorF(GraphPtr,GlobalIntA,GlobalIntB + 1,GlobalIntA + GlobalIntC,GlobalIntB + 3,255,0,0,255);					
                }
 
 
                
                GlobalIntA = PlayerSelectPositions[CurrentPlayer].x;
-               GlobalIntB = PlayerSelectPositions[CurrentPlayer].y +79;
+               GlobalIntB = PlayerSelectPositions[CurrentPlayer].y +76;
 
                GlobalIntB -= 18;
                GlobalIntA -= 16;
-               loadFont();
-               SetFontColor(31,15,15,15,8,16);
+               LoadFontF3D((uint)(&RedPaletteF3D));
                printString(GlobalIntA,GlobalIntB,"Speed");
                
                GlobalIntB +=17;
+               LoadFontF3D((uint)(&GreenPaletteF3D));
                printString(GlobalIntA,GlobalIntB,"Grip");
                
                GlobalIntB +=17;
+               LoadFontF3D((uint)(&BluePaletteF3D));
                printString(GlobalIntA,GlobalIntB,"Boost");
                
-               GlobalIntB +=20;
+               GlobalIntB +=17;               
+               LoadFontF3D((uint)(&RedPaletteF3D));
                printString(GlobalIntA,GlobalIntB,"Steer");
                
           }	
@@ -1670,6 +1656,59 @@ void PrintBigTextNumber(int posx, int posy, float scale, char *text, int value)
 	if (negativeVal == 1)
 	{
 		PrintBigText((scale*15)+posx+(ReturnStringLength(text))*15*scale, posy, scale, "-");
+		negativeVal = 0;
+	}
+}
+
+
+
+void PrintBigTextNumberNoGap(int posx, int posy, float scale, char *text, int value)
+{
+	PrintBigText(posx, posy, scale, text);
+     
+	char negativeVal = 0;
+
+	if (value < 0)
+	{
+		value = value*-1;
+		negativeVal = 1;
+	}
+
+	int digit[9] = {
+	((value%10)),
+	((value%100)/10),
+	((value%1000)/100),
+	((value%10000)/1000),
+	((value%100000)/10000),
+	((value%1000000)/100000),
+	((value%10000000)/1000000),
+	((value%100000000)/10000000),
+	((value%1000000000)/100000000)
+	};
+
+
+
+
+	char valstring[50];
+	for (int a = 0; a < 50; a++)
+	{
+		valstring[a] = 32;
+	}
+	
+	for (int i = 0; i < numPlaces(value); i++)
+	{
+		if (i > 9)
+		{
+			continue;
+		}
+		valstring[i] = (digit[numPlaces(value)-1-i] + 48);
+	}
+
+	PrintBigText((scale*32)+posx+(ReturnStringLength(text) -1)*15*scale, posy, scale, valstring);		
+
+	if (negativeVal == 1)
+	{
+		PrintBigText((scale*15)+posx+(ReturnStringLength(text) -1)*15*scale, posy, scale, "-");
 		negativeVal = 0;
 	}
 }

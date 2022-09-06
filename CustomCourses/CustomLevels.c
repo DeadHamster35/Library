@@ -936,6 +936,8 @@ void runTextureScroll()
     }
 }
 
+
+/*
 void runWaterVertex()
 {
 	//This handles translucency by setting vertex alpha.
@@ -953,6 +955,47 @@ void runWaterVertex()
 		MakeWaterVertex(GlobalAddressB,GlobalCharA,0,0,0);
 	}
 }
+*/
+
+typedef struct WaveStruct 
+{
+	uint Count;
+	uint Address;
+} WaveStruct;
+
+void runWaterVertex()
+{
+		
+	GlobalAddressA = (long)(&ok_scrolltranslucent) + OverKartHeader.WVOffset;
+	LoopValue = *(long*)GlobalAddressA;
+	if (LoopValue == 0xFFFFFFFF)
+	{
+		return;
+	}
+	
+	
+	if (WaveTime > 31000)
+	{
+		WaveDirection = -1;
+	}
+	if (WaveTime < -31000)
+	{
+		WaveDirection = 1;
+	}
+	WaveTime += WaveDirection;
+	
+	if ((WaveTime % 2) == 0)
+	{
+		
+		for (int CurrentWater = 0; CurrentWater < LoopValue; CurrentWater++)
+		{
+			GlobalAddressB = (GlobalAddressA + (CurrentWater * 8) + 4);
+			WaveStruct *WaveData = (WaveStruct*)(GlobalAddressB);
+			WaveRace((Vtx_t*)GetRealAddress(WaveData->Address | 0x04000000), WaveData->Count, 45.0);
+		}
+	}
+}
+
 
 
 void runDisplayScreen()

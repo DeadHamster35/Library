@@ -179,7 +179,7 @@ NOP
 
 //Hook add new custom IBox code
 .org 0x1071E8
-JAL CreateCustomItemBox
+//JAL CreateCustomItemBox
 
 
 
@@ -281,11 +281,6 @@ JAL CommonGameEventChart
 
 
 
-
-//PRINT MENU HOOK
-.org 0x2B30
-J PrintMenuHook
-NOP
 
 //1p
 .org 0x2214
@@ -435,3 +430,22 @@ JAL custom_check_triangle_yz_v
 JAL custom_check_triangle_yz_v
 .org 0x119628
 JAL custom_check_triangle_yz_v
+=======
+//Disable BackgroundFlag to control ourselves via gameCode
+.org 0x0F93D8
+NOP
+NOP
+.org 0x0F8B64
+NOP
+NOP
+.org 0x0F9214
+NOP
+NOP
+.org 0x0F8278
+NOP
+NOP
+
+
+
+
+

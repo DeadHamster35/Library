@@ -7,12 +7,13 @@ extern void printGPTime(float printTime, int OffsetY);
 extern void printTime(float printTime);
 extern void PrintMenuTest();
 extern void PlayerSelectMenu(short StatsMode);
-extern void PlayerSelectMenuStart();
 extern void PlayerSelectMenuAfter();
-extern void GameSelectMenu();
+extern void PlayerSelectMenuBefore();
 extern void MapSelectMenu();
 extern void MapSelectMenuBefore();
 extern void DrawPlayerSelect(short StatsMode);
+extern void DrawMapSelect();
+extern void DrawGameSelect();
 
 
 extern void loadHudButtons();
@@ -39,6 +40,7 @@ extern void PrintNiceText(int posx, int posy, float scale, char *text);
 extern void PrintBigText(int posx, int posy, float scale, char *text);
 extern void PrintNiceTextNumber(int posx, int posy, float scale, char *text, int value);
 extern void PrintBigTextNumber(int posx, int posy, float scale, char *text, int value);
+extern void PrintBigTextNumberNoGap(int posx, int posy, float scale, char *text, int value);
 extern void DrawFPS(int X, int Y);
 
 #endif

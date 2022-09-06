@@ -2,7 +2,10 @@
 
 
 
-void gameCodeDefault();
+void gameCodeDefault()
+{	
+	
+};
 void titleMenuDefault();
 void DisplayObjectDefault(void *Car, Object *InputObject);
 int CollideObjectDefault(Player* Car, Object* Target)
@@ -26,7 +29,10 @@ void DrawPerScreenDefault(Camera* LocalCamera)
 		DisplayFlagGate(LocalCamera);
 	}
 };
-void allRunDefault();
+void allRunDefault()
+{
+	gBackgroundFlag = 1;
+}
 void PrintMenuFunctionDefault();
 void CheckHitDefault(int PlayerIndex, int HitType);
 void ExecuteItemHookDefault(Player* Car)
@@ -60,7 +66,7 @@ void runRAM()
 {
 	ramCopy(*targetAddress, *sourceAddress, dataLength);
 }
-int runMIO()
+uint runMIO()
 {
 	return decodeMIO0(*sourceAddress, *targetAddress);
 }
@@ -117,10 +123,10 @@ void LoadFontF3D(uint Address)
 void SetupFontF3D()
 {
 	
-	SetFontColorPalette((uint)&RedTextPalette, 24, 0, 0, 14, 0, 0);
-	SetFontColorPalette((uint)&BlueTextPalette, 0, 0, 24, 0, 0, 14);
-	SetFontColorPalette((uint)&GreenTextPalette, 0, 24, 0, 0, 14, 0);
-	SetFontColorPalette((uint)&WhiteTextPalette, 24, 24, 24, 14, 14, 14);
+	SetFontColorPalette((uint)&RedTextPalette, 31, 11, 11, 14, 5, 5);
+	SetFontColorPalette((uint)&BlueTextPalette, 11, 11, 31, 5, 5, 14);
+	SetFontColorPalette((uint)&GreenTextPalette, 11, 31, 11, 5, 14, 5);
+	SetFontColorPalette((uint)&WhiteTextPalette, 30, 30, 30, 14, 14, 14);
 
 	*sourceAddress = GetRealAddress(0x0D008080);	
 	dataLength = 0xB8;
@@ -289,16 +295,6 @@ bool CheckEmulator()
 }
 
 
-void loadNiceFont()
-{
-	*sourceAddress = (int)(&NiceFontROM);
-	*targetAddress = (int)(&ok_FreeSpace);
-	dataLength = 0x5000;
-	runDMA();
-	*sourceAddress = (int)(&ok_FreeSpace);
-	*targetAddress = (int)(&nicefont);
-	runMIO();
-}
 
 void loadBigFont()
 {

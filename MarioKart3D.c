@@ -2189,6 +2189,39 @@ void ScaleMatrixXYZ(AffineMtx Matrix, Vector Scale)
     Matrix[2][2] *= Scale[2];
 }
 
+
+
+/*
+
+typedef struct {
+	short		ob[3];	/// x, y, z 
+	unsigned short	flag;
+	short		tc[2];	/// texture coord 
+	unsigned char	cn[4];	/// color & alpha
+} Vtx_t;
+
+*/
+
+/*
+((sin(x+y+time))/(intensity))+((sin(-x+y+time))/(intensity))
+*/
+short WaveTime, WaveDirection = 1;
+
+void WaveRace(Vtx_t *VertexBuffer, int Count, float Intensity)
+{	
+	
+	for (int ThisVert = 0; ThisVert < Count; ThisVert++)
+	{
+		GlobalFloatA = SinTable[(ushort)( (uint)( 10000.0 * (VertexBuffer[ThisVert].ob[0] + VertexBuffer[ThisVert].ob[2]) + (WaveTime * 500) ) % 0xFFFF) >> 4];
+		
+		VertexBuffer[ThisVert].ob[1] = GlobalFloatA * Intensity ;
+		
+		VertexBuffer[ThisVert].cn[0] = (char)(115 + (50 * GlobalFloatA));
+		VertexBuffer[ThisVert].cn[1] = (char)(115 + (50 * GlobalFloatA));
+		VertexBuffer[ThisVert].cn[2] = (char)(165 + (60 * GlobalFloatA));
+	}
+}
+
 void DrawStereoscopic3D(short FocusValue)
 {
 	g_aspectRatio = (float)(240 / 160);

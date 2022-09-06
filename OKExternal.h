@@ -30,9 +30,11 @@ extern long HeartSpriteROM;
 extern long TitleMenuFrameROM;
 
 
-extern long NiceFontROM;
 extern long BigFontROM;
 extern long HudButtonsROM;
+
+extern long MenuIconsROM;
+extern long MenuIconsEnd;
 
 extern long TestTexture;
 
