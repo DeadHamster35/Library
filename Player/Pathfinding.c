@@ -68,33 +68,23 @@ int FindNearestRampNode(float CurrentPosition[], float FoundNodePosition[], floa
     float Distance = 9999999.0;
     float CheckDistance;
     float path_height_start_node, path_height_end_node;
-    float height_check;
     short use_this_path= 0;
     short use_this_marker=0;
-    float diff_x, diff_z;
-
-    float PathDistanceDifference = -1;
-    float TargetHeightDifference = CurrentPosition[1] - TargetY;
-    TargetHeightDifference *= TargetHeightDifference; //Square to get absolute distance. 
+    float TargetHeightDifference = pow(CurrentPosition[1] - TargetY, 2);//Square to get absolute distance. 
     
     for (int ThisPath = 0; ThisPath < PathCount; ThisPath++) //Loop through each possible path and check the beginning and ending nodes and save the closest one to CurrentPosition
     {
         path_height_start_node = (float)PathArray[ThisPath][0].Position[1];
         path_height_end_node = (float)PathArray[ThisPath][MarkerCounts[ThisPath]].Position[1];
 
-        height_check = CurrentPosition[1] - path_height_start_node;
 
         //Check beginning of path
-        if (height_check*height_check < 400)
+        if (pow(CurrentPosition[1] - path_height_start_node, 2) < 400)
         {
-            
-            PathDistanceDifference = path_height_end_node - TargetY;
-            PathDistanceDifference *= PathDistanceDifference;
-            if (PathDistanceDifference < TargetHeightDifference)
+            if (pow(path_height_end_node - TargetY, 2) < TargetHeightDifference)
             {
-                diff_x = CurrentPosition[0] - (float)PathArray[ThisPath][0].Position[0];
-                diff_z = CurrentPosition[2] - (float)PathArray[ThisPath][0].Position[2];
-                CheckDistance = diff_x*diff_x + diff_z*diff_z;
+                CheckDistance = pow(CurrentPosition[0] - (float)PathArray[ThisPath][0].Position[0], 2) +
+                                pow(CurrentPosition[2] - (float)PathArray[ThisPath][0].Position[2], 2)    ;
                 if (CheckDistance < Distance)
                 {
                     Distance = CheckDistance;
@@ -104,18 +94,12 @@ int FindNearestRampNode(float CurrentPosition[], float FoundNodePosition[], floa
             }
         }
         //Check end of path
-        height_check = CurrentPosition[1] - path_height_end_node;
-
-        if (height_check*height_check < 400)
+        if (pow(CurrentPosition[1] - path_height_end_node, 2) < 400)
         {
-        
-            PathDistanceDifference = path_height_start_node - TargetY;
-            PathDistanceDifference *= PathDistanceDifference;
-            if (PathDistanceDifference < TargetHeightDifference)
+            if (pow(path_height_start_node - TargetY, 2) < TargetHeightDifference)
             {
-                diff_x = CurrentPosition[0] - (float)PathArray[ThisPath][MarkerCounts[ThisPath]].Position[0];
-                diff_z = CurrentPosition[2] - (float)PathArray[ThisPath][MarkerCounts[ThisPath]].Position[2];
-                CheckDistance = diff_x*diff_x + diff_z*diff_z;
+                CheckDistance = pow(CurrentPosition[0] - (float)PathArray[ThisPath][MarkerCounts[ThisPath]].Position[0], 2) +
+                                pow(CurrentPosition[2] - (float)PathArray[ThisPath][MarkerCounts[ThisPath]].Position[2], 2)    ;
                 if (CheckDistance < Distance)
                 {
                     Distance = CheckDistance;
@@ -139,34 +123,19 @@ int FindNearestDropNode(float CurrentPosition[], float FoundNodePosition[], floa
 {
     float Distance = 9999999.0;
     float CheckDistance;
-    float path_height_start_node, path_height_end_node;
-    float height_check;
     short use_this_path= 0;
     short use_this_marker=0;
-    float diff_x, diff_z;
-
-    float PathDistanceDifference = -1;
-    float TargetHeightDifference = CurrentPosition[1] - TargetY;
-    TargetHeightDifference *= TargetHeightDifference; //Square to get absolute distance. 
     
     for (int ThisPath = 0; ThisPath < PathCount; ThisPath++) //Loop through each possible path and check the beginning and ending nodes and save the closest one to CurrentPosition
     {
-        path_height_start_node = (float)PathArray[ThisPath][0].Position[1];
-        path_height_end_node = (float)PathArray[ThisPath][MarkerCounts[ThisPath]].Position[1];
-
-        height_check = CurrentPosition[1] - path_height_start_node;
 
         //Check beginning of path, which is the tart of the drop
-        if (height_check*height_check < 400)
+        if (pow(CurrentPosition[1]-(float)PathArray[ThisPath][0].Position[1], 2) < 400)
         {
-            
-            PathDistanceDifference = path_height_end_node - TargetY;
-            PathDistanceDifference *= PathDistanceDifference;
-            if (PathDistanceDifference < TargetHeightDifference)
+            if (pow((float)PathArray[ThisPath][MarkerCounts[ThisPath]].Position[1] - TargetY, 2) < pow(CurrentPosition[1] - TargetY, 2)) //If marker is closer in height to the bot than the target
             {
-                diff_x = CurrentPosition[0] - (float)PathArray[ThisPath][0].Position[0];
-                diff_z = CurrentPosition[2] - (float)PathArray[ThisPath][0].Position[2];
-                CheckDistance = diff_x*diff_x + diff_z*diff_z;
+                CheckDistance = pow(CurrentPosition[0] - (float)PathArray[ThisPath][0].Position[0], 2) +
+                                pow(CurrentPosition[2] - (float)PathArray[ThisPath][0].Position[2], 2)    ;
                 if (CheckDistance < Distance)
                 {
                     Distance = CheckDistance;
@@ -189,12 +158,8 @@ int FindNearestDropNode(float CurrentPosition[], float FoundNodePosition[], floa
 
 void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *PathArray[], short* MarkerCounts, short PathCount, short PlayerID, char TypeOfPath)
 {
-    //float CheckHeightStart; 
-    //float CheckHeightEnd;
     float CheckDistance;
-    //float diff_x, diff_y, diff_z;
-    float diff_x, diff_z;
-    float height_check;
+    short EndMarker; 
     Pathfinder->Distance = 9999999.0; // Set an impossible value to ensure the first return is true. 
     if (Pathfinder->TargetPath != -1)
     {
@@ -203,8 +168,8 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
     Pathfinder->TargetPath = -1;     
     for (int ThisPath = 0; ThisPath < PathCount; ThisPath++)
     {
-        height_check = GlobalPlayer[PlayerID].position[1] - (float)PathArray[ThisPath][0].Position[1];
-        if (height_check*height_check < 400) //If on same level
+        EndMarker = MarkerCounts[ThisPath]-1;
+        if (pow(GlobalPlayer[PlayerID].position[1] - (float)PathArray[ThisPath][0].Position[1], 2) < 400) //If on same level
         {
             //Test first marker to see if in range.
             objectPosition[0] = (float)PathArray[ThisPath][0].Position[0];
@@ -213,20 +178,12 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
 
             if (TestCollideSphere(GlobalPlayer[PlayerID].position, FirstMarkerDistance, objectPosition, 5)) //&& (ThisPath != Pathfinder->LastPath))  //check if the first marker is within 125 units of the player
             {
-                //First Marker has hit true, check distance of last marker
-                diff_x = ((float)PathArray[ThisPath][MarkerCounts[ThisPath]-1].Position[0] - Pathfinder->Target[0]);
-                //diff_y = ((float)PathArray[ThisPath][MarkerCounts[ThisPath]-1].Position[1] - Pathfinder->Target[1]);
-                diff_z = ((float)PathArray[ThisPath][MarkerCounts[ThisPath]-1].Position[2] - Pathfinder->Target[2]);
-                CheckDistance = diff_x*diff_x + diff_z*diff_z;  //(A^2 + B^2 + C^2) = d
-                // CheckDistance = diff_x*diff_x + diff_z*diff_z;
-
-
+                CheckDistance = pow((float)PathArray[ThisPath][EndMarker].Position[0] - Pathfinder->Target[0], 2) +
+                                pow((float)PathArray[ThisPath][EndMarker].Position[2] - Pathfinder->Target[2], 2)    ;
                 if (CheckDistance < Pathfinder->Distance)  //compare distance, if less than the current update
                 {
                     Pathfinder->Distance = CheckDistance;
                     Pathfinder->TargetPath = ThisPath;
-                    // Pathfinder->Progression = MarkerCounts[ThisPath]-1;
-                    // Pathfinder->Direction = -1;
                     Pathfinder->Progression = 0;
                     Pathfinder->Direction = 1;
                     Pathfinder->PathType = TypeOfPath;
@@ -236,29 +193,22 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
             }
         }
 
-        height_check =  GlobalPlayer[PlayerID].position[1] - (float)PathArray[ThisPath][MarkerCounts[ThisPath]-1].Position[1];
-        if (height_check*height_check < 400) //If on same level
+        if (pow(GlobalPlayer[PlayerID].position[1] - (float)PathArray[ThisPath][EndMarker].Position[1], 2) < 400) //If on same level
         {
             //Test last marker to see if in range.
-            objectPosition[0] = (float)PathArray[ThisPath][MarkerCounts[ThisPath]-1].Position[0];
-            objectPosition[1] = (float)PathArray[ThisPath][MarkerCounts[ThisPath]-1].Position[1];
-            objectPosition[2] = (float)PathArray[ThisPath][MarkerCounts[ThisPath]-1].Position[2];
+            objectPosition[0] = (float)PathArray[ThisPath][EndMarker].Position[0];
+            objectPosition[1] = (float)PathArray[ThisPath][EndMarker].Position[1];
+            objectPosition[2] = (float)PathArray[ThisPath][EndMarker].Position[2];
 
             if (TestCollideSphere(GlobalPlayer[PlayerID].position, FirstMarkerDistance, objectPosition, 5))// && (ThisPath != Pathfinder->LastPath))  //check if the last marker is within 125 units of the player
             {
                 //First Marker has hit true, check distance of last marker
-                diff_x = ((float)PathArray[ThisPath][0].Position[0] - Pathfinder->Target[0]);
-                //diff_y = ((float)PathArray[ThisPath][0].Position[1] - Pathfinder->Target[1]);
-                diff_z = ((float)PathArray[ThisPath][0].Position[2] - Pathfinder->Target[2]);
-                CheckDistance = diff_x*diff_x + diff_z*diff_z;  //(A^2 + B^2 + C^2) = d
-                // CheckDistance = diff_x*diff_x + diff_z*diff_z;  //(A^2 + B^2 + C^2) = d
-
+                CheckDistance = pow((float)PathArray[ThisPath][0].Position[0] - Pathfinder->Target[0], 2) +
+                                pow((float)PathArray[ThisPath][0].Position[2] - Pathfinder->Target[2], 2)    ;
                 if (CheckDistance < Pathfinder->Distance)  //compare distance, if less than the current update
                 {
                     Pathfinder->Distance = CheckDistance;
                     Pathfinder->TargetPath = ThisPath;
-                    // Pathfinder->Progression = 0;
-                    // Pathfinder->Direction = 1;
                     Pathfinder->Progression = MarkerCounts[ThisPath];
                     Pathfinder->Direction = -1;
                     Pathfinder->PathType = TypeOfPath;
