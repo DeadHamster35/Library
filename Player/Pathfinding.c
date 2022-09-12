@@ -224,7 +224,7 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
     {
         //Default catch for no found paths
         Pathfinder->TargetPath = Pathfinder->LastPath;
-        if (Pathfinder->Direction == 0)
+        if (Pathfinder->Direction == 1)
         {
             Pathfinder->Progression = 0;
         }
