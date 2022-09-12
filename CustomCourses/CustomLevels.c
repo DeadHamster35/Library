@@ -421,7 +421,7 @@ void SetGhostData()
 				runDMA();
 				*sourceAddress = (uint)(&ok_FreeSpace);
 				*targetAddress = (uint)(&KeystockBuffer);
-				GlobalUIntB = runMIO();
+				runMIO();
 				KeystockCounter = KeystockBuffer & 0x00FF0000;
 			}
 			else

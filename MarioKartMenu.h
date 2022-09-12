@@ -6,14 +6,8 @@ extern void printDetails();
 extern void printGPTime(float printTime, int OffsetY);
 extern void printTime(float printTime);
 extern void PrintMenuTest();
-extern void PlayerSelectMenu(short StatsMode);
-extern void PlayerSelectMenuAfter();
-extern void PlayerSelectMenuBefore();
-extern void MapSelectMenu();
-extern void MapSelectMenuBefore();
-extern void DrawPlayerSelect(short StatsMode);
-extern void DrawMapSelect();
-extern void DrawGameSelect();
+extern void MapSelectMenuDefault();
+extern void DrawMapSelectDefault();
 
 
 extern void loadHudButtons();

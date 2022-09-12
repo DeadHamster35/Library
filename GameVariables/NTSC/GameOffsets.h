@@ -185,6 +185,9 @@ extern void DoObjBlock(int pri_flag);
 extern void DispObjBlock(void* Target);
 
 extern void MSelController(OSContPad *pad,u16 i, u16 newbutton);
+extern void PSelController(OSContPad *pad,u16 i, u16 newbutton);
+extern void GSelController(OSContPad *pad,u16 i, u16 newbutton);
+extern void TitleController(OSContPad *pad,u16 i, u16 newbutton);
 extern unsigned long long  SaveFunc800B45E0; //0x800B45E0
 extern unsigned long long  SaveFunc800B4670; //0x800B4670
 extern unsigned long long  SaveFunc800B4CB4; //0x800B4CB4

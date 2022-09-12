@@ -234,7 +234,7 @@ ushort MenuButtonHeld, MenuBlink, ButtonTimer, AudioLanguage;
 short gpCourseIndex, HotSwapID, hsGP, gpTimeCheck, courseValue = -1;
 short MenuAngle[4];
 
-char ButtonHolding, MenuToggle;
+bool ButtonHolding, MenuToggle;
 float gpTotalTime = 0;
 
 

@@ -160,7 +160,7 @@ extern short FireParticlePositions[8][3];
 extern ushort MenuButtonHeld, MenuBlink, ButtonTimer, AudioLanguage;
 extern short gpCourseIndex, HotSwapID, hsGP, gpTimeCheck, courseValue;
 extern short MenuAngle[4];
-extern char ButtonHolding, MenuToggle;
+extern bool ButtonHolding, MenuToggle;
 extern float gpTotalTime;
 
 

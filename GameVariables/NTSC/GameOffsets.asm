@@ -189,6 +189,9 @@
 
 
 .definelabel MSelController, 0x800B3B58
+.definelabel PSelController, 0x800B3554
+.definelabel GSelController, 0x800B29D8
+.definelabel TitleController, 0x800B20F4
 
 .definelabel SaveFunc800B45E0, 0x800B45E0
 .definelabel SaveFunc800B4670, 0x800B4670
