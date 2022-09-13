@@ -11,6 +11,7 @@ typedef struct BKPathfinder{
 	
 } BKPathfinder;
 
+
 extern bool PathfinderComplete(BKPathfinder *Pathfinder, short *PathLengths, short *RampLengths, short *DropLengths);
 
 extern BKPathfinder AIPathfinder[4];
@@ -29,6 +30,7 @@ extern void ChangePathAndPoint(int playerID, short pointCheckMin, short pointChe
 
 
 extern void MakeAlternativePath(Marker *altPath, short length, char pathID);
+
 
 
 

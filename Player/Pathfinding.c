@@ -7,12 +7,11 @@ BKPathfinder AIPathfinder[4];
 
 
 
-
 //Before running the function below, ensure that you've set the `Target` value 
 //of the BKPathfinder to the float-position of the position you wish to drive towards. 
 
 
-
+//Square of the distance between two points (in x and z positions)
 
 
 bool PathfinderComplete(BKPathfinder *Pathfinder, short *PathLengths, short *RampLengths, short *DropLengths)
@@ -83,8 +82,8 @@ int FindNearestRampNode(float CurrentPosition[], float FoundNodePosition[], floa
         {
             if (pow(path_height_end_node - TargetY, 2) < TargetHeightDifference)
             {
-                CheckDistance = pow(CurrentPosition[0] - (float)PathArray[ThisPath][0].Position[0], 2) +
-                                pow(CurrentPosition[2] - (float)PathArray[ThisPath][0].Position[2], 2)    ;
+                CheckDistance = PythagoreanTheorem(CurrentPosition[0], (float)PathArray[ThisPath][0].Position[0], 
+                                                    CurrentPosition[2], (float)PathArray[ThisPath][0].Position[2]);
                 if (CheckDistance < Distance)
                 {
                     Distance = CheckDistance;
@@ -98,8 +97,8 @@ int FindNearestRampNode(float CurrentPosition[], float FoundNodePosition[], floa
         {
             if (pow(path_height_start_node - TargetY, 2) < TargetHeightDifference)
             {
-                CheckDistance = pow(CurrentPosition[0] - (float)PathArray[ThisPath][MarkerCounts[ThisPath]].Position[0], 2) +
-                                pow(CurrentPosition[2] - (float)PathArray[ThisPath][MarkerCounts[ThisPath]].Position[2], 2)    ;
+                CheckDistance = PythagoreanTheorem(CurrentPosition[0], (float)PathArray[ThisPath][MarkerCounts[ThisPath]].Position[0], 
+                                                    CurrentPosition[2], (float)PathArray[ThisPath][MarkerCounts[ThisPath]].Position[2]);
                 if (CheckDistance < Distance)
                 {
                     Distance = CheckDistance;
@@ -134,8 +133,8 @@ int FindNearestDropNode(float CurrentPosition[], float FoundNodePosition[], floa
         {
             if (pow((float)PathArray[ThisPath][MarkerCounts[ThisPath]].Position[1] - TargetY, 2) < pow(CurrentPosition[1] - TargetY, 2)) //If marker is closer in height to the bot than the target
             {
-                CheckDistance = pow(CurrentPosition[0] - (float)PathArray[ThisPath][0].Position[0], 2) +
-                                pow(CurrentPosition[2] - (float)PathArray[ThisPath][0].Position[2], 2)    ;
+                CheckDistance = PythagoreanTheorem(CurrentPosition[0], (float)PathArray[ThisPath][0].Position[0], 
+                                                    CurrentPosition[2], (float)PathArray[ThisPath][0].Position[2]);
                 if (CheckDistance < Distance)
                 {
                     Distance = CheckDistance;
@@ -178,8 +177,8 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
 
             if (TestCollideSphere(GlobalPlayer[PlayerID].position, FirstMarkerDistance, objectPosition, 5)) //&& (ThisPath != Pathfinder->LastPath))  //check if the first marker is within 125 units of the player
             {
-                CheckDistance = pow((float)PathArray[ThisPath][EndMarker].Position[0] - Pathfinder->Target[0], 2) +
-                                pow((float)PathArray[ThisPath][EndMarker].Position[2] - Pathfinder->Target[2], 2)    ;
+                CheckDistance = PythagoreanTheorem((float)PathArray[ThisPath][EndMarker].Position[0], Pathfinder->Target[0], 
+                                                    (float)PathArray[ThisPath][EndMarker].Position[2], Pathfinder->Target[2]);
                 if (CheckDistance < Pathfinder->Distance)  //compare distance, if less than the current update
                 {
                     Pathfinder->Distance = CheckDistance;
@@ -203,8 +202,8 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
             if (TestCollideSphere(GlobalPlayer[PlayerID].position, FirstMarkerDistance, objectPosition, 5))// && (ThisPath != Pathfinder->LastPath))  //check if the last marker is within 125 units of the player
             {
                 //First Marker has hit true, check distance of last marker
-                CheckDistance = pow((float)PathArray[ThisPath][0].Position[0] - Pathfinder->Target[0], 2) +
-                                pow((float)PathArray[ThisPath][0].Position[2] - Pathfinder->Target[2], 2)    ;
+                CheckDistance = PythagoreanTheorem((float)PathArray[ThisPath][0].Position[0], Pathfinder->Target[0], 
+                                                    (float)PathArray[ThisPath][0].Position[2], Pathfinder->Target[2]);
                 if (CheckDistance < Pathfinder->Distance)  //compare distance, if less than the current update
                 {
                     Pathfinder->Distance = CheckDistance;
