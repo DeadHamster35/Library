@@ -11,6 +11,8 @@
 #define max(a, b) ((a) > (b) ? (a) : (b))
 
 #define sqr(x) ((x) * (x))
+#define PythagoreanTheorem(x1, x2, z1, z2) (pow(x1-x2, 2) + pow(z1-z2, 2));
+
 
 #define SET_FLAG(n, f) ((n) |= (f)) 
 #define CLR_FLAG(n, f) ((n) &= ~(f)) 
