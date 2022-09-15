@@ -117,40 +117,81 @@ int FindNearestRampNode(float CurrentPosition[], float FoundNodePosition[], floa
 }
 
 
+int FindNearestItemBox(float CurrentPosition[], float FoundItemBoxPosition[])
+{   
+    float player_x = CurrentPosition[0];
+    //float player_y = CurrentPosition[1];
+    float player_z = CurrentPosition[2];
+    float distance = 9999999999.0;
+    float CheckDistance;
+    int found_item_box = -1;
+    for (int ThisObject = 0; ThisObject < MAX_OBJECT; ThisObject++)
+    {
+        if (g_SimpleObjectArray[ThisObject].category == IBOX)
+        {
+            
+            float item_box_position_y = g_SimpleObjectArray[ThisObject].position[1];
+            if (pow(CurrentPosition[1] - item_box_position_y, 2) < 400.0) //Height check
+            {
+                float item_box_position_x = g_SimpleObjectArray[ThisObject].position[0];
+                float item_box_position_z = g_SimpleObjectArray[ThisObject].position[2];
+                CheckDistance = pow(item_box_position_x - player_x, 2) +
+                                //pow(item_box_position_y - player_y, 2) +
+                                pow(item_box_position_z - player_z, 2);
+                if (CheckDistance < distance)
+                {
+                    distance = CheckDistance;
+                    //Vector that will be returned
+                    FoundItemBoxPosition[0] = item_box_position_x;
+                    FoundItemBoxPosition[1] = item_box_position_y;
+                    FoundItemBoxPosition[2] = item_box_position_z;
+                    found_item_box = ThisObject;
+                }                
+            }
+        }
+    }
+    return found_item_box;
+}
+
 
 int FindNearestDropNode(float CurrentPosition[], float FoundNodePosition[], float TargetY, Marker* PathArray[], short* MarkerCounts, short PathCount)
 {
     float Distance = 9999999.0;
     float CheckDistance;
-    short use_this_path= 0;
-    short use_this_marker=0;
+    short use_this_path=-1;
+    //short use_this_marker=0;
     
     for (int ThisPath = 0; ThisPath < PathCount; ThisPath++) //Loop through each possible path and check the beginning and ending nodes and save the closest one to CurrentPosition
     {
 
-        //Check beginning of path, which is the tart of the drop
+        //Check beginning of path, which is the start of the drop
         if (pow(CurrentPosition[1]-(float)PathArray[ThisPath][0].Position[1], 2) < 400)
         {
-            if (pow((float)PathArray[ThisPath][MarkerCounts[ThisPath]].Position[1] - TargetY, 2) < pow(CurrentPosition[1] - TargetY, 2)) //If marker is closer in height to the bot than the target
-            {
+            //if (pow((float)PathArray[ThisPath][MarkerCounts[ThisPath]].Position[1] - TargetY, 2) < pow(CurrentPosition[1] - TargetY, 2)) //If marker is closer in height to the bot than the target
+            //{
                 CheckDistance = PythagoreanTheorem(CurrentPosition[0], (float)PathArray[ThisPath][0].Position[0], 
                                                     CurrentPosition[2], (float)PathArray[ThisPath][0].Position[2]);
                 if (CheckDistance < Distance)
                 {
                     Distance = CheckDistance;
                     use_this_path = ThisPath;
-                    use_this_marker = 0;
+                    //use_this_marker = 0;
                 }
-            }
+            //}
         }
         //Note that the end of a drop is not where we want to go so we don't check it like we would a ramp
     }   
-    //Vector that will be returned
-    FoundNodePosition[0] = (float)PathArray[use_this_path][use_this_marker].Position[0]; 
-    FoundNodePosition[1] = (float)PathArray[use_this_path][use_this_marker].Position[1];
-    FoundNodePosition[2] = (float)PathArray[use_this_path][use_this_marker].Position[2];
 
-    return(use_this_path);
+    if (use_this_path != -1) //If a drop was actually found
+    {
+        //Vector that will be returned
+        FoundNodePosition[0] = (float)PathArray[use_this_path][0].Position[0]; 
+        FoundNodePosition[1] = (float)PathArray[use_this_path][0].Position[1];
+        FoundNodePosition[2] = (float)PathArray[use_this_path][0].Position[2];        
+    }
+
+
+    return(use_this_path);  //Note if no drop is found, this function returns -1
 }
 
 
