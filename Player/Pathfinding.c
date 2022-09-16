@@ -5,6 +5,25 @@
 
 BKPathfinder AIPathfinder[4];
 
+short ItemBoxCount = 0;
+short ItemBoxIndex[100];
+
+
+
+//Build up array of item box indicies by querying the simple object array and storing where the item boxes are, this should run once when a course loads
+void GetItemBoxIndexes()
+{
+    ItemBoxCount = 0;
+    for (int ThisObject = 0; ThisObject < MAX_OBJECT; ThisObject++)
+    {
+        if (g_SimpleObjectArray[ThisObject].category == IBOX)
+        {
+            ItemBoxIndex[ItemBoxCount] = ThisObject;
+            ItemBoxCount++;
+        }
+    }
+}
+
 
 
 //Before running the function below, ensure that you've set the `Target` value 
@@ -62,6 +81,7 @@ bool PathfinderComplete(BKPathfinder *Pathfinder, short *PathLengths, short *Ram
     }
     return false;
 }
+
 int FindNearestRampNode(float CurrentPosition[], float FoundNodePosition[], float TargetY, Marker* PathArray[], short* MarkerCounts, short PathCount)
 {
     float Distance = 9999999.0;
@@ -119,37 +139,40 @@ int FindNearestRampNode(float CurrentPosition[], float FoundNodePosition[], floa
 
 int FindNearestItemBox(float CurrentPosition[], float FoundItemBoxPosition[])
 {   
+    //Find the nearest item box
     float player_x = CurrentPosition[0];
-    //float player_y = CurrentPosition[1];
+    float player_y = CurrentPosition[1];
     float player_z = CurrentPosition[2];
     float distance = 9999999999.0;
     float CheckDistance;
     int found_item_box = -1;
-    for (int ThisObject = 0; ThisObject < MAX_OBJECT; ThisObject++)
+    for (int ThisItemBox = 0; ThisItemBox < ItemBoxCount; ThisItemBox++)
     {
-        if (g_SimpleObjectArray[ThisObject].category == IBOX)
+        short i = ItemBoxIndex[ThisItemBox];
+        float item_box_position_y = g_SimpleObjectArray[i].position[1];
+        if (pow(player_y - item_box_position_y, 2) < 400.0) //Height check
         {
-            
-            float item_box_position_y = g_SimpleObjectArray[ThisObject].position[1];
-            if (pow(CurrentPosition[1] - item_box_position_y, 2) < 400.0) //Height check
+            float item_box_position_x = g_SimpleObjectArray[i].position[0];
+            float item_box_position_z = g_SimpleObjectArray[i].position[2];
+            CheckDistance = pow(item_box_position_x - player_x, 2) +
+                            pow(item_box_position_z - player_z, 2);
+            if (CheckDistance < distance)
             {
-                float item_box_position_x = g_SimpleObjectArray[ThisObject].position[0];
-                float item_box_position_z = g_SimpleObjectArray[ThisObject].position[2];
-                CheckDistance = pow(item_box_position_x - player_x, 2) +
-                                //pow(item_box_position_y - player_y, 2) +
-                                pow(item_box_position_z - player_z, 2);
-                if (CheckDistance < distance)
-                {
-                    distance = CheckDistance;
-                    //Vector that will be returned
-                    FoundItemBoxPosition[0] = item_box_position_x;
-                    FoundItemBoxPosition[1] = item_box_position_y;
-                    FoundItemBoxPosition[2] = item_box_position_z;
-                    found_item_box = ThisObject;
-                }                
-            }
+                distance = CheckDistance;
+                //Vector that will be returned
+                FoundItemBoxPosition[0] = item_box_position_x;
+                FoundItemBoxPosition[1] = item_box_position_y;
+                FoundItemBoxPosition[2] = item_box_position_z;
+                found_item_box = i;
+            }                
         }
     }
+
+    // //Find a random item box
+    // int found_item_box = ItemBoxIndex[MakeRandomLimmit(ItemBoxCount)];
+    // FoundItemBoxPosition[0] = g_SimpleObjectArray[found_item_box].position[0];
+    // FoundItemBoxPosition[1] = g_SimpleObjectArray[found_item_box].position[1];
+    // FoundItemBoxPosition[2] = g_SimpleObjectArray[found_item_box].position[2];
     return found_item_box;
 }
 

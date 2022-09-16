@@ -16,6 +16,8 @@ extern bool PathfinderComplete(BKPathfinder *Pathfinder, short *PathLengths, sho
 
 extern BKPathfinder AIPathfinder[4];
 
+extern void GetItemBoxIndexes();
+
 extern int FindNearestRampNode(float CurrentPosition[],  float FoundNodePosition[], float TargetY, Marker *PathArray[], short* MarkerCounts, short PathCount);
 
 extern int FindNearestDropNode(float CurrentPosition[],  float FoundNodePosition[], float TargetY, Marker *PathArray[], short* MarkerCounts, short PathCount);
