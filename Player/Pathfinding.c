@@ -25,12 +25,11 @@ void GetItemBoxIndexes()
 }
 
 
-
 //Before running the function below, ensure that you've set the `Target` value 
 //of the BKPathfinder to the float-position of the position you wish to drive towards. 
 
 
-//Square of the distance between two points (in x and z positions)
+
 
 
 bool PathfinderComplete(BKPathfinder *Pathfinder, short *PathLengths, short *RampLengths, short *DropLengths)
@@ -233,8 +232,8 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
     Pathfinder->TargetPath = -1;     
     for (int ThisPath = 0; ThisPath < PathCount; ThisPath++)
     {
-        EndMarker = MarkerCounts[ThisPath]-1;
-        if (pow(GlobalPlayer[PlayerID].position[1] - (float)PathArray[ThisPath][0].Position[1], 2) < 225) //If on same level
+        EndMarker = MarkerCounts[ThisPath];
+        if (pow(GlobalPlayer[PlayerID].position[1] - (float)PathArray[ThisPath][0].Position[1], 2) < 400) //If on same level
         {
             //Test first marker to see if in range.
             objectPosition[0] = (float)PathArray[ThisPath][0].Position[0];
@@ -375,3 +374,51 @@ void MakeAlternativePath(Marker *altPath, short length, char pathID)
     AngleDataCalcBP((int)pathID);
     ShortcutDataCalcBP((int)pathID);
 }
+
+char[62] ItemIndexes;
+short ItemBoxCount
+
+void GetItemIndexes()
+{
+    for (int ThisObject = 0; ThisObject < MAX_OBJECT; ThisObject++)
+    {
+        if (g_SimpleObjectArray[ThisObject].category == IBOX)
+        {
+            ItemIndex[ItemBoxCount] = ThisObject;
+            ItemBoxCount++
+        }
+    }
+}
+
+
+void FindNearestItemBox(float CurrentPosition[], float FoundItemBoxPosition[])
+{   
+    float player_x = CurrentPosition[0];
+    float player_y = CurrentPosition[1];
+    float player_z = CurrentPosition[2];
+    float distance = 9999999999.0;
+    float CheckDistance;
+    int foundItemBox = -1;
+    for (int ThisObject = 0; ThisObject < MAX_OBJECT; ThisObject++)
+    {
+        if (g_SimpleObjectArray[ThisObject].category == IBOX)
+        {
+            float item_box_position_x = g_SimpleObjectArray[ThisObject].position[0];
+            float item_box_position_y = g_SimpleObjectArray[ThisObject].position[1];
+            float item_box_position_z = g_SimpleObjectArray[ThisObject].position[2];
+            CheckDistance = pow(item_box_position_x - player_x, 2) +
+                            pow(item_box_position_y - player_y, 2) +
+                            pow(item_box_position_z - player_y, 2);
+            if (CheckDistance < distance)
+            {
+                distance = CheckDistance;
+                //Vector that will be returned
+                FoundItemBoxPosition[0] = item_box_position_x;
+                FoundItemBoxPosition[1] = item_box_position_y;
+                FoundItemBoxPosition[2] = item_box_position_z;
+            }
+        }
+    }
+}
+
+

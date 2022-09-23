@@ -23,6 +23,7 @@
 #define CHARS2INT(charA, charB, charC, charD) 	(charA & 0xFF)<<24 | (charB & 0xFF)<<16 | (charC & 0xFF)<<8 | (charD & 0xFF)
 #define SHORTS2INT(shortA, shortB) 				(shortA & 0xFF)<<16 | (shortB & 0xFF)
 
+#define PythagoreanTheorem(x1, x2, z1, z2) (pow(x1-x2, 2) + pow(z1-z2, 2))
 #define  deg(n)       ((short)(65536/360*n))
 
 

@@ -1292,3 +1292,179 @@ void DisplayCrashScreen()
 }
 
 
+
+
+
+
+void drawButtonInputDisplay(bool FullMenu)
+{
+	if (g_startingIndicator < 3 || g_startingIndicator > 4 || g_playerCount > 2)
+	{
+		return;
+	}
+	
+	short PosX[4], PosY[4];
+	short OffsetX = 85, OffsetY = 55;
+	float scale = 0.5f;
+	switch (g_playerCount)
+	{
+	case 2:
+		OffsetY = 30;
+		break;
+	}
+
+	for (int i = 0; i < g_playerCount; i++)
+	{
+
+		if (GlobalPlayer[i].flag&IS_CPU_PLAYER)
+		{
+			continue;
+		}
+		
+
+		PosX[i] = GlobalScreen[i]->posx-GlobalScreen[i]->width/2 +OffsetX;
+		PosY[i] = GlobalScreen[i]->posy-GlobalScreen[i]->height/2 +OffsetY;
+
+		GraphPtr = FillRect1ColorF(GraphPtr,
+		PosX[i] - 20, PosY[i] - 22, PosX[i] + 40, PosY[i] + 10, //x1, y1, x2, y2
+		0, 0, 0, 64); //r, g, b, a
+
+		if (GlobalController[i]->ButtonHeld&BTN_A)
+		{
+			SpriteBtnA(PosX[i]+21,PosY[i]+3,scale,1);
+		}
+		else
+		{
+			SpriteBtnA(PosX[i]+21,PosY[i]+3,scale,0);
+		}
+
+		if (GlobalController[i]->ButtonHeld&BTN_B)
+		{
+			SpriteBtnB(PosX[i]+15,PosY[i]-3,scale,1);
+		}
+		else
+		{
+			SpriteBtnB(PosX[i]+15,PosY[i]-3,scale,0);
+		}
+
+		if (GlobalController[i]->ButtonHeld&BTN_START)
+		{
+			SpriteBtnStart(PosX[i]+4,PosY[i]+5,scale,1);
+		}
+		else
+		{
+			SpriteBtnStart(PosX[i]+4,PosY[i]+5,scale,0);
+		}
+
+		if (GlobalController[i]->ButtonHeld&BTN_CDOWN)
+		{
+			SpriteBtnCDown(PosX[i]+30,PosY[i],scale,1);
+		}
+		else
+		{
+			SpriteBtnCDown(PosX[i]+30,PosY[i],scale,0);
+		}
+
+		if (GlobalController[i]->ButtonHeld&BTN_CLEFT)
+		{
+			SpriteBtnCLeft(PosX[i]+25,PosY[i]-5,scale,1);
+		}
+		else
+		{
+			SpriteBtnCLeft(PosX[i]+25,PosY[i]-5,scale,0);
+		}
+
+		if (GlobalController[i]->ButtonHeld&BTN_CRIGHT)
+		{
+			SpriteBtnCRight(PosX[i]+35,PosY[i]-5,scale,1);
+		}
+		else
+		{
+			SpriteBtnCRight(PosX[i]+35,PosY[i]-5,scale,0);
+		}
+
+		if (GlobalController[i]->ButtonHeld&BTN_CUP)
+		{
+			SpriteBtnCUp(PosX[i]+30,PosY[i]-10,scale,1);
+		}
+		else
+		{
+			SpriteBtnCUp(PosX[i]+30,PosY[i]-10,scale,0);
+		}
+
+		if (GlobalController[i]->ButtonHeld&BTN_R)
+		{
+			SpriteBtnR(PosX[i]+35,PosY[i]-17,scale,1);
+		}
+		else
+		{
+			SpriteBtnR(PosX[i]+35,PosY[i]-17,scale,0);
+		}
+
+		if (GlobalController[i]->ButtonHeld&BTN_Z)
+		{
+			SpriteBtnZ(PosX[i]+17,PosY[i]-17,scale,1);
+		}
+		else
+		{
+			SpriteBtnZ(PosX[i]+17,PosY[i]-17,scale,0);
+		}
+
+
+          if (FullMenu)
+          {
+               SpriteBtnDMid(PosX[i]-10,PosY[i],scale);
+
+               if (GlobalController[i]->ButtonHeld&BTN_DDOWN)
+               {
+                    SpriteBtnDDown(PosX[i]-10,PosY[i]+7,scale,1);
+               }
+               else
+               {
+                    SpriteBtnDDown(PosX[i]-10,PosY[i]+7,scale,0);
+               }
+
+               if (GlobalController[i]->ButtonHeld&BTN_DUP)
+               {
+                    SpriteBtnDUp(PosX[i]-10,PosY[i]-7,scale,1);
+               }
+               else
+               {
+                    SpriteBtnDUp(PosX[i]-10,PosY[i]-7,scale,0);
+               }
+          
+               if (GlobalController[i]->ButtonHeld&BTN_DLEFT)
+               {
+                    SpriteBtnDLeft(PosX[i]-17,PosY[i],scale,1);
+               }
+               else
+               {
+                    SpriteBtnDLeft(PosX[i]-17,PosY[i],scale,0);
+               }
+
+               if (GlobalController[i]->ButtonHeld&BTN_DRIGHT)
+               {
+                    SpriteBtnDRight(PosX[i]-3,PosY[i],scale,1);
+               }
+               else
+               {
+                    SpriteBtnDRight(PosX[i]-3,PosY[i],scale,0);
+               }
+               
+               //
+               //
+
+               if (GlobalController[i]->ButtonHeld&BTN_L)
+               {
+                    SpriteBtnL(PosX[i]-10,PosY[i]-17,scale,1);
+               }
+               else
+               {
+                    SpriteBtnL(PosX[i]-10,PosY[i]-17,scale,0);
+               }
+
+          }
+
+		SpriteAnalogStick(PosX[i]+4+(GlobalController[i]->AnalogX*0.05f),PosY[i]-10+(GlobalController[i]->AnalogY*-0.05f),scale,0);
+	}
+}

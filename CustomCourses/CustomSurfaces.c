@@ -79,7 +79,7 @@ void SurfaceSFX(Player *car, int SFX_ID, float min_Speed)
 #define DIRT_TRAP               13
 #define RAILWAY                 14
 #define CAVE                    15
-#define BRIDGE                  16
+#define BRIDGE                  16   //rickety
 #define KIBASHI                 17
 
 
