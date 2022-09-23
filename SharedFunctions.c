@@ -441,3 +441,35 @@ char* printHex(char *buf, int num, int nDigits) {
 					    	//x,0,1,2,3,4,5,6,7
 char CharacterConvert[9] = 	{-1,0,1,6,3,2,4,5,7};
 char CharacterUnconvert[9] = 	{-1,0,1,4,3,5,6,2,7};
+
+//WaveDir = Address to a stored ushort for the calculation
+//WaveSpeed = Additional value (degree)
+void RunWaveSpeed(ushort *WaveDir,short WaveSpeed)
+{
+	*(ushort*)WaveDir += WaveSpeed;
+}
+
+//WaveXScale = Width of the wave - horizontally
+//WaveYThin = Higher value means less distance between waves (degree) - vertically
+//WaveDir = Variable that gets calculated by RunWaveSpeed
+void SpriteDrawWave(int cx,int cy,ushort *addr,int sizex,int sizey,float WaveXScale,short WaveYThin,ushort WaveDir)
+{
+	short angle;
+	short angstep = WaveYThin;
+	int intsx = cx - sizex / 2;
+	int sy = cy - sizey / 2;
+
+	int	sx;
+	ushort *tmpaddr;
+
+	angle = WaveDir;
+	tmpaddr = addr;
+
+	for	(int i = 0; i < sizey; i++)
+	{
+		KWLoadTextureBlockRGBA16B(tmpaddr+sizex*i,sizex,1);
+		sx = (int)(intsx + (WaveXScale) * sinT(angle+angstep*i));
+		SPRDrawClip(sx,sy,sizex,1,1);
+		sy++;
+	}
+}

@@ -82,4 +82,7 @@ extern void ShiftVertColor(uint address,uint counter,uint v_buff,char alpha,char
 extern int ReturnStringLength(char *stringAddress);
 extern char CharacterConvert[];
 extern char CharacterUnconvert[];
+
+extern void RunWaveSpeed(ushort *WaveDir,short WaveSpeed);
+extern void SpriteDrawWave(int cx,int cy,ushort *addr,int sizex,int sizey,float WaveScale,short WaveAngleStep,ushort WaveDirAddr);
 #endif
