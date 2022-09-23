@@ -11,6 +11,7 @@ typedef struct BKPathfinder{
 	
 } BKPathfinder;
 
+extern short ItemBoxCount;
 
 extern bool PathfinderComplete(BKPathfinder *Pathfinder, short *PathLengths, short *RampLengths, short *DropLengths);
 

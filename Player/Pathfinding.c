@@ -98,7 +98,7 @@ int FindNearestRampNode(float CurrentPosition[], float FoundNodePosition[], floa
 
 
         //Check beginning of path
-        if (pow(CurrentPosition[1] - path_height_start_node, 2) < 400)
+        if (pow(CurrentPosition[1] - path_height_start_node, 2) < 225)
         {
             if (pow(path_height_end_node - TargetY, 2) < TargetHeightDifference)
             {
@@ -113,7 +113,7 @@ int FindNearestRampNode(float CurrentPosition[], float FoundNodePosition[], floa
             }
         }
         //Check end of path
-        if (pow(CurrentPosition[1] - path_height_end_node, 2) < 400)
+        if (pow(CurrentPosition[1] - path_height_end_node, 2) < 225)
         {
             if (pow(path_height_start_node - TargetY, 2) < TargetHeightDifference)
             {
@@ -150,7 +150,7 @@ int FindNearestItemBox(float CurrentPosition[], float FoundItemBoxPosition[])
     {
         short i = ItemBoxIndex[ThisItemBox];
         float item_box_position_y = g_SimpleObjectArray[i].position[1];
-        if (pow(player_y - item_box_position_y, 2) < 400.0) //Height check
+        if (pow(player_y - item_box_position_y, 2) < 225.0) //Height check
         {
             float item_box_position_x = g_SimpleObjectArray[i].position[0];
             float item_box_position_z = g_SimpleObjectArray[i].position[2];
@@ -188,7 +188,7 @@ int FindNearestDropNode(float CurrentPosition[], float FoundNodePosition[], floa
     {
 
         //Check beginning of path, which is the start of the drop
-        if (pow(CurrentPosition[1]-(float)PathArray[ThisPath][0].Position[1], 2) < 400)
+        if (pow(CurrentPosition[1]-(float)PathArray[ThisPath][0].Position[1], 2) < 225)
         {
             //if (pow((float)PathArray[ThisPath][MarkerCounts[ThisPath]].Position[1] - TargetY, 2) < pow(CurrentPosition[1] - TargetY, 2)) //If marker is closer in height to the bot than the target
             //{
@@ -232,7 +232,7 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
     for (int ThisPath = 0; ThisPath < PathCount; ThisPath++)
     {
         EndMarker = MarkerCounts[ThisPath]-1;
-        if (pow(GlobalPlayer[PlayerID].position[1] - (float)PathArray[ThisPath][0].Position[1], 2) < 400) //If on same level
+        if (pow(GlobalPlayer[PlayerID].position[1] - (float)PathArray[ThisPath][0].Position[1], 2) < 225) //If on same level
         {
             //Test first marker to see if in range.
             objectPosition[0] = (float)PathArray[ThisPath][0].Position[0];
@@ -256,7 +256,7 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
             }
         }
 
-        if (pow(GlobalPlayer[PlayerID].position[1] - (float)PathArray[ThisPath][EndMarker].Position[1], 2) < 400) //If on same level
+        if (pow(GlobalPlayer[PlayerID].position[1] - (float)PathArray[ThisPath][EndMarker].Position[1], 2) < 225) //If on same level
         {
             //Test last marker to see if in range.
             objectPosition[0] = (float)PathArray[ThisPath][EndMarker].Position[0];
