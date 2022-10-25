@@ -912,21 +912,21 @@ void runTextureScroll()
         GlobalShortB = GlobalIntA & 0xFFFF; // T value
 		
 		ScrollValues[CurrentScroll][0] += GlobalShortA;
-		if (ScrollValues[CurrentScroll][0] >= 255)
+		if (ScrollValues[CurrentScroll][0] > 255)
 		{
 			ScrollValues[CurrentScroll][0] -= 255;
 		}
-		if (ScrollValues[CurrentScroll][0] <= 0)
+		if (ScrollValues[CurrentScroll][0] < 0)
 		{
 			ScrollValues[CurrentScroll][0] += 255;
 		}
 
 		ScrollValues[CurrentScroll][1] += GlobalShortB;
-		if (ScrollValues[CurrentScroll][1] >= 255)
+		if (ScrollValues[CurrentScroll][1] > 255)
 		{
 			ScrollValues[CurrentScroll][1] -= 255;
 		}
-		if (ScrollValues[CurrentScroll][1] <= 0)
+		if (ScrollValues[CurrentScroll][1] < 0)
 		{
 			ScrollValues[CurrentScroll][1] += 255;
 		}
@@ -1334,6 +1334,9 @@ void setOKObjects()
 
 void MapStartup(short InputID) 
 {
+	
+	FreeMemoryPointer = 0x80600000;
+	LastMemoryPointer = 0x80800000;
 	LoadCustomHeader(courseValue + gpCourseIndex);
 	SetCustomData();
 	LoadMapData(InputID);

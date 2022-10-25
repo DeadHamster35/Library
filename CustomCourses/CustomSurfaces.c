@@ -122,7 +122,7 @@ short SurfaceStorage[8];
 void AddGravityEdit(Player *car)
 {
 	short car_number = car - &GlobalPlayer[0];
-	
+
 	short cont_number = car_number;
 	if (car->flag&IS_GHOST)
 	{
@@ -247,7 +247,8 @@ void AddGravityEdit(Player *car)
 	{
 		if (car->bump.distance_zx >= 0.2f)
 		{
-			car->gravity = GAP_GRAVITY;
+			
+			car->gravity = 100.0 * GlobalPlayer[car_number].bump.dummy;  //use bump.dummy; goes unused by gamecode
 		}
 		if (car->jumpcount >= 40)
 		{
@@ -327,32 +328,41 @@ void AddGravityEdit(Player *car)
 
 		case GapJump:
 		{
-		if (car->jumpcount <= 10 && GlobalController[cont_number]->ButtonPressed&BTN_R && SPEEDMETER(car->speed) >= TRICK_TRIGGER_SPEED_MIN && !(car->slip_flag&IS_BROKEN) && !(car->slip_flag&IS_FEATHER_JUMPING) && !(SurfaceStorage[car_number]&STORE_GAP))
-		{
-			car->flag |= 0x80;
-			SetAnimBonkStars(car_number);
-			if (car->slip_flag&IS_TURBO_BOOSTING)
+			if (car->jumpcount <= 10 && GlobalController[cont_number]->ButtonPressed&BTN_R && SPEEDMETER(car->speed) >= TRICK_TRIGGER_SPEED_MIN && !(car->slip_flag&IS_BROKEN) && !(car->slip_flag&IS_FEATHER_JUMPING) && !(SurfaceStorage[car_number]&STORE_GAP))
 			{
-				short turbo_store = car->turbo_timer;
-				SetWing(car, car_number);
-				car->slip_flag |= IS_TURBO_BOOSTING;
-				car->turbo_timer = turbo_store;
-			}
-			else
-			{
-				SetWing(car, car_number);
-			}
-			car->jumpcount = 0;
-			if (car->max_power != car->bump_status)
-			{
-				car->max_power = car->bump_status;
-			}
+				car->flag |= 0x80;
+				SetAnimBonkStars(car_number);
+				if (car->slip_flag&IS_TURBO_BOOSTING)
+				{
+					
+					
+					short turbo_store = car->turbo_timer;
+					SetWing(car, car_number);
+					car->slip_flag |= IS_TURBO_BOOSTING;
+					car->turbo_timer = turbo_store;
+				}
+				else
+				{
+					SetWing(car, car_number);
+				}
+				car->jumpcount = 0;
+				if (car->max_power != car->bump_status)
+				{
+					car->max_power = car->bump_status;		
+				}
+				
+				FaceStruct *SurfaceBuffer = (FaceStruct*)(gFaceBuffer);
+				Vtx *TargetVert = (Vtx*)SurfaceBuffer[GlobalPlayer[car_number].bump.last_zx].p1;
+				GlobalPlayer[car_number].bump.dummy = TargetVert->v.cn[2];  //use.bump dummy; goes unused by gamecode		
 				SurfaceStorage[car_number] = STORE_GAP;
 			}
 			else if (car->flag & IS_CPU_PLAYER)
 			{
 				if (car->tire_FL.Status != GapJump)
 				{
+					FaceStruct *SurfaceBuffer = (FaceStruct*)(gFaceBuffer);
+					Vtx *TargetVert = (Vtx*)SurfaceBuffer[GlobalPlayer[car_number].bump.last_zx].p1;
+					GlobalPlayer[car_number].bump.dummy = TargetVert->v.cn[2];  //use.bump dummy; goes unused by gamecode
 					car->flag |= 0x80;
 					SetAnimBonkStars(car_number);
 					SetWing(car, car_number);
@@ -472,6 +482,15 @@ void AddGravityEdit(Player *car)
 		}
 		break;
 
+	case GapJump:
+	{
+		if (car->max_power != car->bump_status)
+		{
+			car->max_power = car->bump_status;
+		}
+		
+		break;
+	}
 	default:
 		if (car->max_power != car->bump_status)
 		{

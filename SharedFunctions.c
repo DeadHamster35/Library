@@ -24,7 +24,7 @@ void DrawPerScreenDefault(Camera* LocalCamera)
 			DrawOKObjects(LocalCamera);
 		}
 	}
-	if ((HotSwapID > 0) && (OverKartHeader.GoalBannerToggle != 0))
+	if ( ((HotSwapID > 0) && (OverKartHeader.GoalBannerToggle != 0)) || (HotSwapID == 0) )
 	{	
 		DisplayFlagGate(LocalCamera);
 	}
@@ -180,12 +180,12 @@ int LoadPressDataBypass(uint RomStart, uint RomEnd)
 	*sourceAddress = RomStart;	
 	dataLength = RomEnd - RomStart;
 	LastMemoryPointer -= dataLength;
-	*targetAddress = LastMemoryPointer;
+	*targetAddress = FreeMemoryPointer;
 	runDMA();
 	
 	dataLength = *(uint*)(*targetAddress + 4);  //size of decompressed data stored in MIO0 header.
 
-	*sourceAddress = LastMemoryPointer;
+	*sourceAddress = FreeMemoryPointer;
 	LastMemoryPointer -= dataLength;
 	*targetAddress = LastMemoryPointer;
 	runMIO();

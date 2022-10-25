@@ -1468,3 +1468,38 @@ void drawButtonInputDisplay(bool FullMenu)
 		SpriteAnalogStick(PosX[i]+4+(GlobalController[i]->AnalogX*0.05f),PosY[i]-10+(GlobalController[i]->AnalogY*-0.05f),scale,0);
 	}
 }
+
+short AnchorPoint[][4]  = 
+{
+     {85,23,95,20}, 
+     {120,90,130,85}, {180,210,190,205},
+     {120,90,130,85}, {180,210,190,205},
+};
+     
+
+void DrawLapCounter()
+{
+     switch (g_ScreenSplitA)
+     {
+          case 0: //SP
+          {
+               PrintBigText(AnchorPoint[0][0], AnchorPoint[0][1],0.375,"LAP");
+               if (GlobalPlayer[0].rap >= -1)
+               {
+                    PrintBigTextNumber(AnchorPoint[0][2], AnchorPoint[0][3],0.5,"",GlobalPlayer[0].rap + 1);
+                    PrintBigText(AnchorPoint[0][2] + 24, AnchorPoint[0][3],0.5, "/");
+                    PrintBigTextNumber(AnchorPoint[0][2] + 16, AnchorPoint[0][3],0.5,"",3);
+                    
+               }
+               else
+               {
+                    PrintBigTextNumber(AnchorPoint[0][2] + 8, AnchorPoint[0][3],0.5, "", GlobalPlayer[0].rap + 1);
+                    PrintBigText(AnchorPoint[0][2] + 32, AnchorPoint[0][3],0.5, "/");
+                    PrintBigTextNumber(AnchorPoint[0][2] + 24, AnchorPoint[0][3],0.5,"",3);
+               }
+               
+          }
+     }
+     
+
+}

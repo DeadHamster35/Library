@@ -69,20 +69,28 @@ NOP
 NOP
 */    //End
 
+
+
 // Move FreeMemoryPointer loads to EOF using new funcs and rewrites
 
 
-// Rewrite for Segment 9 LoadData
-.org 0x113FD8
-JAL LoadDataBypass
+    // Rewrite for Segment 9 LoadData
+    .org 0x113FD8
+    JAL LoadDataBypass
 
-// Rewrite for Segment 6 LoadPressData
-.org 0x114004
-JAL LoadPressDataBypass
+    // Rewrite for Segment 6 LoadPressData
+    .org 0x114004
+    JAL LoadPressDataBypass
 
-// Rewrite for Segment 47 TransGFXData
-.org 0x114028
-JAL LoadDataBypass
+    // Rewrite for Segment 47 TransGFXData
+    .org 0x114028
+    JAL LoadDataBypass
+
+    //Stop loading StaticMemoryPointer over LastMemoryPointer
+    .org 0x36F8
+    NOP
+    
+//
 
 
 
@@ -177,9 +185,10 @@ J    GhostHook
 NOP
 
 
+
 //Hook add new custom IBox code
 .org 0x1071E8
-//JAL CreateCustomItemBox
+JAL CreateCustomItemBox
 
 
 
@@ -447,5 +456,13 @@ NOP
 
 
 
+.ifndef ColdMeiser
 
+//Disable the LapCounter (LAP 1/3)
+
+
+.org 0x04F38C
+jr RA
+NOP
+.endif
 

@@ -152,11 +152,11 @@ void OKObjectReaction(OKObject* InputObject, short ResultType, int Player)
 			
 			if (InputObject->ObjectData.velocity[0] > InputObject->ObjectData.velocity[2])
 			{
-				InputObject->ObjectData.velocity[2] *= -1;
+				InputObject->ObjectData.velocity[0] *= -1;
 			}
 			else
 			{
-				InputObject->ObjectData.velocity[0] *= -1;
+				InputObject->ObjectData.velocity[2] *= -1;
 			}
 			break;
 		}
@@ -184,11 +184,11 @@ void OKObjectReaction(OKObject* InputObject, short ResultType, int Player)
 				//but good enough for objects colliding.
 				if (InputObject->ObjectData.velocity[0] > InputObject->ObjectData.velocity[2])
 				{
-					InputObject->ObjectData.velocity[2] *= -1;
+					InputObject->ObjectData.velocity[0] *= -1;
 				}
 				else
 				{
-					InputObject->ObjectData.velocity[0] *= -1;
+					InputObject->ObjectData.velocity[2] *= -1;
 				}
 			}
 		}
@@ -324,40 +324,38 @@ void OKObjectCollision(OKObject *InputObject)
 
 
 
-	/*
-	for (int ThisObject = 0; ThisObject < 100; ThisObject++)
-	{
-		for (int ThisBox = 0; ThisBox < OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].CollisionCount; ThisBox++)
-		{
-			if (!(g_SimpleObjectArray[ThisObject].flag&EXISTOBJ))
+	
+	for (int ThisObject = g_StaticObjectCount; ThisObject < 100; ThisObject++)
+	{	
+		if ( (g_SimpleObjectArray[ThisObject].flag&EXISTOBJ) && (g_SimpleObjectArray[ThisObject].flag&HITOBJ) )
+		{			
+			for (int ThisBox = 0; ThisBox < OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].CollisionCount; ThisBox++)
 			{
-				continue;
-			}
-			if (!(g_SimpleObjectArray[ThisObject].flag&HITOBJ))
-			{
-				continue;
-			}
 
-			if (CheckOKCollide(
-					(OKCollisionSphere*) &HitBox[ThisBox], 
-					InputObject->ObjectData.position, 
-					InputObject->ObjectData.angle,
-					g_SimpleObjectArray[ThisObject].position, 
-					g_SimpleObjectArray[ThisObject].radius))
-			{
-				if (g_SimpleObjectArray[ThisObject].category != TSHELL)
+				if 	(CheckOKCollide
+						(
+							(OKCollisionSphere*) &HitBox[ThisBox], 
+							InputObject->ObjectData.position, 
+							InputObject->ObjectData.angle,
+							g_SimpleObjectArray[ThisObject].position, 
+							g_SimpleObjectArray[ThisObject].radius
+						)
+					)
 				{
-					KillObject((Object*)&g_SimpleObjectArray[ThisObject]);
-				}
+					if (g_SimpleObjectArray[ThisObject].category != TSHELL)
+					{
+						KillObject((Object*)&g_SimpleObjectArray[ThisObject]);
+					}
 
-				OKObjectReaction(InputObject, (short) HitBox[ThisBox].DamagedResult, -1);
+					OKObjectReaction(InputObject, (short) HitBox[ThisBox].DamagedResult, -1);
+				}
 			}
-		}
+		}		
 	}
-		
-		*/
 	
 
+
+	//Check Sound Effect
 	if (OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].SoundID != 0xFFFFFFFF)
 	{
 		if ((InputObject->SoundPlaying == 0) && (GlobalBoolA))

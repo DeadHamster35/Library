@@ -12,6 +12,7 @@
 //804396C4 targetAddress;?
 
 extern int ok_HeaderROM; //0xBE9178
+extern uint OKHeaderEND;
 extern int ok_SaveSize; //0x28980
 extern int ok_HeaderSize; //0x1400
 extern int ok_MenuSize; //0x2800

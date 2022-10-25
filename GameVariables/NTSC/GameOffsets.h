@@ -17,6 +17,7 @@ extern short spriteKillD;
 
 extern uint decodeMIO0(long input, long output);
 extern void DMA(int output, int input, long Length);
+extern void DMAROMGhost();
 extern void decodeTKMK(int input, int *temp, int output, int transparent);
 
 extern void GetFramebuffer(int PixelX,int PixelY,int Width,int Height,unsigned short *Source,unsigned short *Destination);
@@ -426,7 +427,7 @@ extern short g_ItemSetFlag;
 
 extern uint PathTable[20][4];
 
-extern long g_courseFaceStructPtr;
+extern uint gFaceBuffer;
 extern ushort g_courseFaceMaxIndex;
 
 extern long antialiasToggle;
@@ -631,12 +632,14 @@ extern short g_player4View; //0x8015F434
 extern short g_player4Section; //0x8015F438
 
 extern uint LastMemoryPointer;
+extern uint StaticMemoryPointer;
 extern uint FreeMemoryPointer;
 
 extern float g_TrialTime;
 extern float g_lap2Time;
 extern float g_lap3Time;
 
+extern short g_StaticObjectCount;
 extern struct Object g_SimpleObjectArray[100]; //0x8015F9B8
 
 extern short g_progressValue;

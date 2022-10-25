@@ -282,7 +282,6 @@ void playrandmCharacterSFX(char playerID)
 }
 
 
-
 void ProStickAngleHook(Player *car, Controller *cont, char number)
 {
     if(car->talk&0x2 && (!(car->slip_flag&IS_DRIFTING) || ((car->slip_flag&IS_JUMPING) && (car->slip_flag&IS_DRIFTING))))

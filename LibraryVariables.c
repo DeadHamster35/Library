@@ -230,11 +230,14 @@ int currentHeaderAddress = 0;
 
 short FireParticlePositions[8][3];
 
-ushort MenuButtonHeld, MenuBlink, ButtonTimer, AudioLanguage;
+ushort MenuBlink, AudioLanguage;
 short gpCourseIndex, HotSwapID, hsGP, gpTimeCheck, courseValue = -1;
 short MenuAngle[4];
 
-bool ButtonHolding, MenuToggle;
+char ButtonHolding[4];
+char ButtonTimer[4];
+ushort MenuButtonHeld[4];
+bool MenuToggle;
 float gpTotalTime = 0;
 
 
@@ -250,7 +253,7 @@ int ParameterIndex, MenuIndex, MenuCup, MenuOverflow;
 
 //CustomLevels
 int ScrollValues[32][2];
-FaceStruct *CourseFaceStruct = (FaceStruct*)(&g_courseFaceStructPtr);
+//FaceStruct *CourseFaceStruct = (FaceStruct*)(&gFaceBuffer);
 //
 //
 

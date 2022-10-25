@@ -16,6 +16,7 @@
 .definelabel decodeMIO0, 0x800400D0 ;MIO0 File A0 = input, A1 = output
 .definelabel CreateDebugThread, 0x800046B8
 .definelabel StartDebugThread, 0x80004718
+.definelabel DMAROMGhost, 0x80004EF0
 .definelabel DMA, 0x80001158
 .definelabel decodeTKMK, 0x800405D0
 .definelabel GetFramebuffer, 0x802A7658
@@ -433,7 +434,7 @@
 .definelabel g_ItemSetFlag, 0x800DC648
 .definelabel PathTable, 0x800DC8D0
 
-.definelabel g_courseFaceStructPtr, 0x8015F580
+.definelabel gFaceBuffer, 0x8015F580
 .definelabel g_courseFaceMaxIndex, 0x8015F588
 
 .definelabel GlobalStat, 0x800E2360 
@@ -659,10 +660,13 @@
 
 .definelabel FreeMemoryPointer, 0x8015F728
 .definelabel LastMemoryPointer, 0x8015F72C
+.definelabel StaticMemoryPointer, 0x8015F734
 .definelabel g_TrialTime, 0x8015F898
 .definelabel g_lap2Time, 0x8015F89C
 .definelabel g_lap3Time, 0x8015F8A0
 
+
+.definelabel g_StaticObjectCount, 0x8015F900
 .definelabel g_SimpleObjectArray, 0x8015F9B8
 
 .definelabel g_progressValue, 0x8016328A

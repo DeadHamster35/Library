@@ -1060,6 +1060,10 @@ typedef struct ObjBlock //size: 0x28 * 32 = 0x500 | location: 0x8018D9E0
     float 		workf1;				//24
 } ObjBlock;
 
+
+
+
+
 typedef struct FaceStruct{
 		unsigned short flag; //1st. bit   =shadow bit (1=shadow) //higher 3BIT = face up vector
 		unsigned short status; //Surface ID
@@ -1069,9 +1073,9 @@ typedef struct FaceStruct{
 		short maxx;
 		short maxy;
 		short maxz;
-		long *p1;
-		long *p2;
-		long *p3;
+		Vtx *p1;
+		Vtx *p2;
+		Vtx *p3;
 		float sola;
 		float solb;
 		float solc;

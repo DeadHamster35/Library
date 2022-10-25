@@ -27,7 +27,7 @@
 
 
 
-.definelabel ok_SaveState, ok_scrolltranslucent + 0x1000
+.definelabel ok_SaveState, ok_scrolltranslucent + 0x500
 .definelabel ok_ItemTable, ok_SaveState + ok_SaveSize
 
 .definelabel ok_ModelData, ok_ItemTable + 0x30; //hold a ton of potential scrolling objects or translucent objects.
@@ -59,12 +59,7 @@
 .definelabel lit_numberSpriteX, lit_numberSprite9 + 0x200
 
 
-.definelabel ok_TKMSpace, lit_numberSpriteX + 0x200
-.definelabel ok_FreeSpace, ok_TKMSpace + 0x2008
-
-.definelabel ok_Storage, ok_FreeSpace + 0x40000
-
-.definelabel lit_titleFrame, ok_Storage + 0x100000
+.definelabel lit_titleFrame, lit_numberSpriteX + 0x200
 
 .definelabel lit_titleFrame_u, lit_titleFrame
 .definelabel lit_titleFrame_m, lit_titleFrame_u + 0x720
@@ -82,10 +77,14 @@
 .definelabel ok_menucoinsprite, ok_RedCoinSprite +  0x200
 .definelabel hud_buttons, ok_RedCoinSprite +  0x200
 .definelabel nicefont, hud_buttons +  0x4400
-.definelabel OKHeaderEND, nicefont + 0x50000
 
-//.definelabel lit_alpacasprite, hud_buttons +  0x4400
-//.definelabel lit_heartsprite, lit_alpacasprite +  0x800
+
+
+.definelabel ok_TKMSpace,  nicefont + 0x14000 
+.definelabel ok_FreeSpace, ok_TKMSpace + 0x2010
+
+.definelabel ok_Storage, ok_FreeSpace + 0x20000
+.definelabel OKHeaderEND, ok_Storage + 0x100000
 
 .definelabel ok_Knowledge, 0x805F0000
 .definelabel SwopCheck, 0x805F0004
