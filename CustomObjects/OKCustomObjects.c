@@ -195,7 +195,7 @@ void OKObjectReaction(OKObject* InputObject, short ResultType, int Player)
 	}
 }
 
-bool CheckOKCollide(OKCollisionSphere* HitBox, Vector SourcePosition, SVector SourceAngle, Vector TargetPosition, float TargetRadius)
+bool CheckOKCollide(OKCollisionSphere* HitBox, Vector SourcePosition, Vector SourceSize, SVector SourceAngle, Vector TargetPosition, float TargetRadius)
 {
 	
 	
@@ -203,71 +203,22 @@ bool CheckOKCollide(OKCollisionSphere* HitBox, Vector SourcePosition, SVector So
 	{
 		case 0: //Sphere 
 		{
-			return (TestCollideSphere(SourcePosition, HitBox->Size[0], TargetPosition, TargetRadius));
+			return (TestCollideSphere(SourcePosition, SourceSize[0], TargetPosition, TargetRadius));
 			break;
 		}
 		case 1:  //Sphere with Offset
 		{
-			float TempPosition[3] = {
-				(float)(HitBox->Position[0]),
-				(float)(HitBox->Position[1]),
-				(float)(HitBox->Position[2])
-			};						
-			RotateVector(TempPosition, SourceAngle);
-			//Rotate the offset position of the hitbox by the object angle. 
-
-			TempPosition[0] += SourcePosition[0];
-			TempPosition[1] += SourcePosition[1];
-			TempPosition[2] += SourcePosition[2];
-			//Add the corrected vector to the base position of the object
-
-			return (TestCollideSphere(TempPosition, HitBox->Size[0], TargetPosition, TargetRadius));
+			return (TestCollideSphere(SourcePosition, SourceSize[0], TargetPosition, TargetRadius));
 			break;
 		}		
 		case 2: //Box
 		{
-			
-			float TempBoxSize[3] = {
-				(float)HitBox->Size[0] / HitBox->Scale, 
-				(float)HitBox->Size[1] / HitBox->Scale, 
-				(float)HitBox->Size[2] / HitBox->Scale
-			};
-			short BoxAngles[3] = {
-
-				HitBox->Angle[0] + SourceAngle[0],
-				HitBox->Angle[1] + SourceAngle[1],
-				HitBox->Angle[2] + SourceAngle[2]
-			};
-			return TestCollideBox(SourcePosition, TempBoxSize, BoxAngles, TargetPosition, TargetRadius);
+			return TestCollideBox(SourcePosition, SourceSize, SourceAngle, TargetPosition, TargetRadius);
 			break;
 		}
 		case 3: //Collision Box with Offset
 		{
-
-			float TempPosition[3] = {
-				(float)(HitBox->Position[0]),
-				(float)(HitBox->Position[1]),
-				(float)(HitBox->Position[2])
-			};						
-			RotateVector(TempPosition, SourceAngle);
-			//Rotate the offset position of the hitbox by the object angle. 
-
-			TempPosition[0] += SourcePosition[0];
-			TempPosition[1] += SourcePosition[1];
-			TempPosition[2] += SourcePosition[2];
-			//Add the corrected vector to the base position of the object
-
-			float TempBoxSize[3] = {
-				(float)HitBox->Size[0] / HitBox->Scale, 
-				(float)HitBox->Size[1] / HitBox->Scale, 
-				(float)HitBox->Size[2] / HitBox->Scale
-			};
-			short BoxAngles[3] = {
-				HitBox->Angle[0] + SourceAngle[0],
-				HitBox->Angle[1] + SourceAngle[1],
-				HitBox->Angle[2] + SourceAngle[2]
-			};
-			return TestCollideBox(SourcePosition, TempBoxSize, BoxAngles, TargetPosition, TargetRadius);
+			return TestCollideBox(SourcePosition, SourceSize, SourceAngle, TargetPosition, TargetRadius);
 			break;
 		}
 
@@ -277,8 +228,12 @@ bool CheckOKCollide(OKCollisionSphere* HitBox, Vector SourcePosition, SVector So
 
 void OKObjectCollision(OKObject *InputObject)
 {	
-	
 	OKCollisionSphere* HitBox = (OKCollisionSphere*)GetRealAddress(ObjectSegment | OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].ObjectHitbox);
+
+
+	float TempPosition[3] = {0,0,0};
+	float TempBoxSize[3] = {1,1,1};
+	short BoxAngles[3] = {0,0,0};
 
 	//PlayerCount
 	if (g_gameMode == GAMEMODE_GP)
@@ -292,18 +247,61 @@ void OKObjectCollision(OKObject *InputObject)
 	
 	GlobalBoolA = false; //Use for tracking movements of all 4 players for sound
 	GlobalBoolD = false;
-	for (int CurrentPlayer = 0; CurrentPlayer < GlobalShortA; CurrentPlayer++)
-	{	
-		for (int ThisBox = 0; ThisBox < OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].CollisionCount; ThisBox++)
-		{
-			// run collision check for each hitbox and player
+
+	for (int ThisBox = 0; ThisBox < OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].CollisionCount; ThisBox++)
+	{
+
+		//INITIALIZE BOX
+
+			TempPosition[0] = (float)(HitBox[ThisBox].Position[0]);
+			TempPosition[1] = (float)(HitBox[ThisBox].Position[1]);
+			TempPosition[2] = (float)(HitBox[ThisBox].Position[2]);
+
+			MakeAlignVector(TempPosition, InputObject->ObjectData.angle[1]);
+			//Rotate the offset position of the hitbox by the object angle. 
+
+			TempBoxSize[0] = ((float)HitBox->Size[0] / HitBox[ThisBox].Scale);
+			TempBoxSize[1] = ((float)HitBox->Size[1] / HitBox[ThisBox].Scale);
+			TempBoxSize[2] = ((float)HitBox->Size[2] / HitBox[ThisBox].Scale);
+
+			BoxAngles[0] = (HitBox[ThisBox].Angle[0] + InputObject->ObjectData.angle[0]);
+			BoxAngles[1] = (HitBox[ThisBox].Angle[1] + InputObject->ObjectData.angle[1]);
+			BoxAngles[2] = (HitBox[ThisBox].Angle[2] + InputObject->ObjectData.angle[2]);
+
+			if (HitBox[ThisBox].Type == 3)
+			{
+				
+				MakeAlignVector(TempPosition, InputObject->ObjectData.angle[1]);
+				//Rotate the offset position of the hitbox by the object angle. 
+
+			}
+
+			TempPosition[0] += InputObject->ObjectData.position[0];
+			TempPosition[1] += InputObject->ObjectData.position[1];
+			TempPosition[2] += InputObject->ObjectData.position[2];
+			//Add the corrected vector to the base position of the object
+
+		//END BOX INITIALIZATION
+
+
+		for (int CurrentPlayer = 0; CurrentPlayer < GlobalShortA; CurrentPlayer++)
+		{	
+		
+			// run collision check for player
 			
-			if (CheckOKCollide(
-				(OKCollisionSphere*) &HitBox[ThisBox], 
-				InputObject->ObjectData.position, 
-				InputObject->ObjectData.angle,
-				GlobalPlayer[CurrentPlayer].position, 
-				GlobalPlayer[CurrentPlayer].radius))
+
+			if //Complex Boolean
+			(
+				CheckOKCollide
+				(
+					(OKCollisionSphere*) &HitBox[ThisBox], 
+					TempPosition,
+					TempBoxSize,
+					BoxAngles,
+					GlobalPlayer[CurrentPlayer].position, 
+					GlobalPlayer[CurrentPlayer].radius
+				)
+			) //Complex Boolean
 			{
 				GlobalBoolD = true;
 				if(GlobalPlayer[CurrentPlayer].slip_flag & STAR)
@@ -320,27 +318,27 @@ void OKObjectCollision(OKObject *InputObject)
 			}
 			//
 		}
-	}
 
 
 
-	
-	for (int ThisObject = g_StaticObjectCount; ThisObject < 100; ThisObject++)
-	{	
-		if ( (g_SimpleObjectArray[ThisObject].flag&EXISTOBJ) && (g_SimpleObjectArray[ThisObject].flag&HITOBJ) )
-		{			
-			for (int ThisBox = 0; ThisBox < OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].CollisionCount; ThisBox++)
-			{
+		for (int ThisObject = g_StaticObjectCount; ThisObject < 100; ThisObject++)
+		{	
+			//run collision check for each static object.
+			if ( (g_SimpleObjectArray[ThisObject].flag&EXISTOBJ) && (g_SimpleObjectArray[ThisObject].flag&HITOBJ) )
+			{	
 
-				if 	(CheckOKCollide
-						(
-							(OKCollisionSphere*) &HitBox[ThisBox], 
-							InputObject->ObjectData.position, 
-							InputObject->ObjectData.angle,
-							g_SimpleObjectArray[ThisObject].position, 
-							g_SimpleObjectArray[ThisObject].radius
-						)
+				if //Complex Boolean
+				(
+					CheckOKCollide
+					(
+						(OKCollisionSphere*) &HitBox[ThisBox], 
+						TempPosition,
+						TempBoxSize,
+						BoxAngles,
+						g_SimpleObjectArray[ThisObject].position, 
+						g_SimpleObjectArray[ThisObject].radius
 					)
+				) //Complex Boolean
 				{
 					if (g_SimpleObjectArray[ThisObject].category != TSHELL)
 					{
@@ -349,9 +347,14 @@ void OKObjectCollision(OKObject *InputObject)
 
 					OKObjectReaction(InputObject, (short) HitBox[ThisBox].DamagedResult, -1);
 				}
-			}
-		}		
+			}		
+		}
 	}
+
+
+
+	
+	
 	
 
 
