@@ -87,7 +87,7 @@ int FindNearestRampNode(float CurrentPosition[], float FoundNodePosition[], floa
     float Distance = 9999999.0;
     float CheckDistance;
     float path_height_start_node, path_height_end_node;
-    short use_this_path= 0;
+    short use_this_path= -1;
     short use_this_marker=0;
     float TargetHeightDifference = pow(CurrentPosition[1] - TargetY, 2);//Square to get absolute distance. 
     
@@ -128,10 +128,12 @@ int FindNearestRampNode(float CurrentPosition[], float FoundNodePosition[], floa
             }
         }
     }   
-    //Vector that will be returned
-    FoundNodePosition[0] = (float)PathArray[use_this_path][use_this_marker].Position[0]; 
-    FoundNodePosition[1] = (float)PathArray[use_this_path][use_this_marker].Position[1];
-    FoundNodePosition[2] = (float)PathArray[use_this_path][use_this_marker].Position[2];
+    if (use_this_path != -1)
+    {    //Vector that will be returned
+            FoundNodePosition[0] = (float)PathArray[use_this_path][use_this_marker].Position[0]; 
+            FoundNodePosition[1] = (float)PathArray[use_this_path][use_this_marker].Position[1];
+            FoundNodePosition[2] = (float)PathArray[use_this_path][use_this_marker].Position[2];
+    }
 
     return(use_this_path);
 }
@@ -251,6 +253,7 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
                     Pathfinder->Direction = 1;
                     Pathfinder->PathType = TypeOfPath;
                     Pathfinder->NearestMarker = 0;
+                    Pathfinder->NearestMarkerHeight = (float)PathArray[ThisPath][0].Position[1];
                     Pathfinder->ProgressTimer = 0;
                 }
             }
@@ -276,6 +279,7 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
                     Pathfinder->Direction = -1;
                     Pathfinder->PathType = TypeOfPath;
                     Pathfinder->NearestMarker = MarkerCounts[ThisPath];
+                    Pathfinder->NearestMarkerHeight = (float)PathArray[ThisPath][MarkerCounts[ThisPath]].Position[1];
                     Pathfinder->ProgressTimer = 0;
                 }
             }
