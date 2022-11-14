@@ -12,7 +12,7 @@ set ListCustomCourses= "CustomLevels.c" "CustomSurfaces.c"
 
 (for %%a in (%ListCustomCourses%) do (
    echo Working on %%a 
-..\..\ARMIPS\bin\mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -c %%a
+..\..\ARMIPS\bin\mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -S %%a
 ))
 
 cd ..
@@ -25,7 +25,7 @@ set ListCustomObjects= "OKBehaviors.c" "OKCustomObjects.c" "ObjectHandler.c"
 
 (for %%a in (%ListCustomObjects%) do (
    echo Working on %%a 
-..\..\ARMIPS\bin\mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -c %%a
+..\..\ARMIPS\bin\mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -S %%a
 ))
 
 cd ..
@@ -38,7 +38,7 @@ set ListCustomParticles= "CustomParticles.c"
 
 (for %%a in (%ListCustomParticles%) do (
    echo Working on %%a 
-..\..\ARMIPS\bin\mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -c %%a
+..\..\ARMIPS\bin\mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -S %%a
 ))
 
 cd ..
@@ -51,7 +51,7 @@ set ListMusicSound= "CustomSounds.c" "MusicControl.c"
 
 (for %%a in (%ListMusicSound%) do (
    echo Working on %%a 
-..\..\ARMIPS\bin\mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -c %%a
+..\..\ARMIPS\bin\mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -S %%a
 ))
 
 cd ..
@@ -64,7 +64,7 @@ set ListPlayer= "MarioKartStats.c" "Pathfinding.c" "PlayerChecks.c" "PlayerEffec
 
 (for %%a in (%ListPlayer%) do (
    echo Working on %%a 
-..\..\ARMIPS\bin\mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -c %%a
+..\..\ARMIPS\bin\mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -S %%a
 ))
 
 cd ..
@@ -79,7 +79,7 @@ set ListGT= "CTF.c" "Soccer.c" "GameTypesGeneric.c"
 
 (for %%a in (%ListGT%) do (
    echo Working on %%a 
-..\..\ARMIPS\bin\mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -c %%a
+..\..\ARMIPS\bin\mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -S %%a
 ))
 
 
@@ -89,7 +89,7 @@ cd GBI
 set ListGBIGBI= "SNet.c"
 (for %%a in (%ListGBIGBI%) do (
    echo Working on %%a 
-..\..\..\ARMIPS\bin\mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -c %%a
+..\..\..\ARMIPS\bin\mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -S %%a
 ))
 
 cd ..
@@ -102,7 +102,7 @@ set ListGeneric= "LibraryVariables.c" "MarioKart3D.c" "MarioKartMenu.c" "MarioKa
 
 (for %%a in (%ListGeneric%) do (
    echo Working on %%a 
-..\ARMIPS\bin\mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -c %%a
+..\ARMIPS\bin\mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -S %%a
 ))
 
 cd ..

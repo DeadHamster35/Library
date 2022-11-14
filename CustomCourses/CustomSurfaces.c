@@ -328,6 +328,7 @@ void AddGravityEdit(Player *car)
 
 		case GapJump:
 		{
+			
 			if (car->jumpcount <= 10 && GlobalController[cont_number]->ButtonPressed&BTN_R && SPEEDMETER(car->speed) >= TRICK_TRIGGER_SPEED_MIN && !(car->slip_flag&IS_BROKEN) && !(car->slip_flag&IS_FEATHER_JUMPING) && !(SurfaceStorage[car_number]&STORE_GAP))
 			{
 				car->flag |= 0x80;
@@ -353,6 +354,7 @@ void AddGravityEdit(Player *car)
 				
 				FaceStruct *SurfaceBuffer = (FaceStruct*)(gFaceBuffer);
 				Vtx *TargetVert = (Vtx*)SurfaceBuffer[GlobalPlayer[car_number].bump.last_zx].p1;
+				//Target Blue-Channel of SurfaceMap Vertex Color
 				GlobalPlayer[car_number].bump.dummy = TargetVert->v.cn[2];  //use.bump dummy; goes unused by gamecode		
 				SurfaceStorage[car_number] = STORE_GAP;
 			}
@@ -362,6 +364,7 @@ void AddGravityEdit(Player *car)
 				{
 					FaceStruct *SurfaceBuffer = (FaceStruct*)(gFaceBuffer);
 					Vtx *TargetVert = (Vtx*)SurfaceBuffer[GlobalPlayer[car_number].bump.last_zx].p1;
+					//Target Blue-Channel of SurfaceMap Vertex Color
 					GlobalPlayer[car_number].bump.dummy = TargetVert->v.cn[2];  //use.bump dummy; goes unused by gamecode
 					car->flag |= 0x80;
 					SetAnimBonkStars(car_number);
