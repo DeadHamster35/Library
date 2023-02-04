@@ -473,3 +473,43 @@ void SpriteDrawWave(int cx,int cy,ushort *addr,int sizex,int sizey,float WaveXSc
 		sy++;
 	}
 }
+
+int custom_check_triangle_zx(Bump *bump, float radius,float p1x,float p1y, float p1z, ushort pointer)
+{
+	return CheckTriangleZX(bump, radius, p1x, p1y, p1z, pointer);
+}
+
+int custom_check_triangle_xy(Bump *bump, float radius,float p1x,float p1y, float p1z, ushort pointer)
+{
+	return CheckTriangleXY(bump, radius, p1x, p1y, p1z, pointer);
+}
+
+int custom_check_triangle_yz(Bump *bump, float radius,float p1x,float p1y, float p1z, ushort pointer)
+{
+	return CheckTriangleYZ(bump, radius, p1x, p1y, p1z, pointer);
+}
+
+int custom_check_triangle_zx_v(Bump *bump,float radius,float p1x, float p1y, float p1z ,ushort pointer ,float lastx,float lasty,float lastz)
+{
+	return CheckTriangleZX_V(bump, radius, p1x, p1y, p1z, pointer, lastx, lasty, lastz);
+}
+
+int custom_check_triangle_xy_v(Bump *bump,float radius,float p1x, float p1y, float p1z ,ushort pointer ,float lastx,float lasty,float lastz)
+{
+	return CheckTriangleXY_V(bump, radius, p1x, p1y, p1z, pointer, lastx, lasty, lastz);
+}
+
+int custom_check_triangle_yz_v(Bump *bump,float radius,float p1x ,float p1y, float p1z, ushort pointer ,float lastx,float lasty,float lastz)
+{
+	return CheckTriangleYZ_V(bump, radius, p1x, p1y, p1z, pointer, lastx, lasty, lastz);
+}
+
+ushort custom_check_bump(Bump *bump,float radius,float px,float py,float pz)
+{
+    return CheckBump(bump, radius, px, py, pz);
+}
+
+ushort custom_check_bump_2(Bump *bump,float radius,float px,float py,float pz,float lastx, float lasty,float lastz)
+{
+    return CheckBump2(bump, radius, px, py, pz, lastx, lasty, lastz);
+}
