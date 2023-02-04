@@ -359,6 +359,79 @@ NOP
 NOP
 NOP
 
+//Custom triangle collision check
+.org 0x11746C
+JAL custom_check_triangle_zx
+.org 0x1176BC
+JAL custom_check_triangle_zx
+.org 0x115950
+JAL custom_check_triangle_zx
+.org 0x115B78
+JAL custom_check_triangle_zx
 
+.org 0x1174B0
+JAL custom_check_triangle_xy
+.org 0x117758
+JAL custom_check_triangle_xy
+.org 0x1159A8
+JAL custom_check_triangle_xy
+.org 0x115CB8
+JAL custom_check_triangle_xy
 
+.org 0x1174EC
+JAL custom_check_triangle_yz
+.org 0x117710
+JAL custom_check_triangle_yz
+.org 0x1158FC
+JAL custom_check_triangle_yz
+.org 0x115C34
+JAL custom_check_triangle_yz
 
+.org 0x0922B0
+JAL custom_check_bump
+.org 0x00EB2C
+JAL custom_check_bump
+.org 0x0890DC
+JAL custom_check_bump
+.org 0x00DC3C
+JAL custom_check_bump
+.org 0x00DAA0
+JAL custom_check_bump
+.org 0x01F558
+JAL custom_check_bump
+
+.org 0x030584
+JAL custom_check_bump_2
+.org 0x039BE0
+JAL custom_check_bump_2
+.org 0x02F77C
+JAL custom_check_bump_2
+.org 0x02E818
+JAL custom_check_bump_2
+
+.org 0x117014
+JAL custom_check_triangle_zx_v
+.org 0x11729C
+JAL custom_check_triangle_zx_v
+.org 0x119208
+JAL custom_check_triangle_zx_v
+.org 0x119514
+JAL custom_check_triangle_zx_v
+
+.org 0x117070
+JAL custom_check_triangle_xy_v
+.org 0x117358
+JAL custom_check_triangle_xy_v
+.org 0x1192C4
+JAL custom_check_triangle_xy_v
+.org 0x119718
+JAL custom_check_triangle_xy_v
+
+.org 0x1170BC
+JAL custom_check_triangle_yz_v
+.org 0x117300
+JAL custom_check_triangle_yz_v
+.org 0x11914C
+JAL custom_check_triangle_yz_v
+.org 0x119628
+JAL custom_check_triangle_yz_v

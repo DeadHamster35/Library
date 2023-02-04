@@ -1162,3 +1162,10 @@
 .definelabel ItemBoxModel, 0x0D003288
 .definelabel MoveFallingRock, 0x8029D188
 
+.definelabel CheckTriangleZX, 0x802AAE4C
+.definelabel CheckTriangleXY, 0x802AB288
+.definelabel CheckTriangleYZ, 0x802AB6C4
+
+.definelabel CheckTriangleZX_V, 0x802AC760
+.definelabel CheckTriangleXY_V, 0x802ACBA4
+.definelabel CheckTriangleYZ_V, 0x802AD278

@@ -1139,3 +1139,10 @@ extern int ShadowModel;
 extern int HoleModel;
 extern int ItemBoxModel;
 extern void MoveFallingRock(Object *obj);
+
+extern int CheckTriangleZX(Bump *bump, float radius,float p1x,float p1y, float p1z, ushort pointer);
+extern int CheckTriangleXY(Bump *bump, float radius,float p1x,float p1y, float p1z, ushort pointer);
+extern int CheckTriangleYZ(Bump *bump, float radius,float p1x,float p1y, float p1z, ushort pointer);
+extern int CheckTriangleZX_V(Bump *bump,float radius,float p1x,float p1y, float p1z, ushort pointer ,float lastx,float lasty,float lastz);
+extern int CheckTriangleXY_V(Bump *bump,float radius,float p1x, float p1y, float p1z ,ushort pointer ,float lastx,float lasty,float lastz);
+extern int CheckTriangleYZ_V(Bump *bump,float radius,float p1x ,float p1y, float p1z, ushort pointer ,float lastx,float lasty,float lastz);
