@@ -32,6 +32,5 @@ extern void SetCamShiftUp(char playerID, float shift);
 extern void SetPlayerColor(char playerID, int Colors, int AdjColors, float speed);
 extern void SetPlayerEcho(char playerID, char echo);
 extern void playrandmCharacterSFX(char playerID);
-extern void EnableAirControl(char playerID);
 extern void MasterEffect(int PlayerID, short StatusID);
 extern void MasterStatus(int PlayerID, short StatusID);

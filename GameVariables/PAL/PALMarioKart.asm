@@ -59,7 +59,7 @@
 
 .definelabel g_resetToggle, 0x800DC52C
 .definelabel g_startingIndicator,  0x800DC530
-.definelabel g_screenSplitA, 0x800DC54C
+.definelabel g_ScreenSplitA, 0x800DC54C
 .definelabel g_ScreenSplitB, 0x800DC550
 .definelabel g_playerCount, 0x800DC558
 .definelabel g_raceClass, 0x800DC568
@@ -190,7 +190,7 @@
 .definelabel g_player1View 0x8015F514
 .definelabel g_player1Section 0x8015F518
 
-.definelabel lastLoadedAddress, 0x8015F788
+.definelabel FreeMemoryPointer, 0x8015F788
 .definelabel g_TrialTime, 0x8015F8E8
 .definelabel g_lap2Time, 0x8015F8EC
 .definelabel g_lap3Time, 0x8015F900

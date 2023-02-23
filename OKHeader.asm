@@ -1,14 +1,11 @@
 //These are new custom RAM values
-//0x80400000 - 0x804FFFFF is restricted for OverKart64 functions and data.
-//0x80500000 - 0x805FFFFF is reserved for Custom Course Assembly and data.
-//0X80600000 - 0X80780000 should be safe for any other custom code.
 //The end of RAM is course data, from 0x80800000 backwards.
 //This varies based on the size of data for the current course. Be cautious!
 .definelabel ok_HeaderROM, 0xBE9178
 .definelabel ok_SaveSize, 0x28980
 .definelabel ok_HeaderSize, 0x1400
 .definelabel ok_MenuSize, 0x2800
-.definelabel ok_CourseHeaderSize, 0x98
+.definelabel ok_CourseHeaderSize, 0xC0
 
 
 .definelabel ok_HeaderOffsets, RAM_END
@@ -83,8 +80,9 @@
 .definelabel lit_red_selecter, lit_arrowsprite_r +  0x200 
 .definelabel ok_RedCoinSprite, lit_red_selecter +  0x200 
 .definelabel ok_menucoinsprite, ok_RedCoinSprite +  0x200
-.definelabel nicefont, ok_menucoinsprite +  0x200
-.definelabel hud_buttons, nicefont +  0x4400
+.definelabel hud_buttons, ok_RedCoinSprite +  0x200
+.definelabel nicefont, hud_buttons +  0x4400
+.definelabel OKHeaderEND, nicefont + 0x5000
 
 //.definelabel lit_alpacasprite, hud_buttons +  0x4400
 //.definelabel lit_heartsprite, lit_alpacasprite +  0x800

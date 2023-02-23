@@ -16,6 +16,9 @@ unsigned long FreeSpaceAddress;
 short GlobalShortA, GlobalShortB;
 bool GlobalBoolA, GlobalBoolB, GlobalBoolC, GlobalBoolD;
 int LoopValue;
+uint GlobalFrameCount;
+uint ClockCycle[2], OldCycle[2];
+uint CycleCount[2];
 
 bool ConsolePlatform, EmulatorPlatform, TempoBool, StopSwop;
 bool CustomWaterHeight[8];
@@ -30,21 +33,23 @@ int decimalNumber = 0;
 int printOffsetA, printOffsetB, printOffsetC, printOffsetD = 0;
 int minutes = 0;
 int seconds = 0;
-
-float DebugPosition[3];
 Object *GlobalObjectA, *GlobalObjectB;
 float ZeroVector[3] = {0.0, 0.0, 0.0};
 OKRAMHeader OverKartRAMHeader;
 
 short AnimationTimer = 0;
+short DynFPSModifier = 2;
 
-Controller *GlobalController[5] = 
+Controller *GlobalController[8] = 
 {
      &g_Controller1,
      &g_Controller2,
      &g_Controller3,
      &g_Controller4,
-     &g_ControllerMenu
+     &g_ControllerMenu,
+     &g_ControllerGhost1,
+     &g_ControllerGhost2,
+     &g_ControllerGhost3,
 };
 
 Screen *GlobalScreen[4] = 
@@ -135,6 +140,7 @@ short IFrames[8] = {0,0,0,0,0,0,0,0};
 float AffineMatrix[4][4];
 float AffineMatrix2[4][4];
 float objectPosition[3] = {0,0,0};
+Vector objectVector[5];
 float objectVelocity[3] = {0,0,0};
 short objectAngle[3] = {0,0,0};
 short objectIndex;
@@ -159,7 +165,7 @@ short EnginePowerDownRT[3][15] = {{0,0,0,3,0,0,0,9,9,0,0,9,0,9,9}, {0,0,0,2,0,0,
 short EnginePowerDownFT[3][15] = {{0,0,0,0,0,0,0,3,3,0,0,3,0,3,3}, {0,0,0,0,0,0,0,2,2,0,0,2,0,2,2}, {0,0,0,0,0,0,0,04,04,0,0,04,0,04,04}};
 
 
-char MenuBackup = 0, MenuChanged = 0, MenuTimer = 0;
+char MenuBackup = 0, MenuChanged = 0, MenuTimer = 0, StatsID = -1;
 char MenuFlash[4] = {0,0,0,0};
 char MenuProgress[4] = {0,0,0,0};
 char PlayerCharacterSelect[4] = {0,1,2,3};
@@ -170,7 +176,7 @@ struct PlayerTextureTable BackupNamePlateTable;
 struct PlayerTextureTable BackupPortraitTable[9];
 
 //Mario Kart Stats
-char StatsID = -1;
+
 
 
 //SharedFunctions
@@ -178,11 +184,22 @@ long dataLength = 0; //
 int *targetAddress = &ok_Target;
 int *sourceAddress = &ok_Source;
 int *tempPointer = &ok_Pointer;
-long *graphPointer = &GraphPtrOffset;
+long *graphPointer = (long*)&GraphPtrOffset;
 int *tkmPoint = &ok_TKMSpace;
 int RSPNumber;
 int RSPOffset;
 char *hex = "0123456789ABCDEF";
+
+ushort RedTextPalette[4];
+ushort BlueTextPalette[4];
+ushort GreenTextPalette[4];
+ushort WhiteTextPalette[4];
+
+char RedPaletteF3D[0xC0];
+char BluePaletteF3D[0xC0];
+char GreenPaletteF3D[0xC0];
+char WhitePaletteF3D[0xC0];
+     
 //
 
 //Stock Names
@@ -199,6 +216,10 @@ char *stockCharacterNames[] = {"MARIO", "LUIGI", "YOSHI", "TOAD", "D.K.", "WARIO
 //Main
 
 struct OKObject OKObjectArray[100];
+
+
+//Multiple AI Paths Race Levels
+OKAIPath CPUPaths[8];
 
 //OKCustom Objects
 short CoinPositions[8][3]; //8 Coins XYZ
@@ -219,7 +240,7 @@ float gpTotalTime = 0;
 
 int VersionNumber;
 
-int MenuIndex, MenuType, MenuCup;
+int ParameterIndex, MenuIndex, MenuCup, MenuOverflow;
 
 
 
@@ -232,3 +253,24 @@ int ScrollValues[32][2];
 FaceStruct *CourseFaceStruct = (FaceStruct*)(&g_courseFaceStructPtr);
 //
 //
+
+char *cupNames[] = {"Mushroom Cup","Flower Cup","Star Cup","Special Cup"};
+int cupChar[] = {12,10,8,11};
+char *courseNames[] = {"Mario Raceway", "Choco Mountain", "Bowser Castle", "Banshee Boardwalk","Yoshi Valley", "Frappe Snowland", "Koopa Troopa Beach", "Royal Raceway",
+"Luigi Raceway", "Moo Moo Farm", "Toad Turnpike","Kalimari Desert","Sherbet Land","Rainbow Road","Wario Stadium", "Block Fort", "Skyscraper", "Double Deck", "DK Jungle Parkway","Big Donut"};
+int courseChar[] = {13,14,13,17,12,15,18,13,13,12,13,15,11,12,13,10,10,11,17,9};
+
+Vector Origin = {0,0,0,};
+ObjectivePlayer       Objectives[4];
+ObjectiveObject     GameFlag[4];
+ObjectiveObject     GameBase[4];
+
+Marker* PlayerSpawnPoints;
+CTFSpawn* ObjectivePoints;
+BattleObjectivePoint* CustomObjectivePoints;
+
+float SpawnPoint[4][3];
+char      FlagCount, TeamMode;
+char      ScoreToWin, ObjectiveCount;
+short     SpawnTime, HitstunTime;
+short     TeamScore[2];

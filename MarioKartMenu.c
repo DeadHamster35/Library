@@ -203,6 +203,165 @@ void printMap(int devParameter)
 }
 
 
+void CourseMenu(int Alpha)
+{
+     
+     DrawBox(50,10,220,121,0,0,0,Alpha);
+     
+     DrawBox(48,8,2,124,255,0,0,255);
+     DrawBox(270,8,2,124,255,0,0,255);
+     DrawBox(50,8,220,2,255,0,0,255);
+     DrawBox(50,130,220,2,255,0,0,255);
+     DrawBox(60,32,200,1,0,0,0,255);
+     KWSprite(80,22,16,16,(ushort*)&lit_arrowsprite_l);
+     
+     
+
+     if (ParameterIndex == 0) //currentParameter
+     {
+          MenuPosition[0] = 157 -(10 * 4);
+          GraphPtr = FillRect1ColorF(GraphPtr, MenuPosition[0], 19, MenuPosition[0] + (10 * 8), 29, 200, 0, 0, 200);
+     }
+     else if (ParameterIndex == 1) //currentParameter
+     {
+          MenuPosition[0] = 155 - ((cupChar[MenuCup]) * 4);
+          GraphPtr = FillRect1ColorF(GraphPtr, MenuPosition[0], 41, MenuPosition[0] + (cupChar[MenuCup] * 8), 51, 0, 200, 0, 200);
+     }
+     else
+     {
+          if (SYSTEM_Region == 0x00)
+          {
+               GlobalAddressA = (cup_PAL + (MenuCup * 8) + ((ParameterIndex - 2) * 2));
+          }
+          else
+          {
+               GlobalAddressA = (cup_NTSC + (MenuCup * 8) + ((ParameterIndex - 2) * 2));
+          }
+          short *l_courseID = (short *)GlobalAddressA;
+          MenuPosition[0] = 157 - ((courseChar[(long)*l_courseID]) * 4);
+          MenuPosition[1] = ((ParameterIndex - 1) * 14) + 44;
+          GraphPtr = FillRect1ColorF(GraphPtr, MenuPosition[0], MenuPosition[1], MenuPosition[0] + (courseChar[(long)*l_courseID] * 8), MenuPosition[1]+11, 0, 0, 200, 200);
+     }
+     LoopValue = 0;
+     loadFont();
+     printString(98,0,"Cup Editor");
+     MenuPosition[0] = 135 - (cupChar[MenuCup] * 4);
+     printString(MenuPosition[0],22,cupNames[MenuCup]);
+     MenuPosition[1] = 40;
+     do{
+          if (SYSTEM_Region == 0x00)
+          {
+               GlobalAddressA = (cup_PAL + (MenuCup * 8) + LoopValue * 2);
+          }
+          else
+          {
+               GlobalAddressA = (cup_NTSC + (MenuCup * 8) + LoopValue * 2);
+          }
+          short *l_courseID = (short *)GlobalAddressA;
+          MenuPosition[0] = 138 - (courseChar[(long)*l_courseID] * 4);
+          printString(MenuPosition[0],MenuPosition[1],courseNames[(long)*l_courseID]);
+          MenuPosition[1] = MenuPosition[1] + 14;
+          LoopValue++;
+     } while (LoopValue < 4);
+}
+
+
+void DrawFPS(int X, int Y)
+{     
+     GlobalFloatA = (1 * CPU2SEC) / CycleCount[0];
+     printDecimal(X,Y,GlobalFloatA, 2);     
+     GlobalFloatA = (1 * CPU2SEC) / CycleCount[1];
+     printDecimal(X,Y + 10,GlobalFloatA, 2); 
+}
+
+void ModularMenu(int Alpha, OKMenu OptionsMenu)
+{
+
+     
+
+     
+     DrawBox(50,10,220,121,0,0,0,Alpha);
+     
+     DrawBox(48,8,2,124,255,0,0,255);
+     DrawBox(270,8,2,124,255,0,0,255);
+     DrawBox(50,8,220,2,255,0,0,255);
+     DrawBox(50,130,220,2,255,0,0,255);
+     DrawBox(60,32,200,1,0,0,0,255);
+
+
+     if (ParameterIndex == 0) //currentParameter
+     {
+          MenuPosition[0] = 157 - ((OptionsMenu.PanelAddress[MenuIndex].NameLength) * 4);
+          GraphPtr = FillRect1ColorF(GraphPtr, MenuPosition[0], 19, MenuPosition[0] + ((OptionsMenu.PanelAddress[MenuIndex].NameLength) * 8), 29, 200, 0, 0, 200);
+     }
+     else
+     {
+          MenuPosition[1] = ParameterIndex * 18 + 33;
+          if (MenuBlink < 29)  
+          {
+               KWSprite(57,MenuPosition[1]+2,16,16,(ushort*)&lit_red_selecter);
+          }
+     }
+     
+     
+
+     LoopValue = 0;
+     MenuPosition[0] = 138 - ((OptionsMenu.PanelAddress[MenuIndex].NameLength) * 4);
+     
+     
+     
+     loadFont();
+     
+     
+     printString(MenuPosition[0],0,(char*)OptionsMenu.PanelAddress[MenuIndex].NameAddress);
+     
+     MenuPosition[1] = 30;
+     
+     if (OptionsMenu.PanelAddress[MenuIndex].OptionCount > 4)
+     {
+          GlobalShortB = 4;
+     }
+     else
+     {
+          GlobalShortB = OptionsMenu.PanelAddress[MenuIndex].OptionCount;
+     }
+     for (LoopValue = 0; LoopValue < GlobalShortB; LoopValue++)
+     {
+          OKOption* ThisOption = (OKOption*)(&OptionsMenu.PanelAddress[MenuIndex].Options[LoopValue + (long)MenuOverflow]);          
+          printString(45,MenuPosition[1],(char*)ThisOption->OptionName);
+          GlobalShortA = (int)OptionsMenu.PanelAddress[MenuIndex].ParameterToggles[LoopValue + (long)MenuOverflow];
+          MenuPosition[0] = 200 - (ThisOption->ParameterLengths[GlobalShortA] * 4);          
+          printString(MenuPosition[0],MenuPosition[1],(char*)ThisOption->ParameterNames[GlobalShortA]);
+          MenuPosition[1] = MenuPosition[1] + 18;          
+     } 
+     
+     if ((MenuOverflow + 4) < OptionsMenu.PanelAddress[MenuIndex].OptionCount)  //menuOverflowIndex
+     {
+          if (MenuBlink < 15)  //used for blinking down arrow
+          {
+               KWSprite(161,120,16,16,(ushort*)&lit_arrowsprite_d);
+          }
+     }
+     if ((MenuOverflow - 4) < OptionsMenu.PanelAddress[MenuIndex].OptionCount)  //menuOverflowIndex
+     {
+          if (MenuBlink < 15)  //used for blinking down arrow
+          {
+               KWSprite(161,40,16,16,(ushort*)&lit_arrowsprite_u);
+          }
+     }
+     if (MenuIndex > 0)  //used for left arrow
+     {
+          KWSprite(80,22,16,16,(ushort*)&lit_arrowsprite_l);
+     }
+     if (MenuIndex < OptionsMenu.PanelCount)  //used for right arrow
+     {
+          KWSprite(240,22,16,16,(ushort*)&lit_arrowsprite_r);
+     }
+}
+
+
+
+
 
 
 
@@ -594,7 +753,7 @@ void GameSelectMenu()
 void MapSelectMenu()
 {
      
-     if (g_gameMode == 3)
+     if (g_gameMode == GAMEMODE_BATTLE)
      {
           GlobalShortA = 4;
      }
@@ -604,19 +763,21 @@ void MapSelectMenu()
      }
      if (menuScreenA == GlobalShortA)
      {
-          if ((GlobalController[0]->ButtonPressed & BTN_L) == BTN_L)
+          if ((GlobalController[0]->ButtonPressed & BTN_CLEFT) == BTN_CLEFT)
           {
                swapHS(0);
           }
-          if ((GlobalController[0]->ButtonPressed & BTN_Z) == BTN_Z)
-          {
-               swapHS(0);
-          }
-          else if ((GlobalController[0]->ButtonPressed & BTN_R) == BTN_R)
+          else if ((GlobalController[0]->ButtonPressed & BTN_CRIGHT) == BTN_CRIGHT)
           {
                swapHS(1);
           }
           LoadCustomHeader(courseValue);
+
+          
+          if ((GlobalController[0]->ButtonPressed & BTN_R) == BTN_R)
+          {
+               MenuToggle = !MenuToggle;
+          }
      }
 
      *(int*)(&PlayerOK) = 0;
@@ -630,22 +791,14 @@ void MapSelectMenu()
 
                case 0:
                {
-                    if (courseValue != (g_cupSelect * 4))
-                    {
-                         courseValue = (g_cupSelect * 4);
-                    }
+                    courseValue = (g_cupSelect * 4);                    
                     break;
                }
                case 1:
                case 2:
                case 3:
                {
-                    if (courseValue != (g_cupSelect * 4)  + g_courseSelect)
-                    {
-
-                         courseValue = (g_cupSelect * 4) + g_courseSelect;
-                         
-                    }
+                    courseValue = (g_cupSelect * 4) + g_courseSelect;
                     break;
                }
           }
@@ -653,15 +806,6 @@ void MapSelectMenu()
      else
      {
           LoadCustomHeader(-1);
-     }
-     
-     if (KBGChange == 0)
-     {          
-          if (hsLabel != HotSwapID)
-          {
-               setLabel();               
-               hsLabel = HotSwapID;
-          }
      }
      
 }
@@ -854,26 +998,26 @@ void printNumberSprite(int X, int Y, int Value)
 	}
 }
 
-char ReturnStringLength(char *stringAddress)
+int ReturnStringLength(char *stringAddress)
 {
-	GlobalCharE = 0;
+	GlobalIntA = 0;
 	GlobalCharA = *(char*)stringAddress;
 	if(GlobalCharA != 0)
 	{
 		do
 		{
-			++GlobalCharE;
-			GlobalCharA = (*(char*)(stringAddress + GlobalCharE));
+			++GlobalIntA;
+			GlobalCharA = (*(char*)(stringAddress + GlobalIntA));
 		}
 		while (GlobalCharA != 0);
 	}
-	return(GlobalCharE);
+	return(GlobalIntA);
 }
 
 
 
 ///////////////HUD Buttons///////////////
-/*
+
 void loadHudButtons()
 {
      *sourceAddress = (int)(&HudButtonsROM);
@@ -884,7 +1028,7 @@ void loadHudButtons()
      *targetAddress = (int)(&hud_buttons);
      runMIO();
 }
-*/
+
 
 void SpriteBtnA(int posx, int posy, float scale, bool pressed)
 {
@@ -1442,6 +1586,93 @@ void PrintNiceText(int posx, int posy, float scale, char *text)
 }
 
 
+void PrintBigText(int posx, int posy, float scale, char *text)
+{
+	char *FontString = text;
+
+
+	for (int i = 0; i < ReturnStringLength(text); i++)
+	{
+		if (text[i] < 33)
+		{
+			continue;
+		}
+
+		if (text[i] > 127)
+		{
+			continue;
+		}
+		if (text[i] >= 97 && text[i] <= 122)
+		{
+			GlobalAddressA = (uint)((&nicefont[0])+(0x200*(FontString[i]-64)-0x200));
+               KWTexture2DRGBA(posx+(scale*i*16),posy,0,scale,(uchar*)GlobalAddressA,(void*)(&V1632), 16, 32, 16, 32);
+			continue;
+		}
+		if (text[i] >= 123 && text[i] <= 127)
+		{
+			GlobalAddressA = (uint)((&nicefont[0])+(0x200*(FontString[i]-58)-0x200));
+               KWTexture2DRGBA(posx+(scale*i*16),posy,0,scale,(uchar*)GlobalAddressA,(void*)(&V1632), 16, 32, 16, 32);
+			continue;
+		}			
+		else
+		{
+			GlobalAddressA = (uint)((&nicefont[0])+(0x200*(FontString[i]-32)-0x200));
+               KWTexture2DRGBA(posx+(scale*i*16),posy,0,scale,(uchar*)GlobalAddressA,(void*)(&V1632), 16, 32, 16, 32);
+		}
+	}
+}
+
+
+void PrintBigTextNumber(int posx, int posy, float scale, char *text, int value)
+{
+	PrintBigText(posx, posy, scale, text);
+     
+	char negativeVal = 0;
+
+	if (value < 0)
+	{
+		value = value*-1;
+		negativeVal = 1;
+	}
+
+	int digit[9] = {
+	((value%10)),
+	((value%100)/10),
+	((value%1000)/100),
+	((value%10000)/1000),
+	((value%100000)/10000),
+	((value%1000000)/100000),
+	((value%10000000)/1000000),
+	((value%100000000)/10000000),
+	((value%1000000000)/100000000)
+	};
+
+
+
+
+	char valstring[50];
+	for (int a = 0; a < 50; a++)
+	{
+		valstring[a] = 32;
+	}
+	
+	for (int i = 0; i < numPlaces(value); i++)
+	{
+		if (i > 9)
+		{
+			continue;
+		}
+		valstring[i] = (digit[numPlaces(value)-1-i] + 48);
+	}
+
+	PrintBigText((scale*32)+posx+(ReturnStringLength(text))*15*scale, posy, scale, valstring);		
+
+	if (negativeVal == 1)
+	{
+		PrintBigText((scale*15)+posx+(ReturnStringLength(text))*15*scale, posy, scale, "-");
+		negativeVal = 0;
+	}
+}
 
 void PrintNiceTextNumber(int posx, int posy, float scale, char *text, int value)
 {
@@ -1495,5 +1726,12 @@ void PrintNiceTextNumber(int posx, int posy, float scale, char *text, int value)
 }
 
 
+void DisplayCrashScreen()
+{
+	*sourceAddress = (int)(&Crash);
+	*targetAddress = *(uint*)0x80162D5C;
+	dataLength = (int)&CrashEnd - (int)&Crash;
+	runDMA();
+}
 
 

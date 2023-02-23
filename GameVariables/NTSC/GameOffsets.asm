@@ -19,9 +19,11 @@
 .definelabel DMA, 0x80001158
 .definelabel decodeTKMK, 0x800405D0
 .definelabel GetFramebuffer, 0x802A7658
+.definelabel AllocateMemory, 0x802A7B70
 .definelabel CheckBump, 0x802ADDC8
 .definelabel CheckBump2, 0x802AD950
 .definelabel LoadMap, 0x802AA918
+.definelabel KillDisplayList, 0x802AAA70
 .definelabel InitialRaceSequence, 0x80002A18
 .definelabel BumpVelocity, 0x802AC114
 .definelabel CalcBumpVelocity, 0x802AC098
@@ -29,6 +31,9 @@
 .definelabel MakeWaterVertex, 0x802AF8BC
 .definelabel ramCopy, 0x800D7FE0
 .definelabel CheckArea, 0x802ABD40
+.definelabel CheckMapBG_ZX, 0x8003F46C
+.definelabel CheckMapBG_XY, 0x8003F734
+.definelabel CheckMapBG_YZ, 0x8003FBAC
 
 .definelabel readControllers, 0x80000A28
 .definelabel InitControllers, 0x800008A4
@@ -50,12 +55,17 @@
 .definelabel KWCheckRadiusXZ, 0x80041608
 
 
+.definelabel DisplayKT1, 0x80292464
+
+.definelabel DisplayFlagGate, 0x80297340
+.definelabel DisplayShadow, 0x8029794C
 .definelabel MoveIWA, 0x8029D188
 .definelabel deleteObjectBuffer, 0x8029E854
 .definelabel addObjectBuffer, 0x8029EC88
 
 .definelabel CollisionCylinder, 0x8029EEB8
 .definelabel CollisionSphere, 0x8029FB80
+.definelabel KillObject, 0x8029FDC8
 
 .definelabel RouletteStart, 0x8007ABFC
 .definelabel KWAnmStart, 0x800723A4
@@ -118,6 +128,7 @@
 .definelabel MakeRandomLimmit, 0x802B7E34
 .definelabel MakeDirection, 0x802B7F34
 .definelabel MakeDirection3D, 0x802B7F7C
+.definelabel ChaseDir, 0x800224F0
 .definelabel sinT, 0x802B8018
 .definelabel cosT, 0x802B8038
 .definelabel sinF, 0x800D60F0
@@ -158,6 +169,8 @@
 .definelabel printStringHex, 0x80057858
 .definelabel printStringUnsignedHex, 0x800578B0
 .definelabel printStringUnsignedBinary, 0x80057960
+.definelabel KWDisplay2D, 0x80058C20
+.definelabel KWDisplay2DAfter, 0x80058DB4
 .definelabel FillRect1ColorF, 0x80098DF8
 .definelabel SetFadeOutB, 0x8009E208
 .definelabel SetObjBlock, 0x8009E650
@@ -171,14 +184,20 @@
 
 .definelabel DOBPSelAnimeKuppa, 0x800AA69C
 
+
+.definelabel MSelController, 0x800B3B58
+
 .definelabel SaveFunc800B45E0, 0x800B45E0
 .definelabel SaveFunc800B4670, 0x800B4670
 .definelabel SaveFunc800B4CB4, 0x800B4CB4
 .definelabel SaveFunc800B559C, 0x800B559C
 .definelabel SaveFunc800B5948, 0x800B5948
 
+
+
 .definelabel LoadFunc800B4A10, 0x800B4A10
 
+.definelabel ScreenViewAngle, 0x80150130
 .definelabel SegmentTable, 0x80150258
 .definelabel g_CfbPtrs, 0x801502A8
 
@@ -207,6 +226,45 @@
 .definelabel StockNumberSprites, 0x0D00C558
 .definelabel DecodeMapImage1, 0x802A84F4
 
+.definelabel KWTextureRGBA_SubPT, 0x80045D0C
+.definelabel KWTextureRGBA_SubBL, 0x80045E10
+.definelabel KWTextureRGBA_SubBLMR, 0x80045F18
+.definelabel KWTextureRGBMA_SubBL, 0x80046030
+.definelabel KWTextureRGBA32_SubPT, 0x800461A4
+.definelabel KWTextureRGBA32_SubBL, 0x800462A8
+.definelabel KWTextureCI8_SubPT, 0x80047068
+.definelabel KWTextureCI8_SubBL, 0x80047270
+.definelabel KWTextureCI8_SubBLMR, 0x8004747C
+.definelabel KWTextureCI8_SubBLCutX, 0x8004768C
+.definelabel KWTextureIA16_Sub, 0x80048F8C
+.definelabel KWTextureIA8_Sub, 0x800492D4
+.definelabel KWTextureIA4_Sub, 0x8004961C
+.definelabel KWTextureA8_Sub, 0x800497CC
+.definelabel KWTextureA4_Sub, 0x80049970
+
+.definelabel KWCreateAffine3D, 0x80042E00
+.definelabel KWCreateAffine3D_Board, 0x80042EB8
+.definelabel KWCreateAffine3D_IceKage, 0x80042F70
+.definelabel KWCreateAffine3D_Hole, 0x80043050
+.definelabel KWCreateAffine3D_Anm, 0x80043104
+
+.definelabel KWSetPrimColor, 0x8004B138
+.definelabel KWSetEnvColor, 0x8004B180
+.definelabel KWSet2Color_, 0x8004B1C8
+.definelabel SubColorMode, 0x8004B254
+.definelabel SubAlphaMode, 0x8004B2BC
+.definelabel ToumeIAMode, 0x8004B310
+.definelabel ToumeIMode, 0x8004B35C
+.definelabel SmokeMode, 0x8004B3C8
+.definelabel SplashMode, 0x8004B414
+.definelabel RadarMode, 0x8004B480
+.definelabel RankMode, 0x8004B4E8
+.definelabel WaterMode, 0x8004B554
+.definelabel ColAddMode, 0x8004B5A8
+.definelabel IceMode, 0x8004B614
+.definelabel SparkMode, 0x8004B6C4
+.definelabel Color2Mode, 0x8004B72C
+
 .definelabel BumpObject, 0x802B4E30
 
 .definelabel SetSegment, 0x802A7B94
@@ -218,11 +276,13 @@
 .definelabel ResetStar, 0x8008F86C
 .definelabel SetTurbo, 0x8008D3C4
 .definelabel SetWing, 0x8008D570
+.definelabel ResetWing, 0x8008D760
 .definelabel SetStorm, 0x8008D7B0
 .definelabel ThunderWorld, 0x8009E5BC
 .definelabel VSGhost , 0x8008F8E4
 .definelabel SetVSGhost, 0x8008FA38
 .definelabel ResetVSGhost, 0x8008FB30
+.definelabel SetHeightJump, 0x8008FDF4
 
 
 .definelabel SetRollover, 0x8008C528
@@ -243,6 +303,37 @@
 .definelabel ShakeCamera, 0x8001CA10
 .definelabel ShakeHitCamera, 0x8001CA24
 
+.definelabel SlipCheck, 0x8002FCA8
+.definelabel AddGravity, 0x8002AB70
+.definelabel ProStickAngle, 0x80033AE0
+
+.definelabel KW16GFTimer, 0x80165590
+.definelabel KW8GFTimer, 0x80165594
+.definelabel KW4GFTimer, 0x80165598
+.definelabel KW2GFTimer, 0x8016559C
+
+.definelabel KW64GFCount, 0x801655A4
+.definelabel KW32GFCount, 0x801655AC
+.definelabel KW16GFCount, 0x801655B4
+.definelabel KW8GFCount, 0x801655BC
+.definelabel KW4GFCount, 0x801655C4
+.definelabel KW2GFCount, 0x801655CC
+
+.definelabel Vtx_KTile8x16, 0x0D0054B0
+.definelabel Vtx_KTile16x16, 0x0D005770
+.definelabel Vtx_KTile16x16XFlip, 0x0D0057B0
+.definelabel Vtx_KTile40x32, 0x0D005C30
+.definelabel Vtx_KTile32x32, 0x0D005AE0
+.definelabel Vtx_KTile32x32XFlip, 0x0D005B20
+.definelabel Vtx_KTile64x64BL, 0x0D0060B0
+.definelabel Vtx_KTile64x64XFlipBL, 0x0D006130
+.definelabel Vtx_KTile64x96BL, 0x0D0063F0
+.definelabel Vtx_KTile96x16, 0x0D006830
+
+.definelabel KWTextureRGBA_AAZBBL_Init, 0x0D0079C8
+.definelabel KWTextureIA_AAZBBL_Init, 0x0D007B00
+
+
 .definelabel CheckWaterLevel, 0x802AAB4C
 .definelabel CheckSplash, 0x8002C4F8
 
@@ -256,6 +347,10 @@
 .definelabel CheckPlayStarBGMJAL, 0x8008F820
 
 // Edit cloud call func
+.definelabel CloudCount1P, 0x8018D1F0
+.definelabel CloudCount2P, 0x8018D1F8
+.definelabel KWKumo_Alloc, 0x8007055C
+.definelabel KWChart_Kumo, 0x80078C70
 .definelabel CloudTypeMapCheck1, 0x80070560
 .definelabel CloudTypeMapCheck2, 0x80070564
 .definelabel CloudAmountMapCheck1, 0x80078DD8
@@ -279,12 +374,18 @@
 .definelabel PutObject, 0x8029ED38
 
 
+.definelabel osInvalDCache, 0x800CDB80
+.definelabel osGetTime, 0x800CDDE0
+.definelabel osGetCount, 0x800D11A0
 .definelabel osEepromLongRead, 0x800D0190
 .definelabel osEepromLongWrite, 0x800D0050
+.definelabel osWritebackDCacheAll, 0x800CD890
 .definelabel osEepromProbe, 0x800CE340
+
 .definelabel g_fadeOutFlag, 0x800DC5C0
 .definelabel g_fadeOutCounter, 0x800DC5C4
 .definelabel g_fadeOutCounter2, 0x800DC5C8
+
 
 .definelabel DisplayBackground, 0x802A4A0C
 
@@ -312,7 +413,7 @@
 .definelabel g_SequenceMode, 0x800DC50C
 .definelabel g_NewSequenceMode, 0x800DC524
 .definelabel g_NextSequenceMode, 0x800DC528
-.definelabel g_screenSplitA, 0x800DC52C
+.definelabel g_ScreenSplitA, 0x800DC52C
 .definelabel g_ScreenSplitB, 0x800DC530
 .definelabel g_playerCount, 0x800DC538
 .definelabel g_raceClass, 0x800DC548
@@ -323,7 +424,7 @@
 .definelabel g_DispFrame, 0x800DC55C
 .definelabel g_mirrorMode, 0x800DC604
 .definelabel g_DebugBars, 0x800DC662
-
+.definelabel g_ItemSetFlag, 0x800DC648
 .definelabel PathTable, 0x800DC8D0
 
 .definelabel g_courseFaceStructPtr, 0x8015F580
@@ -367,10 +468,14 @@
 
 
 .definelabel g_DebugTextPalette, 0x801A6818
+.definelabel g_DebugPaletteOffset, 0x801A79D4
 
 .definelabel g_bannerTexture, 0x801F2750
 .definelabel g_previewTexture, 0x8020E460
 .definelabel g_mapTexture, 0x8018D240
+.definelabel g_FadingFlag, 0x8018E7AC
+.definelabel g_FadeCounter, 0x8018E7B8
+.definelabel g_FadeCounter2, 0x8018E7D0
 .definelabel g_mapStartToggle, 0x8004F150 //0C0132B4
 .definelabel g_mapScale, 0x8018D2A0
 .definelabel g_mapX, 0x8018D2C0
@@ -416,6 +521,7 @@
 .definelabel g_cup3preview3, 0x80199608
 
 .definelabel g_NintendoLogoOffset, 0x8019F88C
+.definelabel CheckContPackMenu, 0x80091D74
 .definelabel g_NintendoLogoBorder, 0x800944AC
 
 .definelabel g_lakituStatus, 0x80165DCE
@@ -437,6 +543,9 @@
 .definelabel g_Controller3, 0x800F6930
 .definelabel g_Controller4, 0x800F6940
 .definelabel g_ControllerMenu, 0x800F6950
+.definelabel g_ControllerGhost1, 0x800F6960
+.definelabel g_ControllerGhost2, 0x800F6970
+.definelabel g_ControllerGhost3, 0x800F6980
 
 .definelabel player1inputX, 0x800F6910
 .definelabel player1inputY, 0x800F6912
@@ -542,7 +651,8 @@
 .definelabel g_player4View, 0x8015F574
 .definelabel g_player4Section, 0x8015F578
 
-.definelabel lastLoadedAddress, 0x8015F728
+.definelabel FreeMemoryPointer, 0x8015F728
+.definelabel LastMemoryPointer, 0x8015F72C
 .definelabel g_TrialTime, 0x8015F898
 .definelabel g_lap2Time, 0x8015F89C
 .definelabel g_lap3Time, 0x8015F8A0
@@ -553,6 +663,7 @@
 
 .definelabel g_CourseObstacle, 0x8016359C
 
+.definelabel g_PlayerRankTable, 0x801643B8
 .definelabel g_playerPosition1, 0x801643B8
 .definelabel g_playerPosition2, 0x801643BC
 .definelabel g_playerPosition3, 0x801643C0
@@ -596,6 +707,11 @@
 .definelabel itemB, 0x80165F5D
 .definelabel itemC, 0x80165F8A
 
+.definelabel item2Boolean, 0x8016603F
+.definelabel item2A, 0x80166603B
+.definelabel item2B, 0x80166603D
+.definelabel item2C, 0x80166606A
+
 //.definelabel g_TimeLapTable, 0x8018CA70           !!! renamed to g_hudStruct !!!
 //.definelabel g_lapCheckA, 0x8018CAE1              !!! removed inside HUD struct now: finlineAnim2 !!! U use this in MarioKartPractice.c
 //.definelabel g_lapCheckB, 0x8018CAE2              !!! removed inside HUD struct now: lapCount !!! U use this in MarioKartPractice.c
@@ -604,6 +720,8 @@
 .definelabel g_hudPlayer2, 0x8018CAF4
 .definelabel g_hudPlayer3, 0x8018CB78
 .definelabel g_hudPlayer4, 0x8018CBFC
+.definelabel ItemBoxAllocPtr, 0x80183E88
+.definelabel KWLap, 0x8018CA70
 
 //hud p1 p2
 .definelabel g_hudToggleFlag, 0x80165808
@@ -661,6 +779,32 @@
 //802B8B70
 
 .definelabel g_courseTable, 0x802B8D80
+
+.definelabel KeystockBuffer, 0x802D2B80
+.definelabel KeystockCounter, 0x80162D9C 
+.definelabel LaneData, 0x801634F8
+.definelabel g_RoadWidth, 0x800DCA4C
+
+.definelabel CenterPathBP, 0x80164550
+.definelabel SideLPathBP, 0x80164560
+.definelabel SideRPathBP, 0x80164570
+.definelabel CurvePathDataBP, 0x80164580
+.definelabel AnglePathDataBP, 0x80164590
+.definelabel ShortCutPathDataBP, 0x801645A0
+.definelabel CurrentPathID, 0x801645B0
+
+.definelabel ActionStartCheck, 0x80011B14
+.definelabel ActPointPtr, 0x801632B0
+.definelabel ActData_Pointer, 0x80162EB8
+.definelabel ActionDataNumCustom, 0x80163578
+.definelabel g_driftFlg, 0x801630E8
+.definelabel g_actionFlg, 0x801632E8
+
+.definelabel AreaBunkatuBP, 0x800100F0
+.definelabel SidePointCalcBP, 0x80010218
+.definelabel CurveDataCalcBP, 0x800107C4
+.definelabel AngleDataCalcBP, 0x80010DBC
+.definelabel ShortcutDataCalcBP, 0x80010E6C
 
 .definelabel PlayerOK, 0x8018EDE8
 .definelabel player1OK, 0x8018EDE8
@@ -727,8 +871,17 @@
 
 
 .definelabel g_surfaceCheckP1, 0x800F6A88
+.definelabel g_PlayerSurfaceSoundID, 0x800E9E74
 
 .definelabel g_gamePausedFlag, 0x800EA16C
+
+.definelabel MakePos, 0x8005D794
+.definelabel MakeStartup, 0x8005D7D8
+.definelabel MakeRDP, 0x8005D800
+.definelabel MakeRandomRDP, 0x8005D82C
+.definelabel InitRndSmoke, 0x8005DAF4
+.definelabel InitRapidSmoke, 0x8005ED48
+.definelabel InitSpinSmoke, 0x8005F90C
 
 .definelabel MakeBodyColor, 0x80022F14
 .definelabel MakeBodyColorAdjust, 0x80023038
@@ -803,6 +956,7 @@
 
 .definelabel g_SnowParticleTex, 0x801C8D10
 .definelabel g_MRCloudTexPtr, 0x8016D6FC
+.definelabel g_CloudAllocate, 0x8018CC80
 
 .definelabel g_skySnowScale, 0x800EEB3C
 .definelabel g_skySnowVelocity, 0x800EEB40
@@ -897,6 +1051,9 @@
 //GP points
 .definelabel g_playerGPpoints, 0x8018D9C8
 
+
+.definelabel OSMemSize, 0x80000318
+
 //multiplayer points
 .definelabel g_2PRacePoints, 0x8000031C
 .definelabel g_3PRacePoints, 0x8000031E
@@ -905,6 +1062,7 @@
 .definelabel g_3PBattlePoints, 0x80000335
 .definelabel g_4PBattlePoints, 0x80000338
 
+.definelabel AllocDepthBuffer, 0x80000BEC
 //course
 .definelabel g_mirrorValue, 0x8015F784
 .definelabel g_goalBannerPos, 0x8015F8D0
@@ -968,7 +1126,11 @@
 .definelabel CaveFirePos, 0x800E6788
 .definelabel KWGetCaveFire, 0x800770F0
 .definelabel CaveFireColCheck, 0x800547CC
+.definelabel KWChaseSVal, 0x80041288
+.definelabel KWChaseIVal, 0x8004132C
+.definelabel KWChaseFVal, 0x800413B8
 .definelabel KWSet2Color, 0x8004B1C8
+.definelabel KWDisplayRank, 0x8004E800
 .definelabel KWDisplayFireParticleSub, 0x8005477C
 .definelabel FireParticleAllocArray, 0x8018C870
 .definelabel FireParticleCounter, 0x80183E6C
@@ -976,6 +1138,7 @@
 .definelabel EffectAllocArray1, 0x8018C1B0
 .definelabel EffectAllocArray2, 0x8018C3F0
 .definelabel EffectAllocArray3, 0x8018C630
+.definelabel KWRank, 0x8018CF98
 .definelabel KWGetStar, 0x800773D8
 .definelabel KWChartStar, 0x80077640
 .definelabel KWDisplayStar, 0x80054BE8
@@ -998,3 +1161,11 @@
 .definelabel HoleModel, 0x0D007C10
 .definelabel ItemBoxModel, 0x0D003288
 .definelabel MoveFallingRock, 0x8029D188
+
+.definelabel CheckTriangleZX, 0x802AAE4C
+.definelabel CheckTriangleXY, 0x802AB288
+.definelabel CheckTriangleYZ, 0x802AB6C4
+
+.definelabel CheckTriangleZX_V, 0x802AC760
+.definelabel CheckTriangleXY_V, 0x802ACBA4
+.definelabel CheckTriangleYZ_V, 0x802AD278

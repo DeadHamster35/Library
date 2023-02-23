@@ -15,4 +15,6 @@ extern void ManualBounce(Vector BumpDistance, Vector Velocity);
 extern void UpdateObjectBump(Object* InputObject);
 extern void UpdateObjectFriction(Object* InputObject, float Friction);
 extern void UpdateObjectFrictionScale(Object* InputObject, float FrictionScale);
+extern unsigned short CheckBump2Simple2(uint BumpAddress, float Radius, Vector InputPosition);
+extern unsigned short CheckBump2Simple(Object *InputObject);
 #endif

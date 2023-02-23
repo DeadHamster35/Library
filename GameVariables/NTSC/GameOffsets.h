@@ -15,15 +15,17 @@ extern short spriteKillD;
 
 
 
-extern void decodeMIO0(long input, long output);
+extern int decodeMIO0(long input, long output);
 extern void DMA(int output, int input, long Length);
 extern void decodeTKMK(int input, int *temp, int output, int transparent);
 
 extern void GetFramebuffer(int PixelX,int PixelY,int Width,int Height,unsigned short *Source,unsigned short *Destination);
+extern uint AllocateMemory(uint Size);
 extern ushort CheckBump(Bump *bump,float Radius,float PositionX,float PositionY,float PositionZ);
 extern ushort CheckBump2(Bump *bump,float Radius,float PositionX,float PositionY,float PositionZ,float LastX, float LastY,float LastZ);
 
 extern void LoadMap(int courseID);
+extern void KillDisplayList (uint Pointer);
 extern void InitialRaceSequence();
 extern void BumpVelocity(Vector Bump,float Distance ,Vector Velocity,float co);
 extern void CalcBumpVelocity(Bump* InputBump, Vector Velocity);
@@ -31,6 +33,9 @@ extern void ScrollMapImage(int ObjectAddress,int ScrollS,int ScrollT);
 extern void MakeWaterVertex(int ObjectAddress, char alpha, char red, char green, char blue);
 extern void ramCopy(long output, long input, long Length);
 extern short CheckArea(ushort pointer);
+extern void CheckMapBG_ZX(Player *car,Vector normal,Vector velocity,Vector g_vector,float *dist,float *new_x,float *new_y,float *new_z);
+extern void CheckMapBG_XY(Player *car,Vector normal,Vector velocity,float *dist,float *new_x,float *new_y,float *new_z);
+extern void CheckMapBG_YZ(Player *car,Vector normal,Vector velocity,float *dist,float *new_x,float *new_y,float *new_z);
 
 extern void InitControllers();
 extern void readControllers();
@@ -50,7 +55,9 @@ extern void SmokeDisp4P(void* Car, char kno, char place); //0x8006E744
 
 extern float CheckHight(float X_value, float Y_value, float Z_value);
 extern int KWCheckRadiusXZ(float x1,float y1,float x2,float y2,float radius);
-
+extern void DisplayKT1(Screen* Display);
+extern void DisplayShadow(Vector Position, SVector Angle, float Size);
+extern void DisplayFlagGate(Camera* PlayerCamera);
 extern void MoveIWA(Object *ObjectPointer);
 extern short deleteObjectBuffer(void *Object);
 extern short addObjectBuffer(Vector position, SVector angle, Vector velocity, short objectID);
@@ -59,6 +66,7 @@ extern short addObjectBuffer(Vector position, SVector angle, Vector velocity, sh
 //float radius,float hight,float param
 extern int CollisionCylinder(void *Car, Vector Position, float Radius, float Height, float Parameter); //0x8029EEB8
 extern int CollisionSphere(void *Car, void *Object); //0x8029FB80
+extern void KillObject(Object* ObjectTarget);
 
 
 extern void RouletteStart(int Player, int SpecialItem); //0x8007ABFC
@@ -122,6 +130,8 @@ extern ushort MakeRandom(void);
 extern ushort MakeRandomLimmit(ushort limit);
 extern short MakeDirection(float x1,float y1,float x2,float y2);
 extern void MakeDirection3D(Vector camera,Vector lookat,SVector ans);
+extern int ChaseDir(short *org, short obj, short rate);
+
 extern float sinT(ushort inputAngle);
 extern float cosT(ushort inputAngle);
 extern float sinF(float inputAngle);
@@ -162,6 +172,8 @@ extern void printStringUnsignedNumber(int xPosition, int yPosition, char *printT
 extern void printStringHex(int xPosition, int yPosition, char *printText, int printValue); //0x80057858
 extern void printStringUnsignedHex(int xPosition, int yPosition, char *printText, uint printValue); //0x800578B0
 extern void printStringUnsignedBinary(int xPosition, int yPosition, char *printText, uint printValue); //0x80057960
+extern void KWDisplay2D(int DisplaySwitch); //0x80058C20
+extern void KWDisplay2DAfter(int DisplaySwitch); //0x80058DB4
 extern unsigned long* FillRect1ColorF(unsigned long *buf, int x1, int y1, int x2, int y2, int r, int g, int b, int a);
 extern void SetFadeOutB();
 extern void SetObjBlock(int kind, int x, int y, char pri);
@@ -169,6 +181,7 @@ extern void InitObjBlock();
 extern void DoObjBlock(int pri_flag);
 extern void DispObjBlock(void* Target);
 
+extern void MSelController(OSContPad *pad,u16 i, u16 newbutton);
 extern unsigned long long  SaveFunc800B45E0; //0x800B45E0
 extern unsigned long long  SaveFunc800B4670; //0x800B4670
 extern unsigned long long  SaveFunc800B4CB4; //0x800B4CB4
@@ -180,6 +193,7 @@ extern unsigned long long  LoadFunc800B4A10; //0x800B4A10
 extern void DOBPSelTurnIn(ObjBlock Target); //0x800AAB90
 extern void DOBPSelTurnOut(ObjBlock Target); //0x800AAA9C
 
+extern float ScreenViewAngle[3];
 extern long SegmentTable[];
 extern void *g_CfbPtrs[3];
 
@@ -191,11 +205,13 @@ extern long SetStar(void *Car, int PlayerIndex);
 extern void ResetStar (void *Car, char PlayerIndex);
 extern long SetTurbo(void *Car, char PlayerIndex);
 extern long SetWing(void *Car, char PlayerIndex);
+extern void ResetWing(void *car);
 extern long SetStorm(void *Car, char PlayerIndex);
 extern void ThunderWorld();
 extern void VSGhost(void *Car,char PlayerID);
 extern void SetVSGhost(void *Car,char PlayerID);
 extern void ResetVSGhost(void *Car,char PlayerID);
+extern void SetHeightJump(void *Car,char PlayerID);
 
 
 extern void SetRollover(Player *Kart,char Place); //0x8008C528
@@ -216,6 +232,37 @@ extern long LakituIceBehavior;
 extern void ShakeCamera(Camera *camera);
 extern void ShakeHitCamera(Player *Car,float speed);
 
+extern void SlipCheck(Player *car,char kno);
+extern void AddGravity(Player *car);
+extern void ProStickAngle(Player *car, Controller *cont, char number);
+
+extern uint KW16GFTimer;
+extern uint KW8GFTimer;
+extern uint KW4GFTimer;
+extern uint KW2GFTimer;
+
+extern uint KW64GFCount;
+extern uint KW32GFCount;
+extern uint KW16GFCount;
+extern uint KW8GFCount;
+extern uint KW4GFCount;
+extern uint KW2GFCount;
+
+extern Vtx_t Vtx_KTile8x16[];
+extern Vtx_t Vtx_KTile16x16[];
+extern Vtx_t Vtx_KTile16x16XFlip[];
+extern Vtx_t Vtx_KTile40x32[];
+extern Vtx_t Vtx_KTile32x32[];
+extern Vtx_t Vtx_KTile32x32XFlip[];
+extern Vtx_t Vtx_KTile64x64BL[];
+extern Vtx_t Vtx_KTile64x64XFlipBL[];
+extern Vtx_t Vtx_KTile64x96BL[];
+extern Vtx_t Vtx_KTile96x16[];
+
+extern Gfx KWTextureRGBA_AAZBBL_Init[];
+extern Gfx KWTextureIA_AAZBBL_Init[];
+
+
 extern float CheckWaterLevel(void *Car);
 extern void CheckSplash(void *Car,int PlayerIndex);
 
@@ -226,6 +273,10 @@ extern long CheckSplashJAL3;
 extern long CheckFinalLapFanfareJAL;
 extern long CheckPlayStarBGMJAL;
 
+extern int CloudCount1P;
+extern int CloudCount2P;
+extern void KWKumo_Alloc();
+extern void KWChart_Kumo(int screen_num);
 extern long CloudTypeMapCheck1;
 extern long CloudTypeMapCheck2;
 extern long CloudAmountMapCheck1;
@@ -244,18 +295,21 @@ extern void SetFadeOut(int Fade);
 extern short PutPylon(Vector pos,short number);
 extern short PutObject(Vector pos,int category);
 
-
 extern int osEepromLongRead(void *Queue, uchar Address, uchar *Destination, int Length);
 extern int osEepromLongWrite(void *Queue, uchar Address, uchar *Destination, int Length);
+extern void osWritebackDCacheAll();
 extern bool osEepromProbe(void *Queue);
 extern short g_fadeOutFlag;
 extern short g_fadeOutCounter, g_fadeOutCounter2;
+extern char g_FadingFlag[5];
+extern int g_FadeCounter[5];
+extern int g_FadeCounter2[5];
 
 extern void DisplayBackground(Vtx_t *bg_vertex,Screen *screen,short screen_width,short screen_hight,float *screen_view_angle);
 
 
 extern unsigned long* GraphPtr;
-extern long GraphPtrOffset;
+extern Gfx *GraphPtrOffset;
 extern ushort KWLookCamera(float x,float z,Camera *camera);
 extern ushort KWLookCameraPitch(float y,float z,Camera *camera);
 extern void KWTexture2DRGBA(int x, int y, unsigned short ang, float scale, uchar *texaddr, void *vtxaddr, int sizex, int sizey, int cutx, int cuty);
@@ -278,6 +332,45 @@ extern void SPRDrawClip(int sx,int sy,int sizex,int sizey,int mode);
 extern void SprDrawClipST(int sx,int sy,int sizex,int sizey,int ss,int tt,int mode);
 extern ushort StockNumberSprites[];
 extern void DecodeMapImage1(uint romaddress,uint romsize,uint ramsize); //MR Tree (0x0F04F45C, 859, 2048)
+
+extern void	KWTextureRGBA_SubPT(ushort *texaddr,Vtx_t *vtxaddr,int sizex,int sizey,int cuty); //RGBA Point
+extern void	KWTextureRGBA_SubBL(ushort *texaddr,Vtx_t *vtxaddr,int sizex,int sizey,int cuty); //RGBA Bilinear
+extern void	KWTextureRGBA_SubBLMR(ushort *texaddr,Vtx_t *vtxaddr,int sizex,int sizey,int cuty,int power); //RGBA Bilinear Mirror
+extern void	KWTextureRGBMA_SubBL(ushort *texaddr,uchar *alphaaddr,Vtx_t *vtxaddr,int sizex,int sizey,int cuty); // Multi Bit RGBA
+extern void	KWTextureRGBA32_SubPT(uchar *texaddr,Vtx_t *vtxaddr,int sizex,int sizey,int cuty); //RGBA32 Point
+extern void	KWTextureRGBA32_SubBL(uchar *texaddr,Vtx_t *vtxaddr,int sizex,int sizey,int cuty); //RGBA32 Bilinear
+extern void	KWTextureCI8_SubPT(ushort *paladdr,uchar *idxaddr,Vtx_t *vtxaddr,int sizex,int sizey,int cutx,int cuty); //CI8 Point
+extern void	KWTextureCI8_SubBL(ushort *paladdr,uchar *idxaddr,Vtx_t *vtxaddr,int sizex,int sizey,int cutx,int cuty); //CI8 Bilinear
+extern void	KWTextureCI8_SubBLMR(ushort *paladdr,uchar *idxaddr,Vtx_t *vtxaddr,int sizex,int sizey,int cutx,int cuty,int power); //CI8 Bilinear Mirror
+extern void	KWTextureCI8_SubBLCutX(ushort *paladdr,uchar *idxaddr,Vtx_t *vtxaddr,int sizex,int sizey,int cutx); //CI8 Bilinear Cut X
+extern void	KWTextureIA16_Sub(ushort *texaddr,Vtx_t *vtxaddr,int sizex,int sizey,int cutx,int cuty); //IA16
+extern void	KWTextureIA8_Sub(uchar *texaddr,Vtx_t *vtxaddr,int sizex,int sizey,int cutx,int cuty); //IA8
+extern void	KWTextureIA4_Sub(uchar *texaddr,Vtx_t *vtxaddr,int sizex,int sizey,int cutx,int cuty); //IA4
+extern void	KWTextureA8_Sub(uchar *texaddr,Vtx_t *vtxaddr,int sizex,int sizey,int cutx,int cuty); //A8
+extern void	KWTextureA4_Sub(uchar *texaddr,Vtx_t *vtxaddr,int sizex,int sizey,int cutx,int cuty); //A4
+
+extern void	KWCreateAffine3D(Vector postion,USVector angle,float scale);
+extern void	KWCreateAffine3D_IceKage(Vector postion,USVector angle,float scale);
+extern void	KWCreateAffine3D_Board(Vector position,Vector camera,float scale);
+extern void	KWCreateAffine3D_Hole(Vector position,Vector direction,float scale);
+extern void	KWCreateAffine3D_Anm(int num);
+
+extern void KWSetPrimColor(uint r,uint g,uint b,uint a);
+extern void KWSetEnvColor(uint r,uint g,uint b,uint a);
+extern void KWSet2Color_(uint prim_r,uint prim_g,uint prim_b,uint env_r,uint env_g,uint env_b,uint a);
+extern void SubColorMode(uint r,uint g,uint b);
+extern void SubAlphaMode(uint a);
+extern void ToumeIAMode(uint a);
+extern void ToumeIMode(uint r,uint g,uint b,uint a);
+extern void SmokeMode(uint a);
+extern void SplashMode(uint r,uint g,uint b,uint a);
+extern void RadarMode(uint r,uint g,uint b);
+extern void RankMode(uint r,uint g,uint b,uint a);
+extern void WaterMode(uint a);
+extern void ColAddMode(uint prim_r,uint prim_g,uint prim_b,uint prim_a);
+extern void IceMode(uint prim_r,uint prim_g,uint prim_b,uint env_r,uint env_g,uint env_b,uint a);
+extern void SparkMode(uint r,uint g,uint b);
+extern void Color2Mode(uint prim_r,uint prim_g,uint prim_b,uint env_r,uint env_g,uint env_b,uint a);
 
 extern void BumpObject(Object* InputObject);
 extern void SetSegment(int number, int cpuAddr);
@@ -311,7 +404,7 @@ extern int g_DispTimeFlag;
 extern long g_SequenceMode;
 extern long g_NewSequenceMode;
 extern long g_NextSequenceMode;
-extern long g_screenSplitA;
+extern long g_ScreenSplitA;
 extern long g_ScreenSplitB;
 extern long g_playerCount; //
 extern long g_gameType;
@@ -323,6 +416,7 @@ extern long g_gameMode; //0 = gp 1 = time trials 2 = vs 3 =battle
 extern unsigned short g_DispFrame;
 extern long g_mirrorMode;
 extern short g_DebugBars;
+extern short g_ItemSetFlag;
 
 extern uint PathTable[20][4];
 
@@ -405,8 +499,9 @@ extern long g_cup3preview1; // 0x801994A0
 extern long g_cup3preview2; // 0x80199478
 extern long g_cup3preview3; // 0x80199608
 
-extern long g_NintendoLogoOffset; //0x8019F88C
-extern long g_NintendoLogoBorder;
+extern long 	g_NintendoLogoOffset; //0x8019F88C
+extern int	CheckContPackMenu();
+extern long 	g_NintendoLogoBorder;
 
 extern char g_lakituStatus; // 0x80165DCE
 extern struct Lakitu g_lakituStatusPlayer1; // 0x80165DCE
@@ -428,6 +523,9 @@ extern struct Controller g_Controller2; //0x800F6920
 extern struct Controller g_Controller3; //0x800F6930
 extern struct Controller g_Controller4; //0x800F6940
 extern struct Controller g_ControllerMenu; //0x800F6950
+extern struct Controller g_ControllerGhost1; //0x800F6960
+extern struct Controller g_ControllerGhost2; //0x800F6970
+extern struct Controller g_ControllerGhost3; //0x800F6980
 
 extern short player1inputX;
 extern short player1inputY;
@@ -526,6 +624,9 @@ extern short g_player4ScreenY; //0x8015F432
 extern short g_player4View; //0x8015F434
 extern short g_player4Section; //0x8015F438
 
+extern uint LastMemoryPointer;
+extern uint FreeMemoryPointer;
+
 extern float g_TrialTime;
 extern float g_lap2Time;
 extern float g_lap3Time;
@@ -536,6 +637,7 @@ extern short g_progressValue;
 
 extern long g_CourseObstacle; //0x8016359C
 
+extern long g_PlayerRankTable[8];
 extern long g_playerPosition1;// 801643B8
 extern long g_playerPosition2;//, 801643BC
 extern long g_playerPosition3;//, 801643C0
@@ -572,7 +674,7 @@ extern struct Camera g_Camera2; //0x801647A8
 extern struct Camera g_Camera3; //0x80164860
 extern struct Camera g_Camera4; //0x80164918
 
-// extern long g_DynamicObjects; //0x80165C18
+extern AnmObject g_DynamicObjects[550]; //0x80165C18
 extern void KWAnmNext(int num); //0x80086FD4
 
 void KWDisplayEvent(int player);
@@ -585,10 +687,14 @@ void KWDisplayIceBlockShadow(int player);
 void KWDisplayBombKartBT(int player);
 
 
-extern char g_itemBoolean; //0x80165F5F
-extern char g_itemA;
-extern char g_itemB;
-extern char g_itemC;
+extern char itemBoolean; //0x80165F5F
+extern char itemA;
+extern char itemB;
+extern char itemC;
+extern char item2Boolean; //0x80165F5F
+extern char item2A;
+extern char item2B;
+extern char item2C;
 
 //extern long g_TimeLapTable; //0x8018CA70          !!! renamed to g_hudStruct !!!
 //extern char g_lapCheckA;                          !!! removed inside HUD struct now: finlineAnim2 !!! U use this in MarioKartPractice.c
@@ -598,8 +704,9 @@ extern struct Hud g_hudPlayer1;
 extern struct Hud g_hudPlayer2;
 extern struct Hud g_hudPlayer3;
 extern struct Hud g_hudPlayer4;
+extern int ItemBoxAllocPtr[4];
+extern struct KWLapStruct KWLap[4];
 
-//hud p1 p2
 extern char g_hudToggleFlag; // 0x80165808
 extern short g_hudToggleFlagP2; // 0x80165832
 extern short g_hudMapToggle; // 0x80165800
@@ -654,6 +761,46 @@ extern long asm_SongA;// 0x8028EC9C
 extern long asm_SongB;// 0x8028F9C4
 
 extern long g_courseTable;
+extern uint KeystockBuffer;
+extern uint KeystockCounter;
+extern SOUKOU_ZURE_TYPE LaneData[8];
+extern float g_RoadWidth[21]; // MR default: 50.0f
+
+extern void AreaBunkatuBP(int pathID);
+extern void SidePointCalcBP(int pathID);
+extern void CurveDataCalcBP(int pathID);
+extern void AngleDataCalcBP(int pathID);
+extern void ShortcutDataCalcBP(int pathID);
+
+extern Marker *CenterPathBP[4];
+extern Marker *SideLPathBP[4];
+extern Marker *SideRPathBP[4];
+extern short *CurvePathDataBP[4];
+extern short *AnglePathDataBP[4];
+extern short *ShortCutPathDataBP[4];
+extern ushort CurrentPathID[10];
+
+//-------------- ACTION DATA --------------
+#define OGA_ACT_NULL            0  // Null
+#define OGA_ACT_DRIFT            1  // Drift
+#define OGA_ACT_N_JUMP            2  // Jump
+#define OGA_ACT_CENTER            3  // Road Center
+#define OGA_ACT_LEFT            4  // Road Left
+#define OGA_ACT_RIGHT            5  // Road Right
+#define OGA_ACT_SPEED_FREE        6  // Speed Normal
+#define OGA_ACT_SPEED_MAX        7  // Speed Accel
+#define OGA_ACT_SPEED_MIN        8  // Speed Brake
+#define OGA_ACT_TENUKI_KINSI        9  // Avoid Calm
+#define OGA_ACT_TENUKI_KYOKA        10 // Avoid Hectic
+#define OGA_ACT_TURBO            11 // Allow Boost
+
+extern void ActionStartCheck(int num, Player *kart);
+extern ActionData *ActPointPtr;
+extern ActionData *ActData_Pointer;
+extern ushort ActionDataNumCustom[8];
+extern short g_driftFlg[10];
+extern ushort g_actionFlg[10];
+
 
 extern char PlayerOK[];
 extern char player1OK; //
@@ -718,8 +865,17 @@ extern long g_InstrumentTable; //0x803B90B0
 extern long g_RawAudio; //0x803B9260
 
 extern short g_surfaceCheckP1;
+extern uint g_PlayerSurfaceSoundID[4];
 
 extern char g_gamePausedFlag;
+
+extern void MakePos(Player *car,Smoke *data,float x,float y,float z,char status,char flag);
+extern void MakeStartup(Smoke *data,char number,float scale);
+extern void MakeRDP(Smoke *data,int col,short A);
+extern void MakeRandomRDP(Smoke *data,int col,short A);
+extern void InitRndSmoke(Player *car,short count,int kk,char kno,char place);
+extern void InitRapidSmoke(Player *car,short count,int kk,char kno,char place);
+extern void InitSpinSmoke(Player *car,short count,int kk,char kno,char place);
 
 extern void MakeBodyColor(void* Car, char Player, int Color, float Speed);
 extern void MakeBodyColorAdjust(void* Car, char Player, int Color, float Speed);
@@ -780,7 +936,8 @@ extern long g_skyColorTopTable;
 extern long g_skyColorBotTable;
 
 extern long g_SnowParticleTex[36];
-extern long *g_MRCloudTexPtr; // Set of four I4 cloud images, 0x400 length each.
+extern long *g_MRCloudTexPtr; // Set of four I4 cloud images; //0x400 length each.
+extern int g_CloudAllocate[100];
 
 extern float g_skySnowScale;
 extern float g_skySnowVelocity;
@@ -863,6 +1020,10 @@ extern char g_ShadowflagPlayer3;
 //GP points
 extern uchar g_playerGPpoints[8]; //name to num: Mario, Luigi, Yoshi, Toad, D.K., Wario, Peach, Bowser
 
+
+extern uint OSMemSize;
+
+
 //multiplayer points
 extern uchar g_2PRacePoints[2];
 extern uchar g_3PRacePoints[3];
@@ -870,6 +1031,8 @@ extern uchar g_4PRacePoints[4];
 extern uchar g_2PBattlePoints[2];
 extern uchar g_3PBattlePoints[3];
 extern uchar g_4PBattlePoints[4];
+
+extern void AllocDepthBuffer();
 
 //course
 extern float g_mirrorValue;
@@ -943,7 +1106,11 @@ extern void NAIFxFlagEntry(uint A, float B[3], uchar C, float *D, float *E, char
 extern SVector CaveFirePos[8];
 extern void KWGetCaveFire(int objnum);
 extern int CaveFireColCheck;
+extern int KWChaseSVal(short *var,short val,short step);
+extern int KWChaseIVal(int   *var,int   val,int   step);
+extern int KWChaseFVal(float *var,float val,float step);
 extern void KWSet2Color(uint prim_r,uint prim_g,uint prim_b,uint env_r,uint env_g,uint env_b,uint a);
+extern void KWDisplayRank(int Player);
 extern void KWDisplayFireParticleSub(int num,uchar color,void* Camera);
 extern int FireParticleAllocArray[64];
 extern int FireParticleCounter;
@@ -951,6 +1118,7 @@ extern int FireParticleCounter;
 extern int EffectAllocArray1[128];
 extern int EffectAllocArray2[128];
 extern int EffectAllocArray3[128];
+extern short KWRank[8];
 extern void KWGetStar(Vector position,int type);
 extern void KWChartStar(void);
 extern void KWDisplayStar(int player);
@@ -971,3 +1139,10 @@ extern int ShadowModel;
 extern int HoleModel;
 extern int ItemBoxModel;
 extern void MoveFallingRock(Object *obj);
+
+extern int CheckTriangleZX(Bump *bump, float radius,float p1x,float p1y, float p1z, ushort pointer);
+extern int CheckTriangleXY(Bump *bump, float radius,float p1x,float p1y, float p1z, ushort pointer);
+extern int CheckTriangleYZ(Bump *bump, float radius,float p1x,float p1y, float p1z, ushort pointer);
+extern int CheckTriangleZX_V(Bump *bump,float radius,float p1x,float p1y, float p1z, ushort pointer ,float lastx,float lasty,float lastz);
+extern int CheckTriangleXY_V(Bump *bump,float radius,float p1x, float p1y, float p1z ,ushort pointer ,float lastx,float lasty,float lastz);
+extern int CheckTriangleYZ_V(Bump *bump,float radius,float p1x ,float p1y, float p1z, ushort pointer ,float lastx,float lasty,float lastz);

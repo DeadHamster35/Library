@@ -1,11 +1,14 @@
 #ifndef CustomLebelsH
 #define CustomLevelsH
 #include "../MainInclude.h"
+extern void FPS_Check();
+extern void DynamicTempo();
 extern void stockASM();
 extern void overkartASM();
 extern void runTextureScroll();
 extern void runWaterVertex();
 extern void runDisplayScreen();
+extern void runKillDisplayObjects();
 extern void loadTextureScrollTranslucent();
 extern void copyCourseTable();
 extern void hsTableSet();
@@ -22,7 +25,7 @@ extern void SetCustomData();
 extern void loadMinimap();
 extern void loadOKObjects();
 extern void setOKObjects();
-extern void setLabel();
+extern void SetGhostData();
 extern void setBanners();
 extern void setPreviews();
 extern void swapHS();

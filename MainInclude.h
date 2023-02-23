@@ -1,12 +1,13 @@
 #ifndef MainInclude
 #define MainInclude
 
+
+
+#define F3DEX_GBI
 #include <sys/types.h>
 #include <math.h>
 #include <stdbool.h>
 #include <ultra64.h>
-
-#define F3DEX_GBI
 
 
 
@@ -19,6 +20,9 @@
 #include "CustomObjects/OKBehaviors.h"
 #include "CustomObjects/OKCustomObjects.h"
 
+#include "CustomParticles/ParticleStruct.h"
+#include "CustomParticles/CustomParticles.h"
+
 #include "GameVariables/NTSC/4.1Header.h"
 #include "GameVariables/NTSC/GameOffsets.h"
 #include "GameVariables/NTSC/OKAssembly.h"
@@ -30,6 +34,12 @@
 #include "Player/MarioKartStats.h"
 #include "Player/PlayerChecks.h"
 #include "Player/PlayerEffects.h"
+#include "Player/Pathfinding.h"
+
+
+#include "Gametypes/CTF.h"
+#include "Gametypes/GameTypesGeneric.h"
+#include "Gametypes/Soccer.h"
 
 #include "LibraryVariables.h"
 #include "MarioKart3D.h"
@@ -39,4 +49,8 @@
 #include "OKHeader.h"
 #include "SharedFunctions.h"
 #include "SubProgram.h"
+#include "PreCode.h"
+#include "PreSwitch.h"
+
+
 #endif

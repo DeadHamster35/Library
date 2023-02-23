@@ -3,12 +3,50 @@
 
 #include "MainInclude.h"
 
+
+#define CPU2SEC 	0x2CB5E16
 //LakituRaceSequence
 #define LAKITU_RACE_START 		1
 #define LAKITU_RACE_APPROACH 		2
 #define LAKITU_RACE_RACING		3
 #define LAKITU_RACE_FINISH		4
 #define LAKITU_RACE_VICTORYLAP	5
+
+//Speedmeter conversion
+#define SPEEDMETER(a)  (a/18)*216   ///18 = 1 METER, 1 frame = 60->60*60*60 = 216000/1000 = 216
+
+// Character Names
+#define CHAR_MARIO		0
+#define CHAR_LUIGI		1
+#define CHAR_YOSHI		2
+#define CHAR_TOAD		3
+#define CHAR_DONKEY		4
+#define CHAR_WARIO		5
+#define CHAR_PEACH		6
+#define CHAR_BOWSER		7
+
+
+#define GAMEMODE_GP			0
+#define GAMEMODE_TT			1
+#define GAMEMODE_VS			2
+#define GAMEMODE_BATTLE		3
+
+#define MAX_OBJECT 100
+
+//Object Flag
+#define EXISTOBJ   0x8000
+#define HITOBJ     0x4000
+#define MOVEOBJ    0x2000
+#define MYOBJ      0x1000
+#define HIDEOBJ     0x800
+#define FLYINGOBJ   0x400
+#define SEBANANAOBJ  0x200
+#define SEKAMEHITOBJ  0x100
+#define SEKAMEOUTOBJ   0x80
+#define ONSCREEN1     0x1
+#define ONSCREEN2     0x2
+#define ONSCREEN3     0x4
+#define ONSCREEN4     0x8
 
 //Player Flag
 #define MOTOR_ON	   		0x0010  
@@ -62,6 +100,102 @@
 #define PRESS_BECOME_BOMB	0x04000000
 #define PRESS_IS_BOMB		0x08000000
 #define PRESS_STARTSPIN		0x10000000
+
+
+#define	G_TX_MIRROR			0x1
+#define	G_TX_CLAMP			0x2
+#define	G_TX_NOMASK	0
+#define	G_TX_NOLOD	0
+
+
+//////SLIP_FLAG
+#define BREAKE  		0x00000001
+#define D_JUMP 			0x00000002
+#define DASH_MIDJUMP    0x00000004
+#define N_JUMP 			0x00000008
+
+#define DRIFT 			0x00000010
+#define SPIN_TURN		0x00000020
+#define SPIN_R 			0x00000040
+#define SPIN_L 			0x00000080
+
+#define DRIFT_TURBO 	0x00000100   
+#define STAR 			0x00000200    
+#define ROLLOVER 		0x00000400
+#define WHEELSPIN		0x00000800  
+
+#define CENTER_LINE 	0x00001000 
+#define TURBO	 		0x00002000
+#define RAPID_ACC		0x00004000  
+#define CARHIT      	0x00008000
+
+#define ROLLOVER_FALL  	0x00010000   
+#define THUNDER_SPIN	0x00020000
+#define DISABLE_SPIN 	0x00040000
+#define WING 			0x00080000
+
+#define DASH_JUMP       0x00100000
+#define SLIP_STREAM     0x00200000
+#define REVERSE     	0x00400000    
+#define STORM     		0x00800000
+
+#define EXPLODE     	0x01000000  
+#define THROW_EXPLODE   0x02000000
+#define BROKEN     		0x04000000
+#define RESTORE    		0x08000000
+
+#define HEIGHT_JUMP   	0x10000000		
+#define STOPSTERR    	0x20000000
+#define THUNDER	    	0x40000000
+#define TERESA    		0x80000000
+
+
+#define DOSHIN   1	    //Kawaguti's Work
+#define TREE1    2
+#define TREE2    3
+#define TREE3    4
+#define IWA      5
+#define BANANA   6
+#define GSHELL	 7
+#define RSHELL	 8
+#define EGG	 9	    //KT5 yoshy's valley
+#define PAKKUN	 10
+#define PUKUPUKU 11
+#define IBOX   	 12
+#define FAKEIBOX 13
+#define SBANANA  14
+#define SL1      15
+#define SL2      16
+#define SL3      17
+#define COW      18
+#define TREE4    19
+#define PYLON    20	    //for example!!!!
+#define SGSHELL    21
+#define SRSHELL    22
+#define MKANBAN    23
+#define FIRE       24
+#define PALMTREE   25
+#define TREE5      26
+#define TREE6      27
+#define TREE7      28
+#define SNOWTREE   29
+#define SABOTEN1   30
+#define SABOTEN2   31
+#define SABOTEN3   32
+#define TREE8      33
+#define BLUEFIRE   34
+#define WKANBAN    35
+#define FIREPILLAR 36
+#define TRUCK1     37
+#define SHIP       38
+#define FUMIKIRI   39
+#define BUS        40
+#define TANKLORRY  41
+#define TSHELL	   42
+#define SIBOX	   43
+#define RV	   44
+#define SEDAN	   44
+#define NUTS	   45
 
 //Player Handling Flag
 #define    REVERSE_GEAR		0x0001
@@ -161,6 +295,7 @@
 
 typedef float	Vector[3];			/* 	3 floats	*/
 typedef short	SVector[3];			/* 	3 shorts	*/
+typedef ushort	USVector[3];		/* 	3 ushorts 	*/
 typedef	float	RotateMtx[3][3];			/* 3x3 rotation matrix					*/
 typedef 	float	AffineMtx[4][4];			/* 4x4 affine transformation matrix		*/
 typedef 	float	Matrix[3][3];			/* 4x4 affine transformation matrix		*/
@@ -391,6 +526,25 @@ typedef struct GpResult //size: 0x20 | location: 0x802874D8
 	// empty char
 } GpResult;
 
+typedef struct PakkunObject{
+	short   category;
+	short   flag;
+	short   screen1;
+	short   screen2;
+	short   screen3;
+	short   screen4;
+	float   radius;
+	SVector angle;
+	Vector 	position;
+	short   counter1;
+	short   counter2;
+	short   counter3;
+	short   counter4;
+	float   pad;
+	Bump    bump;
+} PakkunObject;
+
+
 typedef struct RSPTask{
 		OSTask 		task;
 		OSMesgQueue	*msgQ;
@@ -398,6 +552,7 @@ typedef struct RSPTask{
 		int 		status;
 		int		pad;
 }RSPTask;
+
 typedef struct Dynamic{
 	Mtx	projection;
 	Mtx	projection1;
@@ -569,6 +724,67 @@ typedef struct Hud	//size: 0x84 | location: 8018CA70 8018CAF4 8018CB78 8018CBFC	
 	//align short
 } Hud;
 
+typedef	struct KWLapStruct{
+	float	is;		/* item scaling */
+	float	rs;		/* rank scale */
+
+	int	totaltime;	/* total time */
+	int	laptime;	/* lap time */
+	int	gettime;	/* get lap time */
+	int	timebuf[3];	/* total time buffer */
+	int	laptimebuf[3];	/* lap time buffer */
+
+	int	plx;		/* player position X */
+	int	ply;		/* player position Y */
+	int	plz;		/* player position Z */
+
+	uint	flag;		/* status flag */
+
+	short	flashtm;	/* flash timer */
+	short	mx; 		/* speed meter x zahyou */
+	short	my; 		/* speed meter y zahyou */
+	short	ix; 		/* item x zahyou */
+	short	iy; 		/* item y zahyou */
+	short	addix; 		/* item x zahyou */
+	short	addiy; 		/* item y zahyou */
+
+	short	px; 		/* player number x zahyou */
+	short	py; 		/* player number y zahyou */
+	short	tx[5]; 		/* lap time x zahyou */
+	short	ty; 		/* lap time y zahyou */
+	short	cx;    		/* lap count x zahyou */
+	short	cx2;   		/* lap count x zahyou */
+	short	cx3;   		/* lap count x zahyou */
+	short	cy;    		/* lap count y zahyou */
+	short	rx;    		/* rank x zahyou */
+	short	ry;    		/* rank y zahyou */
+	short	rgx;    	/* rank goal x zahyou */
+	short	rgy;    	/* rank gaol y zahyou */
+	short	rank;		/* ranking */
+	short	bombx;		/* bomb kart panel x */
+	short	bomby;		/* bomb kart panel y */
+
+	char	goalsw;		/* (0,1,2,3) */
+	char	goal;		/* (0,1,2,3) */
+	char	lapcnt;		/* lap counter (0,1,2)*/
+	char	dispsw;		/* display (on/off) switch */
+	char	bomb;	        /* if bomb near*/	
+	char	ghostcnt;	/* kinoko item count */
+
+	uchar	item;		/* special item get */
+	uchar	sp_item;   	/* special item get */
+	uchar	mptr;		/* speed meter chart pointer */
+	uchar	hptr;		/* speed meter hari chart pointer */
+	uchar	tptr;		/* lap time chart pointer */
+	uchar	tptr2;		/* lap time chart pointer */
+	uchar	tptr3;		/* lap time chart pointer */
+	uchar	cptr;		/* lap count chart pointer */
+	uchar	cptr2;		/* lap count chart pointer */
+	uchar	cptr3;		/* lap count chart pointer */
+	uchar	iptr;		/* item box  chart pointer */
+	uchar	ranksw;		/* rank display switch */
+}KWLapStruct;
+
 typedef struct Lakitu{
 		char		unknown;
 		char		activeFlag; //busy
@@ -648,7 +864,6 @@ typedef struct AnmObject_Lakitu{
 		char      	anm_frame_offsetY;
 		long      	unknown_state_flag;
 } AnmObject_Lakitu;
-
 
 typedef	struct AnmObject{ //size 0xE0 //0x80165C18 80165CF8 80165DD8 80165EB8 80165F98 80166078 80166158 80166238 80166318 801663F8 801664D8 801665B8 80166698 
 
@@ -869,6 +1084,21 @@ typedef struct CenterPathStruct{
 		short pointz;
 		short unknown;
 } CenterPathStruct;
+
+
+
+typedef struct ActionData{
+    short    start;        //16:
+    short    end;        //16:
+    uint    action;        //32:
+}ActionData;
+
+typedef struct SOUKOU_ZURE_TYPE{        // 128 bit  (16)byte
+    float lane;                            // 32 bit    (4)
+    float lane_target;                    // 32 bit    (4)
+    float speed;                        // 32 bit    (4)
+    float lane_free_drive;                // 32 bit    (4)
+}SOUKOU_ZURE_TYPE;
 
 #define CHANNEL_MUTE		0x10000000
 #define CHANNEL_PAUSE		0x20000000

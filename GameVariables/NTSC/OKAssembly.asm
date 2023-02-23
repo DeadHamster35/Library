@@ -38,6 +38,7 @@
 .definelabel asm_tempo1ASpeed, 0x800015C6  ;;speed value
 .definelabel asm_tempo1B, 0x800015C8  ;;8DEF0114
 .definelabel asm_tempo1BSpeed, 0x800015CA  ;; speed value
+.definelabel asmTempoFullScreen, 0x800014CC
 
 .definelabel asm_tempo2A, 0x80001A38  ;;3C098015
 .definelabel asm_tempo2ASpeed, 0x80001A3A  ;;speed value
@@ -108,6 +109,7 @@
 .definelabel bigsignB, 0x802A2AA8   ;;254A9330
 
 .definelabel g_pathLength, 0x800DD9D0
+.definelabel g_pathBLength, 0x800DDB10
 .definelabel pathOffset, 0x800DC8D0
 
 .definelabel pathOffsetB, 0x800DC780
@@ -166,4 +168,5 @@
 .definelabel tbl_pathOffset, 0x8000DC780
 .definelabel tbl_pathOffsetB, 0x8000DC8D0
 .definelabel tbl_g_pathLength, 0x8000DD9D0
+.definelabel tbl_g_pathBLength, 0x8000DDB10
 .definelabel tbl_objectList, 0x802B97AC

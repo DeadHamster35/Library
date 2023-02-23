@@ -41,6 +41,7 @@ extern long asm_tempo1A; //0x800015C4  ;;3C0F8015
 extern short asm_tempo1ASpeed; //0x800015C7  ;;speed value
 extern long asm_tempo1B; //0x800015C8  ;;8DEF0114
 extern short asm_tempo1BSpeed; //0x800015CB  ;; speed value
+extern long asmTempoFullScreen;
 
 extern long asm_tempo2A; //0x80001A38  ;;3C098015
 extern short asm_tempo2ASpeed; //0x80001A3B  ;;speed value
@@ -111,6 +112,7 @@ extern long bigsignB; //0x802A2AA8   ;;254A9330
 
 
 extern short g_pathLength; //800DD9D0  - DE5D0
+extern short g_pathBLength; //800DD9D0  - DE5D0
 extern uint pathOffset; //0x800DC8D0  -  DD4D0
 extern uint pathOffsetB; //0x800DC780
 extern uint pathOffsetBlock;

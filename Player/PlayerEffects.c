@@ -253,6 +253,10 @@ void SetPlayerColor(char playerID, int Colors, int AdjColor, float speed)
 
 void SetPlayerEcho(char playerID, char echo)
 {
+	if (!(GlobalPlayer[(int)playerID].flag&IS_PLAYER))
+	{
+		return;
+	}	
 	GlobalAddressA = (long)(&g_playerEcho) + (0x3C * playerID);
 	*(char*)GlobalAddressA = echo;
 }
@@ -277,17 +281,25 @@ void playrandmCharacterSFX(char playerID)
 	NAPlyVoiceStart(playerID, 0x2900800C + (GlobalPlayer[(int)playerID].kart * 0x10));   //voice char jump sfx    
 }
 
-void EnableAirControl(char playerID)
+
+
+void ProStickAngleHook(Player *car, Controller *cont, char number)
 {
-	if(((GlobalPlayer[(int)playerID].slip_flag & IS_IN_AIR) != 0) && ((GlobalPlayer[(int)playerID].slip_flag & IS_BOOSTJUMP_ZONE) == 0) && ((GlobalPlayer[(int)playerID].slip_flag & IS_BOOST_JUMPING) == 0))
-	{
-		GlobalPlayer[(int)playerID].slip_flag ^= IS_IN_AIR;
-		if(((GlobalPlayer[(int)playerID].slip_flag & IS_JUMPING) == 0) && ((GlobalPlayer[(int)playerID].slip_flag & IS_DRIFTING) == 0))
-		{
-			GlobalPlayer[(int)playerID].slip_flag |= IS_DRIFTING;
-			GlobalPlayer[(int)playerID].slip_flag |= IS_JUMPING;
-		}
-	}
+    if(car->talk&0x2 && (!(car->slip_flag&IS_DRIFTING) || ((car->slip_flag&IS_JUMPING) && (car->slip_flag&IS_DRIFTING))))
+    {
+        ProStickAngle(car,cont,number);
+    }
+    else
+    {
+        if (!(car->slip_flag&IS_IN_AIR))
+        {
+            ProStickAngle(car,cont,number);
+        }
+        else if(car->slip_flag&IS_JUMPING && car->bump.distance_zx <= 5)
+        {
+            ProStickAngle(car,cont,number);
+        }
+    }
 }
 
 

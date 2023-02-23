@@ -16,6 +16,9 @@ extern unsigned short GlobalUShortA, GlobalUShortB;
 extern bool GlobalBoolA, GlobalBoolB, GlobalBoolC, GlobalBoolD;
 extern unsigned long FreeSpaceAddress;
 extern int LoopValue;
+extern uint GlobalFrameCount;
+extern uint ClockCycle[2], OldCycle[2];
+extern uint CycleCount[2];
 
 extern bool ConsolePlatform, EmulatorPlatform, TempoBool, StopSwop;
 extern bool CustomWaterHeight[];
@@ -31,13 +34,13 @@ extern int decimalNumber;
 extern int printOffsetA, printOffsetB, printOffsetC, printOffsetD;
 extern int minutes;
 extern int seconds;
-
-extern float DebugPosition[3];
 extern Object *GlobalObjectA, *GlobalObjectB;
 extern OKRAMHeader OverKartRAMHeader;
 
 
 extern short AnimationTimer;
+
+extern short DynFPSModifier;
 
 extern float ZeroVector[3];
 
@@ -76,7 +79,7 @@ extern short IFrames[8];
 extern float AffineMatrix[4][4];
 extern float AffineMatrix2[4][4];
 extern float objectPosition[3];
-extern Vector objectVector;
+extern Vector objectVector[];
 extern float objectVelocity[3];
 extern short objectAngle[3];
 extern short objectIndex;
@@ -124,6 +127,16 @@ extern int *tkmPoint;
 extern int RSPNumber;
 extern int RSPOffset;
 extern char *hex;
+
+extern ushort RedTextPalette[];
+extern ushort BlueTextPalette[];
+extern ushort GreenTextPalette[];
+extern ushort WhiteTextPalette[];
+
+extern char RedPaletteF3D[];
+extern char BluePaletteF3D[];
+extern char GreenPaletteF3D[];
+extern char WhitePaletteF3D[];
 //
 
 //Stock Names
@@ -136,6 +149,7 @@ extern char *stockCharacterNames[];
 //Main
 
 extern struct OKObject OKObjectArray[];
+extern OKAIPath CPUPaths[];
 extern short hsLabel, raceStatus, startupSwitch, courseSwapped;
 extern bool scrollLock;
 extern int currentHeaderAddress;
@@ -152,7 +166,7 @@ extern float gpTotalTime;
 
 extern int VersionNumber;
 
-extern int MenuIndex, MenuType, MenuCup;
+extern int ParameterIndex, MenuIndex, MenuCup, MenuOverflow;
 //
 //
 
@@ -162,6 +176,26 @@ extern int ScrollValues[32][2];
 
 
 
+extern char *cupNames[];
+extern int cupChar[];
+extern char *courseNames[];
+extern int courseChar[];
+
+
+extern Vector Origin;
+extern ObjectivePlayer       Objectives[4];
+extern ObjectiveObject     GameFlag[4];
+extern ObjectiveObject     GameBase[4];
+
+extern Marker* PlayerSpawnPoints;
+extern CTFSpawn* ObjectivePoints;
+extern BattleObjectivePoint* CustomObjectivePoints;
+
+extern float SpawnPoint[4][3];
+extern char      FlagCount, TeamMode;
+extern char      ScoreToWin, ObjectiveCount;
+extern short     SpawnTime, HitstunTime;
+extern short     TeamScore[2];
 
 
 #define 	BTN_A		0x8000 

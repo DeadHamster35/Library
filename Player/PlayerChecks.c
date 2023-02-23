@@ -2,6 +2,8 @@
 
 
 
+
+
 //bool IceSoundPlayed[8];
 
 void CheckSplashRepl(char WaterType)
@@ -351,7 +353,7 @@ void EffectBGMReplace()
 			}
 		}
 	}
-	if (g_gameMode == 3 && g_playerCount >= 3 && g_startingIndicator == 5)
+	if (g_gameMode == GAMEMODE_BATTLE && g_playerCount >= 3 && g_startingIndicator == 5)
 	{
 		NAMusicVolume(0);
 	}	
@@ -365,27 +367,30 @@ void NopPlayEffectBGMCode() //Run at custom code init
 
 
 
+
 void CheckPaths()
 {	
 	
 	if (OverKartRAMHeader.EchoOffset != 0)
 	{
 		GlobalIntA = *(int*)OverKartRAMHeader.EchoOffset;
-		if (GlobalIntA == 0)
+		if (GlobalIntA != 0)
 		{
-			return;
-		}
-		GlobalAddressA = OverKartRAMHeader.EchoOffset + 4;
-		OKPathStruct* PathValues = (OKPathStruct*)GlobalAddressA;		
-		for (int playerID = 0; playerID < g_playerCount; playerID++)					// Loop for each racer		
-		{			
-			SetPlayerEcho(playerID, 0);
-			SetCamShiftUp(playerID, 0);
-			g_noSimpleKartFlag[(int)playerID] = 0;		
-			for (int ThisValue = 0; ThisValue < GlobalIntA; ThisValue++)
-			{				
-				if(((GlobalPlayer[(int)playerID].flag & IS_PLAYER) != 0) && ((GlobalPlayer[(int)playerID].flag & IS_GHOST) == 0))			// Only run for existing racers
+			GlobalAddressA = OverKartRAMHeader.EchoOffset + 4;
+			OKPathStruct* PathValues = (OKPathStruct*)GlobalAddressA;		
+			for (int playerID = 0; playerID < 8; playerID++)					// Loop for each racer		
+			{	
+				if (!(GlobalPlayer[(int)playerID].flag&EXISTS))					// Only run for existing racers
 				{
+					continue;
+				}
+						
+				SetPlayerEcho(playerID, 0);
+				SetCamShiftUp(playerID, 0);
+				g_noSimpleKartFlag[(int)playerID] = 0;
+				GlobalPlayer[(int)playerID].talk &= ~0x2; // Unused talk flag
+				for (int ThisValue = 0; ThisValue < GlobalIntA; ThisValue++)
+				{				
 					if ((g_playerPathPointTable[(int)playerID] >= PathValues[ThisValue].PathStart) && (g_playerPathPointTable[(int)playerID] <= PathValues[ThisValue].PathStop))		// Path range check
 					{		
 						switch (PathValues[ThisValue].Type)
@@ -423,13 +428,53 @@ void CheckPaths()
 							}
 							case (PATH_AIRCONTROL):
 							{							
-								EnableAirControl(playerID);
+								GlobalPlayer[(int)playerID].talk |= 0x2; // Unused talk flag
 								break;
 							}
 						}
 					}
-				}
-			}	
+				}	
+			}
 		}
 	}
+
+
+	if (OverKartHeader.PathCount > 1)
+	{
+		//Check Player Lap
+		for (int ThisPlayer = 0; ThisPlayer < 8; ThisPlayer++)
+		{
+			if (CPUPaths[ThisPlayer].LastLap != GlobalPlayer[ThisPlayer].rap)
+			{
+				CPUPaths[ThisPlayer].LastLap = GlobalPlayer[ThisPlayer].rap;
+				CPUPaths[ThisPlayer].LastPath = CPUPaths[ThisPlayer].CurrentPath;
+				GlobalBoolA = false;
+
+				//Loop until valid path.
+				while (!GlobalBoolA)
+				{
+					GlobalShortA = MakeRandomLimmit(OverKartHeader.PathCount);
+					if (GlobalShortA > OverKartHeader.PathCount)
+					{
+						GlobalShortA = OverKartHeader.PathCount;
+					}
+					if (OverKartHeader.PathSplit == 1)
+					{
+						if (GlobalShortA != CPUPaths[ThisPlayer].LastPath)
+						{
+							GlobalBoolA = true;
+						}
+					}
+					else
+					{
+						GlobalBoolA = true;
+					}
+				}
+				//Assign new path. 
+				CPUPaths[ThisPlayer].CurrentPath = GlobalShortA;
+				CurrentPathID[ThisPlayer] = GlobalShortA;
+			}
+		}
+	}
+
 }

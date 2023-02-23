@@ -2,6 +2,56 @@
 
 
 
+void gameCodeDefault();
+void titleMenuDefault();
+void DisplayObjectDefault(void *Car, Object *InputObject);
+int CollideObjectDefault(Player* Car, Object* Target)
+{
+	return 0;
+}
+void DisplayCrashScreenDefault();
+long RAMCheckDefault, RAMCheckEndDefault;
+void PrintMenuFunctionDefault();
+void DrawPerScreenDefault(Camera* LocalCamera)
+{
+	if (scrollLock)
+	{
+		if(HotSwapID > 0)
+		{
+			DrawOKObjects(LocalCamera);
+		}
+	}
+	if ((HotSwapID > 0) && (OverKartHeader.GoalBannerToggle != 0))
+	{	
+		DisplayFlagGate(LocalCamera);
+	}
+};
+void allRunDefault();
+void PrintMenuFunctionDefault();
+void CheckHitDefault(int PlayerIndex, int HitType);
+void ExecuteItemHookDefault(Player* Car)
+{
+	ExecuteItem(Car);
+}
+
+
+//NEED OVERWRITE WITH OWN FUNCTIONS
+extern void gameCode();
+extern void titleMenu();
+extern void DisplayObject(void *Car, Object *InputObject);
+extern int CollideObject(Player* Car, Object* Target);
+extern void DisplayCrashScreen();
+extern long RAMCheck, RAMCheckEnd;
+extern void PrintMenuFunction();
+extern void DrawPerScreen(Camera* LocalCamera);
+extern void allRun();
+extern void PrintMenuFunction();
+extern void CheckHit(int PlayerIndex, int HitType);
+
+//END OF OVERWRITE FUNCTIONS
+
+
+
 void runDMA()
 {
 	DMA(*targetAddress, *sourceAddress, dataLength);
@@ -10,9 +60,9 @@ void runRAM()
 {
 	ramCopy(*targetAddress, *sourceAddress, dataLength);
 }
-void runMIO()
+int runMIO()
 {
-	decodeMIO0(*sourceAddress, *targetAddress);
+	return decodeMIO0(*sourceAddress, *targetAddress);
 }
 void runTKM()
 {
@@ -48,9 +98,57 @@ void SetFontColor(int FontR, int FontG, int FontB, int ShadowR, int ShadowG, int
 	ColorValues[3] = 1; //0001 black
 }
 
+void SetFontColorPalette(uint Address, int FontR, int FontG, int FontB, int ShadowR, int ShadowG, int ShadowB)
+{
+	ushort *ColorValues = (ushort*)Address;
+	ColorValues[0] = 0; //0000 transparent
+	ColorValues[1] = GetRGBA16(FontR,FontG,FontB,1);
+	ColorValues[2] = GetRGBA16(ShadowR,ShadowG,ShadowB,1);
+	ColorValues[3] = 1; //0001 black
+}
+
+void LoadFontF3D(uint Address)
+{
+	gSPDisplayList(GraphPtrOffset++, 0x0D008108);
+	gSPDisplayList(GraphPtrOffset++, Address);
+	gDPSetAlphaCompare	(GraphPtrOffset++ ,G_AC_THRESHOLD);
+}
+
+void SetupFontF3D()
+{
+	
+	SetFontColorPalette((uint)&RedTextPalette, 24, 0, 0, 14, 0, 0);
+	SetFontColorPalette((uint)&BlueTextPalette, 0, 0, 24, 0, 0, 14);
+	SetFontColorPalette((uint)&GreenTextPalette, 0, 24, 0, 0, 14, 0);
+	SetFontColorPalette((uint)&WhiteTextPalette, 24, 24, 24, 14, 14, 14);
+
+	*sourceAddress = GetRealAddress(0x0D008080);	
+	dataLength = 0xB8;
+
+	*targetAddress = (uint)&RedPaletteF3D;
+	runRAM();
+	*targetAddress = (uint)&BluePaletteF3D;
+	runRAM();
+	*targetAddress = (uint)&GreenPaletteF3D;
+	runRAM();
+	*targetAddress = (uint)&WhitePaletteF3D;
+	runRAM();
+	
+	GlobalAddressA = (uint)(&RedPaletteF3D) + 0x14;
+	*(uint*)(GlobalAddressA) = (uint)&RedTextPalette;
+
+	GlobalAddressA = (uint)(&BluePaletteF3D) + 0x14;
+	*(uint*)(GlobalAddressA) = (uint)&BlueTextPalette;
+
+	GlobalAddressA = (uint)(&GreenPaletteF3D) + 0x14;
+	*(uint*)(GlobalAddressA) = (uint)&GreenTextPalette;
+
+	GlobalAddressA = (uint)(&WhitePaletteF3D) + 0x14;
+	*(uint*)(GlobalAddressA) = (uint)&WhiteTextPalette;
+}
 
 
-int LoadData (int SourceInput, int SizeData)
+int LoadOKData (uint SourceInput, uint SizeData)
 {
 	*sourceAddress = SourceInput;
 	*targetAddress = FreeSpaceAddress;
@@ -59,6 +157,33 @@ int LoadData (int SourceInput, int SizeData)
 	FreeSpaceAddress = FreeSpaceAddress + SizeData + GlobalShortA;
 	runDMA();	
 	return *targetAddress;
+}
+
+int LoadDataBypass(uint RomStart, uint RomEnd)
+{
+	*sourceAddress = RomStart;	
+	dataLength = RomEnd - RomStart;
+	LastMemoryPointer -= dataLength;
+	*targetAddress = LastMemoryPointer;
+	runDMA();
+	return LastMemoryPointer;
+}
+
+int LoadPressDataBypass(uint RomStart, uint RomEnd)
+{
+	*sourceAddress = RomStart;	
+	dataLength = RomEnd - RomStart;
+	LastMemoryPointer -= dataLength;
+	*targetAddress = LastMemoryPointer;
+	runDMA();
+	
+	dataLength = *(uint*)(*targetAddress + 4);  //size of decompressed data stored in MIO0 header.
+
+	*sourceAddress = LastMemoryPointer;
+	LastMemoryPointer -= dataLength;
+	*targetAddress = LastMemoryPointer;
+	runMIO();
+	return LastMemoryPointer;
 }
 
 /* Get Status Timer */
@@ -73,7 +198,36 @@ uint getBooTimer(uchar playerID)
     return (int)g_gameTimer-g_GhostUseCounter[playerID];
 }
 
-
+//Returns custom course number
+short CustomLevelID()
+{
+    if (HotSwapID == 0)
+    {
+        return -1;
+    }
+    else
+    {
+		switch (g_cupSelect)
+		{
+		case 0:
+			return (g_courseSelect + (16 * (HotSwapID-1)));
+			break;
+		case 1:
+			return ((g_courseSelect+4) + (16 * (HotSwapID-1)));
+			break;
+		case 2:
+			return ((g_courseSelect+8) + (16 * (HotSwapID-1)));
+			break;
+		case 3:
+			return ((g_courseSelect+12) + (16 * (HotSwapID-1)));
+			break;
+		default:
+			return -1;
+			break;
+		}
+        
+    }
+}
 
 bool CheckPlatform()
 {
@@ -139,7 +293,18 @@ void loadNiceFont()
 {
 	*sourceAddress = (int)(&NiceFontROM);
 	*targetAddress = (int)(&ok_FreeSpace);
-	dataLength = 0x4400;
+	dataLength = 0x5000;
+	runDMA();
+	*sourceAddress = (int)(&ok_FreeSpace);
+	*targetAddress = (int)(&nicefont);
+	runMIO();
+}
+
+void loadBigFont()
+{
+	*sourceAddress = (int)(&BigFontROM);
+	*targetAddress = (int)(&ok_FreeSpace);
+	dataLength = 0x5000;
 	runDMA();
 	*sourceAddress = (int)(&ok_FreeSpace);
 	*targetAddress = (int)(&nicefont);
@@ -175,62 +340,66 @@ void DrawBox(int X, int Y, int SizeX, int SizeY, int R, int G, int B, int A)
 	GraphPtr = FillRect1ColorF(GraphPtr, X, Y, X + SizeX, Y + SizeY, R, G, B, A);
 }
 
-void printFloat(int X, int Y, float Value)
-{
 
-	int PrintOffset;
+
+int GetIntLength(int Input)
+{
+	if (Input < 0)
+	{
+		Input *= -1;
+	}
+	if (Input < 10) return 1;
+	if (Input < 100) return 2;
+	if (Input < 1000) return 3;
+	if (Input < 10000) return 4;
+	if (Input < 100000) return 5;
+	if (Input < 1000000) return 6;
+	if (Input < 10000000) return 7;
+	if (Input < 100000000) return 8;
+	if (Input < 1000000000) return 9;
+	return 0;
+}
+void printDecimal(int X, int Y, float Value, int Length)
+{
+	int PrintOffset = 0;
+	int PrintLength = 10;
+	for (int Loop = 1; Loop < Length; Loop++)
+	{
+		PrintLength *= 10;	
+	}
+	
 
 	wholeNumber = (int) Value;
-	decimalNumber = (int) ((Value - wholeNumber) * 100);
-	
-	PrintOffset = 8;
-
-
-	GlobalIntA = wholeNumber;
-	if (GlobalIntA < 0)
+	decimalNumber = (int) ((Value - wholeNumber) * PrintLength);
+	if (decimalNumber > (float)((Value - wholeNumber) * PrintLength))
 	{
-		GlobalIntA *= -1;
+		decimalNumber--;
 	}
-     if (GlobalIntA > 10)
-	{
-		PrintOffset = 16;
-		if (GlobalIntA > 100)
-		{
-			PrintOffset = 24;
-			if (GlobalIntA > 1000)
-			{
-				PrintOffset = 32;
-			}			
-		}
-	}
-	if (decimalNumber < 0)
-	{
-		decimalNumber *= -1;
-	}
-	
 
-     loadFont();
+	PrintOffset = 8 * GetIntLength(wholeNumber);
 
-
-	if (wholeNumber < 0)
+	if (Value < 0)
 	{
      	X -= 8;
 		PrintOffset += 8;
+		decimalNumber *= -1;
 	}
-
 	printStringNumber(X,Y,"",wholeNumber);
-		
-	printString(X + PrintOffset + 10, Y, ".");		
-	if (decimalNumber < 10)
+	printString((X + PrintOffset + 10), Y, ".");		
+	PrintOffset += 8;
+	if ((decimalNumber < (PrintLength / 10)) && (decimalNumber != 0))
 	{
-		printStringNumber(X+PrintOffset + 8,Y,"",0);
+		printStringNumber((X+PrintOffset),Y,"",0);
 		PrintOffset += 8;
 	}
-	printStringNumber(X+PrintOffset + 8,Y,"",decimalNumber);
+	printStringNumber((X+PrintOffset),Y,"",decimalNumber);
      
+}
 
 
-
+void printFloat(int X, int Y, float Value)
+{
+	printDecimal(X,Y,Value,2);	
 }
 
 void ResetObject()
@@ -272,3 +441,75 @@ char* printHex(char *buf, int num, int nDigits) {
 					    	//x,0,1,2,3,4,5,6,7
 char CharacterConvert[9] = 	{-1,0,1,6,3,2,4,5,7};
 char CharacterUnconvert[9] = 	{-1,0,1,4,3,5,6,2,7};
+
+//WaveDir = Address to a stored ushort for the calculation
+//WaveSpeed = Additional value (degree)
+void RunWaveSpeed(ushort *WaveDir,short WaveSpeed)
+{
+	*(ushort*)WaveDir += WaveSpeed;
+}
+
+//WaveXScale = Width of the wave - horizontally
+//WaveYThin = Higher value means less distance between waves (degree) - vertically
+//WaveDir = Variable that gets calculated by RunWaveSpeed
+void SpriteDrawWave(int cx,int cy,ushort *addr,int sizex,int sizey,float WaveXScale,short WaveYThin,ushort WaveDir)
+{
+	short angle;
+	short angstep = WaveYThin;
+	int intsx = cx - sizex / 2;
+	int sy = cy - sizey / 2;
+
+	int	sx;
+	ushort *tmpaddr;
+
+	angle = WaveDir;
+	tmpaddr = addr;
+
+	for	(int i = 0; i < sizey; i++)
+	{
+		KWLoadTextureBlockRGBA16B(tmpaddr+sizex*i,sizex,1);
+		sx = (int)(intsx + (WaveXScale) * sinT(angle+angstep*i));
+		SPRDrawClip(sx,sy,sizex,1,1);
+		sy++;
+	}
+}
+
+int custom_check_triangle_zx(Bump *bump, float radius,float p1x,float p1y, float p1z, ushort pointer)
+{
+	return CheckTriangleZX(bump, radius, p1x, p1y, p1z, pointer);
+}
+
+int custom_check_triangle_xy(Bump *bump, float radius,float p1x,float p1y, float p1z, ushort pointer)
+{
+	return CheckTriangleXY(bump, radius, p1x, p1y, p1z, pointer);
+}
+
+int custom_check_triangle_yz(Bump *bump, float radius,float p1x,float p1y, float p1z, ushort pointer)
+{
+	return CheckTriangleYZ(bump, radius, p1x, p1y, p1z, pointer);
+}
+
+int custom_check_triangle_zx_v(Bump *bump,float radius,float p1x, float p1y, float p1z ,ushort pointer ,float lastx,float lasty,float lastz)
+{
+	return CheckTriangleZX_V(bump, radius, p1x, p1y, p1z, pointer, lastx, lasty, lastz);
+}
+
+int custom_check_triangle_xy_v(Bump *bump,float radius,float p1x, float p1y, float p1z ,ushort pointer ,float lastx,float lasty,float lastz)
+{
+	return CheckTriangleXY_V(bump, radius, p1x, p1y, p1z, pointer, lastx, lasty, lastz);
+}
+
+int custom_check_triangle_yz_v(Bump *bump,float radius,float p1x ,float p1y, float p1z, ushort pointer ,float lastx,float lasty,float lastz)
+{
+	return CheckTriangleYZ_V(bump, radius, p1x, p1y, p1z, pointer, lastx, lasty, lastz);
+}
+
+ushort custom_check_bump(Bump *bump,float radius,float px,float py,float pz)
+{
+    return CheckBump(bump, radius, px, py, pz);
+}
+
+ushort custom_check_bump_2(Bump *bump,float radius,float px,float py,float pz,float lastx, float lasty,float lastz)
+{
+    return CheckBump2(bump, radius, px, py, pz, lastx, lasty, lastz);
+}
