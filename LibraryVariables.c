@@ -272,7 +272,7 @@ Marker* PlayerSpawnPoints;
 CTFSpawn* ObjectivePoints;
 BattleObjectivePoint* CustomObjectivePoints;
 
-float SpawnPoint[4][3];
+float     SpawnPoint[4][3];
 char      FlagCount, TeamMode;
 char      ScoreToWin, ObjectiveCount;
 short     SpawnTime, HitstunTime;

@@ -27,7 +27,7 @@ extern void SpriteBtnDLeft(int posx, int posy, float scale, bool pressed);
 extern void SpriteBtnDRight(int posx, int posy, float scale, bool pressed);
 extern void SpriteBtnDMid(int posx, int posy, float scale);
 extern void SpriteAnalogStick(int posx, int posy, float scale, char direction);
-extern void ModularMenu(int Alpha, OKMenu OptionsMenu);
+extern void ModularMenu(OKMenu* OptionsMenu);
 extern void CourseMenu(int Alpha);
 
 extern void PrintNiceText(int posx, int posy, float scale, char *text);

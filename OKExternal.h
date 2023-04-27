@@ -22,6 +22,7 @@ extern long previewN;
 extern long previewU;
 
 extern long LogoROM;
+extern long RCIconMap;
 extern long RCSpriteROM;
 extern long ArrowsSpriteROM;
 extern long NumbersSpriteROM;
@@ -29,7 +30,7 @@ extern long AlpacaSpriteROM;
 extern long HeartSpriteROM;
 extern long TitleMenuFrameROM;
 
-
+extern long ROptionROM, ROptionEnd;
 extern long BigFontROM;
 extern long HudButtonsROM;
 

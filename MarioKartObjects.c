@@ -197,10 +197,8 @@ void CreateCustomItemBox(uint RSPAddress)
 	{
 		if (BoxArray[ThisBox].Position[0] == -32768)
 		{
-			*(uint*)(0x80650004) = ThisBox;
 			return;
 		}
-		*(uint*)(0x80650008 + (ThisBox * 8)) = (uint)BoxArray[ThisBox].Position;
 		for (int Vector = 0; Vector < 3; Vector++)
 		{
 			objectPosition[Vector] = (float)BoxArray[ThisBox].Position[Vector];
@@ -209,11 +207,36 @@ void CreateCustomItemBox(uint RSPAddress)
 		objectPosition[0] *= g_mirrorValue;
 		
 		GlobalIntA = addObjectBuffer(objectPosition, objectAngle, objectVelocity, IBOX);
-		*(uint*)(0x80650008 + (ThisBox * 8) + 4) = GlobalIntA;
 		g_SimpleObjectArray[GlobalIntA].fparam = CheckHight(objectPosition[0],objectPosition[1] + 10,objectPosition[2]);
 		g_SimpleObjectArray[GlobalIntA].velocity[0]=objectPosition[1];
 		g_SimpleObjectArray[GlobalIntA].position[1] = g_SimpleObjectArray[GlobalIntA].fparam - 20;		
-		g_SimpleObjectArray[GlobalIntA].flag = BoxArray[ThisBox].Group;
+		g_SimpleObjectArray[GlobalIntA].bump.dummy = BoxArray[ThisBox].Group;
+	}
+
+}
+
+
+
+void ItemboxCollideCheck(Player* Car, Object* Target)
+{
+	if (CollisionSphere(Car, Target))
+	{
+		Target->sparam = 3;
+		Target->flag = EXISTOBJ;
+		Target->counter = 0;
+			
+		if (Car->flag & IS_PLAYER)
+		{
+			RouletteStart(Car->kart, Target->bump.dummy);
+		}
+	}
+	else
+	{
+		if (Target->sparam == 0)
+		{
+			Target->sparam = 1;
+			Target->flag = EXISTOBJ;
+		}
 	}
 
 }

@@ -32,7 +32,7 @@
 extern void gameCode();
 extern void titleMenu();
 extern void DisplayObject(void *Car, Object *InputObject);
-extern int CollideObject(Player* Car, Object* Target);
+extern void CollideObject(Player* Car, Object* Target);
 extern void DisplayCrashScreen();
 extern long RAMCheck, RAMCheckEnd;
 extern void PrintMenuFunction();
@@ -54,7 +54,7 @@ extern bool CheckEmulator();
 extern void runDMA();
 extern void runRAM();
 extern void runTKM();
-extern uint runMIO();
+extern int runMIO();
 extern void loadEEPROM(uint Destination);
 extern void saveEEPROM(uint Source);
 extern uint getStarTimer(uchar playerID);

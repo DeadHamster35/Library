@@ -274,75 +274,78 @@ void DrawFPS(int X, int Y)
      printDecimal(X,Y + 10,GlobalFloatA, 2); 
 }
 
-void ModularMenu(int Alpha, OKMenu OptionsMenu)
+void ModularMenu(OKMenu* OptionsMenu)
 {
-
-     
-
-     
-     DrawBox(50,10,220,121,0,0,0,Alpha);
-     
-     DrawBox(48,8,2,124,255,0,0,255);
-     DrawBox(270,8,2,124,255,0,0,255);
-     DrawBox(50,8,220,2,255,0,0,255);
-     DrawBox(50,130,220,2,255,0,0,255);
-     DrawBox(60,32,200,1,0,0,0,255);
-
-
-     if (ParameterIndex == 0) //currentParameter
+     if (MenuBlink > 30)
      {
-          MenuPosition[0] = 157 - ((OptionsMenu.PanelAddress[MenuIndex].NameLength) * 4);
-          GraphPtr = FillRect1ColorF(GraphPtr, MenuPosition[0], 19, MenuPosition[0] + ((OptionsMenu.PanelAddress[MenuIndex].NameLength) * 8), 29, 200, 0, 0, 200);
+          MenuBlink = 0;
      }
      else
      {
-          MenuPosition[1] = ParameterIndex * 18 + 33;
-          if (MenuBlink < 29)  
-          {
-               KWSprite(57,MenuPosition[1]+2,16,16,(ushort*)&lit_red_selecter);
-          }
+          MenuBlink++;
      }
      
+     DrawBox(30,10,260,200,0,0,0,200);
      
+     DrawBox(28,8,2,203,255,0,0,255);
+     DrawBox(290,8,2,203,255,0,0,255);
+     DrawBox(30,8,260,2,255,0,0,255);
+     DrawBox(30,209,260,2,255,0,0,255);
+     DrawBox(40,32,240,1,0,0,0,255);
+
+     
+     if (ParameterIndex == 0) //currentParameter
+     {
+          MenuPosition[0] = 158 - ((OptionsMenu->PanelAddress[MenuIndex].NameLength) * 4);
+          GraphPtr = FillRect1ColorF(GraphPtr, MenuPosition[0], 19, MenuPosition[0] + ((OptionsMenu->PanelAddress[MenuIndex].NameLength) * 8), 29, 200, 0, 0, 200);
+     }
+     else
+     {
+          MenuPosition[1] = ParameterIndex * 19 + 32;          
+          if (MenuBlink < 29)  
+          {
+               KWSprite(38,MenuPosition[1]+2,16,16,(ushort*)&lit_red_selecter);
+          }
+     }
 
      LoopValue = 0;
-     MenuPosition[0] = 138 - ((OptionsMenu.PanelAddress[MenuIndex].NameLength) * 4);
+     MenuPosition[0] = 138 - ((OptionsMenu->PanelAddress[MenuIndex].NameLength) * 4);
      
      
      
      loadFont();
+     SetFontColor(255,255,255,75,75,75);
      
-     
-     printString(MenuPosition[0],0,(char*)OptionsMenu.PanelAddress[MenuIndex].NameAddress);
+     printString(MenuPosition[0],0,(char*)OptionsMenu->PanelAddress[MenuIndex].NameAddress);
      
      MenuPosition[1] = 30;
      
-     if (OptionsMenu.PanelAddress[MenuIndex].OptionCount > 4)
+     if (OptionsMenu->PanelAddress[MenuIndex].OptionCount > 7)
      {
-          GlobalShortB = 4;
+          GlobalShortB = 7;
      }
      else
      {
-          GlobalShortB = OptionsMenu.PanelAddress[MenuIndex].OptionCount;
+          GlobalShortB = OptionsMenu->PanelAddress[MenuIndex].OptionCount;
      }
      for (LoopValue = 0; LoopValue < GlobalShortB; LoopValue++)
      {
-          OKOption* ThisOption = (OKOption*)(&OptionsMenu.PanelAddress[MenuIndex].Options[LoopValue + (long)MenuOverflow]);          
-          printString(45,MenuPosition[1],(char*)ThisOption->OptionName);
-          GlobalShortA = (int)OptionsMenu.PanelAddress[MenuIndex].ParameterToggles[LoopValue + (long)MenuOverflow];
-          MenuPosition[0] = 200 - (ThisOption->ParameterLengths[GlobalShortA] * 4);          
+          OKOption* ThisOption = (OKOption*)(&OptionsMenu->PanelAddress[MenuIndex].Options[LoopValue + (long)MenuOverflow]);          
+          printString(30,MenuPosition[1],(char*)ThisOption->OptionName);
+          GlobalShortA = (int)OptionsMenu->PanelAddress[MenuIndex].ParameterToggles[LoopValue + (long)MenuOverflow];
+          MenuPosition[0] = 220 - (ThisOption->ParameterLengths[GlobalShortA] * 4);          
           printString(MenuPosition[0],MenuPosition[1],(char*)ThisOption->ParameterNames[GlobalShortA]);
-          MenuPosition[1] = MenuPosition[1] + 18;          
+          MenuPosition[1] = MenuPosition[1] + 19;     
      } 
      
-     if ((MenuOverflow + 4) < OptionsMenu.PanelAddress[MenuIndex].OptionCount)  //menuOverflowIndex
+     if ((MenuOverflow + 7) < OptionsMenu->PanelAddress[MenuIndex].OptionCount)  //menuOverflowIndex
      {
           if (MenuBlink < 15)  //used for blinking down arrow
           {
-               KWSprite(161,120,16,16,(ushort*)&lit_arrowsprite_d);
+               KWSprite(161,190,16,16,(ushort*)&lit_arrowsprite_d);
           }
      }
-     if ((MenuOverflow - 4) < OptionsMenu.PanelAddress[MenuIndex].OptionCount)  //menuOverflowIndex
+     if (MenuOverflow > 0)  //menuOverflowIndex
      {
           if (MenuBlink < 15)  //used for blinking down arrow
           {
@@ -353,7 +356,7 @@ void ModularMenu(int Alpha, OKMenu OptionsMenu)
      {
           KWSprite(80,22,16,16,(ushort*)&lit_arrowsprite_l);
      }
-     if (MenuIndex < OptionsMenu.PanelCount)  //used for right arrow
+     if (MenuIndex < OptionsMenu->PanelCount)  //used for right arrow
      {
           KWSprite(240,22,16,16,(ushort*)&lit_arrowsprite_r);
      }

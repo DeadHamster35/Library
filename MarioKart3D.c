@@ -5,6 +5,14 @@
 
 
 __attribute__((aligned(16)))
+Vtx V64x32[] ={
+    {   {  {-32,     0,  0}, 0,  {0,               0},              {0xff, 0xff, 0xff, 0xff} } },
+    {   {  { 31,     0,  0}, 0,  {(( 64-1)<<6),    0},              {0xff, 0xff, 0xff, 0xff} } },
+    {   {  { 31,    32,  0}, 0,  {(( 64-1)<<6),    (( 32-1)<<6)},   {0xff, 0xff, 0xff, 0xff} } },
+    {   {  {-32,    32,  0}, 0,  {0,               (( 32-1)<<6)},   {0xff, 0xff, 0xff, 0xff} } },
+};
+
+__attribute__((aligned(16)))
 Vtx V64[] ={
     {   {  {-32,     0,  0}, 0,  {0,               0},              {0xff, 0xff, 0xff, 0xff} } },
     {   {  { 31,     0,  0}, 0,  {(( 64-1)<<6),    0},              {0xff, 0xff, 0xff, 0xff} } },
@@ -2387,9 +2395,24 @@ void DrawGeometryScale(float localPosition[], short localAngle[], int localAddre
 	{
 		return;
 	}
+	gSPDisplayList(GraphPtrOffset++,localAddress);		
+	
+}
+
+void DrawGeometrySVectorScale(SVector localPosition, short localAngle[], int localAddress, float localScale)
+{
+	objectPosition[0] = localPosition[0];
+	objectPosition[1] = localPosition[1];
+	objectPosition[2] = localPosition[2];
+	CreateModelingMatrix(AffineMatrix,objectPosition,localAngle);
+	ScalingMatrix(AffineMatrix,localScale);	
+	if(SetMatrix(AffineMatrix,0) == 0)
 	{
-		gSPDisplayList(GraphPtrOffset++,localAddress);		
+		return;
 	}
+	
+	gSPDisplayList(GraphPtrOffset++,localAddress);		
+	
 }
 
 void DrawGeometry(float objectPosition[], short objectAngle[], int F3DEXAddress)

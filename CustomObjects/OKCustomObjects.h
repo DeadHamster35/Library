@@ -13,5 +13,6 @@ extern void ClearOKObject(short ObjectID);
 extern short FindOKObject();
 extern bool TestCollideBox(float BoxPosition[], float BoxSize[], short BoxAngle[], float TargetPosition[], float TargetRadius);
 extern bool TestCollideSphereAngled(float SourcePosition[], float SourceRadius, short SourceAngle[], short BoxPosition[], float TargetPosition[], float TargetRadius);
+extern bool TestCollideSVectorSphere(float SourcePosition[], float SourceRadius, SVector TargetPosition, float TargetRadius);
 extern bool TestCollideSphere(float SourcePosition[], float SourceRadius, float TargetPosition[], float TargetRadius);
 #endif

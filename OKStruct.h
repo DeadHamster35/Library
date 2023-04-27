@@ -95,7 +95,7 @@ typedef struct OKSkeleton{
 
 typedef struct BattleObjectivePoint{
 	SVector 	Position;
-	short		Flag;
+	short		GameMode;
 	short		Player, Type;
 } BattleObjectivePoint;
 
@@ -131,7 +131,7 @@ typedef struct OKCollisionSphere{
 	short		Angle[3];
 	short		Size[3];
 	short		Position[3];
-	short		Pad;
+	uchar		OffsetFlag, Pad;
 	uchar 		StatusClass, EffectClass, CollisionResult, DamagedResult;//
 } OKCollisionSphere;
 
@@ -189,15 +189,16 @@ typedef struct ObjectivePlayer
 
 typedef struct ObjectiveObject
 {
-	float     	Position[3];
+	float     	Position[3];	
 	float     	Velocity[3];
+	short		Origin[3];
 	short		AngularVel[3];
+	short     	Angle[3];
 	short		Scale;
 	short		Friction, Bounce;
 	short		Gravity, Lift;
 	short     	RespawnTimer, IFrames;
-	char      	PlayerHolding, TeamIndex;     
-	short     	Angle[3];
+	short      	PlayerHolding, TeamIndex;        //can be shrunk to char, shorts for padding	
 	uint      	F3D;
 	Bump      	BumpData;
 } ObjectiveObject;

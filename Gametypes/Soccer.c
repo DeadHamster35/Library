@@ -6,9 +6,9 @@ const CTFSpawn SoccerSkyscraperSpawns =
     {
             //EASY
         {
-            { {0,480,-480}, {0,480,480}, {-480,480,0}, {480,480,0} }, 
-            { {0,480,-435}, {0,480,435}, {-435,480,0}, {435,480,0} },
-            { {0,480,-350}, {0,480,350}, {-350,480,0}, {350,480,0} }
+            { {0,480,-480}, {0,480,480}, {-480,480,0}, {480,480,0} },    //BASE
+            { {0,480,-435}, {0,480,435}, {-435,480,0}, {435,480,0} },   //BALL
+            { {0,480,-350}, {0,480,350}, {-350,480,0}, {350,480,0} }    //PLAYER
         },
         //HARD
         {
@@ -98,7 +98,7 @@ void PlaceBalls(uint BattleFlagF3D, uint BattleBaseF3D, uint PlayerBaseF3D[], ui
             }
             else
             {    
-                if (CustomObjectivePoints[ThisObj].Flag == CTF_GAMETYPE)
+                if (CustomObjectivePoints[ThisObj].GameMode == CTF_GAMETYPE)
                 {
                         switch (CustomObjectivePoints[ThisObj].Type)
                         {
@@ -110,6 +110,8 @@ void PlaceBalls(uint BattleFlagF3D, uint BattleBaseF3D, uint PlayerBaseF3D[], ui
                             case (FLAG_POINT):
                             {
                             PlaceFlagSpawn(CustomObjectivePoints[ThisObj].Position, CustomObjectivePoints[ThisObj].Player);
+
+                            //Setup Soccerball F3D and Physics.
                             GameFlag[CustomObjectivePoints[ThisObj].Player].F3D = BattleFlagF3D;
                             GameFlag[CustomObjectivePoints[ThisObj].Player].TeamIndex = CustomObjectivePoints[ThisObj].Player;
                             GameFlag[CustomObjectivePoints[ThisObj].Player].Friction = 500;

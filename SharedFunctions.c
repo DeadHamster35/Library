@@ -8,9 +8,14 @@ void gameCodeDefault()
 };
 void titleMenuDefault();
 void DisplayObjectDefault(void *Car, Object *InputObject);
-int CollideObjectDefault(Player* Car, Object* Target)
+void CollideObjectDefault(Player* Car, Object* Target)
 {
-	return 0;
+	if (Target->category == IBOX)
+	{
+		ItemboxCollideCheck(Car, Target);
+	}
+
+	return;
 }
 void DisplayCrashScreenDefault();
 long RAMCheckDefault, RAMCheckEndDefault;
@@ -40,12 +45,17 @@ void ExecuteItemHookDefault(Player* Car)
 	ExecuteItem(Car);
 }
 
+void MiniMapDrawDefault()
+{
+	KWReturnViewport();
+	KawanoDrawFinal();
+}
+
 
 //NEED OVERWRITE WITH OWN FUNCTIONS
 extern void gameCode();
 extern void titleMenu();
-extern void DisplayObject(void *Car, Object *InputObject);
-extern int CollideObject(Player* Car, Object* Target);
+extern void CollideObject(Player* Car, Object* Target);
 extern void DisplayCrashScreen();
 extern long RAMCheck, RAMCheckEnd;
 extern void PrintMenuFunction();
@@ -66,7 +76,7 @@ void runRAM()
 {
 	ramCopy(*targetAddress, *sourceAddress, dataLength);
 }
-uint runMIO()
+int runMIO()
 {
 	return decodeMIO0(*sourceAddress, *targetAddress);
 }

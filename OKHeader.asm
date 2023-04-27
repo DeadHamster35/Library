@@ -58,15 +58,7 @@
 .definelabel lit_numberSprite9, lit_numberSprite8 + 0x200
 .definelabel lit_numberSpriteX, lit_numberSprite9 + 0x200
 
-
-.definelabel lit_titleFrame, lit_numberSpriteX + 0x200
-
-.definelabel lit_titleFrame_u, lit_titleFrame
-.definelabel lit_titleFrame_m, lit_titleFrame_u + 0x720
-.definelabel lit_titleFrame_d, lit_titleFrame_m + 0x71C
-.definelabel lit_titleFrame_l, lit_titleFrame_d + 0x720
-.definelabel lit_titleFrame_r, lit_titleFrame_l + 0x760
-.definelabel lit_arrowsSprite, lit_titleFrame_r + 0x760
+.definelabel lit_arrowsSprite, lit_numberSpriteX + 0x200
 
 .definelabel lit_arrowsprite_u, lit_arrowsSprite
 .definelabel lit_arrowsprite_d, lit_arrowsprite_u + 0x200

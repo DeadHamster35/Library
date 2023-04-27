@@ -5,9 +5,9 @@ int ObjectiveMapID = 0;
 
 void ResetFlag(int ThisFlag)
 {
-     GameFlag[ThisFlag].Position[0] = SpawnPoint[ThisFlag][0];
-     GameFlag[ThisFlag].Position[1] = SpawnPoint[ThisFlag][1];
-     GameFlag[ThisFlag].Position[2] = SpawnPoint[ThisFlag][2];
+     GameFlag[ThisFlag].Position[0] = (float)GameFlag[ThisFlag].Origin[0];
+     GameFlag[ThisFlag].Position[1] = (float)GameFlag[ThisFlag].Origin[1];
+     GameFlag[ThisFlag].Position[2] = (float)GameFlag[ThisFlag].Origin[2];
 
      GameFlag[ThisFlag].Velocity[0] = 0;
      GameFlag[ThisFlag].Velocity[1] = 0;
@@ -24,25 +24,32 @@ void ResetFlag(int ThisFlag)
 
 void PlacePlayerSpawn(SVector Position, int PlayerID)
 {
+     
+     SpawnPoint[PlayerID][0] = (float)Position[0];
+     SpawnPoint[PlayerID][1] = (float)Position[1];
+     SpawnPoint[PlayerID][2] = (float)Position[2];
+     
      GlobalPlayer[PlayerID].position[0] = (float)Position[0];
      GlobalPlayer[PlayerID].position[1] = (float)Position[1] + 5;
      GlobalPlayer[PlayerID].position[2] = (float)Position[2];
      GlobalPlayer[PlayerID].direction[1] = (short)(CalcDirection(GlobalPlayer[PlayerID].position, Origin) * -1);
 }
 
-void PlaceFlagSpawn(SVector Position, int PlayerID)
+void PlaceFlagSpawn(SVector Position, int FlagID)
 {
-     SpawnPoint[PlayerID][0] = (float)Position[0];
-     SpawnPoint[PlayerID][1] = (float)Position[1] + 5;
-     SpawnPoint[PlayerID][2] = (float)Position[2];
-
-     ResetFlag(PlayerID);
+     GameFlag[FlagID].Origin[0] = Position[0];
+     GameFlag[FlagID].Origin[1] = Position[1];
+     GameFlag[FlagID].Origin[2] = Position[2];
+     ResetFlag(FlagID);
 }
-void PlaceBaseSpawn(SVector Position, int PlayerID)
+void PlaceBaseSpawn(SVector Position, int BaseID)
 {
-     GameBase[PlayerID].Position[0] = Position[0];
-     GameBase[PlayerID].Position[1] = Position[1];
-     GameBase[PlayerID].Position[2] = Position[2];     
+     GameBase[BaseID].Position[0] = (float)Position[0];
+     GameBase[BaseID].Position[1] = (float)Position[1];
+     GameBase[BaseID].Position[2] = (float)Position[2];     
+     GameBase[BaseID].Origin[0] = Position[0];
+     GameBase[BaseID].Origin[1] = Position[1];
+     GameBase[BaseID].Origin[2] = Position[2];     
 }
 
 

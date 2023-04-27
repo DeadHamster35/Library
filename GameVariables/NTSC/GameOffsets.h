@@ -168,6 +168,11 @@ extern void SetWord4(int x,int y,char *printText,int interval,float mulx,float m
 extern void SetWord4A(int x,int y,char *printText,int interval,float mulx,float muly);
 extern void SetWord4AP(int x,int y,char *printText,int interval,float mulx,float muly);
 
+extern void KawanoDrawFinal();
+
+extern void KWSetViewportFull(); //0x80057C60
+extern void KWReturnViewport(); //0x80057CE4
+
 extern void printNumber(int *xPosition, int *yPosition, int num, int base);
 extern void printString(int xPosition, int yPosition, char *printText);
 extern void printStringBinary(int xPosition, int yPosition, char *printText, int printValue);
@@ -230,6 +235,8 @@ extern void SetBombThrowRollover(Player *Kart,char Place); //0x8008EAE0
 extern void SetBombRollover(Player *Kart,char Place); //0x8008E6C0
 extern void SetProWheelSpin(Player *Kart,char Place); //0x8008D0FC
 
+extern void F_80090178(Player *Kart, char PlayerID, float *SpawnVector, float *FacingVector);
+extern void GetLakituSpawnPoint(Player *Kart, char PlayerID, float *SpawnVector, float *FacingVector);
 extern void SetFastOoB(void *Car,char PlayerID);
 extern void CallLakitu(void *Car);
 extern void SetLakitu(void *Car);
@@ -764,6 +771,8 @@ extern char g_courseSelect; //8018EE0B
 extern char g_InGameTT; //0x8018EDFB
 extern char g_InGame; //0x8018EDFC
 
+extern void InitializeEndingSequence();
+extern void EndingSequence();
 extern short asm_CupCount;
 extern short songID; //
 extern long asm_SongA;// 0x8028EC9C
@@ -820,6 +829,7 @@ extern char player4OK; //
 extern void textDrawPtr(int *x, int *y, const char *str, int spacing, float xScale, float yScale);
 extern void textDraw(int x, int y, const char *str, int spacing, float xScale, float yScale);
 extern void DrawText(int x, int y, const char *str, int spacing, float xScale, float yScale);
+extern void SetFadeOutTaData();
 
 extern int GetWordLength(const char *str);
 
@@ -1138,6 +1148,10 @@ extern void SearchListFile(int addr);
 extern void MakeCollision();
 extern ushort RGBALeaf[];
 extern void InitialMap();
+extern void InitialMapObject();
+extern void SetTreeObject(uint TargetAddress);  // 0x8029D584
+extern void SetPakkunObject(uint TargetAddress);  // 0x8029CC14
+extern void SetItemBoxObject(uint TargetAddress);  // 0x8029D830
 extern void LoadMapData();
 extern int FallingRockGFX_U; //default 0x3C0F0600
 extern int FallingRockGFX_L; //default 0x25EF6FE0

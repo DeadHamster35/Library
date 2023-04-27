@@ -83,6 +83,22 @@ void ClearOKObject(short ObjectID)
 	OKObjectArray[ObjectID].ObjectData.category = 0;
 }
 
+bool TestCollideSVectorSphere(float SourcePosition[], float SourceRadius, SVector TargetPosition, float TargetRadius)
+{
+	//Does a collision test using pythagorean maths. 
+
+	GlobalFloatA = SourceRadius + TargetRadius;
+	
+	GlobalFloatB = SourcePosition[0] - TargetPosition[0];
+	GlobalFloatC = SourcePosition[1] - TargetPosition[1];
+	GlobalFloatD = SourcePosition[2] - TargetPosition[2];
+	if ((GlobalFloatB * GlobalFloatB) + (GlobalFloatC * GlobalFloatC) + (GlobalFloatD * GlobalFloatD) > (GlobalFloatA * GlobalFloatA))
+	{
+		return false;
+	}
+	
+	return true; 
+}
 bool TestCollideSphere(float SourcePosition[], float SourceRadius, float TargetPosition[], float TargetRadius)
 {
 	//Does a collision test using pythagorean maths. 
@@ -206,22 +222,11 @@ bool CheckOKCollide(OKCollisionSphere* HitBox, Vector SourcePosition, Vector Sou
 			return (TestCollideSphere(SourcePosition, SourceSize[0], TargetPosition, TargetRadius));
 			break;
 		}
-		case 1:  //Sphere with Offset
-		{
-			return (TestCollideSphere(SourcePosition, SourceSize[0], TargetPosition, TargetRadius));
-			break;
-		}		
-		case 2: //Box
+		case 1:  //Box
 		{
 			return TestCollideBox(SourcePosition, SourceSize, SourceAngle, TargetPosition, TargetRadius);
 			break;
 		}
-		case 3: //Collision Box with Offset
-		{
-			return TestCollideBox(SourcePosition, SourceSize, SourceAngle, TargetPosition, TargetRadius);
-			break;
-		}
-
 	}
 	return false;
 }
@@ -268,7 +273,7 @@ void OKObjectCollision(OKObject *InputObject)
 			BoxAngles[1] = (HitBox[ThisBox].Angle[1] + InputObject->ObjectData.angle[1]);
 			BoxAngles[2] = (HitBox[ThisBox].Angle[2] + InputObject->ObjectData.angle[2]);
 
-			if (HitBox[ThisBox].Type == 3)
+			if (HitBox[ThisBox].OffsetFlag == 1)
 			{
 				
 				MakeAlignVector(TempPosition, InputObject->ObjectData.angle[1]);

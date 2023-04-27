@@ -298,18 +298,7 @@ void overkartASM(void)
 	bigsignA= 0x3C0A0600;   //3C0A0601
 	bigsignB= 0x254A0000;   //254A9330
 
-	itemboxesA = 0x3C040600; //8029DBD4
-	itemboxesB = 0x24840008; //8029DBDC
-
-	battleItemBoxesA = 0x24840008;
-
-	//8029E0D8
-
-	treeslistA = 0x3C040600; //8029DBBC
-	treeslistB = 0x24840210; //8029DBC4
-
-	piranhalistA = 0x3C040600; //8029DBC8
-	piranhalistB = 0x24840418; //8029DBD0
+	
 
 	unknownA1 = 0x3C190600; //0x802927FC   ;;3C190601 -> 3C190600
 	unknownB1 = 0x3C040600; //0x802927FC   ;;3C190601 -> 3C190600
@@ -499,6 +488,40 @@ void setPath()
 	}
 
 }
+
+
+
+void PlaceIBoxes(long BoxOffset)
+{	
+	GlobalAddressA = GetRealAddress(BoxOffset);
+	Marker *BoxArray = (Marker*)(GlobalAddressA);
+	
+	for (int Vector = 0; Vector < 3; Vector++)
+	{
+		objectVelocity[Vector] = 0;
+	}
+	for (int ThisBox = 0; ThisBox < 999; ThisBox++)
+	{
+		if (BoxArray[ThisBox].Position[0] == -32768)
+		{
+			return;
+		}
+		for (int Vector = 0; Vector < 3; Vector++)
+		{
+			objectPosition[Vector] = (float)BoxArray[ThisBox].Position[Vector];
+			objectAngle[Vector] = MakeRandom();
+		}
+		objectPosition[0] *= g_mirrorValue;
+		
+		GlobalIntA = addObjectBuffer(objectPosition, objectAngle, objectVelocity, IBOX);
+		g_SimpleObjectArray[GlobalIntA].fparam = CheckHight(objectPosition[0],objectPosition[1] + 10,objectPosition[2]);
+		g_SimpleObjectArray[GlobalIntA].velocity[0]=objectPosition[1];
+		g_SimpleObjectArray[GlobalIntA].position[1] = g_SimpleObjectArray[GlobalIntA].fparam - 20;		
+		g_SimpleObjectArray[GlobalIntA].bump.dummy = BoxArray[ThisBox].Group;
+	}
+}
+
+
 
 void setWater()
 {
@@ -861,7 +884,7 @@ void setSky()
 	
 		*targetAddress = (long)&g_skyColorTopTable;
 		*sourceAddress = OverKartHeader.Sky;
-		dataLength = 0xC;
+		dataLength = 0x10;
 		runDMA();
 		*targetAddress = (long)&g_skyColorBotTable;
 		*sourceAddress = *sourceAddress + 0xC;
@@ -871,7 +894,7 @@ void setSky()
 	{
 		*targetAddress = (long)&g_skyColorTopTable;
 		*sourceAddress = 0x1220E0;
-		dataLength = 0xC;
+		dataLength = 0x10;
 		runDMA();
 		*targetAddress = (long)&g_skyColorBotTable;
 		*sourceAddress = 0x1221DC;
@@ -893,6 +916,11 @@ void loadTextureScrollTranslucent()
 			dataLength += 4;
 			runDMA();
 		}
+	}
+	for (int ThisScroll = 0; ThisScroll < 32; ThisScroll++)
+	{
+		ScrollValues[ThisScroll][0] = 0;
+		ScrollValues[ThisScroll][1] = 0;
 	}
 }
 
@@ -1339,19 +1367,50 @@ void MapStartup(short InputID)
 	LastMemoryPointer = 0x80800000;
 	LoadCustomHeader(courseValue + gpCourseIndex);
 	SetCustomData();
+	
 	LoadMapData(InputID);
 	setPath();
 	
 	if (HotSwapID > 0)
 	{
 		loadTextureScrollTranslucent();
-		runKillDisplayObjects();
+		//runKillDisplayObjects();
+	}
+	
+	if ((SaveGame.GameSettings.StatsMode == 1) || (g_gameMode == GAMEMODE_TT))
+	{
+		checkStats(1);
+	}
+	else
+	{
+		checkStats(0);
+	}
+}
+
+void InitialMapObjectCode()
+{
+	if (HotSwapID == 0)
+	{
+		InitialMapObject();
+	}
+	else
+	{
+		g_StaticObjectCount = 0;
+
+
+		//SetItemBoxObject(0x06000008);
+		PlaceIBoxes(0x06000008);
+		SetTreeObject(0x06000210);
+		SetPakkunObject(0x06000418);
+		g_StaticObjectCount = g_simpleObjectCount;
+		
 	}
 }
 void InitialMapCode()
 {
 	
-
+	//static_object_count=(ushort)object_count;
+	
 	
 	InitialMap();
 	
@@ -1429,14 +1488,25 @@ void LoadCustomHeader(int inputID)
 
 			surfacemapA = 0x3C040600;   //3C040601
 			surfacemapB = 0x24840000  | (OverKartHeader.SurfaceMapPosition & 0xFFFF);
-			sectionviewA = 0x3C040600;   //3C040601
-			sectionviewB = 0x24840000 | (OverKartHeader.SectionViewPosition & 0xFFFF);  //24849650
 
 			
 			battleDisplayA = 0x3C0F0600;
 			battleDisplayB = 0x35EF0000 | (OverKartHeader.SectionViewPosition & 0xFFFF); 
 			battleSurfaceA = 0x3C040600;
 			battleSurfaceB = 0x34840000; 
+
+			
+			unknownA1 = 0x3C190600; //0x802927FC   ;;3C190601 -> 3C190600
+			unknownB1 = 0x3C040600; //0x802927FC   ;;3C190601 -> 3C190600
+			unknownC1 = 0x3C040600; //0x802927FC   ;;3C190601 -> 3C190600
+			unknownD1 = 0x3C040600; //0x802927FC   ;;3C190601 -> 3C190600
+
+			unknownA2 = 0x27390000; //0x80292810   ;;27399348 -> 27390000
+
+			unknownB = 0x34840000; //0x802927FC   ;;34841140 -> 34840000
+			unknownC = 0x34840000; //0x80292810   ;;348408E8 -> 34840000
+			unknownD = 0x34840000; //0x80295E70   ;;34842D68 -> 34840000
+
 
 			pathOffset = 0x06000A20;
 
@@ -1458,9 +1528,9 @@ void LoadCustomHeader(int inputID)
 	}
 }
 
+
 void SetCustomData()
-{
-	
+{	
 
 	setText();
 	setEcho();
@@ -1605,7 +1675,7 @@ void setBanners()
 			*sourceAddress = (long)&ok_FreeSpace;
 			runTKM();
 			GlobalAddressA = GlobalAddressA + 0x13C0;
-
+			
 			*targetAddress = (long)&ok_FreeSpace;
 			*sourceAddress = 0x7fc8c0;
 			runDMA();
@@ -1727,7 +1797,7 @@ void swapHS(int direction)
 		{
 			if (HotSwapID == 1)
 			{
-				stockASM();
+				//stockASM();
 			}
 			HotSwapID--;
 			
@@ -1740,7 +1810,12 @@ void swapHS(int direction)
 		{
 			if (HotSwapID == 0)
 			{
-				overkartASM();
+				//overkartASM();
+				copyCourseTable(1);
+				for (int Index = 0; Index < 20; Index++)
+				{
+					*(short*)( (uint)&g_CupArray + (Index * 2)) = Index;
+				}
 			}
 			HotSwapID++;
 			

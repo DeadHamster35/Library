@@ -165,10 +165,6 @@
 .definelabel SetWord4A, 0x800939C8
 .definelabel SetWord4AP, 0x800939FC
 
-.definelabel KawanoDrawFinal, 0x80093E20
-
-.definelabel KWSetViewportFull, 0x80057C60
-.definelabel KWReturnViewport, 0x80057CE4
 .definelabel printNumber, 0x80057524
 .definelabel printString, 0x800577A4
 .definelabel printStringBinary, 0x80057908
@@ -789,8 +785,6 @@
 .definelabel g_InGameTT, 0x8018EDFB
 .definelabel g_InGame, 0x8018EDFC
 
-.definelabel InitializeEndingSequence, 0x80280420
-.definelabel EndingSequence, 0x802802AC
 .definelabel asm_CupCount, 0x8028E3C6
 .definelabel songID, 0x8028ECE6
 .definelabel asm_SongA, 0x8028EC9C
@@ -831,7 +825,7 @@
 .definelabel player3OK, 0x8018EDEA
 .definelabel player4OK, 0x8018EDEB
 
-.definelabel SetFadeOutTaData, 0x8009E258
+
 .definelabel DrawText, 0x800936EC 
 .definelabel textDrawPtr, 0x80093788
 .definelabel textDraw, 0x800939FC
@@ -1168,10 +1162,6 @@
 .definelabel MakeCollision, 0x80295C6C
 .definelabel RGBALeaf, 0x0D0291D8
 .definelabel InitialMap, 0x80295D88
-.definelabel InitialMapObject, 0x8029DB44
-.definelabel SetTreeObject, 0x8029D584
-.definelabel SetPakkunObject, 0x8029CC14
-.definelabel SetItemBoxObject, 0x8029D830
 .definelabel LoadMapData, 0x802AA918
 .definelabel InitRDP, 0x802A3E3C
 .definelabel InitialDrawCommon, 0x802A53A4
@@ -1185,10 +1175,3 @@
 .definelabel ItemBoxModel, 0x0D003288
 .definelabel MoveFallingRock, 0x8029D188
 
-.definelabel CheckTriangleZX, 0x802AAE4C
-.definelabel CheckTriangleXY, 0x802AB288
-.definelabel CheckTriangleYZ, 0x802AB6C4
-
-.definelabel CheckTriangleZX_V, 0x802AC760
-.definelabel CheckTriangleXY_V, 0x802ACBA4
-.definelabel CheckTriangleYZ_V, 0x802AD278

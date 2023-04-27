@@ -1,3 +1,9 @@
+/*
+These are default functions that overwrite existing game code calls.
+If the defined functions have not been made in an external codebase, it will use the default.
+*/
+
+
 .ifndef gameCode
 .definelabel gameCode, gameCodeDefault
 .endif
@@ -48,4 +54,9 @@
 
 .ifndef ExecuteItemHook
 .definelabel ExecuteItemHook, ExecuteItemHookDefault
+.endif
+
+
+.ifndef MiniMapDraw
+.definelabel MiniMapDrawDefault, MiniMapDraw
 .endif
