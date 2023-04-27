@@ -307,7 +307,36 @@ NOP
 
 
 
+.org 0x72094
+JAL KWKumo_Alloc_Hook
+.org 0x7209C
+JAL KWKumo_Alloc_Hook
+.org 0x72464
+JAL KWKumo_Alloc_Hook
+.org 0x7246C
+JAL KWKumo_Alloc_Hook
+.org 0x7266C
+JAL KWKumo_Alloc_Hook
+.org 0x72674
+JAL KWKumo_Alloc_Hook
 
+
+.org 0x5A9A4
+JAL KWChart_Kumo_Hook
+.org 0x5AA00
+JAL KWChart_Kumo_Hook
+.org 0x5AA10
+JAL KWChart_Kumo_Hook
+.org 0x5AA60
+JAL KWChart_Kumo_Hook
+.org 0x5AA98
+JAL KWChart_Kumo_Hook
+.org 0x5AAF0
+JAL KWChart_Kumo_Hook
+.org 0x5AB28
+JAL KWChart_Kumo_Hook
+.org 0x5AD00
+JAL KWChart_Kumo_Hook
 
 //EventDisplay Hooks
 .org 0x058EB4
