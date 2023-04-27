@@ -891,7 +891,7 @@ void setSky()
 		dataLength = 0x10;
 		runDMA();
 		*targetAddress = (long)&g_skyColorBotTable;
-		*sourceAddress = *sourceAddress + 0xC;
+		*sourceAddress = *sourceAddress + 0x10;
 		runDMA();
 	}
 	else
@@ -1983,6 +1983,14 @@ void XLUDisplay(Screen* Display)
 	{	
 		if (g_gameMode != GAMEMODE_BATTLE)
 		{
+			if (OverKartHeader.FogStart > 0)
+			{
+				gDPSetCycleType(GraphPtrOffset++, G_CYC_2CYCLE);
+				gDPSetFogColor(GraphPtrOffset++, (uint)OverKartHeader.FogRGBA[0],(uint)OverKartHeader.FogRGBA[1],(uint)OverKartHeader.FogRGBA[2],(uint)OverKartHeader.FogRGBA[3]);
+				gSPFogPosition(GraphPtrOffset++, OverKartHeader.FogStart, OverKartHeader.FogStop);
+				gDPSetRenderMode(GraphPtrOffset++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_SURF2);
+				gSPSetGeometryMode(GraphPtrOffset++, (G_FOG | G_SHADING_SMOOTH));
+			}
 			DisplayGroupmap(SegmentAddress(6,OverKartHeader.XLUSectionViewPosition), Display);
 		}
 		else

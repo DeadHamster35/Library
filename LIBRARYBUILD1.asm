@@ -421,9 +421,9 @@ NOP
 
 //Disable the Goal Flag Gate / Starting Line Banner
 //Ran manually from DrawPerScreen
-//.org 0x10C7A4
-//NOP
-//NOP
+.org 0x10C7A4
+NOP
+NOP
 
 //Disable BackgroundFlag to control ourselves via gameCode
 //Stops the sky from being drawn. 
