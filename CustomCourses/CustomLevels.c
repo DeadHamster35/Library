@@ -493,6 +493,10 @@ void setPath()
 
 void PlaceIBoxes(long BoxOffset)
 {	
+	if( (g_ItemSetFlag == 0) || (g_gameMode == GAMEMODE_TT))
+	{
+		return;
+	}
 	GlobalAddressA = GetRealAddress(BoxOffset);
 	Marker *BoxArray = (Marker*)(GlobalAddressA);
 	
@@ -517,7 +521,7 @@ void PlaceIBoxes(long BoxOffset)
 		g_SimpleObjectArray[GlobalIntA].fparam = CheckHight(objectPosition[0],objectPosition[1] + 10,objectPosition[2]);
 		g_SimpleObjectArray[GlobalIntA].velocity[0]=objectPosition[1];
 		g_SimpleObjectArray[GlobalIntA].position[1] = g_SimpleObjectArray[GlobalIntA].fparam - 20;		
-		g_SimpleObjectArray[GlobalIntA].bump.dummy = BoxArray[ThisBox].Group;
+		g_SimpleObjectArray[GlobalIntA].bump.dummy = BoxArray[ThisBox].Group;  //used for forced custom items
 	}
 }
 
@@ -1375,15 +1379,6 @@ void MapStartup(short InputID)
 	{
 		loadTextureScrollTranslucent();
 		//runKillDisplayObjects();
-	}
-	
-	if ((SaveGame.GameSettings.StatsMode == 1) || (g_gameMode == GAMEMODE_TT))
-	{
-		checkStats(1);
-	}
-	else
-	{
-		checkStats(0);
 	}
 }
 

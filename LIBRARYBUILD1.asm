@@ -230,8 +230,8 @@ NOP
 
 
 //Hook add new custom IBox code
-.org 0x1071E8
-JAL CreateCustomItemBox
+//.org 0x1071E8
+//JAL CreateCustomItemBox
 
 
 

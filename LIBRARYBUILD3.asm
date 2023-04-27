@@ -105,7 +105,6 @@ LW ra, 0x001C(sp)
 GlobalCustomCode:
 ADDIU sp, sp, -0x20
 SW ra, 0x001C (sp) //push ra to the stack
->>>>>>> 067e06a (Re-orded and properly numbered LIBRARYBUILD to be in the same order that they need to be called in.)
 NOP
 JAL allRunSwitch
 NOP

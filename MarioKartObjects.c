@@ -186,6 +186,10 @@ void UpdateObjectFrictionScale(Object* InputObject, float FrictionScale)
 
 void CreateCustomItemBox(uint RSPAddress)
 {
+	if( (g_ItemSetFlag == 0) || (g_gameMode == GAMEMODE_TT))
+	{
+		return;
+	}
 	GlobalAddressA = GetRealAddress(RSPAddress);
 	Marker *BoxArray = (Marker*)(GlobalAddressA);
 	
