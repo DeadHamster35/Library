@@ -1192,3 +1192,20 @@
 .definelabel CheckTriangleZX_V, 0x802AC760
 .definelabel CheckTriangleXY_V, 0x802ACBA4
 .definelabel CheckTriangleYZ_V, 0x802AD278
+
+.definelabel SpinKart, 0x8002E594
+.definelabel WeaponStatus, 0x8002B830
+.definelabel SetStrategy, 0x8002CD48
+.definelabel CheckKartHit, 0x8002C7E4
+.definelabel PowerCheck, 0x80030150
+.definelabel DriftJump, 0x8002AAC0
+.definelabel CheckWall, 0x8002C954
+.definelabel AccelOff, 0x80031F48
+.definelabel CheckSlope, 0x802ABDB8
+.definelabel SetRolloverFall, 0x8008F494
+.definelabel ResetRolloverFall, 0x8008F5A4
+.definelabel CalcHeight, 0x802ABE30
+.definelabel TirePosition, 0x80029B4C
+.definelabel EnemyTirePosition, 0x8002A194
+.definelabel SetSlipAngle, 0x8002AE38
+.definelabel NaPlyLandStart, 0x800CADD0

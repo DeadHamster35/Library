@@ -548,7 +548,23 @@ JAL custom_check_triangle_yz_v
 .org 0x119628
 JAL custom_check_triangle_yz_v
 
+//Custom Spin Kart
+.org 0x029788
+JAL custom_SpinKart
+.org 0x0298FC
+JAL custom_SpinKart
+.org 0x029A38
+JAL custom_SpinKart
 
+//Custom Run Kart
+.org 0x029798
+JAL custom_RunKart
+.org 0x0297FC
+JAL custom_RunKart
+.org 0x02990C
+JAL custom_RunKart
+.org 0x029A48
+JAL custom_RunKart
 
 .ifndef CFLG_LapCounter
 
