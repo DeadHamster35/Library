@@ -37,6 +37,16 @@
 #define SFX_WET_SNOW_LEFT		29
 #define SFX_WET_SNOW_RIGHT		30
 
+int LavaFloorBumpCount[8];
+bool LavaFloorRecoilRequired[8];
+bool LavaFloorRecoiling[8];
+
+float absFloat(float value)
+{
+	int x = *(int*)&value;
+	x &= 0x7FFFFFFF;
+	return *(float*)&x;
+}
 
 void SurfaceSFX(Player *car, int SFX_ID, float min_Speed)
 {
@@ -50,9 +60,6 @@ void SurfaceSFX(Player *car, int SFX_ID, float min_Speed)
 		}
 	}	
 }
-
-
-
 
 #define TRICK_GRAVITY				4000.0f
 #define TRICK_TRIGGER_SPEED_MIN		30
@@ -710,4 +717,197 @@ void InitSpinSmokeHook(Player *car,short count,int kk,char kno,char place)
 	}
 
 	InitCustomSmoke(car, pos_R, pos_F, count, kk, surface, flag);
+}
+
+void LavaFloorRecoil()
+{
+	int players = g_gameMode == 00 ? 8 : g_playerCount;
+	for (int i = 0; i < players; i++)
+	{
+		if (LavaFloorRecoilRequired[i])
+		{
+			LavaFloorRecoiling[i] = true;
+			short pathPoint = g_playerPathPointTable[i];
+
+			PlaceTarget(g_pathPointPointer[pathPoint].pointx, g_pathPointPointer[pathPoint].pointy, g_pathPointPointer[pathPoint].pointz);
+			NAPlyTrgStart(i, 0x1900a40b);
+			GlobalPlayer[i].slip_flag = 0;
+			GlobalPlayer[i].slip_flag |= IS_TUMBLING;
+			GlobalPlayer[i].speed = 0;
+
+			short direction = (short)(MakeDirection(GlobalPlayer[i].position[0], GlobalPlayer[i].position[2], g_pathPointPointer[pathPoint].pointx, g_pathPointPointer[pathPoint].pointz) * -1);
+			GlobalPlayer[i].direction[1] = direction;
+
+			distZX = Sqrtf(
+				(GlobalPlayer[i].position[0] - g_pathPointPointer[pathPoint].pointx) * (GlobalPlayer[i].position[0] - g_pathPointPointer[pathPoint].pointx)
+				+
+				(GlobalPlayer[i].position[2] - g_pathPointPointer[pathPoint].pointz) * (GlobalPlayer[i].position[2] - g_pathPointPointer[pathPoint].pointz));
+			distY = g_pathPointPointer[pathPoint].pointy - GlobalPlayer[i].position[1];
+
+			//Similar height
+			if (absFloat(distY < 30))
+			{
+				launchAngle = (-.135 * distZX) + 107.5;
+				if (launchAngle < 55) launchAngle = 55;
+				if (launchAngle > 80) launchAngle = 80;
+				Vel = 70; //dist 530 landed square on 70
+				if (distZX < 500) { Vel = 22; }
+				if (distZX < 450) { Vel = 20; }
+				if (distZX < 400) { Vel = 15; }
+				if (distZX < 350) { Vel = 16; }
+				if (distZX < 300) { Vel = 16; }
+				if (distZX < 250) { Vel = 16.8; }
+				if (distZX < 200) { Vel = 18; }
+				if (distZX < 150) { Vel = 16.5; }
+				if (distZX < 125) { Vel = 12; }
+			}
+
+			//Lava below course
+			if (distY >= 30)
+			{
+				launchAngle = (-.135 * distZX) + 105.5;
+				if (launchAngle < 60) launchAngle = 60;
+				if (launchAngle > 80) launchAngle = 80;
+				Vel = 70; //dist 530 landed square on 70
+				if (distZX < 500) { Vel = 23; }
+				if (distZX < 450) { Vel = 21; }
+				if (distZX < 400) { Vel = 16; }
+				if (distZX < 350) { Vel = 17; }
+				if (distZX < 300) { Vel = 17; }
+				if (distZX < 250) { Vel = 17.8; }
+				if (distZX < 200) { Vel = 19; }
+				if (distZX < 150) { Vel = 17.5; }
+				if (distZX < 100) { Vel = 13; }
+			}
+
+			//Lava far below course
+			if (distY >= 60)
+			{
+				launchAngle = (-.135 * distZX) + 107.5;
+				if (launchAngle < 65) launchAngle = 65;
+				if (launchAngle > 82) launchAngle = 82;
+				Vel = 70; //dist 530 landed square on 70
+				if (distZX < 500) { Vel = 26; }
+				if (distZX < 450) { Vel = 24; }
+				if (distZX < 400) { Vel = 19; }
+				if (distZX < 350) { Vel = 20; }
+				if (distZX < 300) { Vel = 20; }
+				if (distZX < 250) { Vel = 20.8; }
+				if (distZX < 200) { Vel = 22; }
+				if (distZX < 150) { Vel = 20.5; }
+				if (distZX < 100) { Vel = 16; }
+			}
+
+			if (distY <= -30) //Lava above course
+			{
+				launchAngle = (-.135 * distZX) + 107.5;
+				if (launchAngle < 55) launchAngle = 55;
+				if (launchAngle > 80) launchAngle = 80;
+				Vel = 70; //dist 530 landed square on 70
+				if (distZX < 500) { Vel = 20; }
+				if (distZX < 450) { Vel = 18; }
+				if (distZX < 400) { Vel = 13; }
+				if (distZX < 350) { Vel = 14; }
+				if (distZX < 300) { Vel = 14; }
+				if (distZX < 250) { Vel = 14.8; }
+				if (distZX < 200) { Vel = 16; }
+				if (distZX < 150) { Vel = 14.5; }
+				if (distZX < 125) { Vel = 10; }
+			}
+
+			if (distY <= -59) //Lava far above course
+			{
+				launchAngle = (-.135 * distZX) + 107.5;
+				if (launchAngle < 55) launchAngle = 55;
+				if (launchAngle > 80) launchAngle = 80;
+				Vel = 70; //dist 530 landed square on 70
+				if (distZX < 500) { Vel = 21; }
+				if (distZX < 450) { Vel = 19; }
+				if (distZX < 400) { Vel = 14; }
+				if (distZX < 350) { Vel = 14.5; }
+				if (distZX < 300) { Vel = 15; }
+				if (distZX < 250) { Vel = 15.8; }
+				if (distZX < 200) { Vel = 17; }
+				if (distZX < 150) { Vel = 15.5; }
+				if (distZX < 125) { Vel = 12; }
+			}
+
+			if (distY <= -89) //Lava really far above course
+			{
+				launchAngle = (-.135 * distZX) + 107.5;
+				if (launchAngle < 55) launchAngle = 55;
+				if (launchAngle > 80) launchAngle = 80;
+				Vel = 70; //dist 530 landed square on 70
+				if (distZX < 500) { Vel = 22; }
+				if (distZX < 450) { Vel = 14; }
+				if (distZX < 400) { Vel = 13; }
+				if (distZX < 350) { Vel = 13; }
+				if (distZX < 300) { Vel = 16; }
+				if (distZX < 250) { Vel = 16.8; }
+				if (distZX < 200) { Vel = 18; }
+				if (distZX < 150) { Vel = 16.5; }
+				if (distZX < 125) { Vel = 12; }
+			}
+
+			float launchAngleRadians = launchAngle * 3.1415 / 180.0f;
+			vZX = cosF(launchAngleRadians) * Vel;
+			vY = sinF(launchAngleRadians) * Vel;
+
+			objectVelocity[0] = 0;
+			objectVelocity[1] = vY;
+			objectVelocity[2] = vZX;
+
+			MakeAlignVector(objectVelocity, GlobalPlayer[i].direction[1]);
+			GlobalPlayer[i].gravity = 0;
+			GlobalPlayer[i].gravity_xz[0] = 0;
+			GlobalPlayer[i].gravity_xz[1] = 0;
+			GlobalPlayer[i].gravity_xz[2] = 0;
+			GlobalPlayer[i].velocity[0] = objectVelocity[0];
+			GlobalPlayer[i].velocity[1] = objectVelocity[1];
+			GlobalPlayer[i].velocity[2] = objectVelocity[2];
+			LavaFloorRecoilRequired[i] = false;
+		}
+
+		if (LavaFloorRecoiling[i] && !LavaFloorRecoilRequired[i])
+		{
+			short pathPoint = g_playerPathPointTable[i];
+			if (pathPoint + 2 <= g_courseTotalPathPoints[0]) pathPoint += 2;
+			short direction = (short)(MakeDirection(GlobalPlayer[i].position[0], GlobalPlayer[i].position[2], g_pathPointPointer[pathPoint].pointx, g_pathPointPointer[pathPoint].pointz) * -1);
+			GlobalPlayer[i].direction[1] = direction;
+		}
+	}
+}
+
+void InteractLavaFloor(Bump* bump, ushort pointer)
+{
+	int PlayerIndex = (*(long*)&bump - (long)&g_PlayerStructTable - 0x110) / 0xDD8;
+	FaceStruct* face = (FaceStruct*)gFaceBuffer + pointer;
+
+	if ((face->status & 0x00FF) == 204) //LavaFloor
+	{
+		GlobalPlayer[PlayerIndex].jugemu_flag |= LAVA_EFFECT;
+		LavaFloorRecoilRequired[PlayerIndex] = true;
+		LavaFloorBumpCount[PlayerIndex] += 1;
+	}
+	else
+	{
+		if (LavaFloorRecoiling[PlayerIndex])
+		{
+			ResetRolloverFall((Player*)&GlobalPlayer[PlayerIndex], PlayerIndex);
+			if ((GlobalPlayer[PlayerIndex].slip_flag & IS_TUMBLING) == IS_TUMBLING)
+				GlobalPlayer[PlayerIndex].slip_flag ^= IS_TUMBLING;
+
+			if ((GlobalPlayer[PlayerIndex].jugemu_flag & LAVA_EFFECT) == LAVA_EFFECT)
+				GlobalPlayer[PlayerIndex].jugemu_flag ^= LAVA_EFFECT;
+
+			LavaFloorRecoilRequired[PlayerIndex] = false;
+			LavaFloorRecoiling[PlayerIndex] = false;
+			LavaFloorBumpCount[PlayerIndex] = 0;
+		}
+	}
+
+	if (LavaFloorBumpCount[PlayerIndex] >= 4)
+	{
+		CallLakitu(&GlobalPlayer[PlayerIndex]);
+	}
 }
