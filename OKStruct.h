@@ -252,6 +252,7 @@ typedef struct OKMenu{
 #define PATH_AIRCONTROL 	3
 #define PATH_JUMP		4
 #define PATH_NOSIMPLE	5 
+#define PATH_WEATHER	6
 
 typedef struct OKRAMHeader{
 

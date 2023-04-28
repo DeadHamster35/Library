@@ -431,6 +431,10 @@ void CheckPaths()
 								GlobalPlayer[(int)playerID].talk |= 0x2; // Unused talk flag
 								break;
 							}
+							case (PATH_WEATHER):
+							{
+								break;
+							}
 						}
 					}
 				}	

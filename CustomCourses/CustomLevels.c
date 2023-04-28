@@ -703,16 +703,16 @@ void SetCloudType(char CloudType)  // 0 = None // 1 = MR Clouds // 2 = Stars // 
 void Snow3DTrigger()						// Used to disable 3D snow on certain pathmarker ranges 
 {
 	#define S3DArraySize 2					// Array size for the total amount of 3DSnow Disable sections used. Pull from course data
-/*
+
 	short S3DTrStart[S3DArraySize];
 	short S3DTrEnd[S3DArraySize];
-*/
+
 	if (Snow3DCourseID == 5)				// Only run for existing racers
 	{
 		for (int LoopVal = 0; LoopVal < S3DArraySize; LoopVal++)
 		{
-		// Fill out each index of the arrays with data from course. Loop value as offset multiplicator//
-			/*
+			// Fill out each index of the arrays with data from course. Loop value as offset multiplicator//
+			
 			S3DTrStart[LoopVal] = 140;
 			S3DTrEnd[LoopVal] = 200;
 
@@ -722,7 +722,7 @@ void Snow3DTrigger()						// Used to disable 3D snow on certain pathmarker range
 				g_3DSnowSpawnHeight = (g_3DSnowSpawnHeight & 0xFFFF0000) + (0x602D & 0x0000FFFF);
 				break;
 			}
-			*/
+			
 			g_3DSnowSpawnHeight = (g_3DSnowSpawnHeight & 0xFFFF0000) + (0x002D & 0x0000FFFF);
 		}
 	}
@@ -752,6 +752,8 @@ void SetWeather3D(bool Weather3DEnable) // Enables 3D weather effects (snow/rain
 	}
 	if(Weather3DEnable && HotSwapID > 0)
 	{
+		return;
+		//Temporary until fixed PathFX
 		if (g_startingIndicator >= 0 && g_startingIndicator < 5 && g_gamePausedFlag == 0x00 && g_playerCount == 1)
 		{
 			KWChartSnow();
