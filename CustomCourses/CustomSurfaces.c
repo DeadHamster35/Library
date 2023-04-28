@@ -37,6 +37,13 @@
 #define SFX_WET_SNOW_LEFT		29
 #define SFX_WET_SNOW_RIGHT		30
 
+#define RESULT_JUMP				0x0800
+#define MOVE_CAMERA				0
+#define STOP_CAMERA				1
+#define LAND					0x0100
+#define WALLHIT	   				0x0010
+#define WALLHIT_JOIN			0x0020
+
 int LavaFloorBumpCount[8];
 bool LavaFloorRecoilRequired[8];
 bool LavaFloorRecoiling[8];
