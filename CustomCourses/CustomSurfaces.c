@@ -123,6 +123,7 @@ void SurfaceSFX(Player *car, int SFX_ID, float min_Speed)
 #define GetItem			237
 #define TrickJump		236
 #define GapJump			235
+#define LavaSurface		234
 
 #define Mud				18
 
@@ -892,7 +893,7 @@ void InteractLavaFloor(Bump* bump, ushort pointer)
 	int PlayerIndex = (*(long*)&bump - (long)&g_PlayerStructTable - 0x110) / 0xDD8;
 	FaceStruct* face = (FaceStruct*)gFaceBuffer + pointer;
 
-	if ((face->status & 0x00FF) == 204) //LavaFloor
+	if ((face->status & 0x00FF) == LavaSurface) //LavaFloor
 	{
 		GlobalPlayer[PlayerIndex].jugemu_flag |= LAVA_EFFECT;
 		LavaFloorRecoilRequired[PlayerIndex] = true;
