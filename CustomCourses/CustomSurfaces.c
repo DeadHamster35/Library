@@ -721,6 +721,9 @@ void InitSpinSmokeHook(Player *car,short count,int kk,char kno,char place)
 
 void LavaFloorRecoil()
 {
+	float launchAngle;
+	float distZX, distY;
+	float vel;
 	int players = g_gameMode == 00 ? 8 : g_playerCount;
 	for (int i = 0; i < players; i++)
 	{
@@ -749,16 +752,16 @@ void LavaFloorRecoil()
 				launchAngle = (-.135 * distZX) + 107.5;
 				if (launchAngle < 55) launchAngle = 55;
 				if (launchAngle > 80) launchAngle = 80;
-				Vel = 70; //dist 530 landed square on 70
-				if (distZX < 500) { Vel = 22; }
-				if (distZX < 450) { Vel = 20; }
-				if (distZX < 400) { Vel = 15; }
-				if (distZX < 350) { Vel = 16; }
-				if (distZX < 300) { Vel = 16; }
-				if (distZX < 250) { Vel = 16.8; }
-				if (distZX < 200) { Vel = 18; }
-				if (distZX < 150) { Vel = 16.5; }
-				if (distZX < 125) { Vel = 12; }
+				vel = 70;
+				if (distZX < 500) { vel = 22; }
+				if (distZX < 450) { vel = 20; }
+				if (distZX < 400) { vel = 15; }
+				if (distZX < 350) { vel = 16; }
+				if (distZX < 300) { vel = 16; }
+				if (distZX < 250) { vel = 16.8; }
+				if (distZX < 200) { vel = 18; }
+				if (distZX < 150) { vel = 16.5; }
+				if (distZX < 125) { vel = 12; }
 			}
 
 			//Lava below course
@@ -767,16 +770,16 @@ void LavaFloorRecoil()
 				launchAngle = (-.135 * distZX) + 105.5;
 				if (launchAngle < 60) launchAngle = 60;
 				if (launchAngle > 80) launchAngle = 80;
-				Vel = 70; //dist 530 landed square on 70
-				if (distZX < 500) { Vel = 23; }
-				if (distZX < 450) { Vel = 21; }
-				if (distZX < 400) { Vel = 16; }
-				if (distZX < 350) { Vel = 17; }
-				if (distZX < 300) { Vel = 17; }
-				if (distZX < 250) { Vel = 17.8; }
-				if (distZX < 200) { Vel = 19; }
-				if (distZX < 150) { Vel = 17.5; }
-				if (distZX < 100) { Vel = 13; }
+				vel = 70;
+				if (distZX < 500) { vel = 23; }
+				if (distZX < 450) { vel = 21; }
+				if (distZX < 400) { vel = 16; }
+				if (distZX < 350) { vel = 17; }
+				if (distZX < 300) { vel = 17; }
+				if (distZX < 250) { vel = 17.8; }
+				if (distZX < 200) { vel = 19; }
+				if (distZX < 150) { vel = 17.5; }
+				if (distZX < 100) { vel = 13; }
 			}
 
 			//Lava far below course
@@ -785,16 +788,16 @@ void LavaFloorRecoil()
 				launchAngle = (-.135 * distZX) + 107.5;
 				if (launchAngle < 65) launchAngle = 65;
 				if (launchAngle > 82) launchAngle = 82;
-				Vel = 70; //dist 530 landed square on 70
-				if (distZX < 500) { Vel = 26; }
-				if (distZX < 450) { Vel = 24; }
-				if (distZX < 400) { Vel = 19; }
-				if (distZX < 350) { Vel = 20; }
-				if (distZX < 300) { Vel = 20; }
-				if (distZX < 250) { Vel = 20.8; }
-				if (distZX < 200) { Vel = 22; }
-				if (distZX < 150) { Vel = 20.5; }
-				if (distZX < 100) { Vel = 16; }
+				vel = 70;
+				if (distZX < 500) { vel = 26; }
+				if (distZX < 450) { vel = 24; }
+				if (distZX < 400) { vel = 19; }
+				if (distZX < 350) { vel = 20; }
+				if (distZX < 300) { vel = 20; }
+				if (distZX < 250) { vel = 20.8; }
+				if (distZX < 200) { vel = 22; }
+				if (distZX < 150) { vel = 20.5; }
+				if (distZX < 100) { vel = 16; }
 			}
 
 			if (distY <= -30) //Lava above course
@@ -802,16 +805,16 @@ void LavaFloorRecoil()
 				launchAngle = (-.135 * distZX) + 107.5;
 				if (launchAngle < 55) launchAngle = 55;
 				if (launchAngle > 80) launchAngle = 80;
-				Vel = 70; //dist 530 landed square on 70
-				if (distZX < 500) { Vel = 20; }
-				if (distZX < 450) { Vel = 18; }
-				if (distZX < 400) { Vel = 13; }
-				if (distZX < 350) { Vel = 14; }
-				if (distZX < 300) { Vel = 14; }
-				if (distZX < 250) { Vel = 14.8; }
-				if (distZX < 200) { Vel = 16; }
-				if (distZX < 150) { Vel = 14.5; }
-				if (distZX < 125) { Vel = 10; }
+				vel = 70;
+				if (distZX < 500) { vel = 20; }
+				if (distZX < 450) { vel = 18; }
+				if (distZX < 400) { vel = 13; }
+				if (distZX < 350) { vel = 14; }
+				if (distZX < 300) { vel = 14; }
+				if (distZX < 250) { vel = 14.8; }
+				if (distZX < 200) { vel = 16; }
+				if (distZX < 150) { vel = 14.5; }
+				if (distZX < 125) { vel = 10; }
 			}
 
 			if (distY <= -59) //Lava far above course
@@ -819,16 +822,16 @@ void LavaFloorRecoil()
 				launchAngle = (-.135 * distZX) + 107.5;
 				if (launchAngle < 55) launchAngle = 55;
 				if (launchAngle > 80) launchAngle = 80;
-				Vel = 70; //dist 530 landed square on 70
-				if (distZX < 500) { Vel = 21; }
-				if (distZX < 450) { Vel = 19; }
-				if (distZX < 400) { Vel = 14; }
-				if (distZX < 350) { Vel = 14.5; }
-				if (distZX < 300) { Vel = 15; }
-				if (distZX < 250) { Vel = 15.8; }
-				if (distZX < 200) { Vel = 17; }
-				if (distZX < 150) { Vel = 15.5; }
-				if (distZX < 125) { Vel = 12; }
+				vel = 70;
+				if (distZX < 500) { vel = 21; }
+				if (distZX < 450) { vel = 19; }
+				if (distZX < 400) { vel = 14; }
+				if (distZX < 350) { vel = 14.5; }
+				if (distZX < 300) { vel = 15; }
+				if (distZX < 250) { vel = 15.8; }
+				if (distZX < 200) { vel = 17; }
+				if (distZX < 150) { vel = 15.5; }
+				if (distZX < 125) { vel = 12; }
 			}
 
 			if (distY <= -89) //Lava really far above course
@@ -836,21 +839,21 @@ void LavaFloorRecoil()
 				launchAngle = (-.135 * distZX) + 107.5;
 				if (launchAngle < 55) launchAngle = 55;
 				if (launchAngle > 80) launchAngle = 80;
-				Vel = 70; //dist 530 landed square on 70
-				if (distZX < 500) { Vel = 22; }
-				if (distZX < 450) { Vel = 14; }
-				if (distZX < 400) { Vel = 13; }
-				if (distZX < 350) { Vel = 13; }
-				if (distZX < 300) { Vel = 16; }
-				if (distZX < 250) { Vel = 16.8; }
-				if (distZX < 200) { Vel = 18; }
-				if (distZX < 150) { Vel = 16.5; }
-				if (distZX < 125) { Vel = 12; }
+				vel = 70;
+				if (distZX < 500) { vel = 22; }
+				if (distZX < 450) { vel = 14; }
+				if (distZX < 400) { vel = 13; }
+				if (distZX < 350) { vel = 13; }
+				if (distZX < 300) { vel = 16; }
+				if (distZX < 250) { vel = 16.8; }
+				if (distZX < 200) { vel = 18; }
+				if (distZX < 150) { vel = 16.5; }
+				if (distZX < 125) { vel = 12; }
 			}
 
 			float launchAngleRadians = launchAngle * 3.1415 / 180.0f;
-			vZX = cosF(launchAngleRadians) * Vel;
-			vY = sinF(launchAngleRadians) * Vel;
+			float vZX = cosF(launchAngleRadians) * vel;
+			float vY = sinF(launchAngleRadians) * vel;
 
 			objectVelocity[0] = 0;
 			objectVelocity[1] = vY;
