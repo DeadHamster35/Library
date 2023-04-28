@@ -86,4 +86,5 @@ extern char CharacterUnconvert[];
 
 extern void RunWaveSpeed(ushort *WaveDir,short WaveSpeed);
 extern void SpriteDrawWave(int cx,int cy,ushort *addr,int sizex,int sizey,float WaveScale,short WaveAngleStep,ushort WaveDirAddr);
+extern ushort custom_check_bump_2(Bump* bump, float radius, float px, float py, float pz, float lastx, float lasty, float lastz);
 #endif

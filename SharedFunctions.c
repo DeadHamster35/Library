@@ -515,7 +515,12 @@ ushort custom_check_bump(Bump *bump,float radius,float px,float py,float pz)
     return CheckBump(bump, radius, px, py, pz);
 }
 
-ushort custom_check_bump_2(Bump *bump,float radius,float px,float py,float pz,float lastx, float lasty,float lastz)
+ushort custom_check_bump_2(Bump* bump, float radius, float px, float py, float pz, float lastx, float lasty, float lastz)
 {
-    return CheckBump2(bump, radius, px, py, pz, lastx, lasty, lastz);
+	ushort tmp = CheckBump2(bump, radius, px, py, pz, lastx, lasty, lastz);
+	if (tmp != 0)
+	{
+		InteractLavaFloor(bump, bump->last_zx);
+	}
+	return tmp;
 }

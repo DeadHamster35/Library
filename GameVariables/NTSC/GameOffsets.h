@@ -1169,3 +1169,20 @@ extern int CheckTriangleYZ(Bump *bump, float radius,float p1x,float p1y, float p
 extern int CheckTriangleZX_V(Bump *bump,float radius,float p1x,float p1y, float p1z, ushort pointer ,float lastx,float lasty,float lastz);
 extern int CheckTriangleXY_V(Bump *bump,float radius,float p1x, float p1y, float p1z ,ushort pointer ,float lastx,float lasty,float lastz);
 extern int CheckTriangleYZ_V(Bump *bump,float radius,float p1x ,float p1y, float p1z, ushort pointer ,float lastx,float lasty,float lastz);
+
+extern void SpinKart(Player* Car, Camera* camera, char place, char kno);
+extern void WeaponStatus(Player* Car, char kno, char place);
+extern void SetStrategy(Player* Car, char kno, char place);
+extern void CheckKartHit(Player* Car, char kno, char place);
+extern float PowerCheck(Player* Car, char kno);
+extern void DriftJump(Player* Car);
+extern void CheckWall(Player* Car, char kno, Vector velocity);
+extern void AccelOff(Player* Car, float accelOff);
+extern short CheckSlope(ushort pointer);
+extern void SetRolloverFall(Player* Car, char kno);
+extern void ResetRolloverFall(Player* Car, char kno);
+extern float CalcHeight(float px, float py, float pz, ushort pointer);
+extern void TirePosition(Player* Car, float new_x, float new_y, float new_z);
+extern void EnemyTirePosition(Player* Car, float new_x, float new_y, float new_z);
+extern void SetSlipAngle(Player* Car, char kno, float old_x, float old_z, float new_x, float new_z);
+extern void NaPlyLandStart(char kno, float jumpCount);
