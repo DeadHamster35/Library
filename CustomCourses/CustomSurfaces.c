@@ -729,7 +729,6 @@ void LavaFloorRecoil()
 			LavaFloorRecoiling[i] = true;
 			short pathPoint = g_playerPathPointTable[i];
 
-			PlaceTarget(g_pathPointPointer[pathPoint].pointx, g_pathPointPointer[pathPoint].pointy, g_pathPointPointer[pathPoint].pointz);
 			NAPlyTrgStart(i, 0x1900a40b);
 			GlobalPlayer[i].slip_flag = 0;
 			GlobalPlayer[i].slip_flag |= IS_TUMBLING;
