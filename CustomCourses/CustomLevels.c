@@ -493,6 +493,7 @@ void setPath()
 
 void PlaceIBoxes(long BoxOffset)
 {	
+
 	if( (g_ItemSetFlag == 0) || (g_gameMode == GAMEMODE_TT))
 	{
 		return;
@@ -623,12 +624,12 @@ void SetWeatherType(int WeatherType) // 0 = Snow // 1 = Rain
 			{
 				g_SnowParticleTex[texarr] = A4Rain[texarr];
 			}						
-//			g_skySnowVelocity = 1.75;
-//			g_3DSnowScale = 0.4;
-//			g_3DSnowVelocityUpLim = 1.5;
-//			g_3DSnowVelocityLowLim = -2.5;
-//			g_3DSnowSwayMovement = -2.75;
-//			g_3DSnowSpawnCone = (g_3DSnowSpawnCone & 0xFFFF0000) + (0x6000 & 0x0000FFFF);
+			g_skySnowVelocity = 1.75;
+			g_3DSnowScale = 0.4;
+			g_3DSnowVelocityUpLim = 1.5;
+			g_3DSnowVelocityLowLim = -2.5;
+			g_3DSnowSwayMovement = -2.75;
+			g_3DSnowSpawnCone = (g_3DSnowSpawnCone & 0xFFFF0000) + (0x6000 & 0x0000FFFF);
 			break;
 		}
 
@@ -639,12 +640,12 @@ void SetWeatherType(int WeatherType) // 0 = Snow // 1 = Rain
 			{
 				g_SnowParticleTex[texarr] = A4Snow[texarr];
 			}
-//			g_skySnowVelocity = 1.035;
-//			g_3DSnowScale = 0.15;
-//			g_3DSnowVelocityUpLim = 1.035;
-//			g_3DSnowVelocityLowLim = -1.65;
-//			g_3DSnowSwayMovement = 1.24;
-//			g_3DSnowSpawnCone = (g_3DSnowSpawnCone & 0xFFFF0000) + (0x4000 & 0x0000FFFF);
+			g_skySnowVelocity = 1.035;
+			g_3DSnowScale = 0.15;
+			g_3DSnowVelocityUpLim = 1.035;
+			g_3DSnowVelocityLowLim = -1.65;
+			g_3DSnowSwayMovement = 1.24;
+			g_3DSnowSpawnCone = (g_3DSnowSpawnCone & 0xFFFF0000) + (0x4000 & 0x0000FFFF);
 			break;
 		}
 	}
@@ -654,12 +655,12 @@ void SetWeatherType(int WeatherType) // 0 = Snow // 1 = Rain
 		{
 			g_SnowParticleTex[texarr] = A4Snow[texarr];
 		}
-//		g_skySnowVelocity = 1.035;
-//		g_3DSnowScale = 0.15;
-//		g_3DSnowVelocityUpLim = 1.035;
-//		g_3DSnowVelocityLowLim = -1.65;
-//		g_3DSnowSwayMovement = 1.24;
-//		g_3DSnowSpawnCone = (g_3DSnowSpawnCone & 0xFFFF0000) + (0x4000 & 0x0000FFFF);
+		g_skySnowVelocity = 1.035;
+		g_3DSnowScale = 0.15;
+		g_3DSnowVelocityUpLim = 1.035;
+		g_3DSnowVelocityLowLim = -1.65;
+		g_3DSnowSwayMovement = 1.24;
+		g_3DSnowSpawnCone = (g_3DSnowSpawnCone & 0xFFFF0000) + (0x4000 & 0x0000FFFF);
 	}
 }
 
@@ -700,33 +701,7 @@ void SetCloudType(char CloudType)  // 0 = None // 1 = MR Clouds // 2 = Stars // 
 	}
 }
 
-void Snow3DTrigger()						// Used to disable 3D snow on certain pathmarker ranges 
-{
-	#define S3DArraySize 2					// Array size for the total amount of 3DSnow Disable sections used. Pull from course data
 
-	short S3DTrStart[S3DArraySize];
-	short S3DTrEnd[S3DArraySize];
-
-	if (Snow3DCourseID == 5)				// Only run for existing racers
-	{
-		for (int LoopVal = 0; LoopVal < S3DArraySize; LoopVal++)
-		{
-			// Fill out each index of the arrays with data from course. Loop value as offset multiplicator//
-			
-			S3DTrStart[LoopVal] = 140;
-			S3DTrEnd[LoopVal] = 200;
-
-			
-			if ((g_playerPathPointTable[0] >= S3DTrStart[LoopVal]) && (g_playerPathPointTable[0] <= S3DTrEnd[LoopVal]))		// Path range check
-			{
-				g_3DSnowSpawnHeight = (g_3DSnowSpawnHeight & 0xFFFF0000) + (0x602D & 0x0000FFFF);
-				break;
-			}
-			
-			g_3DSnowSpawnHeight = (g_3DSnowSpawnHeight & 0xFFFF0000) + (0x002D & 0x0000FFFF);
-		}
-	}
-}
 
 void SetWeather3D(bool Weather3DEnable) // Enables 3D weather effects (snow/rain) for Singleplayer
 {
@@ -752,18 +727,26 @@ void SetWeather3D(bool Weather3DEnable) // Enables 3D weather effects (snow/rain
 	}
 	if(Weather3DEnable && HotSwapID > 0)
 	{
-		return;
-		//Temporary until fixed PathFX
 		if (g_startingIndicator >= 0 && g_startingIndicator < 5 && g_gamePausedFlag == 0x00 && g_playerCount == 1)
 		{
 			KWChartSnow();
-			Snow3DTrigger();
+			if (Toggle3DSnow == 1)
+			{
+				g_3DSnowSpawnHeight = (g_3DSnowSpawnHeight & 0xFFFF0000) + (0x602D & 0x0000FFFF);			
+				
+			}
+			else
+			{
+				g_3DSnowSpawnHeight = (g_3DSnowSpawnHeight & 0xFFFF0000) + (0x002D & 0x0000FFFF);
+				
+			}
 		}
 		Snow3DCourseID = 5;
 	}
 	else
 	{
 		Snow3DCourseID = g_courseID;
+		*(uint*)(0x80650040) = 0x08675309;
 	}
 }
 
@@ -782,7 +765,7 @@ void KWKumo_Alloc_Hook()
 		LoadCustomHeader(courseValue + gpCourseIndex);
 		
 		SetCloudType((char)OverKartHeader.SkyType);
-		SetWeatherType((char)OverKartHeader.WeatherType);
+		SetWeatherType((int)OverKartHeader.WeatherType);
 		GlobalShortA = g_courseID;
 		g_courseID = CloudCourseID;
 		KWKumo_Alloc();

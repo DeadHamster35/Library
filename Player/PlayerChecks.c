@@ -371,6 +371,8 @@ void NopPlayEffectBGMCode() //Run at custom code init
 void CheckPaths()
 {	
 	
+	Toggle3DSnow = 0; // set to 0 by default.
+
 	if (OverKartRAMHeader.EchoOffset != 0)
 	{
 		GlobalIntA = *(int*)OverKartRAMHeader.EchoOffset;
@@ -433,6 +435,11 @@ void CheckPaths()
 							}
 							case (PATH_WEATHER):
 							{
+								if (playerID == 0)
+								{
+									Toggle3DSnow = 1;
+								}
+								
 								break;
 							}
 						}

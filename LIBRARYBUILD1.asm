@@ -203,6 +203,14 @@ JAL MiniMapDraw
 NOP
 
 
+
+//change IceKage offset to custommodel
+.org 0x0534BE
+0x0800
+.org 0x0534CE
+0x0000
+
+
 //AirControlChange
 .org 0x38A04
 NOP
