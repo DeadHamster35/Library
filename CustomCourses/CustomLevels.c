@@ -1353,7 +1353,8 @@ void MapStartup(short InputID)
 {
 	
 	FreeMemoryPointer = 0x80600000;
-	LastMemoryPointer = 0x80800000;
+	LastMemoryPointer = 0x80800000;	
+	FreeSpaceAddress = (int)&ok_Storage;
 	LoadCustomHeader(courseValue + gpCourseIndex);
 	SetCustomData();
 	

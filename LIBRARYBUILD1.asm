@@ -206,9 +206,9 @@ NOP
 
 //change IceKage offset to custommodel
 .org 0x0534BE
-0x0800
+.halfword 0x0800
 .org 0x0534CE
-0x0000
+.halfword 0x0000
 
 
 //AirControlChange
