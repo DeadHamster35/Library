@@ -219,12 +219,14 @@ bool CheckOKCollide(OKCollisionSphere* HitBox, Vector SourcePosition, Vector Sou
 	{
 		case 0: //Sphere 
 		{
-			return (TestCollideSphere(SourcePosition, SourceSize[0], TargetPosition, TargetRadius));
+			TestCollideSphere(SourcePosition, SourceSize[0], TargetPosition, TargetRadius);
+			return false;
 			break;
 		}
 		case 1:  //Box
 		{
-			return TestCollideBox(SourcePosition, SourceSize, SourceAngle, TargetPosition, TargetRadius);
+			TestCollideBox(SourcePosition, SourceSize, SourceAngle, TargetPosition, TargetRadius;
+			return false;
 			break;
 		}
 	}
@@ -401,7 +403,7 @@ void DrawOKObjectLoop(OKModel* ThisModel, int Player, int Type)
 {
 	// Add the Texture Draw F3D code
 	gSPDisplayList(GraphPtrOffset++,(ObjectSegment | ThisModel->TextureAddress) )
-
+	
 	//Now we have to parse for each individual object, and normalize the model to the location and angle.
 
 	for (int CurrentObject = 0; CurrentObject < OverKartRAMHeader.ObjectCount; CurrentObject++)
@@ -619,7 +621,6 @@ void DrawOKObjects(Camera* LocalCamera)
 				GlobalIntA += 4; //skip past the framecount, we stored this earlier.
 				GlobalAddressA = GlobalIntA + sizeof(OKSkeleton); //ooohhhh you.
 				OKSkeleton* Skeleton = (OKSkeleton*)(GlobalIntA); 
-				*(uint*)(0x80600000 + CurrentType * 4) = GlobalIntA;
 				DrawOKAnimationLoop(Skeleton, CurrentPlayer, CurrentType);
 				
 				

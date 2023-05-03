@@ -546,7 +546,6 @@ void ObjectBehaviorBounce(OKObject* InputObject)
 
 void Misbehave(OKObject* InputObject)
 {
-	
 	switch (OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].BehaviorClass)
 	{
 		case BEHAVIOR_STATIC:
