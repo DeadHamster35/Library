@@ -219,14 +219,12 @@ bool CheckOKCollide(OKCollisionSphere* HitBox, Vector SourcePosition, Vector Sou
 	{
 		case 0: //Sphere 
 		{
-			TestCollideSphere(SourcePosition, SourceSize[0], TargetPosition, TargetRadius);
-			return false;
+			return (TestCollideSphere(SourcePosition, SourceSize[0], TargetPosition, TargetRadius));
 			break;
 		}
 		case 1:  //Box
 		{
-			TestCollideBox(SourcePosition, SourceSize, SourceAngle, TargetPosition, TargetRadius;
-			return false;
+			return TestCollideBox(SourcePosition, SourceSize, SourceAngle, TargetPosition, TargetRadius);
 			break;
 		}
 	}
