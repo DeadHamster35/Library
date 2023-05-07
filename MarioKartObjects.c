@@ -185,6 +185,7 @@ void UpdateObjectFrictionScale(Object* InputObject, float FrictionScale)
 
 void ItemboxCollideCheck(Player* Car, Object* Target)
 {
+	int PlayerID = (*(long*)&Car - (long)&g_PlayerStructTable) / 0xDD8;
 	if (CollisionSphere(Car, Target))
 	{
 		Target->sparam = 3;
@@ -193,7 +194,7 @@ void ItemboxCollideCheck(Player* Car, Object* Target)
 			
 		if (Car->flag & IS_PLAYER)
 		{
-			RouletteStart(Car->kart, Target->bump.dummy);
+			RouletteStart(PlayerID, Target->bump.dummy);
 		}
 	}
 	else
