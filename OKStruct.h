@@ -316,22 +316,23 @@ typedef struct OKEngine{
 #define StateAnimBonkStars 5
 #define StateAnimLandingDust 6
 
-#define StateMapObjectHit 7
-#define StateLightningHit 8
-#define StateBooTranslucent 9
-#define StateBecomeBombOn 10
-#define StateBecomeBombOff 11
-#define StateFlattenedOn 12
-#define StateFlattenedOff 13
-#define StateMushroomBoost 14
-#define StateSpinOutSaveable 15
-#define StateSpinOut 16
-#define StateGreenShellHit 17
-#define StateRedShellHit 18
-#define StateBonk 19
-#define StateStarOn 20
-#define StateGhostOn 21
-#define StateStarOff 22
-#define StateGhostOff 23
+
+#define StateMapObjectHit 0
+#define StateLightningHit 1
+#define StateBooTranslucent 2
+#define StateBecomeBombOn 3
+#define StateBecomeBombOff 4
+#define StateFlattenedOn 5
+#define StateFlattenedOff 6
+#define StateMushroomBoost 7
+#define StateSpinOutSaveable 8
+#define StateSpinOut 9
+#define StateGreenShellHit 10
+#define StateRedShellHit 11
+#define StateBonk 12
+#define StateStarOn 13
+#define StateGhostOn 14
+#define StateStarOff 15
+#define StateGhostOff 16
 
 #endif
