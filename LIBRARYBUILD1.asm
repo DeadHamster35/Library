@@ -27,11 +27,11 @@ it needs to be placed in static ROM with no offset to the address
 NOP
 .org 0x3354
 NOP
-.org 0x01CC64
+.org 0x1CC64
 NOP
-.org 0x003334
+.org 0x3334
 NOP
-.org 0x00335C
+.org 0x335C
 NOP
 //
 //
