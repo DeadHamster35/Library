@@ -264,10 +264,10 @@ void OKObjectCollision(OKObject *InputObject)
 
 			MakeAlignVector(TempPosition, InputObject->ObjectData.angle[1]);
 			//Rotate the offset position of the hitbox by the object angle. 
-
-			TempBoxSize[0] = ((float)HitBox->Size[0] / HitBox[ThisBox].Scale);
-			TempBoxSize[1] = ((float)HitBox->Size[1] / HitBox[ThisBox].Scale);
-			TempBoxSize[2] = ((float)HitBox->Size[2] / HitBox[ThisBox].Scale);
+8
+			TempBoxSize[0] = ((float)HitBox->Size[0] * (float)(HitBox[ThisBox].Scale / 100.0f));
+			TempBoxSize[1] = ((float)HitBox->Size[1] * (float)(HitBox[ThisBox].Scale / 100.0f));
+			TempBoxSize[2] = ((float)HitBox->Size[2] * (float)(HitBox[ThisBox].Scale / 100.0f));
 
 			BoxAngles[0] = (HitBox[ThisBox].Angle[0] + InputObject->ObjectData.angle[0]);
 			BoxAngles[1] = (HitBox[ThisBox].Angle[1] + InputObject->ObjectData.angle[1]);
