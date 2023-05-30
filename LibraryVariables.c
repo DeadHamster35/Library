@@ -20,7 +20,9 @@ uint GlobalFrameCount;
 uint ClockCycle[2], OldCycle[2];
 uint CycleCount[2];
 
-bool ConsolePlatform, EmulatorPlatform, TempoBool, StopSwop;
+bool TempoBool, StopSwop;
+char ConsolePlatform, EmulatorPlatform;
+
 bool CustomWaterHeight[8];
 short CloudCourseID, Snow3DCourseID;
 char CloudCourseValue, Snow3DCourseValue, WeatherCourseValue, Toggle3DSnow;

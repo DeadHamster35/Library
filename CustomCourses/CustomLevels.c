@@ -65,6 +65,22 @@ void DynamicTempo()
     asm_tempo3BSpeed = DynFPSModifier;
 }
 
+void StaticTempo()
+{
+    asm_tempo1A = 0x240F0000;
+    asm_tempo1ASpeed = 2;
+    asm_tempo1B = 0x240F0000;
+    asm_tempo1BSpeed = 2;
+    asm_tempo2A = 0x24090000;
+    asm_tempo2ASpeed = 2;
+    asm_tempo2B = 0x24090000;
+    asm_tempo2BSpeed = 2;
+    asm_tempo3A = 0x240A0000;
+    asm_tempo3ASpeed = 2;
+    asm_tempo3B = 0x240A0000;
+    asm_tempo3BSpeed = 2;
+}
+
 
 
 

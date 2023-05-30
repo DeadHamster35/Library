@@ -3,6 +3,7 @@
 #include "../MainInclude.h"
 extern void FPS_Check();
 extern void DynamicTempo();
+extern void StaticTempo();
 extern void stockASM();
 extern void overkartASM();
 extern void runTextureScroll();
@@ -14,7 +15,6 @@ extern void copyCourseTable();
 extern void hsTableSet();
 extern void stockTableSet();
 extern void setSong();
-extern void setTempo();
 extern void setPath();
 extern void setEcho();
 extern void setSky();

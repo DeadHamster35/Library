@@ -797,6 +797,8 @@
 .definelabel asm_SongB, 0x8028F9C4
 //802B8B70
 
+
+.definelabel CullDL_Parameters, 0x802B8D04
 .definelabel g_courseTable, 0x802B8D80
 
 .definelabel KeystockBuffer, 0x802D2B80

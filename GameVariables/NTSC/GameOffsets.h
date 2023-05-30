@@ -778,6 +778,7 @@ extern short songID; //
 extern long asm_SongA;// 0x8028EC9C
 extern long asm_SongB;// 0x8028F9C4
 
+extern uint CullDL_Parameters;
 extern long g_courseTable;
 extern uint KeystockBuffer;
 extern uint KeystockCounter;
