@@ -264,7 +264,7 @@ void OKObjectCollision(OKObject *InputObject)
 
 			MakeAlignVector(TempPosition, InputObject->ObjectData.angle[1]);
 			//Rotate the offset position of the hitbox by the object angle. 
-8
+
 			TempBoxSize[0] = ((float)HitBox->Size[0] * (float)(HitBox[ThisBox].Scale / 100.0f));
 			TempBoxSize[1] = ((float)HitBox->Size[1] * (float)(HitBox[ThisBox].Scale / 100.0f));
 			TempBoxSize[2] = ((float)HitBox->Size[2] * (float)(HitBox[ThisBox].Scale / 100.0f));
@@ -507,7 +507,7 @@ bool SkeletalMatrix(OKSkeleton* Skeleton, Object ObjectData, int FrameCount, int
 	objectPosition[1] = ( (float)(Skeleton->MeshScale) * ((float)(TranslationData[Frame][1]) / 100) );
 	objectPosition[2] = ( (float)(Skeleton->MeshScale) * ((float)(TranslationData[Frame][2]) / 100) );
 	
-	//MakeAlignVector(objectPosition, ObjectData.angle[1]);
+	MakeAlignVector(objectPosition, ObjectData.angle[1]);
 
 	objectPosition[0]+= ObjectData.position[0];
 	objectPosition[1]+= ObjectData.position[1];
