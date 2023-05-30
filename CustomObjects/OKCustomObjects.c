@@ -463,7 +463,7 @@ void DrawOKObjectLoop(OKModel* ThisModel, int Player, int Type)
 						CreateModelingMatrix(AffineMatrix,objectPosition,objectAngle);
 					}
 
-					ScalingMatrix(AffineMatrix,((float)(ThisModel->MeshScale) / 100));
+					ScalingMatrix(AffineMatrix,((float)(ThisModel->MeshScale) / 100.0f));
 
 					if(SetMatrix(AffineMatrix,0) != 0)
 					{
@@ -507,7 +507,7 @@ bool SkeletalMatrix(OKSkeleton* Skeleton, Object ObjectData, int FrameCount, int
 	objectPosition[1] = ( (float)(Skeleton->MeshScale) * ((float)(TranslationData[Frame][1]) / 100) );
 	objectPosition[2] = ( (float)(Skeleton->MeshScale) * ((float)(TranslationData[Frame][2]) / 100) );
 	
-	MakeAlignVector(objectPosition, ObjectData.angle[1]);
+	//MakeAlignVector(objectPosition, ObjectData.angle[1]);
 
 	objectPosition[0]+= ObjectData.position[0];
 	objectPosition[1]+= ObjectData.position[1];
