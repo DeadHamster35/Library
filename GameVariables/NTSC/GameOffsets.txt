@@ -432,7 +432,7 @@
 .definelabel g_loadedcourseFlag, 0x800DC5A4
 .definelabel g_gameMode, 0x800DC53C
 .definelabel g_DispFrame, 0x800DC55C
-.definelabel g_mirrorMode, 0x800DC604
+.definelabel g_ScreenFlip, 0x800DC604
 .definelabel g_DebugBars, 0x800DC662
 .definelabel g_ItemSetFlag, 0x800DC648
 .definelabel PathTable, 0x800DC8D0

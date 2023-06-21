@@ -6,8 +6,14 @@ void gameCodeDefault()
 {	
 	
 };
-void titleMenuDefault();
-void DisplayObjectDefault(void *Car, Object *InputObject);
+void titleMenuDefault()
+{
+
+};
+void DisplayObjectDefault(void *Car, Object *InputObject)
+{
+	
+};
 void CollideObjectDefault(Player* Car, Object* Target)
 {
 	if (Target->category == IBOX)
@@ -17,9 +23,15 @@ void CollideObjectDefault(Player* Car, Object* Target)
 
 	return;
 }
-void DisplayCrashScreenDefault();
+void DisplayCrashScreenDefault()
+{
+
+};
 long RAMCheckDefault, RAMCheckEndDefault;
-void PrintMenuFunctionDefault();
+void PrintMenuFunctionDefault()
+{
+
+};
 void DrawPerScreenDefault(Camera* LocalCamera)
 {
 	if (scrollLock)
@@ -34,12 +46,23 @@ void DrawPerScreenDefault(Camera* LocalCamera)
 		DisplayFlagGate(LocalCamera);
 	}
 };
+
+
+void DisplayFlagGateCheck(Camera* LocalCamera)
+{
+	if ( ((HotSwapID > 0) && (OverKartHeader.GoalBannerToggle != 0)) || (HotSwapID == 0) )
+	{	
+		DisplayFlagGate(LocalCamera);
+	}
+}
 void allRunDefault()
 {
 	gBackgroundFlag = 1;
 }
-void PrintMenuFunctionDefault();
-void CheckHitDefault(int PlayerIndex, int HitType);
+void CheckHitDefault(int PlayerIndex, int HitType)
+{
+
+};
 void ExecuteItemHookDefault(Player* Car)
 {
 	ExecuteItem(Car);
@@ -53,16 +76,20 @@ void MiniMapDrawDefault()
 
 
 //NEED OVERWRITE WITH OWN FUNCTIONS
-extern void gameCode();
-extern void titleMenu();
-extern void CollideObject(Player* Car, Object* Target);
-extern void DisplayCrashScreen();
-extern long RAMCheck, RAMCheckEnd;
-extern void PrintMenuFunction();
-extern void DrawPerScreen(Camera* LocalCamera);
-extern void allRun();
-extern void PrintMenuFunction();
-extern void CheckHit(int PlayerIndex, int HitType);
+
+extern void gameCodeDefault();
+extern void titleMenuDefault();
+extern void DisplayObjectDefault(void *Car, Object *InputObject);
+extern void CollideObjectDefault(Player* Car, Object* Target);
+extern void DisplayCrashScreenDefault();
+extern long RAMCheckDefault, RAMCheckEndDefault;
+extern void DrawPerScreenDefault(Camera* LocalCamera);
+extern void allRunDefault();
+extern void PrintMenuFunctionDefault();
+extern void CheckHitDefault(int PlayerIndex, int HitType);
+extern void ExecuteItemHookDefault(Player* Car);
+extern void MiniMapDrawDefault();
+
 
 //END OF OVERWRITE FUNCTIONS
 

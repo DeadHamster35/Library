@@ -14,6 +14,15 @@ It needs to be placed in static ROM with no offset to the address
 
 
 
+.align 0x10
+previewN:
+.import "../library/data/preview_n.mio0.bin"        ;;  324
+
+.align 0x10
+previewU:
+.import "../library/data/preview_u.mio0.bin"        ;;  311
+
+
 .ifndef OverwriteCrash
     .notice "Using Default Crash Screen"
     Crash:

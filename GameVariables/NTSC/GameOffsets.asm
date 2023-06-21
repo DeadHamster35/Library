@@ -436,10 +436,16 @@
 .definelabel g_loadedcourseFlag, 0x800DC5A4
 .definelabel g_gameMode, 0x800DC53C
 .definelabel g_DispFrame, 0x800DC55C
-.definelabel g_mirrorMode, 0x800DC604
+.definelabel g_ScreenFlip, 0x800DC604
+.definelabel g_ScreenStretch, 0x800DC608
 .definelabel g_DebugBars, 0x800DC662
 .definelabel g_ItemSetFlag, 0x800DC648
+
+
 .definelabel PathTable, 0x800DC8D0
+.definelabel PathTableB, 0x800DC780
+
+.definelabel PathLengthTable, 0x800DD9D0
 
 .definelabel gFaceBuffer, 0x8015F580
 .definelabel g_courseFaceMaxIndex, 0x8015F588
@@ -886,8 +892,8 @@
 
 .definelabel g_sfxPause, 0x803B17A3 // 20 - paused; 00 playing
 
-.definelabel g_SequenceTable, 0x803B8FB0
-.definelabel g_InstrumentTable, 0x803B90B0
+.definelabel g_SequenceTable, 0x803B8FB4
+.definelabel g_InstrumentTable, 0x803B90B4
 .definelabel g_RawAudio, 0x803B9260
 
 
@@ -1072,7 +1078,7 @@
 //GP points
 .definelabel g_playerGPpoints, 0x8018D9C8
 
-
+.definelabel InitCenterLine, 0x8000F2DC
 .definelabel OSMemSize, 0x80000318
 
 //multiplayer points

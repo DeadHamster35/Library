@@ -77,36 +77,10 @@ JAL PakkunStrategyOverride
 
 
 
-/*   Disabled
-//Load all object textures into RAM
-.org 0x1079B8
-NOP
-.org 0x107A90
-NOP
-.org 0x107AAC
-NOP
-.org 0x107AC8
-NOP
-.org 0x107AF8
-NOP
-.org 0x107BE4
-NOP
-.org 0x107C14
-NOP
-.org 0x107D0C
-NOP
-.org 0x107D78
-NOP
-*/    //End
-
 
 
 // Move FreeMemoryPointer loads to EOF using new funcs and rewrites
 
-
-    // Rewrite for Segment 9 LoadData
-    .org 0x113FD8
-    JAL LoadDataBypass
 
     // Rewrite for Segment 6 LoadPressData
     .org 0x114004
@@ -119,7 +93,7 @@ NOP
     //Stop loading StaticMemoryPointer over LastMemoryPointer
     .org 0x36F8
     NOP
-    
+
 //
 
 
@@ -180,10 +154,6 @@ NOP
 .org 0x040D64 
 move v0, $t8
 
-//Fix for gsSPCullDisplayList
-//.org 0x122314
-//.word 0x0000000E
-//LOLJK FML AMIRITE
 
 
 //CheckMapBG_ZX Hooks
@@ -226,20 +196,14 @@ NOP
 
 
 // fixes Alpha loading for level data vert color
-.org 0x111D4C
-LB t2, -1(v0)
+.org 0x111E2C
+JAL DecodeVertex2_Alpha
 
 
 //Staff Ghost routine
 .org 0x5BA4
 J    GhostHook
 NOP
-
-
-
-//Hook add new custom IBox code
-//.org 0x1071E8
-//JAL CreateCustomItemBox
 
 
 
@@ -454,13 +418,21 @@ NOP
 .halfword(100)
 
 
-
+//Disable ROM Staff Ghosts from Luigi Raceway, Royal Raceway and Mario Raceway.
+//Current implementation of equal-stats in TT renders the staff ghosts inaccurate.
+//Will need new implementation of function to maintain compatability with original inputs.
+.org 0x005C50
+NOP
+.org 0x005C58
+NOP
+.org 0x005C60
+NOP
 
 //Disable the Goal Flag Gate / Starting Line Banner
 //Ran manually from DrawPerScreen
 .org 0x10C7A4
-NOP
-NOP
+JAL DisplayFlagGateCheck
+
 
 //Disable BackgroundFlag to control ourselves via gameCode
 //Stops the sky from being drawn. 
@@ -574,13 +546,11 @@ JAL custom_RunKart
 .org 0x029A48
 JAL custom_RunKart
 
+
+
 .ifndef CFLG_LapCounter
-
 //Disable the LapCounter (LAP 1/3)
-
-
 .org 0x04F38C
 jr RA
 NOP
 .endif
-

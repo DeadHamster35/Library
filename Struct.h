@@ -26,6 +26,23 @@
 #define CHAR_BOWSER		7
 
 
+#define ib_nothing	0
+#define ib_banana	1	
+#define ib_bananas	2     
+#define ib_gkame	3     
+#define ib_gskame	4     
+#define ib_rkame	5     
+#define ib_rskame	6
+#define ib_tkame	7
+#define ib_thunder	8	
+#define ib_imbox	9
+#define ib_star		10
+#define ib_tellesa	11     
+#define ib_kinoko1	12    
+#define ib_kinoko2	13
+#define ib_kinoko3	14
+#define ib_kinokoc	15
+
 #define GAMEMODE_GP			0
 #define GAMEMODE_TT			1
 #define GAMEMODE_VS			2
@@ -307,7 +324,9 @@ typedef long long			int64;
 typedef unsigned long long	uint64;
 
 
-typedef struct {
+
+typedef struct OBJBlock 
+{
     int type;
     int pattern;
     int pos_x,pos_y;
@@ -1108,6 +1127,13 @@ typedef struct SOUKOU_ZURE_TYPE{        // 128 bit  (16)byte
 #define CHANNEL_PAUSE		0x20000000
 #define CHANNEL_IDLE		0x40000000
 #define CHANNEL_PLAYING		0x80000000
+
+typedef struct AudioTableEntry{
+
+	uint EntryOffset;
+	uint EntrySize;
+
+} AudioTableEntry;
 
 typedef struct SeqChannelStruct{
 		int Playflag; 

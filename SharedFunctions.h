@@ -28,11 +28,31 @@
 
 
 
+
+
+
+extern void gameCodeDefault();
+extern void titleMenuDefault();
+extern void DisplayObjectDefault(void *Car, Object *InputObject);
+extern void CollideObjectDefault(Player* Car, Object* Target);
+extern void DisplayCrashScreenDefault();
+extern long RAMCheckDefault, RAMCheckEndDefault;
+extern void PrintMenuFunctionDefault();
+extern void DrawPerScreenDefault(Camera* LocalCamera);
+extern void DisplayFlagGateCheck(Camera* LocalCamera);
+extern void allRunDefault();
+extern void PrintMenuFunctionDefault();
+extern void CheckHitDefault(int PlayerIndex, int HitType);
+extern void ExecuteItemHookDefault(Player* Car);
+extern void MiniMapDrawDefault();
+
+
 //NEED OVERWRITE WITH OWN FUNCTIONS
 extern void gameCode();
 extern void titleMenu();
 extern void DisplayObject(void *Car, Object *InputObject);
 extern void CollideObject(Player* Car, Object* Target);
+extern void ItemboxCollideCheck(Player* Car, Object* Target);
 extern void DisplayCrashScreen();
 extern long RAMCheck, RAMCheckEnd;
 extern void PrintMenuFunction();

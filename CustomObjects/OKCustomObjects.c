@@ -479,9 +479,8 @@ void DrawOKObjectLoop(OKModel* ThisModel, int Player, int Type)
 	}
 }
 
-bool SkeletalMatrix(OKSkeleton* Skeleton, Object ObjectData, int FrameCount, int CurrentFrame)
+bool SkeletalMatrix(OKSkeleton* Skeleton, Object ObjectData, int FrameCount, int Frame)
 {
-	int Frame = (int)(CurrentFrame);
 		
 	GlobalUIntA = Skeleton->AnimationOffset + 8;	
 	SVector* AngleData = (SVector*)((GetRealAddress(ObjectSegment | GlobalUIntA)));

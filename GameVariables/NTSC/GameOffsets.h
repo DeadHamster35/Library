@@ -428,11 +428,15 @@ extern short g_courseID;
 extern short g_loadedcourseFlag;
 extern long g_gameMode; //0 = gp 1 = time trials 2 = vs 3 =battle
 extern unsigned short g_DispFrame;
-extern long g_mirrorMode;
+extern long g_ScreenFlip;
+extern float g_ScreenStretch;
 extern short g_DebugBars;
 extern short g_ItemSetFlag;
 
-extern uint PathTable[20][4];
+extern uint PathTable[21][4];
+extern uint PathTableB[21][4];
+
+extern ushort PathLengthTable[21][8];
 
 extern uint gFaceBuffer;
 extern ushort g_courseFaceMaxIndex;
@@ -441,7 +445,7 @@ extern long antialiasToggle;
 extern long antialiasToggleB;
 
 
-extern long g_CupArray;
+extern short g_CupArray[];
 extern short g_cup0Array0;
 extern short g_cup0Array1;
 extern short g_cup0Array2;
@@ -880,8 +884,8 @@ extern float g_screenViewAngle[4];
 extern char g_sfxPause;
 
 
-extern long g_SequenceTable; //0x803B8FB0
-extern long g_InstrumentTable; //0x803B90B0
+extern AudioTableEntry g_SequenceTable[32]; //0x803B8FB0
+extern AudioTableEntry g_InstrumentTable[32]; //0x803B90B0
 extern long g_RawAudio; //0x803B9260
 
 extern short g_surfaceCheckP1;
@@ -1040,7 +1044,7 @@ extern char g_ShadowflagPlayer3;
 //GP points
 extern uchar g_playerGPpoints[8]; //name to num: Mario, Luigi, Yoshi, Toad, D.K., Wario, Peach, Bowser
 
-
+extern void InitCenterLine();
 extern uint OSMemSize;
 
 

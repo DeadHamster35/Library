@@ -88,6 +88,7 @@ extern int lit_arrowsprite_l; //lit_arrowsprite_d + 0x200
 extern int lit_arrowsprite_r; //lit_arrowsprite_l + 0x200
 extern int lit_red_selecter; //lit_arrowsprite_r +  0x200 
 extern int ok_RedCoinSprite; //lit_red_selecter +  0x200 
+extern int ok_RedCoinSprite; //lit_red_selecter +  0x200 
 extern int ok_menucoinsprite; //ok_RedCoinSprite +  0x200
 extern ushort nicefont[]; //ok_menucoinsprite +  0x200
 extern ushort hud_buttons[]; //nicefont +  0x4400

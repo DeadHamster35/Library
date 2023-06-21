@@ -3,7 +3,6 @@ These are default functions that overwrite existing game code calls.
 If the defined functions have not been made in an external codebase, it will use the default.
 */
 
-
 .ifndef gameCode
 .definelabel gameCode, gameCodeDefault
 .endif
@@ -12,12 +11,20 @@ If the defined functions have not been made in an external codebase, it will use
 .definelabel titleMenu, titleMenuDefault
 .endif
 
+.ifndef MapStartup
+.definelabel MapStartup, MapStartupDefault
+.endif
+
 .ifndef DisplayObject
 .definelabel DisplayObject, DisplayObjectDefault
 .endif
 
 .ifndef CollideObject
 .definelabel CollideObject, CollideObjectDefault
+.endif
+
+.ifndef ItemboxCollideCheck
+.definelabel ItemboxCollideCheck, ItemboxCollideCheckDefault
 .endif
 
 .ifndef DisplayCrashScreen
@@ -58,5 +65,5 @@ If the defined functions have not been made in an external codebase, it will use
 
 
 .ifndef MiniMapDraw
-.definelabel MiniMapDrawDefault, MiniMapDraw
+.definelabel MiniMapDraw, MiniMapDrawDefault
 .endif

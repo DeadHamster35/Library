@@ -75,6 +75,7 @@ AccelerationTable:
 
 
 
+
 .align 0x10
 bannerN:
 .import "../library/data/banner_n.mio0.bin"        ;;  324

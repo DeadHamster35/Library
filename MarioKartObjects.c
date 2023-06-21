@@ -183,7 +183,7 @@ void UpdateObjectFrictionScale(Object* InputObject, float FrictionScale)
 
 
 
-void ItemboxCollideCheck(Player* Car, Object* Target)
+void ItemboxCollideCheckDefault(Player* Car, Object* Target)
 {
 	int PlayerID = (*(long*)&Car - (long)&g_PlayerStructTable) / 0xDD8;
 	if (CollisionSphere(Car, Target))
