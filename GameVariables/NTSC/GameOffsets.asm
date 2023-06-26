@@ -846,6 +846,8 @@
 
 .definelabel GetWordLength, 0x80093034
 
+.definelabel g_GFXCounter, 0x802BA270
+.definelabel g_PKCounter, 0x802BA274
 .definelabel g_RNG, 0x802BA290
 .definelabel ExecuteItem, 0x802B2FA0
 

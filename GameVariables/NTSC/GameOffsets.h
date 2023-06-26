@@ -844,6 +844,8 @@ extern char g_player2Character;
 extern char g_player3Character;
 extern char g_player4Character;
 
+extern int g_GFXCounter;
+extern int g_PKCounter;
 extern unsigned short g_RNG;
 extern void ExecuteItem(Player* PlayerID);
 

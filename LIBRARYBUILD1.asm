@@ -144,6 +144,25 @@ J SnowHook
 NOP
 
 
+
+//Hook for DisplayGroupmap Direction Check. 
+//Used for ZFLIP
+//written inline to original location due to available space
+.org 0x0FA3F8
+LW $a2, 4($a1)
+addu $t3, $t2, $at
+JAL CheckDirectionFunc
+SW $t3, 0x24($sp)
+J 0x80290EB8
+NOP
+
+
+.org 0x0FA4C8
+LH $a3, 0x36($a1)
+//End Groupmap Direction Check  
+
+
+
 //Hook display after map.
 .org 0x0FBA68
 J DisplayMap2Hook
@@ -197,8 +216,16 @@ NOP
 
 // fixes Alpha loading for level data vert color
 .org 0x111E2C
-JAL DecodeVertex2_Alpha
+JAL DecodeVertex2_OK
 
+.org 0x113CA4
+JAL DecodeSP1Triangle_OK
+
+.org 0x113CC8
+JAL DecodeSP2Triangle_OK
+
+.org 0x113CEC
+JAL DecodeSP1Quadrangle_OK
 
 //Staff Ghost routine
 .org 0x5BA4

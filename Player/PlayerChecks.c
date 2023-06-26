@@ -367,7 +367,7 @@ void NopPlayEffectBGMCode() //Run at custom code init
 
 
 
-
+short LastAIPath = 0;
 void CheckPaths()
 {	
 	
@@ -463,8 +463,8 @@ void CheckPaths()
 					CPUPaths[ThisPlayer].LastPath = CPUPaths[ThisPlayer].CurrentPath;
 					GlobalBoolA = false;
 
-					//Loop until valid path.
-					while (!GlobalBoolA)
+					//Loop until valid path. Max 100 checks.
+					for (int This = 0; This < 100; This++)
 					{
 						GlobalShortA = MakeRandomLimmit(OverKartHeader.PathCount);
 						if (GlobalShortA > OverKartHeader.PathCount)
@@ -473,8 +473,9 @@ void CheckPaths()
 						}
 						if (OverKartHeader.PathSplit == 1)
 						{
-							if (GlobalShortA != CPUPaths[ThisPlayer].LastPath)
+							if (GlobalShortA != LastAIPath)
 							{
+								LastAIPath = GlobalSHortA;
 								GlobalBoolA = true;
 							}
 						}
@@ -492,7 +493,14 @@ void CheckPaths()
 			{
 				//human player
 				//check surface and assign path.
-				
+				short SurfaceID = CheckArea(GlobalPlayer[ThisPlayer].bump.last_zx);
+				for (int ThisPath = 0; ThisPath < 4; ThisPath++)
+				{
+					if (OverKartHeader.PathTrigger[ThisPath] == SurfaceID)
+					{
+						CurrentPathID[ThisPlayer] == ThisPath;
+					}
+				}
 			}
 		}
 	}

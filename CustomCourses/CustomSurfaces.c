@@ -134,6 +134,9 @@ short SurfaceStorage[8];
 #define STORE_TRICK 1
 #define	STORE_GAP	2
 
+
+
+
 void AddGravityEdit(Player *car)
 {
 	short car_number = car - &GlobalPlayer[0];
@@ -566,6 +569,77 @@ void CheckMapBG_ZX_Hook(Player *car, Vector normal, Vector velocity, Vector g_ve
 	{
 		CheckMapBG_ZX(car,normal,velocity,g_vector,dist,new_x,new_y,new_z);
 	}
+}
+
+
+
+void CheckDirectionFunc(int Null, Screen *display)
+{
+	ushort ang= display->camera->camera_direction[1];
+	if(g_ScreenFlip)
+    {
+		if (ZFLIP)
+		{	
+			if(ang<DEG1 * 45)     display->camera_direction=0;          
+			else if(ang<DEG1 * 135)     display->camera_direction=3;          
+			else if(ang<DEG1 * 225)     display->camera_direction=2;          
+			else if(ang<DEG1 * 315)     display->camera_direction=1;          
+			else      display->camera_direction=0;    
+		}
+		else
+		{
+			if(ang< DEG1 * 45)     display->camera_direction=2;          
+			else if(ang< DEG1 * 135)     display->camera_direction=3;          
+			else if(ang< DEG1 * 225)     display->camera_direction=0;          
+			else if(ang< DEG1 * 315)     display->camera_direction=1;          
+			else      display->camera_direction=2;  
+		}
+           
+    }
+    else
+    {
+		if (ZFLIP)
+		{	
+			if(ang< (DEG1 * 45))     
+			{
+				display->camera_direction=0;          
+			}
+			else 
+			{
+				if(ang< (DEG1 * 135))     
+				{
+					display->camera_direction=1;  
+				}
+				else
+				{
+					if(ang< (DEG1 * 225))
+					{
+						display->camera_direction=2;
+					}
+					else
+					{
+						if(ang< (DEG1 * 315))
+						{
+							display->camera_direction=3;
+						}
+						else
+						{
+							display->camera_direction=0;
+						}
+					}   
+				}
+			}          
+		}
+		else
+		{
+			if(ang<DEG1 * 45)     display->camera_direction=2;          
+			else if(ang<DEG1 * 135)     display->camera_direction=1;          
+			else if(ang<DEG1 * 225)     display->camera_direction=0;          
+			else if(ang<DEG1 * 315)     display->camera_direction=3;          
+			else      display->camera_direction=2;    
+		}
+           
+    }
 }
 
 
