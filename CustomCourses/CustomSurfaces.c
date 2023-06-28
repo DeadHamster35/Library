@@ -191,7 +191,7 @@ void AddGravityEdit(Player *car)
 	case Boo:
 		if (car->jumpcount == 0 && car->wallhitcount == 0  && !(car->slip_flag&IS_BROKEN))
 		{
-			SetGhostEffect(car_number, true);
+			SetGhostEffect(car_number, true, 0xFFFF);
 		}
 		break;
 	case MushroomBoost:
@@ -539,7 +539,7 @@ void AddGravityEdit(Player *car)
 	case Boo:
 		if (car->bump_status != Boo)
 		{
-			SetGhostEffect(car_number, false);
+			SetGhostEffect(car_number, false, 0);
 		}
 		break;
 	default:

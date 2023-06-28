@@ -475,7 +475,7 @@ void CheckPaths()
 						{
 							if (GlobalShortA != LastAIPath)
 							{
-								LastAIPath = GlobalSHortA;
+								LastAIPath = GlobalShortA;
 								GlobalBoolA = true;
 							}
 						}
@@ -498,7 +498,7 @@ void CheckPaths()
 				{
 					if (OverKartHeader.PathTrigger[ThisPath] == SurfaceID)
 					{
-						CurrentPathID[ThisPlayer] == ThisPath;
+						CurrentPathID[ThisPlayer] = ThisPath;
 					}
 				}
 			}

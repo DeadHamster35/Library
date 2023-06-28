@@ -1655,7 +1655,7 @@ void setOKObjects()
 		}
 
 		OKObjectArray[This].ObjectData.angle[0] = OverKartRAMHeader.ObjectList[This].OriginAngle[0] * DEG1;
-		OKObjectArray[This].ObjectData.angle[1] = OverKartRAMHeader.ObjectList[This].OriginAngle[1] * DEG1;
+		OKObjectArray[This].ObjectData.angle[1] = -1 * OverKartRAMHeader.ObjectList[This].OriginAngle[1] * DEG1;
 		OKObjectArray[This].ObjectData.angle[2] = OverKartRAMHeader.ObjectList[This].OriginAngle[2] * DEG1;
 
 		OKObjectArray[This].ObjectData.velocity[0] = (float)(OverKartRAMHeader.ObjectList[This].OriginVelocity[0] * 100);

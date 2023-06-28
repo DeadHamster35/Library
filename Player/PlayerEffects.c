@@ -135,7 +135,7 @@ void SetStarMan(char playerID, bool active)
 
 }
 
-void SetGhostEffect(char playerID, bool active)
+void SetGhostEffect(char playerID, bool active, int UseCount)
 {
 
 	if (active)
@@ -144,7 +144,7 @@ void SetGhostEffect(char playerID, bool active)
 		{
 			SetVSGhost((void*)&GlobalPlayer[(int)playerID], playerID);
 		}
-		g_GhostUseCounter[(int)playerID]  = 0xFFFF;
+		g_GhostUseCounter[(int)playerID]  = UseCount;
 	}
 	if ((!active))
 	{
@@ -420,18 +420,22 @@ void MasterStatus(int PlayerID, short StatusID)
 		case StateStarOn:
 		{
 			SetStarMan(PlayerID,true);
+			break;
 		}
 		case StateStarOff:
 		{
 			SetStarMan(PlayerID,false);
+			break;
 		}
 		case StateGhostOn:
 		{
-			SetGhostEffect(PlayerID,true);
+			SetGhostEffect(PlayerID,true, 1);
+			break;
 		}
 		case StateGhostOff:
 		{
-			SetGhostEffect(PlayerID,false);
+			SetGhostEffect(PlayerID,false, 0);
+			break;
 		}
 		
 	}

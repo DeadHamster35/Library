@@ -130,7 +130,7 @@ bool TestCollideBox(float BoxPosition[], float BoxSize[], short BoxAngle[], floa
 
 	}	
 	// Rotate the Vector by the angle of the box.
-	MakeAlignVector(TempPosition,BoxAngle[1]);
+	MakeAlignVector(TempPosition,(short)(-1 * BoxAngle[1]));
 	for (int CurrentVector = 0; CurrentVector < 3; CurrentVector++)
 	{
 		//Take both sides of the box from the center
@@ -211,11 +211,11 @@ void OKObjectReaction(OKObject* InputObject, short ResultType, int Player)
 	}
 }
 
-bool CheckOKCollide(OKCollisionSphere* HitBox, Vector SourcePosition, Vector SourceSize, SVector SourceAngle, Vector TargetPosition, float TargetRadius)
+bool CheckOKCollide(short HitType, Vector SourcePosition, Vector SourceSize, SVector SourceAngle, Vector TargetPosition, float TargetRadius)
 {
 	
 	
-	switch(HitBox->Type)
+	switch(HitType)
 	{
 		case 0: //Sphere 
 		{
@@ -257,17 +257,19 @@ void OKObjectCollision(OKObject *InputObject)
 	{
 
 		//INITIALIZE BOX
+			
+			GlobalFloatA = (float)(HitBox[ThisBox].Scale / 100.0f);  //Get scale
 
-			TempPosition[0] = (float)(HitBox[ThisBox].Position[0]);
-			TempPosition[1] = (float)(HitBox[ThisBox].Position[1]);
-			TempPosition[2] = (float)(HitBox[ThisBox].Position[2]);
+			TempPosition[0] = ((float)HitBox[ThisBox].Position[0] * GlobalFloatA);
+			TempPosition[1] = ((float)HitBox[ThisBox].Position[1] * GlobalFloatA);
+			TempPosition[2] = ((float)HitBox[ThisBox].Position[2] * GlobalFloatA);
 
 			MakeAlignVector(TempPosition, InputObject->ObjectData.angle[1]);
 			//Rotate the offset position of the hitbox by the object angle. 
 
-			TempBoxSize[0] = ((float)HitBox->Size[0] * (float)(HitBox[ThisBox].Scale / 100.0f));
-			TempBoxSize[1] = ((float)HitBox->Size[1] * (float)(HitBox[ThisBox].Scale / 100.0f));
-			TempBoxSize[2] = ((float)HitBox->Size[2] * (float)(HitBox[ThisBox].Scale / 100.0f));
+			TempBoxSize[0] = ((float)HitBox[ThisBox].Size[0] * GlobalFloatA);
+			TempBoxSize[1] = ((float)HitBox[ThisBox].Size[1] * GlobalFloatA);
+			TempBoxSize[2] = ((float)HitBox[ThisBox].Size[2] * GlobalFloatA);
 
 			BoxAngles[0] = (HitBox[ThisBox].Angle[0] + InputObject->ObjectData.angle[0]);
 			BoxAngles[1] = (HitBox[ThisBox].Angle[1] + InputObject->ObjectData.angle[1]);
@@ -299,7 +301,7 @@ void OKObjectCollision(OKObject *InputObject)
 			(
 				CheckOKCollide
 				(
-					(OKCollisionSphere*) &HitBox[ThisBox], 
+					HitBox[ThisBox].Type, 
 					TempPosition,
 					TempBoxSize,
 					BoxAngles,
@@ -336,7 +338,7 @@ void OKObjectCollision(OKObject *InputObject)
 				(
 					CheckOKCollide
 					(
-						(OKCollisionSphere*) &HitBox[ThisBox], 
+						HitBox[ThisBox].Type, 
 						TempPosition,
 						TempBoxSize,
 						BoxAngles,

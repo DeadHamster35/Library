@@ -15,7 +15,7 @@ extern void SetMapObjectHit(char playerID);
 extern void SetLightningHit(char playerID);
 extern void SetShrunken(char playerID, bool active);
 extern void SetStarMan(char playerID, bool active);
-extern void SetGhostEffect(char playerID, bool active);
+extern void SetGhostEffect(char playerID, bool active, int UseCount);
 extern void SetBooTranslucent(char playerID);
 extern void SetBecomeBomb(char playerID, bool active);
 extern void SetFlattened(char playerID, bool active);

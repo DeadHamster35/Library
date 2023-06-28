@@ -483,7 +483,7 @@ short ObjectSearchClosestMarker(float ObjectPostion[], Marker* PathData)
 		{
 			GlobalFloatA = (
 				(ObjectPostion[0] - (float)PathData[CurrentMarker].Position[0]) * (ObjectPostion[0] - (float)PathData[CurrentMarker].Position[0]) +
-				(ObjectPostion[1] - (float)PathData[CurrentMarker].Position[1]) * (ObjectPostion[1] - (float)PathData[CurrentMarker].Position[1])
+				(ObjectPostion[2] - (float)PathData[CurrentMarker].Position[2]) * (ObjectPostion[2] - (float)PathData[CurrentMarker].Position[2])
 			);
 			
 
@@ -512,27 +512,55 @@ void ObjectBehaviorFollowPath(OKObject* InputObject)
 		objectPosition[2] = (float)PathData[InputObject->PathTarget].Position[2];
 		InputObject->ObjectData.angle[1] = (-1 * CalcDirection(InputObject->ObjectData.position, objectPosition));
 	}
-	else if (InputObject->PathTarget > 0)
+	else if (InputObject->PathTarget >= 0)
 	{
+
+		if (PathData[InputObject->PathTarget + 1].Position[0] == (short)0x8000)
+		{
+			GlobalShortA = 0;
+		}
+		else
+		{
+			GlobalShortA = InputObject->PathTarget + 1;
+		}
+
+		objectPosition[0] = (float)PathData[GlobalShortA].Position[0];
+		objectPosition[2] = (float)PathData[GlobalShortA].Position[2];
+		
+		GlobalFloatA = (objectPosition[0] - InputObject->ObjectData.position[0]) + (objectPosition[2] - InputObject->ObjectData.position[2]);
+
 		objectPosition[0] = (float)PathData[InputObject->PathTarget].Position[0];
 		objectPosition[1] = (float)PathData[InputObject->PathTarget].Position[1];
 		objectPosition[2] = (float)PathData[InputObject->PathTarget].Position[2];
 		
-
-		//InputObject->ObjectData.angle[1] += (DEG1 * 4 *  ObjectSubBehaviorTurnTarget(InputObject->ObjectData.position, InputObject->ObjectData.angle[1], objectPosition, 8));
+		GlobalFloatB = (objectPosition[0] - InputObject->ObjectData.position[0]) + (objectPosition[2] - InputObject->ObjectData.position[2]);
 		
+		GlobalFloatA *= GlobalFloatA;
+		GlobalFloatB *= GlobalFloatB;
 
-		ChaseDir(&InputObject->ObjectData.angle[1],(-1 * MakeDirection(InputObject->ObjectData.position[0],InputObject->ObjectData.position[2],objectPosition[0],objectPosition[2])), (DEG1 * 5));
-		ObjectBehaviorWalk(InputObject, (float)ThisType->MaxSpeed / 100);
-
-		if (TestCollideSphere(InputObject->ObjectData.position,60,objectPosition, 60))
+		if (GlobalFloatA < GlobalFloatB)
 		{
 			InputObject->PathTarget++;
 			if (PathData[InputObject->PathTarget].Position[0] == (short)0x8000)
 			{
-				InputObject->PathTarget = 1; //completed.
+				InputObject->PathTarget = 0; //completed.
 			}
 		}
+		else
+		{
+			ChaseDir(&InputObject->ObjectData.angle[1],(-1 * MakeDirection(InputObject->ObjectData.position[0],InputObject->ObjectData.position[2],objectPosition[0],objectPosition[2])), (DEG1 * 5));
+			ObjectBehaviorWalk(InputObject, (float)ThisType->MaxSpeed / 100);
+
+			if (TestCollideSphere(InputObject->ObjectData.position,60,objectPosition, 60))
+			{
+				InputObject->PathTarget++;
+				if (PathData[InputObject->PathTarget].Position[0] == (short)0x8000)
+				{
+					InputObject->PathTarget = 0; //completed.
+				}
+			}
+		}
+		
 	}
 	
 }
