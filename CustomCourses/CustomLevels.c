@@ -1773,7 +1773,7 @@ void loadHeaderOffsets()
 {
 	// Load the offsets to the custom course headers.
 	*targetAddress = (long)&ok_HeaderOffsets;
-	*sourceAddress = 0xBE9178;
+	*sourceAddress = ok_HeaderROM;
 	dataLength = 0x3C00;
 	runDMA();
 }
