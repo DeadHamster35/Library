@@ -116,9 +116,37 @@ bool TestCollideSphere(float SourcePosition[], float SourceRadius, float TargetP
 	return true; 
 }
 
+
+bool TestCollideCylinder(float SourcePosition[], float SourceRadius[], float TargetPosition[], float TargetRadius)
+{
+	//Does a collision test using pythagorean maths with a height exlusive priority check. 
+	if (TargetPosition[1] + TargetRadius < SourcePosition[1])
+	{
+		//Target Hitsphere is too low.
+		return false;
+	}
+
+	if (TargetPosition[1] - TargetRadius > SourcePosition[1] + SourceRadius[1])
+	{
+		//Target Hitsphere is too high.
+		return false;
+	}
+
+	GlobalFloatA = SourceRadius[0] + TargetRadius;	
+	GlobalFloatB = SourcePosition[0] - TargetPosition[0];
+	GlobalFloatC = SourcePosition[2] - TargetPosition[2];
+
+	if ((GlobalFloatB * GlobalFloatB) + (GlobalFloatC * GlobalFloatC) > (GlobalFloatA * GlobalFloatA))
+	{
+		return false;
+	}
+	
+	return true; 
+}
+
 bool TestCollideBox(float BoxPosition[], float BoxSize[], short BoxAngle[], float TargetPosition[], float TargetRadius)
 {
-	//Does a test on a collision with a box of arbitrary length width and height.
+	//Does a test on a collision with a box of arbitrary length width and height angled on the Y-axis
 
 
 	float TempPosition[3];
@@ -222,7 +250,12 @@ bool CheckOKCollide(short HitType, Vector SourcePosition, Vector SourceSize, SVe
 			return (TestCollideSphere(SourcePosition, SourceSize[0], TargetPosition, TargetRadius));
 			break;
 		}
-		case 1:  //Box
+		case 1: //Cylinder 
+		{
+			return (TestCollideCylinder(SourcePosition, SourceSize, TargetPosition, TargetRadius));
+			break;
+		}
+		case 2:  //Box
 		{
 			return TestCollideBox(SourcePosition, SourceSize, SourceAngle, TargetPosition, TargetRadius);
 			break;
