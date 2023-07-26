@@ -86,13 +86,12 @@ void ClearOKObject(short ObjectID)
 bool TestCollideSVectorSphere(float SourcePosition[], float SourceRadius, SVector TargetPosition, float TargetRadius)
 {
 	//Does a collision test using pythagorean maths. 
-
-	GlobalFloatA = SourceRadius + TargetRadius;
-	
-	GlobalFloatB = SourcePosition[0] - TargetPosition[0];
-	GlobalFloatC = SourcePosition[1] - TargetPosition[1];
-	GlobalFloatD = SourcePosition[2] - TargetPosition[2];
-	if ((GlobalFloatB * GlobalFloatB) + (GlobalFloatC * GlobalFloatC) + (GlobalFloatD * GlobalFloatD) > (GlobalFloatA * GlobalFloatA))
+	if 
+	(
+		((SourcePosition[0] - TargetPosition[0]) * (SourcePosition[0] - TargetPosition[0])) + 
+		((SourcePosition[1] - TargetPosition[1]) * (SourcePosition[1] - TargetPosition[1])) + 
+		((SourcePosition[2] - TargetPosition[2]) * (SourcePosition[2] - TargetPosition[2])) > ((SourceRadius + TargetRadius) * (SourceRadius + TargetRadius))
+	)
 	{
 		return false;
 	}
@@ -102,13 +101,12 @@ bool TestCollideSVectorSphere(float SourcePosition[], float SourceRadius, SVecto
 bool TestCollideSphere(float SourcePosition[], float SourceRadius, float TargetPosition[], float TargetRadius)
 {
 	//Does a collision test using pythagorean maths. 
-
-	GlobalFloatA = SourceRadius + TargetRadius;
-	
-	GlobalFloatB = SourcePosition[0] - TargetPosition[0];
-	GlobalFloatC = SourcePosition[1] - TargetPosition[1];
-	GlobalFloatD = SourcePosition[2] - TargetPosition[2];
-	if ((GlobalFloatB * GlobalFloatB) + (GlobalFloatC * GlobalFloatC) + (GlobalFloatD * GlobalFloatD) > (GlobalFloatA * GlobalFloatA))
+	if 
+	(
+		((SourcePosition[0] - TargetPosition[0]) * (SourcePosition[0] - TargetPosition[0])) + 
+		((SourcePosition[1] - TargetPosition[1]) * (SourcePosition[1] - TargetPosition[1])) + 
+		((SourcePosition[2] - TargetPosition[2]) * (SourcePosition[2] - TargetPosition[2])) > ((SourceRadius + TargetRadius) * (SourceRadius + TargetRadius))
+	)
 	{
 		return false;
 	}
@@ -132,11 +130,12 @@ bool TestCollideCylinder(float SourcePosition[], float SourceRadius[], float Tar
 		return false;
 	}
 
-	GlobalFloatA = SourceRadius[0] + TargetRadius;	
-	GlobalFloatB = SourcePosition[0] - TargetPosition[0];
-	GlobalFloatC = SourcePosition[2] - TargetPosition[2];
-
-	if ((GlobalFloatB * GlobalFloatB) + (GlobalFloatC * GlobalFloatC) > (GlobalFloatA * GlobalFloatA))
+	//Does a collision test using pythagorean maths. 
+	if 
+	(
+		((SourcePosition[0] - TargetPosition[0]) * (SourcePosition[0] - TargetPosition[0])) + 
+		((SourcePosition[2] - TargetPosition[2]) * (SourcePosition[2] - TargetPosition[2])) > ((SourceRadius[0] + TargetRadius) * (SourceRadius[0] + TargetRadius))
+	)
 	{
 		return false;
 	}
@@ -268,7 +267,7 @@ void OKObjectCollision(OKObject *InputObject)
 {	
 	OKCollisionSphere* HitBox = (OKCollisionSphere*)GetRealAddress(ObjectSegment | OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].ObjectHitbox);
 
-
+	float ObjectScale = ((float)(OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].ObjectScale) / 100.0f);
 	float TempPosition[3] = {0,0,0};
 	float TempBoxSize[3] = {1,1,1};
 	short BoxAngles[3] = {0,0,0};
@@ -291,7 +290,7 @@ void OKObjectCollision(OKObject *InputObject)
 
 		//INITIALIZE BOX
 			
-			GlobalFloatA = (float)(HitBox[ThisBox].Scale / 100.0f);  //Get scale
+			GlobalFloatA = (float)(HitBox[ThisBox].Scale / 100.0f) * ObjectScale;  //Get scale
 
 			TempPosition[0] = ((float)HitBox[ThisBox].Position[0] * GlobalFloatA);
 			TempPosition[1] = ((float)HitBox[ThisBox].Position[1] * GlobalFloatA);

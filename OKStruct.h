@@ -144,9 +144,9 @@ typedef struct OKObjectType{
 	short			BumpRadius, MaxSpeed;//
 	short 			Sight, Viewcone;//
 	short 			SoundRadius, RenderRadius;//	
-	char				SoundType, ZSortToggle, GravityToggle, CameraAlignToggle; //
-	
-	char				OKModelCount, OKXLUCount, CollisionCount, ObjectFlag;
+	char				SoundType, ZSortToggle, GravityToggle, CameraAlignToggle; //	
+	char				OKModelCount, OKXLUCount, CollisionCount, ObjectFlag;	
+	short			ObjectScale, PADDING;
 	int				SoundID;
 	
 	uint			ObjectHitbox;	//OKCollisionSphere Address
