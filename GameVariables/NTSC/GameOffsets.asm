@@ -373,6 +373,7 @@
 .definelabel Snow3DAllocMapCheck2, 0x80070788
 .definelabel Snow3DDisplayAfterMapCheck1, 0x80058B58
 .definelabel Snow3DDisplayAfterMapCheck2, 0x80058B5C
+.definelabel KWDisplayJugemu, 0x800532A4
 
 .definelabel initializePlayer, 0x800393C0
 .definelabel DelayInitialMap, 0x80002DAC

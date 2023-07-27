@@ -573,6 +573,57 @@ void CheckMapBG_ZX_Hook(Player *car, Vector normal, Vector velocity, Vector g_ve
 
 
 
+void ExplorerSetJugemu(Player* Target)
+{
+	if ((SurfaceExplorerMode == true) && (Target->jugemu_flag == 0))
+	{
+		return;
+	}
+	else
+	{
+		SetLakitu(Target);
+		CallLakitu(Target);
+	}
+}
+
+void ExplorerKWDisplayJugemu(int Player)
+{
+	if ((g_startingIndicator >= 3 && g_startingIndicator < 5) && (SurfaceExplorerMode == true) && (GlobalPlayer[Player].jugemu_flag == 0))
+	{
+		return;
+	}
+	else
+	{
+		KWDisplayJugemu(Player);
+	}
+}
+
+void ExplorerCallJugemu(Player* Target)
+{
+	if ((SurfaceExplorerMode == true) && (Target->jugemu_flag == 0))
+	{
+		return;
+	}
+	else
+	{
+		CallLakitu(Target);
+	}
+}
+
+
+void ExplorerHangJugemu(Player* Target, char Index)
+{
+	if ((SurfaceExplorerMode == true) && (Target->jugemu_flag == 0))
+	{
+		return;
+	}
+	else
+	{
+		HangLakitu(Target,Index);
+	}
+}
+
+
 void CheckDirectionFunc(int Null, Screen *display)
 {
 	ushort ang= display->camera->camera_direction[1];

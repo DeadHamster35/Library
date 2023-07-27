@@ -299,6 +299,7 @@ extern long Snow3DAllocMapCheck1;
 extern long Snow3DAllocMapCheck2;
 extern long Snow3DDisplayAfterMapCheck1;
 extern long Snow3DDisplayAfterMapCheck2;
+extern void KWDisplayJugemu(int Player);
 
 extern void TexBuffLoadP(void *texlist_ptr,int nocheck_flg);
 extern void GrayScaleTexBuf3(uint num, uint step);

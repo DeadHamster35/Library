@@ -22,6 +22,7 @@ extern uint CycleCount[2];
 
 extern bool TempoBool, StopSwop;
 extern char ConsolePlatform, EmulatorPlatform;
+extern bool SurfaceExplorerMode;
 extern bool CustomWaterHeight[];
 extern short CloudCourseID, Snow3DCourseID; 
 extern char CloudCourseValue, Snow3DCourseValue, WeatherCourseValue, Toggle3DSnow;

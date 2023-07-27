@@ -23,6 +23,7 @@ uint CycleCount[2];
 bool TempoBool, StopSwop;
 char ConsolePlatform, EmulatorPlatform;
 
+bool SurfaceExplorerMode = true;
 bool CustomWaterHeight[8];
 short CloudCourseID, Snow3DCourseID;
 char CloudCourseValue, Snow3DCourseValue, WeatherCourseValue, Toggle3DSnow;

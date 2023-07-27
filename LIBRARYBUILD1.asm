@@ -145,6 +145,53 @@ NOP
 
 
 
+
+
+
+//Replace Jugemu Check for exploration mode.
+//Replace Jugemu Check for exploration mode.
+//
+.org 0x02D988
+JAL ExplorerHangJugemu
+
+.org 0x090074
+JAL ExplorerSetJugemu
+.org 0x02D374
+JAL ExplorerSetJugemu
+.org 0x02D3B4
+JAL ExplorerSetJugemu
+.org 0x07A51C
+JAL ExplorerSetJugemu
+
+.org 0x09007C
+JAL ExplorerCallJugemu
+.org 0x02D37C
+JAL ExplorerCallJugemu
+.org 0x02D3BC
+JAL ExplorerCallJugemu
+.org 0x07A86C
+JAL ExplorerCallJugemu
+.org 0x07AA88
+JAL ExplorerCallJugemu
+
+.org 0x058EAC
+JAL ExplorerKWDisplayJugemu
+.org 0x058F74
+JAL ExplorerKWDisplayJugemu
+.org 0x05903C
+JAL ExplorerKWDisplayJugemu
+.org 0x059118
+JAL ExplorerKWDisplayJugemu
+
+
+//
+//Replace Jugemu Check for exploration mode.
+//Replace Jugemu Check for exploration mode.
+
+
+
+
+
 //Hook for DisplayGroupmap Direction Check. 
 //Used for ZFLIP
 //written inline to original location due to available space
