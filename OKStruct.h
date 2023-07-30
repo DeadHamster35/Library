@@ -33,7 +33,8 @@ typedef struct OKHeader{
 	uint 			EchoEnd;
 	char			GoalBannerToggle;
 	char			BackgroundToggle;
-	char			Padding[2];
+	char			ManualTempo;
+	char			Padding;
 	char 			PathTrigger[4];	
 	uint 			MusicID;
 	short 			PathLength[4];
@@ -44,7 +45,6 @@ typedef struct OKHeader{
 	uint 			PathOffset;
 	short			FogStart, FogStop;
 	uchar		 	FogRGBA[4];
-	char			StartBannerToggle, PAD1, PAD2, PAD3;
 } OKHeader;
 
 typedef struct OKAIPath{
