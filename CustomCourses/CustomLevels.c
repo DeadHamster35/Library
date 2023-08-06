@@ -521,7 +521,7 @@ void setPath()
 				Marker *PathArray = (Marker *)GetRealAddress(PathTable[g_courseID][ThisPath]);
 
 				GlobalIntA = -1;
-				for (int ThisMark = 0; ThisMark < PathLengthTable[g_courseID][ThisPath]; ThisMark++)
+				for (int ThisMark = 0; ThisMark < 3000; ThisMark++)
 				{
 					if (PathArray[ThisMark].Position[0] == -32768)
 					{
@@ -532,8 +532,6 @@ void setPath()
 						GlobalIntA++;
 					}
 				}
-
-				*(int*)(0x80654400 + ThisPath * 8) = (int)GlobalIntA;
 
 				for (int ThisMark = 0, HighMark = GlobalIntA ; ThisMark < HighMark; ThisMark++, HighMark--)
 				{
