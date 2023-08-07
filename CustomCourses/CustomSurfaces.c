@@ -266,7 +266,7 @@ void AddGravityEdit(Player *car)
 		if (car->bump.distance_zx >= 0.2f)
 		{
 			
-			car->gravity = 100.0 * GlobalPlayer[car_number].bump.dummy;  //use bump.dummy; goes unused by gamecode
+			car->gravity = 10.0 * (255 - GlobalPlayer[car_number].bump.dummy);  //use bump.dummy; goes unused by gamecode
 		}
 		if (car->jumpcount >= 40)
 		{
@@ -304,26 +304,26 @@ void AddGravityEdit(Player *car)
 	{
 		case TrickJump:
 		{
-		if (car->jumpcount <= 10 && GlobalController[cont_number]->ButtonPressed&BTN_R && SPEEDMETER(car->speed) >= TRICK_TRIGGER_SPEED_MIN && !(car->slip_flag&IS_BROKEN) && !(car->slip_flag&IS_FEATHER_JUMPING) && !(SurfaceStorage[car_number]&STORE_TRICK))
-		{
-			car->flag |= 0x80;
-			SetAnimBonkStars(car_number);
-			if (car->slip_flag&IS_TURBO_BOOSTING)
+			if (car->jumpcount <= 10 && GlobalController[cont_number]->ButtonPressed&BTN_R && SPEEDMETER(car->speed) >= TRICK_TRIGGER_SPEED_MIN && !(car->slip_flag&IS_BROKEN) && !(car->slip_flag&IS_FEATHER_JUMPING) && !(SurfaceStorage[car_number]&STORE_TRICK))
 			{
-				short turbo_store = car->turbo_timer;
-				SetWing(car, car_number);
-				car->slip_flag |= IS_TURBO_BOOSTING;
-				car->turbo_timer = turbo_store;
-			}
-			else
-			{
-				SetWing(car, car_number);
-			}
-			car->jumpcount = 0;
-			if (car->max_power != car->bump_status)
-			{
-				car->max_power = car->bump_status;
-			}
+				car->flag |= 0x80;
+				SetAnimBonkStars(car_number);
+				if (car->slip_flag&IS_TURBO_BOOSTING)
+				{
+					short turbo_store = car->turbo_timer;
+					SetWing(car, car_number);
+					car->slip_flag |= IS_TURBO_BOOSTING;
+					car->turbo_timer = turbo_store;
+				}
+				else
+				{
+					SetWing(car, car_number);
+				}
+				car->jumpcount = 0;
+				if (car->max_power != car->bump_status)
+				{
+					car->max_power = car->bump_status;
+				}
 				SurfaceStorage[car_number] = STORE_TRICK;
 			}
 			else if (car->flag & IS_CPU_PLAYER)

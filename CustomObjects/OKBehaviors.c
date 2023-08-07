@@ -548,7 +548,8 @@ void ObjectBehaviorFollowPath(OKObject* InputObject)
 		}
 		else
 		{
-			ChaseDir(&InputObject->ObjectData.angle[1],(-1 * MakeDirection(InputObject->ObjectData.position[0],InputObject->ObjectData.position[2],objectPosition[0],objectPosition[2])), (DEG1 * 5));
+			
+			ChaseDir(&InputObject->ObjectData.angle[1],(-1 * MakeDirection(InputObject->ObjectData.position[0],InputObject->ObjectData.position[2],objectPosition[0],objectPosition[2])), (DEG1 * 8));
 			ObjectBehaviorWalk(InputObject, (float)ThisType->MaxSpeed / 100);
 
 			if (TestCollideSphere(InputObject->ObjectData.position,60,objectPosition, 60))
@@ -561,6 +562,14 @@ void ObjectBehaviorFollowPath(OKObject* InputObject)
 			}
 		}
 		
+		if ((float)PathData[InputObject->PathTarget].Position[1] > InputObject->ObjectData.position[1] + 5)
+		{
+
+		}
+		objectPosition[1] = (float)PathData[InputObject->PathTarget].Position[1];
+		
+
+		InputObject->ObjectData.angle[0] = (DEG1 * -90) + CalcVerticalDirection(InputObject->ObjectData.position, objectPosition, InputObject->ObjectData.angle[1]);
 	}
 	
 }

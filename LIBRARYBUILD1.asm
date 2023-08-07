@@ -449,9 +449,6 @@ NOP
 J FreeDraw
 NOP
 
-.org 0x10CFF0
-JR $ra
-NOP
 
 
 //Push the level-data cache to EOF
