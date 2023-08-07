@@ -70,20 +70,20 @@ void DynamicTempo()
 	asm_tempo3BSpeed = DynFPSModifier;
 }
 
-void StaticTempo()
+void StaticTempo(int Tempo)
 {
 	asm_tempo1A = 0x240F0000;
-	asm_tempo1ASpeed = 2;
+	asm_tempo1ASpeed = Tempo;
 	asm_tempo1B = 0x240F0000;
-	asm_tempo1BSpeed = 2;
+	asm_tempo1BSpeed = Tempo;
 	asm_tempo2A = 0x24090000;
-	asm_tempo2ASpeed = 2;
+	asm_tempo2ASpeed = Tempo;
 	asm_tempo2B = 0x24090000;
-	asm_tempo2BSpeed = 2;
+	asm_tempo2BSpeed = Tempo;
 	asm_tempo3A = 0x240A0000;
-	asm_tempo3ASpeed = 2;
+	asm_tempo3ASpeed = Tempo;
 	asm_tempo3B = 0x240A0000;
-	asm_tempo3BSpeed = 2;
+	asm_tempo3BSpeed = Tempo;
 }
 
 void previewRefresh()
@@ -439,7 +439,6 @@ void setPath()
 	
 
 	short *PathLengths = (short *)(&g_pathLength);
-	uint *PathOffsets = (uint *)&pathOffset;
 
 	if ((HotSwapID > 0) && (OverKartHeader.Version != 0xFFFFFFFF))
 	{
@@ -491,147 +490,132 @@ void setPath()
 	
 
 
-	if (HotSwapID > 0)
-	{
-				
-		for (int ThisPath = 0; ThisPath < OverKartHeader.PathCount; ThisPath++)
-		{
-			Marker *PathArray = (Marker *)GetRealAddress(PathOffsets[ThisPath]);
-			for (int ThisMark = 0; ThisMark < PathLengths[ThisPath]; ThisMark++)
-			{
-				PathArray[ThisMark].Position[0] = (short)((float)PathArray[ThisMark].Position[0] * LevelScales[(int)ScaleXMode]);
-				PathArray[ThisMark].Position[1] = (short)((float)PathArray[ThisMark].Position[1] * LevelScales[(int)ScaleYMode]);
-				PathArray[ThisMark].Position[2] = (short)((float)PathArray[ThisMark].Position[2] * LevelScales[(int)ScaleZMode]);
-			}
-			
-			MakeAlternativePath((Marker *)GetRealAddress(PathOffsets[ThisPath]), PathLengths[ThisPath], ThisPath);
-		}
-	}
-	else
+		
+	for (int ThisPath = 0; ThisPath < 4; ThisPath++)
 	{
 		
-		for (int ThisPath = 0; ThisPath < 4; ThisPath++)
+		
+		
+		if (ZFLIP)
 		{
-			
-			
-			
-			if (ZFLIP)
+
+			Marker *PathArray = (Marker *)GetRealAddress(PathTable[g_courseID][ThisPath]);
+
+			GlobalIntA = -1;
+			for (int ThisMark = 0; ThisMark < 3000; ThisMark++)
 			{
-
-				Marker *PathArray = (Marker *)GetRealAddress(PathTable[g_courseID][ThisPath]);
-
-				GlobalIntA = -1;
-				for (int ThisMark = 0; ThisMark < 3000; ThisMark++)
+				if (PathArray[ThisMark].Position[0] == -32768)
 				{
-					if (PathArray[ThisMark].Position[0] == -32768)
-					{
-						break;
-					}
-					else
-					{	
-						GlobalIntA++;
-					}
+					break;
 				}
-
-				for (int ThisMark = 0, HighMark = GlobalIntA ; ThisMark < HighMark; ThisMark++, HighMark--)
-				{
-					objectPosition[0] = (short)((float)PathArray[ThisMark].Position[0] * LevelScales[(int)ScaleXMode]);
-					if (YFLIP)
-					{
-						objectPosition[1] = -1 * (short)((float)PathArray[ThisMark].Position[1] * LevelScales[(int)ScaleYMode]);
-					}
-					else
-					{
-						objectPosition[1] = (short)((float)PathArray[ThisMark].Position[1] * LevelScales[(int)ScaleYMode]);
-					}
-					
-					objectPosition[2] = -1 * (short)((float)PathArray[ThisMark].Position[2] * LevelScales[(int)ScaleZMode]);
-
-
-					PathArray[ThisMark].Position[0] = (short)((float)PathArray[HighMark].Position[0] * LevelScales[(int)ScaleXMode]);
-					PathArray[ThisMark].Position[1] = (short)((float)PathArray[HighMark].Position[1] * LevelScales[(int)ScaleYMode]);
-					PathArray[ThisMark].Position[2] = -1 * (short)((float)PathArray[HighMark].Position[2] * LevelScales[(int)ScaleZMode]);
-
-					PathArray[HighMark].Position[0] = objectPosition[0];
-					PathArray[HighMark].Position[1] = objectPosition[1];
-					PathArray[HighMark].Position[2] = objectPosition[2];
-
-				}
-
-				Marker *PathArrayB = (Marker *)GetRealAddress(PathTableB[g_courseID][ThisPath]);
-
-				GlobalIntA = -1;
-				for (int ThisMark = 0; ThisMark < 9999; ThisMark++)
-				{
-					if (PathArrayB[ThisMark].Position[0] == -32768)
-					{
-						break;
-					}
-					else
-					{	
-						GlobalIntA++;
-					}
-				}
-				for (int ThisMark = 0, HighMark = GlobalIntA ; ThisMark < HighMark; ThisMark++, HighMark--)
-				{
-					objectPosition[0] = (short)((float)PathArrayB[ThisMark].Position[0] * LevelScales[(int)ScaleXMode]);
-					objectPosition[1] = (short)((float)PathArrayB[ThisMark].Position[1] * LevelScales[(int)ScaleYMode]);
-					objectPosition[2] = -1 * (short)((float)PathArrayB[ThisMark].Position[2] * LevelScales[(int)ScaleZMode]);
-
-
-					PathArrayB[ThisMark].Position[0] = (short)((float)PathArrayB[HighMark].Position[0] * LevelScales[(int)ScaleXMode]);
-					PathArrayB[ThisMark].Position[1] = (short)((float)PathArrayB[HighMark].Position[1] * LevelScales[(int)ScaleYMode]);
-					PathArrayB[ThisMark].Position[2] = -1 * (short)((float)PathArrayB[HighMark].Position[2] * LevelScales[(int)ScaleZMode]);
-
-					PathArrayB[HighMark].Position[0] = objectPosition[0];
-					PathArrayB[HighMark].Position[1] = objectPosition[1];
-					PathArrayB[HighMark].Position[2] = objectPosition[2];
-
+				else
+				{	
+					GlobalIntA++;
 				}
 			}
-			else
-			{	
 
-				Marker *PathArray = (Marker *)GetRealAddress(PathTable[g_courseID][ThisPath]);
-				for (int ThisMark = 0; ThisMark < PathLengthTable[g_courseID][ThisPath]; ThisMark++)
+			for (int ThisMark = 0, HighMark = GlobalIntA ; ThisMark < HighMark; ThisMark++, HighMark--)
+			{
+				objectPosition[0] = (short)((float)PathArray[ThisMark].Position[0] * LevelScales[(int)ScaleXMode]);
+				if (YFLIP)
 				{
-					if (PathArray[ThisMark].Position[0] == -32768)
-					{
-						break;
-					}
-					else
-					{
-						PathArray[ThisMark].Position[0] = (short)((float)PathArray[ThisMark].Position[0] * LevelScales[(int)ScaleXMode]);
-						PathArray[ThisMark].Position[1] = (short)((float)PathArray[ThisMark].Position[1] * LevelScales[(int)ScaleYMode]);
-						PathArray[ThisMark].Position[2] = (short)((float)PathArray[ThisMark].Position[2] * LevelScales[(int)ScaleZMode]);
-					}
-					
-
+					objectPosition[1] = -1 * (short)((float)PathArray[ThisMark].Position[1] * LevelScales[(int)ScaleYMode]);
 				}
-
-				Marker *PathArrayB = (Marker *)GetRealAddress(PathTableB[g_courseID][ThisPath]);
-
-				for (int ThisMark = 0; ThisMark < PathLengthTable[g_courseID][ThisPath]; ThisMark++)
+				else
 				{
-					if (PathArrayB[ThisMark].Position[0] == -32768)
-					{
-						break;
-					}
-					else
-					{
-						
-						PathArrayB[ThisMark].Position[0] = (short)((float)PathArrayB[ThisMark].Position[0] * LevelScales[(int)ScaleXMode]);
-						PathArrayB[ThisMark].Position[2] = (short)((float)PathArrayB[ThisMark].Position[2] * LevelScales[(int)ScaleZMode]);
-					}
+					objectPosition[1] = (short)((float)PathArray[ThisMark].Position[1] * LevelScales[(int)ScaleYMode]);
+				}
+				
+				objectPosition[2] = -1 * (short)((float)PathArray[ThisMark].Position[2] * LevelScales[(int)ScaleZMode]);
+
+
+				PathArray[ThisMark].Position[0] = (short)((float)PathArray[HighMark].Position[0] * LevelScales[(int)ScaleXMode]);
+				PathArray[ThisMark].Position[1] = (short)((float)PathArray[HighMark].Position[1] * LevelScales[(int)ScaleYMode]);
+				PathArray[ThisMark].Position[2] = -1 * (short)((float)PathArray[HighMark].Position[2] * LevelScales[(int)ScaleZMode]);
+
+				GlobalShortA = PathArray[ThisMark].Group;
+				PathArray[ThisMark].Group = PathArray[HighMark].Group;
+
+
+				PathArray[HighMark].Position[0] = objectPosition[0];
+				PathArray[HighMark].Position[1] = objectPosition[1];
+				PathArray[HighMark].Position[2] = objectPosition[2];
+				PathArray[HighMark].Group = GlobalShortA;
+
+			}
+
+			Marker *PathArrayB = (Marker *)GetRealAddress(PathTableB[g_courseID][ThisPath]);
+
+			GlobalIntA = -1;
+			for (int ThisMark = 0; ThisMark < 9999; ThisMark++)
+			{
+				if (PathArrayB[ThisMark].Position[0] == -32768)
+				{
+					break;
+				}
+				else
+				{	
+					GlobalIntA++;
 				}
 			}
-			
-			
-			
+			for (int ThisMark = 0, HighMark = GlobalIntA ; ThisMark < HighMark; ThisMark++, HighMark--)
+			{
+				objectPosition[0] = (short)((float)PathArrayB[ThisMark].Position[0] * LevelScales[(int)ScaleXMode]);
+				objectPosition[1] = (short)((float)PathArrayB[ThisMark].Position[1] * LevelScales[(int)ScaleYMode]);
+				objectPosition[2] = -1 * (short)((float)PathArrayB[ThisMark].Position[2] * LevelScales[(int)ScaleZMode]);
 
+
+				PathArrayB[ThisMark].Position[0] = (short)((float)PathArrayB[HighMark].Position[0] * LevelScales[(int)ScaleXMode]);
+				PathArrayB[ThisMark].Position[1] = (short)((float)PathArrayB[HighMark].Position[1] * LevelScales[(int)ScaleYMode]);
+				PathArrayB[ThisMark].Position[2] = -1 * (short)((float)PathArrayB[HighMark].Position[2] * LevelScales[(int)ScaleZMode]);
+
+				PathArrayB[HighMark].Position[0] = objectPosition[0];
+				PathArrayB[HighMark].Position[1] = objectPosition[1];
+				PathArrayB[HighMark].Position[2] = objectPosition[2];
+
+			}
 		}
-	}
+		else
+		{	
 
+			Marker *PathArray = (Marker *)GetRealAddress(PathTable[g_courseID][ThisPath]);
+			for (int ThisMark = 0; ThisMark < PathLengthTable[g_courseID][ThisPath]; ThisMark++)
+			{
+				if (PathArray[ThisMark].Position[0] == -32768)
+				{
+					break;
+				}
+				else
+				{
+					PathArray[ThisMark].Position[0] = (short)((float)PathArray[ThisMark].Position[0] * LevelScales[(int)ScaleXMode]);
+					PathArray[ThisMark].Position[1] = (short)((float)PathArray[ThisMark].Position[1] * LevelScales[(int)ScaleYMode]);
+					PathArray[ThisMark].Position[2] = (short)((float)PathArray[ThisMark].Position[2] * LevelScales[(int)ScaleZMode]);
+				}
+				
+
+			}
+
+			Marker *PathArrayB = (Marker *)GetRealAddress(PathTableB[g_courseID][ThisPath]);
+
+			for (int ThisMark = 0; ThisMark < PathLengthTable[g_courseID][ThisPath]; ThisMark++)
+			{
+				if (PathArrayB[ThisMark].Position[0] == -32768)
+				{
+					break;
+				}
+				else
+				{
+					
+					PathArrayB[ThisMark].Position[0] = (short)((float)PathArrayB[ThisMark].Position[0] * LevelScales[(int)ScaleXMode]);
+					PathArrayB[ThisMark].Position[2] = (short)((float)PathArrayB[ThisMark].Position[2] * LevelScales[(int)ScaleZMode]);
+				}
+			}
+		}
+		
+		
+		
+
+	}
 }
 
 void PlaceIBoxes(long BoxOffset)
@@ -1618,6 +1602,8 @@ void setOKObjects()
 
 		OKObjectArray[This].ListIndex = This;
 		OKObjectArray[This].TypeIndex = OverKartRAMHeader.ObjectList[This].TypeIndex;
+		
+		
 
 		OKObjectArray[This].SubBehaviorClass = SUBBEHAVIOR_DOCILE;
 
@@ -1626,31 +1612,43 @@ void setOKObjects()
 		OKObjectArray[This].ObjectData.flag = 0xC000;
 		OKObjectArray[This].ObjectData.radius = ThisType.BumpRadius / 100; // used for level calcs BUMP
 
-		
+
 		if (g_ScreenFlip)
 		{
-			OKObjectArray[This].ObjectData.position[0] = -1 * OverKartRAMHeader.ObjectList[This].OriginPosition[0];
+			OverKartRAMHeader.ObjectList[This].OriginPosition[0] *= (-1 * LevelScales[(int)ScaleXMode]);			
 		}
 		else
 		{
-			OKObjectArray[This].ObjectData.position[0] = OverKartRAMHeader.ObjectList[This].OriginPosition[0];
+			OverKartRAMHeader.ObjectList[This].OriginPosition[0] *= (LevelScales[(int)ScaleXMode]);			
 		}
+
 		if (YFLIP)
 		{
-			OKObjectArray[This].ObjectData.position[1] = -1 * OverKartRAMHeader.ObjectList[This].OriginPosition[1];
+			OverKartRAMHeader.ObjectList[This].OriginPosition[1] *= (-1 * LevelScales[(int)ScaleYMode]);	
 		}
 		else
 		{
-			OKObjectArray[This].ObjectData.position[1] = OverKartRAMHeader.ObjectList[This].OriginPosition[1];
+			OverKartRAMHeader.ObjectList[This].OriginPosition[1] *= (LevelScales[(int)ScaleYMode]);			
 		}
+
+		if (OverKartRAMHeader.ObjectTypeList[OKObjectArray[This].TypeIndex].GravityToggle)
+		{
+			OverKartRAMHeader.ObjectList[This].OriginPosition[1] += OKObjectArray[This].ObjectData.radius;
+		}
+
+
 		if (ZFLIP)
 		{
-			OKObjectArray[This].ObjectData.position[2] = -1 * OverKartRAMHeader.ObjectList[This].OriginPosition[2];
+			OverKartRAMHeader.ObjectList[This].OriginPosition[2] *= (-1 * LevelScales[(int)ScaleZMode]);			
 		}
 		else
 		{
-			OKObjectArray[This].ObjectData.position[2] = OverKartRAMHeader.ObjectList[This].OriginPosition[2];
+			OverKartRAMHeader.ObjectList[This].OriginPosition[2] *= (LevelScales[(int)ScaleZMode]);			
 		}
+
+		OKObjectArray[This].ObjectData.position[0] = OverKartRAMHeader.ObjectList[This].OriginPosition[0];
+		OKObjectArray[This].ObjectData.position[1] = OverKartRAMHeader.ObjectList[This].OriginPosition[1];
+		OKObjectArray[This].ObjectData.position[2] = OverKartRAMHeader.ObjectList[This].OriginPosition[2];
 
 		OKObjectArray[This].ObjectData.angle[0] = OverKartRAMHeader.ObjectList[This].OriginAngle[0] * DEG1;
 		OKObjectArray[This].ObjectData.angle[1] = -1 * OverKartRAMHeader.ObjectList[This].OriginAngle[1] * DEG1;

@@ -7,7 +7,7 @@ extern short ZFLIP;
 extern short YFLIP;
 extern void FPS_Check();
 extern void DynamicTempo();
-extern void StaticTempo();
+extern void StaticTempo(int Tempo);
 extern void stockASM();
 extern void overkartASM();
 extern void runTextureScroll();
