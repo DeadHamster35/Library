@@ -504,35 +504,50 @@ void ObjectBehaviorFollowPath(OKObject* InputObject)
 	uint* PathOffsets = (uint*)&pathOffset; 
 	OKObjectType *ThisType = (OKObjectType*)&(OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex]);
 	Marker* PathData = (Marker*)(GetRealAddress(PathOffsets[ThisType->Range]));
+	short ThisPoint = InputObject->PathTarget;
+	short NextPoint = ThisPoint + 1;
+
+	
 	if (InputObject->PathTarget == -1)
 	{
-		InputObject->PathTarget = ObjectSearchClosestMarker(InputObject->ObjectData.position,PathData);
+		InputObject->PathTarget = 1 + ObjectSearchClosestMarker(InputObject->ObjectData.position,PathData);
+
+		if (PathData[InputObject->PathTarget].Position[0] == (short)0x8000)
+		{
+			InputObject->PathTarget  = 0;
+		}
+
 		objectPosition[0] = (float)PathData[InputObject->PathTarget].Position[0];
 		objectPosition[1] = (float)PathData[InputObject->PathTarget].Position[1];
 		objectPosition[2] = (float)PathData[InputObject->PathTarget].Position[2];
 		InputObject->ObjectData.angle[1] = (-1 * CalcDirection(InputObject->ObjectData.position, objectPosition));
-	}
-	else if (InputObject->PathTarget >= 0)
-	{
 
-		if (PathData[InputObject->PathTarget + 1].Position[0] == (short)0x8000)
+		if (InputObject->PathTarget > 0)
 		{
-			GlobalShortA = 0;
+			InputObject->PlayerTarget = InputObject->PathTarget - 1;
 		}
 		else
 		{
-			GlobalShortA = InputObject->PathTarget + 1;
+			InputObject->PlayerTarget = 0;
+		}
+	}
+	else if (InputObject->PathTarget >= 0)
+	{
+		if (PathData[NextPoint].Position[0] == (short)0x8000)
+		{
+			NextPoint = 0;
 		}
 
-		objectPosition[0] = (float)PathData[GlobalShortA].Position[0];
-		objectPosition[2] = (float)PathData[GlobalShortA].Position[2];
+		objectPosition[0] = (float)PathData[NextPoint].Position[0];
+		objectPosition[2] = (float)PathData[NextPoint].Position[2];
 		
 		GlobalFloatA = (objectPosition[0] - InputObject->ObjectData.position[0]) + (objectPosition[2] - InputObject->ObjectData.position[2]);
 
-		objectPosition[0] = (float)PathData[InputObject->PathTarget].Position[0];
-		objectPosition[1] = (float)PathData[InputObject->PathTarget].Position[1];
-		objectPosition[2] = (float)PathData[InputObject->PathTarget].Position[2];
+
 		
+		
+		objectPosition[0] = (float)PathData[ThisPoint].Position[0];
+		objectPosition[2] = (float)PathData[ThisPoint].Position[2];
 		GlobalFloatB = (objectPosition[0] - InputObject->ObjectData.position[0]) + (objectPosition[2] - InputObject->ObjectData.position[2]);
 		
 		GlobalFloatA *= GlobalFloatA;
@@ -540,36 +555,36 @@ void ObjectBehaviorFollowPath(OKObject* InputObject)
 
 		if (GlobalFloatA < GlobalFloatB)
 		{
-			InputObject->PathTarget++;
-			if (PathData[InputObject->PathTarget].Position[0] == (short)0x8000)
-			{
-				InputObject->PathTarget = 0; //completed.
-			}
+			InputObject->PathTarget = NextPoint + 1;
+			InputObject->PlayerTarget = NextPoint; //use PlayerTarget for Last Point.
 		}
 		else
 		{
-			
-			ChaseDir(&InputObject->ObjectData.angle[1],(-1 * MakeDirection(InputObject->ObjectData.position[0],InputObject->ObjectData.position[2],objectPosition[0],objectPosition[2])), (DEG1 * 8));
+
+			ChaseDir(&InputObject->ObjectData.angle[1],(-1 * MakeDirection(InputObject->ObjectData.position[0],InputObject->ObjectData.position[2],objectPosition[0],objectPosition[2])), (DEG1 * 3));
 			ObjectBehaviorWalk(InputObject, (float)ThisType->MaxSpeed / 100);
 
-			if (TestCollideSphere(InputObject->ObjectData.position,60,objectPosition, 60))
+			if (TestCollideSphere(InputObject->ObjectData.position,150,objectPosition, 150))
 			{
-				InputObject->PathTarget++;
-				if (PathData[InputObject->PathTarget].Position[0] == (short)0x8000)
-				{
-					InputObject->PathTarget = 0; //completed.
-				}
+				InputObject->PathTarget = NextPoint;
+				InputObject->PlayerTarget = ThisPoint; //use PlayerTarget for Last Point.
 			}
 		}
-		
-		if ((float)PathData[InputObject->PathTarget].Position[1] > InputObject->ObjectData.position[1] + 5)
+
+		Vector VTarget = 
 		{
+			(float)PathData[InputObject->PathTarget].Position[0],
+			(float)PathData[InputObject->PathTarget].Position[1],
+			(float)PathData[InputObject->PathTarget].Position[2],
+		};
 
-		}
-		objectPosition[1] = (float)PathData[InputObject->PathTarget].Position[1];
-		
-
-		InputObject->ObjectData.angle[0] = (DEG1 * -90) + CalcVerticalDirection(InputObject->ObjectData.position, objectPosition, InputObject->ObjectData.angle[1]);
+		Vector VOrigin = 
+		{
+			(float)PathData[InputObject->PlayerTarget].Position[0],
+			(float)PathData[InputObject->PlayerTarget].Position[1],
+			(float)PathData[InputObject->PlayerTarget].Position[2],
+		};
+		InputObject->ObjectData.angle[0] = (DEG1 * 90) + CalcVerticalDirection(VOrigin, VTarget, InputObject->ObjectData.angle[1]);
 	}
 	
 }

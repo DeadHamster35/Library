@@ -73,17 +73,17 @@ void DynamicTempo()
 void StaticTempo(int Tempo)
 {
 	asm_tempo1A = 0x240F0000;
-	asm_tempo1ASpeed = Tempo;
+	asm_tempo1ASpeed = (short)Tempo;
 	asm_tempo1B = 0x240F0000;
-	asm_tempo1BSpeed = Tempo;
+	asm_tempo1BSpeed = (short)Tempo;
 	asm_tempo2A = 0x24090000;
-	asm_tempo2ASpeed = Tempo;
+	asm_tempo2ASpeed = (short)Tempo;
 	asm_tempo2B = 0x24090000;
-	asm_tempo2BSpeed = Tempo;
+	asm_tempo2BSpeed = (short)Tempo;
 	asm_tempo3A = 0x240A0000;
-	asm_tempo3ASpeed = Tempo;
+	asm_tempo3ASpeed = (short)Tempo;
 	asm_tempo3B = 0x240A0000;
-	asm_tempo3BSpeed = Tempo;
+	asm_tempo3BSpeed = (short)Tempo;
 }
 
 void previewRefresh()

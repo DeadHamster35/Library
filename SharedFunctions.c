@@ -436,7 +436,7 @@ ushort CalcVerticalDirection(Vector origin,Vector object, ushort Angle)
 {
 	float ux,uz;
 	Vector Target = {object[0], object[1], object[2]};
-	MakeAlignVector(Target, -1 * Angle);
+	MakeAlignVector(Target,Angle);
 	
 	ux=Target[2]-origin[2];
 	uz=Target[1]-origin[1];
