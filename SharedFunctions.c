@@ -41,10 +41,6 @@ void DrawPerScreenDefault(Camera* LocalCamera)
 			DrawOKObjects(LocalCamera);
 		}
 	}
-	if ( ((HotSwapID > 0) && (OverKartHeader.GoalBannerToggle != 0)) || (HotSwapID == 0) )
-	{	
-		DisplayFlagGate(LocalCamera);
-	}
 };
 
 

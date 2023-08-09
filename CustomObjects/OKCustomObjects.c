@@ -65,6 +65,20 @@ void ClearOKObject(short ObjectID)
 	OKObjectArray[ObjectID].SearchStatus = 0;
 	OKObjectArray[ObjectID].WanderStatus = 0;
 	OKObjectArray[ObjectID].EMPTYSTATUS = 0;
+	OKObjectArray[ObjectID].AnimationFrame = 0;
+	OKObjectArray[ObjectID].AnimationMax = 0;
+	OKObjectArray[ObjectID].AngularVelocity[0] = 0;
+	OKObjectArray[ObjectID].AngularVelocity[1] = 0;
+	OKObjectArray[ObjectID].AngularVelocity[2] = 0;
+	OKObjectArray[ObjectID].Counter[0] = 0;
+	OKObjectArray[ObjectID].Counter[1] = 0;
+	OKObjectArray[ObjectID].ListIndex = 0;
+	OKObjectArray[ObjectID].TypeIndex = 0;
+	OKObjectArray[ObjectID].SoundPlaying = 0;
+	OKObjectArray[ObjectID].ZBuffer = -1;
+
+	
+
 	OKObjectArray[ObjectID].SubBehaviorClass = SUBBEHAVIOR_DEAD;
 	OKObjectArray[ObjectID].ObjectData.position[0] = 0;
 	OKObjectArray[ObjectID].ObjectData.position[1] = 0;

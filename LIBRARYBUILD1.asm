@@ -117,6 +117,10 @@ JAL InitSpinSmokeHook
 
 
 
+//SearchListFileHook
+.org 0xFF488
+JAL SearchListFileHook
+
 
 //Display Custom Levels Hook
 .org 0x0FF0BC
@@ -503,7 +507,6 @@ NOP
 NOP
 
 //Disable the Goal Flag Gate / Starting Line Banner
-//Ran manually from DrawPerScreen
 .org 0x10C7A4
 JAL DisplayFlagGateCheck
 

@@ -505,13 +505,12 @@ void setPath()
 		
 		Marker *PathArray = (Marker *)GetRealAddress(PathTable[g_courseID][ThisPath]);
 		Marker *PathArrayB = (Marker *)GetRealAddress(PathTableB[g_courseID][ThisPath]);
-		
 		if (ZFLIP)
 		{
 
 			
 
-			GlobalIntA = -1;
+			GlobalIntA = 0;
 			for (int ThisMark = 0; ThisMark < 3000; ThisMark++)
 			{
 				if (PathArray[ThisMark].Position[0] == -32768)
@@ -552,7 +551,7 @@ void setPath()
 				MakeAlternativePath(PathArray,GlobalIntA,ThisPath);
 			}
 
-			GlobalIntA = -1;
+			GlobalIntA = 0;
 			for (int ThisMark = 0; ThisMark < 9999; ThisMark++)
 			{
 				if (PathArrayB[ThisMark].Position[0] == -32768)
@@ -590,7 +589,7 @@ void setPath()
 
 			
 			
-			GlobalIntA = -1;
+			GlobalIntA = 0;
 			for (int ThisMark = 0; ThisMark < 3000; ThisMark++)
 			{
 				if (PathArray[ThisMark].Position[0] == -32768)
@@ -624,7 +623,7 @@ void setPath()
 				MakeAlternativePath(PathArray,GlobalIntA,ThisPath);
 			}
 
-			GlobalIntA = -1;
+			GlobalIntA = 0;
 			for (int ThisMark = 0; ThisMark < 3000; ThisMark++)
 			{
 				if (PathArrayB[ThisMark].Position[0] == -32768)
@@ -1617,14 +1616,6 @@ void setOKObjects()
 {
 	// This loads the Custom OK Objects from the header.
 
-	// If in mirror mode, we use this value to invert the X value.
-	
-
-	for (int This = 0; This < 100; This++)
-	{
-		// Clear all the existing objects.
-		ClearOKObject(This);
-	}
 	// Load data from the course header.
 	OverKartRAMHeader.ObjectTypeCount = *(int *)(OverKartRAMHeader.ObjectDataStart);
 	GlobalAddressC = OverKartRAMHeader.ObjectDataStart + 4;
@@ -1724,7 +1715,7 @@ void MapStartupDefault(short InputID)
 
 	if (HotSwapID > 0)
 	{
-		loadTextureScrollTranslucent();
+		//loadTextureScrollTranslucent();
 		// runKillDisplayObjects();
 	}
 }
@@ -1738,7 +1729,7 @@ void InitialMapObjectCode()
 	else
 	{
 		g_StaticObjectCount = 0;
-
+		g_simpleObjectCount = 0;
 		// SetItemBoxObject(0x06000008);
 		PlaceIBoxes(0x06000008);
 		SetTreeObject(0x06000210);
@@ -1854,9 +1845,6 @@ void LoadCustomHeader(int inputID)
 			*sourceAddress = (long)(&OverKartHeader.MapHeader);
 			dataLength = 0x30;
 			runRAM();
-
-			surfacemapA = 0x3C040600; // 3C040601
-			surfacemapB = 0x24840000 | (OverKartHeader.SurfaceMapPosition & 0xFFFF);
 
 			battleDisplayA = 0x3C0F0600;
 			battleDisplayB = 0x35EF0000 | (OverKartHeader.SectionViewPosition & 0xFFFF);
@@ -2287,6 +2275,17 @@ void EmptyActionData()
 	*(ushort *)(GlobalAddressA) = 1;
 	*(ushort *)(GlobalAddressA + (0x2)) = (ushort)MaxPathPoints[0];
 	*(ushort *)(GlobalAddressA + (0x6)) = 6;
+}
+
+void SearchListFileHook(int addr)
+{
+    if (HotSwapID > 0)
+    {
+        SearchListFile(0x06000000 | OverKartHeader.SurfaceMapPosition);
+        return;
+    }
+
+    SearchListFile(addr);    
 }
 
 void DisplayKT1Hook(Screen *Display)
