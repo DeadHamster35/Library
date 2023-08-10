@@ -265,8 +265,11 @@ void AddGravityEdit(Player *car)
 	{
 		if (car->bump.distance_zx >= 0.2f)
 		{
-			
-			car->gravity = 10.0 * (255 - GlobalPlayer[car_number].bump.dummy);  //use bump.dummy; goes unused by gamecode
+			float TestGravity = 10.0f * (255 - GlobalPlayer[car_number].bump.dummy);
+			if (TestGravity != 0)
+			{
+				car->gravity = TestGravity;
+			}
 		}
 		if (car->jumpcount >= 40)
 		{
@@ -378,12 +381,15 @@ void AddGravityEdit(Player *car)
 			}
 			else if (car->flag & IS_CPU_PLAYER)
 			{
-				if (car->tire_FL.Status != GapJump)
+				if (car->tire_FL.Status == GapJump)
 				{
 					FaceStruct *SurfaceBuffer = (FaceStruct*)(gFaceBuffer);
 					Vtx *TargetVert = (Vtx*)SurfaceBuffer[GlobalPlayer[car_number].bump.last_zx].p1;
 					//Target Blue-Channel of SurfaceMap Vertex Color
 					GlobalPlayer[car_number].bump.dummy = TargetVert->v.cn[2];  //use.bump dummy; goes unused by gamecode
+				}
+				else
+				{
 					car->flag |= 0x80;
 					SetAnimBonkStars(car_number);
 					SetWing(car, car_number);

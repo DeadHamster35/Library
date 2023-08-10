@@ -557,6 +557,32 @@ void ObjectBehaviorFollowPath(OKObject* InputObject)
 		{
 			InputObject->PathTarget = NextPoint + 1;
 			InputObject->PlayerTarget = NextPoint; //use PlayerTarget for Last Point.
+
+
+			Vector Origin =
+			{
+				InputObject->ObjectData.position[0],
+				InputObject->ObjectData.position[1],
+				InputObject->ObjectData.position[2],
+			};
+			MakeAlignVector(Origin,InputObject->ObjectData.angle[1]);
+
+			Vector Rear = 
+			{
+				Origin[0],
+				Origin[1] + 10,
+				Origin[2] - 30
+			};
+
+			Vector Front = 
+			{
+				Origin[0],
+				Origin[1] + 10,
+				Origin[2] + 30
+			};
+			Rear[1] = CalcHeight(Rear[0], Rear[1], Rear[2], InputObject->ObjectData.bump.last_zx);
+			Front[1] = CalcHeight(Front[0], Front[1], Front[2], InputObject->ObjectData.bump.last_zx);
+			InputObject->ObjectData.angle[0] = (DEG1 * -90) + CalcVerticalDirection(Rear, Front);
 		}
 		else
 		{
@@ -568,23 +594,36 @@ void ObjectBehaviorFollowPath(OKObject* InputObject)
 			{
 				InputObject->PathTarget = NextPoint;
 				InputObject->PlayerTarget = ThisPoint; //use PlayerTarget for Last Point.
+
+
+				Vector Origin =
+				{
+					InputObject->ObjectData.position[0],
+					InputObject->ObjectData.position[1],
+					InputObject->ObjectData.position[2],
+				};
+				MakeAlignVector(Origin,InputObject->ObjectData.angle[1]);
+
+				Vector Rear = 
+				{
+					Origin[0],
+					Origin[1] + 10,
+					Origin[2] - 30
+				};
+
+				Vector Front = 
+				{
+					Origin[0],
+					Origin[1] + 10,
+					Origin[2] + 30
+				};
+				Rear[1] = CalcHeight(Rear[0], Rear[1], Rear[2], InputObject->ObjectData.bump.last_zx);
+				Front[1] = CalcHeight(Front[0], Front[1], Front[2], InputObject->ObjectData.bump.last_zx);
+				InputObject->ObjectData.angle[0] = (DEG1 * -90) + CalcVerticalDirection(Rear, Front);
 			}
 		}
 
-		Vector VTarget = 
-		{
-			(float)PathData[InputObject->PathTarget].Position[0],
-			(float)PathData[InputObject->PathTarget].Position[1],
-			(float)PathData[InputObject->PathTarget].Position[2],
-		};
-
-		Vector VOrigin = 
-		{
-			(float)PathData[InputObject->PlayerTarget].Position[0],
-			(float)PathData[InputObject->PlayerTarget].Position[1],
-			(float)PathData[InputObject->PlayerTarget].Position[2],
-		};
-		InputObject->ObjectData.angle[0] = (DEG1 * 90) + CalcVerticalDirection(VOrigin, VTarget, InputObject->ObjectData.angle[1]);
+		
 	}
 	
 }

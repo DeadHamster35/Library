@@ -427,17 +427,49 @@ void printDecimal(int X, int Y, float Value, int Length)
 
 
 
-
-ushort CalcVerticalDirection(Vector origin,Vector object, ushort Angle)
+#define Rad2Deg(Rad) (Rad * 180 / M_PI)
+ushort CalcVerticalDirection(Vector Origin,Vector Target)
 {
-	float ux,uz;
-	Vector Target = {object[0], object[1], object[2]};
-	MakeAlignVector(Target,Angle);
+	float ux,uy,uz,dist;
 	
-	ux=Target[2]-origin[2];
-	uz=Target[1]-origin[1];
-       	return(Atan2t(ux,uz));
+
+	ux =	Target[0] - Origin[0];
+	uy = 	Target[1] - Origin[1];
+	uz =	Target[2] - Origin[2];
+
+	dist = Sqrtf((ux*ux)+(uz*uz));
+	
+	return ((Atan2t(dist,uy)));
 }
+
+
+void MakeAlignVectorX(Vector Input, short RotX)
+{
+	float sine  = sinT(RotX);
+   	float cosine = cosT(RotX);
+	float v0=Input[0];
+	float v1=Input[1];
+	float v2=Input[2];
+	
+ 	Input[0]=v0;
+	Input[1]=sine*v2+cosine*v1;
+	Input[2]=cosine*v2+sine*v1;
+}
+
+
+void MakeAlignVectorZ(Vector Input, short RotZ)
+{
+	float sine  = sinT(RotZ);
+   	float cosine = cosT(RotZ);
+	float v0=Input[0];
+	float v1=Input[1];
+	float v2=Input[2];
+	
+ 	Input[0]=cosine*v0+sine*v1;
+	Input[1]=sine*v0+cosine*v1;
+	Input[2]=v2;
+}
+
 
 
 void printFloat(int X, int Y, float Value)

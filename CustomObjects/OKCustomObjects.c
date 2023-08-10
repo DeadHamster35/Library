@@ -554,7 +554,19 @@ bool SkeletalMatrix(OKSkeleton* Skeleton, Object ObjectData, int FrameCount, int
 	objectPosition[1] = ( (float)(Skeleton->MeshScale) * ((float)(TranslationData[Frame][1]) / 100) );
 	objectPosition[2] = ( (float)(Skeleton->MeshScale) * ((float)(TranslationData[Frame][2]) / 100) );
 	
-	MakeAlignVector(objectPosition, ObjectData.angle[1]);
+	if (ObjectData.angle[0] != 0)
+	{
+		MakeAlignVectorX(objectPosition,ObjectData.angle[0]);
+	}
+	if (ObjectData.angle[0] != 1)
+	{
+		MakeAlignVector(objectPosition, ObjectData.angle[1]);
+	}
+	if (ObjectData.angle[0] != 2)
+	{
+		MakeAlignVectorZ(objectPosition,ObjectData.angle[2]);
+	}
+	
 
 	objectPosition[0]+= ObjectData.position[0];
 	objectPosition[1]+= ObjectData.position[1];

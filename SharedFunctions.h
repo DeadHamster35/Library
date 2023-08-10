@@ -95,7 +95,9 @@ extern int GetRealAddress(int RSPAddress);
 extern void loadNiceFont();
 extern void loadBigFont();
 
-extern ushort CalcVerticalDirection(Vector origin,Vector object, ushort Angle);
+extern ushort CalcVerticalDirection(Vector origin,Vector object);
+void MakeAlignVectorX(Vector Input, short RotX);
+void MakeAlignVectorZ(Vector Input, short RotX);
 
 extern void ResetObject();
 extern void DrawBox(int X, int Y, int SizeX, int SizeY, int R, int G, int B, int A);
