@@ -14,6 +14,7 @@
 
 //Speedmeter conversion
 #define SPEEDMETER(a)  (a/18)*216   ///18 = 1 METER, 1 frame = 60->60*60*60 = 216000/1000 = 216
+#define SPEED_KM(a)	(a*18.0)/216.0 ///18=1METER ,1frame=60->60*60*60=216000/1000=216
 
 // Character Names
 #define CHAR_MARIO		0
