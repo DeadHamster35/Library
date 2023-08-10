@@ -478,6 +478,9 @@ NOP
 //
 
 
+//Fix for incorrect distance tables - mario raceway and custom courses.
+.org 0xDD7B4
+.word 0x800DCAF4
 
 
 //Custom objects using the standard object array

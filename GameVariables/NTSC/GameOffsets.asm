@@ -1023,6 +1023,7 @@
 .definelabel g_playerPathPointTotalTable, 0x80164450
 .definelabel g_playerPathPointCopy, 0x80165320
 .definelabel g_rivalOvertakeAllowFlag, 0x801634C0
+.definelabel g_EnemyTargetPlayer, 0x80163478
 .definelabel g_rankUpdateFinishFlag, 0x8016348C
 
 //fog
@@ -1211,6 +1212,7 @@
 .definelabel PowerCheck, 0x80030150
 .definelabel DriftJump, 0x8002AAC0
 .definelabel CheckWall, 0x8002C954
+.definelabel AccelOn, 0x80030FC8
 .definelabel AccelOff, 0x80031F48
 .definelabel CheckSlope, 0x802ABDB8
 .definelabel SetRolloverFall, 0x8008F494

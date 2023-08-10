@@ -1001,6 +1001,7 @@ extern short g_PathPointPlayer8;
 extern long g_playerPathPointTotalTable[8]; // 80164450
 extern short g_playerPathPointCopy[8]; // 80165320
 extern short g_rivalOvertakeAllowFlag[10];
+extern short g_EnemyTargetPlayer;
 extern short g_rankUpdateFinishFlag;
 
 //fog
@@ -1185,6 +1186,7 @@ extern void CheckKartHit(Player* Car, char kno, char place);
 extern float PowerCheck(Player* Car, char kno);
 extern void DriftJump(Player* Car);
 extern void CheckWall(Player* Car, char kno, Vector velocity);
+extern void AccelOn(Player* Car);
 extern void AccelOff(Player* Car, float accelOff);
 extern short CheckSlope(ushort pointer);
 extern void SetRolloverFall(Player* Car, char kno);
