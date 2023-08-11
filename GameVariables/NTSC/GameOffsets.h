@@ -339,6 +339,7 @@ extern void KWSprite(int cx,int cy,uint sizex,uint sizey,ushort *addr);
 extern void KWSpriteScale(int cx,int cy,float scale, ushort *addr, uint sizex,uint sizey);
 extern void KWSpriteDiv(int cx,int cy,ushort *addr,uint sizex,uint sizey,uint cuty);
 extern void KWSpriteTile32B(short cx,short cy,uchar *addr,uint sizex,uint sizey);
+extern void KWSprite8x8	(uint ulx,uint uly,ushort *addr);
 extern void DrawLineHorizontal(short tx,short ty,short length,ushort r,ushort g,ushort b,ushort a);
 extern void DrawLineVertical(short tx,short ty,short length,ushort r,ushort g,ushort b,ushort a);
 extern void KWLoadTextureBlockI4b(uchar *texaddr,int cutx,int cuty);

@@ -628,6 +628,10 @@ JAL custom_RunKart
 
 
 
+.org 0x04FD50
+JAL RadarFinishLine
+//disables the finishline
+
 .ifndef CFLG_LapCounter
 //Disable the LapCounter (LAP 1/3)
 .org 0x04F38C

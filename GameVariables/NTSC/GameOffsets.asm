@@ -228,6 +228,7 @@
 .definelabel KWSpriteScale, 0x8004CA58
 .definelabel KWSpriteDiv, 0x8004C91C
 .definelabel KWSpriteTile32B, 0x8004C6FC
+.definelabel KWSprite8x8, 0x8004CAD0
 .definelabel DrawLineHorizontal, 0x8004C024
 .definelabel DrawLineVertical, 0x8004C148
 .definelabel KWLoadTextureBlockI4b, 0x80044DA0

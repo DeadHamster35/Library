@@ -130,73 +130,24 @@ void printGPTime(float printTime, int OffsetY)
 
 void printMap(int devParameter)
 {
-          if (g_playerCount == 1)
-          {
-               MenuPosition[0] = 25;
-               MenuPosition[1] = 150;
-               GraphPtr = FillRect1ColorF(GraphPtr, MenuPosition[0] + 18, MenuPosition[1] + 18, MenuPosition[0] + 185, MenuPosition[1] + 68, 0, 0, 0, 175);
-               GraphPtr = FillRect1ColorF(GraphPtr, MenuPosition[0] + 18, MenuPosition[1] + 18 + (devParameter * 20), MenuPosition[0] + 74, MenuPosition[1] + 28 + (devParameter * 20), 200, 0, 0, 175);
-               loadFont();
+     if (g_playerCount == 1)
+     {
+          MenuPosition[0] = 25;
+          MenuPosition[1] = 150;
+          GraphPtr = FillRect1ColorF(GraphPtr, MenuPosition[0] + 18, MenuPosition[1] + 18, MenuPosition[0] + 185, MenuPosition[1] + 68, 0, 0, 0, 175);
+          GraphPtr = FillRect1ColorF(GraphPtr, MenuPosition[0] + 18, MenuPosition[1] + 18 + (devParameter * 10), MenuPosition[0] + 74, MenuPosition[1] + 28 + (devParameter * 10), 200, 0, 0, 175);
+          loadFont();
 
 
-               printStringNumber(MenuPosition[0],MenuPosition[1],"  Map X:",g_mapX);
-               printStringNumber(MenuPosition[0],MenuPosition[1]+10,"  Map Y:",g_mapY);
-               printStringNumber(MenuPosition[0],MenuPosition[1]+20,"Start X:",g_startX);
-               printStringNumber(MenuPosition[0],MenuPosition[1]+30,"Start Y:",g_startY);
-               printString(MenuPosition[0],MenuPosition[1]+40,"  Scale:");
-
-               wholeNumber = (int) (g_mapScale * 100);
-               decimalNumber = (int) (((g_mapScale * 100) - wholeNumber) * 1000);
-
-               if (decimalNumber < 0)
-               {
-                    decimalNumber = decimalNumber * -1;
-               }
-               if (wholeNumber >= 10)
-               {
-                    if (wholeNumber >= 100)
-                    {
-                         if (wholeNumber >= 1000)
-                         {
-
-                              printOffsetB = 8;
-                         }
-                         else
-                         {
-                         printOffsetB = 16;
-                         }
-                    }
-                    else
-                    {
-                    printOffsetB = 24;
-                    }
-               }
-               else
-               {
-                    printOffsetB = 32;
-               }
-               if (wholeNumber >= 0)
-               {
-                    printOffsetB = printOffsetB + 8;
-               }
-
-               printOffsetA = 56;
-
-               if (decimalNumber < 100)
-               {
-                    printStringNumber(MenuPosition[0]+printOffsetA-4,MenuPosition[1]+ 40,"",0);
-                    printOffsetC = 8;
-               }
-               else
-               {
-                    printOffsetC = 0;
-               }
-               MenuPosition[0] = 50;
-
-               printStringNumber(MenuPosition[0]+printOffsetB,MenuPosition[1] + 40,"",wholeNumber);
-               printString(MenuPosition[0]+printOffsetA,MenuPosition[1] + 40,".");
-               printStringNumber(MenuPosition[0]+printOffsetA-4+printOffsetC,MenuPosition[1] + 40,"",decimalNumber);
-
+          printStringNumber(MenuPosition[0],MenuPosition[1],"  Map XY:",g_mapX);
+          printStringNumber(MenuPosition[0]+112,MenuPosition[1],"",g_mapY);
+          printStringNumber(MenuPosition[0],MenuPosition[1]+10,"Start XY:",g_startX);
+          printStringNumber(MenuPosition[0]+112,MenuPosition[1]+10,"",g_startY);
+          printString(MenuPosition[0],MenuPosition[1]+20,"   Scale:");               
+          printFloat(MenuPosition[0] + 72,MenuPosition[1]+20,(g_mapScale * 100.0f));
+          printStringNumber(MenuPosition[0],MenuPosition[1]+30,"Line XY:",RadarLineX);
+          printStringNumber(MenuPosition[0]+112,MenuPosition[1]+30,"",RadarLineY);
+               
 
      }
 

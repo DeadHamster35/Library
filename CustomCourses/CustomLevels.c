@@ -2170,6 +2170,15 @@ void swapHS(int direction)
 	courseValue = -1;
 }
 
+
+typedef struct MiniMapStruct{
+	short	MapX, MapY;
+	short	StartX, Starty;
+	short	Height, Width;
+	short	R,G,B,A;
+	float	Scale;
+	short	LineX, LineY
+} MiniMapStruct;
 void loadMinimap()
 {
 	*sourceAddress = OverKartHeader.Maps;
@@ -2179,24 +2188,27 @@ void loadMinimap()
 		*targetAddress = (long)&ok_FreeSpace;
 		dataLength = 0x1000;
 		runDMA();
-
-		g_mapX = (short)(*(long *)(&ok_FreeSpace) >> 16 & 0x0000FFFF);
-		g_mapY = (short)(*(long *)(&ok_FreeSpace) & 0x0000FFFF);
-		g_startX = (short)(*(long *)(&ok_FreeSpace + 0x1) >> 16 & 0x0000FFFF);
-		g_startY = (short)(*(long *)(&ok_FreeSpace + 0x1) & 0x0000FFFF);
-		g_mapHeight = (short)(*(long *)(&ok_FreeSpace + 0x2) >> 16 & 0x0000FFFF);
-		g_mapWidth = (short)(*(long *)(&ok_FreeSpace + 0x2) & 0x0000FFFF);
-		g_mapR = (short)(*(long *)(&ok_FreeSpace + 0x3) >> 16 & 0x0000FFFF);
-		g_mapG = (short)(*(long *)(&ok_FreeSpace + 0x3) & 0x0000FFFF);
-		g_mapB = (short)(*(long *)(&ok_FreeSpace + 0x4) >> 16 & 0x0000FFFF);
-		g_mapScale = (*(float *)(&ok_FreeSpace + 0x5) / 100);
+		MiniMapStruct *MiniMapData = (MiniMapStruct*)(long)&ok_FreeSpace;
+		g_mapX = MiniMapData->MapX;
+		g_mapY = MiniMapData->MapY;
+		g_startX = MiniMapData->StartX;
+		g_startY = MiniMapData->StartY;
+		g_mapHeight = MiniMapData->Height;
+		g_mapWidth = MiniMapData->Width;
+		g_mapR = MiniMapData->R;
+		g_mapG = MiniMapData->G;
+		g_mapB = MiniMapData->B;
+		g_mapScale = MiniMapData->Scale;
+		RadarLineX = MiniMapData->LineX;
+		RadarLineY = MiniMapData->LineY;
 
 		if (g_ScreenFlip == 1)
 		{
 			g_startX = g_mapWidth - g_startX;
 		}
+		
 
-		*sourceAddress = (long)(&ok_FreeSpace + 0x6);
+		*sourceAddress = (long)(&ok_FreeSpace) + sizeof(MiniMapStruct);
 		*targetAddress = (long)&ok_MapTextureData;
 		runMIO();
 		g_mapTexture = (long)&ok_MapTextureData;
@@ -2344,4 +2356,11 @@ void XLUDisplay(Screen *Display)
 		gDPSetCycleType(GraphPtrOffset++, G_CYC_1CYCLE);
 		gSPClearGeometryMode(GraphPtrOffset++, G_FOG);
 	}
+}
+
+
+short RadarLineX, RadarLineY;
+void RadarFinishLine(uint ulx,uint uly,ushort *addr)
+{
+	KWSprite8x8(ulx + RadarLineX, uly + RadarLineY, addr);	
 }

@@ -427,6 +427,7 @@ void printDecimal(int X, int Y, float Value, int Length)
 
 
 
+
 #define Rad2Deg(Rad) (Rad * 180 / M_PI)
 ushort CalcVerticalDirection(Vector Origin,Vector Target)
 {
