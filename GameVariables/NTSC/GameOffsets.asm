@@ -1177,7 +1177,9 @@
 
 .definelabel RGBAFallingLeaf, 0x0D028DD8
 .definelabel RGBAQuestionMark, 0x0D001EE8
+.definelabel GoToGameSelect, 0x80290360
 .definelabel SearchListFile, 0x80290CAC
+
 .definelabel MakeCollision, 0x80295C6C
 .definelabel RGBALeaf, 0x0D0291D8
 .definelabel InitialMap, 0x80295D88

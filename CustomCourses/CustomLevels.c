@@ -440,6 +440,10 @@ void setPath()
 
 	short *PathLengths = (short *)(&g_pathLength);
 
+	if (g_courseID == 0x14)
+	{
+		return;
+	}
 	if ((HotSwapID > 0) && (OverKartHeader.Version != 0xFFFFFFFF))
 	{
 
@@ -1715,8 +1719,8 @@ void MapStartupDefault(short InputID)
 
 	if (HotSwapID > 0)
 	{
-		//loadTextureScrollTranslucent();
-		// runKillDisplayObjects();
+		loadTextureScrollTranslucent();
+		runKillDisplayObjects();
 	}
 }
 
@@ -2173,11 +2177,12 @@ void swapHS(int direction)
 
 typedef struct MiniMapStruct{
 	short	MapX, MapY;
-	short	StartX, Starty;
+	short	StartX, StartY;
+	short	LineX, LineY;
 	short	Height, Width;
 	short	R,G,B,A;
 	float	Scale;
-	short	LineX, LineY
+	
 } MiniMapStruct;
 void loadMinimap()
 {
@@ -2192,15 +2197,15 @@ void loadMinimap()
 		g_mapX = MiniMapData->MapX;
 		g_mapY = MiniMapData->MapY;
 		g_startX = MiniMapData->StartX;
-		g_startY = MiniMapData->StartY;
+		g_startY = MiniMapData->StartY;		
+		RadarLineX = MiniMapData->LineX;
+		RadarLineY = MiniMapData->LineY;
 		g_mapHeight = MiniMapData->Height;
 		g_mapWidth = MiniMapData->Width;
 		g_mapR = MiniMapData->R;
 		g_mapG = MiniMapData->G;
 		g_mapB = MiniMapData->B;
-		g_mapScale = MiniMapData->Scale;
-		RadarLineX = MiniMapData->LineX;
-		RadarLineY = MiniMapData->LineY;
+		g_mapScale = MiniMapData->Scale * 0.01;
 
 		if (g_ScreenFlip == 1)
 		{

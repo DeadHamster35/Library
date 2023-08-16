@@ -1,8 +1,5 @@
 #include "../GameVariables/NTSC/GameOffsets.h"
 #include "../LibraryVariables.h"
-#include "../../HootHoot/HootHoot.h"
-#include "../CustomCollision.h"
-#include "CustomPauseMenu.h"
 
 static uchar cpuItemSpawn;
 int itemMax = 16; // 15 (0x10) + custom 

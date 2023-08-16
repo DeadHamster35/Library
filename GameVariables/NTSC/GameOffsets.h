@@ -1154,6 +1154,7 @@ extern void KWDisplayStar(int player);
 
 extern ushort RGBAFallingLeaf[];
 extern ushort RGBAQuestionMark[];
+extern void GoToGameSelect();
 extern void SearchListFile(int addr);
 extern void MakeCollision();
 extern ushort RGBALeaf[];
