@@ -381,7 +381,8 @@ void MasterStatus(int PlayerID, short StatusID)
 		}
 		case StateFlattenedOn:
 		{
-			SetFlattened(PlayerID, true);			
+			//SetFlattened(PlayerID, true);	
+			SetBroken((Player*)&GlobalPlayer[PlayerID], PlayerID);
 			break;
 		}
 		case StateFlattenedOff:

@@ -493,6 +493,12 @@ void CheckPaths()
 			{
 				//human player
 				//check surface and assign path.
+				if (CPUPaths[ThisPlayer].LastLap != GlobalPlayer[ThisPlayer].rap)
+				{
+					CurrentPathID[ThisPlayer] = 0;
+				}
+
+				
 				short SurfaceID = CheckArea(GlobalPlayer[ThisPlayer].bump.last_zx);
 				for (int ThisPath = 0; ThisPath < 4; ThisPath++)
 				{

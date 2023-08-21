@@ -76,7 +76,7 @@ void ObjectBehaviorExist(OKObject* InputObject)
 
 	UpdateObjectVelocity((Object*)&InputObject->ObjectData);	
 
-	if (ThisType->BumpRadius > 0)
+	if (ThisType->BumpRadius != 0)
 	{
 		UpdateObjectBump((Object*)&InputObject->ObjectData);		
 	
