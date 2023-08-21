@@ -376,7 +376,7 @@ void setSong()
 
 			*targetAddress = (long)&ok_FreeSpace;
 			*sourceAddress = OverKartHeader.MusicID;
-			dataLength = 16;
+			dataLength = 64;
 			runDMA();
 
 			AudioTableEntry *SongData = (AudioTableEntry*)(long)&ok_FreeSpace;
@@ -514,7 +514,7 @@ void setPath()
 
 			
 
-			GlobalIntA = 0;
+			GlobalIntA = -1;
 			for (int ThisMark = 0; ThisMark < 3000; ThisMark++)
 			{
 				if (PathArray[ThisMark].Position[0] == -32768)
@@ -555,7 +555,7 @@ void setPath()
 				MakeAlternativePath(PathArray,GlobalIntA,ThisPath);
 			}
 
-			GlobalIntA = 0;
+			GlobalIntA = -1;
 			for (int ThisMark = 0; ThisMark < 9999; ThisMark++)
 			{
 				if (PathArrayB[ThisMark].Position[0] == -32768)
@@ -567,6 +567,7 @@ void setPath()
 					GlobalIntA++;
 				}
 			}
+			
 			for (int ThisMark = 0, HighMark = GlobalIntA ; ThisMark < HighMark; ThisMark++, HighMark--)
 			{
 				objectPosition[0] = GlobalShortA * (short)((float)PathArrayB[ThisMark].Position[0] * LevelScales[(int)ScaleXMode]);
@@ -593,7 +594,7 @@ void setPath()
 
 			
 			
-			GlobalIntA = 0;
+			GlobalIntA = -1;
 			for (int ThisMark = 0; ThisMark < 3000; ThisMark++)
 			{
 				if (PathArray[ThisMark].Position[0] == -32768)
@@ -627,7 +628,7 @@ void setPath()
 				MakeAlternativePath(PathArray,GlobalIntA,ThisPath);
 			}
 
-			GlobalIntA = 0;
+			GlobalIntA = -1;
 			for (int ThisMark = 0; ThisMark < 3000; ThisMark++)
 			{
 				if (PathArrayB[ThisMark].Position[0] == -32768)

@@ -1131,6 +1131,7 @@ typedef struct SOUKOU_ZURE_TYPE{        // 128 bit  (16)byte
 
 typedef struct AudioTableEntry{
 
+
 	uint EntryOffset;
 	uint EntrySize;
 
