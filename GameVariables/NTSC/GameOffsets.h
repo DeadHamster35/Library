@@ -207,7 +207,7 @@ extern void DOBPSelTurnOut(ObjBlock Target); //0x800AAA9C
 
 extern float ScreenViewAngle[3];
 extern long SegmentTable[];
-extern void *g_CfbPtrs[3];
+extern uint g_CfbPtrs[3];
 
 extern void BumpRoutin(Vector bu,float dist ,Vector velo ,float co);
 extern long OoBCheck(ushort pointer);
