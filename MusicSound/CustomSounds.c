@@ -135,7 +135,11 @@
 void SetCustomSFXData(char sfxID, long rawSFX, long loopPred, long predictors)
 {
 // Follow all the pointers
-    GlobalAddressA = *(long*)(g_sfxPointer + 0x4) + (sfxID * 0x4);
+
+//TO DO PLEASE FIX THIS
+//TO DO PLEASE FIX THIS
+//TO DO PLEASE FIX THIS
+    GlobalAddressA = *(long*)((uint)&g_sfxPointer + 0x4) + (sfxID * 0x4);
     GlobalAddressB = *(long*)(GlobalAddressA);
     GlobalAddressC = (GlobalAddressB + 0x10);
     GlobalAddressA = *(long*)(GlobalAddressC);

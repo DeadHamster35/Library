@@ -18,7 +18,7 @@
 #define CLR_FLAG(n, f) ((n) &= ~(f)) 
 #define TGL_FLAG(n, f) ((n) ^= (f)) 
 #define CHK_FLAG(n, f) ((n) & (f))
-
+#define GetRGBA16Inline(R,G,B,A) (short)((R & 0x1F)<<11 | (G & 0x1F)<<6 | (B & 0x1F)<<1 | (A & 0x01))
 #define CHARS2SHORT(charA, charB) 				(charA & 0xFF)<<8 | (charB & 0xFF)
 #define CHARS2INT(charA, charB, charC, charD) 	(charA & 0xFF)<<24 | (charB & 0xFF)<<16 | (charC & 0xFF)<<8 | (charD & 0xFF)
 #define SHORTS2INT(shortA, shortB) 				(shortA & 0xFF)<<16 | (shortB & 0xFF)

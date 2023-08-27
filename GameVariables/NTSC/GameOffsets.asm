@@ -896,9 +896,18 @@
 
 .definelabel g_sfxPause, 0x803B17A3 // 20 - paused; 00 playing
 
-.definelabel g_SequenceTable, 0x803B8FB4
-.definelabel g_InstrumentTable, 0x803B90B4
-.definelabel g_RawAudio, 0x803B9260
+
+
+//duplicate defines for potential legacy issues.
+
+.definelabel g_MUSTablePointer, 0x803B706C
+
+.definelabel g_MUSSequenceTable, 0x803B8FB0
+.definelabel g_MUSInstrumentTable, 0x803B90B0
+.definelabel g_MUSRawAudioTable, 0x803B9260
+.definelabel g_MUSBankMapTable, 0x803B9310
+.definelabel g_sfxPointer, 0x803B7080 
+
 
 
 .definelabel g_surfaceCheckP1, 0x800F6A88
@@ -926,7 +935,6 @@
 .definelabel g_StarUseCounter, 0x8018D930 
 .definelabel g_GhostUseCounter, 0x8018D950
 .definelabel g_GhostUseTimer, 0x8018D970
-.definelabel g_sfxPointer, 0x803B7080 
 .definelabel ActionData_Pointer, 0x80162EB8
 .definelabel MaxPathPoints, 0x80163368
 .definelabel g_noSimpleKartFlag, 0x801633F8

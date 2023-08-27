@@ -887,10 +887,15 @@ extern float g_screenViewAngle[4];
 
 extern char g_sfxPause;
 
-
-extern AudioTableEntry g_SequenceTable[32]; //0x803B8FB0
-extern AudioTableEntry g_InstrumentTable[32]; //0x803B90B0
 extern long g_RawAudio; //0x803B9260
+
+extern AudioTablePointers g_MUSTablePointer;
+
+extern SequenceTable g_MUSSequenceTable;
+extern InstrumentTable g_MUSInstrumentTable;
+extern RawAudioTable g_MUSRawAudioTable;
+extern BankMapTable g_MUSBankMapTable;
+extern SFXTempPointerStruct g_sfxPointer;
 
 extern short g_surfaceCheckP1;
 extern uint g_PlayerSurfaceSoundID[4];
@@ -915,7 +920,6 @@ extern char g_playerEcho; // 0x800E9F90
 extern long g_StarUseCounter[8]; // 8018D930
 extern long g_GhostUseCounter[8]; // 8018D950
 extern long g_GhostUseTimer[8]; // 8018D970
-extern long g_sfxPointer; //  803B7080
 extern int ActionData_Pointer[20];
 extern uint MaxPathPoints[4];
 extern short g_noSimpleKartFlag[8]; // 801633F8

@@ -117,6 +117,8 @@ void saveEEPROM(uint Source)
 	osEepromLongWrite((void*)(0x8014F0B8), 0, (uchar*)Source, 512);
 }
 
+
+
 ushort GetRGBA16(int R, int G, int B, int A)
 {
 

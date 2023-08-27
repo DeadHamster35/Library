@@ -1129,13 +1129,87 @@ typedef struct SOUKOU_ZURE_TYPE{        // 128 bit  (16)byte
 #define CHANNEL_IDLE		0x40000000
 #define CHANNEL_PLAYING		0x80000000
 
-typedef struct AudioTableEntry{
+//SFX Structs
+typedef struct SFXStruct{
+    ushort                    flag1;
+    ushort                    flag2;
+    long                    rawSFXROMpointer;
+    long                    loopdataRAMpointer;
+    long                    predictordataRAMpointer;
+    long                    length;
+    long                    empty1;
+    long                    empty2;
+    long                    emtpy3;
+} SFXStruct;
+
+typedef struct SFXSampleStruct{
+    ushort                    flag1;
+    ushort                    flag2;
+    long                    *unknown1;
+    long                    empty1;
+    long                    emtpy2;
+    SFXStruct                *predictors;
+    long                    unknown2;
+    long                    empty3;
+    long                    emtpy4;
+} SFXSampleStruct;
+
+// The below structs have been guesswork on the Seq0 sounds, but they would need to be extended for every sequence if you want to access those.
+typedef struct SFXSampleIndexStruct{
+    SFXSampleStruct            *SFX2pointer[127];
+} SFXSampleIndexStruct;
+
+typedef struct SFXTempPointerStruct{
+    ushort                InstrumentChannelAmount;
+    uchar                DrumChannelAmount,pad;
+    SFXSampleIndexStruct            *InstSampleindex;
+    SFXSampleIndexStruct            *DrumSampleindex2;
+} SFXTempPointerStruct;
 
 
-	uint EntryOffset;
-	uint EntrySize;
+typedef struct TablePointer{
+    int address;
+    int length;        
+} TablePointer;
 
-} AudioTableEntry;
+typedef struct SequenceTable{
+    short category;        
+    short index;        
+    TablePointer pointer[30];        
+} SequenceTable;
+
+typedef struct InstrumentTable{
+    short category;        
+    short index;        
+    TablePointer pointer[21];        
+} InstrumentTable;
+
+typedef struct RawAudioTable{
+    short category;        
+    short index;        
+    TablePointer pointer[21];        
+} RawAudioTable;
+
+typedef struct BankMap{
+    uchar tableID;
+    uchar instBankID;        
+} BankMap;
+
+typedef struct BankMapTable{
+    short offset[30];        
+    BankMap assignment[30];        
+} BankMapTable;
+
+typedef struct AudioTablePointers{
+    SequenceTable SequenceTable_p;
+    InstrumentTable InstrumentTable_p;
+    RawAudioTable RawAudioTable_p;
+    BankMapTable BankMapTable_p;
+    short SongAmount;
+    short free;
+    SFXTempPointerStruct SFXAlloc_p;
+} AudioTablePointers;
+
 
 typedef struct SeqChannelStruct{
 		int Playflag; 

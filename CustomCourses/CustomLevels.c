@@ -349,6 +349,15 @@ void overkartASM(void)
 }
 
 
+
+typedef struct OK64AudioTable
+{
+	uint SeqPointer;
+	uint SeqSize;
+	uint InsPointer;
+	uint InsSize;
+} OK64AudioTable;
+
 void setSong()
 {
 	// If a custom level, set the Song ID.
@@ -363,41 +372,41 @@ void setSong()
 			songID = (short)OverKartHeader.MusicID;
 
 			dataLength = 8;
-			*sourceAddress = (long)&ok_Sequence;
-			*targetAddress = (long)((long)(&g_SequenceTable) + (3 * 8));
+			*sourceAddress = (int)&ok_Sequence;
+			*targetAddress = (int)&g_MUSSequenceTable.pointer[3].address;
 			runRAM();
-			*sourceAddress = (long)&ok_Instrument;
-			*targetAddress = (long)((long)(&g_InstrumentTable) + (3 * 8));
+			*sourceAddress = (int)&ok_Instrument;
+			*targetAddress = (int)&g_MUSInstrumentTable.pointer[3].address;
 			runRAM();
 		}
 		else
 		{
 			songID = 0x03;
 
-			*targetAddress = (long)&ok_FreeSpace;
+			*targetAddress = (int)&ok_FreeSpace;
 			*sourceAddress = OverKartHeader.MusicID;
 			dataLength = 64;
 			runDMA();
 
-			AudioTableEntry *SongData = (AudioTableEntry*)(long)&ok_FreeSpace;
+			OK64AudioTable *SongData = (OK64AudioTable*)(long)&ok_FreeSpace;
 
-			g_SequenceTable[3].EntryOffset = SongData[0].EntryOffset;
-			g_SequenceTable[3].EntrySize = SongData[0].EntrySize;
+			g_MUSSequenceTable.pointer[3].address = SongData->SeqPointer;
+			g_MUSSequenceTable.pointer[3].length = SongData->SeqSize;
 
-			g_InstrumentTable[3].EntryOffset = SongData[1].EntryOffset;
-			g_InstrumentTable[3].EntrySize = SongData[1].EntrySize;
+			g_MUSInstrumentTable.pointer[3].address = SongData->InsPointer;
+			g_MUSInstrumentTable.pointer[3].length = SongData->InsSize;
 		}
 	}
 	else
 	{
-		songID = 0x03;
+		songID = 3;
 
-		*sourceAddress = (long)&ok_Sequence;
 		dataLength = 8;
-		*targetAddress = (long)((long)(&g_SequenceTable) + (3 * 8));
+		*sourceAddress = (int)&ok_Sequence;
+		*targetAddress = (int)&g_MUSSequenceTable.pointer[3].address;
 		runRAM();
-		*sourceAddress = (long)&ok_Instrument;
-		*targetAddress = (long)((long)(&g_InstrumentTable) + (3 * 8));
+		*sourceAddress = (int)&ok_Instrument;
+		*targetAddress = (int)&g_MUSInstrumentTable.pointer[3].address;
 		runRAM();
 	}
 }
@@ -495,11 +504,8 @@ void setPath()
 
 	GlobalShortA = 1;
 	GlobalShortB = 1;
-	if (g_ScreenFlip)
-	{
-		GlobalShortA = -1;
-	}
-	if (YFLIP)
+
+	if (YFLIP != 0)
 	{
 		GlobalShortB = -1;
 	}
@@ -2174,6 +2180,7 @@ void swapHS(int direction)
 	setBanners();
 	courseValue = -1;
 }
+
 
 
 typedef struct MiniMapStruct{

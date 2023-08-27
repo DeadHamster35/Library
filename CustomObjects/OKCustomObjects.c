@@ -558,11 +558,11 @@ bool SkeletalMatrix(OKSkeleton* Skeleton, Object ObjectData, int FrameCount, int
 	{
 		MakeAlignVectorX(objectPosition,ObjectData.angle[0]);
 	}
-	if (ObjectData.angle[0] != 1)
+	if (ObjectData.angle[1] != 1)
 	{
 		MakeAlignVector(objectPosition, ObjectData.angle[1]);
 	}
-	if (ObjectData.angle[0] != 2)
+	if (ObjectData.angle[2] != 2)
 	{
 		MakeAlignVectorZ(objectPosition,ObjectData.angle[2]);
 	}
