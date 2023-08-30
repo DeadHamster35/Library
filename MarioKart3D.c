@@ -3,7 +3,7 @@
 #include "MainInclude.h"
 #endif
 
-
+//Vertex for UI elements
 __attribute__((aligned(16)))
 Vtx V64x32[] ={
     {   {  {-32,     0,  0}, 0,  {0,               0},              {0xff, 0xff, 0xff, 0xff} } },
@@ -11,7 +11,6 @@ Vtx V64x32[] ={
     {   {  { 31,    32,  0}, 0,  {(( 64-1)<<6),    (( 32-1)<<6)},   {0xff, 0xff, 0xff, 0xff} } },
     {   {  {-32,    32,  0}, 0,  {0,               (( 32-1)<<6)},   {0xff, 0xff, 0xff, 0xff} } },
 };
-
 __attribute__((aligned(16)))
 Vtx V64[] ={
     {   {  {-32,     0,  0}, 0,  {0,               0},              {0xff, 0xff, 0xff, 0xff} } },
@@ -31,7 +30,6 @@ Vtx V1632[] ={
     {   {  { 7,    32,  0}, 0,  {(( 16-1)<<6),     (( 32-1)<<6)},   {0xff, 0xff, 0xff, 0xff} } },
     {   {  {-8,    32,  0}, 0,  {0,               (( 32-1)<<6)},   {0xff, 0xff, 0xff, 0xff} } },
 };
-
 __attribute__((aligned(16)))
 Vtx V6432B[] ={
     {   {  {-32,     -32,  0}, 0,  {0,               0},              {0xff, 0xff, 0xff, 0xff} } },
@@ -54,7 +52,6 @@ Vtx V6432B[] ={
     {   {  { 32,    32,  0}, 0,  {(( 64)<<6),    (( 16)<<6)},   {0xff, 0xff, 0xff, 0xff} } },
     {   {  {-32,    32,  0}, 0,  {0,               (( 16)<<6)},   {0xff, 0xff, 0xff, 0xff} } },
 };
-
 __attribute__((aligned(16)))
 Vtx V6432BMirror[] ={
     {   {  {-32,    -32,  0}, 0,  {(( 64)<<6),               0},              {0xff, 0xff, 0xff, 0xff} } },
@@ -166,7 +163,7 @@ Vtx V12832B[] ={
 
 
 };
-
+__attribute__((aligned(16)))
 Vtx V256x32[] ={
 { { {-128,	-16,	0}, 0, {0, 0,}, {0xFF, 0xFF, 0xFF, 0xFF} } },
 { { {128,	-16,	0}, 0, { ((256) <<6), 0,}, {0xFF, 0xFF, 0xFF, 0xFF} } },
@@ -188,7 +185,6 @@ Vtx V256x32[] ={
 { { {128,	16,	0}, 0, { ((256) <<6), ((8)<< 6),}, {0xFF, 0xFF, 0xFF, 0xFF} } },
 { { {-128,	16,	0}, 0, {0, ((8)<< 6),}, {0xFF, 0xFF, 0xFF, 0xFF} } }
 };
-
 __attribute__((aligned(16)))
 Vtx V128[] ={
 	{   {  {-64,     -64,  0}, 0,  {0,               0},              {0xff, 0xff, 0xff, 0xff} } },
@@ -279,8 +275,6 @@ Vtx V128Mirror[] ={
 
 	//
 };
-
-
 __attribute__((aligned(16)))
 Vtx V256[] ={
 	{   {  {-128,     -64,  0}, 0,  {0,               0},              {0xff, 0xff, 0xff, 0xff} } },
@@ -370,7 +364,6 @@ Vtx V256[] ={
 
 
 };
-
 __attribute__((aligned(16)))
 Vtx V25632B[] ={
 	{   {  {-128,     -128,  0}, 0,  {0,               0},              {0xff, 0xff, 0xff, 0xff} } },
@@ -710,7 +703,6 @@ Vtx V25632B[] ={
 	{   {  {-128,   128,  0}, 0,  {0,               (( 4)<<6)},   {0xff, 0xff, 0xff, 0xff} } },
 
 };
-
 __attribute__((aligned(16)))
 Vtx V256x12832B[] ={
 	{   {  {-128,     -64,  -20}, 0,  {0,               0},              {0xff, 0xff, 0xff, 0xff} } },
@@ -1488,7 +1480,6 @@ Vtx V352x24032B[] = {
 
 
 };
-
 __attribute__((aligned(16)))
 Vtx V512x24032B[] = {
 
@@ -1974,10 +1965,13 @@ Vtx V512x24032B[] = {
 	{ { {-256,	120,	0}, 0, {0, ((2)<< 6),}, {0xFF, 0xFF, 0xFF, 0xff} } },
 
 };
+//Vertex for UI elements
 
 
 
-//
+
+
+
 
 
 
@@ -2097,6 +2091,7 @@ unsigned short tshellcolor[]={
 
 
 
+
 #define bananasize   6
 __attribute__((aligned(16)))
 Vtx shell_v[] ={ 
@@ -2111,7 +2106,6 @@ Vtx shell_v[] ={
     {{	{-3,0,	0},  0,  {((32-1)<<6), ((32-1)<<6)-64}, 	{0xFF,  0xFF, 0xFF, 0xff} } },
 	{{ 	{3,0,	0},  0,  {0, ((32-1)<<6)-64}, 				{0xFF,  0xFF, 0xFF, 0xFF} }}
 };
-
 __attribute__((aligned(16)))
 Vtx tree1_v[4]={
 	{{ {40,10,0},	0, {1536, 1706},  	{255, 254, 254, 255} } },
@@ -2119,7 +2113,6 @@ Vtx tree1_v[4]={
 	{{ {-40,10,0},	0, {-512, 1706},  	{255, 254, 254, 255} } },
 	{{ {0,-10,0},	0, {512, 2161},  	{255, 254, 254, 255} } }
 };
-
 __attribute__((aligned(16)))
 Vtx pakkun_v[]={
 	{{ {-15,30,0}, 0, 	{   0, 	   0},  {255, 255, 254, 255} }},
@@ -2167,285 +2160,6 @@ unsigned short PakkunColor[]={
 0xffc1,0xffc5,0xffc7,0xffcd,0xffff,0x0000,0x0000,
 0x0000,0x0000,0x0000,0x0000
 };
-
-
-///
-
-
-void ScaleMatrixXYZFixed(AffineMtx Matrix, SVector FScale)
-{
-    Matrix[0][0] *= (FScale[0] / 100);
-    Matrix[1][0] *= (FScale[0] / 100);
-    Matrix[2][0] *= (FScale[0] / 100);
-    Matrix[1][0] *= (FScale[1] / 100);
-    Matrix[1][1] *= (FScale[1] / 100);
-    Matrix[1][2] *= (FScale[1] / 100);
-    Matrix[2][0] *= (FScale[2] / 100);
-    Matrix[2][1] *= (FScale[2] / 100);
-    Matrix[2][2] *= (FScale[2] / 100);
-}
-void ScaleMatrixXYZ(AffineMtx Matrix, Vector Scale)
-{
-    Matrix[0][0] *= Scale[0];
-    Matrix[1][0] *= Scale[0];
-    Matrix[2][0] *= Scale[0];
-    Matrix[1][0] *= Scale[1];
-    Matrix[1][1] *= Scale[1];
-    Matrix[1][2] *= Scale[1];;
-    Matrix[2][0] *= Scale[2];
-    Matrix[2][1] *= Scale[2];
-    Matrix[2][2] *= Scale[2];
-}
-
-
-
-/*
-
-typedef struct {
-	short		ob[3];	/// x, y, z 
-	unsigned short	flag;
-	short		tc[2];	/// texture coord 
-	unsigned char	cn[4];	/// color & alpha
-} Vtx_t;
-
-*/
-
-
-/*
-((sin(x+y+time))/(intensity))+((sin(-x+y+time))/(intensity))
-*/
-short WaveTime, WaveDirection = 1;
-
-void WaveRace(Vtx_t *VertexBuffer, int Count, float Intensity)
-{	
-	
-	for (int ThisVert = 0; ThisVert < Count; ThisVert++)
-	{
-		GlobalFloatA = SinTable[(ushort)( (uint)( 10000.0 * (VertexBuffer[ThisVert].ob[0] + VertexBuffer[ThisVert].ob[2]) + (WaveTime * 500) ) % 0xFFFF) >> 4];
-		
-		VertexBuffer[ThisVert].ob[1] = GlobalFloatA * Intensity ;
-		
-		VertexBuffer[ThisVert].cn[0] = (char)(115 + (50 * GlobalFloatA));
-		VertexBuffer[ThisVert].cn[1] = (char)(115 + (50 * GlobalFloatA));
-		VertexBuffer[ThisVert].cn[2] = (char)(165 + (60 * GlobalFloatA));
-	}
-}
-
-void DrawStereoscopic3D(short FocusValue)
-{
-	g_aspectRatio = (float)(240 / 160);
-	asm_BorderDraw = 0;
-	
-	GlobalScreen[0]->width = 160;
-	GlobalScreen[0]->height = 240;
-	GlobalScreen[0]->posx = 80;
-	GlobalScreen[0]->posy = 120;
-	KWLap[0].cx = 80;
-	KWLap[0].cx2 = 80;
-	KWLap[0].cx3 = 80;
-	KWLap[0].tx[0] = 80;
-	KWLap[0].tx[1] = 80;
-	KWLap[0].tx[2] = 80;
-	KWLap[0].tx[3] = 80;
-	KWLap[0].tx[4] = 80;
-	KWLap[0].ty = 20;
-	KWLap[0].cy = 40;
-	KWLap[0].ix = 40 - KWLap[0].addix;
-	KWLap[0].iy = 55;
-	KWLap[0].rgx = 0;
-	KWLap[0].rx = 40;
-	KWLap[0].ry = 0;
-	KWLap[0].rgy = 200;
-	KWLap[0].ranksw = 1;
-
-	KWRank[1] = KWRank[0];
-	
-
-	GlobalScreen[1]->width = 160;
-	GlobalScreen[1]->height = 240;
-	GlobalScreen[1]->posx = 240;
-	GlobalScreen[1]->posy = 120;
-	KWLap[1].cx = 240;
-	KWLap[1].cx2 = 240;
-	KWLap[1].cx3 = 240;
-	KWLap[1].tx[0] = 240;
-	KWLap[1].tx[1] = 240;
-	KWLap[1].tx[2] = 240;
-	KWLap[1].tx[3] = 240;
-	KWLap[1].tx[4] = 240;
-	KWLap[1].ty = 20;
-	KWLap[1].cy = 40;
-	KWLap[1].ix = 200 - KWLap[1].addix;
-	KWLap[1].iy = 55;
-	KWLap[1].rgx = 0;
-	KWLap[1].rx = 200;
-	KWLap[1].ry = 0;
-	KWLap[1].rgy = 200;
-	KWLap[1].ranksw = 1;
-	
-	
-
-	GlobalPlayer[1].position[0] = GlobalPlayer[0].position[0];
-	GlobalPlayer[1].position[1] = GlobalPlayer[0].position[1] + 20;
-	GlobalPlayer[1].position[2] = GlobalPlayer[0].position[2];
-	
-	GlobalPlayer[1].direction[1] = GlobalPlayer[0].direction[1];
-	GlobalPlayer[1].radius = 0.0001;
-	GlobalPlayer[1].offsetsize = 0.0001;
-	/*
-	GlobalPlayer[1].bump.bump_xy[0] = GlobalPlayer[0].bump.bump_xy[0];
-	GlobalPlayer[1].bump.bump_xy[1] = GlobalPlayer[0].bump.bump_xy[1];
-	GlobalPlayer[1].bump.bump_xy[2] = GlobalPlayer[0].bump.bump_xy[2];
-	GlobalPlayer[1].bump.bump_yz[0] = GlobalPlayer[0].bump.bump_yz[0];
-	GlobalPlayer[1].bump.bump_yz[1] = GlobalPlayer[0].bump.bump_yz[1];
-	GlobalPlayer[1].bump.bump_yz[2] = GlobalPlayer[0].bump.bump_yz[2];
-	GlobalPlayer[1].bump.bump_zx[0] = GlobalPlayer[0].bump.bump_zx[0];
-	GlobalPlayer[1].bump.bump_zx[1] = GlobalPlayer[0].bump.bump_zx[1];
-	GlobalPlayer[1].bump.bump_zx[2] = GlobalPlayer[0].bump.bump_zx[2];
-	
-	GlobalPlayer[1].bump.last_xy = GlobalPlayer[0].bump.last_xy;
-	GlobalPlayer[1].bump.last_yz = GlobalPlayer[0].bump.last_yz;
-	GlobalPlayer[1].bump.last_zx = GlobalPlayer[0].bump.last_zx;
-	GlobalPlayer[1].bump.flag_xy = GlobalPlayer[0].bump.flag_xy;
-	GlobalPlayer[1].bump.flag_yz = GlobalPlayer[0].bump.flag_yz;
-	
-	GlobalPlayer[1].bump.flag_zx = GlobalPlayer[0].bump.flag_zx;
-	*/
-	g_zoomFOVPlayer2 = g_zoomFOVPlayer1;
-	g_zoomLevelPlayer2 = g_zoomLevelPlayer1;
-
-	objectVelocity[0] = (float)(FocusValue * -0.1);
-	objectVelocity[1] = 0;
-	objectVelocity[2] = -5;
-	MakeAlignVector(objectVelocity,GlobalPlayer[0].direction[1]);
-
-	GlobalCamera[0]->camera_pos[0] +=objectVelocity[0];
-	GlobalCamera[0]->camera_pos[1] +=objectVelocity[1];
-	GlobalCamera[0]->camera_pos[2] +=objectVelocity[2];
-
-	
-	objectVelocity[0] = (float)(FocusValue * 0.2);	
-	objectVelocity[1] = 0;
-	objectVelocity[2] = 0;
-	MakeAlignVector(objectVelocity,GlobalPlayer[0].direction[1]);
-
-	GlobalCamera[1]->camera_pos[0] = GlobalCamera[0]->camera_pos[0] + (objectVelocity[0]);
-	GlobalCamera[1]->camera_pos[1] = GlobalCamera[0]->camera_pos[1] + (objectVelocity[1]);
-	GlobalCamera[1]->camera_pos[2] = GlobalCamera[0]->camera_pos[2] + (objectVelocity[2]);
-
-	GlobalCamera[1]->camera_direction[0] = GlobalCamera[0]->camera_direction[0];
-	GlobalCamera[1]->camera_direction[1] = GlobalCamera[0]->camera_direction[1];
-	GlobalCamera[1]->camera_direction[2] = GlobalCamera[0]->camera_direction[2];
-
-	GlobalCamera[1]->camera_vector[0] = GlobalCamera[0]->camera_vector[0];
-	GlobalCamera[1]->camera_vector[1] = GlobalCamera[0]->camera_vector[1];
-	GlobalCamera[1]->camera_vector[2] = GlobalCamera[0]->camera_vector[2];
-
-	objectVelocity[0] = (float)(FocusValue * 0.1);
-	objectVelocity[1] = 0;
-	objectVelocity[2] = 50;
-	MakeAlignVector(objectVelocity,GlobalPlayer[0].direction[1]);
-
-	GlobalCamera[1]->lookat_pos[0] = GlobalPlayer[0].position[0] + objectVelocity[0];
-	GlobalCamera[1]->lookat_pos[1] = GlobalPlayer[0].position[1] + objectVelocity[1];
-	GlobalCamera[1]->lookat_pos[2] = GlobalPlayer[0].position[2] + objectVelocity[2];
-
-	objectVelocity[0] = (float)(FocusValue * -0.1);
-	objectVelocity[1] = 0;
-	objectVelocity[2] = 50;
-	MakeAlignVector(objectVelocity,GlobalPlayer[0].direction[1]);
-
-	GlobalCamera[0]->lookat_pos[0] = GlobalPlayer[0].position[0] + objectVelocity[0];
-	GlobalCamera[0]->lookat_pos[1] = GlobalPlayer[0].position[1] + objectVelocity[1];
-	GlobalCamera[0]->lookat_pos[2] = GlobalPlayer[0].position[2] + objectVelocity[2];
-
-	GlobalCamera[1]->lookat_vector[0] = GlobalCamera[0]->lookat_vector[0];
-	GlobalCamera[1]->lookat_vector[1] = GlobalCamera[0]->lookat_vector[1];
-	GlobalCamera[1]->lookat_vector[2] = GlobalCamera[0]->lookat_vector[2];
-
-	GlobalCamera[1]->chase_direction = GlobalCamera[0]->chase_direction;
-	GlobalCamera[1]->old_chase_direction = GlobalCamera[0]->old_chase_direction;
-	GlobalCamera[1]->screen_view_angle = GlobalCamera[0]->screen_view_angle;
-	GlobalCamera[1]->flag = GlobalCamera[0]->flag;
-
-	GlobalCamera[1]->watch = GlobalCamera[0]->watch;
-	
-	
-	//g_DynamicObjects[ItemBoxAllocPtr[1]].texaddr = g_DynamicObjects[ItemBoxAllocPtr[0]].texaddr;
-	//g_DynamicObjects[ItemBoxAllocPtr[1]].indexaddr = g_DynamicObjects[ItemBoxAllocPtr[0]].indexaddr;
-	ItemBoxAllocPtr[1] = ItemBoxAllocPtr[0];
-	
-	KWDisplay2D(1);
-	KWDisplay2DAfter(1);
-
-	KWDisplay2D(2);
-	KWDisplay2DAfter(2);
-
-	KWDisplayRank(0);
-	KWDisplayRank(1);
-	
-	*(short*)0x800DC5B8	= 0;
-}
-
-void DrawGeometryScale(float localPosition[], short localAngle[], int localAddress, float localScale)
-{
-	CreateModelingMatrix(AffineMatrix,localPosition,localAngle);
-	ScalingMatrix(AffineMatrix,localScale);	
-	if(SetMatrix(AffineMatrix,0) == 0)
-	{
-		return;
-	}
-	gSPDisplayList(GraphPtrOffset++,localAddress);		
-	
-}
-
-void DrawGeometrySVectorScale(SVector localPosition, short localAngle[], int localAddress, float localScale)
-{
-	objectPosition[0] = localPosition[0];
-	objectPosition[1] = localPosition[1];
-	objectPosition[2] = localPosition[2];
-	CreateModelingMatrix(AffineMatrix,objectPosition,localAngle);
-	ScalingMatrix(AffineMatrix,localScale);	
-	if(SetMatrix(AffineMatrix,0) == 0)
-	{
-		return;
-	}
-	
-	gSPDisplayList(GraphPtrOffset++,localAddress);		
-	
-}
-
-void DrawGeometry(float objectPosition[], short objectAngle[], int F3DEXAddress)
-{
-	DrawGeometryScale(objectPosition,objectAngle,F3DEXAddress, 1.0);
-}
-
-void DrawPaths(long RSPInput)
-{
-	GlobalAddressA = GetRealAddress(RSPInput);
-	GlobalAddressB = 0x0D001780;
-
-	do
-	{
-		objectAngle[0] = *(short*)(GlobalAddressA);
-		objectAngle[1] = *(short*)(GlobalAddressA + 2);
-		objectAngle[2] = *(short*)(GlobalAddressA + 4);
-
-		if (objectPosition[0] == 0xFFFF8000)
-		{
-			break;
-		}
-		else
-		{
-			objectPosition[0] = (float)objectAngle[0];
-			objectPosition[1] = (float)objectAngle[1];
-			objectPosition[2] = (float)objectAngle[2];
-			DrawGeometry(objectPosition,objectAngle,GlobalAddressB);
-		}
-		GlobalAddressA = GlobalAddressA + 8;
-	} while (true);
-
-}
 
 
 void GFXPiranha(int PakkunAddress, float Distance)
@@ -2660,56 +2374,283 @@ void DisplayTree1Bypass(Camera* PlayerCamera, AffineMtx Affine, Object* TreeObj)
 		GFXTree1(LocalDistance);
 	}
 }
-/*
-void DisplayTree1Loop(Screen *PlayerScreen, AffineMtx Affine)
+
+
+///
+
+
+void ScaleMatrixXYZFixed(AffineMtx Matrix, SVector FScale)
 {
+    Matrix[0][0] *= (FScale[0] / 100);
+    Matrix[1][0] *= (FScale[0] / 100);
+    Matrix[2][0] *= (FScale[0] / 100);
+    Matrix[1][0] *= (FScale[1] / 100);
+    Matrix[1][1] *= (FScale[1] / 100);
+    Matrix[1][2] *= (FScale[1] / 100);
+    Matrix[2][0] *= (FScale[2] / 100);
+    Matrix[2][1] *= (FScale[2] / 100);
+    Matrix[2][2] *= (FScale[2] / 100);
+}
+void ScaleMatrixXYZ(AffineMtx Matrix, Vector Scale)
+{
+    Matrix[0][0] *= Scale[0];
+    Matrix[1][0] *= Scale[0];
+    Matrix[2][0] *= Scale[0];
+    Matrix[1][0] *= Scale[1];
+    Matrix[1][1] *= Scale[1];
+    Matrix[1][2] *= Scale[1];;
+    Matrix[2][0] *= Scale[2];
+    Matrix[2][1] *= Scale[2];
+    Matrix[2][2] *= Scale[2];
+}
+
+
+
+/*
+
+typedef struct {
+	short		ob[3];	/// x, y, z 
+	unsigned short	flag;
+	short		tc[2];	/// texture coord 
+	unsigned char	cn[4];	/// color & alpha
+} Vtx_t;
+
+*/
+
+
+/*
+((sin(x+y+time))/(intensity))+((sin(-x+y+time))/(intensity))
+*/
+short WaveTime, WaveDirection = 1;
+void WaveRace(Vtx_t *VertexBuffer, int Count, float Intensity)
+{	
 	
-	bool TreeLoaded = false;
-	for (int ThisObject = 0; ThisObject < MAX_OBJECT; ThisObject++)
+	for (int ThisVert = 0; ThisVert < Count; ThisVert++)
 	{
-		if (g_SimpleObjectArray[ThisObject].category == TREE1)
-		{
-			if (!TreeLoaded)
-			{
-				gDPLoadTLUT_pal256(GraphPtrOffset++, &TreePalette[0]);
-				gDPSetCombineMode(GraphPtrOffset++, G_CC_MODULATERGBA,G_CC_MODULATERGBA);
-				gDPSetRenderMode(GraphPtrOffset++, G_RM_AA_ZB_TEX_EDGE,G_RM_AA_ZB_TEX_EDGE2);
-				gSPTexture(GraphPtrOffset++, 0xFFFF,0xFFFF, 0, G_TX_RENDERTILE, G_ON);
-				gDPSetTextureLUT(GraphPtrOffset++, G_TT_RGBA16);
-				g_Nin_SetUpTileDescrip(G_IM_FMT_CI,G_IM_SIZ_8b,32,64,0,0,G_TX_CLAMP,5,0,G_TX_CLAMP,6,0);
-    			gDPLoadTextureBlock(GraphPtrOffset++, 0x06000320, G_IM_FMT_CI, G_IM_SIZ_8b, 32, 64, 0,
-                             G_TX_CLAMP | G_TX_NOMIRROR,   G_TX_CLAMP | G_TX_NOMIRROR,
-    	                     G_TX_NOMASK, G_TX_NOMASK,     G_TX_NOLOD, G_TX_NOLOD);
-			}
-		}
+		GlobalFloatA = SinTable[(ushort)( (uint)( 10000.0 * (VertexBuffer[ThisVert].ob[0] + VertexBuffer[ThisVert].ob[2]) + (WaveTime * 500) ) % 0xFFFF) >> 4];
+		
+		VertexBuffer[ThisVert].ob[1] = GlobalFloatA * Intensity ;
+		
+		VertexBuffer[ThisVert].cn[0] = (char)(115 + (50 * GlobalFloatA));
+		VertexBuffer[ThisVert].cn[1] = (char)(115 + (50 * GlobalFloatA));
+		VertexBuffer[ThisVert].cn[2] = (char)(165 + (60 * GlobalFloatA));
 	}
 }
 
-void DisplayObjectLoop(Screen *PlayerScreen)
+void DrawStereoscopic3D(short FocusValue)
 {
-	Camera *PlayerCamera = PlayerScreen->camera;
+	g_aspectRatio = (float)(240 / 160);
+	asm_BorderDraw = 0;
+	
+	GlobalScreen[0]->width = 160;
+	GlobalScreen[0]->height = 240;
+	GlobalScreen[0]->posx = 80;
+	GlobalScreen[0]->posy = 120;
+	KWLap[0].cx = 80;
+	KWLap[0].cx2 = 80;
+	KWLap[0].cx3 = 80;
+	KWLap[0].tx[0] = 80;
+	KWLap[0].tx[1] = 80;
+	KWLap[0].tx[2] = 80;
+	KWLap[0].tx[3] = 80;
+	KWLap[0].tx[4] = 80;
+	KWLap[0].ty = 20;
+	KWLap[0].cy = 40;
+	KWLap[0].ix = 40 - KWLap[0].addix;
+	KWLap[0].iy = 55;
+	KWLap[0].rgx = 0;
+	KWLap[0].rx = 40;
+	KWLap[0].ry = 0;
+	KWLap[0].rgy = 200;
+	KWLap[0].ranksw = 1;
 
-	float sinB = sinT(PlayerCamera->camera_direction[1]-(DEG1 * 180));
-  	float cosB = cosT(PlayerCamera->camera_direction[1]-(DEG1 * 180));
+	KWRank[1] = KWRank[0];
+	
 
-	AffineMatrix[0][0] =  cosB;
-	AffineMatrix[1][0] =  0.0f;
-	AffineMatrix[2][0] =  sinB;
-	AffineMatrix[0][1] =  0.0f;
-	AffineMatrix[1][1] =  1.0f;
-	AffineMatrix[2][1] =  0.0f;
-	AffineMatrix[0][2] = -sinB;
-	AffineMatrix[1][2] =  0.0f;
-	AffineMatrix[2][2] =  cosB;
-	AffineMatrix[0][3] =  0.0f;
-	AffineMatrix[1][3] =  0.0f;
-	AffineMatrix[2][3] =  0.0f;
-	AffineMatrix[3][3] =  1.0f;
+	GlobalScreen[1]->width = 160;
+	GlobalScreen[1]->height = 240;
+	GlobalScreen[1]->posx = 240;
+	GlobalScreen[1]->posy = 120;
+	KWLap[1].cx = 240;
+	KWLap[1].cx2 = 240;
+	KWLap[1].cx3 = 240;
+	KWLap[1].tx[0] = 240;
+	KWLap[1].tx[1] = 240;
+	KWLap[1].tx[2] = 240;
+	KWLap[1].tx[3] = 240;
+	KWLap[1].tx[4] = 240;
+	KWLap[1].ty = 20;
+	KWLap[1].cy = 40;
+	KWLap[1].ix = 200 - KWLap[1].addix;
+	KWLap[1].iy = 55;
+	KWLap[1].rgx = 0;
+	KWLap[1].rx = 200;
+	KWLap[1].ry = 0;
+	KWLap[1].rgy = 200;
+	KWLap[1].ranksw = 1;
+	
+	
 
-	if (g_gameMode != GAMEMODE_BATTLE)
-	{
-		DisplayFlagGate(PlayerCamera);
-	}
+	GlobalPlayer[1].position[0] = GlobalPlayer[0].position[0];
+	GlobalPlayer[1].position[1] = GlobalPlayer[0].position[1] + 20;
+	GlobalPlayer[1].position[2] = GlobalPlayer[0].position[2];
+	
+	GlobalPlayer[1].direction[1] = GlobalPlayer[0].direction[1];
+	GlobalPlayer[1].radius = 0.0001;
+	GlobalPlayer[1].offsetsize = 0.0001;
+	/*
+	GlobalPlayer[1].bump.bump_xy[0] = GlobalPlayer[0].bump.bump_xy[0];
+	GlobalPlayer[1].bump.bump_xy[1] = GlobalPlayer[0].bump.bump_xy[1];
+	GlobalPlayer[1].bump.bump_xy[2] = GlobalPlayer[0].bump.bump_xy[2];
+	GlobalPlayer[1].bump.bump_yz[0] = GlobalPlayer[0].bump.bump_yz[0];
+	GlobalPlayer[1].bump.bump_yz[1] = GlobalPlayer[0].bump.bump_yz[1];
+	GlobalPlayer[1].bump.bump_yz[2] = GlobalPlayer[0].bump.bump_yz[2];
+	GlobalPlayer[1].bump.bump_zx[0] = GlobalPlayer[0].bump.bump_zx[0];
+	GlobalPlayer[1].bump.bump_zx[1] = GlobalPlayer[0].bump.bump_zx[1];
+	GlobalPlayer[1].bump.bump_zx[2] = GlobalPlayer[0].bump.bump_zx[2];
+	
+	GlobalPlayer[1].bump.last_xy = GlobalPlayer[0].bump.last_xy;
+	GlobalPlayer[1].bump.last_yz = GlobalPlayer[0].bump.last_yz;
+	GlobalPlayer[1].bump.last_zx = GlobalPlayer[0].bump.last_zx;
+	GlobalPlayer[1].bump.flag_xy = GlobalPlayer[0].bump.flag_xy;
+	GlobalPlayer[1].bump.flag_yz = GlobalPlayer[0].bump.flag_yz;
+	
+	GlobalPlayer[1].bump.flag_zx = GlobalPlayer[0].bump.flag_zx;
+	*/
+	g_zoomFOVPlayer2 = g_zoomFOVPlayer1;
+	g_zoomLevelPlayer2 = g_zoomLevelPlayer1;
+
+	objectVelocity[0] = (float)(FocusValue * -0.1);
+	objectVelocity[1] = 0;
+	objectVelocity[2] = -5;
+	MakeAlignVector(objectVelocity,GlobalPlayer[0].direction[1]);
+
+	GlobalCamera[0]->camera_pos[0] +=objectVelocity[0];
+	GlobalCamera[0]->camera_pos[1] +=objectVelocity[1];
+	GlobalCamera[0]->camera_pos[2] +=objectVelocity[2];
 
 	
-}*/
+	objectVelocity[0] = (float)(FocusValue * 0.2);	
+	objectVelocity[1] = 0;
+	objectVelocity[2] = 0;
+	MakeAlignVector(objectVelocity,GlobalPlayer[0].direction[1]);
+
+	GlobalCamera[1]->camera_pos[0] = GlobalCamera[0]->camera_pos[0] + (objectVelocity[0]);
+	GlobalCamera[1]->camera_pos[1] = GlobalCamera[0]->camera_pos[1] + (objectVelocity[1]);
+	GlobalCamera[1]->camera_pos[2] = GlobalCamera[0]->camera_pos[2] + (objectVelocity[2]);
+
+	GlobalCamera[1]->camera_direction[0] = GlobalCamera[0]->camera_direction[0];
+	GlobalCamera[1]->camera_direction[1] = GlobalCamera[0]->camera_direction[1];
+	GlobalCamera[1]->camera_direction[2] = GlobalCamera[0]->camera_direction[2];
+
+	GlobalCamera[1]->camera_vector[0] = GlobalCamera[0]->camera_vector[0];
+	GlobalCamera[1]->camera_vector[1] = GlobalCamera[0]->camera_vector[1];
+	GlobalCamera[1]->camera_vector[2] = GlobalCamera[0]->camera_vector[2];
+
+	objectVelocity[0] = (float)(FocusValue * 0.1);
+	objectVelocity[1] = 0;
+	objectVelocity[2] = 50;
+	MakeAlignVector(objectVelocity,GlobalPlayer[0].direction[1]);
+
+	GlobalCamera[1]->lookat_pos[0] = GlobalPlayer[0].position[0] + objectVelocity[0];
+	GlobalCamera[1]->lookat_pos[1] = GlobalPlayer[0].position[1] + objectVelocity[1];
+	GlobalCamera[1]->lookat_pos[2] = GlobalPlayer[0].position[2] + objectVelocity[2];
+
+	objectVelocity[0] = (float)(FocusValue * -0.1);
+	objectVelocity[1] = 0;
+	objectVelocity[2] = 50;
+	MakeAlignVector(objectVelocity,GlobalPlayer[0].direction[1]);
+
+	GlobalCamera[0]->lookat_pos[0] = GlobalPlayer[0].position[0] + objectVelocity[0];
+	GlobalCamera[0]->lookat_pos[1] = GlobalPlayer[0].position[1] + objectVelocity[1];
+	GlobalCamera[0]->lookat_pos[2] = GlobalPlayer[0].position[2] + objectVelocity[2];
+
+	GlobalCamera[1]->lookat_vector[0] = GlobalCamera[0]->lookat_vector[0];
+	GlobalCamera[1]->lookat_vector[1] = GlobalCamera[0]->lookat_vector[1];
+	GlobalCamera[1]->lookat_vector[2] = GlobalCamera[0]->lookat_vector[2];
+
+	GlobalCamera[1]->chase_direction = GlobalCamera[0]->chase_direction;
+	GlobalCamera[1]->old_chase_direction = GlobalCamera[0]->old_chase_direction;
+	GlobalCamera[1]->screen_view_angle = GlobalCamera[0]->screen_view_angle;
+	GlobalCamera[1]->flag = GlobalCamera[0]->flag;
+
+	GlobalCamera[1]->watch = GlobalCamera[0]->watch;
+	
+	
+	//g_DynamicObjects[ItemBoxAllocPtr[1]].texaddr = g_DynamicObjects[ItemBoxAllocPtr[0]].texaddr;
+	//g_DynamicObjects[ItemBoxAllocPtr[1]].indexaddr = g_DynamicObjects[ItemBoxAllocPtr[0]].indexaddr;
+	ItemBoxAllocPtr[1] = ItemBoxAllocPtr[0];
+	
+	KWDisplay2D(1);
+	KWDisplay2DAfter(1);
+
+	KWDisplay2D(2);
+	KWDisplay2DAfter(2);
+
+	KWDisplayRank(0);
+	KWDisplayRank(1);
+	
+	*(short*)0x800DC5B8	= 0;
+}
+
+
+
+void DrawGeometryScale(float localPosition[], short localAngle[], int localAddress, float localScale)
+{
+	CreateModelingMatrix(AffineMatrix,localPosition,localAngle);
+	ScalingMatrix(AffineMatrix,localScale);	
+	if(SetMatrix(AffineMatrix,0) == 0)
+	{
+		return;
+	}
+	gSPDisplayList(GraphPtrOffset++,localAddress);		
+	
+}
+
+void DrawGeometrySVectorScale(SVector localPosition, short localAngle[], int localAddress, float localScale)
+{
+	objectPosition[0] = localPosition[0];
+	objectPosition[1] = localPosition[1];
+	objectPosition[2] = localPosition[2];
+	CreateModelingMatrix(AffineMatrix,objectPosition,localAngle);
+	ScalingMatrix(AffineMatrix,localScale);	
+	if(SetMatrix(AffineMatrix,0) == 0)
+	{
+		return;
+	}
+	
+	gSPDisplayList(GraphPtrOffset++,localAddress);		
+	
+}
+
+void DrawGeometry(float objectPosition[], short objectAngle[], int F3DEXAddress)
+{
+	DrawGeometryScale(objectPosition,objectAngle,F3DEXAddress, 1.0);
+}
+
+void DrawPaths(long RSPInput)
+{
+	GlobalAddressA = GetRealAddress(RSPInput);
+	GlobalAddressB = 0x0D001780;
+
+	do
+	{
+		objectAngle[0] = *(short*)(GlobalAddressA);
+		objectAngle[1] = *(short*)(GlobalAddressA + 2);
+		objectAngle[2] = *(short*)(GlobalAddressA + 4);
+
+		if (objectPosition[0] == 0xFFFF8000)
+		{
+			break;
+		}
+		else
+		{
+			objectPosition[0] = (float)objectAngle[0];
+			objectPosition[1] = (float)objectAngle[1];
+			objectPosition[2] = (float)objectAngle[2];
+			DrawGeometry(objectPosition,objectAngle,GlobalAddressB);
+		}
+		GlobalAddressA = GlobalAddressA + 8;
+	} while (true);
+
+}

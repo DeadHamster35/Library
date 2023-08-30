@@ -1341,7 +1341,7 @@ void DecodeVertex2_OK(char *ramaddress, uint number)
 		}
 		
 		
-		if(ZFLIP == 1)
+		if(ZFLIP)
 		{
 			VtxRAMBuffer->n.ob[2] = -1 * (short)((float)VtxROMData->ob[2]  * LevelScales[(int)ScaleZMode]);
 		}
@@ -1747,7 +1747,7 @@ void InitialMapObjectCode()
 		SetPakkunObject(0x06000418);
 		g_StaticObjectCount = g_simpleObjectCount;
 	}
-
+	return;
 	for (int ThisObject = 0; ThisObject < g_simpleObjectCount; ThisObject++)
 	{
 		
@@ -1787,7 +1787,7 @@ void InitialMapCode()
 	InitialMap();
 
 	
-	setPath();
+	//setPath();
 
 	if ((HotSwapID > 0) && (g_gameMode == GAMEMODE_BATTLE))
 	{
