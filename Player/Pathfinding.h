@@ -20,13 +20,13 @@ extern BKPathfinder AIPathfinder[4];
 
 extern void GetItemBoxIndexes();
 
-extern int FindNearestRampNode(float CurrentPosition[],  float FoundNodePosition[], float TargetY, Marker *PathArray[], short* MarkerCounts, short PathCount);
+extern int FindNearestRampNode(float CurrentPosition[],  float FoundNodePosition[], float TargetY, Marker *PathArray[], short* MarkerCounts, short PathCount, float HeightCheckSquared);
 
-extern int FindNearestDropNode(float CurrentPosition[],  float FoundNodePosition[], float TargetY, Marker *PathArray[], short* MarkerCounts, short PathCount);
+extern int FindNearestDropNode(float CurrentPosition[],  float FoundNodePosition[], float TargetY, Marker *PathArray[], short* MarkerCounts, short PathCount, float HeightCheckSquared);
 
-extern int FindNearestItemBox(float CurrentPosition[], float FoundItemBoxPosition[]);
+extern int FindNearestItemBox(float CurrentPosition[], float FoundItemBoxPosition[], float HeightCheckSquared);
 
-extern void UpdateBKPath(BKPathfinder *Pathfinder, short FirstMarkerDistance, Marker *PathArray[], short* MarkerCounts, short PathCount, short PlayerID, char TypeOfPath);
+extern void UpdateBKPath(BKPathfinder *Pathfinder, short FirstMarkerDistance, Marker *PathArray[], short* MarkerCounts, short PathCount, short PlayerID, char TypeOfPath, float HeightCheckSquared);
 
 extern void ResetLaneDefaultOffset(int playerID);
 
@@ -41,7 +41,7 @@ extern void MakeAlternativePath(Marker *altPath, short length, char pathID);
 
 
 #define RAMPDISTANCESQUARE 40000.0
-#define PATHDISTANCECHECK 350.0
+#define PATHDISTANCECHECK 250.0
 
 #define FLATPATH     0
 #define RAMPPATH     1

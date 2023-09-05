@@ -41,7 +41,7 @@ bool PathfinderComplete(BKPathfinder *Pathfinder, short *PathLengths, short *Ram
         {            
             return 
             (
-                (Pathfinder->ProgressTimer >= 60)
+                (Pathfinder->ProgressTimer >= 90)
                 || (Pathfinder->TargetPath == -1) 
                 || (Pathfinder->NearestMarker==0 && Pathfinder->Direction==-1)  
                 || (Pathfinder->NearestMarker==PathLengths[Pathfinder->TargetPath] && Pathfinder->Direction==1) 
@@ -55,7 +55,7 @@ bool PathfinderComplete(BKPathfinder *Pathfinder, short *PathLengths, short *Ram
         {            
             return 
             (
-                (Pathfinder->ProgressTimer >= 60)
+                (Pathfinder->ProgressTimer >= 120)
                 || (Pathfinder->TargetPath == -1) 
                 || (Pathfinder->NearestMarker==0 && Pathfinder->Direction==-1)  
                 || (Pathfinder->NearestMarker==RampLengths[Pathfinder->TargetPath] && Pathfinder->Direction==1) 
@@ -69,7 +69,7 @@ bool PathfinderComplete(BKPathfinder *Pathfinder, short *PathLengths, short *Ram
         {            
             return 
             (
-                (Pathfinder->ProgressTimer >= 60)
+                (Pathfinder->ProgressTimer >= 120)
                 || (Pathfinder->TargetPath == -1) 
                 || (Pathfinder->NearestMarker==0 && Pathfinder->Direction==-1)  
                 || (Pathfinder->NearestMarker==DropLengths[Pathfinder->TargetPath] && Pathfinder->Direction==1) 
@@ -82,9 +82,9 @@ bool PathfinderComplete(BKPathfinder *Pathfinder, short *PathLengths, short *Ram
     return false;
 }
 
-int FindNearestRampNode(float CurrentPosition[], float FoundNodePosition[], float TargetY, Marker* PathArray[], short* MarkerCounts, short PathCount)
+int FindNearestRampNode(float CurrentPosition[], float FoundNodePosition[], float TargetY, Marker* PathArray[], short* MarkerCounts, short PathCount, float HeightCheckSquared)
 {
-    float Distance = 9999999.0;
+    float Distance = 9999999999.0;
     float CheckDistance;
     float path_height_start_node, path_height_end_node;
     short use_this_path= -1;
@@ -98,7 +98,7 @@ int FindNearestRampNode(float CurrentPosition[], float FoundNodePosition[], floa
 
 
         //Check beginning of path
-        if (pow(CurrentPosition[1] - path_height_start_node, 2) < 225)
+        if (pow(CurrentPosition[1] - path_height_start_node, 2) < HeightCheckSquared)
         {
             if (pow(path_height_end_node - TargetY, 2) < TargetHeightDifference)
             {
@@ -113,7 +113,7 @@ int FindNearestRampNode(float CurrentPosition[], float FoundNodePosition[], floa
             }
         }
         //Check end of path
-        if (pow(CurrentPosition[1] - path_height_end_node, 2) < 225)
+        if (pow(CurrentPosition[1] - path_height_end_node, 2) < HeightCheckSquared)
         {
             if (pow(path_height_start_node - TargetY, 2) < TargetHeightDifference)
             {
@@ -139,7 +139,9 @@ int FindNearestRampNode(float CurrentPosition[], float FoundNodePosition[], floa
 }
 
 
-int FindNearestItemBox(float CurrentPosition[], float FoundItemBoxPosition[])
+
+
+int FindNearestItemBox(float CurrentPosition[], float FoundItemBoxPosition[], float HeightCheckSquared)
 {   
     //Find the nearest item box
     float player_x = CurrentPosition[0];
@@ -148,11 +150,14 @@ int FindNearestItemBox(float CurrentPosition[], float FoundItemBoxPosition[])
     float distance = 9999999999.0;
     float CheckDistance;
     int found_item_box = -1;
+
+
     for (int ThisItemBox = 0; ThisItemBox < ItemBoxCount; ThisItemBox++)
     {
         short i = ItemBoxIndex[ThisItemBox];
         float item_box_position_y = g_SimpleObjectArray[i].position[1];
-        if (pow(player_y - item_box_position_y, 2) < 225.0) //Height check
+        float diff_y = item_box_position_y - player_y;
+        if (pow(diff_y, 2) < HeightCheckSquared && diff_y >= 0.0) //Height check
         {
             float item_box_position_x = g_SimpleObjectArray[i].position[0];
             float item_box_position_z = g_SimpleObjectArray[i].position[2];
@@ -169,6 +174,7 @@ int FindNearestItemBox(float CurrentPosition[], float FoundItemBoxPosition[])
             }                
         }
     }
+    
 
     // //Find a random item box
     // int found_item_box = ItemBoxIndex[MakeRandomLimmit(ItemBoxCount)];
@@ -179,9 +185,11 @@ int FindNearestItemBox(float CurrentPosition[], float FoundItemBoxPosition[])
 }
 
 
-int FindNearestDropNode(float CurrentPosition[], float FoundNodePosition[], float TargetY, Marker* PathArray[], short* MarkerCounts, short PathCount)
+
+
+int FindNearestDropNode(float CurrentPosition[], float FoundNodePosition[], float TargetY, Marker* PathArray[], short* MarkerCounts, short PathCount, float HeightCheckSquared)
 {
-    float Distance = 9999999.0;
+    float Distance = 9999999999.0;
     float CheckDistance;
     short use_this_path=-1;
     //short use_this_marker=0;
@@ -190,7 +198,7 @@ int FindNearestDropNode(float CurrentPosition[], float FoundNodePosition[], floa
     {
 
         //Check beginning of path, which is the start of the drop
-        if (pow(CurrentPosition[1]-(float)PathArray[ThisPath][0].Position[1], 2) < 225)
+        if (pow(CurrentPosition[1]-(float)PathArray[ThisPath][0].Position[1], 2) < HeightCheckSquared)
         {
             //if (pow((float)PathArray[ThisPath][MarkerCounts[ThisPath]].Position[1] - TargetY, 2) < pow(CurrentPosition[1] - TargetY, 2)) //If marker is closer in height to the bot than the target
             //{
@@ -220,46 +228,72 @@ int FindNearestDropNode(float CurrentPosition[], float FoundNodePosition[], floa
 }
 
 
+//Find nearest node in current path
+int FindNearestMarker(float CurrentPosition[], Marker *PathArray[], short Markercount, short ThisPath, short defaultMarker)
+{
+    float Distance = 9999999999.0;
+    float CheckDistance;
+    short use_this_marker = defaultMarker;
+    for (int ThisMarker = 0; ThisMarker < Markercount; ThisMarker++) 
+    {
+        CheckDistance = PythagoreanTheorem((float)PathArray[ThisPath][ThisMarker].Position[0], CurrentPosition[0], 
+                                            (float)PathArray[ThisPath][ThisMarker].Position[2], CurrentPosition[2]);
+        if (CheckDistance < Distance)
+        {
+            Distance = CheckDistance;
+            use_this_marker = ThisMarker;
+            //use_this_marker = 0;
+        }    
+    }
+    return(use_this_marker);
+}
 
-void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *PathArray[], short* MarkerCounts, short PathCount, short PlayerID, char TypeOfPath)
+void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *PathArray[], short* MarkerCounts, short PathCount, short PlayerID, char TypeOfPath, float HeightCheckSquared)
 {
     float CheckDistance;
     short EndMarker; 
-    Pathfinder->Distance = 9999999.0; // Set an impossible value to ensure the first return is true. 
+    short nearestMarker;
+    float player_height = GlobalPlayer[PlayerID].position[1];
+    Pathfinder->Distance = 9999999999.0; // Set an impossible value to ensure the first return is true. 
     if (Pathfinder->TargetPath != -1)
     {
         Pathfinder->LastPath = Pathfinder->TargetPath; //Set the last path as we get ready to update.
     }
     Pathfinder->TargetPath = -1;     
-    for (int ThisPath = 0; ThisPath < PathCount; ThisPath++)
+    for (short ThisPath = 0; ThisPath < PathCount; ThisPath++)
     {
-        EndMarker = MarkerCounts[ThisPath]-1;
-        if (pow(GlobalPlayer[PlayerID].position[1] - (float)PathArray[ThisPath][0].Position[1], 2) < 225) //If on same level
+        EndMarker = MarkerCounts[ThisPath];
+        if (pow(player_height - (float)PathArray[ThisPath][0].Position[1], 2) < HeightCheckSquared) //If on same level
         {
             //Test first marker to see if in range.
             objectPosition[0] = (float)PathArray[ThisPath][0].Position[0];
             objectPosition[1] = (float)PathArray[ThisPath][0].Position[1];
             objectPosition[2] = (float)PathArray[ThisPath][0].Position[2];
 
-            if (TestCollideSphere(GlobalPlayer[PlayerID].position, FirstMarkerDistance, objectPosition, 5)) //&& (ThisPath != Pathfinder->LastPath))  //check if the first marker is within 125 units of the player
+            if (TestCollideSphere(GlobalPlayer[PlayerID].position, FirstMarkerDistance, objectPosition, 5))// && (ThisPath != Pathfinder->LastPath))  //check if the first marker is within 125 units of the player
             {
                 CheckDistance = PythagoreanTheorem((float)PathArray[ThisPath][EndMarker].Position[0], Pathfinder->Target[0], 
                                                     (float)PathArray[ThisPath][EndMarker].Position[2], Pathfinder->Target[2]);
                 if (CheckDistance < Pathfinder->Distance)  //compare distance, if less than the current update
                 {
+                    nearestMarker = FindNearestMarker(GlobalPlayer[PlayerID].position, PathArray, MarkerCounts[ThisPath], ThisPath, 0);
+
                     Pathfinder->Distance = CheckDistance;
                     Pathfinder->TargetPath = ThisPath;
-                    Pathfinder->Progression = 0;
+                    //Pathfinder->Progression = 0;
+                    Pathfinder->Progression = nearestMarker;
                     Pathfinder->Direction = 1;
                     Pathfinder->PathType = TypeOfPath;
-                    Pathfinder->NearestMarker = 0;
-                    Pathfinder->NearestMarkerHeight = (float)PathArray[ThisPath][0].Position[1];
+                    //Pathfinder->NearestMarker = 0;
+                    Pathfinder->NearestMarker = nearestMarker;
+                    //Pathfinder->NearestMarkerHeight = (float)PathArray[ThisPath][0].Position[1];
+                    Pathfinder->NearestMarkerHeight = (float)PathArray[ThisPath][nearestMarker].Position[1];
                     Pathfinder->ProgressTimer = 0;
                 }
             }
         }
 
-        if (pow(GlobalPlayer[PlayerID].position[1] - (float)PathArray[ThisPath][EndMarker].Position[1], 2) < 225) //If on same level
+        if (pow(player_height - (float)PathArray[ThisPath][EndMarker].Position[1], 2) < HeightCheckSquared) //If on same level
         {
             //Test last marker to see if in range.
             objectPosition[0] = (float)PathArray[ThisPath][EndMarker].Position[0];
@@ -273,13 +307,18 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
                                                     (float)PathArray[ThisPath][0].Position[2], Pathfinder->Target[2]);
                 if (CheckDistance < Pathfinder->Distance)  //compare distance, if less than the current update
                 {
+                    nearestMarker = FindNearestMarker(GlobalPlayer[PlayerID].position, PathArray, MarkerCounts[ThisPath], ThisPath, EndMarker);
+
                     Pathfinder->Distance = CheckDistance;
                     Pathfinder->TargetPath = ThisPath;
-                    Pathfinder->Progression = MarkerCounts[ThisPath];
+                    //Pathfinder->Progression = EndMarker;
+                    Pathfinder->Progression = nearestMarker;
                     Pathfinder->Direction = -1;
                     Pathfinder->PathType = TypeOfPath;
-                    Pathfinder->NearestMarker = MarkerCounts[ThisPath];
-                    Pathfinder->NearestMarkerHeight = (float)PathArray[ThisPath][MarkerCounts[ThisPath]].Position[1];
+                    //Pathfinder->NearestMarker = EndMarker;
+                    Pathfinder->NearestMarker = nearestMarker;
+                    //Pathfinder->NearestMarkerHeight = (float)PathArray[ThisPath][EndMarker].Position[1];
+                    Pathfinder->NearestMarkerHeight = (float)PathArray[ThisPath][nearestMarker].Position[1];
                     Pathfinder->ProgressTimer = 0;
                 }
             }
@@ -287,19 +326,24 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
     }
 
 
-    if (Pathfinder->TargetPath == -1)
+    //Default catch for no found paths
+    if (Pathfinder->TargetPath == -1 && Pathfinder->LastPath != -1 && Pathfinder->LastPath < PathCount && Pathfinder->PathType == FLATPATH)
     {
-        //Default catch for no found paths
-        Pathfinder->TargetPath = Pathfinder->LastPath;
-        if (Pathfinder->Direction == 1)
+        if (pow(player_height - (float)PathArray[Pathfinder->LastPath][0].Position[1], 2) < HeightCheckSquared) //If on same level
         {
-            Pathfinder->Progression = 0;
+            Pathfinder->TargetPath = Pathfinder->LastPath;
+            Pathfinder->ProgressTimer = 0.0;
+            if (Pathfinder->Direction == 1)
+            {
+                Pathfinder->Progression = MarkerCounts[Pathfinder->TargetPath];
+                Pathfinder->Direction = -1;
+            }
+            else
+            {
+                Pathfinder->Progression = 0;
+                Pathfinder->Direction = 1;
+            }
         }
-        else
-        {
-            Pathfinder->Progression = MarkerCounts[Pathfinder->TargetPath];
-        }
-        
     }
 }
 
