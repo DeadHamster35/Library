@@ -67,7 +67,7 @@
 .definelabel g_courseID,  0x800DC5C0
 .definelabel g_loadedcourseFlag, 0x800DC5C4
 .definelabel g_gameMode, 0x800DC55C
-.definelabel g_mirrorMode, 0x800DC624
+.definelabel g_ScreenFlip, 0x800DC624
 
 
 .definelabel gravity_1, 0x800E2670

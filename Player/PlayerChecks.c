@@ -64,7 +64,7 @@ void CheckSplashRepl(char WaterType)
 					}
 				}
 
-				if((g_courseID == 6) || ((g_courseID == 16) && (g_courseID == 13)))
+				if((g_courseID == 6) || ((g_courseID == 16) || (g_courseID == 13)))
 				{
 					GlobalPlayer[(int)playerID].water_flag &=~ SPLASH_DIVE|SPLASH_START;
 				}
@@ -367,10 +367,12 @@ void NopPlayEffectBGMCode() //Run at custom code init
 
 
 
-
+short LastAIPath = 0;
 void CheckPaths()
 {	
 	
+	Toggle3DSnow = 0; // set to 0 by default.
+
 	if (OverKartRAMHeader.EchoOffset != 0)
 	{
 		GlobalIntA = *(int*)OverKartRAMHeader.EchoOffset;
@@ -431,6 +433,15 @@ void CheckPaths()
 								GlobalPlayer[(int)playerID].talk |= 0x2; // Unused talk flag
 								break;
 							}
+							case (PATH_WEATHER):
+							{
+								if (playerID == 0)
+								{
+									Toggle3DSnow = 1;
+								}
+								
+								break;
+							}
 						}
 					}
 				}	
@@ -444,37 +455,81 @@ void CheckPaths()
 		//Check Player Lap
 		for (int ThisPlayer = 0; ThisPlayer < 8; ThisPlayer++)
 		{
-			if (CPUPaths[ThisPlayer].LastLap != GlobalPlayer[ThisPlayer].rap)
-			{
-				CPUPaths[ThisPlayer].LastLap = GlobalPlayer[ThisPlayer].rap;
-				CPUPaths[ThisPlayer].LastPath = CPUPaths[ThisPlayer].CurrentPath;
-				GlobalBoolA = false;
-
-				//Loop until valid path.
-				while (!GlobalBoolA)
+			if (GlobalPlayer[ThisPlayer].flag & IS_CPU_PLAYER)
+			{	
+				if (CPUPaths[ThisPlayer].LastLap != GlobalPlayer[ThisPlayer].rap)
 				{
-					GlobalShortA = MakeRandomLimmit(OverKartHeader.PathCount);
-					if (GlobalShortA > OverKartHeader.PathCount)
+					CPUPaths[ThisPlayer].LastLap = GlobalPlayer[ThisPlayer].rap;
+					CPUPaths[ThisPlayer].LastPath = CPUPaths[ThisPlayer].CurrentPath;
+					GlobalBoolA = false;
+
+					//Loop until valid path. Max 100 checks.
+					for (int This = 0; This < 100; This++)
 					{
-						GlobalShortA = OverKartHeader.PathCount;
-					}
-					if (OverKartHeader.PathSplit == 1)
-					{
-						if (GlobalShortA != CPUPaths[ThisPlayer].LastPath)
+						GlobalShortA = MakeRandomLimmit(OverKartHeader.PathCount);
+						if (GlobalShortA > OverKartHeader.PathCount)
+						{
+							GlobalShortA = OverKartHeader.PathCount;
+						}
+						if (OverKartHeader.PathSplit == 1)
+						{
+							if (GlobalShortA != LastAIPath)
+							{
+								LastAIPath = GlobalShortA;
+								GlobalBoolA = true;
+							}
+						}
+						else
 						{
 							GlobalBoolA = true;
 						}
 					}
-					else
+					//Assign new path. 
+					CPUPaths[ThisPlayer].CurrentPath = GlobalShortA;
+					CurrentPathID[ThisPlayer] = GlobalShortA;
+				}
+			}
+			else
+			{
+				//human player
+				//check surface and assign path.
+				if (CPUPaths[ThisPlayer].LastLap != GlobalPlayer[ThisPlayer].rap)
+				{
+					CurrentPathID[ThisPlayer] = 0;
+				}
+
+				
+				short SurfaceID = CheckArea(GlobalPlayer[ThisPlayer].bump.last_zx);
+				for (int ThisPath = 0; ThisPath < 4; ThisPath++)
+				{
+					if (OverKartHeader.PathTrigger[ThisPath] == SurfaceID)
 					{
-						GlobalBoolA = true;
+						CurrentPathID[ThisPlayer] = ThisPath;
 					}
 				}
-				//Assign new path. 
-				CPUPaths[ThisPlayer].CurrentPath = GlobalShortA;
-				CurrentPathID[ThisPlayer] = GlobalShortA;
 			}
 		}
 	}
 
+}
+
+
+
+void LakituSpawnBypass(Player *Kart, char PlayerID, float *SpawnVector, float *FacingVector)
+{
+	if ((HotSwapID == 0) || (g_gameMode != GAMEMODE_BATTLE))
+	{
+		GetLakituSpawnPoint(Kart, PlayerID, SpawnVector, FacingVector);
+	}
+	else
+	{
+		FacingVector[0] = 0;
+		FacingVector[1] = 0;
+		FacingVector[2] = 0;
+
+		SpawnVector[0] = SpawnPoint[(int)PlayerID][0];
+		SpawnVector[1] = SpawnPoint[(int)PlayerID][1];
+		SpawnVector[2] = SpawnPoint[(int)PlayerID][2];
+	}
+	
 }

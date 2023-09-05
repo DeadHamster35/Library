@@ -5,6 +5,14 @@
 
 
 __attribute__((aligned(16)))
+Vtx V64x32[] ={
+    {   {  {-32,     0,  0}, 0,  {0,               0},              {0xff, 0xff, 0xff, 0xff} } },
+    {   {  { 31,     0,  0}, 0,  {(( 64-1)<<6),    0},              {0xff, 0xff, 0xff, 0xff} } },
+    {   {  { 31,    32,  0}, 0,  {(( 64-1)<<6),    (( 32-1)<<6)},   {0xff, 0xff, 0xff, 0xff} } },
+    {   {  {-32,    32,  0}, 0,  {0,               (( 32-1)<<6)},   {0xff, 0xff, 0xff, 0xff} } },
+};
+
+__attribute__((aligned(16)))
 Vtx V64[] ={
     {   {  {-32,     0,  0}, 0,  {0,               0},              {0xff, 0xff, 0xff, 0xff} } },
     {   {  { 31,     0,  0}, 0,  {(( 64-1)<<6),    0},              {0xff, 0xff, 0xff, 0xff} } },
@@ -2189,6 +2197,40 @@ void ScaleMatrixXYZ(AffineMtx Matrix, Vector Scale)
     Matrix[2][2] *= Scale[2];
 }
 
+
+
+/*
+
+typedef struct {
+	short		ob[3];	/// x, y, z 
+	unsigned short	flag;
+	short		tc[2];	/// texture coord 
+	unsigned char	cn[4];	/// color & alpha
+} Vtx_t;
+
+*/
+
+
+/*
+((sin(x+y+time))/(intensity))+((sin(-x+y+time))/(intensity))
+*/
+short WaveTime, WaveDirection = 1;
+
+void WaveRace(Vtx_t *VertexBuffer, int Count, float Intensity)
+{	
+	
+	for (int ThisVert = 0; ThisVert < Count; ThisVert++)
+	{
+		GlobalFloatA = SinTable[(ushort)( (uint)( 10000.0 * (VertexBuffer[ThisVert].ob[0] + VertexBuffer[ThisVert].ob[2]) + (WaveTime * 500) ) % 0xFFFF) >> 4];
+		
+		VertexBuffer[ThisVert].ob[1] = GlobalFloatA * Intensity ;
+		
+		VertexBuffer[ThisVert].cn[0] = (char)(115 + (50 * GlobalFloatA));
+		VertexBuffer[ThisVert].cn[1] = (char)(115 + (50 * GlobalFloatA));
+		VertexBuffer[ThisVert].cn[2] = (char)(165 + (60 * GlobalFloatA));
+	}
+}
+
 void DrawStereoscopic3D(short FocusValue)
 {
 	g_aspectRatio = (float)(240 / 160);
@@ -2353,9 +2395,24 @@ void DrawGeometryScale(float localPosition[], short localAngle[], int localAddre
 	{
 		return;
 	}
+	gSPDisplayList(GraphPtrOffset++,localAddress);		
+	
+}
+
+void DrawGeometrySVectorScale(SVector localPosition, short localAngle[], int localAddress, float localScale)
+{
+	objectPosition[0] = localPosition[0];
+	objectPosition[1] = localPosition[1];
+	objectPosition[2] = localPosition[2];
+	CreateModelingMatrix(AffineMatrix,objectPosition,localAngle);
+	ScalingMatrix(AffineMatrix,localScale);	
+	if(SetMatrix(AffineMatrix,0) == 0)
 	{
-		gSPDisplayList(GraphPtrOffset++,localAddress);		
+		return;
 	}
+	
+	gSPDisplayList(GraphPtrOffset++,localAddress);		
+	
 }
 
 void DrawGeometry(float objectPosition[], short objectAngle[], int F3DEXAddress)

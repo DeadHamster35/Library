@@ -12,6 +12,7 @@
 //804396C4 targetAddress;?
 
 extern int ok_HeaderROM; //0xBE9178
+extern uint OKHeaderEND;
 extern int ok_SaveSize; //0x28980
 extern int ok_HeaderSize; //0x1400
 extern int ok_MenuSize; //0x2800
@@ -86,6 +87,7 @@ extern int lit_arrowsprite_d; //lit_arrowsprite_u + 0x200
 extern int lit_arrowsprite_l; //lit_arrowsprite_d + 0x200
 extern int lit_arrowsprite_r; //lit_arrowsprite_l + 0x200
 extern int lit_red_selecter; //lit_arrowsprite_r +  0x200 
+extern int ok_RedCoinSprite; //lit_red_selecter +  0x200 
 extern int ok_RedCoinSprite; //lit_red_selecter +  0x200 
 extern int ok_menucoinsprite; //ok_RedCoinSprite +  0x200
 extern ushort nicefont[]; //ok_menucoinsprite +  0x200

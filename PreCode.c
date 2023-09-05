@@ -7,8 +7,8 @@ void CheckExpansion()
 {
 	DMA(((uint)&PRELOAD_RAM + 0x200), (int)&BootCode, 0x200);	
 	
-	*(long long*)(0x80600000) = 0x3525352535253525;
-	if (*(int*)(0x80600004) != 0x35253525)
+	*(long long*)(0x80600000) = 0x3535353535353535;
+	if (*(uint*)(0x80600004) != 0x35353535)
 	{
 		*(uint*)((uint)&ExpansionCheckAddress) = 0x11223344;
 		DMA(((uint)&PRELOAD_RAM + 0x400), (int)(&RAMCheck), (int)&RAMCheckEnd - (int)&RAMCheck); 

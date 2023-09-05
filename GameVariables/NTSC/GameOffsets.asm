@@ -16,6 +16,7 @@
 .definelabel decodeMIO0, 0x800400D0 ;MIO0 File A0 = input, A1 = output
 .definelabel CreateDebugThread, 0x800046B8
 .definelabel StartDebugThread, 0x80004718
+.definelabel DMAROMGhost, 0x80004EF0
 .definelabel DMA, 0x80001158
 .definelabel decodeTKMK, 0x800405D0
 .definelabel GetFramebuffer, 0x802A7658
@@ -137,6 +138,9 @@
 .definelabel CheckDisplayRange, 0x802B80D0
 .definelabel RotateLightMatrix, 0x802B8414
 .definelabel SetUpVector, 0x802B8614
+.definelabel SinTable, 0x802BA370
+.definelabel CosTable, 0x802BB370
+.definelabel AtnTable, 0x802BF370
 .definelabel Ipower, 0x80091750
 .definelabel Power, 0x800917B0
 .definelabel Llog, 0x8009186C
@@ -161,6 +165,10 @@
 .definelabel SetWord4A, 0x800939C8
 .definelabel SetWord4AP, 0x800939FC
 
+.definelabel KawanoDrawFinal, 0x80093E20
+
+.definelabel KWSetViewportFull, 0x80057C60
+.definelabel KWReturnViewport, 0x80057CE4
 .definelabel printNumber, 0x80057524
 .definelabel printString, 0x800577A4
 .definelabel printStringBinary, 0x80057908
@@ -186,6 +194,9 @@
 
 
 .definelabel MSelController, 0x800B3B58
+.definelabel PSelController, 0x800B3554
+.definelabel GSelController, 0x800B29D8
+.definelabel TitleController, 0x800B20F4
 
 .definelabel SaveFunc800B45E0, 0x800B45E0
 .definelabel SaveFunc800B4670, 0x800B4670
@@ -217,6 +228,7 @@
 .definelabel KWSpriteScale, 0x8004CA58
 .definelabel KWSpriteDiv, 0x8004C91C
 .definelabel KWSpriteTile32B, 0x8004C6FC
+.definelabel KWSprite8x8, 0x8004CAD0
 .definelabel DrawLineHorizontal, 0x8004C024
 .definelabel DrawLineVertical, 0x8004C148
 .definelabel KWLoadTextureBlockI4b, 0x80044DA0
@@ -294,6 +306,9 @@
 .definelabel SetBombRollover, 0x8008E6C0
 .definelabel SetProWheelSpin, 0x8008D0FC
 
+.definelabel F_80090178, 0x80090178
+.definelabel GetLakituSpawnPoint, 0x80090178
+
 .definelabel SetFastOoB, 0x80090868
 .definelabel CallLakitu, 0x80090868
 .definelabel SetLakitu, 0x80090778
@@ -359,6 +374,7 @@
 .definelabel Snow3DAllocMapCheck2, 0x80070788
 .definelabel Snow3DDisplayAfterMapCheck1, 0x80058B58
 .definelabel Snow3DDisplayAfterMapCheck2, 0x80058B5C
+.definelabel KWDisplayJugemu, 0x800532A4
 
 .definelabel initializePlayer, 0x800393C0
 .definelabel DelayInitialMap, 0x80002DAC
@@ -422,12 +438,18 @@
 .definelabel g_loadedcourseFlag, 0x800DC5A4
 .definelabel g_gameMode, 0x800DC53C
 .definelabel g_DispFrame, 0x800DC55C
-.definelabel g_mirrorMode, 0x800DC604
+.definelabel g_ScreenFlip, 0x800DC604
+.definelabel g_ScreenStretch, 0x800DC608
 .definelabel g_DebugBars, 0x800DC662
 .definelabel g_ItemSetFlag, 0x800DC648
-.definelabel PathTable, 0x800DC8D0
 
-.definelabel g_courseFaceStructPtr, 0x8015F580
+
+.definelabel PathTable, 0x800DC8D0
+.definelabel PathTableB, 0x800DC780
+
+.definelabel PathLengthTable, 0x800DD9D0
+
+.definelabel gFaceBuffer, 0x8015F580
 .definelabel g_courseFaceMaxIndex, 0x8015F588
 
 .definelabel GlobalStat, 0x800E2360 
@@ -653,10 +675,13 @@
 
 .definelabel FreeMemoryPointer, 0x8015F728
 .definelabel LastMemoryPointer, 0x8015F72C
+.definelabel StaticMemoryPointer, 0x8015F734
 .definelabel g_TrialTime, 0x8015F898
 .definelabel g_lap2Time, 0x8015F89C
 .definelabel g_lap3Time, 0x8015F8A0
 
+
+.definelabel g_StaticObjectCount, 0x8015F900
 .definelabel g_SimpleObjectArray, 0x8015F9B8
 
 .definelabel g_progressValue, 0x8016328A
@@ -772,12 +797,16 @@
 .definelabel g_InGameTT, 0x8018EDFB
 .definelabel g_InGame, 0x8018EDFC
 
+.definelabel InitializeEndingSequence, 0x80280420
+.definelabel EndingSequence, 0x802802AC
 .definelabel asm_CupCount, 0x8028E3C6
 .definelabel songID, 0x8028ECE6
 .definelabel asm_SongA, 0x8028EC9C
 .definelabel asm_SongB, 0x8028F9C4
 //802B8B70
 
+
+.definelabel CullDL_Parameters, 0x802B8D04
 .definelabel g_courseTable, 0x802B8D80
 
 .definelabel KeystockBuffer, 0x802D2B80
@@ -812,13 +841,15 @@
 .definelabel player3OK, 0x8018EDEA
 .definelabel player4OK, 0x8018EDEB
 
-
+.definelabel SetFadeOutTaData, 0x8009E258
 .definelabel DrawText, 0x800936EC 
 .definelabel textDrawPtr, 0x80093788
 .definelabel textDraw, 0x800939FC
 
 .definelabel GetWordLength, 0x80093034
 
+.definelabel g_GFXCounter, 0x802BA270
+.definelabel g_PKCounter, 0x802BA274
 .definelabel g_RNG, 0x802BA290
 .definelabel ExecuteItem, 0x802B2FA0
 
@@ -865,9 +896,18 @@
 
 .definelabel g_sfxPause, 0x803B17A3 // 20 - paused; 00 playing
 
-.definelabel g_SequenceTable, 0x803B8FB0
-.definelabel g_InstrumentTable, 0x803B90B0
-.definelabel g_RawAudio, 0x803B9260
+
+
+//duplicate defines for potential legacy issues.
+
+.definelabel g_MUSTablePointer, 0x803B706C
+
+.definelabel g_MUSSequenceTable, 0x803B8FB0
+.definelabel g_MUSInstrumentTable, 0x803B90B0
+.definelabel g_MUSRawAudioTable, 0x803B9260
+.definelabel g_MUSBankMapTable, 0x803B9310
+.definelabel g_sfxPointer, 0x803B7080 
+
 
 
 .definelabel g_surfaceCheckP1, 0x800F6A88
@@ -895,7 +935,6 @@
 .definelabel g_StarUseCounter, 0x8018D930 
 .definelabel g_GhostUseCounter, 0x8018D950
 .definelabel g_GhostUseTimer, 0x8018D970
-.definelabel g_sfxPointer, 0x803B7080 
 .definelabel ActionData_Pointer, 0x80162EB8
 .definelabel MaxPathPoints, 0x80163368
 .definelabel g_noSimpleKartFlag, 0x801633F8
@@ -941,7 +980,7 @@
 //sky & clouds
 .definelabel g_cloudsToggle, 0x801657C8 //00 on 01 off
 .definelabel g_skyToggle, 0x800DC5BC
-.definelabel g_skyboxToggle, 0x800DC5B4 
+.definelabel gBackgroundFlag, 0x800DC5B4 
 .definelabel g_daytimeToggle, 0x800DC518
 
 .definelabel g_BombTable, 0x800DCC08
@@ -993,6 +1032,7 @@
 .definelabel g_playerPathPointTotalTable, 0x80164450
 .definelabel g_playerPathPointCopy, 0x80165320
 .definelabel g_rivalOvertakeAllowFlag, 0x801634C0
+.definelabel g_EnemyTargetPlayer, 0x80163478
 .definelabel g_rankUpdateFinishFlag, 0x8016348C
 
 //fog
@@ -1051,7 +1091,7 @@
 //GP points
 .definelabel g_playerGPpoints, 0x8018D9C8
 
-
+.definelabel InitCenterLine, 0x8000F2DC
 .definelabel OSMemSize, 0x80000318
 
 //multiplayer points
@@ -1145,10 +1185,16 @@
 
 .definelabel RGBAFallingLeaf, 0x0D028DD8
 .definelabel RGBAQuestionMark, 0x0D001EE8
+.definelabel GoToGameSelect, 0x80290360
 .definelabel SearchListFile, 0x80290CAC
+
 .definelabel MakeCollision, 0x80295C6C
 .definelabel RGBALeaf, 0x0D0291D8
 .definelabel InitialMap, 0x80295D88
+.definelabel InitialMapObject, 0x8029DB44
+.definelabel SetTreeObject, 0x8029D584
+.definelabel SetPakkunObject, 0x8029CC14
+.definelabel SetItemBoxObject, 0x8029D830
 .definelabel LoadMapData, 0x802AA918
 .definelabel InitRDP, 0x802A3E3C
 .definelabel InitialDrawCommon, 0x802A53A4
@@ -1162,3 +1208,28 @@
 .definelabel ItemBoxModel, 0x0D003288
 .definelabel MoveFallingRock, 0x8029D188
 
+.definelabel CheckTriangleZX, 0x802AAE4C
+.definelabel CheckTriangleXY, 0x802AB288
+.definelabel CheckTriangleYZ, 0x802AB6C4
+
+.definelabel CheckTriangleZX_V, 0x802AC760
+.definelabel CheckTriangleXY_V, 0x802ACBA4
+.definelabel CheckTriangleYZ_V, 0x802AD278
+
+.definelabel SpinKart, 0x8002E594
+.definelabel WeaponStatus, 0x8002B830
+.definelabel SetStrategy, 0x8002CD48
+.definelabel CheckKartHit, 0x8002C7E4
+.definelabel PowerCheck, 0x80030150
+.definelabel DriftJump, 0x8002AAC0
+.definelabel CheckWall, 0x8002C954
+.definelabel AccelOn, 0x80030FC8
+.definelabel AccelOff, 0x80031F48
+.definelabel CheckSlope, 0x802ABDB8
+.definelabel SetRolloverFall, 0x8008F494
+.definelabel ResetRolloverFall, 0x8008F5A4
+.definelabel CalcHeight, 0x802ABE30
+.definelabel TirePosition, 0x80029B4C
+.definelabel EnemyTirePosition, 0x8002A194
+.definelabel SetSlipAngle, 0x8002AE38
+.definelabel NaPlyLandStart, 0x800CADD0

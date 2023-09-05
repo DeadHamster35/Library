@@ -1,12 +1,23 @@
 #ifndef CustomLebelsH
 #define CustomLevelsH
 #include "../MainInclude.h"
+
+extern char ScaleXMode, ScaleYMode, ScaleZMode, ScalePad;
+extern short ZFLIP;
+extern short YFLIP;
 extern void FPS_Check();
 extern void DynamicTempo();
+extern void StaticTempo(int Tempo);
 extern void stockASM();
 extern void overkartASM();
 extern void runTextureScroll();
 extern void runWaterVertex();
+
+extern void DecodeSP1Triangle_OK(Gfx *gfx,unsigned char *pp,char code );
+extern void DecodeSP2Triangle_OK(Gfx *gfx,unsigned char *pp,char code );
+extern void DecodeSP1Quadrangle_OK(Gfx *gfx,unsigned char *pp,char code );
+extern void DecodeVertex2_OK(char *ramaddress, uint number);
+
 extern void runDisplayScreen();
 extern void runKillDisplayObjects();
 extern void loadTextureScrollTranslucent();
@@ -14,7 +25,6 @@ extern void copyCourseTable();
 extern void hsTableSet();
 extern void stockTableSet();
 extern void setSong();
-extern void setTempo();
 extern void setPath();
 extern void setEcho();
 extern void setSky();
@@ -41,4 +51,5 @@ extern void EventDisplay(int player);
 extern void EventDisplay_After(int player);
 extern void CommonGameEventChart();
 extern void EmptyActionData(); 
+extern short RadarLineX, RadarLineY;
 #endif

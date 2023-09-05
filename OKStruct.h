@@ -32,7 +32,9 @@ typedef struct OKHeader{
 	uint 			EchoStart;
 	uint 			EchoEnd;
 	char			GoalBannerToggle;
-	char			Padding[3];
+	char			BackgroundToggle;
+	char			ManualTempo;
+	char			Padding;
 	char 			PathTrigger[4];	
 	uint 			MusicID;
 	short 			PathLength[4];
@@ -43,7 +45,6 @@ typedef struct OKHeader{
 	uint 			PathOffset;
 	short			FogStart, FogStop;
 	uchar		 	FogRGBA[4];
-	char			StartBannerToggle, PAD1, PAD2, PAD3;
 } OKHeader;
 
 typedef struct OKAIPath{
@@ -94,7 +95,7 @@ typedef struct OKSkeleton{
 
 typedef struct BattleObjectivePoint{
 	SVector 	Position;
-	short		Flag;
+	short		GameMode;
 	short		Player, Type;
 } BattleObjectivePoint;
 
@@ -130,6 +131,7 @@ typedef struct OKCollisionSphere{
 	short		Angle[3];
 	short		Size[3];
 	short		Position[3];
+	uchar		OffsetFlag, Pad;
 	uchar 		StatusClass, EffectClass, CollisionResult, DamagedResult;//
 } OKCollisionSphere;
 
@@ -142,9 +144,9 @@ typedef struct OKObjectType{
 	short			BumpRadius, MaxSpeed;//
 	short 			Sight, Viewcone;//
 	short 			SoundRadius, RenderRadius;//	
-	char				SoundType, ZSortToggle, GravityToggle, CameraAlignToggle; //
-	
-	char				OKModelCount, OKXLUCount, CollisionCount, ObjectFlag;
+	char				SoundType, ZSortToggle, GravityToggle, CameraAlignToggle; //	
+	char				OKModelCount, OKXLUCount, CollisionCount, ObjectFlag;	
+	short			ObjectScale, PADDING;
 	int				SoundID;
 	
 	uint			ObjectHitbox;	//OKCollisionSphere Address
@@ -187,15 +189,16 @@ typedef struct ObjectivePlayer
 
 typedef struct ObjectiveObject
 {
-	float     	Position[3];
+	float     	Position[3];	
 	float     	Velocity[3];
+	short		Origin[3];
 	short		AngularVel[3];
+	short     	Angle[3];
 	short		Scale;
 	short		Friction, Bounce;
 	short		Gravity, Lift;
 	short     	RespawnTimer, IFrames;
-	char      	PlayerHolding, TeamIndex;     
-	short     	Angle[3];
+	short      	PlayerHolding, TeamIndex;        //can be shrunk to char, shorts for padding	
 	uint      	F3D;
 	Bump      	BumpData;
 } ObjectiveObject;
@@ -249,6 +252,7 @@ typedef struct OKMenu{
 #define PATH_AIRCONTROL 	3
 #define PATH_JUMP		4
 #define PATH_NOSIMPLE	5 
+#define PATH_WEATHER	6
 
 typedef struct OKRAMHeader{
 
@@ -312,22 +316,23 @@ typedef struct OKEngine{
 #define StateAnimBonkStars 5
 #define StateAnimLandingDust 6
 
-#define StateMapObjectHit 7
-#define StateLightningHit 8
-#define StateBooTranslucent 9
-#define StateBecomeBombOn 10
-#define StateBecomeBombOff 11
-#define StateFlattenedOn 12
-#define StateFlattenedOff 13
-#define StateMushroomBoost 14
-#define StateSpinOutSaveable 15
-#define StateSpinOut 16
-#define StateGreenShellHit 17
-#define StateRedShellHit 18
-#define StateBonk 19
-#define StateStarOn 20
-#define StateGhostOn 21
-#define StateStarOff 22
-#define StateGhostOff 23
+
+#define StateMapObjectHit 0
+#define StateLightningHit 1
+#define StateBooTranslucent 2
+#define StateBecomeBombOn 3
+#define StateBecomeBombOff 4
+#define StateFlattenedOn 5
+#define StateFlattenedOff 6
+#define StateMushroomBoost 7
+#define StateSpinOutSaveable 8
+#define StateSpinOut 9
+#define StateGreenShellHit 10
+#define StateRedShellHit 11
+#define StateBonk 12
+#define StateStarOn 13
+#define StateGhostOn 14
+#define StateStarOff 15
+#define StateGhostOff 16
 
 #endif

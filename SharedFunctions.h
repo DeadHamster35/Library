@@ -18,20 +18,41 @@
 #define CLR_FLAG(n, f) ((n) &= ~(f)) 
 #define TGL_FLAG(n, f) ((n) ^= (f)) 
 #define CHK_FLAG(n, f) ((n) & (f))
-
+#define GetRGBA16Inline(R,G,B,A) (short)((R & 0x1F)<<11 | (G & 0x1F)<<6 | (B & 0x1F)<<1 | (A & 0x01))
 #define CHARS2SHORT(charA, charB) 				(charA & 0xFF)<<8 | (charB & 0xFF)
 #define CHARS2INT(charA, charB, charC, charD) 	(charA & 0xFF)<<24 | (charB & 0xFF)<<16 | (charC & 0xFF)<<8 | (charD & 0xFF)
 #define SHORTS2INT(shortA, shortB) 				(shortA & 0xFF)<<16 | (shortB & 0xFF)
 
+#define PythagoreanTheorem(x1, x2, z1, z2) (pow(x1-x2, 2) + pow(z1-z2, 2))
 #define  deg(n)       ((short)(65536/360*n))
 
+
+
+
+
+
+extern void gameCodeDefault();
+extern void titleMenuDefault();
+extern void DisplayObjectDefault(void *Car, Object *InputObject);
+extern void CollideObjectDefault(Player* Car, Object* Target);
+extern void DisplayCrashScreenDefault();
+extern long RAMCheckDefault, RAMCheckEndDefault;
+extern void PrintMenuFunctionDefault();
+extern void DrawPerScreenDefault(Camera* LocalCamera);
+extern void DisplayFlagGateCheck(Camera* LocalCamera);
+extern void allRunDefault();
+extern void PrintMenuFunctionDefault();
+extern void CheckHitDefault(int PlayerIndex, int HitType);
+extern void ExecuteItemHookDefault(Player* Car);
+extern void MiniMapDrawDefault();
 
 
 //NEED OVERWRITE WITH OWN FUNCTIONS
 extern void gameCode();
 extern void titleMenu();
 extern void DisplayObject(void *Car, Object *InputObject);
-extern int CollideObject(Player* Car, Object* Target);
+extern void CollideObject(Player* Car, Object* Target);
+extern void ItemboxCollideCheck(Player* Car, Object* Target);
 extern void DisplayCrashScreen();
 extern long RAMCheck, RAMCheckEnd;
 extern void PrintMenuFunction();
@@ -73,6 +94,11 @@ extern int GetRealAddress(int RSPAddress);
 
 extern void loadNiceFont();
 extern void loadBigFont();
+
+extern ushort CalcVerticalDirection(Vector origin,Vector object);
+void MakeAlignVectorX(Vector Input, short RotX);
+void MakeAlignVectorZ(Vector Input, short RotX);
+
 extern void ResetObject();
 extern void DrawBox(int X, int Y, int SizeX, int SizeY, int R, int G, int B, int A);
 extern char* printHex(char *buf, int num, int nDigits);
@@ -85,4 +111,5 @@ extern char CharacterUnconvert[];
 
 extern void RunWaveSpeed(ushort *WaveDir,short WaveSpeed);
 extern void SpriteDrawWave(int cx,int cy,ushort *addr,int sizex,int sizey,float WaveScale,short WaveAngleStep,ushort WaveDirAddr);
+extern ushort custom_check_bump_2(Bump* bump, float radius, float px, float py, float pz, float lastx, float lasty, float lastz);
 #endif

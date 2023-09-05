@@ -20,10 +20,12 @@ extern uint GlobalFrameCount;
 extern uint ClockCycle[2], OldCycle[2];
 extern uint CycleCount[2];
 
-extern bool ConsolePlatform, EmulatorPlatform, TempoBool, StopSwop;
+extern bool TempoBool, StopSwop;
+extern char ConsolePlatform, EmulatorPlatform;
+extern bool SurfaceExplorerMode;
 extern bool CustomWaterHeight[];
 extern short CloudCourseID, Snow3DCourseID; 
-extern char CloudCourseValue, Snow3DCourseValue, WeatherCourseValue, PADCourseValue;
+extern char CloudCourseValue, Snow3DCourseValue, WeatherCourseValue, Toggle3DSnow;
 
 extern short MenuPosition[2];
 extern ushort PerspectiveValue;
@@ -157,10 +159,14 @@ extern short CoinPositions[8][3]; //8 Coins XYZ
 
 extern short FireParticlePositions[8][3];
 
-extern ushort MenuButtonHeld, MenuBlink, ButtonTimer, AudioLanguage;
+extern ushort MenuBlink, AudioLanguage;
 extern short gpCourseIndex, HotSwapID, hsGP, gpTimeCheck, courseValue;
 extern short MenuAngle[4];
-extern char ButtonHolding, MenuToggle;
+
+extern char ButtonHolding[4];
+extern char ButtonTimer[4];
+extern ushort MenuButtonHeld[4];
+extern bool MenuToggle;
 extern float gpTotalTime;
 
 

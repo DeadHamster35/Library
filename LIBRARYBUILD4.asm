@@ -1,3 +1,8 @@
+/*
+These are default functions that overwrite existing game code calls.
+If the defined functions have not been made in an external codebase, it will use the default.
+*/
+
 .ifndef gameCode
 .definelabel gameCode, gameCodeDefault
 .endif
@@ -6,12 +11,20 @@
 .definelabel titleMenu, titleMenuDefault
 .endif
 
+.ifndef MapStartup
+.definelabel MapStartup, MapStartupDefault
+.endif
+
 .ifndef DisplayObject
 .definelabel DisplayObject, DisplayObjectDefault
 .endif
 
 .ifndef CollideObject
 .definelabel CollideObject, CollideObjectDefault
+.endif
+
+.ifndef ItemboxCollideCheck
+.definelabel ItemboxCollideCheck, ItemboxCollideCheckDefault
 .endif
 
 .ifndef DisplayCrashScreen
@@ -51,10 +64,6 @@
 .endif
 
 
-  
-.ifndef Crash
-Crash:
-.import "../library/data/test/Crash512.bin"
-.align 0x10
-CrashEnd:
+.ifndef MiniMapDraw
+.definelabel MiniMapDraw, MiniMapDrawDefault
 .endif

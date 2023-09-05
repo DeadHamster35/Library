@@ -16,11 +16,8 @@ short MasterCreateObject(float localPosition[], short localRotation[], float loc
 	GlobalShortA = addObjectBuffer(localPosition,localRotation,objectVelocity,localID);
 	
 	GlobalAddressA = (long)(&g_SimpleObjectArray) + (GlobalShortA * 0x70);
-
-	GlobalObjectA = (Object*)(GlobalAddressA);
-	GlobalObjectA->flag = 0xC000;
-	GlobalObjectA->radius = radius;
-	
+	g_SimpleObjectArray[GlobalShortA].flag = 0xC000;
+	g_SimpleObjectArray[GlobalShortA].radius = radius;
 	return GlobalShortA;
 }
 
@@ -184,35 +181,29 @@ void UpdateObjectFrictionScale(Object* InputObject, float FrictionScale)
 
 
 
-void CreateCustomItemBox(uint RSPAddress)
+
+
+void ItemboxCollideCheckDefault(Player* Car, Object* Target)
 {
-	GlobalAddressA = GetRealAddress(RSPAddress);
-	Marker *BoxArray = (Marker*)(GlobalAddressA);
-	
-	for (int Vector = 0; Vector < 3; Vector++)
+	int PlayerID = (*(long*)&Car - (long)&g_PlayerStructTable) / 0xDD8;
+	if (CollisionSphere(Car, Target))
 	{
-		objectVelocity[Vector] = 0;
+		Target->sparam = 3;
+		Target->flag = EXISTOBJ;
+		Target->counter = 0;
+			
+		if (Car->flag & IS_PLAYER)
+		{
+			RouletteStart(PlayerID, Target->bump.dummy);
+		}
 	}
-	for (int ThisBox = 0; ThisBox < 999; ThisBox++)
+	else
 	{
-		if (BoxArray[ThisBox].Position[0] == -32768)
+		if (Target->sparam == 0)
 		{
-			*(uint*)(0x80650004) = ThisBox;
-			return;
+			Target->sparam = 1;
+			Target->flag = EXISTOBJ;
 		}
-		*(uint*)(0x80650008 + (ThisBox * 4)) = (uint)BoxArray[ThisBox].Position;
-		for (int Vector = 0; Vector < 3; Vector++)
-		{
-			objectPosition[Vector] = (float)BoxArray[ThisBox].Position[Vector];
-			objectAngle[Vector] = MakeRandom();
-		}
-		objectPosition[0] *= g_mirrorValue;
-		
-		GlobalIntA = addObjectBuffer(objectPosition, objectAngle, objectVelocity, IBOX);
-		g_SimpleObjectArray[GlobalIntA].fparam = CheckHight(objectPosition[0],objectPosition[1] + 10,objectPosition[2]);
-		g_SimpleObjectArray[GlobalIntA].velocity[0]=objectPosition[1];
-		g_SimpleObjectArray[GlobalIntA].position[1] = g_SimpleObjectArray[GlobalIntA].fparam - 20;		
-		g_SimpleObjectArray[GlobalIntA].flag = BoxArray[ThisBox].Group;
 	}
 
 }

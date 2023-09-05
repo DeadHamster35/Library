@@ -357,6 +357,227 @@ void equalStats(int mode)
 }
 
 
+
+
+void RandomStats(int mode)
+{
+     GlobalShortA = MakeRandomLimmit(100);
+     u11_Mario = 3364 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(100);
+     u11_Luigi = 3364 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(100);
+     u11_Yoshi = 3364 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(100);
+     u11_Toad = 3364 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(100);
+     u11_DK = 3364 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(100);
+     u11_Wario = 3364 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(100);
+     u11_Peach = 3364 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(100);
+     u11_Bowser = 3364 + GlobalShortA;
+
+     GlobalShortA = MakeRandomLimmit(100);
+     u12_Mario = 3844 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(100);
+     u12_Luigi = 3844 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(100);
+     u12_Yoshi = 3844 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(100);
+     u12_Toad = 3844 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(100);
+     u12_DK = 3844 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(100);
+     u12_Wario = 3844 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(100);
+     u12_Peach = 3844 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(100);
+     u12_Bowser = 3844 + GlobalShortA;
+
+     GlobalShortA = MakeRandomLimmit(100);
+     u13_Mario = 4096 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(100);
+     u13_Luigi = 4096 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(100);
+     u13_Yoshi = 4096 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(100);
+     u13_Toad = 4096 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(100);
+     u13_DK = 4096 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(100);
+     u13_Wario = 4096 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(100);
+     u13_Peach = 4096 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(100);
+     u13_Bowser = 4096 + GlobalShortA;
+
+     GlobalShortA = MakeRandomLimmit(100);
+     u14_Mario = 3844 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(100);
+     u14_Luigi = 3844 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(100);
+     u14_Yoshi = 3844 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(100);
+     u14_Toad = 3844 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(100);
+     u14_DK = 3844 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(100);
+     u14_Wario = 3844 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(100);
+     u14_Peach = 3844 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(100);
+     u14_Bowser = 3844 + GlobalShortA;
+
+
+     GlobalShortA = MakeRandomLimmit(6);
+     cc50_Mario = 290 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(6);
+     cc50_Luigi = 290 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(6);
+     cc50_Yoshi = 290 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(6);
+     cc50_Toad = 290 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(6);
+     cc50_DK = 290 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(6);
+     cc50_Wario = 290 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(6);
+     cc50_Peach = 290 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(6);
+     cc50_Bowser = 290 + GlobalShortA;
+
+     GlobalShortA = MakeRandomLimmit(8);
+     cc100_Mario = 310 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(8);
+     cc100_Luigi = 310 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(8);
+     cc100_Yoshi = 310 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(8);
+     cc100_Toad = 310 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(8);
+     cc100_DK = 310 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(8);
+     cc100_Wario = 310 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(8);
+     cc100_Peach = 310 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(8);
+     cc100_Bowser = 310 + GlobalShortA;
+
+     GlobalShortA = MakeRandomLimmit(10);
+     cc150_Mario = 320 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(10);
+     cc150_Luigi = 320 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(10);
+     cc150_Yoshi = 320 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(10);
+     cc150_Toad = 320 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(10);
+     cc150_DK = 320 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(10);
+     cc150_Wario = 320 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(10);
+     cc150_Peach = 320 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(10);
+     cc150_Bowser = 320 + GlobalShortA;
+
+     GlobalShortA = MakeRandomLimmit(8);
+     ccextra_Mario = 310 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(8);
+     ccextra_Luigi = 310 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(8);
+     ccextra_Yoshi = 310 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(8);
+     ccextra_Toad = 310 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(8);
+     ccextra_DK = 310 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(8);
+     ccextra_Wario = 310 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(8);
+     ccextra_Peach = 310 + GlobalShortA;
+     GlobalShortA = MakeRandomLimmit(8);
+     ccextra_Bowser = 310 + GlobalShortA;
+
+
+
+     GlobalShortA = MakeRandomLimmit(8);
+     turncoA_Mario = -0.004f * ((float)GlobalShortA * 0.001f);
+     GlobalShortA = MakeRandomLimmit(8);
+     turncoA_Luigi = -0.004f * ((float)GlobalShortA * 0.001f);
+     GlobalShortA = MakeRandomLimmit(8);
+     turncoA_Yoshi = -0.004f * ((float)GlobalShortA * 0.001f);
+     GlobalShortA = MakeRandomLimmit(8);
+     turncoA_Toad = -0.004f * ((float)GlobalShortA * 0.001f);
+     GlobalShortA = MakeRandomLimmit(8);
+     turncoA_DK = -0.004f * ((float)GlobalShortA * 0.001f);
+     GlobalShortA = MakeRandomLimmit(8);
+     turncoA_Wario = -0.004f * ((float)GlobalShortA * 0.001f);
+     GlobalShortA = MakeRandomLimmit(8);
+     turncoA_Peach = -0.004f * ((float)GlobalShortA * 0.001f);
+     GlobalShortA = MakeRandomLimmit(8);
+     turncoA_Bowser = -0.004f * ((float)GlobalShortA * 0.001f);
+
+     GlobalShortA = MakeRandomLimmit(8);
+     turncoB_Mario = -0.004f * ((float)GlobalShortA * 0.001f);
+     GlobalShortA = MakeRandomLimmit(8);
+     turncoB_Luigi = -0.004f * ((float)GlobalShortA * 0.001f);
+     GlobalShortA = MakeRandomLimmit(8);
+     turncoB_Yoshi = -0.004f * ((float)GlobalShortA * 0.001f);
+     GlobalShortA = MakeRandomLimmit(8);
+     turncoB_Toad = -0.004f * ((float)GlobalShortA * 0.001f);
+     GlobalShortA = MakeRandomLimmit(8);
+     turncoB_DK = -0.004f * ((float)GlobalShortA * 0.001f);
+     GlobalShortA = MakeRandomLimmit(8);
+     turncoB_Wario = -0.004f * ((float)GlobalShortA * 0.001f);
+     GlobalShortA = MakeRandomLimmit(8);
+     turncoB_Peach = -0.004f * ((float)GlobalShortA * 0.001f);
+     GlobalShortA = MakeRandomLimmit(8);
+     turncoB_Bowser = -0.004f * ((float)GlobalShortA * 0.001f);
+
+     GlobalShortA = MakeRandomLimmit(30);
+     tripleTap_Mario = 1.0f + ((float)GlobalShortA * 0.10f);
+     GlobalShortA = MakeRandomLimmit(30);
+     tripleTap_Luigi = 1.0f + ((float)GlobalShortA * 0.10f);
+     GlobalShortA = MakeRandomLimmit(30);
+     tripleTap_Yoshi = 1.0f + ((float)GlobalShortA * 0.10f);
+     GlobalShortA = MakeRandomLimmit(30);
+     tripleTap_Toad = 1.0f + ((float)GlobalShortA * 0.10f);
+     GlobalShortA = MakeRandomLimmit(30);
+     tripleTap_DK = 1.0f + ((float)GlobalShortA * 0.10f);
+     GlobalShortA = MakeRandomLimmit(30);
+     tripleTap_Wario = 1.0f + ((float)GlobalShortA * 0.10f);
+     GlobalShortA = MakeRandomLimmit(30);
+     tripleTap_Peach = 1.0f + ((float)GlobalShortA * 0.10f);
+     GlobalShortA = MakeRandomLimmit(30);
+     tripleTap_Bowser = 1.0f + ((float)GlobalShortA * 0.10f);
+
+
+     GlobalShortA = MakeRandomLimmit(3);
+     tripleTap_Mario = 1.0f + ((float)GlobalShortA * 0.10f);
+     GlobalShortA = MakeRandomLimmit(3);
+     tripleTap_Luigi = 1.0f + ((float)GlobalShortA * 0.10f);
+     GlobalShortA = MakeRandomLimmit(3);
+     tripleTap_Yoshi = 1.0f + ((float)GlobalShortA * 0.10f);
+     GlobalShortA = MakeRandomLimmit(3);
+     tripleTap_Toad = 1.0f + ((float)GlobalShortA * 0.10f);
+     GlobalShortA = MakeRandomLimmit(3);
+     tripleTap_DK = 1.0f + ((float)GlobalShortA * 0.10f);
+     GlobalShortA = MakeRandomLimmit(3);
+     tripleTap_Wario = 1.0f + ((float)GlobalShortA * 0.10f);
+     GlobalShortA = MakeRandomLimmit(3);
+     tripleTap_Peach = 1.0f + ((float)GlobalShortA * 0.10f);
+     GlobalShortA = MakeRandomLimmit(3);
+     tripleTap_Bowser = 1.0f + ((float)GlobalShortA * 0.10f);
+
+     AccelerationFunc(1);
+     Unknown33Func(1);
+     Unknown41Func(1);
+
+
+
+}
+
+
 void checkStats(int mode)
 {
      if (mode != StatsID)

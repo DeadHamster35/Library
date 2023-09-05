@@ -2,16 +2,36 @@
 
 
 
-void gameCodeDefault();
-void titleMenuDefault();
-void DisplayObjectDefault(void *Car, Object *InputObject);
-int CollideObjectDefault(Player* Car, Object* Target)
+void gameCodeDefault()
+{	
+	
+};
+void titleMenuDefault()
 {
-	return 0;
+
+};
+void DisplayObjectDefault(void *Car, Object *InputObject)
+{
+	
+};
+void CollideObjectDefault(Player* Car, Object* Target)
+{
+	if (Target->category == IBOX)
+	{
+		ItemboxCollideCheck(Car, Target);
+	}
+
+	return;
 }
-void DisplayCrashScreenDefault();
+void DisplayCrashScreenDefault()
+{
+
+};
 long RAMCheckDefault, RAMCheckEndDefault;
-void PrintMenuFunctionDefault();
+void PrintMenuFunctionDefault()
+{
+
+};
 void DrawPerScreenDefault(Camera* LocalCamera)
 {
 	if (scrollLock)
@@ -21,32 +41,51 @@ void DrawPerScreenDefault(Camera* LocalCamera)
 			DrawOKObjects(LocalCamera);
 		}
 	}
-	if ((HotSwapID > 0) && (OverKartHeader.GoalBannerToggle != 0))
+};
+
+
+void DisplayFlagGateCheck(Camera* LocalCamera)
+{
+	if ( ((HotSwapID > 0) && (OverKartHeader.GoalBannerToggle != 0)) || (HotSwapID == 0) )
 	{	
 		DisplayFlagGate(LocalCamera);
 	}
+}
+void allRunDefault()
+{
+	gBackgroundFlag = 1;
+}
+void CheckHitDefault(int PlayerIndex, int HitType)
+{
+
 };
-void allRunDefault();
-void PrintMenuFunctionDefault();
-void CheckHitDefault(int PlayerIndex, int HitType);
 void ExecuteItemHookDefault(Player* Car)
 {
 	ExecuteItem(Car);
 }
 
+void MiniMapDrawDefault()
+{
+	KWReturnViewport();
+	KawanoDrawFinal();
+}
+
 
 //NEED OVERWRITE WITH OWN FUNCTIONS
-extern void gameCode();
-extern void titleMenu();
-extern void DisplayObject(void *Car, Object *InputObject);
-extern int CollideObject(Player* Car, Object* Target);
-extern void DisplayCrashScreen();
-extern long RAMCheck, RAMCheckEnd;
-extern void PrintMenuFunction();
-extern void DrawPerScreen(Camera* LocalCamera);
-extern void allRun();
-extern void PrintMenuFunction();
-extern void CheckHit(int PlayerIndex, int HitType);
+
+extern void gameCodeDefault();
+extern void titleMenuDefault();
+extern void DisplayObjectDefault(void *Car, Object *InputObject);
+extern void CollideObjectDefault(Player* Car, Object* Target);
+extern void DisplayCrashScreenDefault();
+extern long RAMCheckDefault, RAMCheckEndDefault;
+extern void DrawPerScreenDefault(Camera* LocalCamera);
+extern void allRunDefault();
+extern void PrintMenuFunctionDefault();
+extern void CheckHitDefault(int PlayerIndex, int HitType);
+extern void ExecuteItemHookDefault(Player* Car);
+extern void MiniMapDrawDefault();
+
 
 //END OF OVERWRITE FUNCTIONS
 
@@ -77,6 +116,8 @@ void saveEEPROM(uint Source)
 {
 	osEepromLongWrite((void*)(0x8014F0B8), 0, (uchar*)Source, 512);
 }
+
+
 
 ushort GetRGBA16(int R, int G, int B, int A)
 {
@@ -117,10 +158,10 @@ void LoadFontF3D(uint Address)
 void SetupFontF3D()
 {
 	
-	SetFontColorPalette((uint)&RedTextPalette, 24, 0, 0, 14, 0, 0);
-	SetFontColorPalette((uint)&BlueTextPalette, 0, 0, 24, 0, 0, 14);
-	SetFontColorPalette((uint)&GreenTextPalette, 0, 24, 0, 0, 14, 0);
-	SetFontColorPalette((uint)&WhiteTextPalette, 24, 24, 24, 14, 14, 14);
+	SetFontColorPalette((uint)&RedTextPalette, 31, 11, 11, 14, 5, 5);
+	SetFontColorPalette((uint)&BlueTextPalette, 11, 11, 31, 5, 5, 14);
+	SetFontColorPalette((uint)&GreenTextPalette, 11, 31, 11, 5, 14, 5);
+	SetFontColorPalette((uint)&WhiteTextPalette, 30, 30, 30, 14, 14, 14);
 
 	*sourceAddress = GetRealAddress(0x0D008080);	
 	dataLength = 0xB8;
@@ -174,12 +215,12 @@ int LoadPressDataBypass(uint RomStart, uint RomEnd)
 	*sourceAddress = RomStart;	
 	dataLength = RomEnd - RomStart;
 	LastMemoryPointer -= dataLength;
-	*targetAddress = LastMemoryPointer;
+	*targetAddress = FreeMemoryPointer;
 	runDMA();
 	
 	dataLength = *(uint*)(*targetAddress + 4);  //size of decompressed data stored in MIO0 header.
 
-	*sourceAddress = LastMemoryPointer;
+	*sourceAddress = FreeMemoryPointer;
 	LastMemoryPointer -= dataLength;
 	*targetAddress = LastMemoryPointer;
 	runMIO();
@@ -289,16 +330,6 @@ bool CheckEmulator()
 }
 
 
-void loadNiceFont()
-{
-	*sourceAddress = (int)(&NiceFontROM);
-	*targetAddress = (int)(&ok_FreeSpace);
-	dataLength = 0x5000;
-	runDMA();
-	*sourceAddress = (int)(&ok_FreeSpace);
-	*targetAddress = (int)(&nicefont);
-	runMIO();
-}
 
 void loadBigFont()
 {
@@ -397,6 +428,53 @@ void printDecimal(int X, int Y, float Value, int Length)
 }
 
 
+
+
+#define Rad2Deg(Rad) (Rad * 180 / M_PI)
+ushort CalcVerticalDirection(Vector Origin,Vector Target)
+{
+	float ux,uy,uz,dist;
+	
+
+	ux =	Target[0] - Origin[0];
+	uy = 	Target[1] - Origin[1];
+	uz =	Target[2] - Origin[2];
+
+	dist = Sqrtf((ux*ux)+(uz*uz));
+	
+	return ((Atan2t(dist,uy)));
+}
+
+
+void MakeAlignVectorX(Vector Input, short RotX)
+{
+	float sine  = sinT(RotX);
+   	float cosine = cosT(RotX);
+	float v0=Input[0];
+	float v1=Input[1];
+	float v2=Input[2];
+	
+ 	Input[0]=v0;
+	Input[1]=sine*v2+cosine*v1;
+	Input[2]=cosine*v2+sine*v1;
+}
+
+
+void MakeAlignVectorZ(Vector Input, short RotZ)
+{
+	float sine  = sinT(RotZ);
+   	float cosine = cosT(RotZ);
+	float v0=Input[0];
+	float v1=Input[1];
+	float v2=Input[2];
+	
+ 	Input[0]=cosine*v0+sine*v1;
+	Input[1]=sine*v0+cosine*v1;
+	Input[2]=v2;
+}
+
+
+
 void printFloat(int X, int Y, float Value)
 {
 	printDecimal(X,Y,Value,2);	
@@ -472,4 +550,49 @@ void SpriteDrawWave(int cx,int cy,ushort *addr,int sizex,int sizey,float WaveXSc
 		SPRDrawClip(sx,sy,sizex,1,1);
 		sy++;
 	}
+}
+
+int custom_check_triangle_zx(Bump *bump, float radius,float p1x,float p1y, float p1z, ushort pointer)
+{
+	return CheckTriangleZX(bump, radius, p1x, p1y, p1z, pointer);
+}
+
+int custom_check_triangle_xy(Bump *bump, float radius,float p1x,float p1y, float p1z, ushort pointer)
+{
+	return CheckTriangleXY(bump, radius, p1x, p1y, p1z, pointer);
+}
+
+int custom_check_triangle_yz(Bump *bump, float radius,float p1x,float p1y, float p1z, ushort pointer)
+{
+	return CheckTriangleYZ(bump, radius, p1x, p1y, p1z, pointer);
+}
+
+int custom_check_triangle_zx_v(Bump *bump,float radius,float p1x, float p1y, float p1z ,ushort pointer ,float lastx,float lasty,float lastz)
+{
+	return CheckTriangleZX_V(bump, radius, p1x, p1y, p1z, pointer, lastx, lasty, lastz);
+}
+
+int custom_check_triangle_xy_v(Bump *bump,float radius,float p1x, float p1y, float p1z ,ushort pointer ,float lastx,float lasty,float lastz)
+{
+	return CheckTriangleXY_V(bump, radius, p1x, p1y, p1z, pointer, lastx, lasty, lastz);
+}
+
+int custom_check_triangle_yz_v(Bump *bump,float radius,float p1x ,float p1y, float p1z, ushort pointer ,float lastx,float lasty,float lastz)
+{
+	return CheckTriangleYZ_V(bump, radius, p1x, p1y, p1z, pointer, lastx, lasty, lastz);
+}
+
+ushort custom_check_bump(Bump *bump,float radius,float px,float py,float pz)
+{
+    return CheckBump(bump, radius, px, py, pz);
+}
+
+ushort custom_check_bump_2(Bump* bump, float radius, float px, float py, float pz, float lastx, float lasty, float lastz)
+{
+	ushort tmp = CheckBump2(bump, radius, px, py, pz, lastx, lasty, lastz);
+	if (tmp != 0)
+	{
+		InteractLavaFloor(bump, bump->last_zx);
+	}
+	return tmp;
 }

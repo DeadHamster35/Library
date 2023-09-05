@@ -135,16 +135,18 @@ void SetStarMan(char playerID, bool active)
 
 }
 
-void SetGhostEffect(char playerID, bool active)
+void SetGhostEffect(char playerID, bool active, int UseCount)
 {
 
 	if (active)
 	{
+		
+		g_GhostUseCounter[(int)playerID]  = UseCount;
+		g_GhostUseTimer[(int)playerID] = 30;
 		if ((GlobalPlayer[(int)playerID].slip_flag & IS_BOO) == 0)
 		{
 			SetVSGhost((void*)&GlobalPlayer[(int)playerID], playerID);
 		}
-		g_GhostUseCounter[(int)playerID]  = 0xFFFF;
 	}
 	if ((!active))
 	{
@@ -282,7 +284,6 @@ void playrandmCharacterSFX(char playerID)
 }
 
 
-
 void ProStickAngleHook(Player *car, Controller *cont, char number)
 {
     if(car->talk&0x2 && (!(car->slip_flag&IS_DRIFTING) || ((car->slip_flag&IS_JUMPING) && (car->slip_flag&IS_DRIFTING))))
@@ -380,7 +381,8 @@ void MasterStatus(int PlayerID, short StatusID)
 		}
 		case StateFlattenedOn:
 		{
-			SetFlattened(PlayerID, true);			
+			//SetFlattened(PlayerID, true);	
+			SetBroken((Player*)&GlobalPlayer[PlayerID], PlayerID);
 			break;
 		}
 		case StateFlattenedOff:
@@ -421,18 +423,23 @@ void MasterStatus(int PlayerID, short StatusID)
 		case StateStarOn:
 		{
 			SetStarMan(PlayerID,true);
+			break;
 		}
 		case StateStarOff:
 		{
 			SetStarMan(PlayerID,false);
+			break;
 		}
 		case StateGhostOn:
 		{
-			SetGhostEffect(PlayerID,true);
+			//SetGhostEffect(PlayerID,true, 1);			
+			SetVSGhost((Player*)&GlobalPlayer[(int)PlayerID], (char)PlayerID);
+			break;
 		}
 		case StateGhostOff:
 		{
-			SetGhostEffect(PlayerID,false);
+			SetGhostEffect(PlayerID,false, 0);
+			break;
 		}
 		
 	}

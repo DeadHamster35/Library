@@ -15,8 +15,9 @@ extern short spriteKillD;
 
 
 
-extern int decodeMIO0(long input, long output);
+extern uint decodeMIO0(long input, long output);
 extern void DMA(int output, int input, long Length);
+extern void DMAROMGhost();
 extern void decodeTKMK(int input, int *temp, int output, int transparent);
 
 extern void GetFramebuffer(int PixelX,int PixelY,int Width,int Height,unsigned short *Source,unsigned short *Destination);
@@ -140,6 +141,9 @@ extern int CheckCone(ushort left,ushort right,ushort direction);
 extern float CheckDisplayRange(Vector basepos, Vector markpos, ushort camera_direction, float radius, float angle2, float limmit_distance);
 extern void RotateLightMatrix(uint lpointer,AffineMtx m,short yaw,short pitch,int count);
 extern void SetUpVector(void *Car);
+extern float SinTable[1024];
+extern float CosTable[4096];
+extern short AtnTable[1024];	
 extern double Ipower(double x,int n);
 extern double Power(double x,double y);
 extern double Llog(double x);
@@ -164,6 +168,11 @@ extern void SetWord4(int x,int y,char *printText,int interval,float mulx,float m
 extern void SetWord4A(int x,int y,char *printText,int interval,float mulx,float muly);
 extern void SetWord4AP(int x,int y,char *printText,int interval,float mulx,float muly);
 
+extern void KawanoDrawFinal();
+
+extern void KWSetViewportFull(); //0x80057C60
+extern void KWReturnViewport(); //0x80057CE4
+
 extern void printNumber(int *xPosition, int *yPosition, int num, int base);
 extern void printString(int xPosition, int yPosition, char *printText);
 extern void printStringBinary(int xPosition, int yPosition, char *printText, int printValue);
@@ -182,6 +191,9 @@ extern void DoObjBlock(int pri_flag);
 extern void DispObjBlock(void* Target);
 
 extern void MSelController(OSContPad *pad,u16 i, u16 newbutton);
+extern void PSelController(OSContPad *pad,u16 i, u16 newbutton);
+extern void GSelController(OSContPad *pad,u16 i, u16 newbutton);
+extern void TitleController(OSContPad *pad,u16 i, u16 newbutton);
 extern unsigned long long  SaveFunc800B45E0; //0x800B45E0
 extern unsigned long long  SaveFunc800B4670; //0x800B4670
 extern unsigned long long  SaveFunc800B4CB4; //0x800B4CB4
@@ -223,6 +235,8 @@ extern void SetBombThrowRollover(Player *Kart,char Place); //0x8008EAE0
 extern void SetBombRollover(Player *Kart,char Place); //0x8008E6C0
 extern void SetProWheelSpin(Player *Kart,char Place); //0x8008D0FC
 
+extern void F_80090178(Player *Kart, char PlayerID, float *SpawnVector, float *FacingVector);
+extern void GetLakituSpawnPoint(Player *Kart, char PlayerID, float *SpawnVector, float *FacingVector);
 extern void SetFastOoB(void *Car,char PlayerID);
 extern void CallLakitu(void *Car);
 extern void SetLakitu(void *Car);
@@ -285,6 +299,7 @@ extern long Snow3DAllocMapCheck1;
 extern long Snow3DAllocMapCheck2;
 extern long Snow3DDisplayAfterMapCheck1;
 extern long Snow3DDisplayAfterMapCheck2;
+extern void KWDisplayJugemu(int Player);
 
 extern void TexBuffLoadP(void *texlist_ptr,int nocheck_flg);
 extern void GrayScaleTexBuf3(uint num, uint step);
@@ -324,6 +339,7 @@ extern void KWSprite(int cx,int cy,uint sizex,uint sizey,ushort *addr);
 extern void KWSpriteScale(int cx,int cy,float scale, ushort *addr, uint sizex,uint sizey);
 extern void KWSpriteDiv(int cx,int cy,ushort *addr,uint sizex,uint sizey,uint cuty);
 extern void KWSpriteTile32B(short cx,short cy,uchar *addr,uint sizex,uint sizey);
+extern void KWSprite8x8	(uint ulx,uint uly,ushort *addr);
 extern void DrawLineHorizontal(short tx,short ty,short length,ushort r,ushort g,ushort b,ushort a);
 extern void DrawLineVertical(short tx,short ty,short length,ushort r,ushort g,ushort b,ushort a);
 extern void KWLoadTextureBlockI4b(uchar *texaddr,int cutx,int cuty);
@@ -414,20 +430,24 @@ extern short g_courseID;
 extern short g_loadedcourseFlag;
 extern long g_gameMode; //0 = gp 1 = time trials 2 = vs 3 =battle
 extern unsigned short g_DispFrame;
-extern long g_mirrorMode;
+extern long g_ScreenFlip;
+extern float g_ScreenStretch;
 extern short g_DebugBars;
 extern short g_ItemSetFlag;
 
-extern uint PathTable[20][4];
+extern uint PathTable[21][4];
+extern uint PathTableB[21][4];
 
-extern long g_courseFaceStructPtr;
+extern ushort PathLengthTable[21][8];
+
+extern uint gFaceBuffer;
 extern ushort g_courseFaceMaxIndex;
 
 extern long antialiasToggle;
 extern long antialiasToggleB;
 
 
-extern long g_CupArray;
+extern short g_CupArray[];
 extern short g_cup0Array0;
 extern short g_cup0Array1;
 extern short g_cup0Array2;
@@ -625,12 +645,14 @@ extern short g_player4View; //0x8015F434
 extern short g_player4Section; //0x8015F438
 
 extern uint LastMemoryPointer;
+extern uint StaticMemoryPointer;
 extern uint FreeMemoryPointer;
 
 extern float g_TrialTime;
 extern float g_lap2Time;
 extern float g_lap3Time;
 
+extern short g_StaticObjectCount;
 extern struct Object g_SimpleObjectArray[100]; //0x8015F9B8
 
 extern short g_progressValue;
@@ -658,7 +680,7 @@ extern float gravity_8;
 
 extern short surface_p0;
 
-extern long g_GameLapTable[8];    // 0x8  0164390
+extern int g_GameLapTable[8];    // 0x8  0164390
 extern long g_gameLapPlayer1;    // 0x8  0164390
 extern long g_gameLapPlayer2;    // 0x8  0164394
 extern long g_gameLapPlayer3;    // 0x8  0164398
@@ -755,11 +777,14 @@ extern char g_courseSelect; //8018EE0B
 extern char g_InGameTT; //0x8018EDFB
 extern char g_InGame; //0x8018EDFC
 
+extern void InitializeEndingSequence();
+extern void EndingSequence();
 extern short asm_CupCount;
 extern short songID; //
 extern long asm_SongA;// 0x8028EC9C
 extern long asm_SongB;// 0x8028F9C4
 
+extern uint CullDL_Parameters;
 extern long g_courseTable;
 extern uint KeystockBuffer;
 extern uint KeystockCounter;
@@ -811,6 +836,7 @@ extern char player4OK; //
 extern void textDrawPtr(int *x, int *y, const char *str, int spacing, float xScale, float yScale);
 extern void textDraw(int x, int y, const char *str, int spacing, float xScale, float yScale);
 extern void DrawText(int x, int y, const char *str, int spacing, float xScale, float yScale);
+extern void SetFadeOutTaData();
 
 extern int GetWordLength(const char *str);
 
@@ -820,6 +846,8 @@ extern char g_player2Character;
 extern char g_player3Character;
 extern char g_player4Character;
 
+extern int g_GFXCounter;
+extern int g_PKCounter;
 extern unsigned short g_RNG;
 extern void ExecuteItem(Player* PlayerID);
 
@@ -859,10 +887,15 @@ extern float g_screenViewAngle[4];
 
 extern char g_sfxPause;
 
-
-extern long g_SequenceTable; //0x803B8FB0
-extern long g_InstrumentTable; //0x803B90B0
 extern long g_RawAudio; //0x803B9260
+
+extern AudioTablePointers g_MUSTablePointer;
+
+extern SequenceTable g_MUSSequenceTable;
+extern InstrumentTable g_MUSInstrumentTable;
+extern RawAudioTable g_MUSRawAudioTable;
+extern BankMapTable g_MUSBankMapTable;
+extern SFXTempPointerStruct g_sfxPointer;
 
 extern short g_surfaceCheckP1;
 extern uint g_PlayerSurfaceSoundID[4];
@@ -887,7 +920,6 @@ extern char g_playerEcho; // 0x800E9F90
 extern long g_StarUseCounter[8]; // 8018D930
 extern long g_GhostUseCounter[8]; // 8018D950
 extern long g_GhostUseTimer[8]; // 8018D970
-extern long g_sfxPointer; //  803B7080
 extern int ActionData_Pointer[20];
 extern uint MaxPathPoints[4];
 extern short g_noSimpleKartFlag[8]; // 801633F8
@@ -927,7 +959,7 @@ extern int titlePushBlink; // long/int?
 //sky & clouds
 extern char g_cloudsToggle; // 0x801657C8 //00 on 01 off
 extern short g_skyToggle; // 0x800DC5BC 
-extern char g_skyboxToggle; // 0x800DC5B4 
+extern short gBackgroundFlag; // 0x800DC5B4 
 extern short g_daytimeToggle; // 0x800DC518 
 
 extern int g_BombTable;
@@ -974,6 +1006,7 @@ extern short g_PathPointPlayer8;
 extern long g_playerPathPointTotalTable[8]; // 80164450
 extern short g_playerPathPointCopy[8]; // 80165320
 extern short g_rivalOvertakeAllowFlag[10];
+extern short g_EnemyTargetPlayer;
 extern short g_rankUpdateFinishFlag;
 
 //fog
@@ -1020,7 +1053,7 @@ extern char g_ShadowflagPlayer3;
 //GP points
 extern uchar g_playerGPpoints[8]; //name to num: Mario, Luigi, Yoshi, Toad, D.K., Wario, Peach, Bowser
 
-
+extern void InitCenterLine();
 extern uint OSMemSize;
 
 
@@ -1125,10 +1158,15 @@ extern void KWDisplayStar(int player);
 
 extern ushort RGBAFallingLeaf[];
 extern ushort RGBAQuestionMark[];
+extern void GoToGameSelect();
 extern void SearchListFile(int addr);
 extern void MakeCollision();
 extern ushort RGBALeaf[];
 extern void InitialMap();
+extern void InitialMapObject();
+extern void SetTreeObject(uint TargetAddress);  // 0x8029D584
+extern void SetPakkunObject(uint TargetAddress);  // 0x8029CC14
+extern void SetItemBoxObject(uint TargetAddress);  // 0x8029D830
 extern void LoadMapData();
 extern int FallingRockGFX_U; //default 0x3C0F0600
 extern int FallingRockGFX_L; //default 0x25EF6FE0
@@ -1139,3 +1177,28 @@ extern int ShadowModel;
 extern int HoleModel;
 extern int ItemBoxModel;
 extern void MoveFallingRock(Object *obj);
+
+extern int CheckTriangleZX(Bump *bump, float radius,float p1x,float p1y, float p1z, ushort pointer);
+extern int CheckTriangleXY(Bump *bump, float radius,float p1x,float p1y, float p1z, ushort pointer);
+extern int CheckTriangleYZ(Bump *bump, float radius,float p1x,float p1y, float p1z, ushort pointer);
+extern int CheckTriangleZX_V(Bump *bump,float radius,float p1x,float p1y, float p1z, ushort pointer ,float lastx,float lasty,float lastz);
+extern int CheckTriangleXY_V(Bump *bump,float radius,float p1x, float p1y, float p1z ,ushort pointer ,float lastx,float lasty,float lastz);
+extern int CheckTriangleYZ_V(Bump *bump,float radius,float p1x ,float p1y, float p1z, ushort pointer ,float lastx,float lasty,float lastz);
+
+extern void SpinKart(Player* Car, Camera* camera, char place, char kno);
+extern void WeaponStatus(Player* Car, char kno, char place);
+extern void SetStrategy(Player* Car, char kno, char place);
+extern void CheckKartHit(Player* Car, char kno, char place);
+extern float PowerCheck(Player* Car, char kno);
+extern void DriftJump(Player* Car);
+extern void CheckWall(Player* Car, char kno, Vector velocity);
+extern void AccelOn(Player* Car);
+extern void AccelOff(Player* Car, float accelOff);
+extern short CheckSlope(ushort pointer);
+extern void SetRolloverFall(Player* Car, char kno);
+extern void ResetRolloverFall(Player* Car, char kno);
+extern float CalcHeight(float px, float py, float pz, ushort pointer);
+extern void TirePosition(Player* Car, float new_x, float new_y, float new_z);
+extern void EnemyTirePosition(Player* Car, float new_x, float new_y, float new_z);
+extern void SetSlipAngle(Player* Car, char kno, float old_x, float old_z, float new_x, float new_z);
+extern void NaPlyLandStart(char kno, float jumpCount);

@@ -20,10 +20,13 @@ uint GlobalFrameCount;
 uint ClockCycle[2], OldCycle[2];
 uint CycleCount[2];
 
-bool ConsolePlatform, EmulatorPlatform, TempoBool, StopSwop;
+bool TempoBool, StopSwop;
+char ConsolePlatform, EmulatorPlatform;
+
+bool SurfaceExplorerMode = false;
 bool CustomWaterHeight[8];
 short CloudCourseID, Snow3DCourseID;
-char CloudCourseValue, Snow3DCourseValue, WeatherCourseValue, PADCourseValue;;
+char CloudCourseValue, Snow3DCourseValue, WeatherCourseValue, Toggle3DSnow;
 
 short MenuPosition [2];
 ushort PerspectiveValue;
@@ -230,11 +233,14 @@ int currentHeaderAddress = 0;
 
 short FireParticlePositions[8][3];
 
-ushort MenuButtonHeld, MenuBlink, ButtonTimer, AudioLanguage;
+ushort MenuBlink, AudioLanguage;
 short gpCourseIndex, HotSwapID, hsGP, gpTimeCheck, courseValue = -1;
 short MenuAngle[4];
 
-char ButtonHolding, MenuToggle;
+char ButtonHolding[4];
+char ButtonTimer[4];
+ushort MenuButtonHeld[4];
+bool MenuToggle;
 float gpTotalTime = 0;
 
 
@@ -250,7 +256,7 @@ int ParameterIndex, MenuIndex, MenuCup, MenuOverflow;
 
 //CustomLevels
 int ScrollValues[32][2];
-FaceStruct *CourseFaceStruct = (FaceStruct*)(&g_courseFaceStructPtr);
+//FaceStruct *CourseFaceStruct = (FaceStruct*)(&gFaceBuffer);
 //
 //
 
@@ -269,7 +275,7 @@ Marker* PlayerSpawnPoints;
 CTFSpawn* ObjectivePoints;
 BattleObjectivePoint* CustomObjectivePoints;
 
-float SpawnPoint[4][3];
+float     SpawnPoint[4][3];
 char      FlagCount, TeamMode;
 char      ScoreToWin, ObjectiveCount;
 short     SpawnTime, HitstunTime;

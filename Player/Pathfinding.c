@@ -25,12 +25,11 @@ void GetItemBoxIndexes()
 }
 
 
-
 //Before running the function below, ensure that you've set the `Target` value 
 //of the BKPathfinder to the float-position of the position you wish to drive towards. 
 
 
-//Square of the distance between two points (in x and z positions)
+
 
 
 bool PathfinderComplete(BKPathfinder *Pathfinder, short *PathLengths, short *RampLengths, short *DropLengths)

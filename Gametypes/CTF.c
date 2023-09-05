@@ -21,9 +21,9 @@ const CTFSpawn SkyscraperSpawns =
      {
                //EASY
           {
-               { {0,480,-480}, {0,480,480}, {-480,480,0}, {480,480,0} }, 
-               { {0,480,-435}, {0,480,435}, {-435,480,0}, {435,480,0} },
-               { {0,480,-350}, {0,480,350}, {-350,480,0}, {350,480,0} }
+               { {0,480,-480}, {0,480,480}, {-480,480,0}, {480,480,0} },   //BASE
+               { {0,480,-435}, {0,480,435}, {-435,480,0}, {435,480,0} },   //FLAG
+               { {0,480,-350}, {0,480,350}, {-350,480,0}, {350,480,0} }    //PLAYER
           },
           //HARD
           {
@@ -112,7 +112,7 @@ void PlaceFlags(uint BattleFlagF3D, uint PlayerFlagF3D[], uint BattleBaseF3D, ui
                }
                else
                {    
-                    if (CustomObjectivePoints[ThisObj].Flag == CTF_GAMETYPE)
+                    if (CustomObjectivePoints[ThisObj].GameMode == CTF_GAMETYPE)
                     {
                          switch (CustomObjectivePoints[ThisObj].Type)
                          {
