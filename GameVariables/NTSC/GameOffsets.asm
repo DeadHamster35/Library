@@ -211,7 +211,7 @@
 .definelabel ScreenViewAngle, 0x80150130
 .definelabel SegmentTable, 0x80150258
 .definelabel g_CfbPtrs, 0x801502A8
-
+.definelabel gAffine, 0x801502C0
 .definelabel GraphPtr, 0x80150298
 .definelabel GraphPtrOffset, 0x80150298
 .definelabel KWLookCamera, 0x800418AC
