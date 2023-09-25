@@ -298,6 +298,7 @@ typedef struct OKEngine{
 #define BEHAVIOR_BOUNCE 	5
 #define BEHAVIOR_FLEE	6
 #define BEHAVIOR_STRAFE	7
+#define BEHAVIOR_WATERBOB 8
 
 #define SUBBEHAVIOR_DEAD			-1
 #define SUBBEHAVIOR_DOCILE 		0

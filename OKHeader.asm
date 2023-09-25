@@ -73,7 +73,7 @@
 
 
 
-.definelabel ok_TKMSpace,  nicefont + 0x14000 
+.definelabel ok_TKMSpace,  nicefont + 0x22000 
 .definelabel ok_FreeSpace, ok_TKMSpace + 0x2010
 
 .definelabel ok_Storage, ok_FreeSpace + 0x20000

@@ -8,7 +8,7 @@ void gameCodeDefault()
 };
 void titleMenuDefault()
 {
-
+	
 };
 void DisplayObjectDefault(void *Car, Object *InputObject)
 {
@@ -18,7 +18,7 @@ void CollideObjectDefault(Player* Car, Object* Target)
 {
 	if (Target->category == IBOX)
 	{
-		ItemboxCollideCheck(Car, Target);
+		ItemboxCollideCheck(Car, Target);		
 	}
 
 	return;
@@ -121,7 +121,6 @@ void saveEEPROM(uint Source)
 
 ushort GetRGBA16(int R, int G, int B, int A)
 {
-
 	return (R & 0x1F)<<11 | (G & 0x1F)<<6 | (B & 0x1F)<<1 | (A & 0x01);
 }
 
@@ -333,9 +332,10 @@ bool CheckEmulator()
 
 void loadBigFont()
 {
+	
 	*sourceAddress = (int)(&BigFontROM);
 	*targetAddress = (int)(&ok_FreeSpace);
-	dataLength = 0x5000;
+	dataLength = 0x6000;
 	runDMA();
 	*sourceAddress = (int)(&ok_FreeSpace);
 	*targetAddress = (int)(&nicefont);

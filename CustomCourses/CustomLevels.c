@@ -940,7 +940,6 @@ void SetWeather3D(bool Weather3DEnable) // Enables 3D weather effects (snow/rain
 	else
 	{
 		Snow3DCourseID = g_courseID;
-		*(uint *)(0x80650040) = 0x08675309;
 	}
 }
 
@@ -1781,7 +1780,6 @@ void InitialMapObjectCode()
 }
 void InitialMapCode()
 {
-
 	// static_object_count=(ushort)object_count;
 
 	InitialMap();
@@ -1794,6 +1792,7 @@ void InitialMapCode()
 		SearchListFile(0x06000000 | OverKartHeader.SurfaceMapPosition);
 		MakeCollision();
 	}
+
 }
 
 void loadOKObjects()

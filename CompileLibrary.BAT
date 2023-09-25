@@ -98,7 +98,7 @@ cd ..
 
 ::  Generic Code
 
-set ListGeneric= "LibraryVariables.c" "MarioKart3D.c" "MarioKartMenu.c" "MarioKartObjects.c" "Precode.c" "PreSwitch.c" "SharedFunctions.c" "Rumble.c"
+set ListGeneric= "LibraryVariables.c" "MarioKart3D.c" "MarioKartMenu.c" "MarioKartObjects.c" "Precode.c" "PreSwitch.c" "SharedFunctions.c" 
 
 (for %%a in (%ListGeneric%) do (
    echo Working on %%a 

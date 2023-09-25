@@ -36,14 +36,17 @@ previewU:
 .ifndef OverwriteFonts
     .notice "Using Default Fonts"
     
+    .align 0x10
     NiceFontROMDefault:
     .definelabel NiceFontROM, NiceFontROMDefault
     .import "../library/data/nice_font.mio0.bin"
 
+    .align 0x10
     HudButtonsROMDefault:
     .definelabel HudButtonsROM, HudButtonsROMDefault
     .import "../library/data/hud_buttons.mio0.bin"
 
+    .align 0x10
     BigFontROMDefault:
     .definelabel BigFontROM, BigFontROMDefault
     .import "../library/data/big_font.mio0.bin"
