@@ -550,9 +550,9 @@ bool SkeletalMatrix(OKSkeleton* Skeleton, Object ObjectData, int FrameCount, int
 	SVector* ScalingData = (SVector*)((GetRealAddress(ObjectSegment | GlobalUIntA))); 
 
 	
-	objectPosition[0] = ( (float)(Skeleton->MeshScale) * ((float)(TranslationData[Frame][0]) / 100) );
-	objectPosition[1] = ( (float)(Skeleton->MeshScale) * ((float)(TranslationData[Frame][1]) / 100) );
-	objectPosition[2] = ( (float)(Skeleton->MeshScale) * ((float)(TranslationData[Frame][2]) / 100) );
+	objectPosition[0] = ( (float)(Skeleton->MeshScale) * ((float)(TranslationData[Frame][0]) * 0.01) );
+	objectPosition[1] = ( (float)(Skeleton->MeshScale) * ((float)(TranslationData[Frame][1]) * 0.01) );
+	objectPosition[2] = ( (float)(Skeleton->MeshScale) * ((float)(TranslationData[Frame][2]) * 0.01) );
 	
 	if (ObjectData.angle[0] != 0)
 	{
@@ -573,7 +573,7 @@ bool SkeletalMatrix(OKSkeleton* Skeleton, Object ObjectData, int FrameCount, int
 	objectPosition[2]+= ObjectData.position[2];
 
 	objectAngle[0] = (short)ObjectData.angle[0] + (AngleData[Frame][0]);
-	objectAngle[1] = (short)(ObjectData.angle[1] * -1) + (AngleData[Frame][1]);
+	objectAngle[1] = (short)(ObjectData.angle[1] * -1) + (AngleData[Frame][1] * -1);
 	objectAngle[2] = (short)ObjectData.angle[2] + (AngleData[Frame][2]);	
 
 	CreateModelingMatrix(AffineMatrix,objectPosition,objectAngle);

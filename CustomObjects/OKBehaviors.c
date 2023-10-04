@@ -103,16 +103,22 @@ void ObjectBehaviorWalk(OKObject* InputObject, float Speed)
 void ObjectBehaviorStrafe(OKObject* InputObject)
 {
 	OKObjectType *ThisType = (OKObjectType*)&(OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex]);
+	OKObjectList *ThisList = (OKObjectList*)&(OverKartRAMHeader.ObjectList[InputObject->ListIndex]);
+	GlobalShortA = 1;
+	if (ThisList->Flag != 0)
+	{
+		GlobalShortA = -1;
+	}
 	
 	switch (InputObject->WanderStatus)
 	{
 		case 0:
 		{
-			InputObject->ObjectData.velocity[0] = (float)(ThisType->MaxSpeed / 100);
+			InputObject->ObjectData.velocity[0] = (float)(ThisType->MaxSpeed / 100) * GlobalShortA;
 			InputObject->ObjectData.velocity[1] = 0;
 			InputObject->ObjectData.velocity[2] = 0;
 
-			InputObject->Counter[0] += InputObject->ObjectData.velocity[0];
+			InputObject->Counter[0] += InputObject->ObjectData.velocity[0] * GlobalShortA;
 			if (InputObject->Counter[0] > ThisType->Range)
 			{
 				InputObject->WanderStatus = 1;
@@ -121,11 +127,11 @@ void ObjectBehaviorStrafe(OKObject* InputObject)
 		}
 		case 1:
 		{
-			InputObject->ObjectData.velocity[0] -= (float)(ThisType->MaxSpeed / 3000);
+			InputObject->ObjectData.velocity[0] -= (float)(ThisType->MaxSpeed / 3000) * GlobalShortA;
 			InputObject->ObjectData.velocity[1] = 0;
 			InputObject->ObjectData.velocity[2] = 0;
 
-			InputObject->Counter[0] += InputObject->ObjectData.velocity[0];
+			InputObject->Counter[0] += InputObject->ObjectData.velocity[0] * GlobalShortA;
 			if (InputObject->ObjectData.velocity[0] <= (float)(ThisType->MaxSpeed / -100))
 			{
 				InputObject->WanderStatus = 2;
@@ -133,12 +139,12 @@ void ObjectBehaviorStrafe(OKObject* InputObject)
 		}
 		case 2:
 		{
-			InputObject->ObjectData.velocity[0] = (float)(ThisType->MaxSpeed / -100);
+			InputObject->ObjectData.velocity[0] = (float)(ThisType->MaxSpeed / -100) * GlobalShortA;
 			InputObject->ObjectData.velocity[1] = 0;
 			InputObject->ObjectData.velocity[2] = 0;
 
-			InputObject->Counter[0] += InputObject->ObjectData.velocity[0];
-			if (InputObject->Counter[0] <= 0)
+			InputObject->Counter[0] += InputObject->ObjectData.velocity[0] * GlobalShortA;
+			if (InputObject->Counter[0]<= 0)
 			{
 				InputObject->WanderStatus = 3;
 			}
@@ -146,11 +152,11 @@ void ObjectBehaviorStrafe(OKObject* InputObject)
 		}
 		case 3:
 		{
-			InputObject->ObjectData.velocity[0] = (float)(ThisType->MaxSpeed / -100);
+			InputObject->ObjectData.velocity[0] = (float)(ThisType->MaxSpeed / -100) * GlobalShortA;
 			InputObject->ObjectData.velocity[1] = 0;
 			InputObject->ObjectData.velocity[2] = 0;
 
-			InputObject->Counter[0] += InputObject->ObjectData.velocity[0];
+			InputObject->Counter[0] += InputObject->ObjectData.velocity[0] * GlobalShortA;
 			if (InputObject->Counter[0] < (ThisType->Range * -1))
 			{
 				InputObject->WanderStatus = 4;
@@ -159,11 +165,11 @@ void ObjectBehaviorStrafe(OKObject* InputObject)
 		}
 		case 4:
 		{
-			InputObject->ObjectData.velocity[0] += (float)(ThisType->MaxSpeed / 3000);
+			InputObject->ObjectData.velocity[0] += (float)(ThisType->MaxSpeed / 3000) * GlobalShortA;
 			InputObject->ObjectData.velocity[1] = 0;
 			InputObject->ObjectData.velocity[2] = 0;
 
-			InputObject->Counter[0] += InputObject->ObjectData.velocity[0];
+			InputObject->Counter[0] += InputObject->ObjectData.velocity[0] * GlobalShortA;
 			if (InputObject->ObjectData.velocity[0] >= (float)(ThisType->MaxSpeed / 100))
 			{
 				InputObject->WanderStatus = 5;
@@ -171,12 +177,12 @@ void ObjectBehaviorStrafe(OKObject* InputObject)
 		}
 		case 5:
 		{	
-			InputObject->ObjectData.velocity[0] = (float)(ThisType->MaxSpeed / 100);
+			InputObject->ObjectData.velocity[0] = (float)(ThisType->MaxSpeed / 100) * GlobalShortA;
 			InputObject->ObjectData.velocity[1] = 0;
 			InputObject->ObjectData.velocity[2] = 0;
 
-			InputObject->Counter[0] += InputObject->ObjectData.velocity[0];
-			if (InputObject->Counter[0] >= 0)
+			InputObject->Counter[0] += InputObject->ObjectData.velocity[0] * GlobalShortA;
+			if (InputObject->Counter[0]>= 0)
 			{
 				InputObject->WanderStatus = 0;
 			}
@@ -213,8 +219,6 @@ void ObjectBehaviorWander(OKObject* InputObject)
 		objectPosition[2] = (float)ThisList->OriginPosition[2];
 
 		InputObject->ObjectData.angle[1] += (DEG1 * 2 * ObjectSubBehaviorTurnTarget(InputObject->ObjectData.position, InputObject->ObjectData.angle[1], objectPosition, 3));
-
-
 	}
 	else
 	{
@@ -632,25 +636,25 @@ void ObjectBehaviorFollowPath(OKObject* InputObject)
 	
 }
 
-void ObjectBehaviorWaterBob(OKObject InputObject)
+void ObjectBehaviorWaterBob(OKObject* InputObject)
 {
 	OKObjectType *ThisType = (OKObjectType*)&(OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex]);
 	OKObjectList *ThisList = (OKObjectList*)&(OverKartRAMHeader.ObjectList[InputObject->ListIndex]);
 
-	InputObject.ObjectData.velocity[0] = 0;
-	InputObject.ObjectData.velocity[2] = 0;
+	InputObject->ObjectData.velocity[0] = 0;
+	InputObject->ObjectData.velocity[2] = 0;
 
-	switch (InputObject.WanderStatus)
+	switch (InputObject->WanderStatus)
 	{
 		case 0:
 		{
-			if (InputObject.ObjectData.position > ThisList->OriginPosition[1] + ThisType->Range)
+			if (InputObject->ObjectData.position[1] > ThisList->OriginPosition[1] + ThisType->Range)
 			{
-				InputObject.WanderStatus = 1;
+				InputObject->WanderStatus = 1;
 			}
 			else
 			{
-				InputObject.ObjectData.velocity[1] = (float)(ThisType->MaxSpeed / 100);
+				InputObject->ObjectData.velocity[1] = (float)(ThisType->MaxSpeed / 100);
 			}
 	
 
@@ -658,36 +662,36 @@ void ObjectBehaviorWaterBob(OKObject InputObject)
 		}
 		case 1:
 		{
-			if (InputObject.ObjectData.velocity[1] <= (float)(ThisType->MaxSpeed / -100))
+			if (InputObject->ObjectData.velocity[1] <= (float)(ThisType->MaxSpeed / -100))
 			{
-				InputObject.WanderStatus = 2;
+				InputObject->WanderStatus = 2;
 			}
 			else
 			{
-				InputObject.ObjectData.velocity[1] -= (float)(ThisType->MaxSpeed / 3000)
+				InputObject->ObjectData.velocity[1] -= (float)(ThisType->MaxSpeed / 3000);
 			}
 		}
 		case 2:
 		{
-			if (InputObject.ObjectData.position < ThisList->OriginPosition[1] - ThisType->Range)
+			if (InputObject->ObjectData.position[1] < ThisList->OriginPosition[1] - ThisType->Range)
 			{
-				InputObject.WanderStatus = 3;
+				InputObject->WanderStatus = 3;
 			}
 			else
 			{
-				InputObject.ObjectData.velocity[1] = (float)(ThisType->MaxSpeed / 100);
+				InputObject->ObjectData.velocity[1] = (float)(ThisType->MaxSpeed / 100);
 			}
 			break;
 		}
 		case 3:
 		{
-			if (InputObject.ObjectData.velocity[1] >= (float)(ThisType->MaxSpeed / 100))
+			if (InputObject->ObjectData.velocity[1] >= (float)(ThisType->MaxSpeed / 100))
 			{
-				InputObject.WanderStatus = 0;
+				InputObject->WanderStatus = 0;
 			}
 			else
 			{
-				InputObject.ObjectData.velocity[1] += (float)(ThisType->MaxSpeed / 3000)
+				InputObject->ObjectData.velocity[1] += (float)(ThisType->MaxSpeed / 3000);
 			}
 		}
 	}

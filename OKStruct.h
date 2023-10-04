@@ -163,7 +163,7 @@ typedef struct OKObjectList{
 	short	OriginPosition[3];
 	short 	OriginAngle[3];
 	short 	OriginVelocity[3];
-	short	OriginAngularVelocity[3];
+	short	OriginAngularVelocity[3];	
 } OKObjectList;
 
 typedef struct OKObject{
