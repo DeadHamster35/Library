@@ -137,6 +137,9 @@ extern float sinT(ushort inputAngle);
 extern float cosT(ushort inputAngle);
 extern float sinF(float inputAngle);
 extern float cosF(float inputAngle);
+
+extern void PrintF(char* Text);
+
 extern int CheckCone(ushort left,ushort right,ushort direction);
 extern float CheckDisplayRange(Vector basepos, Vector markpos, ushort camera_direction, float radius, float angle2, float limmit_distance);
 extern void RotateLightMatrix(uint lpointer,AffineMtx m,short yaw,short pitch,int count);

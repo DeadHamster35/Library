@@ -134,6 +134,9 @@
 .definelabel cosT, 0x802B8038
 .definelabel sinF, 0x800D60F0
 .definelabel cosF, 0x800D62B0
+
+.definelabel PrintF, 0x800D6420
+
 .definelabel CheckCone, 0x802B8058
 .definelabel CheckDisplayRange, 0x802B80D0
 .definelabel RotateLightMatrix, 0x802B8414

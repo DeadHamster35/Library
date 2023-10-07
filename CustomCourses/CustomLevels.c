@@ -1746,8 +1746,8 @@ void InitialMapObjectCode()
 		SetPakkunObject(0x06000418);
 		g_StaticObjectCount = g_simpleObjectCount;
 	}
-
-	for (int ThisObject = 0; ThisObject < g_simpleObjectCount; ThisObject++)
+	
+	for (int ThisObject = 0; ThisObject < g_StaticObjectCount; ThisObject++)
 	{
 		
 		g_SimpleObjectArray[ThisObject].position[0] = (short)((float)g_SimpleObjectArray[ThisObject].position[0] * LevelScales[(int)ScaleXMode]);
@@ -1769,13 +1769,14 @@ void InitialMapObjectCode()
 			g_SimpleObjectArray[ThisObject].position[2] = (short)((float)g_SimpleObjectArray[ThisObject].position[2] * LevelScales[(int)ScaleZMode]);
 		}
 		
-
+		
 		if (g_SimpleObjectArray[ThisObject].category == IBOX)
 		{
 			g_SimpleObjectArray[GlobalIntA].fparam = CheckHight(g_SimpleObjectArray[ThisObject].position[0], g_SimpleObjectArray[ThisObject].position[1] + 10, g_SimpleObjectArray[ThisObject].position[2]);
 			g_SimpleObjectArray[GlobalIntA].velocity[0] = g_SimpleObjectArray[ThisObject].position[1];
 			g_SimpleObjectArray[GlobalIntA].position[1] = g_SimpleObjectArray[GlobalIntA].fparam - 20;
 		}
+		
 	}
 }
 void InitialMapCode()
