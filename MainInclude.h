@@ -41,6 +41,7 @@
 
 #include "Gametypes/CTF.h"
 #include "Gametypes/GameTypesGeneric.h"
+#include "Gametypes/Slayer.h"
 #include "Gametypes/Soccer.h"
 
 #include "LibraryVariables.h"

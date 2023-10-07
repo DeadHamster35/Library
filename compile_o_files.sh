@@ -10,6 +10,7 @@ mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-point
 #Gametypes
 mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -c "Library\Gametypes\CTF.c" -o "Library\CustomObjects\CTF.o" 
 mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -c "Library\Gametypes\Soccer.c" -o "Library\CustomObjects\Soccer.o" 
+mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -c "Library\Gametypes\Soccer.c" -o "Library\CustomObjects\Soccer.o" 
 mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -c "Library\Gametypes\GameTypesGeneric.c" -o "Library\CustomObjects\GameTypesGeneric.o" 
 
 mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -c "Library\Gametypes\GBI\SNet.c" -o "Library\CustomObjects\GBI\SNet .o" 
