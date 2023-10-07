@@ -112,6 +112,8 @@ bool TestCollideSVectorSphere(float SourcePosition[], float SourceRadius, SVecto
 	
 	return true; 
 }
+
+
 bool TestCollideSphere(float SourcePosition[], float SourceRadius, float TargetPosition[], float TargetRadius)
 {
 	//Does a collision test using pythagorean maths. 
@@ -138,7 +140,7 @@ bool TestCollideCylinder(float SourcePosition[], float SourceRadius[], float Tar
 		return false;
 	}
 
-	if (TargetPosition[1] - TargetRadius > SourcePosition[1] + SourceRadius[1])
+	if (TargetPosition[1] - TargetRadius > SourcePosition[1] + SourceRadius[2])
 	{
 		//Target Hitsphere is too high.
 		return false;
@@ -176,15 +178,13 @@ bool TestCollideBox(float BoxPosition[], float BoxSize[], short BoxAngle[], floa
 	{
 		//Take both sides of the box from the center
 		//If the position is greater than or less than the sides, return false.
-		GlobalFloatA = (BoxSize[CurrentVector] / 2) + TargetRadius;
-		
+		GlobalFloatA = (BoxSize[CurrentVector] / 2.0f) + TargetRadius;
 		if ((TempPosition[CurrentVector] * TempPosition[CurrentVector]) > (GlobalFloatA * GlobalFloatA))
 		{
 			return false;
-			
 		}
 	}
-	
+
 	//If we have not returned false from the prior checks, we must be inside the confines of the box. 
 	return true;
 }
@@ -261,6 +261,7 @@ bool CheckOKCollide(short HitType, Vector SourcePosition, Vector SourceSize, SVe
 		case 0: //Sphere 
 		{
 			return (TestCollideSphere(SourcePosition, SourceSize[0], TargetPosition, TargetRadius));
+			
 			break;
 		}
 		case 1: //Cylinder 
@@ -276,6 +277,49 @@ bool CheckOKCollide(short HitType, Vector SourcePosition, Vector SourceSize, SVe
 	}
 	return false;
 }
+
+
+
+void SetSimpleBump(int PlayerID, Vector SourcePosition, Vector SourceRadius, short Angle)
+{
+	Vector TempPosition;
+	for (int CurrentVector = 0; CurrentVector < 3; CurrentVector++)
+	{
+		TempPosition[CurrentVector] = SourcePosition[CurrentVector] - GlobalPlayer[PlayerID].position[CurrentVector];
+	}	
+	if (Angle != 0)
+	{
+		// Rotate the Vector by the angle of the box.
+		MakeAlignVector(TempPosition,(short)(-1 * Angle));
+	}
+
+	Vector DScale;
+	for (int CurrentVector = 0; CurrentVector < 3; CurrentVector++)
+	{
+		DScale[CurrentVector] = (float)(TempPosition[CurrentVector] / SourceRadius[CurrentVector]);
+	}	
+	
+
+	GlobalPlayer[PlayerID].velocity[0] = 0;
+	GlobalPlayer[PlayerID].velocity[1] = 0;
+	GlobalPlayer[PlayerID].velocity[2] = 0;
+
+	objectPosition[0] = SourceRadius[0] * DScale[0] * 1.1f;
+	objectPosition[1] = SourceRadius[1] * DScale[1] * 1.1f;
+	objectPosition[2] = SourceRadius[2] * DScale[2] * 1.1f;
+
+	if (Angle != 0)
+	{
+		MakeAlignVector(objectPosition,(short)(Angle));
+	}
+	for (int CurrentVector = 0; CurrentVector < 3; CurrentVector++)
+	{
+		GlobalPlayer[PlayerID].position[CurrentVector] = SourcePosition[CurrentVector] - objectPosition[CurrentVector];
+	}
+}
+
+
+
 
 void OKObjectCollision(OKObject *InputObject)
 {	
@@ -367,7 +411,30 @@ void OKObjectCollision(OKObject *InputObject)
 				}
 
 				MasterStatus(CurrentPlayer, (short)HitBox[ThisBox].StatusClass);
-				MasterEffect(CurrentPlayer, (short)HitBox[ThisBox].EffectClass);	
+				MasterEffect(CurrentPlayer, (short)HitBox[ThisBox].EffectClass);
+
+				if (HitBox[ThisBox].Solid == 1)
+				{
+
+					switch (HitBox[ThisBox].Type)
+					{	
+						case 0: //Sphere 
+						{
+							TempBoxSize[1] = TempBoxSize[0];
+							TempBoxSize[2] = TempBoxSize[0];
+							break;
+						}
+						case 1: //Cylinder 
+						{
+							TempBoxSize[1] = TempBoxSize[2];
+							TempBoxSize[2] = TempBoxSize[0];
+							break;
+						}
+					}
+
+					SetSimpleBump(CurrentPlayer,TempPosition,TempBoxSize,BoxAngles[1]);
+				}
+
 			}
 			//
 		}
@@ -444,6 +511,9 @@ void OKObjectCollision(OKObject *InputObject)
 	}
 	
 }
+
+
+
 
 void DrawOKObjectLoop(OKModel* ThisModel, int Player, int Type)
 {

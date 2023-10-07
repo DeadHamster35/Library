@@ -131,7 +131,7 @@ typedef struct OKCollisionSphere{
 	short		Angle[3];
 	short		Size[3];
 	short		Position[3];
-	uchar		OffsetFlag, Pad;
+	uchar		OffsetFlag, Solid;
 	uchar 		StatusClass, EffectClass, CollisionResult, DamagedResult;//
 } OKCollisionSphere;
 

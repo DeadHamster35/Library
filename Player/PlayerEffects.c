@@ -218,60 +218,7 @@ void SetBonk(char playerID)
 	GlobalPlayer[(int)playerID].slip_flag |= IS_BONKING;
 }
 
-/*
-void SetSimpleBump(char PlayerID, Vector position, float )
-{
-	
-    float dashVel,Vel,multiplier,cos;
- 
-    float VelX = GlobalPlayer[PlayerID]->velocity[0]+0.1f;
-    float VelZ = GlobalPlayer[PlayerID]->velocity[2]+0.1f;
-    float DisX = position[0] - GlobalPlayer[PlayerID]->position[0];
-    float DisZ = position[2] - GlobalPlayer[PlayerID]->position[2];                
-    float distance = Sqrtf(DisX*DisX + DisZ*DisZ);
-    float bradius = GlobalPlayer[PlayerID]->radius + (radius);
-    
-    multiplier = distance - bradius;
 
-    if(distance < 0.1f)
-    {
-        Vel = Sqrtf(VelX*VelX + VelZ*VelZ);
-
-        if(Vel < 0.5f)
-        {
-            Vel = 0.5f;
-        }
-        GlobalPlayer[PlayerID]->velocity[0] = 0;
-        GlobalPlayer[PlayerID]->velocity[2] = 0;
-
-        GlobalPlayer[PlayerID]->position[0] = position[0] - DisX*bradius * 1.2f;
-        GlobalPlayer[PlayerID]->position[2] = position[2] - DisZ*bradius * 1.2f;
-    }
-    else
-    {
-        Vel = Sqrtf(VelX*VelX + VelZ*VelZ);
-        DisX /= distance;
-        DisZ /= distance;
-        if(Vel < 0.25f)
-        {
-            GlobalPlayer[PlayerID]->position[0] = position[0] - DisX*bradius * 1.2f;
-            GlobalPlayer[PlayerID]->position[2] = position[2] - DisZ*bradius * 1.2f;
-            GlobalPlayer[PlayerID]->velocity[0] = 0;
-            GlobalPlayer[PlayerID]->velocity[2] = 0;
-        }
-        else
-        {
-            cos = (DisX*VelX + DisZ*VelZ) / Vel;
-            dashVel = Vel*cos * 1.5f;
-
-            GlobalPlayer[PlayerID]->velocity[0] -= DisX*dashVel;
-            GlobalPlayer[PlayerID]->velocity[2] -= DisZ*dashVel;
-            GlobalPlayer[PlayerID]->position[0] += DisX*multiplier * 0.5f;
-            GlobalPlayer[PlayerID]->position[2] += DisZ*multiplier * 0.5f;
-        }
-    }
-}
-*/
 
 void ChangeMaxSpeed(char playerID, float SpeedGain)
 {
