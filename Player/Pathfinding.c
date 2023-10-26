@@ -269,7 +269,7 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
             objectPosition[1] = (float)PathArray[ThisPath][0].Position[1];
             objectPosition[2] = (float)PathArray[ThisPath][0].Position[2];
 
-            if (TestCollideSphere(GlobalPlayer[PlayerID].position, FirstMarkerDistance, objectPosition, 5))// && (ThisPath != Pathfinder->LastPath))  //check if the first marker is within 125 units of the player
+            if (TestCollideSphere(GlobalPlayer[PlayerID].position, FirstMarkerDistance, objectPosition, 5)) //&& (ThisPath != Pathfinder->LastPath))  //check if the first marker is within 125 units of the player
             {
                 CheckDistance = PythagoreanTheorem((float)PathArray[ThisPath][EndMarker].Position[0], Pathfinder->Target[0], 
                                                     (float)PathArray[ThisPath][EndMarker].Position[2], Pathfinder->Target[2]);
