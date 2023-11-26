@@ -262,7 +262,7 @@ void ObjectBehaviorWander(OKObject* InputObject)
 		}
 
 	}
-	ObjectBehaviorWalk(InputObject, 0.6);
+	ObjectBehaviorWalk(InputObject, (ThisType->MaxSpeed / 100.0f));
 	
 }
 
@@ -375,6 +375,7 @@ void ObjectBehaviorFlee(OKObject* InputObject)
 
 void ObjectBehaviorSearch(OKObject* InputObject)
 {	
+	OKObjectType *ThisType = (OKObjectType*)&(OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex]);
 	switch (InputObject->SubBehaviorClass)
 	{
 		case(SUBBEHAVIOR_DOCILE):
@@ -436,7 +437,10 @@ void ObjectBehaviorSearch(OKObject* InputObject)
 				GlobalShortC = ObjectSubBehaviorTurnTarget(InputObject->ObjectData.position, InputObject->ObjectData.angle[1], GlobalPlayer[InputObject->PlayerTarget].position, 4);
 				InputObject->ObjectData.angle[1] += (DEG1 * 4 * GlobalShortC);
 				GlobalFloatA = (InputObject->ObjectData.velocity[0] * InputObject->ObjectData.velocity[0]) + (InputObject->ObjectData.velocity[2] * InputObject->ObjectData.velocity[2]);
-				if (GlobalFloatA < (2 * 2))
+				GlobalFloatB = (ThisType->MaxSpeed / 100.0f);
+
+				//get speed from max speed and not just the value 2.0 wtf was that
+				if (GlobalFloatA < (GlobalFloatB * GlobalFloatB))
 				{
 					if (GlobalFloatA == 0)
 					{
@@ -449,14 +453,14 @@ void ObjectBehaviorSearch(OKObject* InputObject)
 				}
 				else
 				{
-					GlobalFloatA = 2;
+					GlobalFloatA = GlobalFloatB;
 				}
 
 
 				if (GlobalShortC != 0)
 				{
-					GlobalFloatB = GlobalFloatA / 1.25;
-					ObjectBehaviorWalk(InputObject,GlobalFloatB);
+					ObjectBehaviorWalk(InputObject,GlobalFloatA * 0.75f);
+					//slow on turns
 				}
 				else
 				{

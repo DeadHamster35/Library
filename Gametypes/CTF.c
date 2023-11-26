@@ -92,9 +92,6 @@ const CTFSpawn BigDonutSpawns =
 
 CTFSpawn GameSpawns[4] = {BigDonutSpawns, BlockFortSpawns, DoubleDeckerSpawns, SkyscraperSpawns};
 
-#define SPAWN_POINT      0
-#define FLAG_POINT       1
-#define BASE_POINT       2
 
 
 

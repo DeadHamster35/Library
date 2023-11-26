@@ -732,88 +732,75 @@ void setEcho()
 		g_EchoStop = 0x1B9;
 	}
 }
-
-// Snow
-long A4Snow[] = {
-	0x00000000,
-	0x00000000,
-	0x00000000,
-	0x00000000,
-	0x00000111,
-	0x11100000,
-	0x00011223,
-	0x32211000,
-	0x00112345,
-	0x54321100,
-	0x00124578,
-	0x87542100,
-	0x0123589B,
-	0xBA853210,
-	0x012479CD,
-	0xDC974210,
-	0x01358BDF,
-	0xFDB85310,
-	0x01358BDF,
-	0xFDB85310,
-	0x012479CD,
-	0xDCA74210,
-	0x0123589B,
-	0xBA853210,
-	0x00124578,
-	0x87542100,
-	0x00112345,
-	0x54321100,
-	0x00011223,
-	0x32211000,
-	0x00000111,
-	0x11100000,
-	0x00000000,
-	0x00000000,
-	0x00000000,
-	0x00000000,
-};
-
+__attribute__((aligned(64)))
 // Rain
-long A4Rain[] = {
-	0x00000000,
-	0x00000000,
-	0x00000000,
-	0x00000000,
-	0x00000000,
-	0x00000000,
-	0x00000001,
-	0x00000000,
-	0x00000002,
-	0x00000000,
-	0x00000004,
-	0x00000000,
-	0x00000006,
-	0x00000000,
-	0x00000008,
-	0x00000000,
-	0x00000008,
-	0x00000000,
-	0x0000000A,
-	0x00000000,
-	0x0000000C,
-	0x00000000,
-	0x0000000B,
-	0x00000000,
-	0x0000000A,
-	0x00000000,
-	0x00000009,
-	0x00000000,
-	0x00000008,
-	0x00000000,
-	0x00000006,
-	0x00000000,
-	0x00000000,
-	0x00000000,
-	0x00000000,
-	0x00000000,
+uint A4Rain[36] = {
+	0x00000000,0x00000000,
+	0x00000000,0x00000000,
+	0x00000000,0x00000000,
+	0x00000001,0x00000000,
+	0x00000002,0x00000000,
+	0x00000004,0x00000000,
+	0x00000006,0x00000000,
+	0x00000008,0x00000000,
+	0x00000008,0x00000000,
+	0x0000000A,0x00000000,
+	0x0000000C,0x00000000,
+	0x0000000B,0x00000000,
+	0x0000000A,0x00000000,
+	0x00000009,0x00000000,
+	0x00000008,0x00000000,
+	0x00000006,0x00000000,
+	0x00000000,0x00000000,
+	0x00000000,0x00000000,
+};
+__attribute__((aligned(64)))
+// Snow
+uint A4Snow[36] = {
+	0x00000000,0x00000000,
+	0x00000000,0x00000000,
+	0x00000111,0x11100000,
+	0x00011223,0x32211000,
+	0x00112345,0x54321100,
+	0x00124578,0x87542100,
+	0x0123589B,0xBA853210,
+	0x012479CD,0xDC974210,
+	0x01358BDF,0xFDB85310,
+	0x01358BDF,0xFDB85310,
+	0x012479CD,0xDCA74210,
+	0x0123589B,0xBA853210,
+	0x00124578,0x87542100,
+	0x00112345,0x54321100,
+	0x00011223,0x32211000,
+	0x00000111,0x11100000,
+	0x00000000,0x00000000,
+	0x00000000,0x00000000,
 };
 
-void SetWeatherType(int WeatherType) // 0 = Snow // 1 = Rain
+__attribute__((aligned(64)))
+// Rain
+uint A4Dummy[36] = {
+	0x00000001,0x10000000,
+	0x00000001,0x10000000,
+	0x00000001,0x10000000,
+	0x00000001,0x10000000,
+	0x00000002,0x20000000,
+	0x00000004,0x40000000,
+	0x00000006,0x60000000,
+	0x00000008,0x80000000,
+	0x00000008,0x80000000,
+	0x0000000A,0xA0000000,
+	0x0000000C,0xC0000000,
+	0x0000000B,0xB0000000,
+	0x0000000A,0xA0000000,
+	0x00000009,0x90000000,
+	0x00000008,0x80000000,
+	0x00000006,0x60000000,
+	0x00000002,0x20000000,
+	0x00000001,0x10000000,
+};
+
+void SetWeatherType(char WeatherType) // 0 = Snow // 1 = Rain
 {
 	switch (WeatherType)
 	{
@@ -821,11 +808,11 @@ void SetWeatherType(int WeatherType) // 0 = Snow // 1 = Rain
 	{
 		for (int texarr = 0; texarr < 36; texarr++)
 		{
-			g_SnowParticleTex[texarr] = A4Rain[texarr];
+			*(uint*)&g_SnowParticleTex[texarr] = A4Dummy[texarr];
 		}
 		g_skySnowVelocity = 1.75;
 		g_3DSnowScale = 0.4;
-		g_3DSnowVelocityUpLim = 1.5;
+		g_3DSnowVelocityUpLim = 1.035;
 		g_3DSnowVelocityLowLim = -2.5;
 		g_3DSnowSwayMovement = -2.75;
 		g_3DSnowSpawnCone = (g_3DSnowSpawnCone & 0xFFFF0000) + (0x6000 & 0x0000FFFF);
@@ -928,11 +915,12 @@ void SetWeather3D(bool Weather3DEnable) // Enables 3D weather effects (snow/rain
 			KWChartSnow();
 			if (Toggle3DSnow == 1)
 			{
-				g_3DSnowSpawnHeight = (g_3DSnowSpawnHeight & 0xFFFF0000) + (0x602D & 0x0000FFFF);
+				g_3DSnowSpawnHeight = (g_3DSnowSpawnHeight & 0xFFFF0000) + (0x002D & 0x0000FFFF);
+				
 			}
 			else
 			{
-				g_3DSnowSpawnHeight = (g_3DSnowSpawnHeight & 0xFFFF0000) + (0x002D & 0x0000FFFF);
+				g_3DSnowSpawnHeight = (g_3DSnowSpawnHeight & 0xFFFF0000) + (0x602D & 0x0000FFFF);
 			}
 		}
 		Snow3DCourseID = 5;
@@ -958,7 +946,7 @@ void KWKumo_Alloc_Hook()
 		LoadCustomHeader(courseValue + gpCourseIndex);
 
 		SetCloudType((char)OverKartHeader.SkyType);
-		SetWeatherType((int)OverKartHeader.WeatherType);
+		SetWeatherType((char)OverKartHeader.WeatherType);
 		GlobalShortA = g_courseID;
 		g_courseID = CloudCourseID;
 		KWKumo_Alloc();
@@ -1116,25 +1104,41 @@ void runTextureScroll()
 		GlobalShortA = (GlobalIntA >> 16) & (0xFFFF); // S value
 		GlobalShortB = GlobalIntA & 0xFFFF;			  // T value
 
-		ScrollValues[CurrentScroll][0] += GlobalShortA;
-		if (ScrollValues[CurrentScroll][0] > 255)
-		{
-			ScrollValues[CurrentScroll][0] -= 255;
-		}
-		if (ScrollValues[CurrentScroll][0] < 0)
-		{
-			ScrollValues[CurrentScroll][0] += 255;
-		}
+		if (GlobalShortA > 0)
+        {
+            KWChaseIVal(&ScrollValues[CurrentScroll][0],4095,GlobalShortA);
+            if (ScrollValues[CurrentScroll][0] >= 4095)
+            {
+                ScrollValues[CurrentScroll][0] = 0;
+            }
+        }
+        if (GlobalShortA < 0)
+        {
+            KWChaseIVal(&ScrollValues[CurrentScroll][0],0,GlobalShortA);
+            if (ScrollValues[CurrentScroll][0] <= 0)
+            {
+                ScrollValues[CurrentScroll][0] = 4095;
+            }
+        }       
+		
+        // Chase T
+        if (GlobalShortB > 0)
+        {
+            KWChaseIVal(&ScrollValues[CurrentScroll][1],4095,GlobalShortB);
+            if (ScrollValues[CurrentScroll][1] >= 4095)
+            {
+                ScrollValues[CurrentScroll][1] = 0;
+            }
+        }
+        if (GlobalShortB < 0)
+        {
+            KWChaseIVal(&ScrollValues[CurrentScroll][1],0,GlobalShortB);
+            if (ScrollValues[CurrentScroll][1] <= 0)
+            {
+                ScrollValues[CurrentScroll][1] = 4095;
+            }
+        }    
 
-		ScrollValues[CurrentScroll][1] += GlobalShortB;
-		if (ScrollValues[CurrentScroll][1] > 255)
-		{
-			ScrollValues[CurrentScroll][1] -= 255;
-		}
-		if (ScrollValues[CurrentScroll][1] < 0)
-		{
-			ScrollValues[CurrentScroll][1] += 255;
-		}
 
 		// Run stock func
 		ScrollMapImage(GlobalAddressB, ScrollValues[CurrentScroll][0], ScrollValues[CurrentScroll][1]);

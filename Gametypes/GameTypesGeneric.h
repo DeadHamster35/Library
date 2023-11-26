@@ -1,5 +1,8 @@
 #include "../MainInclude.h"
 
+#define SPAWN_POINT      0
+#define FLAG_POINT       1
+#define BASE_POINT       2
 
 extern int ObjectiveMapID;
 extern void ResetFlag(int ThisFlag);

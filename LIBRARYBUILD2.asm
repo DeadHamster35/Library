@@ -52,6 +52,7 @@ The address must be offset to match it's position in RAM.
 
 
 .align 0x10
+.importobj "../library/Gametypes/Slayer.o"
 .importobj "../library/Gametypes/CTF.o"
 .importobj "../library/Gametypes/Soccer.o"
 .importobj "../library/Gametypes/GameTypesGeneric.o"

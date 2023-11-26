@@ -78,11 +78,6 @@ const CTFSpawn SoccerBigDonutSpawns =
 CTFSpawn SoccerGameSpawns[4] = {SoccerBigDonutSpawns, SoccerBlockFortSpawns, SoccerDoubleDeckerSpawns, SoccerSkyscraperSpawns};
  
 
-#define SPAWN_POINT      0
-#define FLAG_POINT       1
-#define BASE_POINT       2
-
-
 
 void PlaceBalls(uint BattleFlagF3D, uint BattleBaseF3D, uint PlayerBaseF3D[], uint Difficulty)
 {    

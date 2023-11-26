@@ -547,8 +547,8 @@ void DrawOKObjectLoop(OKModel* ThisModel, int Player, int Type)
 						objectAngle[2] = 0;
 
 						
-						float sinB = sinT(GlobalCamera[Player]->camera_direction[1]-(DEG1 * 180));
-						float cosB = cosT(GlobalCamera[Player]->camera_direction[1]-(DEG1 * 180));
+						float sinB = sinT(GlobalCamera[Player]->camera_direction[1]-(DEG1 * 90));
+						float cosB = cosT(GlobalCamera[Player]->camera_direction[1]-(DEG1 * 90));
 
 						AffineMatrix[0][0] =  cosB;
 						AffineMatrix[1][0] =  0.0f;
