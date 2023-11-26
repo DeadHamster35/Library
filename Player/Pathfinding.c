@@ -288,6 +288,14 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
                     //Pathfinder->NearestMarkerHeight = (float)PathArray[ThisPath][0].Position[1];
                     Pathfinder->NearestMarkerHeight = (float)PathArray[ThisPath][nearestMarker].Position[1];
                     Pathfinder->ProgressTimer = 0;
+                    if (EndMarker - nearestMarker > 3)
+                    {
+                         Pathfinder->SlowDown = false;
+                    }
+                    else
+                    {
+                        Pathfinder->SlowDown = true;
+                    }
                 }
             }
         }
@@ -299,7 +307,7 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
             objectPosition[1] = (float)PathArray[ThisPath][EndMarker].Position[1];
             objectPosition[2] = (float)PathArray[ThisPath][EndMarker].Position[2];
 
-            if (TestCollideSphere(GlobalPlayer[PlayerID].position, FirstMarkerDistance, objectPosition, 5))// && (ThisPath != Pathfinder->LastPath))  //check if the last marker is within 125 units of the player
+            if (TestCollideSphere(GlobalPlayer[PlayerID].position, FirstMarkerDistance, objectPosition, 5) && (ThisPath != Pathfinder->LastPath))  //check if the last marker is within 125 units of the player
             {
                 //First Marker has hit true, check distance of last marker
                 CheckDistance = PythagoreanTheorem((float)PathArray[ThisPath][0].Position[0], Pathfinder->Target[0], 
@@ -319,6 +327,14 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
                     //Pathfinder->NearestMarkerHeight = (float)PathArray[ThisPath][EndMarker].Position[1];
                     Pathfinder->NearestMarkerHeight = (float)PathArray[ThisPath][nearestMarker].Position[1];
                     Pathfinder->ProgressTimer = 0;
+                    if (nearestMarker > 3)
+                    {
+                         Pathfinder->SlowDown = false;
+                    }
+                    else
+                    {
+                        Pathfinder->SlowDown = true;
+                    }
                 }
             }
         }
@@ -336,11 +352,13 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
             {
                 Pathfinder->Progression = MarkerCounts[Pathfinder->TargetPath];
                 Pathfinder->Direction = -1;
+                Pathfinder->SlowDown = false;
             }
             else
             {
                 Pathfinder->Progression = 0;
                 Pathfinder->Direction = 1;
+                Pathfinder->SlowDown = false;
             }
         }
     }

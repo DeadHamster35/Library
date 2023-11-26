@@ -6,6 +6,7 @@ typedef struct BKPathfinder{
      short     Progression, NearestMarker; //Step along the path
      float	NearestMarkerHeight; //Height of nearest marker (used for finding falls)
      short     ProgressTimer;
+     bool		SlowDown; //Boolean denoting if bot should slow down near end of path or not
      char      Direction; //Direction along the path, +1 or -1, if the start of the path is IDed, will be +1, if the end of the path is IDed, will be -1
      char 	PathType; //0=regular flat path, 1=ramp, 2=drop
 
@@ -41,7 +42,7 @@ extern void MakeAlternativePath(Marker *altPath, short length, char pathID);
 
 
 #define RAMPDISTANCESQUARE 40000.0
-#define PATHDISTANCECHECK 250.0
+#define PATHDISTANCECHECK 2.0
 
 #define FLATPATH     0
 #define RAMPPATH     1
