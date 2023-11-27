@@ -21,6 +21,7 @@
 .definelabel decodeTKMK, 0x800405D0
 .definelabel GetFramebuffer, 0x802A7658
 .definelabel AllocateMemory, 0x802A7B70
+.definelabel InitialBump, 0x802AAAAC
 .definelabel CheckBump, 0x802ADDC8
 .definelabel CheckBump2, 0x802AD950
 .definelabel LoadMap, 0x802AA918

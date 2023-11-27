@@ -1,7 +1,7 @@
 #include "../MainInclude.h"
 
 
-
+#define RunawayToggle 1
 
 BKPathfinder AIPathfinder[4];
 
@@ -253,7 +253,12 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
     short EndMarker; 
     short nearestMarker;
     float player_height = GlobalPlayer[PlayerID].position[1];
-    Pathfinder->Distance = 9999999999.0; // Set an impossible value to ensure the first return is true. 
+    #ifdef RunawayToggle
+    Pathfinder->Distance = -9999999999.0f; // Set an impossible value to ensure the first return is true.    
+    #else
+    Pathfinder->Distance = 9999999999.0f; // Set an impossible value to ensure the first return is true. 
+    #endif
+    
     if (Pathfinder->TargetPath != -1)
     {
         Pathfinder->LastPath = Pathfinder->TargetPath; //Set the last path as we get ready to update.
@@ -273,7 +278,12 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
             {
                 CheckDistance = PythagoreanTheorem((float)PathArray[ThisPath][EndMarker].Position[0], Pathfinder->Target[0], 
                                                     (float)PathArray[ThisPath][EndMarker].Position[2], Pathfinder->Target[2]);
+                
+                #ifdef RunawayToggle
+                if (CheckDistance > Pathfinder->Distance)  //compare distance, if greater than the current update                
+                #else
                 if (CheckDistance < Pathfinder->Distance)  //compare distance, if less than the current update
+                #endif
                 {
                     nearestMarker = FindNearestMarker(GlobalPlayer[PlayerID].position, PathArray, MarkerCounts[ThisPath], ThisPath, 0);
 
@@ -312,7 +322,11 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
                 //First Marker has hit true, check distance of last marker
                 CheckDistance = PythagoreanTheorem((float)PathArray[ThisPath][0].Position[0], Pathfinder->Target[0], 
                                                     (float)PathArray[ThisPath][0].Position[2], Pathfinder->Target[2]);
+                #ifdef RunawayToggle
+                if (CheckDistance > Pathfinder->Distance)  //compare distance, if greater than the current update                
+                #else
                 if (CheckDistance < Pathfinder->Distance)  //compare distance, if less than the current update
+                #endif
                 {
                     nearestMarker = FindNearestMarker(GlobalPlayer[PlayerID].position, PathArray, MarkerCounts[ThisPath], ThisPath, EndMarker);
 

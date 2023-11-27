@@ -22,6 +22,7 @@ extern void decodeTKMK(int input, int *temp, int output, int transparent);
 
 extern void GetFramebuffer(int PixelX,int PixelY,int Width,int Height,unsigned short *Source,unsigned short *Destination);
 extern uint AllocateMemory(uint Size);
+extern void InitialBump(Bump *bump);
 extern ushort CheckBump(Bump *bump,float Radius,float PositionX,float PositionY,float PositionZ);
 extern ushort CheckBump2(Bump *bump,float Radius,float PositionX,float PositionY,float PositionZ,float LastX, float LastY,float LastZ);
 
