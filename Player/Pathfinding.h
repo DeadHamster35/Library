@@ -27,6 +27,8 @@ extern int FindNearestDropNode(float CurrentPosition[],  float FoundNodePosition
 
 extern int FindNearestItemBox(float CurrentPosition[], float FoundItemBoxPosition[], float HeightCheckSquared);
 
+extern void FindFurthestNode(float CurrentPosition[],  float FoundNodePosition[], Marker *PathArray[], short* MarkerCounts, short PathCount);
+
 extern void UpdateBKPath(BKPathfinder *Pathfinder, short FirstMarkerDistance, Marker *PathArray[], short* MarkerCounts, short PathCount, short PlayerID, char TypeOfPath, float HeightCheckSquared);
 
 extern void ResetLaneDefaultOffset(int playerID);

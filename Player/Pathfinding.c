@@ -1,7 +1,7 @@
 #include "../MainInclude.h"
 
 
-#define RunawayToggle 1
+//#define RunawayToggle 1
 
 BKPathfinder AIPathfinder[4];
 
@@ -186,6 +186,7 @@ int FindNearestItemBox(float CurrentPosition[], float FoundItemBoxPosition[], fl
 
 
 
+
 int FindNearestDropNode(float CurrentPosition[], float FoundNodePosition[], float TargetY, Marker* PathArray[], short* MarkerCounts, short PathCount, float HeightCheckSquared)
 {
     float Distance = 9999999999.0;
@@ -225,6 +226,45 @@ int FindNearestDropNode(float CurrentPosition[], float FoundNodePosition[], floa
 
     return(use_this_path);  //Note if no drop is found, this function returns -1
 }
+
+
+
+//Returns the furthest path node 
+void FindFurthestNode(float CurrentPosition[], float FoundNodePosition[], Marker* PathArray[], short* MarkerCounts, short PathCount)
+{
+    float Distance = -9999999999.0;
+    float CheckDistance;
+    short use_this_path=-1;
+    
+    for (int ThisPath = 0; ThisPath < PathCount; ThisPath++) //Loop through each possible path and check the beginning and ending nodes and save the closest one to CurrentPosition
+    {
+        //CheckDistance = PythagoreanTheorem(CurrentPosition[0], (float)PathArray[ThisPath][0].Position[0], 
+        //                                    CurrentPosition[2], (float)PathArray[ThisPath][0].Position[2]);
+        CheckDistance = pow((float)PathArray[ThisPath][0].Position[0] - CurrentPosition[0], 2) +
+                        pow((float)PathArray[ThisPath][0].Position[1] - CurrentPosition[1], 2) +
+                        pow((float)PathArray[ThisPath][0].Position[2] - CurrentPosition[2], 2);
+        if (CheckDistance > Distance)
+        {
+            Distance = CheckDistance;
+            use_this_path = ThisPath;
+        }
+    }   
+
+    if (use_this_path != -1) //If a drop was actually found
+    {
+        //Vector that will be returned
+        FoundNodePosition[0] = (float)PathArray[use_this_path][0].Position[0]; 
+        FoundNodePosition[1] = (float)PathArray[use_this_path][0].Position[1];
+        FoundNodePosition[2] = (float)PathArray[use_this_path][0].Position[2];        
+    }
+}
+
+
+
+
+
+
+
 
 
 //Find nearest node in current path
