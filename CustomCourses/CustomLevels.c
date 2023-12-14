@@ -1753,39 +1753,51 @@ void InitialMapObjectCode()
 	
 	for (int ThisObject = 0; ThisObject < g_StaticObjectCount; ThisObject++)
 	{
+		if (g_SimpleObjectArray[ThisObject].flag == EXISTOBJ)
+		{
+			g_SimpleObjectArray[ThisObject].position[0] = ((float)g_SimpleObjectArray[ThisObject].position[0] * LevelScales[(int)ScaleXMode]);
+
+					
+			if (YFLIP)
+			{
+				g_SimpleObjectArray[ThisObject].position[1] = -1 * ((float)g_SimpleObjectArray[ThisObject].position[1] * LevelScales[(int)ScaleYMode]);
+			}
+			else
+			{
+				g_SimpleObjectArray[ThisObject].position[1] = ((float)g_SimpleObjectArray[ThisObject].position[1] * LevelScales[(int)ScaleYMode]);
+			}
+			
+			if (ZFLIP)
+			{
+				g_SimpleObjectArray[ThisObject].position[2] = -1 * ((float)g_SimpleObjectArray[ThisObject].position[2] * LevelScales[(int)ScaleZMode]);
+			}
+			else
+			{
+				g_SimpleObjectArray[ThisObject].position[2] = ((float)g_SimpleObjectArray[ThisObject].position[2] * LevelScales[(int)ScaleZMode]);
+			}
+			
+			
+			if (g_SimpleObjectArray[ThisObject].category == IBOX)
+			{
+				g_SimpleObjectArray[GlobalIntA].fparam = CheckHight(g_SimpleObjectArray[ThisObject].position[0], g_SimpleObjectArray[ThisObject].position[1] + 10, g_SimpleObjectArray[ThisObject].position[2]);
+				g_SimpleObjectArray[GlobalIntA].velocity[0] = g_SimpleObjectArray[ThisObject].position[1];
+				g_SimpleObjectArray[GlobalIntA].position[1] = g_SimpleObjectArray[GlobalIntA].fparam - 20;
+			}
+
+			
+		}
 		
-		g_SimpleObjectArray[ThisObject].position[0] = (short)((float)g_SimpleObjectArray[ThisObject].position[0] * LevelScales[(int)ScaleXMode]);
-		if (YFLIP)
-		{
-			g_SimpleObjectArray[ThisObject].position[1] = -1 * (short)((float)g_SimpleObjectArray[ThisObject].position[1] * LevelScales[(int)ScaleYMode]);
-		}
-		else
-		{
-			g_SimpleObjectArray[ThisObject].position[1] = (short)((float)g_SimpleObjectArray[ThisObject].position[1] * LevelScales[(int)ScaleYMode]);
-		}
 		
-		if (ZFLIP)
-		{
-			g_SimpleObjectArray[ThisObject].position[2] = -1 * (short)((float)g_SimpleObjectArray[ThisObject].position[2] * LevelScales[(int)ScaleZMode]);
-		}
-		else
-		{
-			g_SimpleObjectArray[ThisObject].position[2] = (short)((float)g_SimpleObjectArray[ThisObject].position[2] * LevelScales[(int)ScaleZMode]);
-		}
-		
-		
-		if (g_SimpleObjectArray[ThisObject].category == IBOX)
-		{
-			g_SimpleObjectArray[GlobalIntA].fparam = CheckHight(g_SimpleObjectArray[ThisObject].position[0], g_SimpleObjectArray[ThisObject].position[1] + 10, g_SimpleObjectArray[ThisObject].position[2]);
-			g_SimpleObjectArray[GlobalIntA].velocity[0] = g_SimpleObjectArray[ThisObject].position[1];
-			g_SimpleObjectArray[GlobalIntA].position[1] = g_SimpleObjectArray[GlobalIntA].fparam - 20;
-		}
+
 		
 	}
 }
 void InitialMapCode()
 {
 	// static_object_count=(ushort)object_count;
+
+		
+
 
 	InitialMap();
 
@@ -2129,8 +2141,10 @@ void setPreviews()
 			{
 				*sourceAddress = (long)&previewN;
 			}
-			*sourceAddress += 0x98D65D0;
-			*(long *)(&g_CoursePreviewOffsets + 1 + (0xA * currentCourse)) = *sourceAddress;
+			*sourceAddress -= 0x729A30;
+			*sourceAddress |= 0x0A000000;
+			g_CoursePreviewOffsets[currentCourse].DataPointer = (short*)*sourceAddress;
+			g_CoursePreviewOffsets[currentCourse].DMASize = 0x4000;
 		}
 	}
 	else

@@ -98,11 +98,11 @@ cd ..
 
 ::  Generic Code
 
-set ListGeneric= "LibraryVariables.c" "MarioKart3D.c" "MarioKartMenu.c" "MarioKartObjects.c" "Precode.c" "PreSwitch.c" "SharedFunctions.c" 
+set ListGeneric= "LibraryVariables.c" "MarioKart3D.c" "MarioKartMenu.c" "MarioKartObjects.c" "Precode.c" "PreSwitch.c" "SharedFunctions.c" "CrashScreenEnhanced.c" 
 
 (for %%a in (%ListGeneric%) do (
    echo Working on %%a 
-..\ARMIPS\bin\mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -c %%a
+..\ARMIPS\bin\mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -static-libgcc -static-libstdc++ -G0 -c %%a
 ))
 
 cd ..

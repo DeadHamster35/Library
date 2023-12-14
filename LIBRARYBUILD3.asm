@@ -95,6 +95,8 @@ JAL  PRELOAD_RAM
 NOP
 JAL  (PRELOAD_RAM + 0x200)
 NOP
+JAL DetectEmulator
+NOP
 LW ra, 0x001C (sp)
 ADDIU sp, sp, 0x20
 jr ra

@@ -17,6 +17,7 @@ extern short spriteKillD;
 
 extern uint decodeMIO0(long input, long output);
 extern void DMA(int output, int input, long Length);
+extern void CrashScreenDrawInfo(ushort* Framebuffer, OSThread* Thread);
 extern void DMAROMGhost();
 extern void decodeTKMK(int input, int *temp, int output, int transparent);
 
@@ -33,7 +34,8 @@ extern void BumpVelocity(Vector Bump,float Distance ,Vector Velocity,float co);
 extern void CalcBumpVelocity(Bump* InputBump, Vector Velocity);
 extern void ScrollMapImage(int ObjectAddress,int ScrollS,int ScrollT);
 extern void MakeWaterVertex(int ObjectAddress, char alpha, char red, char green, char blue);
-extern void ramCopy(long output, long input, long Length);
+extern void ramCopy(uint output, long input, long Length);
+extern uint MemCpyN64(char* output, const char* input, long Length);
 extern short CheckArea(ushort pointer);
 extern void CheckMapBG_ZX(Player *car,Vector normal,Vector velocity,Vector g_vector,float *dist,float *new_x,float *new_y,float *new_z);
 extern void CheckMapBG_XY(Player *car,Vector normal,Vector velocity,float *dist,float *new_x,float *new_y,float *new_z);
@@ -139,7 +141,8 @@ extern float cosT(ushort inputAngle);
 extern float sinF(float inputAngle);
 extern float cosF(float inputAngle);
 
-extern void PrintF(char* Text);
+#define va_list __builtin_va_list
+extern uint PrintF(char *(*prout)(char *, const char *, size_t), char *dst, const char *fmt, va_list args);
 
 extern int CheckCone(ushort left,ushort right,ushort direction);
 extern float CheckDisplayRange(Vector basepos, Vector markpos, ushort camera_direction, float radius, float angle2, float limmit_distance);
@@ -288,6 +291,7 @@ extern long CheckSplashJAL1;
 extern long CheckSplashJAL2;
 extern long CheckSplashJAL3;
 
+extern void LoadKeyStatus();
 extern long CheckFinalLapFanfareJAL;
 extern long CheckPlayStarBGMJAL;
 
@@ -305,6 +309,8 @@ extern long Snow3DDisplayAfterMapCheck1;
 extern long Snow3DDisplayAfterMapCheck2;
 extern void KWDisplayJugemu(int Player);
 
+
+extern void DMA_Base729A30(int input, int length, long output);
 extern void TexBuffLoadP(void *texlist_ptr,int nocheck_flg);
 extern void GrayScaleTexBuf3(uint num, uint step);
 extern void GrayScaleTexBufRGB(uint num, int size, int r, int g, int b);
@@ -314,9 +320,13 @@ extern void SetFadeOut(int Fade);
 extern short PutPylon(Vector pos,short number);
 extern short PutObject(Vector pos,int category);
 
+extern void osVISwapBuffer(ushort* FrameBuffer);
+
 extern int osEepromLongRead(void *Queue, uchar Address, uchar *Destination, int Length);
 extern int osEepromLongWrite(void *Queue, uchar Address, uchar *Destination, int Length);
 extern void osWritebackDCacheAll();
+extern void osVIBlack(bool Set);
+extern void OSSetTime(int Time);
 extern bool osEepromProbe(void *Queue);
 extern short g_fadeOutFlag;
 extern short g_fadeOutCounter, g_fadeOutCounter2;
@@ -495,8 +505,8 @@ extern short g_mapB; //0x8018D310
 
 extern long g_DEBUG;
 
+extern TexDataTable g_CoursePreviewOffsets[]; // 0x80199540
 extern long r_CoursePreviewOffsets; // 0x12C750
-extern long g_CoursePreviewOffsets; // 0x80199540
 extern long g_CourseBannerOffsets;
 extern long g_BattleBannerOffsets;
 extern long g_BattlePreviewOffsets; // 0x80199540
@@ -776,6 +786,7 @@ extern long currentMenu;
 
 extern long titleDemo; //
 
+
 extern char g_cupSelect; //8018EE09
 extern char g_courseSelect; //8018EE0B
 extern char g_InGameTT; //0x8018EDFB
@@ -792,6 +803,7 @@ extern uint CullDL_Parameters;
 extern long g_courseTable;
 extern uint KeystockBuffer;
 extern uint KeystockCounter;
+extern short OGAArea;
 extern SOUKOU_ZURE_TYPE LaneData[8];
 extern float g_RoadWidth[21]; // MR default: 50.0f
 
@@ -905,6 +917,7 @@ extern short g_surfaceCheckP1;
 extern uint g_PlayerSurfaceSoundID[4];
 
 extern char g_gamePausedFlag;
+extern uint64 osClockRate;
 
 extern void MakePos(Player *car,Smoke *data,float x,float y,float z,char status,char flag);
 extern void MakeStartup(Smoke *data,char number,float scale);

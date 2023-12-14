@@ -342,6 +342,8 @@ void DrawMapSelectDefault()
 void MapSelectMenuDefault()
 {
      
+
+     
      if (g_gameMode == GAMEMODE_BATTLE)
      {
           GlobalShortA = 4;

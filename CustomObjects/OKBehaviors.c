@@ -21,7 +21,7 @@ float ObjectSubBehaviorLookTarget(OKObject* InputObject, float TargetPosition[3]
 {
 	OKObjectType *ThisType = (OKObjectType*)&(OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex]);
 	
-	GlobalFloatA = (float)ThisType->Range;	
+	GlobalFloatA = (float)ThisType->Sight;	
 	GlobalFloatB = (InputObject->ObjectData.position[0] - TargetPosition[0]);
 	GlobalFloatC = (InputObject->ObjectData.position[2] - TargetPosition[2]);
 	GlobalFloatD = (((GlobalFloatB * GlobalFloatB) + (GlobalFloatC * GlobalFloatC)) / (GlobalFloatA * GlobalFloatA));

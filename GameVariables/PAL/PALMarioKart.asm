@@ -242,7 +242,6 @@
 .definelabel menuScreenB, 0x8018EE4D
 
 .definelabel titleDemo, 0x8018EE60
-
 .definelabel g_cupSelect, 0x8018EE69
 .definelabel g_courseSelect, 0x8018EE6B
 .definelabel g_InGame, 0x8018EE5B

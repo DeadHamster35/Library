@@ -14,4 +14,10 @@ void ExplorerCallJugemu(Player* Target);
 void ExplorerHangJugemu(Player* Target, char Index);
 extern void custom_SpinKart(Player* Car, Camera* camera, char place, char kno);
 extern void custom_RunKart(Player* car, Camera* camera, char place, char kno);
+
+
+
+extern int LavaFloorBumpCount[];
+extern bool LavaFloorRecoilRequired[];
+extern bool LavaFloorRecoiling[];
 #endif

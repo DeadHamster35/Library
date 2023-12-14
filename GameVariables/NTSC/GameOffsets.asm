@@ -14,6 +14,7 @@
 //AFBF
 
 .definelabel decodeMIO0, 0x800400D0 ;MIO0 File A0 = input, A1 = output
+.definelabel CrashScreenDrawInfo, 0x80004298
 .definelabel CreateDebugThread, 0x800046B8
 .definelabel StartDebugThread, 0x80004718
 .definelabel DMAROMGhost, 0x80004EF0
@@ -32,6 +33,7 @@
 .definelabel ScrollMapImage, 0x802AF7B4
 .definelabel MakeWaterVertex, 0x802AF8BC
 .definelabel ramCopy, 0x800D7FE0
+.definelabel MemCpyN64, 0x800D7FE0
 .definelabel CheckArea, 0x802ABD40
 .definelabel CheckMapBG_ZX, 0x8003F46C
 .definelabel CheckMapBG_XY, 0x8003F734
@@ -362,6 +364,7 @@
 .definelabel CheckSplashJAL3, 0x8003939C
 
 // NOP out BGM fanfares func
+.definelabel LoadKeyStatus, 0x8028DF38
 .definelabel CheckFinalLapFanfareJAL, 0x8028F344
 .definelabel CheckPlayStarBGMJAL, 0x8008F820
 
@@ -384,6 +387,8 @@
 .definelabel DelayInitialMap, 0x80002DAC
 .definelabel DrawLocalSkeletonShape, 0x80004DFC
 
+
+.definelabel DMA_Base729A30, 0x80099000  //used for preview texture loads
 .definelabel TexBuffLoadP, 0x800996BC
 .definelabel GrayScaleTexBuf3, 0x8009B0A4
 .definelabel GrayScaleTexBufRGB, 0x8009B538
@@ -395,11 +400,14 @@
 
 
 .definelabel osInvalDCache, 0x800CDB80
+.definelabel osVISwapBuffer, 0x800CDA10
 .definelabel osGetTime, 0x800CDDE0
 .definelabel osGetCount, 0x800D11A0
 .definelabel osEepromLongRead, 0x800D0190
 .definelabel osEepromLongWrite, 0x800D0050
+.definelabel osVIBlack, 0x800CC8C0
 .definelabel osWritebackDCacheAll, 0x800CD890
+.definelabel osSetTime, 0x800CE310
 .definelabel osEepromProbe, 0x800CE340
 
 .definelabel g_fadeOutFlag, 0x800DC5C0
@@ -796,6 +804,7 @@
 
 .definelabel titleDemo, 0x8018EE00
 
+
 .definelabel g_cupSelect, 0x8018EE09
 .definelabel g_courseSelect, 0x8018EE0B
 .definelabel g_InGameTT, 0x8018EDFB
@@ -815,6 +824,7 @@
 
 .definelabel KeystockBuffer, 0x802D2B80
 .definelabel KeystockCounter, 0x80162D9C 
+.definelabel OGAArea, 0x80162FCE
 .definelabel LaneData, 0x801634F8
 .definelabel g_RoadWidth, 0x800DCA4C
 
@@ -918,6 +928,7 @@
 .definelabel g_PlayerSurfaceSoundID, 0x800E9E74
 
 .definelabel g_gamePausedFlag, 0x800EA16C
+.definelabel OSClockRate, 0x800EA5E0
 
 .definelabel MakePos, 0x8005D794
 .definelabel MakeStartup, 0x8005D7D8

@@ -306,6 +306,7 @@
 #define ZVOID		1
 #define ZLAVA		2
 #define ZICE		3
+#define ZHOTSTUFF	4
 
 
 
@@ -1332,5 +1333,14 @@ typedef struct CourseHeader {
 	ushort flag,unused;    //(0x2E) Padding
 } CourseHeader;
 
+
+typedef struct TexDataTable{
+	uint null;
+	short* DataPointer;
+	short Width, Height;
+	uint null2;
+	short DMASize, pad1;
+	uint padding[5]; //padding
+} TexDataTable;
 
 #endif

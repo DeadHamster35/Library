@@ -20,7 +20,6 @@ it needs to be placed in static ROM with no offset to the address
 
 
 
-
 // fix for MKInit duplicate calls which are overwritten by our boot code.
 // gamecode never needs to be reloaded.
 .org 0x3314
@@ -78,6 +77,24 @@ JAL PakkunStrategyOverride
 
 
 
+//Change preview texture load function
+.org 0x099E98
+JAL DMA_Base729A30Bypass
+.org 0x099EE4
+JAL DMA_Base729A30Bypass
+.org 0x09A07C
+JAL DMA_Base729A30Bypass
+.org 0x09A1D8
+JAL DMA_Base729A30Bypass
+.org 0x09A400
+JAL DMA_Base729A30Bypass
+.org 0x09A634
+JAL DMA_Base729A30Bypass
+
+
+
+
+
 
 // Move FreeMemoryPointer loads to EOF using new funcs and rewrites
 
@@ -87,7 +104,7 @@ JAL PakkunStrategyOverride
     JAL LoadPressDataBypass
 
     // Rewrite for Segment 47 TransGFXData
-    .org 0x114028
+    .org 0x1140280
     JAL LoadDataBypass
 
     //Stop loading StaticMemoryPointer over LastMemoryPointer
@@ -186,6 +203,8 @@ JAL ExplorerKWDisplayJugemu
 JAL ExplorerKWDisplayJugemu
 .org 0x059118
 JAL ExplorerKWDisplayJugemu
+
+
 
 
 //
@@ -471,6 +490,8 @@ JAL DisplayCrashScreen
 NOP
 .org 0x5240
 NOP
+.org 0x5250
+JAL DrawCrashScreenHandler
 
 //Auto draw without button imprompt
 .org 0xDD2FC

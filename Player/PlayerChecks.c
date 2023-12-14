@@ -212,6 +212,28 @@ void SetWaterType(char WaterType)
 						break;
 						}
 */
+						case ZHOTSTUFF:
+						{
+							if((g_waterlevelPlayer[(int)playerID] - GlobalPlayer[(int)playerID].position[1]) > 0 - (GlobalPlayer[(int)playerID].radius))
+							{
+								GlobalPlayer[(int)playerID].position[1] = g_waterlevelPlayer[(int)playerID] + (GlobalPlayer[(int)playerID].radius) + 1;
+								GlobalPlayer[(int)playerID].jugemu_flag |= LAVA_EFFECT;
+								LavaFloorBumpCount[(int)playerID]++;
+								LavaFloorRecoilRequired[(int)playerID] = true;
+							}
+							
+							if (LavaFloorBumpCount[(int)playerID] >= 4)
+							{
+								CallLakitu(&GlobalPlayer[(int)playerID]);
+							}
+
+							
+							//LavaFloorBumpCount[PlayerIndex] += 1;
+
+
+
+							break;
+						}
 						default:
 						{				
 							break;
@@ -495,6 +517,7 @@ void CheckPaths()
 				//check surface and assign path.
 				if (CPUPaths[ThisPlayer].LastLap != GlobalPlayer[ThisPlayer].rap)
 				{
+					CPUPaths[ThisPlayer].LastLap = GlobalPlayer[ThisPlayer].rap;
 					CurrentPathID[ThisPlayer] = 0;
 				}
 
@@ -504,7 +527,7 @@ void CheckPaths()
 				{
 					if (OverKartHeader.PathTrigger[ThisPath] == SurfaceID)
 					{
-						CurrentPathID[ThisPlayer] = ThisPath;
+						CurrentPathID[ThisPlayer] = (ushort)ThisPath;
 					}
 				}
 			}

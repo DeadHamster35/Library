@@ -515,7 +515,7 @@ void OKObjectCollision(OKObject *InputObject)
 
 
 
-void DrawOKObjectLoop(OKModel* ThisModel, int Player, int Type)
+void DrawOKObjectLoop(OKModel* ThisModel, int Player, int Type, int ForceRender)
 {
 	// Add the Texture Draw F3D code
 	gSPDisplayList(GraphPtrOffset++,(ObjectSegment | ThisModel->TextureAddress) )
@@ -530,13 +530,13 @@ void DrawOKObjectLoop(OKModel* ThisModel, int Player, int Type)
 			{
 				//We use the sphere collision test to see if the character is within render radius.
 
-				if(TestCollideSphere(OKObjectArray[CurrentObject].ObjectData.position, (float)(OverKartRAMHeader.ObjectTypeList[Type].RenderRadius) ,GlobalPlayer[Player].position, GlobalPlayer[Player].radius))
+				if((ForceRender == 1) || (TestCollideSphere(OKObjectArray[CurrentObject].ObjectData.position, (float)(OverKartRAMHeader.ObjectTypeList[Type].RenderRadius) ,GlobalPlayer[Player].position, GlobalPlayer[Player].radius)))
 				{
 					uint* MeshAddress = (uint*)GetRealAddress(ObjectSegment |ThisModel->MeshAddress);
 
 					
 					objectPosition[0] = (float)OKObjectArray[CurrentObject].ObjectData.position[0];
-					objectPosition[1] = (float)OKObjectArray[CurrentObject].ObjectData.position[1];
+					objectPosition[1] = (float)OKObjectArray[CurrentObject].ObjectData.position[1] - 3.5f;
 					objectPosition[2] = (float)OKObjectArray[CurrentObject].ObjectData.position[2];
 					if (OverKartRAMHeader.ObjectTypeList[Type].CameraAlignToggle == 0x01)
 					{		
@@ -702,7 +702,7 @@ void DrawOKAnimationLoop(OKSkeleton* Skeleton, int CurrentPlayer, int Type)
 	}
 }
 
-void DrawOKObjects(Camera* LocalCamera)
+void DrawOKObjects(Camera* LocalCamera, int ForceRender)
 {
 	
 	if (scrollLock)
@@ -727,7 +727,7 @@ void DrawOKObjects(Camera* LocalCamera)
 				OKModel* ModelData = (OKModel*)GetRealAddress(ObjectSegment | (int)OverKartRAMHeader.ObjectTypeList[CurrentType].ObjectModel);
 				for (int CurrentModel = 0; CurrentModel < (int)OverKartRAMHeader.ObjectTypeList[CurrentType].OKModelCount; CurrentModel++)
 				{
-					DrawOKObjectLoop((OKModel*)&ModelData[CurrentModel], CurrentPlayer, CurrentType);
+					DrawOKObjectLoop((OKModel*)&ModelData[CurrentModel], CurrentPlayer, CurrentType, ForceRender);
 				}	
 
 				if (OverKartRAMHeader.ObjectTypeList[CurrentType].ZSortToggle == 0)
@@ -735,7 +735,7 @@ void DrawOKObjects(Camera* LocalCamera)
 					OKModel* ModelData = (OKModel*)GetRealAddress(ObjectSegment | (int)OverKartRAMHeader.ObjectTypeList[CurrentType].ObjectXLU);
 					for (int CurrentModel = 0; CurrentModel < (int)OverKartRAMHeader.ObjectTypeList[CurrentType].OKXLUCount; CurrentModel++)
 					{						
-						DrawOKObjectLoop((OKModel*)&ModelData[CurrentModel], CurrentPlayer, CurrentType);
+						DrawOKObjectLoop((OKModel*)&ModelData[CurrentModel], CurrentPlayer, CurrentType, ForceRender);
 					}				
 				}
 			}
@@ -809,7 +809,7 @@ void DrawOKObjects(Camera* LocalCamera)
 						OKModel* ModelData = (OKModel*)GetRealAddress(ObjectSegment | (int)OverKartRAMHeader.ObjectTypeList[OKObjectArray[GlobalShortA].TypeIndex].ObjectXLU);
 						for (int CurrentModel = 0; CurrentModel < (int)OverKartRAMHeader.ObjectTypeList[OKObjectArray[GlobalShortA].TypeIndex].OKXLUCount; CurrentModel++)
 						{		
-							DrawOKObjectLoop((OKModel*)&ModelData[CurrentModel], CurrentPlayer, OKObjectArray[GlobalShortA].TypeIndex);
+							DrawOKObjectLoop((OKModel*)&ModelData[CurrentModel], CurrentPlayer, OKObjectArray[GlobalShortA].TypeIndex, ForceRender);
 						}
 					}		
 				}

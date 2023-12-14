@@ -54,6 +54,6 @@
 #include "SubProgram.h"
 #include "PreCode.h"
 #include "PreSwitch.h"
-
+#include "CrashScreenEnhanced.h"
 
 #endif

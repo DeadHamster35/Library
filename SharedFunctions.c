@@ -38,7 +38,7 @@ void DrawPerScreenDefault(Camera* LocalCamera)
 	{
 		if(HotSwapID > 0)
 		{
-			DrawOKObjects(LocalCamera);
+			DrawOKObjects(LocalCamera, 0);
 		}
 	}
 };
@@ -95,6 +95,42 @@ void runDMA()
 {
 	DMA(*targetAddress, *sourceAddress, dataLength);
 }
+
+void DMA_Base729A30Bypass(int input, int length, long output)
+{
+	
+
+	DMA_Base729A30(input, length, output);
+	return;
+	
+	// To-Do
+	// This doesn't work
+	// figure out how to make it work
+	// there's other functions using 729A30 magic number
+	// get out your wizard kit potter.
+
+
+	//used for loading preview textures.
+	if (HotSwapID == 0)
+	{
+		if ((input & 0x0A000000) == 0x0A000000)
+		{
+			DMA_Base729A30(input, length, output);
+		}
+	}
+	else
+	{
+		if ((input & 0x0A000000) == 0x0A000000)
+		{
+			DMA_Base729A30(input, length, output);
+		}
+		else
+		{
+			DMA(output, input, length);
+		}
+	}
+}
+
 void runRAM()
 {
 	ramCopy(*targetAddress, *sourceAddress, dataLength);
@@ -590,6 +626,7 @@ ushort custom_check_bump(Bump *bump,float radius,float px,float py,float pz)
 ushort custom_check_bump_2(Bump* bump, float radius, float px, float py, float pz, float lastx, float lasty, float lastz)
 {
 	ushort tmp = CheckBump2(bump, radius, px, py, pz, lastx, lasty, lastz);
+	
 	if (tmp != 0)
 	{
 		InteractLavaFloor(bump, bump->last_zx);
