@@ -91,6 +91,44 @@ extern void MiniMapDrawDefault();
 
 
 
+
+
+#define	PHYS_TO_K1(x)	((u32)(x)|0xA0000000)	/* physical to kseg1 */
+#define IO_READ(addr)       (*(vu32 *)PHYS_TO_K1(addr))
+void DetectEmulator()
+{
+	uint buff;
+
+
+	if (IO_READ(0xA4100010) == 0)
+	{
+		EmulatorPlatform = 1;
+		CartridgeStatus = 1;
+		return;
+	} // DPC_CLOCK_REG in Libultra
+		
+
+	// Fallback, harder emulator check.
+	// The VI has an interesting quirk where its values are mirrored every 0x40 bytes
+	// It's unlikely that emulators handle this, so we'll write to the VI_TEST_ADDR register and readback 0x40 bytes from its address
+	// If they don't match, we probably have an emulator
+	buff = (*(uint*)0xA4400038);
+	(*(uint*)0xA4400038) = 0x6ABCDEF9;
+	if ((*(uint*)0xA4400038) != (*(u32*)0xA4400078))
+	{
+		(*(uint*)0xA4400038) = buff;
+		EmulatorPlatform = 1;
+		CartridgeStatus = 2;
+		return;
+	}
+
+	(*(uint*)0xA4400038) = buff;
+	EmulatorPlatform = 0;
+	CartridgeStatus = 3;
+	return;
+}
+
+
 void runDMA()
 {
 	DMA(*targetAddress, *sourceAddress, dataLength);

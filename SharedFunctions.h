@@ -71,6 +71,9 @@ extern int LoadPressDataBypass(uint RomStart, uint RomEnd);
 extern bool CheckPlatform();
 extern bool CheckEmulator();
 
+
+extern void DetectEmulator();
+
 extern void runDMA();
 extern void runRAM();
 extern void runTKM();

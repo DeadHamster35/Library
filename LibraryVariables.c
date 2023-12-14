@@ -22,6 +22,7 @@ uint CycleCount[2];
 
 bool TempoBool, StopSwop;
 char ConsolePlatform, EmulatorPlatform;
+uint CartridgeStatus;
 
 bool SurfaceExplorerMode = false;
 bool CustomWaterHeight[8];
