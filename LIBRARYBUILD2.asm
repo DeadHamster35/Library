@@ -18,9 +18,8 @@ The address must be offset to match it's position in RAM.
 .importobj "../library/SharedFunctions.o"
 .align 0x10
 .importobj "../library/CrashScreenEnhanced.o"
-
-
-
+//.align 0x10
+//.importobj "../library/DPR.o"
 .align 0x10
 .importobj "../library/Player/MarioKartStats.o"
 .align 0x10

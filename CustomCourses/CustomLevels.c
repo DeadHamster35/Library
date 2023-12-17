@@ -939,7 +939,7 @@ void SnowCustomCheck(int SnowIndex)
 	}
 }
 
-void KWKumo_Alloc_Hook()
+void KWKumo_Alloc_Hook_Default()
 {
 	if (HotSwapID > 0)
 	{
@@ -958,7 +958,7 @@ void KWKumo_Alloc_Hook()
 	}
 }
 
-void KWChart_Kumo_Hook(int screen_num)
+void KWChart_Kumo_Hook_Default(int screen_num)
 {
 	if (HotSwapID > 0)
 	{

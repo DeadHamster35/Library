@@ -67,3 +67,11 @@ If the defined functions have not been made in an external codebase, it will use
 .ifndef MiniMapDraw
 .definelabel MiniMapDraw, MiniMapDrawDefault
 .endif
+
+.ifndef KWKumo_Alloc_Hook
+.definelabel KWKumo_Alloc_Hook, KWKumo_Alloc_Hook_Default
+.endif
+
+.ifndef KWChart_Kumo_Hook
+.definelabel KWChart_Kumo_Hook, KWChart_Kumo_Hook_Default
+.endif
