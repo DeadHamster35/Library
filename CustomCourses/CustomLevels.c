@@ -367,7 +367,7 @@ void setSong()
 	if ((HotSwapID > 0) && (OverKartHeader.Version != 0xFFFFFFFF))
 	{
 
-		if (OverKartHeader.MusicID < 0x50)
+		if (OverKartHeader.MusicID < 50)
 		{
 			songID = (short)OverKartHeader.MusicID;
 
@@ -381,7 +381,7 @@ void setSong()
 		}
 		else
 		{
-			songID = 0x03;
+			songID = 3;
 
 			*targetAddress = (int)&ok_FreeSpace;
 			*sourceAddress = OverKartHeader.MusicID;
@@ -664,6 +664,15 @@ void setPath()
 		
 		
 
+	}
+
+
+	for (int ThisPlayer = 0; ThisPlayer < 8; ThisPlayer++)
+	{
+		CPUPaths[ThisPlayer].CurrentPath = -1;
+		CPUPaths[ThisPlayer].LastPath = -1;
+		CPUPaths[ThisPlayer].LastLap = 99;
+		
 	}
 }
 

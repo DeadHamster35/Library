@@ -138,7 +138,6 @@
 .definelabel sinF, 0x800D60F0
 .definelabel cosF, 0x800D62B0
 
-.definelabel PrintF, 0x800D6420
 
 .definelabel CheckCone, 0x802B8058
 .definelabel CheckDisplayRange, 0x802B80D0
@@ -812,7 +811,9 @@
 
 .definelabel InitializeEndingSequence, 0x80280420
 .definelabel EndingSequence, 0x802802AC
+.definelabel CheckFinish, 0x8028E3A0
 .definelabel asm_CupCount, 0x8028E3C6
+
 .definelabel songID, 0x8028ECE6
 .definelabel asm_SongA, 0x8028EC9C
 .definelabel asm_SongB, 0x8028F9C4

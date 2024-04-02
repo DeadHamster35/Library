@@ -1241,10 +1241,7 @@ void PrintNiceTextNumber(int posx, int posy, float scale, char *text, int value)
 
 void DisplayCrashScreen()
 {
-	*sourceAddress = (int)(&Crash);
-	*targetAddress = *(uint*)0x80162D5C;
-	dataLength = (int)&CrashEnd - (int)&Crash;
-	runDMA();
+     
 }
 
 

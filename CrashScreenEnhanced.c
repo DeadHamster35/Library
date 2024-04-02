@@ -196,7 +196,7 @@ void crash_screen_draw(OSThread* thread) {
     
     
     
-    crash_screen_draw_rect(15, 15, 291, 100);    
+    //crash_screen_draw_rect(15, 15, 291, 100);    
     PrintStringCrash(165, 15, gCauseDesc[cause], gCauseLength[cause]); //lol need int-array of lengths.
     PrintStringUnsigned(45, 15, "ThreadID:", 9,thread->id);
 
@@ -261,10 +261,15 @@ void crash_screen_draw(OSThread* thread) {
     crash_screen_print_float_reg(30, 220, 30, &tc->fp30.f.f_even);
     */
 
-
+    
+    ushort *framebuffer = (ushort*)(g_CfbPtrs[g_DispFrame]);
    
+	*sourceAddress = (int)(&Crash);
+	*targetAddress = (int)(g_CfbPtrs[g_DispFrame]);
+    *targetAddress +=  + (0x1E780);
+	dataLength = (int)&CrashEnd - (int)&Crash;
+	runDMA();
     
     osViBlack(FALSE);
-    ushort *framebuffer = (ushort*)(g_CfbPtrs[g_DispFrame]);
     osViSwapBuffer(framebuffer);
 }

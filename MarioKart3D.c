@@ -2174,15 +2174,15 @@ unsigned short PakkunColor[]={
 
 void ScaleMatrixXYZFixed(AffineMtx Matrix, SVector FScale)
 {
-    Matrix[0][0] *= (FScale[0] / 100);
-    Matrix[1][0] *= (FScale[0] / 100);
-    Matrix[2][0] *= (FScale[0] / 100);
-    Matrix[1][0] *= (FScale[1] / 100);
-    Matrix[1][1] *= (FScale[1] / 100);
-    Matrix[1][2] *= (FScale[1] / 100);
-    Matrix[2][0] *= (FScale[2] / 100);
-    Matrix[2][1] *= (FScale[2] / 100);
-    Matrix[2][2] *= (FScale[2] / 100);
+    Matrix[0][0] *= (float)(FScale[0] / 100.0f);
+    Matrix[1][0] *= (float)(FScale[0] / 100.0f);
+    Matrix[2][0] *= (float)(FScale[0] / 100.0f);
+    Matrix[1][0] *= (float)(FScale[1] / 100.0f);
+    Matrix[1][1] *= (float)(FScale[1] / 100.0f);
+    Matrix[1][2] *= (float)(FScale[1] / 100.0f);
+    Matrix[2][0] *= (float)(FScale[2] / 100.0f);
+    Matrix[2][1] *= (float)(FScale[2] / 100.0f);
+    Matrix[2][2] *= (float)(FScale[2] / 100.0f);
 }
 void ScaleMatrixXYZ(AffineMtx Matrix, Vector Scale)
 {

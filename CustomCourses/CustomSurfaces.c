@@ -124,6 +124,7 @@ void SurfaceSFX(Player *car, int SFX_ID, float min_Speed)
 #define TrickJump		236
 #define GapJump			235
 #define LavaSurface		234
+#define ForceJump		233
 
 #define Mud				18
 
@@ -265,7 +266,7 @@ void AddGravityEdit(Player *car)
 	{
 		if (car->bump.distance_zx >= 0.2f)
 		{
-			float TestGravity = 10.0f * (255 - GlobalPlayer[car_number].bump.dummy);
+			float TestGravity = 10.0f * (256 - GlobalPlayer[car_number].bump.dummy);
 			if (TestGravity != 0)
 			{
 				car->gravity = TestGravity;
@@ -300,6 +301,7 @@ void AddGravityEdit(Player *car)
 			MakeBodyColor(car,car_number,0x00500050,2.0f);
 		}
 	}
+
 
 
 	
@@ -400,6 +402,31 @@ void AddGravityEdit(Player *car)
 					}
 					SurfaceStorage[car_number] = STORE_GAP;
 				}
+			}
+			break;
+		}
+
+
+		case ForceJump:
+		{
+			if (car->tire_FL.Status == ForceJump)
+			{
+				FaceStruct *SurfaceBuffer = (FaceStruct*)(gFaceBuffer);
+				Vtx *TargetVert = (Vtx*)SurfaceBuffer[GlobalPlayer[car_number].bump.last_zx].p1;
+				//Target Blue-Channel of SurfaceMap Vertex Color
+				GlobalPlayer[car_number].bump.dummy = TargetVert->v.cn[2];  //use.bump dummy; goes unused by gamecode
+			}
+			else
+			{
+				car->flag |= 0x80;
+				SetAnimBonkStars(car_number);
+				SetWing(car, car_number);
+				car->jumpcount = 0;
+				if (car->max_power != car->bump_status)
+				{
+					car->max_power = car->bump_status;
+				}
+				SurfaceStorage[car_number] = STORE_GAP;
 			}
 			break;
 		}

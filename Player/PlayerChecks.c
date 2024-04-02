@@ -489,27 +489,29 @@ void CheckPaths()
 					for (int This = 0; This < 100; This++)
 					{
 						GlobalShortA = MakeRandomLimmit(OverKartHeader.PathCount);
+
 						if (GlobalShortA > OverKartHeader.PathCount)
 						{
 							GlobalShortA = OverKartHeader.PathCount;
 						}
-						if (OverKartHeader.PathSplit == 1)
+
+						if (OverKartHeader.PathSplit != 1)
 						{
-							if (GlobalShortA != LastAIPath)
-							{
-								LastAIPath = GlobalShortA;
-								GlobalBoolA = true;
-							}
+							break;
 						}
-						else
+						
+						if (GlobalShortA != LastAIPath)
 						{
-							GlobalBoolA = true;
+							LastAIPath = GlobalShortA;
+							break;
 						}
 					}
 					//Assign new path. 
 					CPUPaths[ThisPlayer].CurrentPath = GlobalShortA;
-					CurrentPathID[ThisPlayer] = GlobalShortA;
+					
 				}
+
+				CurrentPathID[ThisPlayer] = CPUPaths[ThisPlayer].CurrentPath;
 			}
 			else
 			{
