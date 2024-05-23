@@ -335,5 +335,6 @@ typedef struct OKEngine{
 #define StateGhostOn 14
 #define StateStarOff 15
 #define StateGhostOff 16
+#define StateLoseUnusedItem 17
 
 #endif
