@@ -443,6 +443,12 @@ void MasterStatus(int PlayerID, short StatusID)
 			SetGhostEffect(PlayerID,false, 0);
 			break;
 		}
+		case StateLoseUnusedItem:
+		{
+			if (GlobalPlayer[PlayerID].flag&IS_PLAYER)
+				g_DynamicObjects[ItemBoxAllocPtr[PlayerID]].output = 0;
+			break;
+		}
 
 		
 	}

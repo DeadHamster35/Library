@@ -5,6 +5,10 @@ it needs to be placed in static ROM with no offset to the address
 
 
 
+.org 0x3314
+NOP
+
+
 //Change kwtexture2d to use loadtile
 .org 0x463E0
 .word 0x0C010F0A
@@ -17,24 +21,6 @@ it needs to be placed in static ROM with no offset to the address
 .org 0x0473C4
 .word 0x273979E8
 
-
-
-
-// fix for MKInit duplicate calls which are overwritten by our boot code.
-// gamecode never needs to be reloaded.
-.org 0x3314
-NOP
-.org 0x3354
-NOP
-.org 0x1CC64
-NOP
-.org 0x3334
-NOP
-.org 0x335C
-NOP
-//
-//
-//
 
 
 //Overwrite EEPROM load functions
@@ -103,8 +89,14 @@ JAL DMA_Base729A30Bypass
     .org 0x114004
     JAL LoadPressDataBypass
 
+    .org 0x125090
+    JAL LoadPressDataBypass
+
+    .org 0x1250B0
+    JAL LoadPressDataBypass
+
     // Rewrite for Segment 47 TransGFXData
-    .org 0x1140280
+    .org 0x114028
     JAL LoadDataBypass
 
     //Stop loading StaticMemoryPointer over LastMemoryPointer

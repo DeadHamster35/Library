@@ -386,6 +386,15 @@ void OKObjectCollision(OKObject *InputObject)
 		
 			// run collision check for player
 			
+			if ( (GlobalPlayer[CurrentPlayer].slip_flag & IS_STAR) != 0)
+			{
+				continue;
+			}
+
+			if ( (GlobalPlayer[CurrentPlayer].slip_flag & IS_GHOST) != 0)
+			{
+				continue;
+			}
 
 			if //Complex Boolean
 			(

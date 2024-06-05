@@ -141,8 +141,6 @@ extern float cosT(ushort inputAngle);
 extern float sinF(float inputAngle);
 extern float cosF(float inputAngle);
 
-#define va_list __builtin_va_list
-extern uint PrintF(char *(*prout)(char *, const char *, size_t), char *dst, const char *fmt, va_list args);
 
 extern int CheckCone(ushort left,ushort right,ushort direction);
 extern float CheckDisplayRange(Vector basepos, Vector markpos, ushort camera_direction, float radius, float angle2, float limmit_distance);
@@ -735,7 +733,7 @@ extern char item2C;
 //extern long g_TimeLapTable; //0x8018CA70          !!! renamed to g_hudStruct !!!
 //extern char g_lapCheckA;                          !!! removed inside HUD struct now: finlineAnim2 !!! U use this in MarioKartPractice.c
 //extern char g_lapCheckB;                          !!! removed inside HUD struct now: lapCount !!! U use this in MarioKartPractice.c
-extern long g_hudStruct; //0x8018CA70              
+extern long g_hudStruct; //0x8018CA70
 extern struct Hud g_hudPlayer1;
 extern struct Hud g_hudPlayer2;
 extern struct Hud g_hudPlayer3;
@@ -794,6 +792,7 @@ extern char g_InGame; //0x8018EDFC
 
 extern void InitializeEndingSequence();
 extern void EndingSequence();
+extern void CheckFinish();
 extern short asm_CupCount;
 extern short songID; //
 extern long asm_SongA;// 0x8028EC9C

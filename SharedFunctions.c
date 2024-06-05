@@ -275,6 +275,14 @@ int LoadOKData (uint SourceInput, uint SizeData)
 
 int LoadDataBypass(uint RomStart, uint RomEnd)
 {
+	if (g_gameMode == GAMEMODE_GP)
+	{
+		if (gpCourseIndex > asm_CupCount)
+		{
+			HotSwapID = 0;
+		}
+	}
+	
 	*sourceAddress = RomStart;	
 	dataLength = RomEnd - RomStart;
 	LastMemoryPointer -= dataLength;
@@ -285,6 +293,14 @@ int LoadDataBypass(uint RomStart, uint RomEnd)
 
 int LoadPressDataBypass(uint RomStart, uint RomEnd)
 {
+	if (g_gameMode == GAMEMODE_GP)
+	{
+		if (gpCourseIndex > asm_CupCount)
+		{
+			HotSwapID = 0;
+		}
+	}
+
 	*sourceAddress = RomStart;	
 	dataLength = RomEnd - RomStart;
 	LastMemoryPointer -= dataLength;

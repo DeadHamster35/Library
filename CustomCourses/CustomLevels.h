@@ -18,6 +18,7 @@ extern void DecodeSP2Triangle_OK(Gfx *gfx,unsigned char *pp,char code );
 extern void DecodeSP1Quadrangle_OK(Gfx *gfx,unsigned char *pp,char code );
 extern void DecodeVertex2_OK(char *ramaddress, uint number);
 
+extern void CheckFinishFix();
 extern void runDisplayScreen();
 extern void runKillDisplayObjects();
 extern void loadTextureScrollTranslucent();
