@@ -5,10 +5,6 @@ it needs to be placed in static ROM with no offset to the address
 
 
 
-.org 0x3314
-NOP
-
-
 //Change kwtexture2d to use loadtile
 .org 0x463E0
 .word 0x0C010F0A
@@ -21,6 +17,25 @@ NOP
 .org 0x0473C4
 .word 0x273979E8
 
+
+
+
+
+// fix for MKInit duplicate calls which are overwritten by our boot code.
+// gamecode never needs to be reloaded.
+.org 0x3314
+NOP
+.org 0x3354
+NOP
+.org 0x1CC64
+NOP
+.org 0x3334
+NOP
+.org 0x335C
+NOP
+//
+//
+//
 
 
 //Overwrite EEPROM load functions
@@ -63,36 +78,12 @@ JAL PakkunStrategyOverride
 
 
 
-//Change preview texture load function
-.org 0x099E98
-JAL DMA_Base729A30Bypass
-.org 0x099EE4
-JAL DMA_Base729A30Bypass
-.org 0x09A07C
-JAL DMA_Base729A30Bypass
-.org 0x09A1D8
-JAL DMA_Base729A30Bypass
-.org 0x09A400
-JAL DMA_Base729A30Bypass
-.org 0x09A634
-JAL DMA_Base729A30Bypass
-
-
-
-
-
 
 // Move FreeMemoryPointer loads to EOF using new funcs and rewrites
 
 
     // Rewrite for Segment 6 LoadPressData
     .org 0x114004
-    JAL LoadPressDataBypass
-
-    .org 0x125090
-    JAL LoadPressDataBypass
-
-    .org 0x1250B0
     JAL LoadPressDataBypass
 
     // Rewrite for Segment 47 TransGFXData
@@ -195,8 +186,6 @@ JAL ExplorerKWDisplayJugemu
 JAL ExplorerKWDisplayJugemu
 .org 0x059118
 JAL ExplorerKWDisplayJugemu
-
-
 
 
 //
@@ -482,8 +471,6 @@ JAL DisplayCrashScreen
 NOP
 .org 0x5240
 NOP
-.org 0x5250
-JAL DrawCrashScreenHandler
 
 //Auto draw without button imprompt
 .org 0xDD2FC
