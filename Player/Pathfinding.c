@@ -83,7 +83,7 @@ bool PathfinderComplete(BKPathfinder *Pathfinder, short *PathLengths, short *Ram
 
 int FindNearestRampNode(float CurrentPosition[], float FoundNodePosition[], float TargetY, Marker* PathArray[], short* MarkerCounts, short PathCount, float HeightCheckSquared)
 {
-    float Distance = 9999999999.0;
+    float Distance = 99999999.0;
     float CheckDistance;
     float path_height_start_node, path_height_end_node;
     short use_this_path= -1;
@@ -102,7 +102,7 @@ int FindNearestRampNode(float CurrentPosition[], float FoundNodePosition[], floa
             if (pow(path_height_end_node - TargetY, 2) < TargetHeightDifference)
             {
                 CheckDistance = PythagoreanTheorem(CurrentPosition[0], (float)PathArray[ThisPath][0].Position[0], 
-                                                    CurrentPosition[2], (float)PathArray[ThisPath][0].Position[2]);
+                                                   CurrentPosition[2], (float)PathArray[ThisPath][0].Position[2]);
                 if (CheckDistance < Distance)
                 {
                     Distance = CheckDistance;
@@ -140,13 +140,13 @@ int FindNearestRampNode(float CurrentPosition[], float FoundNodePosition[], floa
 
 
 
-int FindNearestItemBox(float CurrentPosition[], float FoundItemBoxPosition[], float HeightCheckSquared)
+int FindNearestItemBox(float CurrentPosition[], float FoundItemBoxPosition[], float HeightCheckSquared, short courseType)
 {   
     //Find the nearest item box
     float player_x = CurrentPosition[0];
     float player_y = CurrentPosition[1];
     float player_z = CurrentPosition[2];
-    float distance = 9999999999.0;
+    float distance = 99999999.0;
     float CheckDistance;
     int found_item_box = -1;
 
@@ -156,7 +156,7 @@ int FindNearestItemBox(float CurrentPosition[], float FoundItemBoxPosition[], fl
         short i = ItemBoxIndex[ThisItemBox];
         float item_box_position_y = g_SimpleObjectArray[i].position[1];
         float diff_y = item_box_position_y - player_y;
-        if (pow(diff_y, 2) < HeightCheckSquared && diff_y >= 0.0) //Height check
+        if (pow(diff_y, 2) < HeightCheckSquared && (diff_y >= 0.0 || courseType > 3)) //Height check
         {
             float item_box_position_x = g_SimpleObjectArray[i].position[0];
             float item_box_position_z = g_SimpleObjectArray[i].position[2];
@@ -189,7 +189,7 @@ int FindNearestItemBox(float CurrentPosition[], float FoundItemBoxPosition[], fl
 
 int FindNearestDropNode(float CurrentPosition[], float FoundNodePosition[], float TargetY, Marker* PathArray[], short* MarkerCounts, short PathCount, float HeightCheckSquared)
 {
-    float Distance = 9999999999.0;
+    float Distance = 99999999.0;
     float CheckDistance;
     short use_this_path=-1;
     //short use_this_marker=0;
@@ -232,7 +232,7 @@ int FindNearestDropNode(float CurrentPosition[], float FoundNodePosition[], floa
 //Returns the furthest path node 
 void FindFurthestNode(float CurrentPosition[], float FoundNodePosition[], Marker* PathArray[], short* MarkerCounts, short PathCount)
 {
-    float Distance = -9999999999.0;
+    float Distance = -99999999.0;
     float CheckDistance;
     short use_this_path=-1;
     
@@ -270,10 +270,10 @@ void FindFurthestNode(float CurrentPosition[], float FoundNodePosition[], Marker
 //Find nearest node in current path
 int FindNearestMarker(float CurrentPosition[], Marker *PathArray[], short Markercount, short ThisPath, short defaultMarker)
 {
-    float Distance = 9999999999.0;
+    float Distance = 99999999.0;
     float CheckDistance;
     short use_this_marker = defaultMarker;
-    for (int ThisMarker = 0; ThisMarker < Markercount; ThisMarker++) 
+    for (int ThisMarker = 0; ThisMarker <= Markercount; ThisMarker++) 
     {
         CheckDistance = PythagoreanTheorem((float)PathArray[ThisPath][ThisMarker].Position[0], CurrentPosition[0], 
                                             (float)PathArray[ThisPath][ThisMarker].Position[2], CurrentPosition[2]);
@@ -287,6 +287,119 @@ int FindNearestMarker(float CurrentPosition[], Marker *PathArray[], short Marker
     return(use_this_marker);
 }
 
+
+
+//Update path for race courses
+void UpdateRacePath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *PathArray[], short* MarkerCounts, short PathCount, short PlayerID)
+{
+    short nearestToTargetPath = -1;
+    short nearestToBotPath = -1;
+    short EndMarker = 0;
+    //First find nearest paths to target and bot
+    float CheckDistance  = 99999999.0f;
+    float DistanceToTarget = 99999999.0f;
+    float DistanceToBot = 99999999.0f;
+    for (short ThisPath = 0; ThisPath < PathCount; ThisPath++)
+    {  
+        EndMarker = MarkerCounts[ThisPath];
+        //First find path nearest target
+        CheckDistance = PythagoreanTheorem((float)PathArray[ThisPath][EndMarker].Position[0], Pathfinder->Target[0], 
+                                            (float)PathArray[ThisPath][EndMarker].Position[2], Pathfinder->Target[2]);
+        if (CheckDistance < DistanceToTarget)
+        {
+            DistanceToTarget = CheckDistance;
+            nearestToTargetPath = ThisPath;
+        }
+        CheckDistance = PythagoreanTheorem((float)PathArray[ThisPath][0].Position[0], Pathfinder->Target[0], 
+                                            (float)PathArray[ThisPath][0].Position[2], Pathfinder->Target[2]);
+        if (CheckDistance < DistanceToTarget)
+        {
+            DistanceToTarget = CheckDistance;
+            nearestToTargetPath = ThisPath;
+        }       
+        //Second find path nearest bot position
+        CheckDistance = PythagoreanTheorem((float)PathArray[ThisPath][EndMarker].Position[0], GlobalPlayer[PlayerID].position[0], 
+                                            (float)PathArray[ThisPath][EndMarker].Position[2],  GlobalPlayer[PlayerID].position[2]);
+        if (CheckDistance < DistanceToBot)
+        {
+            DistanceToBot = CheckDistance;
+            nearestToBotPath = ThisPath;
+        }
+        CheckDistance = PythagoreanTheorem((float)PathArray[ThisPath][0].Position[0],  GlobalPlayer[PlayerID].position[0], 
+                                            (float)PathArray[ThisPath][0].Position[2],  GlobalPlayer[PlayerID].position[2]);
+        if (CheckDistance < DistanceToBot)
+        {
+            DistanceToBot = CheckDistance;
+            nearestToBotPath = ThisPath;
+        }         
+    }
+    //Set bot to next path
+    short diff;
+    short ThisPath;
+    // short Progression;
+    short Direction;
+    if (nearestToTargetPath > nearestToBotPath)
+    {
+        diff = nearestToTargetPath - nearestToBotPath;
+        if (diff < PathCount/2)
+        {
+            Direction = 1;
+
+        }
+        else //if (dif >= MAarkerCount/2)
+        {
+            Direction = -1;           
+        }
+    }   
+    else // (if (nearestToTargetPath <= nearestToBotPath))
+    {
+        diff = nearestToBotPath - nearestToTargetPath;
+        if (diff < PathCount/2)
+        {
+            Direction = -1; 
+        }
+        else //if (dif >= MAarkerCount/2)
+        {
+            Direction = 1;
+        }
+    }
+
+    ThisPath = nearestToBotPath;
+    if (ThisPath == PathCount) //error catch in case we went completeyl around the circle
+    {
+        ThisPath = 0;
+    }
+
+    // if (Direction == 1)
+    // {
+    //     Progression = 0;
+    // }
+    // else //Direction == -1
+    // {
+    //     Progression = MarkerCounts[ThisPath];
+    // }
+
+    short nearestMarker = FindNearestMarker(GlobalPlayer[PlayerID].position, PathArray, MarkerCounts[ThisPath], ThisPath, 0);
+    Pathfinder->Distance = CheckDistance;
+    Pathfinder->TargetPath = ThisPath;
+    Pathfinder->Progression = nearestMarker;
+    Pathfinder->Direction = Direction;
+    Pathfinder->PathType = 0;
+    Pathfinder->NearestMarker = nearestMarker;
+    Pathfinder->NearestMarkerHeight = (float)PathArray[ThisPath][nearestMarker].Position[1];
+    Pathfinder->ProgressTimer = 0;
+    // if (EndMarker - nearestMarker > 3)
+    // {
+    //      Pathfinder->SlowDown = false;
+    // }
+    // else
+    // {
+    //     Pathfinder->SlowDown = true;
+    // }
+}
+
+
+//Update path for battle courses
 void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *PathArray[], short* MarkerCounts, short PathCount, short PlayerID, char TypeOfPath, float HeightCheckSquared)
 {
     float CheckDistance;
@@ -294,11 +407,13 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
     short nearestMarker;
     float player_height = GlobalPlayer[PlayerID].position[1];
     #ifdef RunawayToggle
-    Pathfinder->Distance = -9999999999.0f; // Set an impossible value to ensure the first return is true.    
+    Pathfinder->Distance = -99999999.0f; // Set an impossible value to ensure the first return is true.    
     #else
-    Pathfinder->Distance = 9999999999.0f; // Set an impossible value to ensure the first return is true. 
+    Pathfinder->Distance = 99999999.0f; // Set an impossible value to ensure the first return is true. 
     #endif
     
+
+
     if (Pathfinder->TargetPath != -1)
     {
         Pathfinder->LastPath = Pathfinder->TargetPath; //Set the last path as we get ready to update.
@@ -314,7 +429,7 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
             objectPosition[1] = (float)PathArray[ThisPath][0].Position[1];
             objectPosition[2] = (float)PathArray[ThisPath][0].Position[2];
 
-            if (TestCollideSphere(GlobalPlayer[PlayerID].position, FirstMarkerDistance, objectPosition, 5)) //&& (ThisPath != Pathfinder->LastPath))  //check if the first marker is within 125 units of the player
+            if (TestCollideSphere(GlobalPlayer[PlayerID].position, FirstMarkerDistance, objectPosition, 5)) // && (ThisPath != Pathfinder->LastPath))  //check if the first marker is within 125 units of the player
             {
                 CheckDistance = PythagoreanTheorem((float)PathArray[ThisPath][EndMarker].Position[0], Pathfinder->Target[0], 
                                                     (float)PathArray[ThisPath][EndMarker].Position[2], Pathfinder->Target[2]);
@@ -338,14 +453,14 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
                     //Pathfinder->NearestMarkerHeight = (float)PathArray[ThisPath][0].Position[1];
                     Pathfinder->NearestMarkerHeight = (float)PathArray[ThisPath][nearestMarker].Position[1];
                     Pathfinder->ProgressTimer = 0;
-                    if (EndMarker - nearestMarker > 3)
-                    {
-                         Pathfinder->SlowDown = false;
-                    }
-                    else
-                    {
-                        Pathfinder->SlowDown = true;
-                    }
+                    // if (EndMarker - nearestMarker > 3)
+                    // {
+                    //      Pathfinder->SlowDown = false;
+                    // }
+                    // else
+                    // {
+                    //     Pathfinder->SlowDown = true;
+                    // }
                 }
             }
         }
@@ -357,7 +472,7 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
             objectPosition[1] = (float)PathArray[ThisPath][EndMarker].Position[1];
             objectPosition[2] = (float)PathArray[ThisPath][EndMarker].Position[2];
 
-            if (TestCollideSphere(GlobalPlayer[PlayerID].position, FirstMarkerDistance, objectPosition, 5) && (ThisPath != Pathfinder->LastPath))  //check if the last marker is within 125 units of the player
+            if (TestCollideSphere(GlobalPlayer[PlayerID].position, FirstMarkerDistance, objectPosition, 5))// && (ThisPath != Pathfinder->LastPath))  //check if the last marker is within 125 units of the player
             {
                 //First Marker has hit true, check distance of last marker
                 CheckDistance = PythagoreanTheorem((float)PathArray[ThisPath][0].Position[0], Pathfinder->Target[0], 
@@ -381,14 +496,14 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
                     //Pathfinder->NearestMarkerHeight = (float)PathArray[ThisPath][EndMarker].Position[1];
                     Pathfinder->NearestMarkerHeight = (float)PathArray[ThisPath][nearestMarker].Position[1];
                     Pathfinder->ProgressTimer = 0;
-                    if (nearestMarker > 3)
-                    {
-                         Pathfinder->SlowDown = false;
-                    }
-                    else
-                    {
-                        Pathfinder->SlowDown = true;
-                    }
+                    // if (nearestMarker > 3)
+                    // {
+                    //      Pathfinder->SlowDown = false;
+                    // }
+                    // else
+                    // {
+                    //     Pathfinder->SlowDown = true;
+                    // }
                 }
             }
         }
@@ -406,13 +521,13 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
             {
                 Pathfinder->Progression = MarkerCounts[Pathfinder->TargetPath];
                 Pathfinder->Direction = -1;
-                Pathfinder->SlowDown = false;
+                //Pathfinder->SlowDown = false;
             }
             else
             {
                 Pathfinder->Progression = 0;
                 Pathfinder->Direction = 1;
-                Pathfinder->SlowDown = false;
+                //Pathfinder->SlowDown = false;
             }
         }
     }
