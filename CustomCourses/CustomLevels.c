@@ -713,7 +713,6 @@ void PlaceIBoxes(long BoxOffset)
 
 void setWater()
 {
-
 	if (HotSwapID > 0)
 	{
 		g_waterHeight = OverKartHeader.WaterLevel;
@@ -1051,6 +1050,19 @@ void CommonGameEventChart()
 
 	MoveCustomParticle();
 }
+
+void KumoColorMode(uint r, uint g, uint b)
+{
+	/*
+    // Get the colors from the OK Header
+    short OKR = OKHeader.Cloud.R;
+    short OKG = OKHeader.Cloud.G;
+    short OKB = OKHeader.Cloud.B;
+
+    sparkmode(OKR,OKG,OKB);
+	*/
+}
+
 void setSky()
 {
 
@@ -1106,6 +1118,7 @@ void runTextureScroll()
 	{
 		return;
 	}
+	
 	for (int CurrentScroll = 0; CurrentScroll < LoopValue; CurrentScroll++)
 	{
 		GlobalAddressB = *(long *)(GlobalAddressA + (CurrentScroll * 8) + 4); // address of the texture command to scroll.
@@ -1320,6 +1333,7 @@ void DecodeSP1Quadrangle_OK(Gfx *gfx,unsigned char *pp,char code )
 	gfx[g_GFXCounter].words.w0=(G_LINE3D<<24);
 	gfx[g_GFXCounter++].words.w1=((v3*2)<<24)|((v0*2)<<16)|((v1*2)<<8)|(v2*2);
 }
+
 
 void DecodeVertex2_OK(char *ramaddress, uint number)
 {
@@ -1860,7 +1874,7 @@ void LoadCustomHeader(int inputID)
 	// version 5? 6?
 	if ((HotSwapID > 0) && (inputID != -1))
 	{
-
+		
 		// first load the entire OverKart header into expansion RAM
 		*targetAddress = (long)&ok_CourseHeader;
 		*sourceAddress = *(long *)(&ok_HeaderOffsets + ((inputID)*1) + ((HotSwapID - 1) * 0x14));
@@ -1893,7 +1907,6 @@ void LoadCustomHeader(int inputID)
 			unknownD1 = 0x3C040600; // 0x802927FC   ;;3C190601 -> 3C190600
 
 			unknownA2 = 0x27390000; // 0x80292810   ;;27399348 -> 27390000
-
 			unknownB = 0x34840000; // 0x802927FC   ;;34841140 -> 34840000
 			unknownC = 0x34840000; // 0x80292810   ;;348408E8 -> 34840000
 			unknownD = 0x34840000; // 0x80295E70   ;;34842D68 -> 34840000
@@ -2229,25 +2242,29 @@ void loadMinimap()
 		dataLength = 0x1000;
 		runDMA();
 		MiniMapStruct *MiniMapData = (MiniMapStruct*)(long)&ok_FreeSpace;
-		g_mapX = MiniMapData->MapX;
-		g_mapY = MiniMapData->MapY;
-		g_startX = MiniMapData->StartX;
-		g_startY = MiniMapData->StartY;		
-		RadarLineX = MiniMapData->LineX;
-		RadarLineY = MiniMapData->LineY;
+
+		if (g_playerCount == 1)
+		{	
+			g_mapX = MiniMapData->MapX;
+			g_mapY = MiniMapData->MapY;
+			g_startX = MiniMapData->StartX;
+			g_startY = MiniMapData->StartY;	
+			RadarLineX = MiniMapData->LineX;
+			RadarLineY = MiniMapData->LineY;
+
+			if (g_ScreenFlip == 1)
+			{
+				g_startX = g_mapWidth - g_startX;
+			}
+		}
+		
+			
 		g_mapHeight = MiniMapData->Height;
 		g_mapWidth = MiniMapData->Width;
 		g_mapR = MiniMapData->R;
 		g_mapG = MiniMapData->G;
 		g_mapB = MiniMapData->B;
 		g_mapScale = MiniMapData->Scale * 0.01;
-
-		if (g_ScreenFlip == 1)
-		{
-			g_startX = g_mapWidth - g_startX;
-		}
-		
-
 		*sourceAddress = (long)(&ok_FreeSpace) + sizeof(MiniMapStruct);
 		*targetAddress = (long)&ok_MapTextureData;
 		runMIO();

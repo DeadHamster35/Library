@@ -202,7 +202,7 @@ void PlaceBalls(uint BattleFlagF3D, uint BattleBaseF3D, uint PlayerBaseF3D[], ui
                 GameFlag[ThisFlag].Gravity = 500;
                 GameFlag[ThisFlag].Lift = 10000;
     
-                GameFlag[ThisFlag].Scale = 200;
+                GameFlag[ThisFlag].Scale = 10;
                 GameFlag[ThisFlag].AngularVel[0] = 0;
                 GameFlag[ThisFlag].AngularVel[1] = 0;
                 GameFlag[ThisFlag].AngularVel[2] = 2;

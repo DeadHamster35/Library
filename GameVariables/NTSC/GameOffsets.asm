@@ -13,6 +13,30 @@
 .definelabel spriteKillD, 0x80021248 //2400
 //AFBF
 
+
+.definelabel DrawKart, 0x800212B4
+.definelabel DrawKart2P, 0x800215DC
+.definelabel DrawKart3P, 0x8002186C
+.definelabel DrawKart4P, 0x800219BC
+
+.definelabel DrawKartAfter, 0x80021B0C
+.definelabel DrawKart2PAfter, 0x80021C78
+.definelabel DrawKart3PAfter, 0x80021D40
+.definelabel DrawKart4PAfter, 0x80021DA8
+
+.definelabel SmokeDisp, 0x8006E5AC
+.definelabel SmokeDisp2P, 0x8006E634
+.definelabel SmokeDisp3P, 0x8006E6BC
+.definelabel SmokeDisp4P, 0x8006E744
+.definelabel SmokeDispAfter, 0x8006E7CC
+.definelabel SmokeDispAfter2P, 0x8006E848
+.definelabel SmokeDispAfter3P, 0x8006E8C4
+.definelabel SmokeDispAfter4P, 0x8006E940
+
+.definelabel OBJCalculation, 0x8006D474
+
+
+
 .definelabel decodeMIO0, 0x800400D0 ;MIO0 File A0 = input, A1 = output
 .definelabel CrashScreenDrawInfo, 0x80004298
 .definelabel CreateDebugThread, 0x800046B8
@@ -49,11 +73,6 @@
 .definelabel CheckDMA2P, 0x8002088C
 .definelabel CheckDMA3P, 0x80020BF4
 .definelabel CheckDMA4P, 0x80020F1C
-
-.definelabel SmokeDisp, 0x8006E5AC
-.definelabel SmokeDisp2P, 0x8006E634
-.definelabel SmokeDisp3P, 0x8006E6BC
-.definelabel SmokeDisp4P, 0x8006E744
 
 .definelabel CheckHight, 0x802AE1C0
 .definelabel KWCheckRadiusXZ, 0x80041608
@@ -137,6 +156,8 @@
 .definelabel cosT, 0x802B8038
 .definelabel sinF, 0x800D60F0
 .definelabel cosF, 0x800D62B0
+
+.definelabel gBackgroundVtx, 0x802B8890
 
 
 .definelabel CheckCone, 0x802B8058
@@ -229,6 +250,7 @@
 .definelabel KWTexture2DCI8XLUPT, 0x80047B9C
 .definelabel KWTexture2DCI8XLUBL, 0x80047C28
 .definelabel KWTexture2DCI8AAXLUPT, 0x80047CB4
+.definelabel KWTexture3DRGBA32AAZBBL, 0x80046A68
 .definelabel KWSprite, 0x8004C364
 .definelabel KWSpriteScale, 0x8004CA58
 .definelabel KWSpriteDiv, 0x8004C91C
@@ -314,14 +336,22 @@
 .definelabel F_80090178, 0x80090178
 .definelabel GetLakituSpawnPoint, 0x80090178
 
+.definelabel doGameSelect10, 0x80095574
+
+
 .definelabel SetFastOoB, 0x80090868
 .definelabel CallLakitu, 0x80090868
 .definelabel SetLakitu, 0x80090778
 .definelabel LakituCheck, 0x8002C17C
 .definelabel HangLakitu, 0x80090970
 .definelabel LakituIceBehavior, 0x800797E8
+
+.definelabel OGAContTrgChk, 0x80019FB4
 .definelabel ShakeCamera, 0x8001CA10
 .definelabel ShakeHitCamera, 0x8001CA24
+
+.definelabel CameraControl, 0x8001EE98
+.definelabel KartView, 0x8001E45C
 
 .definelabel SlipCheck, 0x8002FCA8
 .definelabel AddGravity, 0x8002AB70
@@ -397,7 +427,10 @@
 .definelabel PutPylon, 0x8029ABD4
 .definelabel PutObject, 0x8029ED38
 
-
+.definelabel osCreateMesgQueue, 0x800CCD60
+.definelabel osRecvMesg, 0x800CD750
+.definelabel osPiStartDma, 0x800CDC30
+.definelabel osWriteBackDCache, 0x800D1C00
 .definelabel osInvalDCache, 0x800CDB80
 .definelabel osVISwapBuffer, 0x800CDA10
 .definelabel osGetTime, 0x800CDDE0
@@ -459,6 +492,8 @@
 .definelabel PathTableB, 0x800DC780
 
 .definelabel PathLengthTable, 0x800DD9D0
+
+.definelabel KartVtx, 0x800DDBB4
 
 .definelabel gFaceBuffer, 0x8015F580
 .definelabel g_courseFaceMaxIndex, 0x8015F588
@@ -687,6 +722,7 @@
 .definelabel FreeMemoryPointer, 0x8015F728
 .definelabel LastMemoryPointer, 0x8015F72C
 .definelabel StaticMemoryPointer, 0x8015F734
+.definelabel g_ScreenCounter, 0x8015F788
 .definelabel g_TrialTime, 0x8015F898
 .definelabel g_lap2Time, 0x8015F89C
 .definelabel g_lap3Time, 0x8015F8A0
@@ -787,6 +823,8 @@
 
 .definelabel asm_DisableEngineSound, 0x800E9F74
 .definelabel asm_DisableHUD, 0x80059D08 //0C016A67
+
+.definelabel KWVideoFramesYori, 0x80059AC8
 .definelabel g_GhostHUDID, 0x8018DAAA
 
 .definelabel g_mlogoY, 0x8018D9F0
@@ -813,6 +851,7 @@
 .definelabel EndingSequence, 0x802802AC
 .definelabel CheckFinish, 0x8028E3A0
 .definelabel asm_CupCount, 0x8028E3C6
+.definelabel ResultsSequence, 0x80281548
 
 .definelabel songID, 0x8028ECE6
 .definelabel asm_SongA, 0x8028EC9C
@@ -836,6 +875,8 @@
 .definelabel AnglePathDataBP, 0x80164590
 .definelabel ShortCutPathDataBP, 0x801645A0
 .definelabel CurrentPathID, 0x801645B0
+
+.definelabel Func_8001A588, 0x8001A588
 
 .definelabel ActionStartCheck, 0x80011B14
 .definelabel ActPointPtr, 0x801632B0
@@ -1106,7 +1147,7 @@
 
 //GP points
 .definelabel g_playerGPpoints, 0x8018D9C8
-
+.definelabel EtcEnemyDrive, 0x800097E0
 .definelabel InitCenterLine, 0x8000F2DC
 .definelabel OSMemSize, 0x80000318
 
@@ -1212,6 +1253,9 @@
 .definelabel SetPakkunObject, 0x8029CC14
 .definelabel SetItemBoxObject, 0x8029D830
 .definelabel LoadMapData, 0x802AA918
+.definelabel SetViewport, 0x802A3730
+.definelabel ClearZBuffer, 0x802A3CB0
+.definelabel ClearZBuffer2, 0x802A39E0
 .definelabel InitRDP, 0x802A3E3C
 .definelabel InitialDrawCommon, 0x802A53A4
 .definelabel FallingRockGFX_U, 0x8029CBE8

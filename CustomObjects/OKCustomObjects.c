@@ -61,10 +61,10 @@ void ClearOKObject(short ObjectID)
 	OKObjectArray[ObjectID].PlayerTarget = 0;
 	OKObjectArray[ObjectID].PathTarget = 0;
 	OKObjectArray[ObjectID].TargetDistance = 0;
-	OKObjectArray[ObjectID].TurnStatus = 0;
-	OKObjectArray[ObjectID].SearchStatus = 0;
-	OKObjectArray[ObjectID].WanderStatus = 0;
-	OKObjectArray[ObjectID].EMPTYSTATUS = 0;
+	OKObjectArray[ObjectID].Status[0] = 0;	
+	OKObjectArray[ObjectID].Status[1] = 0;
+	OKObjectArray[ObjectID].Status[2] = 0;
+	OKObjectArray[ObjectID].Status[3] = 0;
 	OKObjectArray[ObjectID].AnimationFrame = 0;
 	OKObjectArray[ObjectID].AnimationMax = 0;
 	OKObjectArray[ObjectID].AngularVelocity[0] = 0;

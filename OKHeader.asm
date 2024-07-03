@@ -68,7 +68,7 @@
 .definelabel ok_RedCoinSprite, lit_red_selecter +  0x200 
 .definelabel ok_GoldCoinSprite, ok_RedCoinSprite +  0x200 
 .definelabel ok_menucoinsprite, ok_RedCoinSprite +  0x200
-.definelabel hud_buttons, ok_RedCoinSprite +  0x200
+.definelabel hud_buttons, ok_RedCoinSprite +  0x400
 .definelabel nicefont, hud_buttons +  0x4400
 
 

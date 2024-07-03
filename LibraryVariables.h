@@ -161,7 +161,7 @@ extern short CoinPositions[8][3]; //8 Coins XYZ
 extern short FireParticlePositions[8][3];
 
 extern ushort MenuBlink, AudioLanguage;
-extern short gpCourseIndex, HotSwapID, hsGP, gpTimeCheck, courseValue;
+extern short gpCourseIndex, HotSwapID, HotSwapGP, gpTimeCheck, courseValue;
 extern short MenuAngle[4];
 
 extern char ButtonHolding[4];

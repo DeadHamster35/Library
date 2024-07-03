@@ -471,7 +471,7 @@ void CheckPaths()
 		}
 	}
 
-
+	
 	if (OverKartHeader.PathCount > 1)
 	{
 		//Check Player Lap

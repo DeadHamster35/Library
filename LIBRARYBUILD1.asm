@@ -432,6 +432,14 @@ JAL CommonGameEventChart
 
 
 
+.org 0x527C4
+JAL KumoColorMode
+
+.org 0x52A10
+JAL KumoColorMode
+
+
+
 
 //1p
 .org 0x2214
@@ -455,7 +463,6 @@ NOP
 .org 0x957D0 //RAM address 0x80094BD0
 J CustomCodeTitleScreen
 NOP
-
 
 
 

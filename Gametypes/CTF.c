@@ -103,7 +103,7 @@ void PlaceFlags(uint BattleFlagF3D, uint PlayerFlagF3D[], uint BattleBaseF3D, ui
 
           for (int ThisObj = 0; ThisObj < 64; ThisObj++)
           {
-               if ((ushort)CustomObjectivePoints[(int)ObjectiveCount].Position[0] == 0x8000)
+               if (CustomObjectivePoints[(int)ObjectiveCount].Position[0] == -32768)
                {
                     break;
                }
@@ -217,7 +217,7 @@ void PlaceFlags(uint BattleFlagF3D, uint PlayerFlagF3D[], uint BattleBaseF3D, ui
                     GameFlag[ThisFlag].Gravity = 500;
                     GameFlag[ThisFlag].Lift = 10000;
                      
-                    GameFlag[ThisFlag].Scale = 10;
+                    GameFlag[ThisFlag].Scale = 40;
                     GameFlag[ThisFlag].AngularVel[0] = 0;
                     GameFlag[ThisFlag].AngularVel[1] = 2;
                     GameFlag[ThisFlag].AngularVel[2] = 0;

@@ -15,6 +15,29 @@ extern short spriteKillD;
 
 
 
+extern void DrawKart(); //0x0x800212B4
+extern void DrawKart2P(); //0x0x800215DC
+extern void DrawKart3P(); //0x0x8002186C
+extern void DrawKart4P(); //0x0x800219BC
+
+extern void DrawKartAfter(); //0x0x80021B0C
+extern void DrawKart2PAfter(); //0x0x80021C78
+extern void DrawKart3PAfter(); //0x0x80021D40
+extern void DrawKart4PAfter(); //0x0x80021DA8
+
+
+
+extern void SmokeDisp(Player *Character, char kno,char place); //0x8006E5AC
+extern void SmokeDisp2P(Player *Character, char kno,char place); //0x8006E634
+extern void SmokeDisp3P(Player *Character, char kno,char place); //0x8006E6BC
+extern void SmokeDisp4P(Player *Character, char kno,char place); //0x8006E744
+extern void SmokeDispAfter(Player *Character, char kno,char place); //0x8006E7CC
+extern void SmokeDispAfter2P(Player *Character, char kno,char place); //0x8006E848
+extern void SmokeDispAfter3P(Player *Character, char kno,char place); //0x8006E8C4
+extern void SmokeDispAfter4P(Player *Character, char kno,char place); //0x8006E940
+
+extern void OBJCalculation(Player *Character, char kno,char place); //0x8006E940
+
 extern uint decodeMIO0(long input, long output);
 extern void DMA(int output, int input, long Length);
 extern void CrashScreenDrawInfo(ushort* Framebuffer, OSThread* Thread);
@@ -51,11 +74,6 @@ extern void CheckDMA(); //0x80020524
 extern void CheckDMA2P(); //0x8002088C
 extern void CheckDMA3P(); //0x80020BF4
 extern void CheckDMA4P(); //0x80020F1C
-
-extern void SmokeDisp(void* Car, char kno, char place); //0x8006E5AC
-extern void SmokeDisp2P(void* Car, char kno, char place); //0x8006E634
-extern void SmokeDisp3P(void* Car, char kno, char place); //0x8006E6BC
-extern void SmokeDisp4P(void* Car, char kno, char place); //0x8006E744
 
 extern float CheckHight(float X_value, float Y_value, float Z_value);
 extern int KWCheckRadiusXZ(float x1,float y1,float x2,float y2,float radius);
@@ -140,6 +158,8 @@ extern float sinT(ushort inputAngle);
 extern float cosT(ushort inputAngle);
 extern float sinF(float inputAngle);
 extern float cosF(float inputAngle);
+
+extern Vtx* gBackgroundVtx;
 
 
 extern int CheckCone(ushort left,ushort right,ushort direction);
@@ -242,14 +262,22 @@ extern void SetProWheelSpin(Player *Kart,char Place); //0x8008D0FC
 
 extern void F_80090178(Player *Kart, char PlayerID, float *SpawnVector, float *FacingVector);
 extern void GetLakituSpawnPoint(Player *Kart, char PlayerID, float *SpawnVector, float *FacingVector);
+
+extern void doGameSelect10();
+
 extern void SetFastOoB(void *Car,char PlayerID);
 extern void CallLakitu(void *Car);
 extern void SetLakitu(void *Car);
 extern void LakituCheck(void *Car,char PlayerID);
 extern void HangLakitu(void *Car,char PlayerID);
 extern long LakituIceBehavior;
+
+extern void OGAContTrgChk(int CameraNumber);
 extern void ShakeCamera(Camera *camera);
 extern void ShakeHitCamera(Player *Car,float speed);
+
+extern void CameraControl(Player *LocalPlayer, Camera *LocalCamera, char KartNumber);
+extern void KartView(Camera *camera,Player *car,char kno);
 
 extern void SlipCheck(Player *car,char kno);
 extern void AddGravity(Player *car);
@@ -341,12 +369,16 @@ extern ushort KWLookCamera(float x,float z,Camera *camera);
 extern ushort KWLookCameraPitch(float y,float z,Camera *camera);
 extern void KWTexture2DRGBA(int x, int y, unsigned short ang, float scale, uchar *texaddr, void *vtxaddr, int sizex, int sizey, int cutx, int cuty);
 extern void KWTexture2DRGBA32PT (int x,int y,unsigned short ang ,float scale,uchar *texaddr,void *vtxaddr,int sizex,int sizey,int cutx,int cuty);
+
 extern void KWTexture2DRGBA32BL (int x,int y,unsigned short ang ,float scale,uchar *texaddr,void *vtxaddr,int sizex,int sizey,int cutx,int cuty);
+extern void KWTexture3DRGBA32AAZBBL (Vector position,unsigned short *angle,float scale,uchar *texaddr,void *vtxaddr,int sizex,int sizey,int cutx,int cuty);
+
 extern void KWTexture2DCI8BL (int x,int y,unsigned short ang ,float scale,ushort *paladdr,uchar *idxaddr,void *vtxaddr,int sizex,int sizey,int cutx,int cuty);
 extern void KWTexture2DCI8AAPT (int x,int y,unsigned short ang ,float scale,ushort *paladdr,uchar *idxaddr,void *vtxaddr,int sizex,int sizey,int cutx,int cuty);
 extern void KWTexture2DCI8XLUPT (int x,int y,unsigned short ang ,float scale,uint alpha, ushort *paladdr,uchar *idxaddr,void *vtxaddr,int sizex,int sizey,int cutx,int cuty);
 extern void KWTexture2DCI8XLUBL (int x,int y,unsigned short ang ,float scale,uint alpha, ushort *paladdr,uchar *idxaddr,void *vtxaddr,int sizex,int sizey,int cutx,int cuty);
 extern void KWTexture2DCI8AAXLUPT (int x,int y,unsigned short ang ,float scale,uint alpha, ushort *paladdr,uchar *idxaddr,void *vtxaddr,int sizex,int sizey,int cutx,int cuty);
+
 extern void KWSprite(int cx,int cy,uint sizex,uint sizey,ushort *addr);
 extern void KWSpriteScale(int cx,int cy,float scale, ushort *addr, uint sizex,uint sizey);
 extern void KWSpriteDiv(int cx,int cy,ushort *addr,uint sizex,uint sizey,uint cuty);
@@ -451,6 +483,8 @@ extern uint PathTable[21][4];
 extern uint PathTableB[21][4];
 
 extern ushort PathLengthTable[21][8];
+
+extern Vtx_t *KartVtx[];
 
 extern uint gFaceBuffer;
 extern ushort g_courseFaceMaxIndex;
@@ -614,6 +648,9 @@ extern struct Player g_PlayerStruct7;
 extern struct Player g_PlayerStruct8;
 
 extern void InitRDP();
+extern void SetViewport(Screen *screen);
+extern void ClearZBuffer();
+extern void ClearZBuffer2(Screen *screen);
 extern void InitialDrawCommon();
 extern void GULookAt(Mtx *m, float xEye, float yEye, float zEye,
 	       float xAt,  float yAt,  float zAt,
@@ -659,6 +696,7 @@ extern short g_player4Section; //0x8015F438
 extern uint LastMemoryPointer;
 extern uint StaticMemoryPointer;
 extern uint FreeMemoryPointer;
+extern uint g_ScreenCounter;
 
 extern float g_TrialTime;
 extern float g_lap2Time;
@@ -769,6 +807,9 @@ extern float g_hudCharpicRankY4; // 0x8018D05C
 
 extern short asm_DisableEngineSound;
 extern short asm_DisableHUD; //0x80059D08
+
+extern void KWVideoFramesYori();
+
 extern short g_GhostHUDID; //0x8018DAAA
 
 extern long g_mlogoY;// 0x8018D9F0
@@ -794,6 +835,9 @@ extern void InitializeEndingSequence();
 extern void EndingSequence();
 extern void CheckFinish();
 extern short asm_CupCount;
+
+extern void ResultsSequence();
+
 extern short songID; //
 extern long asm_SongA;// 0x8028EC9C
 extern long asm_SongB;// 0x8028F9C4
@@ -808,7 +852,7 @@ extern float g_RoadWidth[21]; // MR default: 50.0f
 
 extern void AreaBunkatuBP(int pathID);
 extern void SidePointCalcBP(int pathID);
-extern void CurveDataCalcBP(int pathID);
+extern void CurveDataCalcBP(int pathID);	
 extern void AngleDataCalcBP(int pathID);
 extern void ShortcutDataCalcBP(int pathID);
 
@@ -819,6 +863,8 @@ extern short *CurvePathDataBP[4];
 extern short *AnglePathDataBP[4];
 extern short *ShortCutPathDataBP[4];
 extern ushort CurrentPathID[10];
+
+extern void Func_8001A588(int arg0, void *arg1, short *arg2, char arg3, int arg4);
 
 //-------------- ACTION DATA --------------
 #define OGA_ACT_NULL            0  // Null
@@ -1068,7 +1114,7 @@ extern char g_ShadowflagPlayer3;
 
 //GP points
 extern uchar g_playerGPpoints[8]; //name to num: Mario, Luigi, Yoshi, Toad, D.K., Wario, Peach, Bowser
-
+extern void EtcEnemyDrive();
 extern void InitCenterLine();
 extern uint OSMemSize;
 
@@ -1099,7 +1145,7 @@ extern float g_waterHeight;
 extern float g_waterVelocity;
 extern short g_monitorCounter;
 extern short g_simpleObjectCount;
-extern short gMatrixCount;
+extern ushort gMatrixCount;
 extern ushort g_courseTotalPathPoints[4];
 extern struct CenterPathStruct *g_pathPointPointer;
 

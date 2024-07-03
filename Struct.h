@@ -27,6 +27,11 @@
 #define CHAR_BOWSER		7
 
 
+#define   XAXIS_FACE      0x8000
+#define   YAXIS_FACE      0x4000
+#define   ZAXIS_FACE      0x2000
+
+
 #define ib_nothing	0
 #define ib_banana	1	
 #define ib_bananas	2     
