@@ -157,6 +157,25 @@ typedef struct OKObjectType{
 } OKObjectType;
 
 
+/*
+typedef struct OKObjectType{
+
+	short 			BehaviorClass, BumpRadius;//
+	short 			SoundRadius, RenderRadius;//	
+	char				SoundType, ZSortToggle, GravityToggle, CameraAlignToggle; //	
+	char				OKModelCount, OKXLUCount, CollisionCount, ObjectFlag;	
+	short			ObjectScale, PADDING;
+	int				SoundID;
+	
+	uint 			ObjectBehavior;  //OKBehave Address
+	uint			ObjectHitbox;	//OKCollisionSphere Address
+	uint			ObjectModel;  		//OKModel Address
+	uint			ObjectXLU;		//OKModel Address
+	uint			ObjectAnimations;	//OKSkeleton Address
+
+} OKObjectType;*/
+
+
 typedef struct OKObjectList{
 	short	TypeIndex;
 	short	Flag;
@@ -173,7 +192,7 @@ typedef struct OKObject{
 	uchar	AnimationFrame, AnimationMax;//
 	float	ZBuffer;//
 	float 	TargetDistance;	//
-	uchar	TurnStatus,WanderStatus,SearchStatus,EMPTYSTATUS;//
+	uchar	Status[4];;//
 	short	Counter[2];//
 	short	PathTarget,PlayerTarget;	//
 	Object	ObjectData;//
@@ -289,8 +308,20 @@ typedef struct OKEngine{
 #define REACTION_BOUNCE	2
 #define REACTION_BALL	3
 
+
 #define BEHAVIOR_DEAD	-1
 #define BEHAVIOR_STATIC 	0
+
+
+/*
+#define BEHAVIOR_PATH	1
+#define BEHAVIOR_WANDER 	2
+#define BEHAVIOR_SEARCH	3
+#define BEHAVIOR_BOUNCE 	4
+#define BEHAVIOR_FLEE	5
+#define BEHAVIOR_STRAFE	6
+*/
+
 #define BEHAVIOR_FLOAT 	1
 #define BEHAVIOR_PATH	2
 #define BEHAVIOR_WANDER 	3

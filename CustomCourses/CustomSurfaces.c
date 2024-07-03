@@ -1046,7 +1046,9 @@ void LavaFloorRecoil()
 	}
 }
 
-void InteractLavaFloor(Bump* bump, ushort pointer)
+
+
+void InteractLavaFloor(Bump* bump, ushort pointer, int FlagAxis)
 {
 	int PlayerIndex = (*(long*)&bump - (long)&g_PlayerStructTable - 0x110) / 0xDD8;
 	FaceStruct* face = (FaceStruct*)gFaceBuffer + pointer;
@@ -1059,19 +1061,23 @@ void InteractLavaFloor(Bump* bump, ushort pointer)
 	}
 	else
 	{
-		if (LavaFloorRecoiling[PlayerIndex])
+		if ((FlagAxis & YAXIS_FACE) == YAXIS_FACE)
 		{
-			ResetRolloverFall((Player*)&GlobalPlayer[PlayerIndex], PlayerIndex);
-			if ((GlobalPlayer[PlayerIndex].slip_flag & IS_TUMBLING) == IS_TUMBLING)
-				GlobalPlayer[PlayerIndex].slip_flag ^= IS_TUMBLING;
+			if (LavaFloorRecoiling[PlayerIndex])
+			{
+				ResetRolloverFall((Player*)&GlobalPlayer[PlayerIndex], PlayerIndex);
+				if ((GlobalPlayer[PlayerIndex].slip_flag & IS_TUMBLING) == IS_TUMBLING)
+					GlobalPlayer[PlayerIndex].slip_flag ^= IS_TUMBLING;
 
-			if ((GlobalPlayer[PlayerIndex].jugemu_flag & LAVA_EFFECT) == LAVA_EFFECT)
-				GlobalPlayer[PlayerIndex].jugemu_flag ^= LAVA_EFFECT;
+				if ((GlobalPlayer[PlayerIndex].jugemu_flag & LAVA_EFFECT) == LAVA_EFFECT)
+					GlobalPlayer[PlayerIndex].jugemu_flag ^= LAVA_EFFECT;
 
-			LavaFloorRecoilRequired[PlayerIndex] = false;
-			LavaFloorRecoiling[PlayerIndex] = false;
-			LavaFloorBumpCount[PlayerIndex] = 0;
+				LavaFloorRecoilRequired[PlayerIndex] = false;
+				LavaFloorRecoiling[PlayerIndex] = false;
+				LavaFloorBumpCount[PlayerIndex] = 0;
+			}
 		}
+		
 	}
 
 	if (LavaFloorBumpCount[PlayerIndex] >= 4)

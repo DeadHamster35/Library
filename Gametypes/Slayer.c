@@ -13,7 +13,7 @@ void SlayerInit()
 
             for (int ThisObj = 0; ThisObj < 64; ThisObj++)
             {
-                if ((ushort)CustomObjectivePoints[(int)ObjectiveCount].Position[0] == 0x8000)
+                if (CustomObjectivePoints[(int)ObjectiveCount].Position[0] -32768)
                 {
                         break;
                 }

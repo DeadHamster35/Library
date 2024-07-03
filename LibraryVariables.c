@@ -235,7 +235,7 @@ int currentHeaderAddress = 0;
 short FireParticlePositions[8][3];
 
 ushort MenuBlink, AudioLanguage;
-short gpCourseIndex, HotSwapID, hsGP, gpTimeCheck, courseValue = -1;
+short gpCourseIndex, HotSwapID, HotSwapGP, gpTimeCheck, courseValue = -1;
 short MenuAngle[4];
 
 char ButtonHolding[4];

@@ -110,7 +110,7 @@ void ObjectBehaviorStrafe(OKObject* InputObject)
 		GlobalShortA = -1;
 	}
 	
-	switch (InputObject->WanderStatus)
+	switch (InputObject->Status[1])
 	{
 		case 0:
 		{
@@ -121,7 +121,7 @@ void ObjectBehaviorStrafe(OKObject* InputObject)
 			InputObject->Counter[0] += InputObject->ObjectData.velocity[0] * GlobalShortA;
 			if (InputObject->Counter[0] > ThisType->Range)
 			{
-				InputObject->WanderStatus = 1;
+				InputObject->Status[1] = 1;
 			}
 			break;
 		}
@@ -134,7 +134,7 @@ void ObjectBehaviorStrafe(OKObject* InputObject)
 			InputObject->Counter[0] += InputObject->ObjectData.velocity[0] * GlobalShortA;
 			if (InputObject->ObjectData.velocity[0] <= (float)(ThisType->MaxSpeed / -100))
 			{
-				InputObject->WanderStatus = 2;
+				InputObject->Status[1] = 2;
 			}
 		}
 		case 2:
@@ -146,7 +146,7 @@ void ObjectBehaviorStrafe(OKObject* InputObject)
 			InputObject->Counter[0] += InputObject->ObjectData.velocity[0] * GlobalShortA;
 			if (InputObject->Counter[0]<= 0)
 			{
-				InputObject->WanderStatus = 3;
+				InputObject->Status[1] = 3;
 			}
 			break;
 		}
@@ -159,7 +159,7 @@ void ObjectBehaviorStrafe(OKObject* InputObject)
 			InputObject->Counter[0] += InputObject->ObjectData.velocity[0] * GlobalShortA;
 			if (InputObject->Counter[0] < (ThisType->Range * -1))
 			{
-				InputObject->WanderStatus = 4;
+				InputObject->Status[1] = 4;
 			}
 			break;
 		}
@@ -172,7 +172,7 @@ void ObjectBehaviorStrafe(OKObject* InputObject)
 			InputObject->Counter[0] += InputObject->ObjectData.velocity[0] * GlobalShortA;
 			if (InputObject->ObjectData.velocity[0] >= (float)(ThisType->MaxSpeed / 100))
 			{
-				InputObject->WanderStatus = 5;
+				InputObject->Status[1] = 5;
 			}
 		}
 		case 5:
@@ -184,7 +184,7 @@ void ObjectBehaviorStrafe(OKObject* InputObject)
 			InputObject->Counter[0] += InputObject->ObjectData.velocity[0] * GlobalShortA;
 			if (InputObject->Counter[0]>= 0)
 			{
-				InputObject->WanderStatus = 0;
+				InputObject->Status[1] = 0;
 			}
 			break;
 		}
@@ -208,11 +208,11 @@ void ObjectBehaviorWander(OKObject* InputObject)
 
 	if ((GlobalIntA * GlobalIntA) + (GlobalIntB * GlobalIntB) < (GlobalFloatB * GlobalFloatB))
 	{
-		 InputObject->WanderStatus = 0;
+		 InputObject->Status[1] = 0;
 	}
 	
 	
-	if (InputObject->WanderStatus >= 1)
+	if (InputObject->Status[1] >= 1)
 	{		
 		objectPosition[0] = (float)ThisList->OriginPosition[0];
 		objectPosition[1] = (float)ThisList->OriginPosition[1];
@@ -224,7 +224,7 @@ void ObjectBehaviorWander(OKObject* InputObject)
 	{
 		if ((GlobalIntA * GlobalIntA) + (GlobalIntB * GlobalIntB) > (GlobalFloatA * GlobalFloatA))
 		{
-			InputObject->WanderStatus = 1;
+			InputObject->Status[1] = 1;
 		}
 		else
 		{
@@ -232,7 +232,7 @@ void ObjectBehaviorWander(OKObject* InputObject)
 			{
 				InputObject->Counter[0]--;
 				
-				switch (InputObject->TurnStatus)
+				switch (InputObject->Status[0])
 				{
 					case 0: 
 					{
@@ -256,7 +256,7 @@ void ObjectBehaviorWander(OKObject* InputObject)
 			}
 			else
 			{
-				InputObject->TurnStatus = MakeRandomLimmit(4);
+				InputObject->Status[0] = MakeRandomLimmit(4);
 				InputObject->Counter[0] = MakeRandomLimmit(60) + 15;
 			}
 		}
@@ -542,6 +542,15 @@ void ObjectBehaviorFollowPath(OKObject* InputObject)
 		{
 			InputObject->PlayerTarget = 0;
 		}
+
+		
+		objectPosition[0] = (float)PathData[InputObject->PlayerTarget].Position[0];
+		objectPosition[1] = (float)PathData[InputObject->PlayerTarget].Position[1];
+		objectPosition[2] = (float)PathData[InputObject->PlayerTarget].Position[2];
+
+		InputObject->ObjectData.position[0] = objectPosition[0];
+		InputObject->ObjectData.position[1] = objectPosition[1];
+		InputObject->ObjectData.position[2] = objectPosition[2];
 	}
 	else if (InputObject->PathTarget >= 0)
 	{
@@ -551,6 +560,7 @@ void ObjectBehaviorFollowPath(OKObject* InputObject)
 		}
 
 		objectPosition[0] = (float)PathData[NextPoint].Position[0];
+		objectPosition[1] = (float)PathData[NextPoint].Position[1];
 		objectPosition[2] = (float)PathData[NextPoint].Position[2];
 		
 		GlobalFloatA = (objectPosition[0] - InputObject->ObjectData.position[0]) + (objectPosition[2] - InputObject->ObjectData.position[2]);
@@ -599,10 +609,10 @@ void ObjectBehaviorFollowPath(OKObject* InputObject)
 		else
 		{
 
-			ChaseDir(&InputObject->ObjectData.angle[1],(-1 * MakeDirection(InputObject->ObjectData.position[0],InputObject->ObjectData.position[2],objectPosition[0],objectPosition[2])), (DEG1 * 3));
+			ChaseDir(&InputObject->ObjectData.angle[1],(-1 * MakeDirection(InputObject->ObjectData.position[0],InputObject->ObjectData.position[2],objectPosition[0],objectPosition[2])), (DEG1 * 5));
 			ObjectBehaviorWalk(InputObject, (float)ThisType->MaxSpeed / 100);
 
-			if (TestCollideSphere(InputObject->ObjectData.position,150,objectPosition, 150))
+			if (TestCollideSphere(InputObject->ObjectData.position,25,objectPosition, 25))
 			{
 				InputObject->PathTarget = NextPoint;
 				InputObject->PlayerTarget = ThisPoint; //use PlayerTarget for Last Point.
@@ -648,13 +658,13 @@ void ObjectBehaviorWaterBob(OKObject* InputObject)
 	InputObject->ObjectData.velocity[0] = 0;
 	InputObject->ObjectData.velocity[2] = 0;
 
-	switch (InputObject->WanderStatus)
+	switch (InputObject->Status[1])
 	{
 		case 0:
 		{
 			if (InputObject->ObjectData.position[1] > ThisList->OriginPosition[1] + ThisType->Range)
 			{
-				InputObject->WanderStatus = 1;
+				InputObject->Status[1] = 1;
 			}
 			else
 			{
@@ -668,7 +678,7 @@ void ObjectBehaviorWaterBob(OKObject* InputObject)
 		{
 			if (InputObject->ObjectData.velocity[1] <= (float)(ThisType->MaxSpeed / -100))
 			{
-				InputObject->WanderStatus = 2;
+				InputObject->Status[1] = 2;
 			}
 			else
 			{
@@ -679,7 +689,7 @@ void ObjectBehaviorWaterBob(OKObject* InputObject)
 		{
 			if (InputObject->ObjectData.position[1] < ThisList->OriginPosition[1] - ThisType->Range)
 			{
-				InputObject->WanderStatus = 3;
+				InputObject->Status[1] = 3;
 			}
 			else
 			{
@@ -691,7 +701,7 @@ void ObjectBehaviorWaterBob(OKObject* InputObject)
 		{
 			if (InputObject->ObjectData.velocity[1] >= (float)(ThisType->MaxSpeed / 100))
 			{
-				InputObject->WanderStatus = 0;
+				InputObject->Status[1] = 0;
 			}
 			else
 			{
@@ -705,6 +715,8 @@ void ObjectBehaviorBounce(OKObject* InputObject)
 {
 	MoveIWA((Object*)&InputObject->ObjectData);
 }
+
+
 
 void Misbehave(OKObject* InputObject)
 {
@@ -720,11 +732,6 @@ void Misbehave(OKObject* InputObject)
 			ObjectBehaviorExist(InputObject);
 			break;
 		}
-		case BEHAVIOR_FLOAT:
-		{
-			UpdateObjectAngle((Object*)(&InputObject->ObjectData), InputObject->AngularVelocity);			
-			break;
-		}		
 		case BEHAVIOR_PATH:
 		{	
 			ObjectBehaviorFollowPath(InputObject);
@@ -753,11 +760,6 @@ void Misbehave(OKObject* InputObject)
 			ObjectBehaviorStrafe(InputObject);
 			break;
 		}
-		case BEHAVIOR_WATERBOB:
-		{
-
-		}
-		
 	}
 
 	if (InputObject->ObjectData.position[1] < g_waterHeight)

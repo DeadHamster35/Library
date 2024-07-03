@@ -130,26 +130,25 @@ void printGPTime(float printTime, int OffsetY)
 
 void printMap(int devParameter)
 {
-     if (g_playerCount == 1)
-     {
-          MenuPosition[0] = 25;
-          MenuPosition[1] = 150;
-          GraphPtr = FillRect1ColorF(GraphPtr, MenuPosition[0] + 18, MenuPosition[1] + 18, MenuPosition[0] + 185, MenuPosition[1] + 68, 0, 0, 0, 175);
-          GraphPtr = FillRect1ColorF(GraphPtr, MenuPosition[0] + 18, MenuPosition[1] + 18 + (devParameter * 10), MenuPosition[0] + 74, MenuPosition[1] + 28 + (devParameter * 10), 200, 0, 0, 175);
-          loadFont();
+     
+     MenuPosition[0] = 25;
+     MenuPosition[1] = 150;
+     GraphPtr = FillRect1ColorF(GraphPtr, MenuPosition[0] + 18, MenuPosition[1] + 18, MenuPosition[0] + 185, MenuPosition[1] + 68, 0, 0, 0, 175);
+     GraphPtr = FillRect1ColorF(GraphPtr, MenuPosition[0] + 18, MenuPosition[1] + 18 + (devParameter * 10), MenuPosition[0] + 74, MenuPosition[1] + 28 + (devParameter * 10), 200, 0, 0, 175);
+     loadFont();
 
 
-          printStringNumber(MenuPosition[0],MenuPosition[1],"  Map XY:",g_mapX);
-          printStringNumber(MenuPosition[0]+112,MenuPosition[1],"",g_mapY);
-          printStringNumber(MenuPosition[0],MenuPosition[1]+10,"Start XY:",g_startX);
-          printStringNumber(MenuPosition[0]+112,MenuPosition[1]+10,"",g_startY);
-          printString(MenuPosition[0],MenuPosition[1]+20,"   Scale:");               
-          printFloat(MenuPosition[0] + 72,MenuPosition[1]+20,(g_mapScale * 100.0f));
-          printStringNumber(MenuPosition[0],MenuPosition[1]+30,"Line XY:",RadarLineX);
-          printStringNumber(MenuPosition[0]+112,MenuPosition[1]+30,"",RadarLineY);
+     printStringNumber(MenuPosition[0],MenuPosition[1],"  Map XY:",g_mapX);
+     printStringNumber(MenuPosition[0]+112,MenuPosition[1],"",g_mapY);
+     printStringNumber(MenuPosition[0],MenuPosition[1]+10,"Start XY:",g_startX);
+     printStringNumber(MenuPosition[0]+112,MenuPosition[1]+10,"",g_startY);
+     printString(MenuPosition[0],MenuPosition[1]+20,"   Scale:");               
+     printFloat(MenuPosition[0] + 72,MenuPosition[1]+20,(g_mapScale * 100.0f));
+     printStringNumber(MenuPosition[0],MenuPosition[1]+30,"Line XY:",RadarLineX);
+     printStringNumber(MenuPosition[0]+112,MenuPosition[1]+30,"",RadarLineY);
                
 
-     }
+     
 
 }
 
@@ -219,11 +218,15 @@ void CourseMenu(int Alpha)
 
 void DrawFPS(int X, int Y)
 {     
+     loadFont();
      GlobalFloatA = (1 * CPU2SEC) / CycleCount[0];
      printDecimal(X,Y,GlobalFloatA, 2);     
      GlobalFloatA = (1 * CPU2SEC) / CycleCount[1];
      printDecimal(X,Y + 10,GlobalFloatA, 2); 
 }
+
+
+
 
 void ModularMenu(OKMenu* OptionsMenu)
 {

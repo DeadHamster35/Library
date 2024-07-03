@@ -277,8 +277,9 @@ int LoadDataBypass(uint RomStart, uint RomEnd)
 {
 	if (g_gameMode == GAMEMODE_GP)
 	{
-		if (gpCourseIndex > asm_CupCount)
+		if ((gpCourseIndex > asm_CupCount) && (HotSwapID > 0))
 		{
+			HotSwapGP = HotSwapID;
 			HotSwapID = 0;
 		}
 	}
@@ -295,24 +296,31 @@ int LoadPressDataBypass(uint RomStart, uint RomEnd)
 {
 	if (g_gameMode == GAMEMODE_GP)
 	{
-		if (gpCourseIndex > asm_CupCount)
+		if ((gpCourseIndex > asm_CupCount) && (HotSwapID > 0))
 		{
+			HotSwapGP = HotSwapID;
 			HotSwapID = 0;
 		}
 	}
-
 	*sourceAddress = RomStart;	
-	dataLength = RomEnd - RomStart;
-	LastMemoryPointer -= dataLength;
+	dataLength = RomEnd - RomStart;		
 	*targetAddress = FreeMemoryPointer;
+	
+
 	runDMA();
+
 	
 	dataLength = *(uint*)(*targetAddress + 4);  //size of decompressed data stored in MIO0 header.
 
 	*sourceAddress = FreeMemoryPointer;
-	LastMemoryPointer -= dataLength;
+	LastMemoryPointer -= (dataLength + 16);
 	*targetAddress = LastMemoryPointer;
+
+	
 	runMIO();
+	
+	FreeMemoryPointer += (RomEnd - RomStart) + 16;
+
 	return LastMemoryPointer;
 }
 
@@ -683,7 +691,7 @@ ushort custom_check_bump_2(Bump* bump, float radius, float px, float py, float p
 	
 	if (tmp != 0)
 	{
-		InteractLavaFloor(bump, bump->last_zx);
+		InteractLavaFloor(bump, bump->last_zx, tmp);
 	}
 	return tmp;
 }
