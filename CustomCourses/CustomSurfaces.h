@@ -20,4 +20,7 @@ extern void custom_RunKart(Player* car, Camera* camera, char place, char kno);
 extern int LavaFloorBumpCount[];
 extern bool LavaFloorRecoilRequired[];
 extern bool LavaFloorRecoiling[];
+
+extern float SurfaceKart3dOffsetY[];
+extern float SurfaceTimer[];
 #endif

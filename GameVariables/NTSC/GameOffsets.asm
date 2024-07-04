@@ -1293,3 +1293,10 @@
 .definelabel EnemyTirePosition, 0x8002A194
 .definelabel SetSlipAngle, 0x8002AE38
 .definelabel NaPlyLandStart, 0x800CADD0
+
+.defineLabel gKartSteerSpeedASM, 0x80150154
+.defineLabel SteeringSpeedData_RT, 0x800E3610
+.defineLabel InitRandSmoke, 0x8005DAF4
+.defineLabel JumpSet, 0x8002AA50
+.defineLabel ObjCalculation, 0x8006D474
+.definelabel DrawShadow, 0x80023C84

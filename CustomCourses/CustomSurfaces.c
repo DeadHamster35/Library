@@ -125,11 +125,15 @@ void SurfaceSFX(Player *car, int SFX_ID, float min_Speed)
 #define GapJump			235
 #define LavaSurface		234
 #define ForceJump		233
+#define ForceWallTumble		232 //Only use on steep wall surfaces!
 
 #define Mud				18
+#define Quicksand		19
 
 
 short SurfaceStorage[8];
+float SurfaceKart3dOffsetY[8];
+float SurfaceTimer[8];
 
 #define STORE_NONE 	0
 #define STORE_TRICK 1
@@ -212,6 +216,45 @@ void AddGravityEdit(Player *car)
 				break;
 			}
 			car->power_cont = 0.65f;
+		}
+		break;
+
+	case Quicksand: 
+		if (car->jumpcount == 0 && car->wallhitcount == 0 && !(car->slip_flag&(IS_STAR|IS_BRAKING)))
+		{
+			SurfaceSFX(car,SFX_SAND_CENTER,10.0f);
+
+			if (car->flag&IS_CPU_PLAYER && car->handling_flag&CPU_SIMPLE_KART) //CPU HANDLING
+			{
+				car->bump_status = 1;
+				SurfaceKart3dOffsetY[car_number] = 0;
+				break;
+			}
+		}	
+
+		if (car->velocity[0] || car->velocity[2]) //CUSTOM DRIVING
+		{
+			SurfaceTimer[car_number] += 0.00001f;
+			
+			car->power_cont = 0.30f + SurfaceTimer[car_number] * 50; //LOSE POWER
+			if (car->power_cont > 0.75f)
+				car->power_cont = 0.75f;
+			
+			SurfaceKart3dOffsetY[car_number] -= 0.01f + sinF(SurfaceTimer[car_number] * pow(GlobalWeight[car_number],2)); //SINK KART (also runkart_hook)
+			
+			if (SurfaceKart3dOffsetY[car_number] < -4.0f) //SUNKEN TIRES -> ADDITIONAL EFFECTS:
+			{
+				car->slip_flag &= ~IS_DRIFTING; //NO DRIFT & TURBO
+				if (car->drift_turbo_timer)
+					car->drift_turbo_timer = 0;
+
+				if (car->turbo_timer) //BAD SHROOM
+					car->turbo_timer = 0;
+
+				//PARTICLE EFFECTS STOP (obj_calculation_hook)
+				//BAD STEERING (ProStickAngleHook)
+				//NO JUMP (jump_set_hook)
+			}
 		}
 		break;
 	}
@@ -545,6 +588,16 @@ void AddGravityEdit(Player *car)
 		
 		break;
 	}
+
+	case ForceWallTumble:
+	{
+		if (car->jumpcount == 0 && car->wallhitcount == 0 && !(car->slip_flag&IS_BROKEN))
+		{
+			SetRolloverFall(car,car_number);
+		}
+		break;
+	}
+		
 	default:
 		if (car->max_power != car->bump_status)
 		{
@@ -577,6 +630,22 @@ void AddGravityEdit(Player *car)
 		break;
 	default:
 		break;
+	}
+
+	if (SurfaceKart3dOffsetY[car_number]) //QUICKSAND RESET ANIM
+	{
+		if (car->bump_status != Quicksand || car->jugemu_flag &ON_LAKITU_ROD)
+		{
+			if (SurfaceKart3dOffsetY[car_number] < 0)
+				SurfaceKart3dOffsetY[car_number] += 0.6f;
+			else if (SurfaceKart3dOffsetY[car_number] > 0)
+				SurfaceKart3dOffsetY[car_number] = 0;
+
+			car->tire_RL.CustomStatus = car->tire_RL.Status;
+			car->tire_RR.CustomStatus = car->tire_RR.Status;
+
+			SurfaceTimer[car_number] = 0;
+		}
 	}
 }
 

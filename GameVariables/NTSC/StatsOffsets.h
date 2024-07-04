@@ -1,6 +1,10 @@
 #ifndef StatsOffsetH
 #define StatsOffsetH
 #include "../../MainInclude.h"
+
+//CUSTOM
+extern float KartHeight[8] = {9.8f,11.10f,10.0f,9.1f,11.5f,10.9f,10.5f,12.f}; //Actual height of player sprite
+
 // UNKNOWN /////////////////////////////////////////////////////
 extern float u11_Mario; // 0x800E24C8
 extern float u11_Luigi; // 0x800E24CC

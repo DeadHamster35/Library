@@ -363,7 +363,15 @@ typedef struct Tire //size: 0x18 * [4] | inside player struct
 	unsigned char 	LastAxis;		//0D
 	ushort 			LastPointer;	//0E
 	float 			Height;			//10
-	int  			Dummy;			//14 0000 0000 0000 00001:KAGE ON	
+	union {
+	        struct {
+	            uchar CustomStatus; //14 WE CAN USE THESE 3, CAUSE THEY ALWAYS DO BITWISE CHECKS FOR "DUMMY"
+	            uchar DummyUnused1; //15
+	            uchar DummyUnused2; //16
+		    uchar DummyUsed; 	//17 DON'T USE THIS ONE SEE BELOW
+	        };
+	        int Dummy; //14 LAST 2? BITS ARE USED -> NO DUMMY! (E.G. LUIGI TUNNEL LIGHT! VALUES 1-3)
+	};	
 } Tire;
 
 typedef struct Smoke //size: 0x48

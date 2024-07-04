@@ -262,13 +262,74 @@ NOP
 .halfword 0x0000
 
 
-//AirControlChange
+//ProStickAngle Hook (AirControlChange & Steering)
 .org 0x38A04
 NOP
 .org 0x38A10
 JAL ProStickAngleHook
 .org 0x38A4C
 NOP
+//ProStickAngle ASM Change (Force use of custom global steering val: gKartSteerSpeedASM 0x80150154)
+.org 0x0349FC
+lui   $at, hi(0x80150154) //gKartSteerSpeedASM
+addiu $at, lo(0x80150154)
+lwc1  $f16, ($at)
+.org 0x034A28
+add.s $f2, $f10, $f16
+nop
+.org 0x034A64
+nop
+
+//Init Random Smoke Hook 
+.org 0x06D59C
+JAL InitRandSmokeHook
+//Init Random Smoke Change (load custom tire struct char)
+.org 0x05E75C
+lbu   $t1, 0x1dc($s1) 
+.org 0x05E7AC
+lbu   $t1, 0x1f4($s1)
+
+//Player Jump Hook 
+.org 0x0389C0
+JAL JumpSetHook
+.org 0x0389EC //NOP jump sfx -> Do in JumpSetHook
+nop
+
+//Effect Object Calculation Hook 
+.org 0x06F1FC
+JAL ObjCalculationHook
+.org 0x06F20C
+JAL ObjCalculationHook
+.org 0x06F284
+JAL ObjCalculationHook
+.org 0x06F294
+JAL ObjCalculationHook
+.org 0x06F30C
+JAL ObjCalculationHook
+.org 0x06F31C
+JAL ObjCalculationHook
+.org 0x06F394
+JAL ObjCalculationHook
+.org 0x06F3A4
+JAL ObjCalculationHook
+
+//Draw Kart Shadow Hook
+.org 0x0274F0
+JAL DrawShadowHook
+.org 0x027510
+JAL DrawShadowHook
+
+//Run Kart Hook
+.org 0x029798
+JAL RunKartHook
+.org 0x0297FC
+JAL RunKartHook
+.org 0x02990C
+JAL RunKartHook
+.org 0x029A48
+JAL RunKartHook
+
+
 
 //Print Menu Hooks
 .org 0x2B30
