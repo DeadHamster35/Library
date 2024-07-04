@@ -125,6 +125,7 @@ void SurfaceSFX(Player *car, int SFX_ID, float min_Speed)
 #define GapJump			235
 #define LavaSurface		234
 #define ForceJump		233
+#define ForceWallTumble		232 //Only use on steep wall surfaces!
 
 #define Mud				18
 
@@ -545,6 +546,16 @@ void AddGravityEdit(Player *car)
 		
 		break;
 	}
+
+	case ForceWallTumble:
+	{
+		if (car->jumpcount == 0 && car->wallhitcount == 0 && !(car->slip_flag&IS_BROKEN))
+		{
+			SetRolloverFall(car,car_number);
+		}
+		break;
+	}
+		
 	default:
 		if (car->max_power != car->bump_status)
 		{
