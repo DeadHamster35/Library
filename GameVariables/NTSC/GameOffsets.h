@@ -1267,3 +1267,7 @@ extern void NaPlyLandStart(char kno, float jumpCount);
 
 extern f32 gKartSteerSpeedASM;//0x80150154
 extern f32 *SteeringSpeedData_RT[8];// 0x800E3610
+extern void InitRandSmoke(Player *car,short count,int kk,char kno,char place);// 0x8005DAF4
+extern void JumpSet(Player *kart);// 0x8002AA50
+extern void ObjCalculation(Player *car,char kno,char place); //8006D474
+extern void DrawShadow(Player *car,char kno,char place);// 0x80023C84
