@@ -558,3 +558,12 @@ void LakituSpawnBypass(Player *Kart, char PlayerID, float *SpawnVector, float *F
 	}
 	
 }
+
+void RunKartHook (Player *car,Camera *camera,char place,char kno)
+{
+	car->position[1] -= SurfaceKart3dOffsetY[kno];
+
+	RunKart(car,camera,place,kno);
+
+	car->position[1] += SurfaceKart3dOffsetY[kno];
+}
