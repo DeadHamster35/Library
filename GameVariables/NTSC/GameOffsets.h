@@ -1264,3 +1264,6 @@ extern void TirePosition(Player* Car, float new_x, float new_y, float new_z);
 extern void EnemyTirePosition(Player* Car, float new_x, float new_y, float new_z);
 extern void SetSlipAngle(Player* Car, char kno, float old_x, float old_z, float new_x, float new_z);
 extern void NaPlyLandStart(char kno, float jumpCount);
+
+extern f32 gKartSteerSpeedASM;//0x80150154
+extern f32 *SteeringSpeedData_RT[8];// 0x800E3610
