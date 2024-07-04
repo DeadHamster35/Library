@@ -288,25 +288,90 @@ void playrandmCharacterSFX(char playerID)
 
 void ProStickAngleHook(Player *car, Controller *cont, char number)
 {
-    if(car->talk&0x2 && (!(car->slip_flag&IS_DRIFTING) || ((car->slip_flag&IS_JUMPING) && (car->slip_flag&IS_DRIFTING))))
-    {
-        ProStickAngle(car,cont,number);
-    }
-    else
-    {
-        if (!(car->slip_flag&IS_IN_AIR))
-        {
-            ProStickAngle(car,cont,number);
-        }
-        else if(car->slip_flag&IS_JUMPING && car->bump.distance_zx <= 5)
-        {
-            ProStickAngle(car,cont,number);
-        }
-    }
+	//Manipulate steering value with custom global gKartSteerSpeedASM
+	gKartSteerSpeedASM = 0;
+	
+	if(car->tire_RR.Status == Quicksand)
+	{
+		if (SurfaceKart3dOffsetY[number] < -4.0f)
+			gKartSteerSpeedASM += 5.0f;
+	}
+	else 
+		gKartSteerSpeedASM += SteeringSpeedData_RT[car->kart][car->tire_RR.Status];
+	
+	if(car->tire_RL.Status == Quicksand)
+	{
+		if (SurfaceKart3dOffsetY[number] < -4.0f)
+			gKartSteerSpeedASM += 5.0f;
+	} 
+	else 
+		gKartSteerSpeedASM += SteeringSpeedData_RT[car->kart][car->tire_RL.Status];
+
+	//ProStickAngle loads gKartSteerSpeedASM now
+    	if(car->talk&0x2 && (!(car->slip_flag&IS_DRIFTING) || ((car->slip_flag&IS_JUMPING) && (car->slip_flag&IS_DRIFTING))))
+    	{
+       	 	ProStickAngle(car,cont,number);
+    	}
+    	else
+    	{
+        	if (!(car->slip_flag&IS_IN_AIR))
+        	{
+           	 	ProStickAngle(car,cont,number);
+        	}
+        	else if(car->slip_flag&IS_JUMPING && car->bump.distance_zx <= 5)
+        	{
+            		ProStickAngle(car,cont,number);
+        	}
+    	}
 }
 
+void InitRandSmokeHook(Player *car,short count,int kk,char kno,char place)
+{
+	switch (car->bump_status)
+	{
+		case Quicksand:
+			car->tire_RL.CustomStatus = SAND_TRAP;
+			car->tire_RR.CustomStatus = SAND_TRAP;
+			break;
+		
+		default:
+			car->tire_RL.CustomStatus = car->tire_RL.Status;
+			car->tire_RR.CustomStatus = car->tire_RR.Status;
+			break;
+	}
+	
+	InitRandSmoke(car,count,kk,kno,place);
+}
 
+void JumpSetHook (Player *car)
+{
+	short car_number = car - &GlobalPlayer[0];
+	
+	if (SurfaceKart3dOffsetY[car_number] < -4.0f) //Quicksand Surface
+		return;
+	
+	JumpSet(car);
 
+	if(car->flag&IS_PLAYER && !(car->flag&IS_GHOST)) 
+		NAPlyTrgStart(car_number,SE_KART_JUMP_BOING);
+	
+}
+
+void DrawShadowHook (Player *car,char kno,char place)
+{
+	if (SurfaceKart3dOffsetY[kno] < -0.2f) //Quicksand Surface
+		return;
+	
+	DrawShadow(player, kno, place);
+}
+
+void ObjCalculationHook (Player *car,char kno,char place)
+{
+	if (SurfaceKart3dOffsetY[kno] < -4.0f)
+		return;
+	
+	ObjCalculation(car, kno, place);
+}
 
 void MasterEffect(int PlayerID, short EffectID)
 {
