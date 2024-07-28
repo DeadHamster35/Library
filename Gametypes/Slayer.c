@@ -7,37 +7,36 @@ void SlayerInit()
     
     if (HotSwapID > 0)
     {
-        for (int ThisPlayer = 0; ThisPlayer < g_playerCount; ThisPlayer++)
-        {
-            CustomObjectivePoints = (BattleObjectivePoint*)(GetRealAddress(0x06000210));
+        CustomObjectivePoints = (BattleObjectivePoint*)(GetRealAddress(0x06000210));
 
-            for (int ThisObj = 0; ThisObj < 64; ThisObj++)
+        for (int ThisObj = 0; ThisObj < 64; ThisObj++)
+        {
+            if (CustomObjectivePoints[ThisObj].Position[0] == (short)-32768)
             {
-                if (CustomObjectivePoints[(int)ObjectiveCount].Position[0] -32768)
+                ThisObj = 64;                    
+            }
+            else
+            {           
+                if (CustomObjectivePoints[ThisObj].GameMode == BATTLE_GAMETYPE)
                 {
-                        break;
-                }
-                else
-                {    
-                        if (CustomObjectivePoints[ThisObj].GameMode == BATTLE_GAMETYPE)
+                    switch (CustomObjectivePoints[ThisObj].Type)
+                    {
+                        case (SPAWN_POINT):
                         {
-                            switch (CustomObjectivePoints[ThisObj].Type)
-                            {
-                                case (SPAWN_POINT):
-                                {
-                                    PlacePlayerSpawn(CustomObjectivePoints[ThisObj].Position, CustomObjectivePoints[ThisObj].Player);
-                                    break;
-                                }
-                                case (FLAG_POINT):
-                                case (BASE_POINT):
-                                {
-                                    break;
-                                }
-                            }
+                            PlacePlayerSpawn(CustomObjectivePoints[ThisObj].Position, CustomObjectivePoints[ThisObj].Player);
+                            break;
                         }
+                        case (FLAG_POINT):
+                        case (BASE_POINT):
+                        {
+                            break;
+                        }
+                    }
                 }
             }
         }
+        
+        
         
         for (int ThisPlayer = g_playerCount; ThisPlayer < 4; ThisPlayer++)
         {

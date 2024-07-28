@@ -542,11 +542,11 @@ void CheckPaths()
 
 void LakituSpawnBypass(Player *Kart, char PlayerID, float *SpawnVector, float *FacingVector)
 {
-	if ((HotSwapID == 0) || (g_gameMode != GAMEMODE_BATTLE))
+	//if ((HotSwapID == 0) || (g_gameMode != GAMEMODE_BATTLE))
 	{
-		GetLakituSpawnPoint(Kart, PlayerID, SpawnVector, FacingVector);
+	//	GetLakituSpawnPoint(Kart, PlayerID, SpawnVector, FacingVector);
 	}
-	else
+	//else
 	{
 		FacingVector[0] = 0;
 		FacingVector[1] = 0;

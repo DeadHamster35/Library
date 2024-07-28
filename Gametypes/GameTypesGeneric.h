@@ -5,6 +5,7 @@
 #define BASE_POINT       2
 
 extern int ObjectiveMapID;
+extern void DisplayScore();
 extern void ResetFlag(int ThisFlag);
 extern void DrawGameFlags(Camera* LocalCamera);
 extern void DrawGameBase(Camera* LocalCamera);

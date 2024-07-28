@@ -95,7 +95,7 @@ CTFSpawn GameSpawns[4] = {BigDonutSpawns, BlockFortSpawns, DoubleDeckerSpawns, S
 
 
 
-void PlaceFlags(uint BattleFlagF3D, uint PlayerFlagF3D[], uint BattleBaseF3D, uint PlayerBaseF3D[], uint Difficulty)
+void PlaceFlags(uint BattleFlagF3D, uint *PlayerFlagF3D[], uint BattleBaseF3D, uint *PlayerBaseF3D[], uint Difficulty)
 {    
      if (HotSwapID > 0)
      {
@@ -103,7 +103,7 @@ void PlaceFlags(uint BattleFlagF3D, uint PlayerFlagF3D[], uint BattleBaseF3D, ui
 
           for (int ThisObj = 0; ThisObj < 64; ThisObj++)
           {
-               if (CustomObjectivePoints[(int)ObjectiveCount].Position[0] == -32768)
+               if (CustomObjectivePoints[ThisObj].Position[0] == (short)-32768)
                {
                     break;
                }
@@ -121,13 +121,13 @@ void PlaceFlags(uint BattleFlagF3D, uint PlayerFlagF3D[], uint BattleBaseF3D, ui
                               case (FLAG_POINT):
                               {
                                    PlaceFlagSpawn(CustomObjectivePoints[ThisObj].Position, CustomObjectivePoints[ThisObj].Player);
-                                   GameFlag[CustomObjectivePoints[ThisObj].Player].F3D = PlayerFlagF3D[CustomObjectivePoints[ThisObj].Player];
+                                   GameFlag[CustomObjectivePoints[ThisObj].Player].F3D = (uint)PlayerFlagF3D[CustomObjectivePoints[ThisObj].Player];
                                    GameFlag[CustomObjectivePoints[ThisObj].Player].TeamIndex = CustomObjectivePoints[ThisObj].Player;
                                    GameFlag[CustomObjectivePoints[ThisObj].Player].Friction = 950;
                                    GameFlag[CustomObjectivePoints[ThisObj].Player].Bounce = 500;
                                    GameFlag[CustomObjectivePoints[ThisObj].Player].Gravity = 500;
                                    GameFlag[CustomObjectivePoints[ThisObj].Player].Lift = 10000;    
-                                   GameFlag[CustomObjectivePoints[ThisObj].Player].Scale = 10;
+                                   GameFlag[CustomObjectivePoints[ThisObj].Player].Scale = 75;
                                    GameFlag[CustomObjectivePoints[ThisObj].Player].AngularVel[0] = 0;
                                    GameFlag[CustomObjectivePoints[ThisObj].Player].AngularVel[1] = 2;
                                    GameFlag[CustomObjectivePoints[ThisObj].Player].AngularVel[2] = 0;
@@ -138,7 +138,7 @@ void PlaceFlags(uint BattleFlagF3D, uint PlayerFlagF3D[], uint BattleBaseF3D, ui
                               case (BASE_POINT):
                               {
                                    PlaceBaseSpawn(CustomObjectivePoints[ThisObj].Position, CustomObjectivePoints[ThisObj].Player);
-                                   GameBase[CustomObjectivePoints[ThisObj].Player].F3D = PlayerBaseF3D[CustomObjectivePoints[ThisObj].Player];
+                                   GameBase[CustomObjectivePoints[ThisObj].Player].F3D = (uint)PlayerBaseF3D[CustomObjectivePoints[ThisObj].Player];
                                    break;
                               }
                          }
@@ -207,17 +207,17 @@ void PlaceFlags(uint BattleFlagF3D, uint PlayerFlagF3D[], uint BattleBaseF3D, ui
                     
                     
                     PlaceBaseSpawn(GameSpawns[ObjectiveMapID].Position[Difficulty][0][ThisFlag], ThisFlag);
-                    GameBase[ThisFlag].F3D = PlayerBaseF3D[ThisFlag];
+                    GameBase[ThisFlag].F3D = (uint)PlayerBaseF3D[ThisFlag];
 
                     PlaceFlagSpawn(GameSpawns[ObjectiveMapID].Position[Difficulty][1][ThisFlag], ThisFlag);
-                    GameFlag[ThisFlag].F3D = PlayerFlagF3D[ThisFlag];
+                    GameFlag[ThisFlag].F3D = (uint)PlayerFlagF3D[ThisFlag];
                     GameFlag[ThisFlag].TeamIndex = ThisFlag;
                     GameFlag[ThisFlag].Friction = 850;
                     GameFlag[ThisFlag].Bounce = 500;
                     GameFlag[ThisFlag].Gravity = 500;
                     GameFlag[ThisFlag].Lift = 10000;
                      
-                    GameFlag[ThisFlag].Scale = 40;
+                    GameFlag[ThisFlag].Scale = 75;
                     GameFlag[ThisFlag].AngularVel[0] = 0;
                     GameFlag[ThisFlag].AngularVel[1] = 2;
                     GameFlag[ThisFlag].AngularVel[2] = 0;
@@ -270,6 +270,9 @@ void PlaceFlags(uint BattleFlagF3D, uint PlayerFlagF3D[], uint BattleBaseF3D, ui
 void CaptureFlag()
 {
      //Decrement the I-Frames for the Flag.
+
+
+
      for (int ThisFlag = 0; ThisFlag < FlagCount; ThisFlag++)
      {
           if (GameFlag[ThisFlag].IFrames > 0)
@@ -285,6 +288,7 @@ void CaptureFlag()
      //Check for Picking up Flags
      for (int ThisPlayer = 0; ThisPlayer < g_playerCount; ThisPlayer++)
      {
+          BalloonCount[ThisPlayer] = 1;
           if (Objectives[ThisPlayer].FlagHeld == -1)
           {
                if (Objectives[ThisPlayer].IFrames == 0)
@@ -314,10 +318,14 @@ void CaptureFlag()
      
      for (int ThisPlayer = 0; ThisPlayer < g_playerCount; ThisPlayer++)
      {
-          if (Objectives[ThisPlayer].FlagHeld != 0)
+          if (Objectives[ThisPlayer].FlagHeld != -1)
           {
                for (int ThisBase = 0; ThisBase < FlagCount; ThisBase++)
                {
+                    if (GameBase[ThisBase].PlayerHolding != ThisPlayer)
+                    {
+                         continue;
+                    }
                     if (TestCollideSphere(GlobalPlayer[ThisPlayer].position, GlobalPlayer[ThisPlayer].radius, GameBase[ThisBase].Position, 8.0))
                     {
                          if (TeamMode == 1)

@@ -24,6 +24,7 @@
 .definelabel DrawKart3PAfter, 0x80021D40
 .definelabel DrawKart4PAfter, 0x80021DA8
 
+.definelabel BalloonDisp, 0x8006A50C
 .definelabel SmokeDisp, 0x8006E5AC
 .definelabel SmokeDisp2P, 0x8006E634
 .definelabel SmokeDisp3P, 0x8006E6BC
@@ -877,6 +878,7 @@
 .definelabel CurrentPathID, 0x801645B0
 
 .definelabel Func_8001A588, 0x8001A588
+.definelabel CheckViewport, 0x8001F9E4
 
 .definelabel ActionStartCheck, 0x80011B14
 .definelabel ActPointPtr, 0x801632B0

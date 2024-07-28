@@ -26,7 +26,7 @@ extern void DrawKart3PAfter(); //0x0x80021D40
 extern void DrawKart4PAfter(); //0x0x80021DA8
 
 
-
+extern void BalloonDisp(int Arg1, float Arg2, float Arg3, char Player, int Arg4, ushort Arg5);
 extern void SmokeDisp(Player *Character, char kno,char place); //0x8006E5AC
 extern void SmokeDisp2P(Player *Character, char kno,char place); //0x8006E634
 extern void SmokeDisp3P(Player *Character, char kno,char place); //0x8006E6BC

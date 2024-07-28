@@ -359,6 +359,13 @@ JAL PlayFinalLapMusicHook
 .org 0x11C890
 JAL ExecuteItemHook
 
+//.org 0x06C408
+//JAL BalloonCheck
+.org 0x06C42C
+JAL BalloonCheck
+.org 0x06C450
+JAL BalloonCheck
+
 
 //original hook placement
 .org 0x34BC //RAM address 0x800028BC

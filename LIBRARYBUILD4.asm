@@ -75,3 +75,7 @@ If the defined functions have not been made in an external codebase, it will use
 .ifndef KWChart_Kumo_Hook
 .definelabel KWChart_Kumo_Hook, KWChart_Kumo_Hook_Default
 .endif
+
+.ifndef BalloonCheck
+.definelabel BalloonCheck, BalloonCheckDefault
+.endif

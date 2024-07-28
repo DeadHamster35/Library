@@ -1068,22 +1068,37 @@ void setSky()
 
 	if (HotSwapID > 0)
 	{
-
 		*targetAddress = (long)&g_skyColorTopTable;
+		if (g_gameMode == GAMEMODE_BATTLE)
+		{
+			*targetAddress += 0xB4;
+		}
 		*sourceAddress = OverKartHeader.Sky;
 		dataLength = 0x10;
 		runDMA();
 		*targetAddress = (long)&g_skyColorBotTable;
+		if (g_gameMode == GAMEMODE_BATTLE)
+		{
+			*targetAddress += 0xB4;
+		}
 		*sourceAddress = *sourceAddress + 0x10;
 		runDMA();
 	}
 	else
 	{
 		*targetAddress = (long)&g_skyColorTopTable;
+		if (g_gameMode == GAMEMODE_BATTLE)
+		{
+			*targetAddress += 0xB4;
+		}
 		*sourceAddress = 0x1220E0;
 		dataLength = 0x10;
 		runDMA();
 		*targetAddress = (long)&g_skyColorBotTable;
+		if (g_gameMode == GAMEMODE_BATTLE)
+		{
+			*targetAddress += 0xB4;
+		}
 		*sourceAddress = 0x1221DC;
 		runDMA();
 	}
@@ -2247,18 +2262,17 @@ void loadMinimap()
 		{	
 			g_mapX = MiniMapData->MapX;
 			g_mapY = MiniMapData->MapY;
-			g_startX = MiniMapData->StartX;
-			g_startY = MiniMapData->StartY;	
-			RadarLineX = MiniMapData->LineX;
-			RadarLineY = MiniMapData->LineY;
 
-			if (g_ScreenFlip == 1)
-			{
-				g_startX = g_mapWidth - g_startX;
-			}
-		}
-		
 			
+		}
+		if (g_ScreenFlip == 1)
+		{
+			g_startX = g_mapWidth - g_startX;
+		}
+		RadarLineX = MiniMapData->LineX;
+		RadarLineY = MiniMapData->LineY;
+		g_startX = MiniMapData->StartX;
+		g_startY = MiniMapData->StartY;				
 		g_mapHeight = MiniMapData->Height;
 		g_mapWidth = MiniMapData->Width;
 		g_mapR = MiniMapData->R;

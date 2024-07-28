@@ -157,14 +157,14 @@ typedef struct OKObjectType{
 } OKObjectType;
 
 
-/*
-typedef struct OKObjectType{
+
+typedef struct OKObjectType7{
 
 	short 			BehaviorClass, BumpRadius;//
 	short 			SoundRadius, RenderRadius;//	
 	char				SoundType, ZSortToggle, GravityToggle, CameraAlignToggle; //	
 	char				OKModelCount, OKXLUCount, CollisionCount, ObjectFlag;	
-	short			ObjectScale, PADDING;
+	short			ObjectScale, ParameterCount;
 	int				SoundID;
 	
 	uint 			ObjectBehavior;  //OKBehave Address
@@ -173,7 +173,7 @@ typedef struct OKObjectType{
 	uint			ObjectXLU;		//OKModel Address
 	uint			ObjectAnimations;	//OKSkeleton Address
 
-} OKObjectType;*/
+} OKObjectType7;
 
 
 typedef struct OKObjectList{
