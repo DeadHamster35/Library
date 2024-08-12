@@ -52,8 +52,8 @@ extern void MakeAlternativePath(Marker *altPath, short length, char pathID);
 #define RAMPPATH     1
 #define DROPPATH     2
 
-#define STANDARD_AI     0
-#define SEEKER_AI       1
+#define SEEKER_AI     0
+#define MIXED_AI       1
 #define RANDOM_AI       2
 
 #define STOPTURN ((DEG1 * 60) * (DEG1 * 60))
