@@ -1770,6 +1770,7 @@ void MapStartupDefault(short InputID)
 		loadTextureScrollTranslucent();
 		runKillDisplayObjects();
 	}
+
 }
 
 void InitialMapObjectCode()
@@ -1782,7 +1783,6 @@ void InitialMapObjectCode()
 	{
 		g_StaticObjectCount = 0;
 		g_simpleObjectCount = 0;
-		// SetItemBoxObject(0x06000008);
 		PlaceIBoxes(0x06000008);
 		SetTreeObject(0x06000210);
 		SetPakkunObject(0x06000418);
@@ -1832,22 +1832,8 @@ void InitialMapObjectCode()
 }
 void InitialMapCode()
 {
-	// static_object_count=(ushort)object_count;
-
-		
-
-
-	InitialMap();
-
-	
+	InitialMap();	
 	setPath();
-
-	if ((HotSwapID > 0) && (g_gameMode == GAMEMODE_BATTLE))
-	{
-		SearchListFile(0x06000000 | OverKartHeader.SurfaceMapPosition);
-		MakeCollision();
-	}
-
 }
 
 void loadOKObjects()
@@ -1911,21 +1897,6 @@ void LoadCustomHeader(int inputID)
 			dataLength = 0x30;
 			runRAM();
 
-			battleDisplayA = 0x3C0F0600;
-			battleDisplayB = 0x35EF0000 | (OverKartHeader.SectionViewPosition & 0xFFFF);
-			battleSurfaceA = 0x3C040600;
-			battleSurfaceB = 0x34840000;
-
-			unknownA1 = 0x3C190600; // 0x802927FC   ;;3C190601 -> 3C190600
-			unknownB1 = 0x3C040600; // 0x802927FC   ;;3C190601 -> 3C190600
-			unknownC1 = 0x3C040600; // 0x802927FC   ;;3C190601 -> 3C190600
-			unknownD1 = 0x3C040600; // 0x802927FC   ;;3C190601 -> 3C190600
-
-			unknownA2 = 0x27390000; // 0x80292810   ;;27399348 -> 27390000
-			unknownB = 0x34840000; // 0x802927FC   ;;34841140 -> 34840000
-			unknownC = 0x34840000; // 0x80292810   ;;348408E8 -> 34840000
-			unknownD = 0x34840000; // 0x80295E70   ;;34842D68 -> 34840000
-
 			pathOffset = 0x06000A20;
 		}
 		else
@@ -1940,13 +1911,19 @@ void LoadCustomHeader(int inputID)
 		*sourceAddress = 0x122390;
 		*targetAddress = (long)&g_courseTable;
 		dataLength = 0x30;
+
+		if (g_gameMode == GAMEMODE_BATTLE)
+		{
+			*targetAddress += 0x2D0;
+			*sourceAddress += 0x2D0;
+		}
+
 		runDMA();
 	}
 }
 
 void SetCustomData()
 {
-
 	setText();
 	setEcho();
 	setSong();
@@ -2159,6 +2136,43 @@ void setBanners()
 			runTKM();
 			GlobalAddressA = GlobalAddressA + 0x13C0;
 		}
+		else
+		{
+			dataLength = 0x1000;
+			GlobalAddressA = (long)&g_BattleBannerOffsets;
+
+			*targetAddress = (long)&ok_FreeSpace;
+			*sourceAddress = 0x801EC0;
+			runDMA();
+			*targetAddress = GlobalAddressA;
+			*sourceAddress = (long)&ok_FreeSpace;
+			runTKM();
+			GlobalAddressA = GlobalAddressA + 0x13C0;
+
+			*targetAddress = (long)&ok_FreeSpace;
+			*sourceAddress = 0x800DC0;
+			runDMA();
+			*targetAddress = GlobalAddressA;
+			*sourceAddress = (long)&ok_FreeSpace;
+			runTKM();
+			GlobalAddressA = GlobalAddressA + 0x13C0;
+
+			*targetAddress = (long)&ok_FreeSpace;
+			*sourceAddress = 0x8014C0;
+			runDMA();
+			*targetAddress = GlobalAddressA;
+			*sourceAddress = (long)&ok_FreeSpace;
+			runTKM();
+			GlobalAddressA = GlobalAddressA + 0x13C0;
+
+			*targetAddress = (long)&ok_FreeSpace;
+			*sourceAddress = 0x8010C0;
+			runDMA();
+			*targetAddress = GlobalAddressA;
+			*sourceAddress = (long)&ok_FreeSpace;
+			runTKM();
+			GlobalAddressA = GlobalAddressA + 0x13C0;
+		}
 	}
 }
 
@@ -2262,8 +2276,6 @@ void loadMinimap()
 		{	
 			g_mapX = MiniMapData->MapX;
 			g_mapY = MiniMapData->MapY;
-
-			
 		}
 		if (g_ScreenFlip == 1)
 		{
@@ -2360,15 +2372,38 @@ void EmptyActionData()
 	*(ushort *)(GlobalAddressA + (0x6)) = 6;
 }
 
-void SearchListFileHook(int addr)
+
+void SearchListHook(uint Addr)
 {
+	if (HotSwapID > 0)
+	{
+		return;
+	}
+	
+	SearchList(Addr);
+}
+
+void SearchListFileHook(uint addr)
+{
+
     if (HotSwapID > 0)
     {
         SearchListFile(0x06000000 | OverKartHeader.SurfaceMapPosition);
         return;
     }
+	SearchListFile(addr);   
+		
+    
+}
 
-    SearchListFile(addr);    
+void SearchList2Hook(uint addr, char Surface)
+{
+	if (HotSwapID > 0)
+    {
+        SearchListFile(0x06000000 | OverKartHeader.SurfaceMapPosition);
+        return;
+    }
+	SearchList2(addr, Surface);
 }
 
 void DisplayKT1Hook(Screen *Display)
@@ -2388,7 +2423,6 @@ void DisplayKT1Hook(Screen *Display)
 		}
 
 		DisplayGroupmap(SegmentAddress(6, OverKartHeader.SectionViewPosition), Display);
-		// DisplayKT1(Display);
 	}
 	else
 	{
@@ -2415,10 +2449,7 @@ void XLUDisplay(Screen *Display)
 		}
 		else
 		{
-			*(long *)*graphPointer = (long)(0x06000000);
-			*graphPointer = *graphPointer + 4;
-			*(long *)*graphPointer = (long)(SegmentAddress(6, OverKartHeader.XLUSectionViewPosition));
-			*graphPointer = *graphPointer + 4;
+			gSPDisplayList(GraphPtrOffset++, (0x06000000 | OverKartHeader.XLUSectionViewPosition));	
 		}
 	}
 
@@ -2426,6 +2457,28 @@ void XLUDisplay(Screen *Display)
 	{
 		gDPSetCycleType(GraphPtrOffset++, G_CYC_1CYCLE);
 		gSPClearGeometryMode(GraphPtrOffset++, G_FOG);
+	}
+}
+
+
+
+void DisplayKT16Hook(Screen *Display)
+{
+	ClockCycle[1] = osGetCount();
+	CycleCount[1] = (ClockCycle[1] - OldCycle[1]);
+	OldCycle[1] = ClockCycle[1];
+
+	if (HotSwapID > 0)
+	{
+		gSPTexture(GraphPtrOffset++, 0xFFFF,0xFFFF, 0, G_TX_RENDERTILE, G_ON);
+		gSPSetGeometryMode(GraphPtrOffset++,G_SHADING_SMOOTH);
+		gSPClearGeometryMode(GraphPtrOffset++,G_LIGHTING);
+		gSPDisplayList(GraphPtrOffset++, (0x06000000 | OverKartHeader.SectionViewPosition));	
+		
+	}
+	else
+	{
+		DisplayKT16(Display);
 	}
 }
 

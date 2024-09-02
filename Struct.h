@@ -538,6 +538,15 @@ typedef struct EnemyItem //SIZE: 8* 0x10 = 0x80 | LOCATION: 801642D8 | 801642E8 
 	short	count4;			//E
 }EnemyItem;
 
+
+
+
+
+typedef struct BalloonColor{
+	char Blank;
+	char R,G,B;
+} BalloonColor;
+
 typedef struct GpResult //size: 0x20 | location: 0x802874D8
 {
 	short mode;			//00 802874D8 result mode 

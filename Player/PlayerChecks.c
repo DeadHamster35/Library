@@ -113,7 +113,7 @@ void SetWaterType(char WaterType)
 	{
 		LakituIceBehavior = (LakituIceBehavior & 0xFFFF0000) + (12 & 0x0000FFFF);
 	}
-
+	
 	if (g_startingIndicator >= 0x01 && g_startingIndicator <= 0x06)
 	{
 		CheckSplashRepl(WaterType);
@@ -539,14 +539,79 @@ void CheckPaths()
 }
 
 
+void SetBalloonColor(int PlayerIndex, int R, int G, int B, int AdjR, int AdjG, int AdjB)
+{
+	
+	BalloonColorArray[GlobalPlayer[PlayerIndex].kart].R = R;
+	BalloonColorArray[GlobalPlayer[PlayerIndex].kart].G = G;
+	BalloonColorArray[GlobalPlayer[PlayerIndex].kart].B = B;
+	BalloonAdjustArray[GlobalPlayer[PlayerIndex].kart].R = AdjR;
+	BalloonAdjustArray[GlobalPlayer[PlayerIndex].kart].G = AdjG;
+	BalloonAdjustArray[GlobalPlayer[PlayerIndex].kart].B = AdjB;
+
+	BalloonColorArrayB[GlobalPlayer[PlayerIndex].kart].R = R;
+	BalloonColorArrayB[GlobalPlayer[PlayerIndex].kart].G = G;
+	BalloonColorArrayB[GlobalPlayer[PlayerIndex].kart].B = B;
+	BalloonAdjustArrayB[GlobalPlayer[PlayerIndex].kart].R = AdjR;
+	BalloonAdjustArrayB[GlobalPlayer[PlayerIndex].kart].G = AdjG;
+	BalloonAdjustArrayB[GlobalPlayer[PlayerIndex].kart].B = AdjB;
+
+}
+
+
+void SetBalloonDefaults()
+{
+	
+	for (int ThisPlayer = 0; ThisPlayer < 8; ThisPlayer++)
+	{
+		BalloonColorArray[ThisPlayer].R = stockBalloonColors[ThisPlayer].R;
+		BalloonColorArray[ThisPlayer].G = stockBalloonColors[ThisPlayer].G;
+		BalloonColorArray[ThisPlayer].B = stockBalloonColors[ThisPlayer].B;
+		BalloonAdjustArray[ThisPlayer].R = stockAdjustColors[ThisPlayer].R;
+		BalloonAdjustArray[ThisPlayer].G = stockAdjustColors[ThisPlayer].G;
+		BalloonAdjustArray[ThisPlayer].B = stockAdjustColors[ThisPlayer].B;
+
+		BalloonColorArrayB[ThisPlayer].R = stockBalloonColors[ThisPlayer].R;
+		BalloonColorArrayB[ThisPlayer].G = stockBalloonColors[ThisPlayer].G;
+		BalloonColorArrayB[ThisPlayer].B = stockBalloonColors[ThisPlayer].B;
+		BalloonAdjustArrayB[ThisPlayer].R = stockAdjustColors[ThisPlayer].R;
+		BalloonAdjustArrayB[ThisPlayer].G = stockAdjustColors[ThisPlayer].G;
+		BalloonAdjustArrayB[ThisPlayer].B = stockAdjustColors[ThisPlayer].B;
+	}
+
+}
+
+
+void SetBalloonTeams()
+{
+	if (TeamMode == 0)
+	{
+		SetBalloonDefaults();
+		return;
+	}
+	for (int ThisPlayer = 0; ThisPlayer < g_playerCount; ThisPlayer++)
+	{
+		if (Objectives[ThisPlayer].TeamIndex == 0)
+		{
+			//Red
+			SetBalloonColor(ThisPlayer, 225, 0, 0, 30, 0, 0);
+		}
+		else
+		{
+			//Blue
+			SetBalloonColor(ThisPlayer, 0, 0, 225, 0, 0, 30);
+		}
+
+	}
+}
 
 void LakituSpawnBypass(Player *Kart, char PlayerID, float *SpawnVector, float *FacingVector)
 {
-	//if ((HotSwapID == 0) || (g_gameMode != GAMEMODE_BATTLE))
+	if ((HotSwapID == 0) || (g_gameMode != GAMEMODE_BATTLE))
 	{
-	//	GetLakituSpawnPoint(Kart, PlayerID, SpawnVector, FacingVector);
+		GetLakituSpawnPoint(Kart, PlayerID, SpawnVector, FacingVector);
 	}
-	//else
+	else
 	{
 		FacingVector[0] = 0;
 		FacingVector[1] = 0;

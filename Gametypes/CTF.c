@@ -121,7 +121,7 @@ void PlaceFlags(uint BattleFlagF3D, uint *PlayerFlagF3D[], uint BattleBaseF3D, u
                               case (FLAG_POINT):
                               {
                                    PlaceFlagSpawn(CustomObjectivePoints[ThisObj].Position, CustomObjectivePoints[ThisObj].Player);
-                                   GameFlag[CustomObjectivePoints[ThisObj].Player].F3D = (uint)PlayerFlagF3D[CustomObjectivePoints[ThisObj].Player];
+                                   GameFlag[CustomObjectivePoints[ThisObj].Player].F3D = (uint)PlayerFlagF3D[GlobalPlayer[CustomObjectivePoints[ThisObj].Player].kart];
                                    GameFlag[CustomObjectivePoints[ThisObj].Player].TeamIndex = CustomObjectivePoints[ThisObj].Player;
                                    GameFlag[CustomObjectivePoints[ThisObj].Player].Friction = 950;
                                    GameFlag[CustomObjectivePoints[ThisObj].Player].Bounce = 500;
@@ -130,15 +130,13 @@ void PlaceFlags(uint BattleFlagF3D, uint *PlayerFlagF3D[], uint BattleBaseF3D, u
                                    GameFlag[CustomObjectivePoints[ThisObj].Player].Scale = 75;
                                    GameFlag[CustomObjectivePoints[ThisObj].Player].AngularVel[0] = 0;
                                    GameFlag[CustomObjectivePoints[ThisObj].Player].AngularVel[1] = 2;
-                                   GameFlag[CustomObjectivePoints[ThisObj].Player].AngularVel[2] = 0;
-                                             
-
+                                   GameFlag[CustomObjectivePoints[ThisObj].Player].AngularVel[2] = 0;                                           
                                    break;
                               }
                               case (BASE_POINT):
                               {
                                    PlaceBaseSpawn(CustomObjectivePoints[ThisObj].Position, CustomObjectivePoints[ThisObj].Player);
-                                   GameBase[CustomObjectivePoints[ThisObj].Player].F3D = (uint)PlayerBaseF3D[CustomObjectivePoints[ThisObj].Player];
+                                   GameBase[CustomObjectivePoints[ThisObj].Player].F3D = (uint)PlayerBaseF3D[GlobalPlayer[CustomObjectivePoints[ThisObj].Player].kart];
                                    break;
                               }
                          }
@@ -230,15 +228,15 @@ void PlaceFlags(uint BattleFlagF3D, uint *PlayerFlagF3D[], uint BattleBaseF3D, u
           }
           
      }
+
+
      for (int ThisFlag = 0; ThisFlag < g_playerCount; ThisFlag++)
-     {
-          
-          
-          if (TeamMode == 1)
+     {          
+          if ((g_playerCount > 2) && (TeamMode == 1))
           {
                if (ThisFlag < 2)
                {
-                    Objectives[ThisFlag].TeamIndex = 0;                    
+                    Objectives[ThisFlag].TeamIndex = 0;
                }
                else
                {

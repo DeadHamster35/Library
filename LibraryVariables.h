@@ -147,6 +147,9 @@ extern char WhitePaletteF3D[];
 extern char *stockCourseNames[];
 extern char *stockCharacterNames[];
 
+extern BalloonColor stockBalloonColors[];
+extern BalloonColor stockAdjustColors[];
+
 //Custom Levels
 
 

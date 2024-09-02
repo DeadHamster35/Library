@@ -36,14 +36,33 @@ void SlayerInit()
             }
         }
         
-        
-        
-        for (int ThisPlayer = g_playerCount; ThisPlayer < 4; ThisPlayer++)
-        {
-            SpawnPoint[ThisPlayer][0] = -65535;
-            SpawnPoint[ThisPlayer][1] = -65535;
-            SpawnPoint[ThisPlayer][2] = -65535;
-        }
     }
 
+
+    
+    for (int ThisPlayer = 0; ThisPlayer < g_playerCount; ThisPlayer++)
+    {   
+        if ((g_playerCount > 2) && (TeamMode == 1))
+        {
+            if (ThisPlayer < 2)
+            {
+                Objectives[ThisPlayer].TeamIndex = 0;
+            }
+            else
+            {
+                Objectives[ThisPlayer].TeamIndex = 1;
+            }
+        }
+        else
+        {
+            Objectives[ThisPlayer].TeamIndex = ThisPlayer;
+        }
+    }
+    
+    for (int ThisPlayer = g_playerCount; ThisPlayer < 4; ThisPlayer++)
+    {
+        SpawnPoint[ThisPlayer][0] = -65535;
+        SpawnPoint[ThisPlayer][1] = -65535;
+        SpawnPoint[ThisPlayer][2] = -65535;
+    }
 }

@@ -78,6 +78,7 @@ extern void CheckDMA4P(); //0x80020F1C
 extern float CheckHight(float X_value, float Y_value, float Z_value);
 extern int KWCheckRadiusXZ(float x1,float y1,float x2,float y2,float radius);
 extern void DisplayKT1(Screen* Display);
+extern void DisplayKT16(Screen* Display);
 extern void DisplayShadow(Vector Position, SVector Angle, float Size);
 extern void DisplayFlagGate(Camera* PlayerCamera);
 extern void MoveIWA(Object *ObjectPointer);
@@ -728,6 +729,11 @@ extern float gravity_6;
 extern float gravity_7;
 extern float gravity_8;
 
+extern BalloonColor  BalloonColorArray[8]; //0x800E4934
+extern BalloonColor  BalloonAdjustArray[8]; //0x800E4954
+extern BalloonColor  BalloonColorArrayB[8]; //0x800E4974
+extern BalloonColor  BalloonAdjustArrayB[8]; //0x800E4994
+
 extern short surface_p0;
 
 extern int g_GameLapTable[8];    // 0x8  0164390
@@ -1221,7 +1227,9 @@ extern void KWDisplayStar(int player);
 extern ushort RGBAFallingLeaf[];
 extern ushort RGBAQuestionMark[];
 extern void GoToGameSelect();
-extern void SearchListFile(int addr);
+extern void SearchList(uint addr);
+extern void SearchList2(uint addr, char Surface);
+extern void SearchListFile(uint addr);
 extern void MakeCollision();
 extern ushort RGBALeaf[];
 extern void InitialMap();
