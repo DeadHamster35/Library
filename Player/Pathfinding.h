@@ -2,16 +2,32 @@
 typedef struct BKPathfinder{
      short	TargetPath, LastPath; //Current and last path indicies
 	float	Distance; //Distance from end/beginning of path
+     float     MaxSpeed;
 	Vector	Target; //Array of floats giving x,y,z position of target (e.g. a rival or flag)
      short     Progression, NearestMarker; //Step along the path
      float	NearestMarkerHeight; //Height of nearest marker (used for finding falls)
-     short     ProgressTimer;
+     short     ProgressTimer, ShootingTimer;
+     char      Direction, PathType; //Direction along the path, +1 or -1, if the start of the path is IDed, will be +1, if the end of the path is IDed, will be -1     
+     char     Status, RivalPlayer;
      bool		SlowDown; //Boolean denoting if bot should slow down near end of path or not
-     char      Direction; //Direction along the path, +1 or -1, if the start of the path is IDed, will be +1, if the end of the path is IDed, will be -1
-     char 	PathType; //0=regular flat path, 1=ramp, 2=drop
+
+
 
 	
 } BKPathfinder;
+
+
+
+typedef struct OKAIHeader
+{
+     uint CoursePaths; //uint array of segmented addresses 0x4
+     uint CourseRamps;
+     uint CourseDrops;
+     uint PathLengths; //short array of path lengths 0x2
+     uint RampLengths;
+     uint DropLengths;
+     ushort TotalPaths, TotalRamps, TotalDrops;
+} OKAIHeader;
 
 extern short ItemBoxCount;
 

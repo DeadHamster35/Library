@@ -52,7 +52,6 @@ extern long SplashEnd;
 extern long TitleLogo;
 extern long TitleEnd;
 extern long StartLogo;
-extern long BackDrop, BackDropEnd;
 extern long StartEnd;
 extern long BackgroundLogo;
 extern long Boo, BooEnd;

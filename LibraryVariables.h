@@ -27,6 +27,7 @@ extern bool SurfaceExplorerMode;
 extern bool CustomWaterHeight[];
 extern short CloudCourseID, Snow3DCourseID; 
 extern char CloudCourseValue, Snow3DCourseValue, WeatherCourseValue, Toggle3DSnow;
+extern short BattleGametype;
 
 extern short MenuPosition[2];
 extern ushort PerspectiveValue;
@@ -146,6 +147,9 @@ extern char WhitePaletteF3D[];
 extern char *stockCourseNames[];
 extern char *stockCharacterNames[];
 
+extern BalloonColor stockBalloonColors[];
+extern BalloonColor stockAdjustColors[];
+
 //Custom Levels
 
 
@@ -234,5 +238,11 @@ extern short     TeamScore[2];
 #define KO_PSEL_2P	53
 #define KO_PSEL_3P	54
 #define KO_PSEL_4P	55
+
+
+
+#define BTL_BATTLE 	0
+#define BTL_CTF		1
+#define	BTL_SOCCER	2
 
 #endif

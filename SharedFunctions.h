@@ -68,8 +68,6 @@ extern void ExecuteItemHook(Player* Car);
 extern int LoadOKData(uint SourceInput, uint SizeData);
 extern int LoadDataBypass(uint RomStart, uint RomEnd);
 extern int LoadPressDataBypass(uint RomStart, uint RomEnd);
-extern bool CheckPlatform();
-extern bool CheckEmulator();
 
 
 extern void DetectEmulator();

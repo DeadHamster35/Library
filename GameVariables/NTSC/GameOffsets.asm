@@ -24,6 +24,7 @@
 .definelabel DrawKart3PAfter, 0x80021D40
 .definelabel DrawKart4PAfter, 0x80021DA8
 
+.definelabel BalloonDisp, 0x8006A50C
 .definelabel SmokeDisp, 0x8006E5AC
 .definelabel SmokeDisp2P, 0x8006E634
 .definelabel SmokeDisp3P, 0x8006E6BC
@@ -79,6 +80,7 @@
 
 
 .definelabel DisplayKT1, 0x80292464
+.definelabel DisplayKT16, 0x80294FDC
 
 .definelabel DisplayFlagGate, 0x80297340
 .definelabel DisplayShadow, 0x8029794C
@@ -508,6 +510,12 @@
 .definelabel gravity_7, 0x800E2668
 .definelabel gravity_8, 0x800E266C
 
+
+.definelabel BalloonColorArray, 0x800E4934
+.definelabel BalloonAdjustArray, 0x800E4954
+.definelabel BalloonColorArrayB, 0x800E4974
+.definelabel BalloonAdjustArrayB, 0x800E4994
+
 .definelabel antialiasToggle, 0x800EB3DC
 .definelabel antialiasToggleB, 0x800EB40C
 
@@ -563,7 +571,7 @@
 .definelabel r_CoursePreviewOffsets, 0x12C60C
 .definelabel g_CoursePreviewOffsets, 0x801993FC
 .definelabel g_CourseBannerOffsets, 0x801FA860
-.definelabel g_BattleBannerOffsets, 0x801F57F8
+.definelabel g_BattleBannerOffsets, 0x801F56E0
 .definelabel g_BattlePreviewOffsets, 0x801FF3F0
 .definelabel g_cup0preview0, 0x80199540
 .definelabel g_cup0preview1, 0x80199568
@@ -877,6 +885,7 @@
 .definelabel CurrentPathID, 0x801645B0
 
 .definelabel Func_8001A588, 0x8001A588
+.definelabel CheckViewport, 0x8001F9E4
 
 .definelabel ActionStartCheck, 0x80011B14
 .definelabel ActPointPtr, 0x801632B0
@@ -1243,6 +1252,8 @@
 .definelabel RGBAFallingLeaf, 0x0D028DD8
 .definelabel RGBAQuestionMark, 0x0D001EE8
 .definelabel GoToGameSelect, 0x80290360
+.definelabel SearchList, 0x802AF588
+.definelabel SearchList2, 0x802AF5AC
 .definelabel SearchListFile, 0x80290CAC
 
 .definelabel MakeCollision, 0x80295C6C

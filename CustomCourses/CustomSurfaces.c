@@ -68,73 +68,8 @@ void SurfaceSFX(Player *car, int SFX_ID, float min_Speed)
 	}	
 }
 
-#define TRICK_GRAVITY				4000.0f
-#define TRICK_TRIGGER_SPEED_MIN		30
-
-#define GAP_GRAVITY				2000.0f
-
-#define IS_BROKEN (IS_SPINNING_OUT|SPINOUT_LEFT|SPINOUT_RIGHT|IS_MOMENTUM_HIT|IS_VERTICAL_HIT|IS_TUMBLING|IS_WALL_TUMBLING)
-
-
-
-#define NOTHING 		0
-#define ASPHALT 		1
-#define DIRT			2
-#define SAND			3
-#define STONE			4
-#define SNOW                    5
-#define WOOD			6
-#define SAND_TRAP		7
-#define GRASS			8
-#define ICE  			9
-#define WET_SAND		10
-#define WET_SNOW                11
-#define ROCK                    12
-#define DIRT_TRAP               13
-#define RAILWAY                 14
-#define CAVE                    15
-#define BRIDGE                  16   //rickety
-#define KIBASHI                 17
-
-
-
-
-#define DASHMARK2		252	    //for JUNGLE
-#define JUMPMARK		253	    //for JUNGLE
-#define DASHMARK		254	    //for PEACH CIRCUIT
-#define OTHER 			255
-
-
-
-#define FastOoB			251
-#define Water			250
-#define MushroomBoost	249
-#define FeatherJump		248
-#define TornadoJump		247
-#define SpinOutSaveable	246
-#define SpinOut			245
-#define FailedStart		244
-#define GreenShellHit	243
-#define RedShellHit		242
-#define ObjectHit		241
-#define Shrunken		240
-#define StarMan			239
-#define Boo		    	238
-#define GetItem			237
-#define TrickJump		236
-#define GapJump			235
-#define LavaSurface		234
-#define ForceJump		233
-
-#define Mud				18
-
 
 short SurfaceStorage[8];
-
-#define STORE_NONE 	0
-#define STORE_TRICK 1
-#define	STORE_GAP	2
-
 
 
 
@@ -189,7 +124,7 @@ void AddGravityEdit(Player *car)
 			SetFastOoB(car, car_number);
 		}
 		break;
-	case Boo:
+	case BooSurface:
 		if (car->jumpcount == 0 && car->wallhitcount == 0  && !(car->slip_flag&IS_BROKEN))
 		{
 			SetGhostEffect(car_number, true, 0xFFFF);
@@ -351,6 +286,13 @@ void AddGravityEdit(Player *car)
 
 		case GapJump:
 		{
+			FaceStruct *SurfaceBuffer = (FaceStruct*)(gFaceBuffer);
+			Vtx *TargetVert = (Vtx*)SurfaceBuffer[GlobalPlayer[car_number].bump.last_zx].p1;
+			//Target Blue-Channel of SurfaceMap Vertex Color
+			if (TargetVert->v.cn[2] != 255)
+			{
+				GlobalPlayer[car_number].bump.dummy = TargetVert->v.cn[2];  //use.bump dummy; goes unused by gamecode		
+			}
 			
 			if (car->jumpcount <= 10 && GlobalController[cont_number]->ButtonPressed&BTN_R && SPEEDMETER(car->speed) >= TRICK_TRIGGER_SPEED_MIN && !(car->slip_flag&IS_BROKEN) && !(car->slip_flag&IS_FEATHER_JUMPING) && !(SurfaceStorage[car_number]&STORE_GAP))
 			{
@@ -375,10 +317,7 @@ void AddGravityEdit(Player *car)
 					car->max_power = car->bump_status;		
 				}
 				
-				FaceStruct *SurfaceBuffer = (FaceStruct*)(gFaceBuffer);
-				Vtx *TargetVert = (Vtx*)SurfaceBuffer[GlobalPlayer[car_number].bump.last_zx].p1;
-				//Target Blue-Channel of SurfaceMap Vertex Color
-				GlobalPlayer[car_number].bump.dummy = TargetVert->v.cn[2];  //use.bump dummy; goes unused by gamecode		
+				
 				SurfaceStorage[car_number] = STORE_GAP;
 			}
 			else if (car->flag & IS_CPU_PLAYER)
@@ -569,8 +508,8 @@ void AddGravityEdit(Player *car)
 			ResetStar(car, car_number);
 		}
 		break;
-	case Boo:
-		if (car->bump_status != Boo)
+	case BooSurface:
+		if (car->bump_status != BooSurface)
 		{
 			SetGhostEffect(car_number, false, 0);
 		}

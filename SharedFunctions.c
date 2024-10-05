@@ -10,6 +10,11 @@ void titleMenuDefault()
 {
 	
 };
+
+void title2Default()
+{
+	
+};
 void DisplayObjectDefault(void *Car, Object *InputObject)
 {
 	
@@ -68,6 +73,11 @@ void MiniMapDrawDefault()
 {
 	KWReturnViewport();
 	KawanoDrawFinal();
+}
+
+void BalloonCheckDefault(int Arg1, float Arg2, float Arg3, char Player, int Arg4, ushort Arg5)
+{
+	BalloonDisp(Arg1, Arg2, Arg3, Player, Arg4, Arg5);
 }
 
 
@@ -285,7 +295,9 @@ int LoadDataBypass(uint RomStart, uint RomEnd)
 	}
 	
 	*sourceAddress = RomStart;	
-	dataLength = RomEnd - RomStart;
+	dataLength = RomEnd - RomStart  ;
+	GlobalShortA = 64 - ((RomEnd - RomStart) % 64);
+	dataLength += GlobalShortA;
 	LastMemoryPointer -= dataLength;
 	*targetAddress = LastMemoryPointer;
 	runDMA();
@@ -304,23 +316,24 @@ int LoadPressDataBypass(uint RomStart, uint RomEnd)
 	}
 	*sourceAddress = RomStart;	
 	dataLength = RomEnd - RomStart;		
+	GlobalShortA = 64 - (dataLength % 64);
+	dataLength += GlobalShortA;
 	*targetAddress = FreeMemoryPointer;
-	
-
 	runDMA();
 
 	
-	dataLength = *(uint*)(*targetAddress + 4);  //size of decompressed data stored in MIO0 header.
+	dataLength = *(uint*)(*targetAddress + 4);  //size of decompressed data stored in MIO0 header.	
+	GlobalShortA = 64 - (dataLength % 64);
+	dataLength += GlobalShortA;
+	LastMemoryPointer -= dataLength;
 
 	*sourceAddress = FreeMemoryPointer;
-	LastMemoryPointer -= (dataLength + 16);
-	*targetAddress = LastMemoryPointer;
-
-	
+	*targetAddress = LastMemoryPointer;	
 	runMIO();
-	
-	FreeMemoryPointer += (RomEnd - RomStart) + 16;
 
+
+	GlobalShortA = 64 - ((RomEnd - RomStart) % 64);
+	FreeMemoryPointer += (RomEnd - RomStart) + GlobalShortA;
 	return LastMemoryPointer;
 }
 
@@ -367,64 +380,6 @@ short CustomLevelID()
     }
 }
 
-bool CheckPlatform()
-{
-	// This is an abuse of the memory quirks between Console and Emulator.
-
-	// We're unsure of yet the exact cause
-	// Emulators have extremely fast memory access and no latency, that may be the cause.
-	// Either way, this can detect if a legitimate console is running and return TRUE if so.
-	
-	*targetAddress = 0x80744000;
-	*sourceAddress = 0x30;
-	dataLength = 0xC;
-	runDMA();
-	*targetAddress = 0x8074400C;
-	*sourceAddress = *sourceAddress + 0xC;
-	runDMA(); 
-
-
-	
-	if (*(long*)(0x80744014) == 0x40804800)
-	{
-		return false;    //EMULATOR
-	}
-	else
-	{
-		return true;    //CONSOLE
-	}
-}
-
-
-bool CheckEmulator()
-{
-	// This is an abuse of the memory quirks between Console and Emulator.
-
-	// We're unsure of yet the exact cause
-	// Emulators have extremely fast memory access and no latency, that may be the cause.
-	// Either way, this can detect if a legitimate console is running and return TRUE if so.
-	
-	
-	
-	*sourceAddress = 0xBFFFFC;
-	*targetAddress = 0x80744000;
-	dataLength = 8;
-	runDMA();
-	*sourceAddress = *(uint*)0x80744000;
-
-	*targetAddress = 0x80744010;
-	dataLength = 0x8;
-	runDMA();
-	
-	if (*(int*)(0x80744010) == 0)
-	{
-		return false;    //MUPEN
-	}
-	else
-	{
-		return true;    //PROJECT64
-	}
-}
 
 
 

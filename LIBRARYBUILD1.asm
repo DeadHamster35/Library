@@ -5,17 +5,30 @@ it needs to be placed in static ROM with no offset to the address
 
 
 
-//Change kwtexture2d to use loadtile
-.org 0x463E0
-.word 0x0C010F0A
-//fix kwtexture2D_rgba32_bl
-.org 0x0473F0
-.word 0x0C011869
-//add XLU to RGBA32
+.org 0x3314
+NOP
+
+
+//change kwtexture2d_RGBA32PT to XLU mode not opaque
 .org 0x047350
-.word 0x273979E8
-.org 0x0473C4
-.word 0x273979E8
+.word 0x27397968
+
+
+
+//Change kwtexture2d to use loadtile
+//.org 0x463E0
+//.word 0x0C010F0A
+//fix kwtexture2D_rgba32_bl
+//.org 0x0473F0
+//.word 0x0C011869
+//add XLU to RGBA32
+//.org 0x047350
+//.word 0x273979E8
+//.org 0x0473C4
+//.word 0x273979E8
+
+//.org 0x046F14
+//.word 0x268E0000
 
 
 
@@ -116,15 +129,37 @@ JAL InitRapidSmokeHook
 JAL InitSpinSmokeHook
 
 
+.org 0x0FF450
+JAL SearchListHook
+
+.org 0x0FF468
+JAL SearchListHook
+
+.org 0x0FF47C
+JAL SearchListHook
 
 //SearchListFileHook
 .org 0xFF488
 JAL SearchListFileHook
 
+.org 0x0FFB38
+JAL SearchList2Hook
+
 
 //Display Custom Levels Hook
 .org 0x0FF0BC
 JAL DisplayKT1Hook
+.org 0x0FF1AC
+JAL DisplayKT16Hook
+.org 0x1076E4
+//JAL KT16Itembox
+NOP
+
+.org 0x0FECE0
+.word 0x3C190600
+
+.org 0x0FECE4
+.word 0x27390000
 
 //Map Startup Hooks
 .org 0x123B0C
@@ -148,6 +183,24 @@ J SnowHook
 NOP
 
 
+
+//Fix bad border pixels
+.org 0x10DA48
+.word 0x3C0EF628
+.org 0x10DA54
+.word 0x3C18F628
+.org 0x10DA68
+.word 0x35EFC000
+.org 0x10DA74
+.word 0x35CE03BC
+.org 0x10DA88
+.word 0x3739C1E0
+.org 0x10DAAC
+.word 0x3739C000
+.org 0x10DAB8
+.word 0x371803BC
+.org 0x10DACC
+.word 0x35EFC1E0
 
 
 
@@ -347,6 +400,13 @@ JAL PlayFinalLapMusicHook
 
 .org 0x11C890
 JAL ExecuteItemHook
+
+//.org 0x06C408
+//JAL BalloonCheck
+.org 0x06C42C
+JAL BalloonCheck
+.org 0x06C450
+JAL BalloonCheck
 
 
 //original hook placement

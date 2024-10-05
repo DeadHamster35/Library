@@ -8,9 +8,9 @@
 
 void CheckSplashRepl(char WaterType)
 {	
-	for (char playerID = 0; playerID < 8; playerID++)						// Loop for each racer
+	for (char playerID = 0; playerID < 8; playerID++)
 	{
-		if (((GlobalPlayer[(int)playerID].flag & EXISTS) != 0) && (g_gamePausedFlag == 0x00))
+		if (((GlobalPlayer[(int)playerID].flag & EXISTS)) && (g_gamePausedFlag == 0x00))
 		{
 			if(!CustomWaterHeight[(int)playerID])
 			{
@@ -20,33 +20,33 @@ void CheckSplashRepl(char WaterType)
 			{
 				if(g_waterlevelPlayer[(int)playerID] >= (GlobalPlayer[(int)playerID].position[1]))
 				{
-					GlobalPlayer[(int)playerID].water_flag |= HALF_SUBMERGED;
+					SET_FLAG(GlobalPlayer[(int)playerID].water_flag,HALF_SUBMERGED);
 				}
 
 				else
 				{
-					GlobalPlayer[(int)playerID].water_flag &=~ HALF_SUBMERGED;
+					CLR_FLAG(GlobalPlayer[(int)playerID].water_flag,HALF_SUBMERGED);
 				}
 
 				if((g_waterlevelPlayer[(int)playerID]-(GlobalPlayer[(int)playerID].position[1])) > (GlobalPlayer[(int)playerID].radius))
 				{
-					GlobalPlayer[(int)playerID].water_flag |= SUBMERGED;
-					GlobalPlayer[(int)playerID].water_flag &=~ HALF_SUBMERGED;
+					SET_FLAG(GlobalPlayer[(int)playerID].water_flag,SUBMERGED);
+					CLR_FLAG(GlobalPlayer[(int)playerID].water_flag,HALF_SUBMERGED);
 				}
 
 				else
 				{
-					GlobalPlayer[(int)playerID].water_flag &=~ SUBMERGED;
+					CLR_FLAG(GlobalPlayer[(int)playerID].water_flag,SUBMERGED);
 				}
 
 				if((g_waterlevelPlayer[(int)playerID] - (GlobalPlayer[(int)playerID].position[1])) > (GlobalPlayer[(int)playerID].radius))
 				{
-					if((GlobalPlayer[(int)playerID].water_flag & SPLASH_START) != SPLASH_START)
+					if(!(GlobalPlayer[(int)playerID].water_flag&SPLASH_START))
 					{
-						GlobalPlayer[(int)playerID].water_flag |= SPLASH_DIVE;
-						GlobalPlayer[(int)playerID].water_flag |= SPLASH_START;
+						SET_FLAG(GlobalPlayer[(int)playerID].water_flag,SPLASH_DIVE);
+						SET_FLAG(GlobalPlayer[(int)playerID].water_flag,SPLASH_START);
 
-						if((g_courseID != 6) && (g_courseID != 16) && (g_courseID != 13) && ((GlobalPlayer[(int)playerID].flag& IS_PLAYER) != 0))
+						if((g_courseID != 6) && (g_courseID != 16) && (g_courseID != 13) && ((GlobalPlayer[(int)playerID].flag&IS_PLAYER)))
 						{
 							if(((g_courseID == 2) && (g_courseID == 19)) || WaterType == ZLAVA)
 							{
@@ -56,7 +56,7 @@ void CheckSplashRepl(char WaterType)
 							{
 								NAPlyTrgStart(playerID, 0x19008008);
 							}
-							if(HotSwapID > 0 && ((GlobalPlayer[(int)playerID].flag& IS_PLAYER) != 0))
+							if(HotSwapID > 0 && ((GlobalPlayer[(int)playerID].flag&IS_PLAYER)))
 							{
 								NAPlyTrgStart(playerID, 0x29008004 + (GlobalPlayer[(int)playerID].kart * 0x10));
 							}
@@ -64,34 +64,35 @@ void CheckSplashRepl(char WaterType)
 					}
 				}
 
-				if((g_courseID == 6) || ((g_courseID == 16) || (g_courseID == 13)))
+				if((g_courseID == 6) || ((g_courseID == 16) && (g_courseID == 13)))
 				{
-					GlobalPlayer[(int)playerID].water_flag &=~ SPLASH_DIVE|SPLASH_START;
+					CLR_FLAG(GlobalPlayer[(int)playerID].water_flag,SPLASH_DIVE);
+					CLR_FLAG(GlobalPlayer[(int)playerID].water_flag,SPLASH_START);
 				}
 			}
 
 			if((g_waterlevelPlayer[(int)playerID] - (GlobalPlayer[(int)playerID].position[1])) > (GlobalPlayer[(int)playerID].radius) && ((GlobalPlayer[(int)playerID].bump.distance_zx) >= 600))
 			{	
-				GlobalPlayer[(int)playerID].jugemu_flag |= IS_IN_WATER;
+				SET_FLAG(GlobalPlayer[(int)playerID].jugemu_flag,IS_IN_WATER);
 			}
 
 			if(GlobalPlayer[(int)playerID].bump.distance_zx >= 600)
 			{
-				GlobalPlayer[(int)playerID].jugemu_flag |= LAKITU_CAMERA;
+				SET_FLAG(GlobalPlayer[(int)playerID].jugemu_flag,LAKITU_CAMERA);
 			}
 
-			else if((GlobalPlayer[(int)playerID].slip_flag & IS_IN_AIR) != 0)
+			else if(!(GlobalPlayer[(int)playerID].slip_flag&IS_IN_AIR))
 			{
-				GlobalPlayer[(int)playerID].jugemu_flag &=~ LAKITU_CAMERA;
+				CLR_FLAG(GlobalPlayer[(int)playerID].jugemu_flag,LAKITU_CAMERA);
 			}
 
-			if((GlobalPlayer[(int)playerID].flag & IS_CPU_PLAYER) && (OoBCheck(GlobalPlayer[(int)playerID].bump.last_zx) || (GlobalPlayer[(int)playerID].jugemu_flag & IS_IN_WATER)) && !(GlobalPlayer[(int)playerID].jugemu_flag & ON_LAKITU_ROD) && !(GlobalPlayer[(int)playerID].jugemu_flag & OUT_OF_BOUNDS) && !(GlobalPlayer[(int)playerID].slip_flag & ON_CENTER_LINE))
+			if((GlobalPlayer[(int)playerID].flag&IS_CPU_PLAYER) && (OoBCheck(GlobalPlayer[(int)playerID].bump.last_zx) || (GlobalPlayer[(int)playerID].jugemu_flag&IS_IN_WATER)) && !(GlobalPlayer[(int)playerID].jugemu_flag&ON_LAKITU_ROD) && !(GlobalPlayer[(int)playerID].jugemu_flag&OUT_OF_BOUNDS) && !(GlobalPlayer[(int)playerID].slip_flag&ON_CENTER_LINE))
 			{
 				SetLakitu((void*)&GlobalPlayer[(int)playerID]);
 				CallLakitu((void*)&GlobalPlayer[(int)playerID]);
 			}
 
-			if((GlobalPlayer[(int)playerID].flag & IS_CPU_PLAYER) && GlobalPlayer[(int)playerID].bump_status == 253 && !(GlobalPlayer[(int)playerID].slip_flag & IS_IN_AIR))
+			if((GlobalPlayer[(int)playerID].flag&IS_CPU_PLAYER) && GlobalPlayer[(int)playerID].bump_status == 253 && !(GlobalPlayer[(int)playerID].slip_flag&IS_IN_AIR))
 			{
 				SetLakitu((void*)&GlobalPlayer[(int)playerID]);
 				CallLakitu((void*)&GlobalPlayer[(int)playerID]);
@@ -113,7 +114,7 @@ void SetWaterType(char WaterType)
 	{
 		LakituIceBehavior = (LakituIceBehavior & 0xFFFF0000) + (12 & 0x0000FFFF);
 	}
-
+	
 	if (g_startingIndicator >= 0x01 && g_startingIndicator <= 0x06)
 	{
 		CheckSplashRepl(WaterType);
@@ -539,6 +540,71 @@ void CheckPaths()
 }
 
 
+void SetBalloonColor(int PlayerIndex, int R, int G, int B, int AdjR, int AdjG, int AdjB)
+{
+	
+	BalloonColorArray[GlobalPlayer[PlayerIndex].kart].R = R;
+	BalloonColorArray[GlobalPlayer[PlayerIndex].kart].G = G;
+	BalloonColorArray[GlobalPlayer[PlayerIndex].kart].B = B;
+	BalloonAdjustArray[GlobalPlayer[PlayerIndex].kart].R = AdjR;
+	BalloonAdjustArray[GlobalPlayer[PlayerIndex].kart].G = AdjG;
+	BalloonAdjustArray[GlobalPlayer[PlayerIndex].kart].B = AdjB;
+
+	BalloonColorArrayB[GlobalPlayer[PlayerIndex].kart].R = R;
+	BalloonColorArrayB[GlobalPlayer[PlayerIndex].kart].G = G;
+	BalloonColorArrayB[GlobalPlayer[PlayerIndex].kart].B = B;
+	BalloonAdjustArrayB[GlobalPlayer[PlayerIndex].kart].R = AdjR;
+	BalloonAdjustArrayB[GlobalPlayer[PlayerIndex].kart].G = AdjG;
+	BalloonAdjustArrayB[GlobalPlayer[PlayerIndex].kart].B = AdjB;
+
+}
+
+
+void SetBalloonDefaults()
+{
+	
+	for (int ThisPlayer = 0; ThisPlayer < 8; ThisPlayer++)
+	{
+		BalloonColorArray[ThisPlayer].R = stockBalloonColors[ThisPlayer].R;
+		BalloonColorArray[ThisPlayer].G = stockBalloonColors[ThisPlayer].G;
+		BalloonColorArray[ThisPlayer].B = stockBalloonColors[ThisPlayer].B;
+		BalloonAdjustArray[ThisPlayer].R = stockAdjustColors[ThisPlayer].R;
+		BalloonAdjustArray[ThisPlayer].G = stockAdjustColors[ThisPlayer].G;
+		BalloonAdjustArray[ThisPlayer].B = stockAdjustColors[ThisPlayer].B;
+
+		BalloonColorArrayB[ThisPlayer].R = stockBalloonColors[ThisPlayer].R;
+		BalloonColorArrayB[ThisPlayer].G = stockBalloonColors[ThisPlayer].G;
+		BalloonColorArrayB[ThisPlayer].B = stockBalloonColors[ThisPlayer].B;
+		BalloonAdjustArrayB[ThisPlayer].R = stockAdjustColors[ThisPlayer].R;
+		BalloonAdjustArrayB[ThisPlayer].G = stockAdjustColors[ThisPlayer].G;
+		BalloonAdjustArrayB[ThisPlayer].B = stockAdjustColors[ThisPlayer].B;
+	}
+
+}
+
+
+void SetBalloonTeams()
+{
+	if (TeamMode == 0)
+	{
+		SetBalloonDefaults();
+		return;
+	}
+	for (int ThisPlayer = 0; ThisPlayer < g_playerCount; ThisPlayer++)
+	{
+		if (Objectives[ThisPlayer].TeamIndex == 0)
+		{
+			//Red
+			SetBalloonColor(ThisPlayer, 225, 0, 0, 30, 0, 0);
+		}
+		else
+		{
+			//Blue
+			SetBalloonColor(ThisPlayer, 0, 0, 225, 0, 0, 30);
+		}
+
+	}
+}
 
 void LakituSpawnBypass(Player *Kart, char PlayerID, float *SpawnVector, float *FacingVector)
 {

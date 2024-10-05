@@ -87,7 +87,7 @@ void PlaceBalls(uint BattleFlagF3D, uint BattleBaseF3D, uint PlayerBaseF3D[], ui
 
         for (int ThisObj = 0; ThisObj < 64; ThisObj++)
         {
-            if ((ushort)CustomObjectivePoints[(int)ObjectiveCount].Position[0] == 0x8000)
+            if ((ushort)CustomObjectivePoints[ThisObj].Position[0] == (short)-32768)
             {
                 break;
             }
