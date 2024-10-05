@@ -157,7 +157,7 @@ JAL DisplayKT1Hook
 .org 0x0FF1AC
 JAL DisplayKT16Hook
 .org 0x1076E4
-//JAL KT16Itembox
+JAL KT16Itembox
 NOP
 
 .org 0x0FECE0

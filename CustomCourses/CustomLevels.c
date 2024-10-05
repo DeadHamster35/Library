@@ -1773,6 +1773,14 @@ void MapStartupDefault(short InputID)
 
 }
 
+void KT16ItemBox()
+{
+	if (HotSwapID == 0)
+	{
+		SetItemBoxObject(0x06000038);
+	}
+}
+
 void InitialMapObjectCode()
 {
 	if (HotSwapID == 0)
