@@ -6,7 +6,7 @@ int ObjectiveMapID = 0;
 
 
 
-void DisplayScore()
+void DisplayGameScore()
 {
      if (TeamMode)
      {

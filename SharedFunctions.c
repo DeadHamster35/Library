@@ -10,6 +10,11 @@ void titleMenuDefault()
 {
 	
 };
+
+void title2Default()
+{
+	
+};
 void DisplayObjectDefault(void *Car, Object *InputObject)
 {
 	

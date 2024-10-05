@@ -11,6 +11,10 @@ If the defined functions have not been made in an external codebase, it will use
 .definelabel titleMenu, titleMenuDefault
 .endif
 
+.ifndef title2
+.definelabel title2, title2Default
+.endif
+
 .ifndef MapStartup
 .definelabel MapStartup, MapStartupDefault
 .endif
