@@ -151,9 +151,9 @@ JAL SearchList2Hook
 JAL DisplayKT1Hook
 .org 0x0FF1AC
 JAL DisplayKT16Hook
-.org 0x1076E4
+//.org 0x1076E4
 //JAL KT16Itembox
-NOP
+//NOP
 
 .org 0x0FECE0
 .word 0x3C190600
