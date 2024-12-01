@@ -812,36 +812,47 @@ void SetWeatherType(char WeatherType) // 0 = Snow // 1 = Rain
 {
 	switch (WeatherType)
 	{
-	case WEATHER_RAIN:
-	{
-		for (int texarr = 0; texarr < 36; texarr++)
+		case WEATHER_RAIN:
 		{
-			*(uint*)&g_SnowParticleTex[texarr] = A4Dummy[texarr];
+			for (int texarr = 0; texarr < 36; texarr++)
+			{
+				*(uint*)&g_SnowParticleTex[texarr] = A4Dummy[texarr];
+			}
+			g_skySnowVelocity = 1.75;
+			g_3DSnowScale = 0.3;
+			g_3DSnowVelocityUpLim = 1.035;
+			g_3DSnowVelocityLowLim = -2.5;
+			g_3DSnowSwayMovement = 0;
+			g_3DSnowSpawnDistanceMin = (g_3DSnowSpawnDistanceMin & 0xFFFF0000) + (30 & 0x0000FFFF);
+			g_3DSnowSpawnDistanceMax = (g_3DSnowSpawnDistanceMax & 0xFFFF0000) + (600 & 0x0000FFFF);
+			g_3DSnowSpawnHeight = (g_3DSnowSpawnHeight & 0xFFFF0000) + (50 & 0x0000FFFF);
+			
+			//lol whatever
+			g_3DSnowSpawnCone = (g_3DSnowSpawnCone & 0xFFFF0000) + (0x6000 & 0x0000FFFF);
+			
+			break;
 		}
-		g_skySnowVelocity = 1.75;
-		g_3DSnowScale = 0.4;
-		g_3DSnowVelocityUpLim = 1.035;
-		g_3DSnowVelocityLowLim = -2.5;
-		g_3DSnowSwayMovement = -2.75;
-		g_3DSnowSpawnCone = (g_3DSnowSpawnCone & 0xFFFF0000) + (0x6000 & 0x0000FFFF);
-		break;
-	}
 
-	case WEATHER_SNOW:
-	default:
-	{
-		for (int texarr = 0; texarr < 36; texarr++)
+		case WEATHER_SNOW:
+		default:
 		{
-			g_SnowParticleTex[texarr] = A4Snow[texarr];
+			for (int texarr = 0; texarr < 36; texarr++)
+			{
+				g_SnowParticleTex[texarr] = A4Snow[texarr];
+			}
+			g_skySnowVelocity = 1.035;
+			g_3DSnowScale = 0.15;
+			g_3DSnowVelocityUpLim = 1.035;
+			g_3DSnowVelocityLowLim = -1.65;
+			g_3DSnowSwayMovement = 1.24;
+			g_3DSnowSpawnDistanceMin = (g_3DSnowSpawnDistanceMin & 0xFFFF0000) + (75 & 0x0000FFFF);
+			g_3DSnowSpawnDistanceMax = (g_3DSnowSpawnDistanceMax & 0xFFFF0000) + (600 & 0x0000FFFF);
+			g_3DSnowSpawnHeight = (g_3DSnowSpawnHeight & 0xFFFF0000) + (45 & 0x0000FFFF);
+
+			//lol whatever
+			g_3DSnowSpawnCone = (g_3DSnowSpawnCone & 0xFFFF0000) + (0x6000 & 0x0000FFFF);
+			break;
 		}
-		g_skySnowVelocity = 1.035;
-		g_3DSnowScale = 0.15;
-		g_3DSnowVelocityUpLim = 1.035;
-		g_3DSnowVelocityLowLim = -1.65;
-		g_3DSnowSwayMovement = 1.24;
-		g_3DSnowSpawnCone = (g_3DSnowSpawnCone & 0xFFFF0000) + (0x4000 & 0x0000FFFF);
-		break;
-	}
 	}
 	if (HotSwapID == 0)
 	{
@@ -854,6 +865,11 @@ void SetWeatherType(char WeatherType) // 0 = Snow // 1 = Rain
 		g_3DSnowVelocityUpLim = 1.035;
 		g_3DSnowVelocityLowLim = -1.65;
 		g_3DSnowSwayMovement = 1.24;
+		g_3DSnowSpawnDistanceMin = (g_3DSnowSpawnDistanceMin & 0xFFFF0000) + (30 & 0x0000FFFF);
+		g_3DSnowSpawnDistanceMax = (g_3DSnowSpawnDistanceMax & 0xFFFF0000) + (300 & 0x0000FFFF);
+		g_3DSnowSpawnHeight = (g_3DSnowSpawnHeight & 0xFFFF0000) + (45 & 0x0000FFFF);
+
+		//lol whatever
 		g_3DSnowSpawnCone = (g_3DSnowSpawnCone & 0xFFFF0000) + (0x4000 & 0x0000FFFF);
 	}
 }
@@ -863,30 +879,31 @@ void SetCloudType(char CloudType) // 0 = None // 1 = MR Clouds // 2 = Stars // 3
 
 	if (g_InGame)
 	{
+		
 		switch (CloudType)
 		{
-		case SKY_CLEAR:
-		{
-			CloudCourseID = 2;
-			break;
-		}
-		case SKY_STAR:
-		{
-			CloudCourseID = 14;
-			break;
-		}
-		case SKY_WEATHER:
-		{
-			CloudCourseID = 5;
-			break;
-		}
-		case SKY_CLOUD:
-		default:
-		{
-			CloudCourseID = 0;
-			break;
-		}
-		}
+			case SKY_CLEAR:
+			{
+				CloudCourseID = 2;
+				break;
+			}
+			case SKY_STAR:
+			{
+				CloudCourseID = 14;
+				break;
+			}
+			case SKY_WEATHER:
+			{
+				CloudCourseID = 5;
+				break;
+			}
+			case SKY_CLOUD:
+			default:
+			{
+				CloudCourseID = 0;
+				break;
+			}
+			}
 	}
 
 	if (HotSwapID == 0)
@@ -895,15 +912,47 @@ void SetCloudType(char CloudType) // 0 = None // 1 = MR Clouds // 2 = Stars // 3
 	}
 }
 
+
 void SetWeather3D(bool Weather3DEnable) // Enables 3D weather effects (snow/rain) for Singleplayer
 {
-	if (currentMenu == 0x25 || g_fadeOutCounter == 1)
+	
+	
+	if (Weather3DEnable && HotSwapID > 0)
 	{
-		if (HotSwapID > 0)
+		if (g_startingIndicator >= 0 && g_startingIndicator < 5 && g_gamePausedFlag == 0x00 && g_playerCount == 1)
 		{
-			Snow3DAllocMapCheck1 = (Snow3DAllocMapCheck1 & 0xFFFF0000) + ((long)&Snow3DCourseID >> 16 & 0x0000FFFF);
+			KWChartSnow();
+			
+		}
+		Snow3DCourseID = 5;
+	}
+	else
+	{
+		Snow3DCourseID = g_courseID;
+	}
+
+	if (currentMenu == 0x25 || g_fadeOutCounter == 1)
+	{	
+		if	(HotSwapID > 0)
+		{
+			g_skySnowSpawnHeight = (g_skySnowSpawnHeight & 0xFFFF0000) + (0xB4 & 0x0000FFFF);
+			g_skySnowSpawnRadiusDensity = (g_skySnowSpawnRadiusDensity & 0xFFFF0000) + (0x4000 & 0x0000FFFF);
+			g_skySnowSpawnCenterOffset = (g_skySnowSpawnCenterOffset & 0xFFFF0000) + (0xE000 & 0x0000FFFF);
+			g_skySnowScale = 0.15;
+		}
+		else
+		{
+			g_skySnowSpawnHeight = (g_skySnowSpawnHeight & 0xFFFF0000) + (0xB4 & 0x0000FFFF);
+			g_skySnowSpawnRadiusDensity = (g_skySnowSpawnRadiusDensity & 0xFFFF0000) + (0x4000 & 0x0000FFFF);
+			g_skySnowSpawnCenterOffset = (g_skySnowSpawnCenterOffset & 0xFFFF0000) + (0xE000 & 0x0000FFFF);
+			g_skySnowScale = 0.15;
+			CloudCourseID = g_courseID;
+		}
+		if (HotSwapID > 0)
+		{			
+			Snow3DAllocMapCheck1 = (Snow3DAllocMapCheck1 & 0xFFFF0000) + ((long)&Snow3DCourseID >> 16 & 0x0000FFFF) + 1;
 			Snow3DAllocMapCheck2 = (Snow3DAllocMapCheck2 & 0xFFFF0000) + ((long)&Snow3DCourseID & 0x0000FFFF);
-			Snow3DDisplayAfterMapCheck1 = (Snow3DDisplayAfterMapCheck1 & 0xFFFF0000) + ((long)&Snow3DCourseID >> 16 & 0x0000FFFF);
+			Snow3DDisplayAfterMapCheck1 = (Snow3DDisplayAfterMapCheck1 & 0xFFFF0000) + ((long)&Snow3DCourseID >> 16 & 0x0000FFFF) + 1;
 			Snow3DDisplayAfterMapCheck2 = (Snow3DDisplayAfterMapCheck2 & 0xFFFF0000) + ((long)&Snow3DCourseID & 0x0000FFFF);
 			g_skySnowHitGoal = 0x0C021B9C;
 		}
@@ -915,27 +964,10 @@ void SetWeather3D(bool Weather3DEnable) // Enables 3D weather effects (snow/rain
 			Snow3DDisplayAfterMapCheck2 = (Snow3DDisplayAfterMapCheck2 & 0xFFFF0000) + ((long)&g_courseID & 0x0000FFFF);
 			g_skySnowHitGoal = 0x0C021BF5;
 		}
-	}
-	if (Weather3DEnable && HotSwapID > 0)
-	{
-		if (g_startingIndicator >= 0 && g_startingIndicator < 5 && g_gamePausedFlag == 0x00 && g_playerCount == 1)
-		{
-			KWChartSnow();
-			if (Toggle3DSnow == 1)
-			{
-				g_3DSnowSpawnHeight = (g_3DSnowSpawnHeight & 0xFFFF0000) + (0x002D & 0x0000FFFF);
-				
-			}
-			else
-			{
-				g_3DSnowSpawnHeight = (g_3DSnowSpawnHeight & 0xFFFF0000) + (0x602D & 0x0000FFFF);
-			}
-		}
-		Snow3DCourseID = 5;
-	}
-	else
-	{
-		Snow3DCourseID = g_courseID;
+		
+		
+
+
 	}
 }
 
@@ -1087,19 +1119,23 @@ void setSky()
 	else
 	{
 		*targetAddress = (long)&g_skyColorTopTable;
+		*sourceAddress = 0x1220E0;
 		if (g_gameMode == GAMEMODE_BATTLE)
 		{
 			*targetAddress += 0xB4;
-		}
-		*sourceAddress = 0x1220E0;
+			*sourceAddress += 0xB4;
+		}		
+		
 		dataLength = 0x10;
 		runDMA();
 		*targetAddress = (long)&g_skyColorBotTable;
+		*sourceAddress = 0x1221DC;
 		if (g_gameMode == GAMEMODE_BATTLE)
 		{
 			*targetAddress += 0xB4;
-		}
-		*sourceAddress = 0x1221DC;
+			*sourceAddress += 0xB4;
+		}		
+		
 		runDMA();
 	}
 }
@@ -1755,6 +1791,17 @@ void setOKObjects()
 	}
 }
 
+void LoadIceKage()
+{
+	*sourceAddress = (long)&IceKageROM;
+	*targetAddress = FreeMemoryPointer;
+	dataLength = (long)&IceKageEnd - (long)&IceKageROM;
+	runDMA();
+	SetSegment(8, FreeMemoryPointer);
+	FreeMemoryPointer += dataLength;
+	
+}
+
 void MapStartupDefault(short InputID)
 {
 	FreeMemoryPointer = 0x80600000;
@@ -1764,6 +1811,7 @@ void MapStartupDefault(short InputID)
 	SetCustomData();
 
 	LoadMapData(InputID);
+	LoadIceKage();
 
 	if (HotSwapID > 0)
 	{
@@ -2423,23 +2471,29 @@ void DisplayKT1Hook(Screen *Display)
 	{
 		if (OverKartHeader.FogStart > 0)
 		{
+			g_fogToggleBanshee = 1;
+			g_fogR = (uint)OverKartHeader.FogRGBA[0];
+			g_fogG = (uint)OverKartHeader.FogRGBA[1];
+			g_fogB = (uint)OverKartHeader.FogRGBA[2];
 			gDPSetCycleType(GraphPtrOffset++, G_CYC_2CYCLE);
 			gDPSetFogColor(GraphPtrOffset++, (uint)OverKartHeader.FogRGBA[0], (uint)OverKartHeader.FogRGBA[1], (uint)OverKartHeader.FogRGBA[2], (uint)OverKartHeader.FogRGBA[3]);
 			gSPFogPosition(GraphPtrOffset++, OverKartHeader.FogStart, OverKartHeader.FogStop);
-			gDPSetRenderMode(GraphPtrOffset++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_OPA_SURF2);
-			gSPSetGeometryMode(GraphPtrOffset++, (G_FOG | G_SHADING_SMOOTH));
 		}
 
 		DisplayGroupmap(SegmentAddress(6, OverKartHeader.SectionViewPosition), Display);
+		DisplayGroupmap(SegmentAddress(6, OverKartHeader.XLUSectionViewPosition), Display);
 	}
 	else
 	{
 		DisplayKT1(Display);
 	}
+	
 }
 
-void XLUDisplay(Screen *Display)
+void XLUDisplay(Screen *screen)
 {
+	
+	
 
 	if ((OverKartHeader.Version > 4) && (HotSwapID > 0))
 	{
@@ -2447,13 +2501,17 @@ void XLUDisplay(Screen *Display)
 		{
 			if (OverKartHeader.FogStart > 0)
 			{
+				g_fogToggleBanshee = 1;
+				g_fogR = (uint)OverKartHeader.FogRGBA[0];
+				g_fogG = (uint)OverKartHeader.FogRGBA[1];
+				g_fogB = (uint)OverKartHeader.FogRGBA[2];
 				gDPSetCycleType(GraphPtrOffset++, G_CYC_2CYCLE);
-				gDPSetFogColor(GraphPtrOffset++, (uint)OverKartHeader.FogRGBA[0], (uint)OverKartHeader.FogRGBA[1], (uint)OverKartHeader.FogRGBA[2], (uint)OverKartHeader.FogRGBA[3]);
+				gDPSetFogColor(GraphPtrOffset++, (uint)OverKartHeader.FogRGBA[0], (uint)OverKartHeader.FogRGBA[1], (uint)OverKartHeader.FogRGBA[2], 0xFF);
 				gSPFogPosition(GraphPtrOffset++, OverKartHeader.FogStart, OverKartHeader.FogStop);
-				gDPSetRenderMode(GraphPtrOffset++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_SURF2);
-				gSPSetGeometryMode(GraphPtrOffset++, (G_FOG | G_SHADING_SMOOTH));
+				gSPSetGeometryMode(GraphPtrOffset++, G_FOG);				
+				gDPPipeSync(GraphPtrOffset++);
 			}
-			DisplayGroupmap(SegmentAddress(6, OverKartHeader.XLUSectionViewPosition), Display);
+			
 		}
 		else
 		{
@@ -2466,9 +2524,8 @@ void XLUDisplay(Screen *Display)
 		gDPSetCycleType(GraphPtrOffset++, G_CYC_1CYCLE);
 		gSPClearGeometryMode(GraphPtrOffset++, G_FOG);
 	}
+	
 }
-
-
 
 void DisplayKT16Hook(Screen *Display)
 {
@@ -2482,6 +2539,7 @@ void DisplayKT16Hook(Screen *Display)
 		gSPSetGeometryMode(GraphPtrOffset++,G_SHADING_SMOOTH);
 		gSPClearGeometryMode(GraphPtrOffset++,G_LIGHTING);
 		gSPDisplayList(GraphPtrOffset++, (0x06000000 | OverKartHeader.SectionViewPosition));	
+        
 		
 	}
 	else

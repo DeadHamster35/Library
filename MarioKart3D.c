@@ -2176,15 +2176,15 @@ unsigned short PakkunColor[]={
 
 void ScaleMatrixXYZFixed(AffineMtx Matrix, SVector FScale)
 {
-    Matrix[0][0] *= (float)(FScale[0] / 100.0f);
-    Matrix[1][0] *= (float)(FScale[0] / 100.0f);
-    Matrix[2][0] *= (float)(FScale[0] / 100.0f);
-    Matrix[1][0] *= (float)(FScale[1] / 100.0f);
-    Matrix[1][1] *= (float)(FScale[1] / 100.0f);
-    Matrix[1][2] *= (float)(FScale[1] / 100.0f);
-    Matrix[2][0] *= (float)(FScale[2] / 100.0f);
-    Matrix[2][1] *= (float)(FScale[2] / 100.0f);
-    Matrix[2][2] *= (float)(FScale[2] / 100.0f);
+    Matrix[0][0] *= (float)(FScale[0] * 0.01f);
+    Matrix[1][0] *= (float)(FScale[0] * 0.01f);
+    Matrix[2][0] *= (float)(FScale[0] * 0.01f);
+    Matrix[1][0] *= (float)(FScale[1] * 0.01f);
+    Matrix[1][1] *= (float)(FScale[1] * 0.01f);
+    Matrix[1][2] *= (float)(FScale[1] * 0.01f);
+    Matrix[2][0] *= (float)(FScale[2] * 0.01f);
+    Matrix[2][1] *= (float)(FScale[2] * 0.01f);
+    Matrix[2][2] *= (float)(FScale[2] * 0.01f);
 }
 void ScaleMatrixXYZ(AffineMtx Matrix, Vector Scale)
 {
@@ -2466,16 +2466,17 @@ void GFXPiranha(int PakkunAddress, float Distance)
 
 	gSPTexture(GraphPtrOffset++, 65535, 65535,0, 0, 1);
 	gDPPipeSync(GraphPtrOffset++);
-	gDPSetCombineMode(GraphPtrOffset++, G_CC_MODULATERGBDECALA,G_CC_MODULATERGBDECALA);
 	
-	//fogtest
-	if ((HotSwapID > 0) && (OverKartHeader.FogStart > 0) && (Distance > 62500))
+	
+	if ((HotSwapID > 0) && (OverKartHeader.FogStart > 0))
 	{
-		gDPSetRenderMode(GraphPtrOffset++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_TEX_EDGE2);		
+		gDPSetRenderMode(GraphPtrOffset++, G_RM_FOG_SHADE_A,G_RM_AA_ZB_TEX_EDGE2);
+     	gDPSetCombineMode(GraphPtrOffset++, G_CC_MODULATERGBDECALA,G_CC_PASS2);
 	}
 	else
 	{
 		gDPSetRenderMode(GraphPtrOffset++, G_RM_AA_ZB_TEX_EDGE,G_RM_AA_ZB_TEX_EDGE2);
+		gDPSetCombineMode(GraphPtrOffset++, G_CC_MODULATERGBDECALA,G_CC_MODULATERGBDECALA);
 	}
 	
 	
@@ -2513,28 +2514,19 @@ void GFXTree1(float Distance)
 	gDPLoadTLUTCmd(GraphPtrOffset++, G_TX_LOADTILE, 255);
 	gDPPipeSync(GraphPtrOffset++);
 
-	gDPSetCombineMode(GraphPtrOffset++, G_CC_MODULATERGBA,G_CC_MODULATERGBA);
+	
 	
 	//fogtest
 	
 	if ((HotSwapID > 0) && (OverKartHeader.FogStart > 0))
 	{
-		if (Distance > 15625)
-		{
-			
-			gDPSetRenderMode(GraphPtrOffset++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_TEX_EDGE2);		
-		}
-		else
-		{
-			gDPSetCycleType(GraphPtrOffset++, G_CYC_1CYCLE);
-			gSPClearGeometryMode(GraphPtrOffset++, G_FOG);
-			gDPSetRenderMode(GraphPtrOffset++, G_RM_AA_ZB_TEX_EDGE,G_RM_AA_ZB_TEX_EDGE2);
-		}
-		
+		gDPSetRenderMode(GraphPtrOffset++, G_RM_FOG_SHADE_A,G_RM_AA_ZB_TEX_EDGE2);
+     	gDPSetCombineMode(GraphPtrOffset++, G_CC_DECALRGBA, G_CC_PASS2);
 	}
 	else
 	{
 		gDPSetRenderMode(GraphPtrOffset++, G_RM_AA_ZB_TEX_EDGE,G_RM_AA_ZB_TEX_EDGE2);
+		gDPSetCombineMode(GraphPtrOffset++, G_CC_MODULATERGBA,G_CC_MODULATERGBA);
 	}
 	
 	gSPTexture(GraphPtrOffset++, 0xFFFF,0xFFFF, 0, G_TX_RENDERTILE, G_ON);
@@ -2561,15 +2553,6 @@ void GFXTree1(float Distance)
 	gSP2Triangles(GraphPtrOffset++, 0, 1, 2, 0,		0, 2, 3, 0);
 	
 	gDPSetTextureLUT(GraphPtrOffset++, G_TT_NONE);
-
-	if ((HotSwapID > 0) && (OverKartHeader.FogStart > 0))
-	{
-		if (Distance < 40000)
-		{
-			gDPSetCycleType(GraphPtrOffset++, G_CYC_2CYCLE);
-			gSPSetGeometryMode(GraphPtrOffset++, (G_FOG | G_SHADING_SMOOTH));
-		}
-	}
 }
 
 
@@ -2586,7 +2569,7 @@ void DisplayPiranhaBypass(Camera* PlayerCamera, AffineMtx Affine, Object* Piranh
 		PlayerCamera->camera_direction[1],
 		0,
 		ScreenViewAngle[LocalPlayer],
-		1000000
+		16000000
 	);
 	//
 

@@ -57,6 +57,15 @@ void BalloonCheck(int PlayerStuct, int Neg1, float BalloonNumA, char BalloonNum,
 
 void ResetFlag(int ThisFlag)
 {
+     if (GameFlag[ThisFlag].PlayerHolding != -1)
+     {
+          Objectives[GameFlag[ThisFlag].PlayerHolding].FlagHeld = -1;
+          Objectives[GameFlag[ThisFlag].PlayerHolding].FlagTimer = 0;
+          ChangeMaxSpeed(GameFlag[ThisFlag].PlayerHolding, 60);
+     }
+     
+
+
      GameFlag[ThisFlag].Position[0] = (float)GameFlag[ThisFlag].Origin[0];
      GameFlag[ThisFlag].Position[1] = (float)GameFlag[ThisFlag].Origin[1];
      GameFlag[ThisFlag].Position[2] = (float)GameFlag[ThisFlag].Origin[2];
@@ -226,7 +235,7 @@ void DrawGameFlags(Camera* LocalCamera)
 
           if (GameFlag[ThisFlag].Position[1] < g_waterHeight)
           {
-               ResetFlag(ThisFlag);
+               ResetFlag(ThisFlag);               
           }
             
           

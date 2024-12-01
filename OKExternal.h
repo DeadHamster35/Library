@@ -16,6 +16,8 @@ extern long ExpansionCheckAddress, PRELOAD_RAM, PAYLOAD_ROM, DMA_MAX_LENGTH;
 extern long StartRAMData;
 extern long EndRAMData;
 extern long ModelDataStart;
+extern long IceKageROM;
+extern long IceKageEnd;
 extern long bannerN;
 extern long bannerU;
 extern long previewN;

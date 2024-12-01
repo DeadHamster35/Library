@@ -19,17 +19,17 @@
 const CTFSpawn SkyscraperSpawns = 
 { 
      {
-               //EASY
-          {
-               { {0,480,-480}, {0,480,480}, {-480,480,0}, {480,480,0} },   //BASE
-               { {0,480,-435}, {0,480,435}, {-435,480,0}, {435,480,0} },   //FLAG
-               { {0,480,-350}, {0,480,350}, {-350,480,0}, {350,480,0} }    //PLAYER
-          },
-          //HARD
+          //EASY
           {
                { {0,480,-75}, {0,480,75}, {-75,480,0}, {75,480,0} }, 
                { {0,480,-435}, {0,480,435}, {-435,480,0}, {435,480,0} },
                { {0,480,-350}, {0,480,350}, {-350,480,0}, {350,480,0} }
+          },
+          //HARD
+          {
+               { {0,480,-480}, {0,480,480}, {-480,480,0}, {480,480,0} },   //BASE
+               { {0,480,-435}, {0,480,435}, {-435,480,0}, {435,480,0} },   //FLAG
+               { {0,480,-350}, {0,480,350}, {-350,480,0}, {350,480,0} }    //PLAYER
           }
      }
 };
@@ -97,6 +97,7 @@ CTFSpawn GameSpawns[4] = {BigDonutSpawns, BlockFortSpawns, DoubleDeckerSpawns, S
 
 void PlaceFlags(uint BattleFlagF3D, uint *PlayerFlagF3D[], uint BattleBaseF3D, uint *PlayerBaseF3D[], uint Difficulty)
 {    
+     SVector LocalPosition;
      if (HotSwapID > 0)
      {
           CustomObjectivePoints = (BattleObjectivePoint*)(GetRealAddress(0x06000210));
@@ -120,6 +121,7 @@ void PlaceFlags(uint BattleFlagF3D, uint *PlayerFlagF3D[], uint BattleBaseF3D, u
                               }
                               case (FLAG_POINT):
                               {
+                                   GameFlag[CustomObjectivePoints[ThisObj].Player].PlayerHolding = -1;                                          
                                    PlaceFlagSpawn(CustomObjectivePoints[ThisObj].Position, CustomObjectivePoints[ThisObj].Player);
                                    GameFlag[CustomObjectivePoints[ThisObj].Player].F3D = (uint)PlayerFlagF3D[GlobalPlayer[CustomObjectivePoints[ThisObj].Player].kart];
                                    GameFlag[CustomObjectivePoints[ThisObj].Player].TeamIndex = CustomObjectivePoints[ThisObj].Player;
@@ -130,7 +132,8 @@ void PlaceFlags(uint BattleFlagF3D, uint *PlayerFlagF3D[], uint BattleBaseF3D, u
                                    GameFlag[CustomObjectivePoints[ThisObj].Player].Scale = 75;
                                    GameFlag[CustomObjectivePoints[ThisObj].Player].AngularVel[0] = 0;
                                    GameFlag[CustomObjectivePoints[ThisObj].Player].AngularVel[1] = 2;
-                                   GameFlag[CustomObjectivePoints[ThisObj].Player].AngularVel[2] = 0;                                           
+                                   GameFlag[CustomObjectivePoints[ThisObj].Player].AngularVel[2] = 0; 
+                                   
                                    break;
                               }
                               case (BASE_POINT):
@@ -162,6 +165,16 @@ void PlaceFlags(uint BattleFlagF3D, uint *PlayerFlagF3D[], uint BattleBaseF3D, u
           0x12	DK's Jungle Parkway
           0x13	Big Donut
           */
+
+     
+          for (int ThisPlayer = 0; ThisPlayer < g_playerCount; ThisPlayer++)
+          {
+               LocalPosition[0] = (short)GlobalPlayer[ThisPlayer].position[0];
+               LocalPosition[1] = (short)GlobalPlayer[ThisPlayer].position[1];
+               LocalPosition[2] = (short)GlobalPlayer[ThisPlayer].position[2];
+               PlacePlayerSpawn(LocalPosition, ThisPlayer);
+          }        
+    
           switch (g_courseID)
           {
                case 15:
@@ -202,19 +215,20 @@ void PlaceFlags(uint BattleFlagF3D, uint *PlayerFlagF3D[], uint BattleBaseF3D, u
                     Objectives[ThisFlag].IFrames = 0;
                     Objectives[ThisFlag].Score = 0;
 
-                    
+                    GameFlag[ThisFlag].PlayerHolding = -1;
                     
                     PlaceBaseSpawn(GameSpawns[ObjectiveMapID].Position[Difficulty][0][ThisFlag], ThisFlag);
-                    GameBase[ThisFlag].F3D = (uint)PlayerBaseF3D[ThisFlag];
+                    GameBase[ThisFlag].F3D = (uint)PlayerBaseF3D[GlobalPlayer[ThisFlag].kart];
 
                     PlaceFlagSpawn(GameSpawns[ObjectiveMapID].Position[Difficulty][1][ThisFlag], ThisFlag);
-                    GameFlag[ThisFlag].F3D = (uint)PlayerFlagF3D[ThisFlag];
+                    GameFlag[ThisFlag].F3D = (uint)PlayerFlagF3D[GlobalPlayer[ThisFlag].kart];
                     GameFlag[ThisFlag].TeamIndex = ThisFlag;
+                    
                     GameFlag[ThisFlag].Friction = 850;
                     GameFlag[ThisFlag].Bounce = 500;
                     GameFlag[ThisFlag].Gravity = 500;
                     GameFlag[ThisFlag].Lift = 10000;
-                     
+                    
                     GameFlag[ThisFlag].Scale = 75;
                     GameFlag[ThisFlag].AngularVel[0] = 0;
                     GameFlag[ThisFlag].AngularVel[1] = 2;
@@ -259,6 +273,7 @@ void PlaceFlags(uint BattleFlagF3D, uint *PlayerFlagF3D[], uint BattleBaseF3D, u
 
           GameBase[ThisFlag].F3D = BattleFlagF3D;
           GameFlag[ThisFlag].TeamIndex = -1;
+          GameFlag[ThisFlag].PlayerHolding = -1;
           ResetFlag(ThisFlag);
 
      }
@@ -334,7 +349,7 @@ void CaptureFlag()
                          {
                               Objectives[ThisPlayer].Score++;
                          }
-                         ChangeMaxSpeed(ThisPlayer, 60);
+                         
                          ResetFlag(Objectives[ThisPlayer].FlagHeld);
                          Objectives[ThisPlayer].FlagHeld = -1;
                     }

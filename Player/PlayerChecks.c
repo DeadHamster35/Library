@@ -388,13 +388,50 @@ void NopPlayEffectBGMCode() //Run at custom code init
 	CheckPlayStarBGMJAL = 0;
 }
 
+void CheckJugemuMarker()
+{
+	//this sucks.
+	//timing issue.
+	//duplicate loops
+	if (OverKartRAMHeader.EchoOffset != 0)
+	{
+		GlobalIntA = *(int*)OverKartRAMHeader.EchoOffset;
+		if (GlobalIntA != 0)
+		{
+			GlobalAddressA = OverKartRAMHeader.EchoOffset + 4;
+			OKPathStruct* PathValues = (OKPathStruct*)GlobalAddressA;	
+			for (int playerID = 0; playerID < 8; playerID++)					// Loop for each racer		
+			{
+				if (!(GlobalPlayer[(int)playerID].flag&EXISTS))					// Only run for existing racers
+				{
+					continue;
+				}
+				if (GlobalPlayer[0].jugemu_flag == 0)
+				{
+					continue;
+				}
 
+				for (int ThisValue = 0; ThisValue < GlobalIntA; ThisValue++)
+				{		
+					if (PathValues[ThisValue].Type == PATH_JUMP)
+					{	
+						if ((g_playerPathPointTable[(int)playerID] >= PathValues[ThisValue].PathStart) && (g_playerPathPointTable[(int)playerID] <= PathValues[ThisValue].PathStop))		// Path range check
+						{		
+							g_playerPathPointTable[playerID] = PathValues[ThisValue].PathStart;					
+						}
+					}
+				}
+			}
+	
+		}
+	}	
+}
 
 short LastAIPath = 0;
 void CheckPaths()
 {	
 	
-	Toggle3DSnow = 0; // set to 0 by default.
+	Toggle3DSnow = 1; // set to 0 by default.
 
 	if (OverKartRAMHeader.EchoOffset != 0)
 	{
@@ -441,14 +478,6 @@ void CheckPaths()
 							case (PATH_NOSIMPLE):
 							{							
 								g_noSimpleKartFlag[(int)playerID] = 1;
-								break;
-							}
-							case (PATH_JUMP):
-							{							
-								if((char)((GlobalPlayer[(int)playerID].jugemu_flag) != 0))
-								{
-									g_playerPathPointTable[playerID] = PathValues[ThisValue].PathStart;
-								}
 								break;
 							}
 							case (PATH_AIRCONTROL):
@@ -511,7 +540,10 @@ void CheckPaths()
 					CPUPaths[ThisPlayer].CurrentPath = GlobalShortA;
 					
 				}
-
+				if (CPUPaths[ThisPlayer].CurrentPath == -1)
+				{
+					CPUPaths[ThisPlayer].CurrentPath = 0;
+				}
 				CurrentPathID[ThisPlayer] = CPUPaths[ThisPlayer].CurrentPath;
 			}
 			else
@@ -608,7 +640,7 @@ void SetBalloonTeams()
 
 void LakituSpawnBypass(Player *Kart, char PlayerID, float *SpawnVector, float *FacingVector)
 {
-	if ((HotSwapID == 0) || (g_gameMode != GAMEMODE_BATTLE))
+	if (g_gameMode != GAMEMODE_BATTLE)
 	{
 		GetLakituSpawnPoint(Kart, PlayerID, SpawnVector, FacingVector);
 	}

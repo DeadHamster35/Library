@@ -1070,8 +1070,10 @@
 .definelabel g_skySnowSpawnCenterOffset, 0x80077FE8
 .definelabel g_skySnowHitGoal, 0x800780A0
 
+.definelabel g_3DSnowSpawnDistanceMax, 0x80078334
+.definelabel g_3DSnowSpawnDistanceMin, 0x80078348
 .definelabel g_3DSnowSpawnHeight, 0x8007833C
-.definelabel g_3DSnowSpawnDistance, 0x80078348
+
 .definelabel g_3DSnowSpawnCone, 0x8007830C
 .definelabel g_3DSnowSpawnRadius, 0x80078354
 .definelabel g_3DSnowSwayVelocity, 0x80078430
@@ -1252,6 +1254,7 @@
 .definelabel RGBAFallingLeaf, 0x0D028DD8
 .definelabel RGBAQuestionMark, 0x0D001EE8
 .definelabel GoToGameSelect, 0x80290360
+.definelabel DisplayMap2, 0x8029122C
 .definelabel SearchList, 0x802AF588
 .definelabel SearchList2, 0x802AF5AC
 .definelabel SearchListFile, 0x80290CAC
@@ -1304,3 +1307,4 @@
 .definelabel EnemyTirePosition, 0x8002A194
 .definelabel SetSlipAngle, 0x8002AE38
 .definelabel NaPlyLandStart, 0x800CADD0
+.definelabel NaSeqFadeout, 0x800CA330
