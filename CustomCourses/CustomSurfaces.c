@@ -206,7 +206,7 @@ void AddGravityEdit(Player *car)
 			{
 				car->gravity = TestGravity;
 			}
-		}
+	}
 		if (car->jumpcount >= 40)
 		{
 			car->slip_flag &= ~IS_FEATHER_JUMPING;

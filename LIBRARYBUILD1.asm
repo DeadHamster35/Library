@@ -42,10 +42,6 @@ NOP
 NOP
 .org 0x1CC64
 NOP
-.org 0x3334
-NOP
-.org 0x335C
-NOP
 //
 //
 //

@@ -115,9 +115,16 @@ void PlacePlayerSpawn(SVector Position, int PlayerID)
      GlobalCamera[PlayerID]->camera_pos[1] = (float)Position[1] + 5.0f;
      GlobalCamera[PlayerID]->camera_pos[2] = (float)Position[2];
 
+     GlobalCamera[PlayerID]->lookat_pos[0] = 0;
+     GlobalCamera[PlayerID]->lookat_pos[1] = 0;
+     GlobalCamera[PlayerID]->lookat_pos[2] = 0;
+
+     
+
 
      GlobalPlayer[PlayerID].direction[1] = (short)(CalcDirection(GlobalPlayer[PlayerID].position, Origin) * -1);
-
+     GlobalCamera[PlayerID]->camera_direction[1] = GlobalPlayer[PlayerID].direction[1];
+     GlobalCamera[PlayerID]->chase_direction = GlobalPlayer[PlayerID].direction[1];
      CheckBump2
      (    
           (Bump*)&GlobalPlayer[PlayerID].bump, 

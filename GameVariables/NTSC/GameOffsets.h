@@ -57,6 +57,8 @@ extern void BumpVelocity(Vector Bump,float Distance ,Vector Velocity,float co);
 extern void CalcBumpVelocity(Bump* InputBump, Vector Velocity);
 extern void ScrollMapImage(int ObjectAddress,int ScrollS,int ScrollT);
 extern void MakeWaterVertex(int ObjectAddress, char alpha, char red, char green, char blue);
+extern short g_ClearCFBFlag;
+extern void g_ClearFramebuffer();
 extern void ramCopy(uint output, long input, long Length);
 extern uint MemCpyN64(char* output, const char* input, long Length);
 extern short CheckArea(ushort pointer);

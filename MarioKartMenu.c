@@ -215,14 +215,17 @@ void CourseMenu(int Alpha)
      } while (LoopValue < 4);
 }
 
-
+float FPSA, FPSB;
 void DrawFPS(int X, int Y)
 {     
-     loadFont();
-     GlobalFloatA = (1 * CPU2SEC) / CycleCount[0];
-     printDecimal(X,Y,GlobalFloatA, 2);     
-     GlobalFloatA = (1 * CPU2SEC) / CycleCount[1];
-     printDecimal(X,Y + 10,GlobalFloatA, 2); 
+    if (GlobalFrameCount % 5 == 0)
+    {
+        FPSA = (1 * CPU2SEC) / CycleCount[0];
+        FPSB = (1 * CPU2SEC) / CycleCount[1];
+    }
+    loadFont();
+    printDecimal(X,Y,FPSA, 2);         
+    printDecimal(X,Y + 10,FPSB, 2); 
 }
 
 
@@ -357,21 +360,21 @@ void MapSelectMenuDefault()
      }
      if (menuScreenA == GlobalShortA)
      {
-          if ((GlobalController[4]->ButtonPressed & BTN_CLEFT) == BTN_CLEFT)
-          {
-               swapHS(0);
-          }
-          else if ((GlobalController[4]->ButtonPressed & BTN_CRIGHT) == BTN_CRIGHT)
-          {
-               swapHS(1);
-          }
-          LoadCustomHeader(courseValue);
+        if ((GlobalController[4]->ButtonPressed & BTN_CLEFT) == BTN_CLEFT)
+        {
+            swapHS(0);
+        }
+        else if ((GlobalController[4]->ButtonPressed & BTN_CRIGHT) == BTN_CRIGHT)
+        {
+            swapHS(1);
+        }
+        LoadCustomHeader(courseValue);
 
-          
-          if ((GlobalController[4]->ButtonPressed & BTN_R) == BTN_R)
-          {
-               MenuToggle = !MenuToggle;
-          }
+        
+        if ((GlobalController[4]->ButtonPressed & BTN_R) == BTN_R)
+        {
+            MenuToggle = !MenuToggle;
+        }
      }
 
      *(int*)(&PlayerOK) = 0;

@@ -57,6 +57,8 @@
 .definelabel CalcBumpVelocity, 0x802AC098
 .definelabel ScrollMapImage, 0x802AF7B4
 .definelabel MakeWaterVertex, 0x802AF8BC
+.definelabel g_ClearCFBFlag, 0x800DC5B0
+.definelabel g_ClearFramebuffer, 0x802A41D4
 .definelabel ramCopy, 0x800D7FE0
 .definelabel MemCpyN64, 0x800D7FE0
 .definelabel CheckArea, 0x802ABD40

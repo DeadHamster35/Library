@@ -27,6 +27,7 @@ extern void DrawStereoscopic3D(short FocusValue);
 extern void ScaleMatrixXYZFixed(AffineMtx Matrix, SVector Vector);
 extern void ScaleMatrixXYZ(AffineMtx Matrix, Vector Vector);
 extern void DrawGeometryScale(float objectPosition[], short objectAngle[], int F3DEXAddress, float Scale);
+extern void DrawRedCoin(float objectPosition[], short objectAngle[], int F3DEXAddress, float Scale);
 extern void DrawGeometrySVectorScale(SVector objectPosition, short objectAngle[], int F3DEXAddress, float Scale);
 extern void DrawGeometry(float objectPosition[], short objectAngle[], int F3DEXAddress);
 
