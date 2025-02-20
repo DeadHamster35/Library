@@ -443,10 +443,6 @@ void SetGhostData()
 }
 void setPath()
 {
-	
-	
-	
-
 	short *PathLengths = (short *)(&g_pathLength);
 
 	if (g_courseID == 0x14)
@@ -822,7 +818,7 @@ void SetWeatherType(char WeatherType) // 0 = Snow // 1 = Rain
 			g_3DSnowScale = 0.3;
 			g_3DSnowVelocityUpLim = 1.035;
 			g_3DSnowVelocityLowLim = -2.5;
-			g_3DSnowSwayMovement = 0;
+			g_3DSnowSwayMovement = 0.01f;
 			g_3DSnowSpawnDistanceMin = (g_3DSnowSpawnDistanceMin & 0xFFFF0000) + (30 & 0x0000FFFF);
 			g_3DSnowSpawnDistanceMax = (g_3DSnowSpawnDistanceMax & 0xFFFF0000) + (600 & 0x0000FFFF);
 			g_3DSnowSpawnHeight = (g_3DSnowSpawnHeight & 0xFFFF0000) + (50 & 0x0000FFFF);
@@ -2481,7 +2477,6 @@ void DisplayKT1Hook(Screen *Display)
 		}
 
 		DisplayGroupmap(SegmentAddress(6, OverKartHeader.SectionViewPosition), Display);
-		DisplayGroupmap(SegmentAddress(6, OverKartHeader.XLUSectionViewPosition), Display);
 	}
 	else
 	{
@@ -2490,7 +2485,7 @@ void DisplayKT1Hook(Screen *Display)
 	
 }
 
-void XLUDisplay(Screen *screen)
+void XLUDisplay(Screen *Display)
 {
 	
 	
@@ -2511,7 +2506,7 @@ void XLUDisplay(Screen *screen)
 				gSPSetGeometryMode(GraphPtrOffset++, G_FOG);				
 				gDPPipeSync(GraphPtrOffset++);
 			}
-			
+            DisplayGroupmap(SegmentAddress(6, OverKartHeader.XLUSectionViewPosition), Display);
 		}
 		else
 		{

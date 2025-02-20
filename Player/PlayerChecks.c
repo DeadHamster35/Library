@@ -390,7 +390,7 @@ void NopPlayEffectBGMCode() //Run at custom code init
 
 void CheckJugemuMarker()
 {
-	//this sucks.
+    //this sucks.
 	//timing issue.
 	//duplicate loops
 	if (OverKartRAMHeader.EchoOffset != 0)

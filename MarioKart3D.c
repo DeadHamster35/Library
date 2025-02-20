@@ -2401,6 +2401,46 @@ void DrawGeometryScale(float localPosition[], short localAngle[], int localAddre
 	
 }
 
+
+__attribute__((aligned(16)))
+Vtx CoinBounds[] ={
+    {   {  { 40,  40,  50}, 0, {0,0}, {0xff, 0xff, 0xff, 0xff} } },
+    {   {  { 40, -40,  50}, 0, {0,0}, {0xff, 0xff, 0xff, 0xff} } },
+    {   {  {-40, -40,  50}, 0, {0,0}, {0xff, 0xff, 0xff, 0xff} } },
+    {   {  {-40,  40,  50}, 0, {0,0}, {0xff, 0xff, 0xff, 0xff} } },
+
+    {   {  { 40,  40, 160}, 0, {0,0}, {0xff, 0xff, 0xff, 0xff} } },
+    {   {  { 40, -40, 160}, 0, {0,0}, {0xff, 0xff, 0xff, 0xff} } },
+    {   {  {-40, -40, 160}, 0, {0,0}, {0xff, 0xff, 0xff, 0xff} } },
+    {   {  {-40,  40, 160}, 0, {0,0}, {0xff, 0xff, 0xff, 0xff} } },
+    {   {  { 40,  40,  70}, 0, {0,0}, {0xff, 0xff, 0xff, 0xff} } },
+    {   {  { 40, -40,  70}, 0, {0,0}, {0xff, 0xff, 0xff, 0xff} } },
+    {   {  {-40, -40,  70}, 0, {0,0}, {0xff, 0xff, 0xff, 0xff} } },
+    {   {  {-40,  40,  70}, 0, {0,0}, {0xff, 0xff, 0xff, 0xff} } },
+
+    {   {  { 40,  40, 150}, 0, {0,0}, {0xff, 0xff, 0xff, 0xff} } },
+    {   {  { 40, -40, 150}, 0, {0,0}, {0xff, 0xff, 0xff, 0xff} } },
+    {   {  {-40, -40, 150}, 0, {0,0}, {0xff, 0xff, 0xff, 0xff} } },
+    {   {  {-40,  40, 150}, 0, {0,0}, {0xff, 0xff, 0xff, 0xff} } }
+};
+__attribute__((aligned(16)))
+
+void DrawRedCoin(float localPosition[], short localAngle[], int localAddress, float localScale)
+{
+	CreateModelingMatrix(AffineMatrix,localPosition,localAngle);
+	ScalingMatrix(AffineMatrix,localScale);	
+	if(SetMatrix(AffineMatrix,0) == 0)
+	{
+		return;
+	}
+    gSPClearGeometryMode(GraphPtrOffset++,G_LIGHTING);
+    gSPVertex(GraphPtrOffset++, &CoinBounds[0], 8, 0);
+    gSPCullDisplayList(GraphPtrOffset++, 0, 7);
+	gSPDisplayList(GraphPtrOffset++,localAddress);		
+	
+}
+
+
 void DrawGeometrySVectorScale(SVector localPosition, short localAngle[], int localAddress, float localScale)
 {
 	objectPosition[0] = localPosition[0];

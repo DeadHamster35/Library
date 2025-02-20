@@ -107,16 +107,26 @@ typedef struct CTFSpawn{
 } CTFSpawn;
 
 
+typedef struct PolyKeyFrame
+{
+    short       Time;
+    SVector     Data;
+    
+} PolyKeyFrame;
+
+
 typedef struct OKSkeleton{
-	uint			AnimationOffset;
-	int			NodeCount;
-	float		MeshScale;
-	uint			NodeOffset;
-	int			ChildCount;
+    PolyKeyFrame*   PositionData;
+    PolyKeyFrame*   RotationData;
+    PolyKeyFrame*   ScalingData;
+	ushort			PositionCount, RotationCount, ScalingCount, PAD;
+	short	        NodeCount, ChildCount;
+	float		    MeshScale;
+	uint		    NodeOffset;
 } OKSkeleton;
 
 typedef struct OKNode{
-	uint TextureOffset;
+	uint    TextureOffset;
 	uint	MeshCount;
 	uint	MeshOffset;
 }OKNode;
@@ -137,7 +147,7 @@ typedef struct OKCollisionSphere{
 
 
 
-
+/*
 typedef struct OKObjectType{
 
 	short 			BehaviorClass, Range;//
@@ -155,15 +165,15 @@ typedef struct OKObjectType{
 	uint			ObjectAnimations;	//OKSkeleton Address
 
 } OKObjectType;
+*/
 
 
-
-typedef struct OKObjectType7{
+typedef struct OKObjectType{
 
 	short 			BehaviorClass, BumpRadius;//
 	short 			SoundRadius, RenderRadius;//	
-	char				SoundType, ZSortToggle, GravityToggle, CameraAlignToggle; //	
-	char				OKModelCount, OKXLUCount, CollisionCount, ObjectFlag;	
+    char            SoundType, ZSortToggle, GravityToggle, CameraAlignToggle; //	
+	char			OKModelCount, OKXLUCount, CollisionCount, ObjectFlag;	
 	short			ObjectScale, ParameterCount;
 	int				SoundID;
 	
@@ -173,7 +183,7 @@ typedef struct OKObjectType7{
 	uint			ObjectXLU;		//OKModel Address
 	uint			ObjectAnimations;	//OKSkeleton Address
 
-} OKObjectType7;
+} OKObjectType;
 
 
 typedef struct OKObjectList{
@@ -313,23 +323,25 @@ typedef struct OKEngine{
 #define BEHAVIOR_STATIC 	0
 
 
-/*
+
 #define BEHAVIOR_PATH	1
 #define BEHAVIOR_WANDER 	2
 #define BEHAVIOR_SEARCH	3
 #define BEHAVIOR_BOUNCE 	4
 #define BEHAVIOR_FLEE	5
 #define BEHAVIOR_STRAFE	6
-*/
 
-#define BEHAVIOR_FLOAT 	1
+/*
+//#define BEHAVIOR_FLOAT 	1
 #define BEHAVIOR_PATH	2
-#define BEHAVIOR_WANDER 	3
+#define BEHAVIOR_WANDER	3
 #define BEHAVIOR_SEARCH	4
-#define BEHAVIOR_BOUNCE 	5
+#define BEHAVIOR_BOUNCE	5
 #define BEHAVIOR_FLEE	6
 #define BEHAVIOR_STRAFE	7
 #define BEHAVIOR_WATERBOB 8
+*/
+
 
 #define SUBBEHAVIOR_DEAD			-1
 #define SUBBEHAVIOR_DOCILE 		0
