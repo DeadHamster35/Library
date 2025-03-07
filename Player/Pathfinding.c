@@ -12,7 +12,6 @@ short ItemBoxCount = 0;
 short ItemBoxIndex[100];
 
 
-
 //Build up array of item box indicies by querying the simple object array and storing where the item boxes are, this should run once when a course loads
 void GetItemBoxIndexes()
 {
@@ -594,7 +593,7 @@ void MakeAlternativePath(Marker *altPath, short length, char pathID)
     for (int i = 0; i < length; i++)
     {
         CenterPathBP[(int)pathID][i].Position[0] *= g_mirrorValue;
-        CenterPathBP[(int)pathID][i].Group = CenterPathBP[0][i].Group;
+        //CenterPathBP[(int)pathID][i].Group = CenterPathBP[0][i].Group;
     }
 
     SideLPathBP[(int)pathID] = (Marker *)AllocateMemory(MaxPathPoints[(int)pathID]*(sizeof(Marker)));

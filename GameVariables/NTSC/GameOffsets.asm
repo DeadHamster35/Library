@@ -246,6 +246,7 @@
 .definelabel GraphPtrOffset, 0x80150298
 .definelabel KWLookCamera, 0x800418AC
 .definelabel KWLookCameraPitch, 0x800418E8
+.definelabel KWRectangle, 0x8004B7DC
 .definelabel KWTexture2DRGBA, 0x800463B0
 .definelabel KWTexture2DRGBA32PT, 0x80046720
 .definelabel KWTexture2DRGBA32BL, 0x80046794
@@ -256,10 +257,12 @@
 .definelabel KWTexture2DCI8AAXLUPT, 0x80047CB4
 .definelabel KWTexture3DRGBA32AAZBBL, 0x80046A68
 .definelabel KWSprite, 0x8004C364
+.definelabel KWSpriteXLU, 0x8004C9D8
 .definelabel KWSpriteScale, 0x8004CA58
 .definelabel KWSpriteDiv, 0x8004C91C
 .definelabel KWSpriteTile32B, 0x8004C6FC
 .definelabel KWSprite8x8, 0x8004CAD0
+.definelabel KWPrintLapTimeXLU, 0x8004F950
 .definelabel DrawLineHorizontal, 0x8004C024
 .definelabel DrawLineVertical, 0x8004C148
 .definelabel KWLoadTextureBlockI4b, 0x80044DA0
@@ -496,6 +499,7 @@
 .definelabel PathTableB, 0x800DC780
 
 .definelabel PathLengthTable, 0x800DD9D0
+.definelabel PathLengthTableB, 0x800DDB10
 
 .definelabel KartVtx, 0x800DDBB4
 
@@ -1161,6 +1165,7 @@
 //GP points
 .definelabel g_playerGPpoints, 0x8018D9C8
 .definelabel EtcEnemyDrive, 0x800097E0
+.definelabel CalcOGAAreaSubBP, 0x8000C0BC
 .definelabel InitCenterLine, 0x8000F2DC
 .definelabel OSMemSize, 0x80000318
 

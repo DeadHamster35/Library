@@ -1434,6 +1434,115 @@ short AnchorPoint[][4]  =
      {120,90,130,85}, {180,210,190,205},
      {120,90,130,85}, {180,210,190,205},
 };
+
+void Zanzou2(int player)
+{
+    uint time = 0x0D00C158;
+    uint lap88moji = 0x0D00A958;
+    short LapMax = 7;
+
+    if (HotSwapID > 0)
+    {
+        LapMax = OverKartHeader.LapCount;
+    }
+    if (LapMax > 99)
+    {
+        LapMax = 99; //fuck you
+    }
+
+
+    //Time
+	if (KWLap[player].tptr2) 
+    {
+		KWSpriteXLU(KWLap[player].tx[1]-19,KWLap[player].ty+8,128,(ushort*)time,32,16,32,16);
+        KWPrintLapTimeXLU(KWLap[player].tx[1],KWLap[player].ty,128,KWLap[player].totaltime);
+	}
+	if (KWLap[player].tptr3) 
+    {
+        KWSpriteXLU(KWLap[player].tx[2]-19,KWLap[player].ty+8,80,(ushort*)time,32,16,32,16);
+        KWPrintLapTimeXLU(KWLap[player].tx[2],KWLap[player].ty,80,KWLap[player].totaltime);
+	}
+
+    int LocalLapY = KWLap[player].cy + 3;
+    int LocalLapX = KWLap[player].cx2;
+
+    LocalLapX -= 16;
+    LocalLapY -= 4;
+    
+    gDPPipeSync(GraphPtrOffset++);
+    gDPSetCycleType(GraphPtrOffset++, G_CYC_1CYCLE);
+    //gSPClearGeometryMode(GraphPtrOffset++,G_ZBUFFER);
+
+    gSPSetGeometryMode(GraphPtrOffset++,G_SHADE | G_SHADING_SMOOTH);
+    gDPSetPrimColor(GraphPtrOffset++, 0, 0, 255, 255, 255, 255);
+    gDPSetCombineLERP(GraphPtrOffset++,0, 0, 0, TEXEL0,
+        TEXEL0, 0, PRIMITIVE, 0,
+        0, 0, 0, TEXEL0,
+        TEXEL0, 0, PRIMITIVE, 0);
+    gDPSetTexturePersp(GraphPtrOffset++,G_TP_NONE);
+    gDPSetTextureFilter(GraphPtrOffset++,G_TF_POINT);
+    gDPSetTextureConvert(GraphPtrOffset++,G_TC_FILT);
+    gDPSetTextureLOD(GraphPtrOffset++,G_TL_TILE);
+    gDPSetTextureDetail(GraphPtrOffset++,G_TD_CLAMP);
+    gDPSetTextureLUT(GraphPtrOffset++,G_TT_NONE);
+    gDPSetRenderMode(GraphPtrOffset++,  G_RM_AA_XLU_SURF, G_RM_AA_XLU_SURF2);
+
+    gDPSetTextureLUT(GraphPtrOffset++, G_TT_RGBA16);
+	gSPTexture(GraphPtrOffset++, 65535, 65535, 0, 0, 1);
+	gDPLoadTLUT_pal16(GraphPtrOffset++, 0, (uint)&LapCounterTextures + laptext_PaletteOffset);
+	gDPLoadTextureBlock_4b(GraphPtrOffset++, (uint)&LapCounterTextures, G_IM_FMT_CI,32,8,0,G_TX_CLAMP,G_TX_CLAMP,5,3,0,0);
+    
+    
+    gDPTileSync(GraphPtrOffset++);
+    KWRectangle(LocalLapX,LocalLapY,32,8,0,0,1);
+    
+  	if (KWLap[player].cptr2)
+    {
+        LocalLapX =  KWLap[player].cx2;
+        gDPSetPrimColor(GraphPtrOffset++, 0, 0, 255, 255, 255, 128);
+        KWRectangle(LocalLapX,LocalLapY,32,8,0,0,1);
+	}
+    if (KWLap[player].cptr3)
+    {
+        LocalLapX =  KWLap[player].cx3;
+        gDPSetPrimColor(GraphPtrOffset++, 0, 0, 255, 255, 255, 80);
+        KWRectangle(LocalLapX,LocalLapY,32,8,0,0,1);
+	}
+
+
+    gDPPipeSync(GraphPtrOffset++);
+    gDPTileSync(GraphPtrOffset++);
+
+    gDPSetPrimColor(GraphPtrOffset++, 0, 0, 255, 255, 255, 255);
+
+    LocalLapX = KWLap[player].cx + 26;
+    LocalLapY = KWLap[player].cy;
+
+    LocalLapX -= 8;
+    LocalLapY -= 8;
+
+    int LapIndex = *GlobalLap[player] + LapMax - 2;
+    //draw lap counter
+    //if (g_playerCount == 1)
+    {
+        //1 player large font.
+        gDPLoadTLUT_pal16(GraphPtrOffset++, 0, (uint)&LapCounterTextures + LargeLapNumbers_PaletteOffset);
+
+	    gDPLoadTextureBlock_4b(GraphPtrOffset++, (uint)&LapCounterTextures + LargeLapNumbers_Offset + (128 * LapIndex), G_IM_FMT_CI,16,16,0,G_TX_CLAMP,G_TX_CLAMP,4,4,0,0);
+        KWRectangle(LocalLapX,LocalLapY,16,16,0,0,1);
+
+        LocalLapX += 11;
+        gDPLoadTextureBlock_4b(GraphPtrOffset++, (uint)&LapCounterTextures + LargeLapNumbers_Offset + (128 * 10), G_IM_FMT_CI,16,16,0,G_TX_CLAMP,G_TX_CLAMP,4,4,0,0);
+        KWRectangle(LocalLapX,LocalLapY,16,16,0,0,1);
+
+        LocalLapX += 10;
+        gDPLoadTextureBlock_4b(GraphPtrOffset++, (uint)&LapCounterTextures + LargeLapNumbers_Offset + (128 * LapMax), G_IM_FMT_CI,16,16,0,G_TX_CLAMP,G_TX_CLAMP,4,4,0,0);
+        KWRectangle(LocalLapX,LocalLapY,16,16,0,0,1);
+    }
+    
+
+
+}
      
 
 void DrawLapCounter()

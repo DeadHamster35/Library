@@ -1949,7 +1949,7 @@ void LoadCustomHeader(int inputID)
 			dataLength = 0x30;
 			runRAM();
 
-			pathOffset = 0x06000A20;
+			//pathOffset = 0x06000A20;
 		}
 		else
 		{

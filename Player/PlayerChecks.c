@@ -6,6 +6,30 @@
 
 //bool IceSoundPlayed[8];
 
+void SetLapIndex()
+{
+    short LapMax = 7;
+
+    if (HotSwapID > 0)
+    {
+        LapMax = OverKartHeader.LapCount;
+    }
+    if (LapMax > 99)
+    {
+        LapMax = 99; //fuck you
+    }
+
+
+    int Players = g_playerCount;
+    if (g_gameMode == GAMEMODE_GP)
+    {
+        Players = 8;
+    }
+    for (int ThisPlayer = 0; ThisPlayer < Players; ThisPlayer++)
+    {
+        *GlobalLap[ThisPlayer] = 2 - LapMax;
+    }
+}
 void CheckSplashRepl(char WaterType)
 {	
 	for (char playerID = 0; playerID < 8; playerID++)
@@ -560,15 +584,74 @@ void CheckPaths()
 				short SurfaceID = CheckArea(GlobalPlayer[ThisPlayer].bump.last_zx);
 				for (int ThisPath = 0; ThisPath < 4; ThisPath++)
 				{
+                    if (ThisPath > OverKartHeader.PathCount)
+                    {
+                        break;
+                    }
 					if (OverKartHeader.PathTrigger[ThisPath] == SurfaceID)
 					{
 						CurrentPathID[ThisPlayer] = (ushort)ThisPath;
+                        *(uint*)(0x80650000) = ThisPath;
 					}
 				}
 			}
 		}
 	}
 
+}
+
+
+short CalcOGAAreaSubBP_Wrapper(float mx, float my, float mz, ushort t_group, int *b_num_ptr)
+{
+    if (HotSwapID == 0)
+    {
+        return CalcOGAAreaSubBP(mx, my, mz, t_group, b_num_ptr);
+    }
+
+    short       ClosestMarker = -1, BestMarker = -1;
+    float       BestDistance = 9999999.0f;
+    float       ClosestDistance = 9999999.0f;
+    short       ClosestPath = 0, BestPath = 0;
+    float       Work = 0.0f;
+    short*      PathLengths = (short*)&PathLengthTable[0];
+    
+    
+    for (int ThisPath = 0; ThisPath < OverKartHeader.PathCount; ThisPath++)
+    {
+        
+        for (int ThisMark = 0; ThisMark < PathLengths[ThisPath]; ThisMark++)
+        {
+            Marker* Point = (Marker*)GetRealAddress(PathTable[0][ThisPath]);
+            
+            Work = 
+            (
+                (mx - Point[ThisMark].Position[0]) * (mx - Point[ThisMark].Position[0]) + 
+                (my - Point[ThisMark].Position[1]) * (my - Point[ThisMark].Position[1]) + 
+                (mz - Point[ThisMark].Position[2]) * (mz - Point[ThisMark].Position[2])
+            );
+            if (Work < ClosestDistance)
+            {
+                ClosestDistance = Work;
+                ClosestPath = ThisPath;
+                ClosestMarker = ThisMark;
+            }
+            
+            if ((Point[ThisMark].Group == t_group) && (Work < BestDistance))
+            {
+                BestDistance = Work;
+                BestPath = ThisPath;
+                BestMarker = ThisMark;
+            }
+        }
+    }
+
+    if (BestMarker == -1)
+    {
+        *b_num_ptr = ClosestPath;
+        return ClosestMarker;
+    }
+    *b_num_ptr = BestPath;
+    return BestMarker;
 }
 
 

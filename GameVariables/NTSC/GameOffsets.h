@@ -370,6 +370,8 @@ extern unsigned long* GraphPtr;
 extern Gfx *GraphPtrOffset;
 extern ushort KWLookCamera(float x,float z,Camera *camera);
 extern ushort KWLookCameraPitch(float y,float z,Camera *camera);
+
+extern void KWRectangle(int sx,int sy,int sizex,int sizey,int s ,int t,int mode);
 extern void KWTexture2DRGBA(int x, int y, unsigned short ang, float scale, uchar *texaddr, void *vtxaddr, int sizex, int sizey, int cutx, int cuty);
 extern void KWTexture2DRGBA32PT (int x,int y,unsigned short ang ,float scale,uchar *texaddr,void *vtxaddr,int sizex,int sizey,int cutx,int cuty);
 
@@ -383,10 +385,12 @@ extern void KWTexture2DCI8XLUBL (int x,int y,unsigned short ang ,float scale,uin
 extern void KWTexture2DCI8AAXLUPT (int x,int y,unsigned short ang ,float scale,uint alpha, ushort *paladdr,uchar *idxaddr,void *vtxaddr,int sizex,int sizey,int cutx,int cuty);
 
 extern void KWSprite(int cx,int cy,uint sizex,uint sizey,ushort *addr);
+extern void KWSpriteXLU(int cx,int cy,uint alpha,ushort *addr,uint sizex,uint sizey,uint cutx,uint cuty);
 extern void KWSpriteScale(int cx,int cy,float scale, ushort *addr, uint sizex,uint sizey);
 extern void KWSpriteDiv(int cx,int cy,ushort *addr,uint sizex,uint sizey,uint cuty);
 extern void KWSpriteTile32B(short cx,short cy,uchar *addr,uint sizex,uint sizey);
 extern void KWSprite8x8	(uint ulx,uint uly,ushort *addr);
+extern void KWPrintLapTimeXLU(int tx,int ty,uint alpha,int timer);
 extern void DrawLineHorizontal(short tx,short ty,short length,ushort r,ushort g,ushort b,ushort a);
 extern void DrawLineVertical(short tx,short ty,short length,ushort r,ushort g,ushort b,ushort a);
 extern void KWLoadTextureBlockI4b(uchar *texaddr,int cutx,int cuty);
@@ -1124,6 +1128,7 @@ extern char g_ShadowflagPlayer3;
 //GP points
 extern uchar g_playerGPpoints[8]; //name to num: Mario, Luigi, Yoshi, Toad, D.K., Wario, Peach, Bowser
 extern void EtcEnemyDrive();
+extern short CalcOGAAreaSubBP(float mx, float my, float mz, ushort t_group, int *b_num_ptr);
 extern void InitCenterLine();
 extern uint OSMemSize;
 

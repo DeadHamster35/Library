@@ -67,9 +67,20 @@ NOP
 //end EEPROM funcs
 
 
+//calc_oga_area_sub_BP
+.org 0x9AE4
+JAL CalcOGAAreaSubBP_Wrapper
+.org 0xD8F8
+JAL CalcOGAAreaSubBP_Wrapper
+.org 0xDB40
+JAL CalcOGAAreaSubBP_Wrapper
+.org 0xDE9C
+JAL CalcOGAAreaSubBP_Wrapper
 
-
-
+.org 0xD988
+NOP
+.org 0xD994
+NOP
 
 //KT1 Tree Display Call
 .org 0x10C7FC
@@ -695,9 +706,12 @@ JAL custom_RunKart
 JAL RadarFinishLine
 //disables the finishline
 
-.ifndef CFLG_LapCounter
+
 //Disable the LapCounter (LAP 1/3)
 .org 0x04F38C
 jr RA
 NOP
-.endif
+
+.org 0x059BF4
+
+JAL Zanzou2
