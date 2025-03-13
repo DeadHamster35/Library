@@ -117,11 +117,11 @@ void copyCourseTable(int copyMode)
 	if (copyMode == 0)
 	{
 		*sourceAddress = (long)&ok_CourseTable;
-		*targetAddress = (long)&g_CupArray;
+		*targetAddress = (long)(&g_CupArray[0] - 4);
 	}
 	else
 	{
-		*sourceAddress = (long)&g_CupArray;
+		*sourceAddress = (long)(&g_CupArray[0] - 4);
 		*targetAddress = (long)&ok_CourseTable;
 	}
 	runRAM();
@@ -1081,14 +1081,19 @@ void CommonGameEventChart()
 
 void KumoColorMode(uint r, uint g, uint b)
 {
-	/*
+	
     // Get the colors from the OK Header
-    short OKR = OKHeader.Cloud.R;
-    short OKG = OKHeader.Cloud.G;
-    short OKB = OKHeader.Cloud.B;
+    if (HotSwapID == 0)
+    {
+        SparkMode(255,255,255);
+        return;
+    }
+    short OKR = OverKartHeader.FogRGBA[0];
+    short OKG = OverKartHeader.FogRGBA[1];
+    short OKB = OverKartHeader.FogRGBA[2];
 
-    sparkmode(OKR,OKG,OKB);
-	*/
+    SparkMode(OKR,OKG,OKB);
+	
 }
 
 void setSky()

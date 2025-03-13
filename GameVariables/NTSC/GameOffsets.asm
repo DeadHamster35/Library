@@ -262,6 +262,7 @@
 .definelabel KWSpriteDiv, 0x8004C91C
 .definelabel KWSpriteTile32B, 0x8004C6FC
 .definelabel KWSprite8x8, 0x8004CAD0
+.definelabel KWDisplayTotalTime, 0x8004FA78
 .definelabel KWPrintLapTimeXLU, 0x8004F950
 .definelabel DrawLineHorizontal, 0x8004C024
 .definelabel DrawLineVertical, 0x8004C148
@@ -363,6 +364,8 @@
 .definelabel SlipCheck, 0x8002FCA8
 .definelabel AddGravity, 0x8002AB70
 .definelabel ProStickAngle, 0x80033AE0
+
+.definelabel KWFlash8, 0x80165608
 
 .definelabel KW16GFTimer, 0x80165590
 .definelabel KW8GFTimer, 0x80165594
@@ -475,6 +478,8 @@
 .definelabel g_resetToggle, 0x800DC50C
 .definelabel g_startingIndicator, 0x800DC510
 .definelabel g_DebugSection, 0x800DC514
+.definelabel g_DisplayFlag, 0x800DC518
+.definelabel g_DemoFlag, 0x800DC51C
 .definelabel g_DebugMode, 0x800DC520
 .definelabel g_DispTimeFlag, 0x800DC660
 .definelabel g_SequenceMode, 0x800DC50C
@@ -813,6 +818,8 @@
 .definelabel g_hudToggleFlag, 0x80165808
 .definelabel g_hudToggleFlagP2, 0x80165832
 .definelabel g_hudMapToggle, 0x80165800
+.definelabel RadarOn, 0x80165800
+.definelabel g_KWDBDispSW, 0x801657B0
 .definelabel g_hudMapToggle2, 0x801657E8 //shows with speed
 .definelabel g_hudSpeedToggle, 0x80165810
 .definelabel g_hudSpeedToggle2, 0x801657E6 //shows with map
@@ -821,7 +828,10 @@
 //hud all players
 .definelabel g_hudToggle, 0x800DC5B9 
 .definelabel g_mapPlayers, 0x8018D15B
+.definelabel g_KWScreenEnable, 0x8018D188
 .definelabel g_blueLineRankToggle, 0x801657F0
+.definelabel g_KWLapSW, 0x801657F8
+.definelabel g_KWDemoSW, 0x801657D8
 
 //hud p1 only
 .definelabel g_hudCharpicRankToggle, 0x8018D2BF
@@ -837,6 +847,8 @@
 
 .definelabel asm_DisableEngineSound, 0x800E9F74
 .definelabel asm_DisableHUD, 0x80059D08 //0C016A67
+.definelabel KWDisplayAfter4PSub, 0x80059560
+.definelabel KWDisplay2D2PLeftAfter, 0x80059360
 
 .definelabel KWVideoFramesYori, 0x80059AC8
 .definelabel g_GhostHUDID, 0x8018DAAA
@@ -1051,9 +1063,10 @@
 
 //sky & clouds
 .definelabel g_cloudsToggle, 0x801657C8 //00 on 01 off
+.definelabel g_WinKart, 0x800DC5EB
 .definelabel g_skyToggle, 0x800DC5BC
 .definelabel gBackgroundFlag, 0x800DC5B4 
-.definelabel g_daytimeToggle, 0x800DC518
+
 
 .definelabel g_BombTable, 0x800DCC08
 
@@ -1244,8 +1257,12 @@
 .definelabel KWChaseSVal, 0x80041288
 .definelabel KWChaseIVal, 0x8004132C
 .definelabel KWChaseFVal, 0x800413B8
+.definelabel KW2DMatrixInit, 0x80041EF4
 .definelabel KWSet2Color, 0x8004B1C8
+.definelabel SprDrawSubCI8, 0x8004E240
 .definelabel KWDisplayRank, 0x8004E800
+.definelabel KWDisplayItembox, 0x8004E638
+.definelabel KWDisplayItemboxs, 0x8004E6C4
 .definelabel KWDisplayFireParticleSub, 0x8005477C
 .definelabel FireParticleAllocArray, 0x8018C870
 .definelabel FireParticleCounter, 0x80183E6C

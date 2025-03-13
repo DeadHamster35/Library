@@ -8,7 +8,7 @@
 
 void SetLapIndex()
 {
-    short LapMax = 7;
+    short LapMax = 3;
 
     if (HotSwapID > 0)
     {
@@ -417,6 +417,11 @@ void CheckJugemuMarker()
     //this sucks.
 	//timing issue.
 	//duplicate loops
+    if (HotSwapID == 0)
+    {
+        return;
+    }
+
 	if (OverKartRAMHeader.EchoOffset != 0)
 	{
 		GlobalIntA = *(int*)OverKartRAMHeader.EchoOffset;
@@ -613,16 +618,16 @@ short CalcOGAAreaSubBP_Wrapper(float mx, float my, float mz, ushort t_group, int
     float       ClosestDistance = 9999999.0f;
     short       ClosestPath = 0, BestPath = 0;
     float       Work = 0.0f;
-    short*      PathLengths = (short*)&PathLengthTable[0];
+
+    short LocalPathCount = OverKartHeader.PathCount;        
+    short* PathLengths = (short*)&PathLengthTable[0];
     
-    
-    for (int ThisPath = 0; ThisPath < OverKartHeader.PathCount; ThisPath++)
+
+    for (int ThisPath = 0; ThisPath < LocalPathCount; ThisPath++)
     {
-        
+        Marker* Point = (Marker*)GetRealAddress(PathTable[0][ThisPath]);
         for (int ThisMark = 0; ThisMark < PathLengths[ThisPath]; ThisMark++)
         {
-            Marker* Point = (Marker*)GetRealAddress(PathTable[0][ThisPath]);
-            
             Work = 
             (
                 (mx - Point[ThisMark].Position[0]) * (mx - Point[ThisMark].Position[0]) + 

@@ -286,6 +286,8 @@ extern void SlipCheck(Player *car,char kno);
 extern void AddGravity(Player *car);
 extern void ProStickAngle(Player *car, Controller *cont, char number);
 
+
+extern uint KWFlash8;
 extern uint KW16GFTimer;
 extern uint KW8GFTimer;
 extern uint KW4GFTimer;
@@ -390,6 +392,7 @@ extern void KWSpriteScale(int cx,int cy,float scale, ushort *addr, uint sizex,ui
 extern void KWSpriteDiv(int cx,int cy,ushort *addr,uint sizex,uint sizey,uint cuty);
 extern void KWSpriteTile32B(short cx,short cy,uchar *addr,uint sizex,uint sizey);
 extern void KWSprite8x8	(uint ulx,uint uly,ushort *addr);
+extern void KWDisplayTotalTime(int Player);
 extern void KWPrintLapTimeXLU(int tx,int ty,uint alpha,int timer);
 extern void DrawLineHorizontal(short tx,short ty,short length,ushort r,ushort g,ushort b,ushort a);
 extern void DrawLineVertical(short tx,short ty,short length,ushort r,ushort g,ushort b,ushort a);
@@ -465,6 +468,7 @@ extern long gIntMesgQueue;
 
 extern long g_resetToggle; //
 extern long g_startingIndicator; //0-Level Start 1-Demo Camera 2-Countdown 3-Racing 4-Finish Waiting 5-Race Finish 6-Fade Out 7-No Operation
+extern short g_DemoFlag;
 extern short g_DebugSection;
 extern short g_DebugMode;
 extern int g_DispTimeFlag;
@@ -794,6 +798,8 @@ extern struct KWLapStruct KWLap[4];
 extern char g_hudToggleFlag; // 0x80165808
 extern short g_hudToggleFlagP2; // 0x80165832
 extern short g_hudMapToggle; // 0x80165800
+extern char RadarOn[2];
+extern char g_KWDBDispSW;
 extern char g_hudMapToggle2; //801657E8 //shows with speed
 extern char g_hudSpeedToggle; // 0x80165810
 extern char g_hudSpeedToggle2; //801657E6 //shows with map
@@ -802,7 +808,10 @@ extern char g_hudLapToggle; //801657E4 //00/01 show lap 02 don't show lap/speed
 //hud all players
 extern char g_hudToggle; // 0x800DC5B9 
 extern char g_mapPlayers; // 0x8018D15B
+extern int g_KWScreenEnable;
 extern char g_blueLineRankToggle; // 0x801657F0
+extern int g_KWLapSW;
+extern int g_KWDemoSW;
 
 //hud p1 only
 extern char g_hudCharpicRankToggle; // 0x8018D2BF
@@ -819,6 +828,8 @@ extern float g_hudCharpicRankY4; // 0x8018D05C
 
 extern short asm_DisableEngineSound;
 extern short asm_DisableHUD; //0x80059D08
+extern void KWDisplayAfter4PSub(int Player);
+extern void KWDisplay2D2PLeftAfter();
 
 extern void KWVideoFramesYori();
 
@@ -1032,9 +1043,10 @@ extern int titlePushBlink; // long/int?
 
 //sky & clouds
 extern char g_cloudsToggle; // 0x801657C8 //00 on 01 off
+extern char g_WinKart;
 extern short g_skyToggle; // 0x800DC5BC 
 extern short gBackgroundFlag; // 0x800DC5B4 
-extern short g_daytimeToggle; // 0x800DC518 
+extern short g_DisplayFlag; // 0x800DC518 
 
 extern int g_BombTable;
 
@@ -1219,8 +1231,12 @@ extern int CaveFireColCheck;
 extern int KWChaseSVal(short *var,short val,short step);
 extern int KWChaseIVal(int   *var,int   val,int   step);
 extern int KWChaseFVal(float *var,float val,float step);
+extern void KW2DMatrixInit();
 extern void KWSet2Color(uint prim_r,uint prim_g,uint prim_b,uint env_r,uint env_g,uint env_b,uint a);
+extern void SprDrawSubCI8(int cx,int cy,ushort *paladdr,uchar *idxaddr,int sizex,int sizey,int cuty);
 extern void KWDisplayRank(int Player);
+extern void KWDisplayItemBox(int Player);
+extern void KWDisplayItemBoxS(int Player);
 extern void KWDisplayFireParticleSub(int num,uchar color,void* Camera);
 extern int FireParticleAllocArray[64];
 extern int FireParticleCounter;

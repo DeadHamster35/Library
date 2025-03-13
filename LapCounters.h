@@ -7,6 +7,6 @@
 #define LargeLapNumbers_PaletteOffset 0x8C0
 #define LargeLapNumbers_PaletteSize 0x20
 #define SmallLapNumbers_Offset 0x900
-#define SmallLapNumbers_Size 0x200
-#define SmallLapNumbers_PaletteOffset 0xB00
+#define SmallLapNumbers_Size 0x400
+#define SmallLapNumbers_PaletteOffset 0xD00
 #define SmallLapNumbers_PaletteSize 0x20

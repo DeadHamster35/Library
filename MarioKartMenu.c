@@ -1438,9 +1438,8 @@ short AnchorPoint[][4]  =
 void Zanzou2(int player)
 {
     uint time = 0x0D00C158;
-    uint lap88moji = 0x0D00A958;
-    short LapMax = 7;
 
+    short LapMax = 3;
     if (HotSwapID > 0)
     {
         LapMax = OverKartHeader.LapCount;
@@ -1515,59 +1514,317 @@ void Zanzou2(int player)
 
     gDPSetPrimColor(GraphPtrOffset++, 0, 0, 255, 255, 255, 255);
 
-    LocalLapX = KWLap[player].cx + 26;
+    LocalLapX = KWLap[player].cx + 10;
     LocalLapY = KWLap[player].cy;
 
-    LocalLapX -= 8;
+    
     LocalLapY -= 8;
 
     int LapIndex = *GlobalLap[player] + LapMax - 2;
-    //draw lap counter
-    //if (g_playerCount == 1)
+    if (LapIndex < 0)
     {
-        //1 player large font.
-        gDPLoadTLUT_pal16(GraphPtrOffset++, 0, (uint)&LapCounterTextures + LargeLapNumbers_PaletteOffset);
-
-	    gDPLoadTextureBlock_4b(GraphPtrOffset++, (uint)&LapCounterTextures + LargeLapNumbers_Offset + (128 * LapIndex), G_IM_FMT_CI,16,16,0,G_TX_CLAMP,G_TX_CLAMP,4,4,0,0);
-        KWRectangle(LocalLapX,LocalLapY,16,16,0,0,1);
-
-        LocalLapX += 11;
-        gDPLoadTextureBlock_4b(GraphPtrOffset++, (uint)&LapCounterTextures + LargeLapNumbers_Offset + (128 * 10), G_IM_FMT_CI,16,16,0,G_TX_CLAMP,G_TX_CLAMP,4,4,0,0);
-        KWRectangle(LocalLapX,LocalLapY,16,16,0,0,1);
-
-        LocalLapX += 10;
-        gDPLoadTextureBlock_4b(GraphPtrOffset++, (uint)&LapCounterTextures + LargeLapNumbers_Offset + (128 * LapMax), G_IM_FMT_CI,16,16,0,G_TX_CLAMP,G_TX_CLAMP,4,4,0,0);
-        KWRectangle(LocalLapX,LocalLapY,16,16,0,0,1);
+        LapIndex = 0;
     }
+    
+    //1 player large font.
+    gDPLoadTLUT_pal16(GraphPtrOffset++, 0, (uint)&LapCounterTextures + LargeLapNumbers_PaletteOffset);
+
+    gDPLoadTextureBlock_4b(GraphPtrOffset++, (uint)&LapCounterTextures + LargeLapNumbers_Offset + (128 * LapIndex), G_IM_FMT_CI,16,16,0,G_TX_CLAMP,G_TX_CLAMP,4,4,0,0);
+    KWRectangle(LocalLapX,LocalLapY,16,16,0,0,1);
+
+    LocalLapX += 10;
+    gDPLoadTextureBlock_4b(GraphPtrOffset++, (uint)&LapCounterTextures + LargeLapNumbers_Offset + (128 * 10), G_IM_FMT_CI,16,16,0,G_TX_CLAMP,G_TX_CLAMP,4,4,0,0);
+    KWRectangle(LocalLapX,LocalLapY,16,16,0,0,1);
+
+    LocalLapX += 9;
+    gDPLoadTextureBlock_4b(GraphPtrOffset++, (uint)&LapCounterTextures + LargeLapNumbers_Offset + (128 * LapMax), G_IM_FMT_CI,16,16,0,G_TX_CLAMP,G_TX_CLAMP,4,4,0,0);
+    KWRectangle(LocalLapX,LocalLapY,16,16,0,0,1);
+    
     
 
 
 }
-     
 
-void DrawLapCounter()
+
+void KWDisplayUDLapWrapper(int ThisPlayer)
 {
-     switch (g_ScreenSplitA)
-     {
-          case 0: //SP
-          {
-               PrintBigText(AnchorPoint[0][0], AnchorPoint[0][1],0.375,"LAP");
-               if (GlobalPlayer[0].rap >= -1)
-               {
-                    PrintBigTextNumber(AnchorPoint[0][2], AnchorPoint[0][3],0.5,"",GlobalPlayer[0].rap + 1);
-                    PrintBigText(AnchorPoint[0][2] + 24, AnchorPoint[0][3],0.5, "/");
-                    PrintBigTextNumber(AnchorPoint[0][2] + 16, AnchorPoint[0][3],0.5,"",3);
-                    
-               }
-               else
-               {
-                    PrintBigTextNumber(AnchorPoint[0][2] + 8, AnchorPoint[0][3],0.5, "", GlobalPlayer[0].rap + 1);
-                    PrintBigText(AnchorPoint[0][2] + 32, AnchorPoint[0][3],0.5, "/");
-                    PrintBigTextNumber(AnchorPoint[0][2] + 24, AnchorPoint[0][3],0.5,"",3);
-               }
-               
-          }
-     }
-     
+    
+    
+    
 
+    if (g_KWDBDispSW != 0)
+    {
+        KWDisplayItemBox(ThisPlayer);
+        return;
+    }
+    if (RadarOn[ThisPlayer] == 1)
+    {
+        KWDisplayItemBox(ThisPlayer);
+        return;
+    }
+    if (g_KWScreenEnable == 0)
+    {
+        KWDisplayItemBox(ThisPlayer);
+        return;
+    }
+
+
+
+    KWDisplayTotalTime(ThisPlayer);
+
+    short LapMax = 3;
+    if (HotSwapID > 0)
+    {
+        LapMax = OverKartHeader.LapCount;
+    }
+    if (LapMax > 99)
+    {
+        LapMax = 99; //fuck you
+    }
+    
+    gDPLoadTLUT_pal16(GraphPtrOffset++, 0, (uint)&LapCounterTextures + laptext_PaletteOffset);
+    gDPLoadTextureBlock_4b(GraphPtrOffset++, (uint)&LapCounterTextures, G_IM_FMT_CI,32,8,0,G_TX_CLAMP,G_TX_CLAMP,5,3,0,0);
+
+    int LocalLapX = KWLap[ThisPlayer].cx - 16;
+    int LocalLapY = KWLap[ThisPlayer].cy -1;
+    KWRectangle(LocalLapX,LocalLapY,32,8,0,0,1);
+    
+    if (KWLap[ThisPlayer].goal != LapMax)
+    {
+        int LapIndex = *GlobalLap[ThisPlayer] + LapMax - 2;
+        if (LapIndex < 0)
+        {
+            LapIndex = 0;
+        }
+
+        //1 player large font.
+        gDPLoadTLUT_pal16(GraphPtrOffset++, 0, (uint)&LapCounterTextures + LargeLapNumbers_PaletteOffset);
+        LocalLapX += 26;
+        LocalLapY -= 7;
+        gDPLoadTextureBlock_4b(GraphPtrOffset++, (uint)&LapCounterTextures + LargeLapNumbers_Offset + (128 * LapIndex), G_IM_FMT_CI,16,16,0,G_TX_CLAMP,G_TX_CLAMP,4,4,0,0);
+        KWRectangle(LocalLapX,LocalLapY,16,16,0,0,1);
+
+        LocalLapX += 10;
+        gDPLoadTextureBlock_4b(GraphPtrOffset++, (uint)&LapCounterTextures + LargeLapNumbers_Offset + (128 * 10), G_IM_FMT_CI,16,16,0,G_TX_CLAMP,G_TX_CLAMP,4,4,0,0);
+        KWRectangle(LocalLapX,LocalLapY,16,16,0,0,1);
+
+        LocalLapX += 9;
+        gDPLoadTextureBlock_4b(GraphPtrOffset++, (uint)&LapCounterTextures + LargeLapNumbers_Offset + (128 * LapMax), G_IM_FMT_CI,16,16,0,G_TX_CLAMP,G_TX_CLAMP,4,4,0,0);
+        KWRectangle(LocalLapX,LocalLapY,16,16,0,0,1);
+    }
+
+    KWDisplayItemBox(ThisPlayer);
+
+}
+
+void KWDisplay4LapWrapper(int ThisPlayer)
+{
+    KWDisplayTotalTime(ThisPlayer);
+
+    if ((g_KWScreenEnable == 0) || (g_KWLapSW == 0) )
+    {
+    
+        if (KWLap[ThisPlayer].bomb)
+        {
+            KWTexture2DCI8BL(
+                KWLap[ThisPlayer].bombx, 
+                KWLap[ThisPlayer].bomby, 
+                0, 1.0f, 
+                (ushort*)0x0D01B4D8, 
+                (uchar*)0x0D01D6D8,
+                (void*)0x0D005AE0,
+                32,32,32,32
+            );
+        }
+        KWDisplayItemBoxS(ThisPlayer);
+        return;
+    }
+
+    int LocalLapX, LocalLapY;
+    short LapMax = 3;
+    if (HotSwapID > 0)
+    {
+        LapMax = OverKartHeader.LapCount;
+    }
+    if (LapMax > 99)
+    {
+        LapMax = 99; //fuck you
+    }
+
+    gDPLoadTLUT_pal16(GraphPtrOffset++, 0, (uint)&LapCounterTextures + laptext_PaletteOffset);
+    gDPLoadTextureBlock_4b(GraphPtrOffset++, (uint)&LapCounterTextures, G_IM_FMT_CI,32,8,0,G_TX_CLAMP,G_TX_CLAMP,5,3,0,0);
+
+    
+    
+    if (KWLap[ThisPlayer].goal != LapMax)
+    {
+        int LocalLapX = KWLap[ThisPlayer].cx - 16;
+        int LocalLapY = KWLap[ThisPlayer].cy - 4;
+        KWRectangle(LocalLapX,LocalLapY,32,8,0,0,1);
+    }
+
+    gDPLoadTLUT_pal16(GraphPtrOffset++, 0, (uint)&LapCounterTextures + SmallLapNumbers_PaletteOffset);
+    gDPLoadTextureBlock_4b(GraphPtrOffset++, ((uint)&LapCounterTextures + SmallLapNumbers_Offset), G_IM_FMT_CI,16,128,0,G_TX_CLAMP,G_TX_CLAMP,4,7,0,0);
+
+    if (KWLap[ThisPlayer].goal != LapMax)
+    {
+        LocalLapX = KWLap[ThisPlayer].cx - 26;
+        LocalLapY = KWLap[ThisPlayer].cy + 4;
+
+        int LapIndex = *GlobalLap[ThisPlayer] + LapMax - 2;
+        if (LapIndex < 0)
+        {
+            LapIndex = 0;
+        }
+
+        KWRectangle(LocalLapX+13,LocalLapY,16,8,0,(8*LapIndex),1);
+        KWRectangle(LocalLapX+21,LocalLapY,8,8,0,(8*10),1);
+        KWRectangle(LocalLapX+29,LocalLapY,16,8,0,(8*LapMax),1);
+    }
+    
+    
+    if (KWLap[ThisPlayer].bomb)
+    {
+        KWTexture2DCI8BL(
+            KWLap[ThisPlayer].bombx, 
+            KWLap[ThisPlayer].bomby, 
+            0, 1.0f, 
+            (ushort*)0x0D01B4D8, 
+            (uchar*)0x0D01D6D8,
+            (void*)0x0D005AE0,
+            32,32,32,32
+        );
+    }
+    KWDisplayItemBoxS(ThisPlayer);
+}
+     
+void KWDisplayLRLapWrapper(int ThisPlayer)
+{
+    KWDisplayTotalTime(ThisPlayer);
+    
+    
+
+    if ((g_KWScreenEnable == 0) || (g_KWLapSW == 0) )
+    {
+        KWDisplayItemBox(ThisPlayer);
+        return;
+    }
+
+
+    int LocalLapX, LocalLapY;
+    short LapMax = 3;
+    if (HotSwapID > 0)
+    {
+        LapMax = OverKartHeader.LapCount;
+    }
+    if (LapMax > 99)
+    {
+        LapMax = 99; //fuck you
+    }
+
+    gDPLoadTLUT_pal16(GraphPtrOffset++, 0, (uint)&LapCounterTextures + laptext_PaletteOffset);
+    gDPLoadTextureBlock_4b(GraphPtrOffset++, (uint)&LapCounterTextures, G_IM_FMT_CI,32,8,0,G_TX_CLAMP,G_TX_CLAMP,5,3,0,0);
+
+    
+    
+    if (KWLap[ThisPlayer].goal != LapMax)
+    {
+        int LocalLapX = KWLap[ThisPlayer].cx - 16;
+        int LocalLapY = KWLap[ThisPlayer].cy - 4;
+        KWRectangle(LocalLapX,LocalLapY,32,8,0,0,1);
+    }
+
+    gDPLoadTLUT_pal16(GraphPtrOffset++, 0, (uint)&LapCounterTextures + SmallLapNumbers_PaletteOffset);
+    gDPLoadTextureBlock_4b(GraphPtrOffset++, ((uint)&LapCounterTextures + SmallLapNumbers_Offset), G_IM_FMT_CI,16,128,0,G_TX_CLAMP,G_TX_CLAMP,4,7,0,0);
+
+    if (KWLap[ThisPlayer].goal != LapMax)
+    {
+        LocalLapX = KWLap[ThisPlayer].cx;
+        LocalLapY = KWLap[ThisPlayer].cy - 4;
+
+        int LapIndex = *GlobalLap[ThisPlayer] + LapMax - 2;
+        if (LapIndex < 0)
+        {
+            LapIndex = 0;
+        }
+
+        KWRectangle(LocalLapX+13,LocalLapY,16,8,0,(8*LapIndex),1);
+        KWRectangle(LocalLapX+21,LocalLapY,8,8,0,(8*10),1);
+        KWRectangle(LocalLapX+29,LocalLapY,16,8,0,(8*LapMax),1);
+    }
+    
+    KWDisplayItemBox(ThisPlayer);
+
+}
+     
+void KWDisplayInit()
+{
+    gDPPipeSync(GraphPtrOffset++);
+    gDPSetCycleType(GraphPtrOffset++, G_CYC_1CYCLE);
+
+    gSPClearGeometryMode(GraphPtrOffset++,G_ZBUFFER);
+
+    gSPSetGeometryMode(GraphPtrOffset++,G_SHADE | G_SHADING_SMOOTH);
+    
+    gDPSetPrimColor(GraphPtrOffset++, 0, 0, 255, 255, 255, 255);
+    gDPSetCombineLERP(GraphPtrOffset++,0, 0, 0, TEXEL0,
+        TEXEL0, 0, PRIMITIVE, 0,
+        0, 0, 0, TEXEL0,
+        TEXEL0, 0, PRIMITIVE, 0);
+    gDPSetTexturePersp(GraphPtrOffset++,G_TP_NONE);
+    gDPSetTextureFilter(GraphPtrOffset++,G_TF_POINT);
+    gDPSetTextureConvert(GraphPtrOffset++,G_TC_FILT);
+    gDPSetTextureLOD(GraphPtrOffset++,G_TL_TILE);
+    gDPSetTextureDetail(GraphPtrOffset++,G_TD_CLAMP);
+    gDPSetTextureLUT(GraphPtrOffset++,G_TT_NONE);
+    gDPSetRenderMode(GraphPtrOffset++,  G_RM_AA_XLU_SURF, G_RM_AA_XLU_SURF2);
+
+    gDPSetTextureLUT(GraphPtrOffset++, G_TT_RGBA16);
+    gSPTexture(GraphPtrOffset++, 65535, 65535, 0, 0, 1);
+    
+}
+
+void KWDisplay2P_1LR()
+{
+    KWDisplayInit();
+    KWDisplayLRLapWrapper(0);
+}
+void KWDisplay2P_2LR()
+{
+    KWDisplayInit();
+    KWDisplayLRLapWrapper(1);
+}
+
+
+void KWDisplay4P_1()
+{
+    KWDisplayInit(); 
+    KWDisplay4LapWrapper(0);
+}
+void KWDisplay4P_2()
+{
+    KWDisplayInit();
+    KWDisplay4LapWrapper(1);
+}
+void KWDisplay4P_3()
+{
+    KWDisplayInit();
+    KWDisplay4LapWrapper(2);
+}
+void KWDisplay4P_4()
+{
+    KWDisplayInit();
+    KWDisplay4LapWrapper(3);
+}
+
+
+void KWDisplay2P_1UD()
+{
+    KWDisplayInit();
+    KWDisplayUDLapWrapper(0);
+}
+void KWDisplay2P_2UD()
+{
+    KWDisplayInit();
+    KWDisplayUDLapWrapper(1);
 }
