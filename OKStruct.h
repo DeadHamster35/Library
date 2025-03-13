@@ -35,7 +35,6 @@ typedef struct OKHeader{
 	char			BackgroundToggle;
 	char			ManualTempo;
 	char			LapCount;
-	char 			PathTrigger[4];	
 	uint 			MusicID;
 	short 			PathLength[4];
 	char 			GhostCharacter, WaterType;

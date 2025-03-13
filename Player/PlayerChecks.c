@@ -584,21 +584,6 @@ void CheckPaths()
 					CPUPaths[ThisPlayer].LastLap = GlobalPlayer[ThisPlayer].rap;
 					CurrentPathID[ThisPlayer] = 0;
 				}
-
-				
-				short SurfaceID = CheckArea(GlobalPlayer[ThisPlayer].bump.last_zx);
-				for (int ThisPath = 0; ThisPath < 4; ThisPath++)
-				{
-                    if (ThisPath > OverKartHeader.PathCount)
-                    {
-                        break;
-                    }
-					if (OverKartHeader.PathTrigger[ThisPath] == SurfaceID)
-					{
-						CurrentPathID[ThisPlayer] = (ushort)ThisPath;
-                        *(uint*)(0x80650000) = ThisPath;
-					}
-				}
 			}
 		}
 	}
