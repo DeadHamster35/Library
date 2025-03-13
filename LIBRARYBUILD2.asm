@@ -74,8 +74,11 @@ AccelerationTable:
 
 
 
-
-
+//lap counters
+.align 0x100
+LapCounterTextures:
+.import "../library/data/LapCounters.RAW"
+.align 0x10
 
 
 .align 0x10

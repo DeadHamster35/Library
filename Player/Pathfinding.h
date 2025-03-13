@@ -29,6 +29,8 @@ typedef struct OKAIHeader
      ushort TotalPaths, TotalRamps, TotalDrops;
 } OKAIHeader;
 
+
+
 extern short ItemBoxCount;
 
 extern bool PathfinderComplete(BKPathfinder *Pathfinder, short *PathLengths, short *RampLengths, short *DropLengths);

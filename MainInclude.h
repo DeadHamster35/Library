@@ -56,4 +56,6 @@
 #include "PreSwitch.h"
 #include "CrashScreenEnhanced.h"
 
+#include "LapCounters.h"
+
 #endif

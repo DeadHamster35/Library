@@ -37,5 +37,5 @@ extern void PrintBigTextNumber(int posx, int posy, float scale, char *text, int 
 extern void PrintBigTextNumberNoGap(int posx, int posy, float scale, char *text, int value);
 extern void DrawFPS(int X, int Y);
 extern void DrawLapCounter();
-
+extern void KWDisplayInit();
 #endif
