@@ -1444,10 +1444,6 @@ void Zanzou2(int player)
     {
         LapMax = OverKartHeader.LapCount;
     }
-    if (LapMax > 99)
-    {
-        LapMax = 99; //fuck you
-    }
 
 
     //Time
@@ -1577,11 +1573,6 @@ void KWDisplayUDLapWrapper(int ThisPlayer)
     {
         LapMax = OverKartHeader.LapCount;
     }
-    if (LapMax > 99)
-    {
-        LapMax = 99; //fuck you
-    }
-    
     gDPLoadTLUT_pal16(GraphPtrOffset++, 0, (uint)&LapCounterTextures + laptext_PaletteOffset);
     gDPLoadTextureBlock_4b(GraphPtrOffset++, (uint)&LapCounterTextures, G_IM_FMT_CI,32,8,0,G_TX_CLAMP,G_TX_CLAMP,5,3,0,0);
 
@@ -1645,10 +1636,6 @@ void KWDisplay4LapWrapper(int ThisPlayer)
     if (HotSwapID > 0)
     {
         LapMax = OverKartHeader.LapCount;
-    }
-    if (LapMax > 99)
-    {
-        LapMax = 99; //fuck you
     }
 
     gDPLoadTLUT_pal16(GraphPtrOffset++, 0, (uint)&LapCounterTextures + laptext_PaletteOffset);
@@ -1716,10 +1703,6 @@ void KWDisplayLRLapWrapper(int ThisPlayer)
     if (HotSwapID > 0)
     {
         LapMax = OverKartHeader.LapCount;
-    }
-    if (LapMax > 99)
-    {
-        LapMax = 99; //fuck you
     }
 
     gDPLoadTLUT_pal16(GraphPtrOffset++, 0, (uint)&LapCounterTextures + laptext_PaletteOffset);
