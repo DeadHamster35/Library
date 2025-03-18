@@ -14,11 +14,11 @@ void SetLapIndex()
     {
         LapMax = OverKartHeader.LapCount;
     }
-    if (LapMax > 99)
+    if ((LapMax > 9) || (LapMax < 1))
     {
-        LapMax = 99; //fuck you
+        LapMax = 3; 
+        OverKartHeader.LapCount = 3;
     }
-
 
     int Players = g_playerCount;
     if (g_gameMode == GAMEMODE_GP)
