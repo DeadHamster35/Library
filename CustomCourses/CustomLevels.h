@@ -5,6 +5,7 @@
 extern char ScaleXMode, ScaleYMode, ScaleZMode, ScalePad;
 extern short ZFLIP;
 extern short YFLIP;
+extern short BattleSongID;
 extern void FPS_Check();
 extern void DynamicTempo();
 extern void StaticTempo(int Tempo);

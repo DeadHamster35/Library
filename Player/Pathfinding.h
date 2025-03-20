@@ -41,7 +41,7 @@ extern int FindNearestRampNode(float CurrentPosition[],  float FoundNodePosition
 
 extern int FindNearestDropNode(float CurrentPosition[],  float FoundNodePosition[], float TargetY, Marker *PathArray[], short* MarkerCounts, short PathCount, float HeightCheckSquared);
 
-extern int FindNearestItemBox(float CurrentPosition[], float FoundItemBoxPosition[], float HeightCheckSquared, short courseType);
+extern int FindNearestItemBox(float CurrentPosition[], float FoundItemBoxPosition[], float HeightCheckSquared, bool ignoreHeightCheck, short courseType);
 
 extern void FindFurthestNode(float CurrentPosition[],  float FoundNodePosition[], Marker *PathArray[], short* MarkerCounts, short PathCount);
 

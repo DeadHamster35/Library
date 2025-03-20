@@ -143,7 +143,7 @@ int FindNearestRampNode(float CurrentPosition[], float FoundNodePosition[], floa
 
 
 
-int FindNearestItemBox(float CurrentPosition[], float FoundItemBoxPosition[], float HeightCheckSquared, short courseType)
+int FindNearestItemBox(float CurrentPosition[], float FoundItemBoxPosition[], float HeightCheckSquared, bool ignoreHeightCheck, short courseType)
 {   
     //Find the nearest item box
     float player_x = CurrentPosition[0];
@@ -159,7 +159,7 @@ int FindNearestItemBox(float CurrentPosition[], float FoundItemBoxPosition[], fl
         short i = ItemBoxIndex[ThisItemBox];
         float item_box_position_y = g_SimpleObjectArray[i].position[1];
         float diff_y = item_box_position_y - player_y;
-        if (pow(diff_y, 2) < HeightCheckSquared && (diff_y >= 0.0 || courseType > 3)) //Height check
+        if (ignoreHeightCheck || (pow(diff_y, 2) < HeightCheckSquared && (diff_y >= 0.0 || courseType > 3))) //Height check
         {
             float item_box_position_x = g_SimpleObjectArray[i].position[0];
             float item_box_position_z = g_SimpleObjectArray[i].position[2];
@@ -425,7 +425,7 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
     for (short ThisPath = 0; ThisPath < PathCount; ThisPath++)
     {
         EndMarker = MarkerCounts[ThisPath];
-        if (pow(player_height - (float)PathArray[ThisPath][0].Position[1], 2) < HeightCheckSquared) //If on same level
+        if ((pow(player_height - (float)PathArray[ThisPath][0].Position[1], 2) < HeightCheckSquared*0.5)  && (PathArray[ThisPath][0].Group != 11)) //If on same level and can go in this direction  (PathArray[ThisPath][0].Group != 11)
         {
             //Test first marker to see if in range.
             objectPosition[0] = (float)PathArray[ThisPath][0].Position[0];
@@ -468,7 +468,7 @@ void UpdateBKPath(BKPathfinder* Pathfinder, short FirstMarkerDistance, Marker *P
             }
         }
 
-        if (pow(player_height - (float)PathArray[ThisPath][EndMarker].Position[1], 2) < HeightCheckSquared) //If on same level
+        if ((pow(player_height - (float)PathArray[ThisPath][EndMarker].Position[1], 2) < HeightCheckSquared*0.5) && (PathArray[ThisPath][0].Group != 10)) //If on same level and can use path in reverse (PathArray[ThisPath][0].Group != 10)
         {
             //Test last marker to see if in range.
             objectPosition[0] = (float)PathArray[ThisPath][EndMarker].Position[0];

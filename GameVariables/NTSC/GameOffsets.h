@@ -1178,7 +1178,7 @@ extern void NaPlyLevelStart(char playerID, int soundID);
 extern void NaPlyLevelStop(char playerID, int soundID); 
 extern void NaSceneLevelStart(Vector ObjectPosition, Vector ObjectVelocity, int soundID);
 extern void NaSceneLevelStop(Vector ObjectPosition, int soundID);
-
+extern short BattleSongID;
 
 
 
