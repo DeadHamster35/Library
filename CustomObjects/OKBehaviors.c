@@ -17,11 +17,10 @@ short ObjectSubBehaviorTurnTarget(float InputPosition[3], short InputAngle, floa
 }
 
 
-float ObjectSubBehaviorLookTarget(OKObject* InputObject, float TargetPosition[3])
-{
-	OKObjectType *ThisType = (OKObjectType*)&(OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex]);
-	
-	GlobalFloatA = (float)ThisType->Sight;	
+
+float ObjectSubBehaviorLookTarget(OKObject* InputObject, float TargetPosition[3], short Sight, short Viewcone)
+{	
+	GlobalFloatA = (float)Sight;	
 	GlobalFloatB = (InputObject->ObjectData.position[0] - TargetPosition[0]);
 	GlobalFloatC = (InputObject->ObjectData.position[2] - TargetPosition[2]);
 	GlobalFloatD = (((GlobalFloatB * GlobalFloatB) + (GlobalFloatC * GlobalFloatC)) / (GlobalFloatA * GlobalFloatA));
@@ -30,7 +29,7 @@ float ObjectSubBehaviorLookTarget(OKObject* InputObject, float TargetPosition[3]
 	GlobalShortA -= InputObject->ObjectData.angle[1];
 	
 	
-	if ((GlobalShortA < (DEG1 * (ThisType->Viewcone/2))) && (GlobalShortA > (DEG1 * (ThisType->Viewcone/-2))))
+	if ((GlobalShortA < (DEG1 * (Viewcone/2))) && (GlobalShortA > (DEG1 * (Viewcone/-2))))
 	{	
 		return GlobalFloatD;
 		
@@ -41,11 +40,10 @@ float ObjectSubBehaviorLookTarget(OKObject* InputObject, float TargetPosition[3]
 	
 }
 
-float ObjectSubBehaviorLookedAt(OKObject* InputObject, int PlayerIndex, short LookAngle)
+float ObjectSubBehaviorLookedAt(OKObject* InputObject, int PlayerIndex, short LookAngle, short Range)
 {
-	OKObjectType *ThisType = (OKObjectType*)&(OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex]);
 	Player ThisPlayer = GlobalPlayer[PlayerIndex];
-	GlobalFloatA = (float)ThisType->Range;	
+	GlobalFloatA = (float)Range;	
 	GlobalFloatB = (ThisPlayer.position[0] - InputObject->ObjectData.position[0]);
 	GlobalFloatC = (ThisPlayer.position[2] - InputObject->ObjectData.position[2]);
 	GlobalFloatD = (((GlobalFloatB * GlobalFloatB) + (GlobalFloatC * GlobalFloatC)) / (GlobalFloatA * GlobalFloatA));
@@ -57,7 +55,6 @@ float ObjectSubBehaviorLookedAt(OKObject* InputObject, int PlayerIndex, short Lo
 	if ((GlobalShortA < (DEG1 * (LookAngle/2))) && (GlobalShortA > (DEG1 * (LookAngle/-2))))
 	{	
 		return GlobalFloatD;
-		
 	}
 	
 	return 35000;
@@ -87,7 +84,7 @@ void ObjectBehaviorExist(OKObject* InputObject)
 	}
 }
 
-void ObjectBehaviorWalk(OKObject* InputObject, float Speed)
+void ObjectSubBehaviorWalk(OKObject* InputObject, float Speed)
 {
 	objectVelocity[0] = 0;
 	objectVelocity[1] = InputObject->ObjectData.velocity[1];
@@ -104,6 +101,14 @@ void ObjectBehaviorStrafe(OKObject* InputObject)
 {
 	OKObjectType *ThisType = (OKObjectType*)&(OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex]);
 	OKObjectList *ThisList = (OKObjectList*)&(OverKartRAMHeader.ObjectList[InputObject->ListIndex]);
+    short* Parameters = (short*)GetRealAddress(ThisType->ObjectBehavior);
+    /*
+        <Parameter_0_Name>Range</Parameter_0_Name>
+        <Parameter_1_Name>Speed</Parameter_1_Name>
+    */
+    short Range = Parameters[0];
+    short Speed = Parameters[1];
+
 	GlobalShortA = 1;
 	if (ThisList->Flag != 0)
 	{
@@ -114,12 +119,12 @@ void ObjectBehaviorStrafe(OKObject* InputObject)
 	{
 		case 0:
 		{
-			InputObject->ObjectData.velocity[0] = (float)(ThisType->MaxSpeed / 100) * GlobalShortA;
+			InputObject->ObjectData.velocity[0] = (float)(Speed / 100) * GlobalShortA;
 			InputObject->ObjectData.velocity[1] = 0;
 			InputObject->ObjectData.velocity[2] = 0;
 
 			InputObject->Counter[0] += InputObject->ObjectData.velocity[0] * GlobalShortA;
-			if (InputObject->Counter[0] > ThisType->Range)
+			if (InputObject->Counter[0] > Range)
 			{
 				InputObject->Status[1] = 1;
 			}
@@ -127,19 +132,19 @@ void ObjectBehaviorStrafe(OKObject* InputObject)
 		}
 		case 1:
 		{
-			InputObject->ObjectData.velocity[0] -= (float)(ThisType->MaxSpeed / 3000) * GlobalShortA;
+			InputObject->ObjectData.velocity[0] -= (float)(Speed / 3000) * GlobalShortA;
 			InputObject->ObjectData.velocity[1] = 0;
 			InputObject->ObjectData.velocity[2] = 0;
 
 			InputObject->Counter[0] += InputObject->ObjectData.velocity[0] * GlobalShortA;
-			if (InputObject->ObjectData.velocity[0] <= (float)(ThisType->MaxSpeed / -100))
+			if (InputObject->ObjectData.velocity[0] <= (float)(Speed / -100))
 			{
 				InputObject->Status[1] = 2;
 			}
 		}
 		case 2:
 		{
-			InputObject->ObjectData.velocity[0] = (float)(ThisType->MaxSpeed / -100) * GlobalShortA;
+			InputObject->ObjectData.velocity[0] = (float)(Speed / -100) * GlobalShortA;
 			InputObject->ObjectData.velocity[1] = 0;
 			InputObject->ObjectData.velocity[2] = 0;
 
@@ -152,12 +157,12 @@ void ObjectBehaviorStrafe(OKObject* InputObject)
 		}
 		case 3:
 		{
-			InputObject->ObjectData.velocity[0] = (float)(ThisType->MaxSpeed / -100) * GlobalShortA;
+			InputObject->ObjectData.velocity[0] = (float)(Speed / -100) * GlobalShortA;
 			InputObject->ObjectData.velocity[1] = 0;
 			InputObject->ObjectData.velocity[2] = 0;
 
 			InputObject->Counter[0] += InputObject->ObjectData.velocity[0] * GlobalShortA;
-			if (InputObject->Counter[0] < (ThisType->Range * -1))
+			if (InputObject->Counter[0] < (Range * -1))
 			{
 				InputObject->Status[1] = 4;
 			}
@@ -165,19 +170,19 @@ void ObjectBehaviorStrafe(OKObject* InputObject)
 		}
 		case 4:
 		{
-			InputObject->ObjectData.velocity[0] += (float)(ThisType->MaxSpeed / 3000) * GlobalShortA;
+			InputObject->ObjectData.velocity[0] += (float)(Speed / 3000) * GlobalShortA;
 			InputObject->ObjectData.velocity[1] = 0;
 			InputObject->ObjectData.velocity[2] = 0;
 
 			InputObject->Counter[0] += InputObject->ObjectData.velocity[0] * GlobalShortA;
-			if (InputObject->ObjectData.velocity[0] >= (float)(ThisType->MaxSpeed / 100))
+			if (InputObject->ObjectData.velocity[0] >= (float)(Speed / 100))
 			{
 				InputObject->Status[1] = 5;
 			}
 		}
 		case 5:
 		{	
-			InputObject->ObjectData.velocity[0] = (float)(ThisType->MaxSpeed / 100) * GlobalShortA;
+			InputObject->ObjectData.velocity[0] = (float)(Speed / 100) * GlobalShortA;
 			InputObject->ObjectData.velocity[1] = 0;
 			InputObject->ObjectData.velocity[2] = 0;
 
@@ -195,11 +200,12 @@ void ObjectBehaviorStrafe(OKObject* InputObject)
 	
 }
 
-void ObjectBehaviorWander(OKObject* InputObject)
+void ObjectSubBehaviorWander(OKObject* InputObject, short Range, short Speed)
 {
-	OKObjectType *ThisType = (OKObjectType*)&(OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex]);
-	OKObjectList *ThisList = (OKObjectList*)&(OverKartRAMHeader.ObjectList[InputObject->ListIndex]);
-	GlobalFloatA = (float)ThisType->Range;
+    OKObjectList *ThisList = (OKObjectList*)&(OverKartRAMHeader.ObjectList[InputObject->ListIndex]);
+
+
+	GlobalFloatA = (float)Range;
 	GlobalFloatB = GlobalFloatA * 0.6;
 	
 	GlobalIntA = (InputObject->ObjectData.position[0] - ThisList->OriginPosition[0]);
@@ -262,7 +268,8 @@ void ObjectBehaviorWander(OKObject* InputObject)
 		}
 
 	}
-	ObjectBehaviorWalk(InputObject, (ThisType->MaxSpeed / 100.0f));
+    //speed
+	ObjectSubBehaviorWalk(InputObject, (Speed *0.01f));
 	
 }
 
@@ -271,6 +278,20 @@ void ObjectBehaviorWander(OKObject* InputObject)
 
 void ObjectBehaviorFlee(OKObject* InputObject)
 {	
+    OKObjectType *ThisType = (OKObjectType*)&(OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex]);    
+    short* Parameters = (short*)GetRealAddress(ThisType->ObjectBehavior);
+    /*
+        
+        <Parameter_0_Name>Range</Parameter_0_Name>
+        <Parameter_1_Name>Speed</Parameter_1_Name>
+        <Parameter_2_Name>Sight</Parameter_2_Name>
+        <Parameter_3_Name>Viewcone</Parameter_3_Name>
+    */
+    short Range = Parameters[0];
+    short Speed = Parameters[1];
+    short Sight = Parameters[2];
+    short Viewcone = Parameters[3];
+
 	switch (InputObject->SubBehaviorClass)
 	{
 		case(SUBBEHAVIOR_DOCILE):
@@ -286,7 +307,7 @@ void ObjectBehaviorFlee(OKObject* InputObject)
 			}
 			for (int CurrentPlayer = 0; CurrentPlayer < GlobalIntA; CurrentPlayer++)
 			{
-				GlobalFloatD = ObjectSubBehaviorLookedAt(InputObject, CurrentPlayer, 90);
+				GlobalFloatD = ObjectSubBehaviorLookedAt(InputObject, CurrentPlayer, Viewcone, Range);
 				if ((GlobalFloatD < 1) && (GlobalFloatD < InputObject->TargetDistance))
 				{
 
@@ -303,7 +324,7 @@ void ObjectBehaviorFlee(OKObject* InputObject)
 			}
 			if (InputObject->SubBehaviorClass == SUBBEHAVIOR_DOCILE)
 			{
-				ObjectBehaviorWander(InputObject);
+				ObjectSubBehaviorWander(InputObject, Range, Speed);
 			}
 			break;
 		}
@@ -326,21 +347,22 @@ void ObjectBehaviorFlee(OKObject* InputObject)
 		case(SUBBEHAVIOR_CHASE):
 		{
 			
-			GlobalFloatD = ObjectSubBehaviorLookTarget(InputObject, GlobalPlayer[InputObject->PlayerTarget].position);
+			GlobalFloatD = ObjectSubBehaviorLookTarget(InputObject, GlobalPlayer[InputObject->PlayerTarget].position, Sight, Viewcone);
 			if (GlobalFloatD < 2)
 			{
 				GlobalShortC = ObjectSubBehaviorTurnTarget(InputObject->ObjectData.position, InputObject->ObjectData.angle[1], GlobalPlayer[InputObject->PlayerTarget].position, 4);
 				InputObject->ObjectData.angle[1] += (DEG1 * -4 * GlobalShortC);
 				GlobalFloatA = (InputObject->ObjectData.velocity[0] * InputObject->ObjectData.velocity[0]) + (InputObject->ObjectData.velocity[2] * InputObject->ObjectData.velocity[2]);
-				if (GlobalFloatA < (2 * 2))
+                GlobalFloatB = (Speed * 0.01f);
+				if (GlobalFloatA < (Speed * Speed))
 				{
 					if (GlobalFloatA == 0)
 					{
-						GlobalFloatA = 0.25;
+						GlobalFloatA = 0.25f;
 					}
 					else
 					{
-						GlobalFloatA = Sqrtf(GlobalFloatA) + 0.25;
+						GlobalFloatA = Sqrtf(GlobalFloatA) + 0.25f;
 					}
 				}
 				else
@@ -351,12 +373,12 @@ void ObjectBehaviorFlee(OKObject* InputObject)
 
 				if (GlobalShortC != 0)
 				{
-					GlobalFloatB = GlobalFloatA / 1.25;
-					ObjectBehaviorWalk(InputObject,GlobalFloatB);
+					GlobalFloatB = GlobalFloatA / 1.25f;
+					ObjectSubBehaviorWalk(InputObject,GlobalFloatB);
 				}
 				else
 				{
-					ObjectBehaviorWalk(InputObject,GlobalFloatA);
+					ObjectSubBehaviorWalk(InputObject,GlobalFloatA);
 				}
 				
 
@@ -376,6 +398,21 @@ void ObjectBehaviorFlee(OKObject* InputObject)
 void ObjectBehaviorSearch(OKObject* InputObject)
 {	
 	OKObjectType *ThisType = (OKObjectType*)&(OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex]);
+    short* Parameters = (short*)GetRealAddress(ThisType->ObjectBehavior);
+    /*
+        
+        <Parameter_0_Name>Range</Parameter_0_Name>
+        <Parameter_1_Name>Speed</Parameter_1_Name>
+        <Parameter_2_Name>Sight</Parameter_2_Name>
+        <Parameter_3_Name>Viewcone</Parameter_3_Name>
+
+    */
+
+    short Range = Parameters[0];
+    short Speed = Parameters[1];
+    short Sight = Parameters[2];
+    short Viewcone = Parameters[3];
+
 	switch (InputObject->SubBehaviorClass)
 	{
 		case(SUBBEHAVIOR_DOCILE):
@@ -391,7 +428,7 @@ void ObjectBehaviorSearch(OKObject* InputObject)
 			}
 			for (int CurrentPlayer = 0; CurrentPlayer < GlobalIntA; CurrentPlayer++)
 			{
-				GlobalFloatD = ObjectSubBehaviorLookTarget(InputObject, GlobalPlayer[CurrentPlayer].position);					
+				GlobalFloatD = ObjectSubBehaviorLookTarget(InputObject, GlobalPlayer[CurrentPlayer].position, Sight, Viewcone);					
 				if ((GlobalFloatD < 1) && (GlobalFloatD < InputObject->TargetDistance))
 				{
 
@@ -408,7 +445,7 @@ void ObjectBehaviorSearch(OKObject* InputObject)
 			}
 			if (InputObject->SubBehaviorClass == SUBBEHAVIOR_DOCILE)
 			{
-				ObjectBehaviorWander(InputObject);
+				ObjectSubBehaviorWander(InputObject, Range, Speed);
 			}
 			break;
 		}
@@ -431,13 +468,13 @@ void ObjectBehaviorSearch(OKObject* InputObject)
 		case(SUBBEHAVIOR_CHASE):
 		{
 			
-			GlobalFloatD = ObjectSubBehaviorLookTarget(InputObject, GlobalPlayer[InputObject->PlayerTarget].position);
+			GlobalFloatD = ObjectSubBehaviorLookTarget(InputObject, GlobalPlayer[InputObject->PlayerTarget].position, Sight, Viewcone);
 			if (GlobalFloatD < 2)
 			{
 				GlobalShortC = ObjectSubBehaviorTurnTarget(InputObject->ObjectData.position, InputObject->ObjectData.angle[1], GlobalPlayer[InputObject->PlayerTarget].position, 4);
 				InputObject->ObjectData.angle[1] += (DEG1 * 4 * GlobalShortC);
 				GlobalFloatA = (InputObject->ObjectData.velocity[0] * InputObject->ObjectData.velocity[0]) + (InputObject->ObjectData.velocity[2] * InputObject->ObjectData.velocity[2]);
-				GlobalFloatB = (ThisType->MaxSpeed / 100.0f);
+				GlobalFloatB = (Speed * 0.01f);
 
 				//get speed from max speed and not just the value 2.0 wtf was that
 				if (GlobalFloatA < (GlobalFloatB * GlobalFloatB))
@@ -459,12 +496,12 @@ void ObjectBehaviorSearch(OKObject* InputObject)
 
 				if (GlobalShortC != 0)
 				{
-					ObjectBehaviorWalk(InputObject,GlobalFloatA * 0.75f);
+					ObjectSubBehaviorWalk(InputObject,GlobalFloatA * 0.75f);
 					//slow on turns
 				}
 				else
 				{
-					ObjectBehaviorWalk(InputObject,GlobalFloatA);
+					ObjectSubBehaviorWalk(InputObject,GlobalFloatA);
 				}
 				
 
@@ -515,7 +552,14 @@ void ObjectBehaviorFollowPath(OKObject* InputObject)
 {
 	uint* PathOffsets = (uint*)&pathOffset; 
 	OKObjectType *ThisType = (OKObjectType*)&(OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex]);
-	Marker* PathData = (Marker*)(GetRealAddress(PathOffsets[ThisType->Range]));
+
+    short* Parameters = (short*)GetRealAddress(ThisType->ObjectBehavior);
+    /*
+        <Parameter_0_Name>Path Index</Parameter_0_Name>
+        <Parameter_1_Name>Speed</Parameter_1_Name>
+    */
+
+	Marker* PathData = (Marker*)(GetRealAddress(PathOffsets[Parameters[0]]));
 	short ThisPoint = InputObject->PathTarget;
 	short NextPoint = ThisPoint + 1;
 
@@ -610,7 +654,7 @@ void ObjectBehaviorFollowPath(OKObject* InputObject)
 		{
 
 			ChaseDir(&InputObject->ObjectData.angle[1],(-1 * MakeDirection(InputObject->ObjectData.position[0],InputObject->ObjectData.position[2],objectPosition[0],objectPosition[2])), (DEG1 * 5));
-			ObjectBehaviorWalk(InputObject, (float)ThisType->MaxSpeed / 100);
+			ObjectSubBehaviorWalk(InputObject, (float)(Parameters[1] * 0.01f));
 
 			if (TestCollideSphere(InputObject->ObjectData.position,25,objectPosition, 25))
 			{
@@ -648,67 +692,6 @@ void ObjectBehaviorFollowPath(OKObject* InputObject)
 		
 	}
 	
-}
-
-void ObjectBehaviorWaterBob(OKObject* InputObject)
-{
-	OKObjectType *ThisType = (OKObjectType*)&(OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex]);
-	OKObjectList *ThisList = (OKObjectList*)&(OverKartRAMHeader.ObjectList[InputObject->ListIndex]);
-
-	InputObject->ObjectData.velocity[0] = 0;
-	InputObject->ObjectData.velocity[2] = 0;
-
-	switch (InputObject->Status[1])
-	{
-		case 0:
-		{
-			if (InputObject->ObjectData.position[1] > ThisList->OriginPosition[1] + ThisType->Range)
-			{
-				InputObject->Status[1] = 1;
-			}
-			else
-			{
-				InputObject->ObjectData.velocity[1] = (float)(ThisType->MaxSpeed / 100);
-			}
-	
-
-			break;
-		}
-		case 1:
-		{
-			if (InputObject->ObjectData.velocity[1] <= (float)(ThisType->MaxSpeed / -100))
-			{
-				InputObject->Status[1] = 2;
-			}
-			else
-			{
-				InputObject->ObjectData.velocity[1] -= (float)(ThisType->MaxSpeed / 3000);
-			}
-		}
-		case 2:
-		{
-			if (InputObject->ObjectData.position[1] < ThisList->OriginPosition[1] - ThisType->Range)
-			{
-				InputObject->Status[1] = 3;
-			}
-			else
-			{
-				InputObject->ObjectData.velocity[1] = (float)(ThisType->MaxSpeed / 100);
-			}
-			break;
-		}
-		case 3:
-		{
-			if (InputObject->ObjectData.velocity[1] >= (float)(ThisType->MaxSpeed / 100))
-			{
-				InputObject->Status[1] = 0;
-			}
-			else
-			{
-				InputObject->ObjectData.velocity[1] += (float)(ThisType->MaxSpeed / 3000);
-			}
-		}
-	}
 }
 
 void ObjectBehaviorBounce(OKObject* InputObject)
@@ -816,11 +799,14 @@ void ObjectBehavior2Point(OKObject* InputObject)
 
 void Misbehave(OKObject* InputObject)
 {
+    OKObjectType *ThisType = (OKObjectType*)&(OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex]);
+    short* Parameters = (short*)GetRealAddress(ThisType->ObjectBehavior);
+
+
 	switch (OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].BehaviorClass)
 	{
 		case BEHAVIOR_STATIC:
 		{
-			
 			Vector FAngle = {(float)InputObject->AngularVelocity[0],(float)InputObject->AngularVelocity[1],(float)InputObject->AngularVelocity[2] };
 			MakeAlignVector(FAngle, OverKartRAMHeader.ObjectList[InputObject->ListIndex].OriginAngle[1]);
 			SVector SAngle = {(short)FAngle[0],(short)FAngle[1],(short)FAngle[2]};
@@ -834,14 +820,19 @@ void Misbehave(OKObject* InputObject)
 		}
 		case BEHAVIOR_WANDER:
 		{
-			
-			ObjectBehaviorWander(InputObject);
+			ObjectSubBehaviorWander(InputObject, Parameters[0], Parameters[1]);
 			break;
 		}
 		case BEHAVIOR_SEARCH:
 		{
 			
 			ObjectBehaviorSearch(InputObject);
+			break;
+		}
+		case BEHAVIOR_FLEE:
+		{
+			
+			ObjectBehaviorFlee(InputObject);
 			break;
 		}
 		case BEHAVIOR_BOUNCE:

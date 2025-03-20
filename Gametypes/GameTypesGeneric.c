@@ -121,6 +121,12 @@ void PlacePlayerSpawn(SVector Position, int PlayerID)
 
     
 
+     GlobalCamera[PlayerID]->lookat_pos[0] = 0;
+     GlobalCamera[PlayerID]->lookat_pos[1] = 0;
+     GlobalCamera[PlayerID]->lookat_pos[2] = 0;
+
+     
+
 
     GlobalPlayer[PlayerID].direction[1] = (short)(CalcDirection(GlobalPlayer[PlayerID].position, Origin) * -1);
     GlobalCamera[PlayerID]->camera_direction[1] = GlobalPlayer[PlayerID].direction[1];
