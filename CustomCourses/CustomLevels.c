@@ -117,11 +117,11 @@ void copyCourseTable(int copyMode)
 	if (copyMode == 0)
 	{
 		*sourceAddress = (long)&ok_CourseTable;
-		*targetAddress = (long)(&g_CupArray[0] - 4);
+		*targetAddress = (long)(&g_CupArray[0]);
 	}
 	else
 	{
-		*sourceAddress = (long)(&g_CupArray[0] - 4);
+		*sourceAddress = (long)(&g_CupArray[0]);
 		*targetAddress = (long)&ok_CourseTable;
 	}
 	runRAM();
@@ -668,7 +668,7 @@ void setPath()
 		CPUPaths[ThisPlayer].CurrentPath = -1;
 		CPUPaths[ThisPlayer].LastPath = -1;
 		CPUPaths[ThisPlayer].LastLap = 99;
-		
+
 	}
 }
 
