@@ -206,7 +206,7 @@ void AddGravityEdit(Player *car)
 			{
 				car->gravity = TestGravity;
 			}
-		}
+	}
 		if (car->jumpcount >= 40)
 		{
 			car->slip_flag &= ~IS_FEATHER_JUMPING;
@@ -547,6 +547,7 @@ void CheckMapBG_ZX_Hook(Player *car, Vector normal, Vector velocity, Vector g_ve
 
 void ExplorerSetJugemu(Player* Target)
 {
+	CheckJugemuMarker();
 	if ((SurfaceExplorerMode == true) && (Target->jugemu_flag == 0))
 	{
 		return;
@@ -560,6 +561,7 @@ void ExplorerSetJugemu(Player* Target)
 
 void ExplorerKWDisplayJugemu(int Player)
 {
+	CheckJugemuMarker();
 	if ((g_startingIndicator >= 3 && g_startingIndicator < 5) && (SurfaceExplorerMode == true) && (GlobalPlayer[Player].jugemu_flag == 0))
 	{
 		return;
@@ -572,6 +574,7 @@ void ExplorerKWDisplayJugemu(int Player)
 
 void ExplorerCallJugemu(Player* Target)
 {
+	CheckJugemuMarker();
 	if ((SurfaceExplorerMode == true) && (Target->jugemu_flag == 0))
 	{
 		return;
@@ -585,6 +588,7 @@ void ExplorerCallJugemu(Player* Target)
 
 void ExplorerHangJugemu(Player* Target, char Index)
 {
+	CheckJugemuMarker();
 	if ((SurfaceExplorerMode == true) && (Target->jugemu_flag == 0))
 	{
 		return;

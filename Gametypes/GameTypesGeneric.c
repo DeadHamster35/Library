@@ -57,6 +57,15 @@ void BalloonCheck(int PlayerStuct, int Neg1, float BalloonNumA, char BalloonNum,
 
 void ResetFlag(int ThisFlag)
 {
+     if (GameFlag[ThisFlag].PlayerHolding != -1)
+     {
+          Objectives[GameFlag[ThisFlag].PlayerHolding].FlagHeld = -1;
+          Objectives[GameFlag[ThisFlag].PlayerHolding].FlagTimer = 0;
+          ChangeMaxSpeed(GameFlag[ThisFlag].PlayerHolding, 60);
+     }
+     
+
+
      GameFlag[ThisFlag].Position[0] = (float)GameFlag[ThisFlag].Origin[0];
      GameFlag[ThisFlag].Position[1] = (float)GameFlag[ThisFlag].Origin[1];
      GameFlag[ThisFlag].Position[2] = (float)GameFlag[ThisFlag].Origin[2];
@@ -87,38 +96,51 @@ void ResetFlag(int ThisFlag)
 
 void PlacePlayerSpawn(SVector Position, int PlayerID)
 {
+    
+    SpawnPoint[PlayerID][0] = (float)Position[0];
+    SpawnPoint[PlayerID][1] = (float)Position[1] + 5.0f;
+    SpawnPoint[PlayerID][2] = (float)Position[2];
+    
+    GlobalPlayer[PlayerID].position[0] = (float)Position[0];
+    GlobalPlayer[PlayerID].position[1] = (float)Position[1] + 5.0f;
+    GlobalPlayer[PlayerID].position[2] = (float)Position[2];
+
+    GlobalPlayer[PlayerID].old_position[0] = (float)Position[0];
+    GlobalPlayer[PlayerID].old_position[1] = (float)Position[1] + 5.0f;
+    GlobalPlayer[PlayerID].old_position[2] = (float)Position[2];
+
+    GlobalPlayer[PlayerID].ground = (float)Position[1];
+
+    GlobalCamera[PlayerID]->camera_pos[0] = (float)Position[0];
+    GlobalCamera[PlayerID]->camera_pos[1] = (float)Position[1] + 5.0f;
+    GlobalCamera[PlayerID]->camera_pos[2] = (float)Position[2];
+
+    GlobalCamera[PlayerID]->lookat_pos[0] = 0;
+    GlobalCamera[PlayerID]->lookat_pos[1] = 0;
+    GlobalCamera[PlayerID]->lookat_pos[2] = 0;
+
+    
+
+     GlobalCamera[PlayerID]->lookat_pos[0] = 0;
+     GlobalCamera[PlayerID]->lookat_pos[1] = 0;
+     GlobalCamera[PlayerID]->lookat_pos[2] = 0;
+
      
-     SpawnPoint[PlayerID][0] = (float)Position[0];
-     SpawnPoint[PlayerID][1] = (float)Position[1] + 5.0f;
-     SpawnPoint[PlayerID][2] = (float)Position[2];
-     
-     GlobalPlayer[PlayerID].position[0] = (float)Position[0];
-     GlobalPlayer[PlayerID].position[1] = (float)Position[1] + 5.0f;
-     GlobalPlayer[PlayerID].position[2] = (float)Position[2];
-
-     GlobalPlayer[PlayerID].old_position[0] = (float)Position[0];
-     GlobalPlayer[PlayerID].old_position[1] = (float)Position[1] + 5.0f;
-     GlobalPlayer[PlayerID].old_position[2] = (float)Position[2];
-
-     GlobalPlayer[PlayerID].ground = (float)Position[1];
-
-     GlobalCamera[PlayerID]->camera_pos[0] = (float)Position[0];
-     GlobalCamera[PlayerID]->camera_pos[1] = (float)Position[1] + 5.0f;
-     GlobalCamera[PlayerID]->camera_pos[2] = (float)Position[2];
 
 
-     GlobalPlayer[PlayerID].direction[1] = (short)(CalcDirection(GlobalPlayer[PlayerID].position, Origin) * -1);
+    GlobalPlayer[PlayerID].direction[1] = (short)(CalcDirection(GlobalPlayer[PlayerID].position, Origin) * -1);
+    GlobalCamera[PlayerID]->camera_direction[1] = GlobalPlayer[PlayerID].direction[1];
+    GlobalCamera[PlayerID]->chase_direction = GlobalPlayer[PlayerID].direction[1];
+    CheckBump2
+    (    
+        (Bump*)&GlobalPlayer[PlayerID].bump, 
+        5.0, 
+        GlobalPlayer[PlayerID].position[0], GlobalPlayer[PlayerID].position[1], GlobalPlayer[PlayerID].position[2], 
+        GlobalPlayer[PlayerID].old_position[0], GlobalPlayer[PlayerID].old_position[1], GlobalPlayer[PlayerID].old_position[2] 
+    );
+    
 
-     CheckBump2
-     (    
-          (Bump*)&GlobalPlayer[PlayerID].bump, 
-          5.0, 
-          GlobalPlayer[PlayerID].position[0], GlobalPlayer[PlayerID].position[1], GlobalPlayer[PlayerID].position[2], 
-          GlobalPlayer[PlayerID].old_position[0], GlobalPlayer[PlayerID].old_position[1], GlobalPlayer[PlayerID].old_position[2] 
-     );
-     
-
-     ManualBump((Bump*)&GlobalPlayer[PlayerID].bump, GlobalPlayer[PlayerID].position);     
+    ManualBump((Bump*)&GlobalPlayer[PlayerID].bump, GlobalPlayer[PlayerID].position);     
 }
 
 void PlaceFlagSpawn(SVector Position, int FlagID)
@@ -226,7 +248,7 @@ void DrawGameFlags(Camera* LocalCamera)
 
           if (GameFlag[ThisFlag].Position[1] < g_waterHeight)
           {
-               ResetFlag(ThisFlag);
+               ResetFlag(ThisFlag);               
           }
             
           

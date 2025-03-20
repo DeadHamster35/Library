@@ -286,7 +286,7 @@ void CaptureBalls()
                                     {
                                             Objectives[ThisPlayer].FlagHeld = ThisFlag;
                                             GameFlag[ThisFlag].PlayerHolding = ThisPlayer;
-                                            ChangeMaxSpeed(ThisPlayer, -90);
+                                            ChangeMaxSpeed(ThisPlayer, -60);
                                     }
                                 }
                             }
@@ -313,7 +313,7 @@ void CaptureBalls()
                         {
                             Objectives[ThisPlayer].Score++;
                         }
-                        ChangeMaxSpeed(ThisPlayer, 90);
+                        
                         ResetFlag(Objectives[ThisPlayer].FlagHeld);
                         Objectives[ThisPlayer].FlagHeld = -1;
                 }
@@ -355,7 +355,7 @@ void ShootBall(int PlayerIndex)
 
         MakeAlignVector(GameFlag[GlobalIntA].Velocity,(GlobalPlayer[PlayerIndex].direction[1]));
         
-        ChangeMaxSpeed((char)PlayerIndex, 90);
+        ChangeMaxSpeed((char)PlayerIndex, 60);
 
         GameFlag[(int)Objectives[PlayerIndex].FlagHeld].PlayerHolding = -1;
         GameFlag[(int)Objectives[PlayerIndex].FlagHeld].IFrames = 30;

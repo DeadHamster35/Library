@@ -6,6 +6,30 @@
 
 //bool IceSoundPlayed[8];
 
+void SetLapIndex()
+{
+    short LapMax = 3;
+
+    if (HotSwapID > 0)
+    {
+        LapMax = OverKartHeader.LapCount;
+    }
+    if (LapMax > 99)
+    {
+        LapMax = 99; //fuck you
+    }
+
+
+    int Players = g_playerCount;
+    if (g_gameMode == GAMEMODE_GP)
+    {
+        Players = 8;
+    }
+    for (int ThisPlayer = 0; ThisPlayer < Players; ThisPlayer++)
+    {
+        *GlobalLap[ThisPlayer] = 2 - LapMax;
+    }
+}
 void CheckSplashRepl(char WaterType)
 {	
 	for (char playerID = 0; playerID < 8; playerID++)
@@ -388,13 +412,55 @@ void NopPlayEffectBGMCode() //Run at custom code init
 	CheckPlayStarBGMJAL = 0;
 }
 
+void CheckJugemuMarker()
+{
+    //this sucks.
+	//timing issue.
+	//duplicate loops
+    if (HotSwapID == 0)
+    {
+        return;
+    }
 
+	if (OverKartRAMHeader.EchoOffset != 0)
+	{
+		GlobalIntA = *(int*)OverKartRAMHeader.EchoOffset;
+		if (GlobalIntA != 0)
+		{
+			GlobalAddressA = OverKartRAMHeader.EchoOffset + 4;
+			OKPathStruct* PathValues = (OKPathStruct*)GlobalAddressA;	
+			for (int playerID = 0; playerID < 8; playerID++)					// Loop for each racer		
+			{
+				if (!(GlobalPlayer[(int)playerID].flag&EXISTS))					// Only run for existing racers
+				{
+					continue;
+				}
+				if (GlobalPlayer[0].jugemu_flag == 0)
+				{
+					continue;
+				}
+
+				for (int ThisValue = 0; ThisValue < GlobalIntA; ThisValue++)
+				{		
+					if (PathValues[ThisValue].Type == PATH_JUMP)
+					{	
+						if ((g_playerPathPointTable[(int)playerID] >= PathValues[ThisValue].PathStart) && (g_playerPathPointTable[(int)playerID] <= PathValues[ThisValue].PathStop))		// Path range check
+						{		
+							g_playerPathPointTable[playerID] = PathValues[ThisValue].PathStart;					
+						}
+					}
+				}
+			}
+	
+		}
+	}	
+}
 
 short LastAIPath = 0;
 void CheckPaths()
 {	
 	
-	Toggle3DSnow = 0; // set to 0 by default.
+	Toggle3DSnow = 1; // set to 0 by default.
 
 	if (OverKartRAMHeader.EchoOffset != 0)
 	{
@@ -441,14 +507,6 @@ void CheckPaths()
 							case (PATH_NOSIMPLE):
 							{							
 								g_noSimpleKartFlag[(int)playerID] = 1;
-								break;
-							}
-							case (PATH_JUMP):
-							{							
-								if((char)((GlobalPlayer[(int)playerID].jugemu_flag) != 0))
-								{
-									g_playerPathPointTable[playerID] = PathValues[ThisValue].PathStart;
-								}
 								break;
 							}
 							case (PATH_AIRCONTROL):
@@ -511,7 +569,10 @@ void CheckPaths()
 					CPUPaths[ThisPlayer].CurrentPath = GlobalShortA;
 					
 				}
-
+				if (CPUPaths[ThisPlayer].CurrentPath == -1)
+				{
+					CPUPaths[ThisPlayer].CurrentPath = 0;
+				}
 				CurrentPathID[ThisPlayer] = CPUPaths[ThisPlayer].CurrentPath;
 			}
 			else
@@ -528,15 +589,74 @@ void CheckPaths()
 				short SurfaceID = CheckArea(GlobalPlayer[ThisPlayer].bump.last_zx);
 				for (int ThisPath = 0; ThisPath < 4; ThisPath++)
 				{
+                    if (ThisPath > OverKartHeader.PathCount)
+                    {
+                        break;
+                    }
 					if (OverKartHeader.PathTrigger[ThisPath] == SurfaceID)
 					{
 						CurrentPathID[ThisPlayer] = (ushort)ThisPath;
+                        *(uint*)(0x80650000) = ThisPath;
 					}
 				}
 			}
 		}
 	}
 
+}
+
+
+short CalcOGAAreaSubBP_Wrapper(float mx, float my, float mz, ushort t_group, int *b_num_ptr)
+{
+    if (HotSwapID == 0)
+    {
+        return CalcOGAAreaSubBP(mx, my, mz, t_group, b_num_ptr);
+    }
+
+    short       ClosestMarker = -1, BestMarker = -1;
+    float       BestDistance = 9999999.0f;
+    float       ClosestDistance = 9999999.0f;
+    short       ClosestPath = 0, BestPath = 0;
+    float       Work = 0.0f;
+
+    short LocalPathCount = OverKartHeader.PathCount;        
+    short* PathLengths = (short*)&PathLengthTable[0];
+    
+
+    for (int ThisPath = 0; ThisPath < LocalPathCount; ThisPath++)
+    {
+        Marker* Point = (Marker*)GetRealAddress(PathTable[0][ThisPath]);
+        for (int ThisMark = 0; ThisMark < PathLengths[ThisPath]; ThisMark++)
+        {
+            Work = 
+            (
+                (mx - Point[ThisMark].Position[0]) * (mx - Point[ThisMark].Position[0]) + 
+                (my - Point[ThisMark].Position[1]) * (my - Point[ThisMark].Position[1]) + 
+                (mz - Point[ThisMark].Position[2]) * (mz - Point[ThisMark].Position[2])
+            );
+            if (Work < ClosestDistance)
+            {
+                ClosestDistance = Work;
+                ClosestPath = ThisPath;
+                ClosestMarker = ThisMark;
+            }
+            
+            if ((Point[ThisMark].Group == t_group) && (Work < BestDistance))
+            {
+                BestDistance = Work;
+                BestPath = ThisPath;
+                BestMarker = ThisMark;
+            }
+        }
+    }
+
+    if (BestMarker == -1)
+    {
+        *b_num_ptr = ClosestPath;
+        return ClosestMarker;
+    }
+    *b_num_ptr = BestPath;
+    return BestMarker;
 }
 
 
@@ -608,7 +728,7 @@ void SetBalloonTeams()
 
 void LakituSpawnBypass(Player *Kart, char PlayerID, float *SpawnVector, float *FacingVector)
 {
-	if ((HotSwapID == 0) || (g_gameMode != GAMEMODE_BATTLE))
+	if (g_gameMode != GAMEMODE_BATTLE)
 	{
 		GetLakituSpawnPoint(Kart, PlayerID, SpawnVector, FacingVector);
 	}

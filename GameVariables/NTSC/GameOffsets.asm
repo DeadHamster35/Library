@@ -57,6 +57,8 @@
 .definelabel CalcBumpVelocity, 0x802AC098
 .definelabel ScrollMapImage, 0x802AF7B4
 .definelabel MakeWaterVertex, 0x802AF8BC
+.definelabel g_ClearCFBFlag, 0x800DC5B0
+.definelabel g_ClearFramebuffer, 0x802A41D4
 .definelabel ramCopy, 0x800D7FE0
 .definelabel MemCpyN64, 0x800D7FE0
 .definelabel CheckArea, 0x802ABD40
@@ -244,6 +246,7 @@
 .definelabel GraphPtrOffset, 0x80150298
 .definelabel KWLookCamera, 0x800418AC
 .definelabel KWLookCameraPitch, 0x800418E8
+.definelabel KWRectangle, 0x8004B7DC
 .definelabel KWTexture2DRGBA, 0x800463B0
 .definelabel KWTexture2DRGBA32PT, 0x80046720
 .definelabel KWTexture2DRGBA32BL, 0x80046794
@@ -254,10 +257,13 @@
 .definelabel KWTexture2DCI8AAXLUPT, 0x80047CB4
 .definelabel KWTexture3DRGBA32AAZBBL, 0x80046A68
 .definelabel KWSprite, 0x8004C364
+.definelabel KWSpriteXLU, 0x8004C9D8
 .definelabel KWSpriteScale, 0x8004CA58
 .definelabel KWSpriteDiv, 0x8004C91C
 .definelabel KWSpriteTile32B, 0x8004C6FC
 .definelabel KWSprite8x8, 0x8004CAD0
+.definelabel KWDisplayTotalTime, 0x8004FA78
+.definelabel KWPrintLapTimeXLU, 0x8004F950
 .definelabel DrawLineHorizontal, 0x8004C024
 .definelabel DrawLineVertical, 0x8004C148
 .definelabel KWLoadTextureBlockI4b, 0x80044DA0
@@ -358,6 +364,8 @@
 .definelabel SlipCheck, 0x8002FCA8
 .definelabel AddGravity, 0x8002AB70
 .definelabel ProStickAngle, 0x80033AE0
+
+.definelabel KWFlash8, 0x80165608
 
 .definelabel KW16GFTimer, 0x80165590
 .definelabel KW8GFTimer, 0x80165594
@@ -470,6 +478,8 @@
 .definelabel g_resetToggle, 0x800DC50C
 .definelabel g_startingIndicator, 0x800DC510
 .definelabel g_DebugSection, 0x800DC514
+.definelabel g_DisplayFlag, 0x800DC518
+.definelabel g_DemoFlag, 0x800DC51C
 .definelabel g_DebugMode, 0x800DC520
 .definelabel g_DispTimeFlag, 0x800DC660
 .definelabel g_SequenceMode, 0x800DC50C
@@ -494,6 +504,7 @@
 .definelabel PathTableB, 0x800DC780
 
 .definelabel PathLengthTable, 0x800DD9D0
+.definelabel PathLengthTableB, 0x800DDB10
 
 .definelabel KartVtx, 0x800DDBB4
 
@@ -807,6 +818,8 @@
 .definelabel g_hudToggleFlag, 0x80165808
 .definelabel g_hudToggleFlagP2, 0x80165832
 .definelabel g_hudMapToggle, 0x80165800
+.definelabel RadarOn, 0x80165800
+.definelabel g_KWDBDispSW, 0x801657B0
 .definelabel g_hudMapToggle2, 0x801657E8 //shows with speed
 .definelabel g_hudSpeedToggle, 0x80165810
 .definelabel g_hudSpeedToggle2, 0x801657E6 //shows with map
@@ -815,7 +828,10 @@
 //hud all players
 .definelabel g_hudToggle, 0x800DC5B9 
 .definelabel g_mapPlayers, 0x8018D15B
+.definelabel g_KWScreenEnable, 0x8018D188
 .definelabel g_blueLineRankToggle, 0x801657F0
+.definelabel g_KWLapSW, 0x801657F8
+.definelabel g_KWDemoSW, 0x801657D8
 
 //hud p1 only
 .definelabel g_hudCharpicRankToggle, 0x8018D2BF
@@ -831,6 +847,8 @@
 
 .definelabel asm_DisableEngineSound, 0x800E9F74
 .definelabel asm_DisableHUD, 0x80059D08 //0C016A67
+.definelabel KWDisplayAfter4PSub, 0x80059560
+.definelabel KWDisplay2D2PLeftAfter, 0x80059360
 
 .definelabel KWVideoFramesYori, 0x80059AC8
 .definelabel g_GhostHUDID, 0x8018DAAA
@@ -1045,9 +1063,10 @@
 
 //sky & clouds
 .definelabel g_cloudsToggle, 0x801657C8 //00 on 01 off
+.definelabel g_WinKart, 0x800DC5EB
 .definelabel g_skyToggle, 0x800DC5BC
 .definelabel gBackgroundFlag, 0x800DC5B4 
-.definelabel g_daytimeToggle, 0x800DC518
+
 
 .definelabel g_BombTable, 0x800DCC08
 
@@ -1070,8 +1089,10 @@
 .definelabel g_skySnowSpawnCenterOffset, 0x80077FE8
 .definelabel g_skySnowHitGoal, 0x800780A0
 
+.definelabel g_3DSnowSpawnDistanceMax, 0x80078334
+.definelabel g_3DSnowSpawnDistanceMin, 0x80078348
 .definelabel g_3DSnowSpawnHeight, 0x8007833C
-.definelabel g_3DSnowSpawnDistance, 0x80078348
+
 .definelabel g_3DSnowSpawnCone, 0x8007830C
 .definelabel g_3DSnowSpawnRadius, 0x80078354
 .definelabel g_3DSnowSwayVelocity, 0x80078430
@@ -1157,6 +1178,7 @@
 //GP points
 .definelabel g_playerGPpoints, 0x8018D9C8
 .definelabel EtcEnemyDrive, 0x800097E0
+.definelabel CalcOGAAreaSubBP, 0x8000C0BC
 .definelabel InitCenterLine, 0x8000F2DC
 .definelabel OSMemSize, 0x80000318
 
@@ -1236,8 +1258,12 @@
 .definelabel KWChaseSVal, 0x80041288
 .definelabel KWChaseIVal, 0x8004132C
 .definelabel KWChaseFVal, 0x800413B8
+.definelabel KW2DMatrixInit, 0x80041EF4
 .definelabel KWSet2Color, 0x8004B1C8
+.definelabel SprDrawSubCI8, 0x8004E240
 .definelabel KWDisplayRank, 0x8004E800
+.definelabel KWDisplayItembox, 0x8004E638
+.definelabel KWDisplayItemboxs, 0x8004E6C4
 .definelabel KWDisplayFireParticleSub, 0x8005477C
 .definelabel FireParticleAllocArray, 0x8018C870
 .definelabel FireParticleCounter, 0x80183E6C
@@ -1253,6 +1279,7 @@
 .definelabel RGBAFallingLeaf, 0x0D028DD8
 .definelabel RGBAQuestionMark, 0x0D001EE8
 .definelabel GoToGameSelect, 0x80290360
+.definelabel DisplayMap2, 0x8029122C
 .definelabel SearchList, 0x802AF588
 .definelabel SearchList2, 0x802AF5AC
 .definelabel SearchListFile, 0x80290CAC
@@ -1305,3 +1332,4 @@
 .definelabel EnemyTirePosition, 0x8002A194
 .definelabel SetSlipAngle, 0x8002AE38
 .definelabel NaPlyLandStart, 0x800CADD0
+.definelabel NaSeqFadeout, 0x800CA330

@@ -12,6 +12,11 @@ It needs to be placed in static ROM with no offset to the address
 .definelabel ExpansionCheckAddress,          0x80001264
 
 
+.align 0x10
+IceKageROM:
+.import "../Library/data/newice.bin"
+.align 0x10
+IceKageEnd:
 
 
 .align 0x10

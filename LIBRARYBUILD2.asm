@@ -74,8 +74,11 @@ AccelerationTable:
 
 
 
-
-
+//lap counters
+.align 0x100
+LapCounterTextures:
+.import "../library/data/LapCounters.RAW"
+.align 0x10
 
 
 .align 0x10
@@ -131,8 +134,6 @@ SH $zero, 0x2DA0($at)
 CustomCodeTitleScreen:
 ADDIU sp, sp, -0x20
 SW ra, 0x001C (sp)
-JAL title2
-NOP
 JAL	0x80095574 //run what we overwrote with our hook
 NOP
 JAL titleMenu

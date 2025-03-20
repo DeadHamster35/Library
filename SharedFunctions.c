@@ -51,9 +51,26 @@ void DrawPerScreenDefault(Camera* LocalCamera)
 
 void DisplayFlagGateCheck(Camera* LocalCamera)
 {
+	
 	if ( ((HotSwapID > 0) && (OverKartHeader.GoalBannerToggle != 0)) || (HotSwapID == 0) )
 	{	
 		DisplayFlagGate(LocalCamera);
+	}
+
+	if (HotSwapID > 0)
+	{
+		if (OverKartHeader.FogStart > 0)
+		{
+			g_fogToggleBanshee = 1;
+			g_fogR = (uint)OverKartHeader.FogRGBA[0];
+			g_fogG = (uint)OverKartHeader.FogRGBA[1];
+			g_fogB = (uint)OverKartHeader.FogRGBA[2];
+			gDPSetCycleType(GraphPtrOffset++, G_CYC_2CYCLE);
+			gDPSetFogColor(GraphPtrOffset++, (uint)OverKartHeader.FogRGBA[0], (uint)OverKartHeader.FogRGBA[1], (uint)OverKartHeader.FogRGBA[2], (uint)OverKartHeader.FogRGBA[3]);
+			gSPFogPosition(GraphPtrOffset++, OverKartHeader.FogStart, OverKartHeader.FogStop);
+			gDPSetRenderMode(GraphPtrOffset++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_SURF2);
+			gSPSetGeometryMode(GraphPtrOffset++, (G_FOG | G_SHADING_SMOOTH));
+		}
 	}
 }
 void allRunDefault()
@@ -498,35 +515,32 @@ ushort CalcVerticalDirection(Vector Origin,Vector Target)
 	return ((Atan2t(dist,uy)));
 }
 
-
 void MakeAlignVectorX(Vector Input, short RotX)
 {
-	float sine  = sinT(RotX);
-   	float cosine = cosT(RotX);
-	float v0=Input[0];
-	float v1=Input[1];
-	float v2=Input[2];
-	
- 	Input[0]=v0;
-	Input[1]=sine*v2+cosine*v1;
-	Input[2]=cosine*v2+sine*v1;
+    float sine  = sinT(RotX);
+       float cosine = cosT(RotX);
+    float v0=Input[0];
+    float v1=Input[1];
+    float v2=Input[2];
+    
+     Input[0]=v0;
+    Input[1]=sine*v2+cosine*v1;
+    Input[2]=cosine*v2-sine*v1;
 }
 
 
 void MakeAlignVectorZ(Vector Input, short RotZ)
 {
-	float sine  = sinT(RotZ);
-   	float cosine = cosT(RotZ);
-	float v0=Input[0];
-	float v1=Input[1];
-	float v2=Input[2];
-	
- 	Input[0]=cosine*v0+sine*v1;
-	Input[1]=sine*v0+cosine*v1;
-	Input[2]=v2;
+    float sine  = sinT(RotZ);
+       float cosine = cosT(RotZ);
+    float v0=Input[0];
+    float v1=Input[1];
+    float v2=Input[2];
+    
+     Input[0]=cosine*v0+sine*v1;
+    Input[1]=-sine*v0+cosine*v1;
+    Input[2]=v2;
 }
-
-
 
 void printFloat(int X, int Y, float Value)
 {

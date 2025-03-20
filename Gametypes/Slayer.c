@@ -4,7 +4,7 @@
 
 void SlayerInit()
 {
-    
+    SVector LocalPosition;
     if (HotSwapID > 0)
     {
         CustomObjectivePoints = (BattleObjectivePoint*)(GetRealAddress(0x06000210));
@@ -36,6 +36,16 @@ void SlayerInit()
             }
         }
         
+    }
+    else
+    {
+        for (int ThisPlayer = 0; ThisPlayer < g_playerCount; ThisPlayer++)
+        {
+            LocalPosition[0] = (short)GlobalPlayer[ThisPlayer].position[0];
+            LocalPosition[1] = (short)GlobalPlayer[ThisPlayer].position[1];
+            LocalPosition[2] = (short)GlobalPlayer[ThisPlayer].position[2];
+            PlacePlayerSpawn(LocalPosition, ThisPlayer);
+        }        
     }
 
 
