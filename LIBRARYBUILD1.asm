@@ -731,10 +731,12 @@ JAL KWDisplay4P_3
 .org 0x059B30
 JAL KWDisplay4P_4
 
-//Disable the LapCounter (LAP 1/3)
-.org 0x04F38C
-jr RA
+
+.org 0x059BEC
 NOP
+.org 0x05A0D0
+NOP
+
 
 .org 0x059BF4
 JAL Zanzou2

@@ -1466,7 +1466,7 @@ void Zanzou2(int player)
     
     gDPPipeSync(GraphPtrOffset++);
     gDPSetCycleType(GraphPtrOffset++, G_CYC_1CYCLE);
-    //gSPClearGeometryMode(GraphPtrOffset++,G_ZBUFFER);
+    gSPClearGeometryMode(GraphPtrOffset++,G_ZBUFFER);
 
     gSPSetGeometryMode(GraphPtrOffset++,G_SHADE | G_SHADING_SMOOTH);
     gDPSetPrimColor(GraphPtrOffset++, 0, 0, 255, 255, 255, 255);
@@ -1547,7 +1547,7 @@ void KWDisplayUDLapWrapper(int ThisPlayer)
     
     
     
-
+    
     if (g_KWDBDispSW != 0)
     {
         KWDisplayItemBox(ThisPlayer);
@@ -1565,9 +1565,11 @@ void KWDisplayUDLapWrapper(int ThisPlayer)
     }
 
 
-
+    KWDisplayItemBox(ThisPlayer);
     KWDisplayTotalTime(ThisPlayer);
 
+    
+    KWDisplayInit();
     short LapMax = 3;
     if (HotSwapID > 0)
     {
@@ -1605,8 +1607,8 @@ void KWDisplayUDLapWrapper(int ThisPlayer)
         KWRectangle(LocalLapX,LocalLapY,16,16,0,0,1);
     }
 
-    KWDisplayItemBox(ThisPlayer);
-
+    
+    gDPSetRenderMode(GraphPtrOffset++,  G_RM_OPA_SURF, G_RM_OPA_SURF2);
 }
 
 void KWDisplay4LapWrapper(int ThisPlayer)
@@ -1632,6 +1634,9 @@ void KWDisplay4LapWrapper(int ThisPlayer)
         return;
     }
 
+    KWDisplayItemBoxS(ThisPlayer);
+
+    KWDisplayInit();
     int LocalLapX, LocalLapY;
     short LapMax = 3;
     if (HotSwapID > 0)
@@ -1683,7 +1688,8 @@ void KWDisplay4LapWrapper(int ThisPlayer)
             32,32,32,32
         );
     }
-    KWDisplayItemBoxS(ThisPlayer);
+    
+    gDPSetRenderMode(GraphPtrOffset++,  G_RM_OPA_SURF, G_RM_OPA_SURF2);
 }
      
 void KWDisplayLRLapWrapper(int ThisPlayer)
@@ -1698,7 +1704,9 @@ void KWDisplayLRLapWrapper(int ThisPlayer)
         return;
     }
 
+    KWDisplayItemBox(ThisPlayer);
 
+    KWDisplayInit();
     int LocalLapX, LocalLapY;
     short LapMax = 3;
     if (HotSwapID > 0)
@@ -1735,19 +1743,19 @@ void KWDisplayLRLapWrapper(int ThisPlayer)
         KWRectangle(LocalLapX+21,LocalLapY,8,8,0,(8*10),1);
         KWRectangle(LocalLapX+29,LocalLapY,16,8,0,(8*LapMax),1);
     }
-    
-    KWDisplayItemBox(ThisPlayer);
+    gDPSetRenderMode(GraphPtrOffset++,  G_RM_OPA_SURF, G_RM_OPA_SURF2);
 
 }
      
 void KWDisplayInit()
 {
     gDPPipeSync(GraphPtrOffset++);
+    
     gDPSetCycleType(GraphPtrOffset++, G_CYC_1CYCLE);
+    
 
-    gSPClearGeometryMode(GraphPtrOffset++,G_ZBUFFER);
-
-    gSPSetGeometryMode(GraphPtrOffset++,G_SHADE | G_SHADING_SMOOTH);
+    gSPClearGeometryMode(GraphPtrOffset++, G_ZBUFFER);
+    gSPSetGeometryMode(GraphPtrOffset++, G_SHADE | G_SHADING_SMOOTH);
     
     gDPSetPrimColor(GraphPtrOffset++, 0, 0, 255, 255, 255, 255);
     gDPSetCombineLERP(GraphPtrOffset++,0, 0, 0, TEXEL0,
@@ -1760,7 +1768,9 @@ void KWDisplayInit()
     gDPSetTextureLOD(GraphPtrOffset++,G_TL_TILE);
     gDPSetTextureDetail(GraphPtrOffset++,G_TD_CLAMP);
     gDPSetTextureLUT(GraphPtrOffset++,G_TT_NONE);
-    gDPSetRenderMode(GraphPtrOffset++,  G_RM_AA_XLU_SURF, G_RM_AA_XLU_SURF2);
+    gDPSetRenderMode(GraphPtrOffset++,  G_RM_XLU_SURF, G_RM_XLU_SURF2);
+    gDPPipeSync(GraphPtrOffset++);
+    
 
     gDPSetTextureLUT(GraphPtrOffset++, G_TT_RGBA16);
     gSPTexture(GraphPtrOffset++, 65535, 65535, 0, 0, 1);
@@ -1769,45 +1779,37 @@ void KWDisplayInit()
 
 void KWDisplay2P_1LR()
 {
-    KWDisplayInit();
     KWDisplayLRLapWrapper(0);
 }
 void KWDisplay2P_2LR()
 {
-    KWDisplayInit();
     KWDisplayLRLapWrapper(1);
 }
 
 
 void KWDisplay4P_1()
 {
-    KWDisplayInit(); 
     KWDisplay4LapWrapper(0);
 }
 void KWDisplay4P_2()
 {
-    KWDisplayInit();
     KWDisplay4LapWrapper(1);
 }
 void KWDisplay4P_3()
 {
-    KWDisplayInit();
     KWDisplay4LapWrapper(2);
 }
 void KWDisplay4P_4()
 {
-    KWDisplayInit();
     KWDisplay4LapWrapper(3);
 }
 
 
 void KWDisplay2P_1UD()
 {
-    KWDisplayInit();
     KWDisplayUDLapWrapper(0);
 }
 void KWDisplay2P_2UD()
 {
-    KWDisplayInit();
     KWDisplayUDLapWrapper(1);
 }
