@@ -1224,6 +1224,7 @@
 .definelabel NaPlyLevelStop, 0x800C9018
 .definelabel NaSceneLevelStart, 0x800C9D80
 .definelabel NaSceneLevelStop, 0x800C9EF4
+.definelabel BattleSongID, 0x8028ED16
 
 
 .definelabel GUPerspective, 0x800CF330

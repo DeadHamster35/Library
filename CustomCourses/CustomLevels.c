@@ -369,8 +369,14 @@ void setSong()
 
 		if (OverKartHeader.MusicID < 50)
 		{
-			songID = (short)OverKartHeader.MusicID;
-
+			if (g_gameMode == GAMEMODE_BATTLE)
+			{
+				BattleSongID = (short)OverKartHeader.MusicID;
+			}
+			else
+			{
+				songID = (short)OverKartHeader.MusicID;
+			}
 			dataLength = 8;
 			*sourceAddress = (int)&ok_Sequence;
 			*targetAddress = (int)&g_MUSSequenceTable.pointer[3].address;
@@ -400,7 +406,7 @@ void setSong()
 	else
 	{
 		songID = 3;
-
+		BattleSongID = 5;
 		dataLength = 8;
 		*sourceAddress = (int)&ok_Sequence;
 		*targetAddress = (int)&g_MUSSequenceTable.pointer[3].address;
