@@ -700,102 +700,6 @@ void ObjectBehaviorBounce(OKObject* InputObject)
 }
 
 
-void ObjectBehavior2Point(OKObject* InputObject)
-{
-	OKObjectType *ThisType = (OKObjectType*)&(OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex]);
-	if (InputObject->Status[1] != 5)
-    {
-        //We need to set the initial direction and speed but only once!
-        InputObject->Status[1] = 5;
-        //Now this will never run again!
-        InputObject->Status[0] = ThisType->Sight;	// Move direction
-        InputObject->Counter[1] = ThisType->Range;	// Move Duration
-        InputObject->Counter[0] = ThisType->Viewcone;	// Delay before move   
-    }
-    
-	if (InputObject->Counter[0] > 0)
-	{
-		//Delay Timer
-		InputObject->Counter[0]--;
-		return;
-	}
-
-	//Action - 
-	switch (InputObject->Status[0])
-	{
-	case 0: // Positive X
-		InputObject->ObjectData.velocity[0] = (float)(ThisType->MaxSpeed / 100);
-		InputObject->ObjectData.velocity[1] = 0;
-		InputObject->ObjectData.velocity[2] = 0;		
-		break;
-	case 1: // Negative X
-		InputObject->ObjectData.velocity[0] = -1.0f * (float)(ThisType->MaxSpeed / 100);
-		InputObject->ObjectData.velocity[1] = 0;
-		InputObject->ObjectData.velocity[2] = 0;
-		break;
-	case 2: // Positive Z		
-		InputObject->ObjectData.velocity[0] = 0;
-		InputObject->ObjectData.velocity[1] = 0;
-		InputObject->ObjectData.velocity[2] = (float)(ThisType->MaxSpeed / 100);
-		break;
-	case 3: // Negative Z
-		InputObject->ObjectData.velocity[0] = 0;
-		InputObject->ObjectData.velocity[1] = 0;
-		InputObject->ObjectData.velocity[2] = -1.0f * (float)(ThisType->MaxSpeed / 100);
-		break;
-	case 4: // Positive Y
-		InputObject->ObjectData.velocity[0] = 0;		
-		InputObject->ObjectData.velocity[1] = (float)(ThisType->MaxSpeed / 100);
-		InputObject->ObjectData.velocity[2] = 0;
-		break;
-	case 5: // Negative Y
-		InputObject->ObjectData.velocity[0] = 0;
-		InputObject->ObjectData.velocity[1] = -1.0f * (float)(ThisType->MaxSpeed / 100); 
-		InputObject->ObjectData.velocity[2] = 0;
-		break;
-	default:
-		break;
-	}
-	if (InputObject->Counter[1] > 0)
-	{
-		//Duration Timer
-		InputObject->Counter[1]--;
-	}
-	else
-	{
-		InputObject->ObjectData.velocity[0] = 0;
-		InputObject->ObjectData.velocity[1] = 0;
-		InputObject->ObjectData.velocity[2] = 0;
-		//reset timer
-		InputObject->Counter[0] = ThisType->Viewcone;  
-		InputObject->Counter[1] = ThisType->Range; 
-		switch (InputObject->Status[0])
-		{
-			case 0: // Positive X
-			    InputObject->Status[0] = 1;
-			break;
-            case 1: // Negative X
-                InputObject->Status[0] = 0;
-                break;
-            case 2: // Positive Z
-                InputObject->Status[0] = 3;
-                break;
-            case 3: // Negative Z
-                InputObject->Status[0] = 2;
-                break;
-            case 4: // Positive Y
-                InputObject->Status[0] = 5;
-                break;
-            case 5: // Negative Y
-                InputObject->Status[0] = 4;
-			break;
-		default:
-			break;
-		}
-	}
-	ObjectBehaviorExist(InputObject); 
-}
-
 
 void Misbehave(OKObject* InputObject)
 {
@@ -845,11 +749,6 @@ void Misbehave(OKObject* InputObject)
 		{
 
 			ObjectBehaviorStrafe(InputObject);
-			break;
-		}
-        case 9:
-		{
-			ObjectBehavior2Point(InputObject);
 			break;
 		}
 	}
