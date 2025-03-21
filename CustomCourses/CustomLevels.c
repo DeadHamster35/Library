@@ -662,13 +662,11 @@ void setPath()
 
 	}
 
-
 	for (int ThisPlayer = 0; ThisPlayer < 8; ThisPlayer++)
 	{
-		CPUPaths[ThisPlayer].CurrentPath = -1;
+		CPUPaths[ThisPlayer].CurrentPath = 0;
 		CPUPaths[ThisPlayer].LastPath = -1;
 		CPUPaths[ThisPlayer].LastLap = 99;
-
 	}
 }
 
