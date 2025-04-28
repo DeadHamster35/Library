@@ -1793,6 +1793,7 @@ void KWDisplay4P_1()
 }
 void KWDisplay4P_2()
 {
+    KW2DMatrixInit();
     KWDisplay4LapWrapper(1);
 }
 void KWDisplay4P_3()
