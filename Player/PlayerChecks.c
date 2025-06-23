@@ -19,6 +19,11 @@ void SetLapIndex()
         LapMax = 3; 
         OverKartHeader.LapCount = 3;
     }
+    if (g_gameMode == GAMEMODE_TT)
+    {
+        LapMax = 3;
+        OverKartHeader.LapCount = 3;
+    }
 
     int Players = g_playerCount;
     if (g_gameMode == GAMEMODE_GP)

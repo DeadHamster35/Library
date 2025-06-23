@@ -352,7 +352,7 @@ void MasterEffect(int PlayerID, short EffectID)
 }
 
 
-void MasterStatus(int PlayerID, short StatusID)
+void  MasterStatus(int PlayerID, short StatusID)
 {
 	switch (StatusID)
 	{
