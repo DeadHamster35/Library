@@ -703,6 +703,19 @@ void PlaceIBoxes(long BoxOffset)
 		}
 		objectPosition[0] *= g_mirrorValue;
 
+        objectPosition[0] *= LevelScales[(int)(ScaleXMode)];
+        objectPosition[1] *= LevelScales[(int)(ScaleYMode)];
+        objectPosition[2] *= LevelScales[(int)(ScaleZMode)];
+
+        if (ZFLIP)
+        {
+            objectPosition[2] *= -1.0f;
+        }
+        if (YFLIP)
+        {
+            objectPosition[1] *= -1.0f;
+        }
+
 		GlobalIntA = addObjectBuffer(objectPosition, objectAngle, objectVelocity, IBOX);
 		g_SimpleObjectArray[GlobalIntA].fparam = CheckHight(objectPosition[0], objectPosition[1] + 10, objectPosition[2]);
 		g_SimpleObjectArray[GlobalIntA].velocity[0] = objectPosition[1];
@@ -1830,7 +1843,7 @@ void KT16ItemBox()
 {
 	if (HotSwapID == 0)
 	{
-		SetItemBoxObject(0x06000038);
+		PlaceIBoxes(0x06000038);
 	}
 }
 
@@ -1838,7 +1851,7 @@ void InitialMapObjectCode()
 {
 	if (HotSwapID == 0)
 	{
-		InitialMapObject();
+        InitialMapObject();
 	}
 	else
 	{
@@ -1849,43 +1862,35 @@ void InitialMapObjectCode()
 		SetPakkunObject(0x06000418);
 		g_StaticObjectCount = g_simpleObjectCount;
 	}
-	
 	for (int ThisObject = 0; ThisObject < g_StaticObjectCount; ThisObject++)
 	{
-		// if (g_SimpleObjectArray[ThisObject].flag == EXISTOBJ)
-		// {
-			g_SimpleObjectArray[ThisObject].position[0] = ((float)g_SimpleObjectArray[ThisObject].position[0] * LevelScales[(int)ScaleXMode]);
 
-					
-			if (YFLIP)
-			{
-				g_SimpleObjectArray[ThisObject].position[1] = -1 * ((float)g_SimpleObjectArray[ThisObject].position[1] * LevelScales[(int)ScaleYMode]);
-			}
-			else
-			{
-				g_SimpleObjectArray[ThisObject].position[1] = ((float)g_SimpleObjectArray[ThisObject].position[1] * LevelScales[(int)ScaleYMode]);
-			}
-			
-			if (ZFLIP)
-			{
-				g_SimpleObjectArray[ThisObject].position[2] = -1 * ((float)g_SimpleObjectArray[ThisObject].position[2] * LevelScales[(int)ScaleZMode]);
-			}
-			else
-			{
-				g_SimpleObjectArray[ThisObject].position[2] = ((float)g_SimpleObjectArray[ThisObject].position[2] * LevelScales[(int)ScaleZMode]);
-			}
-			
-			
-			if (g_SimpleObjectArray[ThisObject].category == IBOX)
-			{
-				//g_SimpleObjectArray[ThisObject].fparam = CheckHight(g_SimpleObjectArray[ThisObject].position[0], g_SimpleObjectArray[ThisObject].position[1] + 10, g_SimpleObjectArray[ThisObject].position[2]);
-				g_SimpleObjectArray[ThisObject].velocity[0] = g_SimpleObjectArray[ThisObject].position[1];
-				//g_SimpleObjectArray[ThisObject].position[1] = g_SimpleObjectArray[ThisObject].fparam - 20;
-			}
+        if (g_SimpleObjectArray[ThisObject].category == IBOX)
+        {
+            continue;
+        }
 
-			
-		// }
-		
+
+        g_SimpleObjectArray[ThisObject].position[0] = ((float)g_SimpleObjectArray[ThisObject].position[0] * LevelScales[(int)ScaleXMode]);
+        if (YFLIP)
+        {
+            g_SimpleObjectArray[ThisObject].position[1] = -1 * ((float)g_SimpleObjectArray[ThisObject].position[1] * LevelScales[(int)ScaleYMode]);
+        }
+        else
+        {
+            g_SimpleObjectArray[ThisObject].position[1] = ((float)g_SimpleObjectArray[ThisObject].position[1] * LevelScales[(int)ScaleYMode]);
+        }
+        if (ZFLIP)
+        {
+            g_SimpleObjectArray[ThisObject].position[2] = -1 * ((float)g_SimpleObjectArray[ThisObject].position[2] * LevelScales[(int)ScaleZMode]);
+        }
+        else
+        {
+            g_SimpleObjectArray[ThisObject].position[2] = ((float)g_SimpleObjectArray[ThisObject].position[2] * LevelScales[(int)ScaleZMode]);
+        }
+        
+        
+
 		
 
 		

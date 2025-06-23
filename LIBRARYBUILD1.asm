@@ -166,6 +166,51 @@ JAL MapStartup
 .org 0x0036FC
 JAL InitialMapCode
 
+.org 0x1071E8
+JAL PlaceIBoxes
+.org 0x10729C
+JAL PlaceIBoxes
+.org 0x1072C8
+JAL PlaceIBoxes
+.org 0x1072DC
+JAL PlaceIBoxes
+.org 0x1072FC
+JAL PlaceIBoxes
+.org 0x107360
+JAL PlaceIBoxes
+.org 0x10739C
+JAL PlaceIBoxes
+.org 0x1073C8
+JAL PlaceIBoxes
+.org 0x1073F4
+JAL PlaceIBoxes
+.org 0x107428
+JAL PlaceIBoxes
+.org 0x10743C
+JAL PlaceIBoxes
+.org 0x10745C
+JAL PlaceIBoxes
+.org 0x1075E8
+JAL PlaceIBoxes
+.org 0x1075FC
+JAL PlaceIBoxes
+.org 0x107610
+JAL PlaceIBoxes
+.org 0x1076E4
+JAL PlaceIBoxes
+.org 0x1076F8
+JAL PlaceIBoxes
+.org 0x10770C
+JAL PlaceIBoxes
+.org 0x107720
+JAL PlaceIBoxes
+.org 0x107744
+JAL PlaceIBoxes
+
+
+
+
+
 //InitialMapObject
 .org 0x107DCC
 JAL InitialMapObjectCode

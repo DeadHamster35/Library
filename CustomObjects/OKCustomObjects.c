@@ -323,9 +323,10 @@ void SetSimpleBump(int PlayerID, Vector SourcePosition, Vector SourceRadius, sho
 
 void OKObjectCollision(OKObject *InputObject)
 {	
-	OKCollisionSphere* HitBox = (OKCollisionSphere*)GetRealAddress(ObjectSegment | OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].ObjectHitbox);
-
-	float ObjectScale = ((float)(OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].ObjectScale) / 100.0f);
+    OKObjectType* TypeData = (OKObjectType*)&OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex];
+	OKCollisionSphere* HitBox = (OKCollisionSphere*)GetRealAddress(ObjectSegment | TypeData->ObjectHitbox);
+    
+	float ObjectScale = ((float)(TypeData->ObjectScale) / 100.0f);
 	float TempPosition[3] = {0,0,0};
 	float TempBoxSize[3] = {1,1,1};
 	short BoxAngles[3] = {0,0,0};
@@ -340,10 +341,8 @@ void OKObjectCollision(OKObject *InputObject)
 		GlobalShortA = g_playerCount;
 	}
 	
-	GlobalBoolA = false; //Use for tracking movements of all 4 players for sound
-	GlobalBoolD = false;
 
-	for (int ThisBox = 0; ThisBox < OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].CollisionCount; ThisBox++)
+	for (int ThisBox = 0; ThisBox < TypeData->CollisionCount; ThisBox++)
 	{
 
 		//INITIALIZE BOX
@@ -355,7 +354,8 @@ void OKObjectCollision(OKObject *InputObject)
 			TempPosition[2] = ((float)HitBox[ThisBox].Position[2] * GlobalFloatA);
 
 			MakeAlignVector(TempPosition, InputObject->ObjectData.angle[1]);
-			//Rotate the offset position of the hitbox by the object angle. 
+        
+        //Rotate the offset position of the hitbox by the object angle. 
 
 			TempBoxSize[0] = ((float)HitBox[ThisBox].Size[0] * GlobalFloatA);
 			TempBoxSize[1] = ((float)HitBox[ThisBox].Size[1] * GlobalFloatA);
@@ -365,18 +365,18 @@ void OKObjectCollision(OKObject *InputObject)
 			BoxAngles[1] = (HitBox[ThisBox].Angle[1] + InputObject->ObjectData.angle[1]);
 			BoxAngles[2] = (HitBox[ThisBox].Angle[2] + InputObject->ObjectData.angle[2]);
 
-			if (HitBox[ThisBox].OffsetFlag == 1)
-			{
-				
-				MakeAlignVector(TempPosition, InputObject->ObjectData.angle[1]);
-				//Rotate the offset position of the hitbox by the object angle. 
+            if (HitBox[ThisBox].OffsetFlag == 1)
+            {
+                
+                MakeAlignVector(TempPosition, InputObject->ObjectData.angle[1]);
+                //Rotate the offset position of the hitbox by the object angle. 
 
-			}
+            }
 
-			TempPosition[0] += InputObject->ObjectData.position[0];
+        //Add the corrected vector to the base position of the object
+            TempPosition[0] += InputObject->ObjectData.position[0];
 			TempPosition[1] += InputObject->ObjectData.position[1];
 			TempPosition[2] += InputObject->ObjectData.position[2];
-			//Add the corrected vector to the base position of the object
 
 		//END BOX INITIALIZATION
 
@@ -409,7 +409,7 @@ void OKObjectCollision(OKObject *InputObject)
 				)
 			) //Complex Boolean
 			{
-				GlobalBoolD = true;
+				
 				if(GlobalPlayer[CurrentPlayer].slip_flag & STAR)
 				{
 					OKObjectReaction(InputObject, (short) HitBox[ThisBox].DamagedResult, CurrentPlayer);
@@ -485,40 +485,6 @@ void OKObjectCollision(OKObject *InputObject)
 	
 	
 	
-
-
-	//Check Sound Effect
-	if (OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].SoundID != 0xFFFFFFFF)
-	{
-		if ((InputObject->SoundPlaying == 0) && (GlobalBoolA))
-		{
-			InputObject->SoundPlaying = 1;
-			if(OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].SoundType == 0 && g_playerCount == 1)
-			{
-				NaPlyLevelStart(0,OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].SoundID); //Play globally
-			}
-			else
-			{
-				NaSceneLevelStart(objectPosition,ZeroVector,OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].SoundID); //Play directionally
-			}
-		}
-		else
-		{
-			if ((InputObject->SoundPlaying == 1) && (!GlobalBoolA))
-			{
-				InputObject->SoundPlaying = 0;
-				if(OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].SoundType == 0 && g_playerCount == 1)
-				{
-					NaPlyLevelStop(0,OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].SoundID); //Play globally
-				}
-				else
-				{
-					NaSceneLevelStop(objectPosition,OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].SoundID); //Play directionally
-				}
-			}
-		}
-	}
-	
 }
 
 
@@ -557,8 +523,8 @@ void DrawOKObjectLoop(OKModel* ThisModel, int Player, int Type, int ForceRender)
 						objectAngle[2] = 0;
 
 						
-						float sinB = sinT(GlobalCamera[Player]->camera_direction[1]-(DEG1 * 90));
-						float cosB = cosT(GlobalCamera[Player]->camera_direction[1]-(DEG1 * 90));
+						float sinB = sinT(GlobalCamera[Player]->camera_direction[1]-(DEG1 * 180));
+						float cosB = cosT(GlobalCamera[Player]->camera_direction[1]-(DEG1 * 180));
 
 						AffineMatrix[0][0] =  cosB;
 						AffineMatrix[1][0] =  0.0f;
@@ -873,10 +839,8 @@ void DrawOKAnimationLoop(OKSkeleton* Skeleton, int CurrentPlayer, int Type, int 
 	for (int ThisChild = 0; ThisChild < Skeleton->ChildCount; ThisChild++)
 	{
 		GlobalAddressA += sizeof(OKSkeleton);
-		*(uint*)(0x80650000+GlobalUIntB * 4) = GlobalAddressA;
 		GlobalUIntB++;
 		OKSkeleton* Skeletor = (OKSkeleton*)GlobalAddressA;
-		*(uint*)(0x80650000+GlobalUIntB * 4) = Skeletor->ChildCount;
 		GlobalUIntB++;
 		DrawOKAnimationLoop((OKSkeleton*)GlobalAddressA, CurrentPlayer, Type, ForceRender);		
 	}
@@ -934,9 +898,7 @@ void DrawOKObjects(Camera* LocalCamera, int ForceRender)
 					
 				OKSkeleton* Skeleton = (OKSkeleton*)(GlobalIntA); 
 
-				*(uint*)(0x80650000+GlobalUIntB * 4) = GlobalAddressA;
 				GlobalUIntB++;
-				*(uint*)(0x80650000+GlobalUIntB * 4) = Skeleton->ChildCount;
 				GlobalUIntB++;
 
 
@@ -1016,6 +978,52 @@ void DrawOKObjects(Camera* LocalCamera, int ForceRender)
 	}
 }
 
+void CheckSoundObject(OKObject* InputObject)
+{
+    OKObjectType* TypeData = (OKObjectType*)&OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex];
+    //Check Sound Effect
+    if (TypeData->SoundID != 0xFFFFFFFF)
+    {
+            
+        GlobalBoolA = false;
+        for (int ThisPlayer = 0; ThisPlayer < g_playerCount; ThisPlayer++)
+        {
+            if (CalcDistance(GlobalPlayer[ThisPlayer].position, InputObject->ObjectData.position) < TypeData->SoundRadius)
+            {
+                GlobalBoolA = true;
+            }
+        }
+        
+        if ((InputObject->SoundPlaying == 0) && (GlobalBoolA))
+        {
+            InputObject->SoundPlaying = 1;
+            if(OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].SoundType == 0 || g_playerCount == 1)
+            {
+                NaPlyLevelStart(0,TypeData->SoundID); //Play globally
+            }
+            else
+            {
+                NaSceneLevelStart(objectPosition,ZeroVector,TypeData->SoundID); //Play directionally
+            }
+        }
+        else
+        {
+            if ((InputObject->SoundPlaying == 1) && (!GlobalBoolA))
+            {
+                InputObject->SoundPlaying = 0;
+                if(OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].SoundType == 0 || g_playerCount == 1)
+                {
+                    NaPlyLevelStop(0,TypeData->SoundID); //Play globally
+                }
+                else
+                {
+                    NaSceneLevelStop(objectPosition,TypeData->SoundID); //Play directionally
+                }
+            }
+        }
+    }
+}
+
 
 void CheckOKObjects()
 {	
@@ -1044,6 +1052,10 @@ void CheckOKObjects()
 					OKObjectCollision((OKObject*)&OKObjectArray[CurrentObject]);
 				}
 				
+
+                CheckSoundObject((OKObject*)&OKObjectArray[CurrentObject]);
+    
+ 
 				
 			}
 		}
