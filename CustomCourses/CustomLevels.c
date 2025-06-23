@@ -2,7 +2,7 @@
 
 
 
-char ScaleXMode = 2, ScaleYMode = 2, ScaleZMode = 2, ScalePad = 0;
+unsigned char ScaleXMode = 2, ScaleYMode = 2, ScaleZMode = 2, ScalePad = 0;
 float LevelScales[7] =
 {
 	0.0f, 0.5f, 1.0f, 1.5f, 2.0f, 2.5f, 3.0f
@@ -1816,7 +1816,7 @@ void MapStartupDefault(short InputID)
 	SetCustomData();
 
 	LoadMapData(InputID);
-	LoadIceKage();
+	// LoadIceKage();
 
 	if (HotSwapID > 0)
 	{
@@ -1852,8 +1852,8 @@ void InitialMapObjectCode()
 	
 	for (int ThisObject = 0; ThisObject < g_StaticObjectCount; ThisObject++)
 	{
-		if (g_SimpleObjectArray[ThisObject].flag == EXISTOBJ)
-		{
+		// if (g_SimpleObjectArray[ThisObject].flag == EXISTOBJ)
+		// {
 			g_SimpleObjectArray[ThisObject].position[0] = ((float)g_SimpleObjectArray[ThisObject].position[0] * LevelScales[(int)ScaleXMode]);
 
 					
@@ -1878,13 +1878,13 @@ void InitialMapObjectCode()
 			
 			if (g_SimpleObjectArray[ThisObject].category == IBOX)
 			{
-				g_SimpleObjectArray[GlobalIntA].fparam = CheckHight(g_SimpleObjectArray[ThisObject].position[0], g_SimpleObjectArray[ThisObject].position[1] + 10, g_SimpleObjectArray[ThisObject].position[2]);
-				g_SimpleObjectArray[GlobalIntA].velocity[0] = g_SimpleObjectArray[ThisObject].position[1];
-				g_SimpleObjectArray[GlobalIntA].position[1] = g_SimpleObjectArray[GlobalIntA].fparam - 20;
+				//g_SimpleObjectArray[ThisObject].fparam = CheckHight(g_SimpleObjectArray[ThisObject].position[0], g_SimpleObjectArray[ThisObject].position[1] + 10, g_SimpleObjectArray[ThisObject].position[2]);
+				g_SimpleObjectArray[ThisObject].velocity[0] = g_SimpleObjectArray[ThisObject].position[1];
+				//g_SimpleObjectArray[ThisObject].position[1] = g_SimpleObjectArray[ThisObject].fparam - 20;
 			}
 
 			
-		}
+		// }
 		
 		
 
