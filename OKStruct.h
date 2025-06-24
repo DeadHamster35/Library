@@ -248,7 +248,7 @@ typedef struct OKOption{
 	
 	uint		OptionName;
 	uint		ParameterCount;
-	uint*	ParameterNames;
+	uint*	    ParameterNames;
 	int*		ParameterLengths;
 } OKOption;
 
