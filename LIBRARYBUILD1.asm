@@ -786,3 +786,12 @@ NOP
 .org 0x059BF4
 JAL Zanzou2
 
+
+
+//Assembly hack to scale minimap positions with map scaling
+.org 0x04FDDC
+JAL HijackScaleMinimapX
+NOP
+.org 0x04FE2C
+JAL HijackScaleMinimapY
+NOP

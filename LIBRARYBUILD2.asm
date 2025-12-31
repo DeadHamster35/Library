@@ -306,5 +306,35 @@ CollisionHopTable:
 
 
 
+//Scale minimap car icons so that they stay in the minimap when the course itself is scaled in X and/or Z 
+
+HijackScaleMinimapX:
+	LB a0, ScaleXMode
+	LI a1, 2
+	BEQ a0, a1, @@branch_skip_scaling_minimap //If not scaling, skip code
+		LUI a2, hi(LevelScales)
+		SLL a0, a0, 2 //Multiply ScaleXMode  by 4 to get offset for LevelScales
+		ADDU a2, a2, a0
+		lwc1  f8, lo(LevelScales) (a2) //Load scaling from LevelScales 
+		div.s f2, f2, f8 //Divide by level scaling 
+		@@branch_skip_scaling_minimap:
+	.word 0x854AD2F0 //Run instructions overwritten by hook
+	JR RA
+	.word 0x8529D2C0 //Run instructions overwritten by hook
+
+HijackScaleMinimapY:
+	LB a0, ScaleZMode
+	LI a1, 2
+	BEQ a0, a1, @@branch_skip_scaling_minimap //If not scaling, skip code
+		LUI a2, hi(LevelScales)
+		SLL a0, a0, 2 //Multiply ScaleYMode  by 4 to get offset for LevelScales	
+		ADDU a2, a2, a0
+		lwc1  f10, lo(LevelScales) (a2) //Load scaling from LevelScales 
+		div.s f12, f12, f10 //Divide by level scaling 
+		@@branch_skip_scaling_minimap:
+	.word 0x85CED2F8 //Run instructions overwritten by hook
+	JR RA 
+	.word 0x3C198019 //Run instructions overwritten by hook
+
 
 

@@ -718,7 +718,7 @@ void SetBalloonTeams()
 
 void LakituSpawnBypass(Player *Kart, char PlayerID, float *SpawnVector, float *FacingVector)
 {
-	if (g_gameMode != GAMEMODE_BATTLE)
+	if ((g_gameMode != GAMEMODE_BATTLE) || (HotSwapID == 0))
 	{
 		GetLakituSpawnPoint(Kart, PlayerID, SpawnVector, FacingVector);
 	}

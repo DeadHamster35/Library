@@ -2,7 +2,7 @@
 
 
 
-char ScaleXMode = 2, ScaleYMode = 2, ScaleZMode = 2, ScalePad = 0;
+unsigned char ScaleXMode = 2, ScaleYMode = 2, ScaleZMode = 2, ScalePad = 0;
 float LevelScales[7] =
 {
 	0.0f, 0.5f, 1.0f, 1.5f, 2.0f, 2.5f, 3.0f
@@ -1829,7 +1829,7 @@ void MapStartupDefault(short InputID)
 	SetCustomData();
 
 	LoadMapData(InputID);
-	LoadIceKage();
+	// LoadIceKage();
 
 	if (HotSwapID > 0)
 	{
@@ -1864,6 +1864,7 @@ void InitialMapObjectCode()
 	}
 	for (int ThisObject = 0; ThisObject < g_StaticObjectCount; ThisObject++)
 	{
+
         if (g_SimpleObjectArray[ThisObject].category == IBOX)
         {
             continue;
@@ -1890,7 +1891,6 @@ void InitialMapObjectCode()
         
         
 
-			
 		
 
 		
