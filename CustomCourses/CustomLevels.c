@@ -1829,7 +1829,7 @@ void MapStartupDefault(short InputID)
 	SetCustomData();
 
 	LoadMapData(InputID);
-	// LoadIceKage();
+	LoadIceKage();
 
 	if (HotSwapID > 0)
 	{
