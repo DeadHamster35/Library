@@ -21,7 +21,7 @@ cd ..
 cd CustomObjects
 ::  Custom Object Code
 
-set ListCustomObjects= "OKBehaviors.c" "OKCustomObjects.c" "ObjectHandler.c"
+set ListCustomObjects= "OKBehaviors.c" "OKCustomObjects.c" "ObjectHandler.c" "OKAnime.c"
 
 (for %%a in (%ListCustomObjects%) do (
    echo Working on %%a 

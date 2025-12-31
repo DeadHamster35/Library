@@ -42,6 +42,8 @@ The address must be offset to match it's position in RAM.
 .align 0x10
 .importobj "../library/CustomObjects/OKBehaviors.o"
 .align 0x10
+.importobj "../library/CustomObjects/OKAnime.o"
+.align 0x10
 .importobj "../library/CustomObjects/OKCustomObjects.o"
 .align 0x10
 .importobj "../library/CustomObjects/ObjectHandler.o"

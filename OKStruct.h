@@ -110,16 +110,16 @@ typedef struct CTFSpawn{
 
 typedef struct PolyKeyFrame
 {
-    short       Time;
     SVector     Data;
+    short       Time;
     
 } PolyKeyFrame;
 
 
 typedef struct OKSkeleton{
-    PolyKeyFrame*   PositionData;
-    PolyKeyFrame*   RotationData;
-    PolyKeyFrame*   ScalingData;
+    uint            PositionData;
+    uint            RotationData;
+    uint            ScalingData;
 	ushort			PositionCount, RotationCount, ScalingCount, PAD;
 	short	        NodeCount, ChildCount;
 	float		    MeshScale;

@@ -19,6 +19,7 @@
 
 #include "CustomObjects/OKBehaviors.h"
 #include "CustomObjects/OKCustomObjects.h"
+#include "CustomObjects/OKAnime.h"
 
 #include "CustomParticles/ParticleStruct.h"
 #include "CustomParticles/CustomParticles.h"

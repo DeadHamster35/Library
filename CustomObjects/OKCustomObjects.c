@@ -489,6 +489,58 @@ void OKObjectCollision(OKObject *InputObject)
 
 
 
+void SetLocalMatrix(int CurrentObject, int Type, int Player)
+{
+    objectPosition[0] = (float)OKObjectArray[CurrentObject].ObjectData.position[0];
+    objectPosition[1] = (float)OKObjectArray[CurrentObject].ObjectData.position[1] - 3.5f;
+    objectPosition[2] = (float)OKObjectArray[CurrentObject].ObjectData.position[2];
+    
+    if (OverKartRAMHeader.ObjectTypeList[Type].CameraAlignToggle == 0x01)
+    {		
+        //If the CameraAlignToggle flag is enabled, then we align the object to the camera directly.
+
+        objectAngle[0] = 0;
+        objectAngle[1] = 0;
+        objectAngle[2] = 0;
+
+        
+        float sinB = sinT(GlobalCamera[Player]->camera_direction[1]-(DEG1 * 180));
+        float cosB = cosT(GlobalCamera[Player]->camera_direction[1]-(DEG1 * 180));
+
+        AffineMatrix[0][0] =  cosB;
+        AffineMatrix[1][0] =  0.0f;
+        AffineMatrix[2][0] =  sinB;
+        AffineMatrix[0][1] =  0.0f;
+        AffineMatrix[1][1] =  1.0f;
+        AffineMatrix[2][1] =  0.0f;
+        AffineMatrix[0][2] = -sinB;
+        AffineMatrix[1][2] =  0.0f;
+        AffineMatrix[2][2] =  cosB;
+        AffineMatrix[0][3] =  0.0f;
+        AffineMatrix[1][3] =  0.0f;
+        AffineMatrix[2][3] =  0.0f;
+        AffineMatrix[3][3] =  1.0f; 
+
+        AffineMatrix[3][0] = (float)objectPosition[0];
+        AffineMatrix[3][1] = (float)objectPosition[1];
+        AffineMatrix[3][2] = (float)objectPosition[2];
+    }
+    else
+    {
+
+        //Otherwise we use the object's angle to get a perspective normalized view.
+
+        objectAngle[0] = (short)OKObjectArray[CurrentObject].ObjectData.angle[0];
+        objectAngle[1] = (short)(OKObjectArray[CurrentObject].ObjectData.angle[1] * -1);
+        objectAngle[2] = (short)OKObjectArray[CurrentObject].ObjectData.angle[2];	
+
+
+        CreateModelingMatrix(AffineMatrix,objectPosition,objectAngle);
+        
+    }
+}
+
+
 
 void DrawOKObjectLoop(OKModel* ThisModel, int Player, int Type, int ForceRender)
 {
@@ -510,52 +562,7 @@ void DrawOKObjectLoop(OKModel* ThisModel, int Player, int Type, int ForceRender)
 					uint* MeshAddress = (uint*)GetRealAddress(ObjectSegment |ThisModel->MeshAddress);
 
 					
-					objectPosition[0] = (float)OKObjectArray[CurrentObject].ObjectData.position[0];
-					objectPosition[1] = (float)OKObjectArray[CurrentObject].ObjectData.position[1] - 3.5f;
-					objectPosition[2] = (float)OKObjectArray[CurrentObject].ObjectData.position[2];
-					
-					if (OverKartRAMHeader.ObjectTypeList[Type].CameraAlignToggle == 0x01)
-					{		
-						//If the CameraAlignToggle flag is enabled, then we align the object to the camera directly.
-
-						objectAngle[0] = 0;
-						objectAngle[1] = 0;
-						objectAngle[2] = 0;
-
-						
-						float sinB = sinT(GlobalCamera[Player]->camera_direction[1]-(DEG1 * 180));
-						float cosB = cosT(GlobalCamera[Player]->camera_direction[1]-(DEG1 * 180));
-
-						AffineMatrix[0][0] =  cosB;
-						AffineMatrix[1][0] =  0.0f;
-						AffineMatrix[2][0] =  sinB;
-						AffineMatrix[0][1] =  0.0f;
-						AffineMatrix[1][1] =  1.0f;
-						AffineMatrix[2][1] =  0.0f;
-						AffineMatrix[0][2] = -sinB;
-						AffineMatrix[1][2] =  0.0f;
-						AffineMatrix[2][2] =  cosB;
-						AffineMatrix[0][3] =  0.0f;
-						AffineMatrix[1][3] =  0.0f;
-						AffineMatrix[2][3] =  0.0f;
-						AffineMatrix[3][3] =  1.0f; 
-
-						AffineMatrix[3][0] = (float)objectPosition[0];
-						AffineMatrix[3][1] = (float)objectPosition[1];
-						AffineMatrix[3][2] = (float)objectPosition[2];
-					}
-					else
-					{
-
-						//Otherwise we use the object's angle to get a perspective normalized view.
-
-						objectAngle[0] = (short)OKObjectArray[CurrentObject].ObjectData.angle[0];
-						objectAngle[1] = (short)(OKObjectArray[CurrentObject].ObjectData.angle[1] * -1);
-						objectAngle[2] = (short)OKObjectArray[CurrentObject].ObjectData.angle[2];	
-
-
-						CreateModelingMatrix(AffineMatrix,objectPosition,objectAngle);
-					}
+					SetLocalMatrix(CurrentObject, Type, Player);
 
 					ScalingMatrix(AffineMatrix,((float)(ThisModel->MeshScale) * 0.01f));
 
@@ -571,281 +578,6 @@ void DrawOKObjectLoop(OKModel* ThisModel, int Player, int Type, int ForceRender)
 		}
 		
 	}
-}
-
-short CurrentEntity[4];
-Mtx EntityMap[3072];
-SVector LinearTranslation, LinearRotation, LinearScaling;
-
-
-
-void GetLinear(OKSkeleton* AnimeData, float Scale, int Frame)
-{
-    short KeyTime;
-    SVector NDistance;
-    float   TDistance, RelativeT;
-    float   TRatio;
-    if (AnimeData->PositionCount == 1)
-    {
-        LinearTranslation[0] = AnimeData->PositionData[0].Data[0];
-        LinearTranslation[1] = AnimeData->PositionData[0].Data[1];
-        LinearTranslation[2] = AnimeData->PositionData[0].Data[2];
-    }
-    else
-    {
-        for (int ThisKey = 0; ThisKey < AnimeData->PositionCount; ThisKey++)
-        {
-            KeyTime = AnimeData->PositionData[ThisKey].Time;
-            if (Frame < KeyTime)
-            {
-                NDistance[0] = AnimeData->PositionData[ThisKey].Data[0] - AnimeData->PositionData[ThisKey - 1].Data[0];
-                NDistance[1] = AnimeData->PositionData[ThisKey].Data[1] - AnimeData->PositionData[ThisKey - 1].Data[1];
-                NDistance[2] = AnimeData->PositionData[ThisKey].Data[2] - AnimeData->PositionData[ThisKey - 1].Data[2];
-
-                TDistance = (float)(AnimeData->PositionData[ThisKey].Time - AnimeData->PositionData[ThisKey - 1].Time);
-                RelativeT = (float)(Frame - AnimeData->PositionData[ThisKey - 1].Time); //Get time relative to last keyframe;
-                TRatio = (float)((float)RelativeT / (float)TDistance);
-                LinearTranslation[0] = AnimeData->PositionData[ThisKey - 1].Data[0] + (short)(NDistance[0] * (TRatio));
-                LinearTranslation[1] = AnimeData->PositionData[ThisKey - 1].Data[1] + (short)(NDistance[1] * (TRatio));
-                LinearTranslation[2] = AnimeData->PositionData[ThisKey - 1].Data[2] + (short)(NDistance[2] * (TRatio));
-                break;
-            }
-            if (Frame == KeyTime)
-            {
-                LinearTranslation[0] = AnimeData->PositionData[ThisKey].Data[0];
-                LinearTranslation[1] = AnimeData->PositionData[ThisKey].Data[1];
-                LinearTranslation[2] = AnimeData->PositionData[ThisKey].Data[2];
-                break;
-                
-            }
-            if (Frame > KeyTime)
-            {
-                //continue;
-            }
-        }
-    }
-
-    if (AnimeData->RotationCount == 1)
-    {
-        LinearRotation[0] = AnimeData->RotationData[0].Data[0];
-        LinearRotation[1] = AnimeData->RotationData[0].Data[1];
-        LinearRotation[2] = AnimeData->RotationData[0].Data[2];
-    }
-    else
-    {
-        for (int ThisKey = 0; ThisKey < AnimeData->RotationCount; ThisKey++)
-        {
-            KeyTime = AnimeData->RotationData[ThisKey].Time;
-            if (Frame < KeyTime)
-            {
-                NDistance[0] = AnimeData->RotationData[ThisKey].Data[0] - AnimeData->RotationData[ThisKey - 1].Data[0];
-                NDistance[1] = AnimeData->RotationData[ThisKey].Data[1] - AnimeData->RotationData[ThisKey - 1].Data[1];
-                NDistance[2] = AnimeData->RotationData[ThisKey].Data[2] - AnimeData->RotationData[ThisKey - 1].Data[2];
-
-                TDistance = (float)(AnimeData->RotationData[ThisKey].Time - AnimeData->RotationData[ThisKey - 1].Time);
-                RelativeT = (float)(Frame - AnimeData->RotationData[ThisKey - 1].Time); //Get time relative to last keyframe;
-                TRatio = (float)((float)RelativeT / (float)TDistance);
-
-                LinearRotation[0] = AnimeData->RotationData[ThisKey - 1].Data[0] + (short)(NDistance[0] * (TRatio));
-                LinearRotation[1] = AnimeData->RotationData[ThisKey - 1].Data[1] + (short)(NDistance[1] * (TRatio));
-                LinearRotation[2] = AnimeData->RotationData[ThisKey - 1].Data[2] + (short)(NDistance[2] * (TRatio));
-                break;
-            }
-            if (Frame == KeyTime)
-            {
-                LinearRotation[0] = AnimeData->RotationData[ThisKey].Data[0];
-                LinearRotation[1] = AnimeData->RotationData[ThisKey].Data[1];
-                LinearRotation[2] = AnimeData->RotationData[ThisKey].Data[2];
-                break;
-                
-            }
-            if (Frame > KeyTime)
-            {
-                //continue;
-            }
-        }
-    }
-
-
-    if (AnimeData->ScalingCount == 1)
-    {
-        LinearScaling[0] = AnimeData->ScalingData[0].Data[0];
-        LinearScaling[1] = AnimeData->ScalingData[0].Data[1];
-        LinearScaling[2] = AnimeData->ScalingData[0].Data[2];
-    }
-    else
-    {
-        for (int ThisKey = 0; ThisKey < AnimeData->ScalingCount; ThisKey++)
-        {
-            KeyTime = AnimeData->ScalingData[ThisKey].Time;
-            if (Frame < KeyTime)
-            {
-                NDistance[0] = AnimeData->ScalingData[ThisKey].Data[0] - AnimeData->ScalingData[ThisKey - 1].Data[0];
-                NDistance[1] = AnimeData->ScalingData[ThisKey].Data[1] - AnimeData->ScalingData[ThisKey - 1].Data[1];
-                NDistance[2] = AnimeData->ScalingData[ThisKey].Data[2] - AnimeData->ScalingData[ThisKey - 1].Data[2];
-
-
-                TDistance = AnimeData->ScalingData[ThisKey].Time - AnimeData->ScalingData[ThisKey - 1].Time;
-                RelativeT = Frame - AnimeData->ScalingData[ThisKey - 1].Time; //Get time relative to last keyframe;
-                TRatio = ((float)RelativeT / (float)TDistance);
-                LinearScaling[0] = AnimeData->ScalingData[ThisKey - 1].Data[0] + (short)(NDistance[0] * (TRatio));
-                LinearScaling[1] = AnimeData->ScalingData[ThisKey - 1].Data[1] + (short)(NDistance[1] * (TRatio));
-                LinearScaling[2] = AnimeData->ScalingData[ThisKey - 1].Data[2] + (short)(NDistance[2] * (TRatio));
-                break;
-            }
-            if (Frame == KeyTime)
-            {
-                LinearScaling[0] = AnimeData->ScalingData[ThisKey].Data[0];
-                LinearScaling[1] = AnimeData->ScalingData[ThisKey].Data[1];
-                LinearScaling[2] = AnimeData->ScalingData[ThisKey].Data[2];
-                break;
-            }
-            if (Frame > KeyTime)
-            {   
-                //continue;
-            }
-        }
-    }
-    
-    
-
-    
-}
-
-void SkeletalMatrix(OKSkeleton* AnimeData, float Scale, int Frame)
-{
-    GetLinear(AnimeData, Scale, Frame);
-    
-    objectPosition[0] = (float)LinearTranslation[0] * 0.1f;
-    objectPosition[1] = (float)LinearTranslation[1] * 0.1f;
-    objectPosition[2] = (float)LinearTranslation[2] * 0.1f;
-    
-	
-	objectAngle[0] = LinearRotation[0];
-    objectAngle[1] = LinearRotation[1];
-    objectAngle[2] = LinearRotation[2];
-	
-
-        /*
-        guTranslate(&EntityMap[CurrentEntity[GlobalFrameCount % 3]],
-                    (objectPosition[0]),
-                    (objectPosition[1]),
-                    (objectPosition[2]));
-        gSPMatrix(GraphPtrOffset++, &EntityMap[CurrentEntity[GlobalFrameCount % 3]++],
-                  G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
-
-        guRotate(&EntityMap[CurrentEntity[GlobalFrameCount % 3]],
-                 (float)(objectAngle[2] / 185.0f),
-                 0.0f,
-                 0.0f,
-                 1.0f);
-
-        gSPMatrix(GraphPtrOffset++, &EntityMap[CurrentEntity[GlobalFrameCount % 3]++],
-                  G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
-
-        guRotate(&EntityMap[CurrentEntity[GlobalFrameCount % 3]],
-                 (float)(objectAngle[1] / 185.0f),
-                 0.0f,
-                 1.0f,
-                 0.0f);
-
-        gSPMatrix(GraphPtrOffset++, &EntityMap[CurrentEntity[GlobalFrameCount % 3]++],
-                  G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
-
-        guRotate(&EntityMap[CurrentEntity[GlobalFrameCount % 3]],
-                 (float)(objectAngle[0] / 185.0f),
-                 1.0f,
-                 0.0f,
-                 0.0f);
-
-        gSPMatrix(GraphPtrOffset++, &EntityMap[CurrentEntity[GlobalFrameCount % 3]++],
-                  G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
-        */
-    
-                  
-}
-
-
-void DrawOKAnimationLoop(OKSkeleton* Skeleton, int CurrentPlayer, int Type, int ForceRender)
-{
-	
-	bool TextureDrawn = false;	
-
-	for (int CurrentNode = 0; CurrentNode < Skeleton->NodeCount; CurrentNode++)
-	{	
-		GlobalAddressB = ( GetRealAddress(ObjectSegment | Skeleton->NodeOffset) + (CurrentNode * sizeof(OKNode)));
-		OKNode *ThisNode = (OKNode*)(GlobalAddressB); 
-		for (int CurrentObject = 0; CurrentObject < OverKartRAMHeader.ObjectCount; CurrentObject++)
-		{
-			if(OKObjectArray[CurrentObject].TypeIndex == Type)
-			{
-				if(OKObjectArray[CurrentObject].SubBehaviorClass != SUBBEHAVIOR_DEAD)
-				{
-
-					//We use the sphere collision test to see if the character is within render radius.
-					if( (ForceRender != 0) || TestCollideSphere(OKObjectArray[CurrentObject].ObjectData.position, (float)(OverKartRAMHeader.ObjectTypeList[Type].RenderRadius) ,GlobalPlayer[CurrentPlayer].position, GlobalPlayer[CurrentPlayer].radius))
-					{
-						if (!TextureDrawn)
-						{
-							TextureDrawn = true;
-							gSPDisplayList(GraphPtrOffset++,(ThisNode->TextureOffset | ObjectSegment));							
-						}
-						uint *MeshPointer = (uint*)GetRealAddress(ThisNode->MeshOffset | ObjectSegment);
-
-
-                        /*
-                        guTranslate(&EntityMap[CurrentEntity[GlobalFrameCount % 3]],
-                        (OKObjectArray[CurrentObject].ObjectData.position[0]),
-                        (OKObjectArray[CurrentObject].ObjectData.position[1]),
-                        (OKObjectArray[CurrentObject].ObjectData.position[2]));
-                        
-                        gSPMatrix(GraphPtrOffset++, &EntityMap[CurrentEntity[GlobalFrameCount % 3]++],
-                                G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
-
-                        guRotate(&EntityMap[CurrentEntity[GlobalFrameCount % 3]],
-                                (float)(OKObjectArray[CurrentObject].ObjectData.angle[1] / 185.0f),
-                                0.0f,
-                                0.0f,
-                                1.0f);
-
-                        gSPMatrix(GraphPtrOffset++, &EntityMap[CurrentEntity[GlobalFrameCount % 3]++],
-                                G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
-                        gDPPipeSync(GraphPtrOffset++);
-
-						SkeletalMatrix(Skeleton, 1.0f, OKObjectArray[CurrentObject].AnimationFrame);
-
-                                            
-                                                                
-                        gSPPopMatrix(GraphPtrOffset++,G_MTX_MODELVIEW);
-                        gSPPopMatrix(GraphPtrOffset++,G_MTX_MODELVIEW);
-                        gSPPopMatrix(GraphPtrOffset++,G_MTX_MODELVIEW);
-                        gSPPopMatrix(GraphPtrOffset++,G_MTX_MODELVIEW);
-
-
-                        for (int ThisMesh = 0; ThisMesh < ThisNode->MeshCount; ThisMesh++)
-                        {
-                            gSPDisplayList(GraphPtrOffset++, (MeshPointer[ThisMesh] | ObjectSegment));
-                        }
-						*/
-					}
-				}
-			}
-						
-		}
-
-		TextureDrawn = false; //reset texture for next node.
-	}
-	
-	for (int ThisChild = 0; ThisChild < Skeleton->ChildCount; ThisChild++)
-	{
-		GlobalAddressA += sizeof(OKSkeleton);
-		GlobalUIntB++;
-		OKSkeleton* Skeletor = (OKSkeleton*)GlobalAddressA;
-		GlobalUIntB++;
-		DrawOKAnimationLoop((OKSkeleton*)GlobalAddressA, CurrentPlayer, Type, ForceRender);		
-	}
-
-    
 }
 
 void DrawOKObjects(Camera* LocalCamera, int ForceRender)
@@ -887,27 +619,9 @@ void DrawOKObjects(Camera* LocalCamera, int ForceRender)
 			}
 			else
 			{	
-				
+                
                 //here we need to load and parse through our animations
-                
-				GlobalIntA = GetRealAddress( ObjectSegment | OverKartRAMHeader.ObjectTypeList[CurrentType].ObjectAnimations);		
-				uint* AnimationOffsets = (uint*)(GlobalIntA);
-				GlobalIntA = GetRealAddress( ObjectSegment | AnimationOffsets[0]);
-				GlobalIntA += 4; //skip past the framecount, we stored this earlier.
-				GlobalAddressA = GlobalIntA;
-					
-				OKSkeleton* Skeleton = (OKSkeleton*)(GlobalIntA); 
-
-				GlobalUIntB++;
-				GlobalUIntB++;
-
-
-
-                
-
-				DrawOKAnimationLoop(Skeleton, CurrentPlayer, CurrentType, ForceRender);
-				
-				
+                DrawAnimeObject(CurrentType, CurrentPlayer, ForceRender);
 			}
 		}
 
