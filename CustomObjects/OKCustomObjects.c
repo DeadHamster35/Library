@@ -495,7 +495,7 @@ void SetLocalMatrix(int CurrentObject, int Type, int Player)
     objectPosition[1] = (float)OKObjectArray[CurrentObject].ObjectData.position[1] - 3.5f;
     objectPosition[2] = (float)OKObjectArray[CurrentObject].ObjectData.position[2];
     
-    if (OverKartRAMHeader.ObjectTypeList[Type].CameraAlignToggle == 0x01)
+    if (OverKartRAMHeader.ObjectTypeList[Type].CameraAlignToggle == 1)
     {		
         //If the CameraAlignToggle flag is enabled, then we align the object to the camera directly.
 
@@ -621,7 +621,7 @@ void DrawOKObjects(Camera* LocalCamera, int ForceRender)
 			{	
                 
                 //here we need to load and parse through our animations
-                DrawAnimeObject(CurrentType, CurrentPlayer, ForceRender);
+                DrawAnimeObject(CurrentType, CurrentPlayer, 1);
 			}
 		}
 
@@ -747,15 +747,7 @@ void CheckOKObjects()
 		
 		
 		for (int CurrentObject = 0; CurrentObject < (OverKartRAMHeader.ObjectCount); CurrentObject++)
-		{
-			if (OverKartRAMHeader.ObjectTypeList[OKObjectArray[CurrentObject].TypeIndex].ObjectAnimations != 0xFFFFFFFF)
-			{				
-				OKObjectArray[CurrentObject].AnimationFrame++;
-				if ((OKObjectArray[CurrentObject].AnimationFrame) >= (OKObjectArray[CurrentObject].AnimationMax))
-				{
-					OKObjectArray[CurrentObject].AnimationFrame = 0;
-				}
-			}		
+		{	
 			
 			if(OKObjectArray[CurrentObject].SubBehaviorClass != SUBBEHAVIOR_DEAD)
 			{

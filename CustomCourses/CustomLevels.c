@@ -1536,8 +1536,7 @@ void runDisplayScreen()
 
 void runKillDisplayObjects()
 {
-	// Handles the display of the buffer copy to texture.
-	// Allows for rendering the screen to a set of 6 textures.
+	// disables specific track sections based on game-mode and CC speed. 
 
 	GlobalAddressA = ((uint)(&ok_scrolltranslucent)) + OverKartHeader.KDOffset;
 	LoopValue = *(int *)GlobalAddressA;
@@ -1550,106 +1549,106 @@ void runKillDisplayObjects()
 		uint *MeshList = (uint *)(GlobalAddressA + 12);
 		switch (g_gameMode)
 		{
-		case GAMEMODE_GP:
-		{
-			// GP
-			if (DisplayKill->GP != 0)
-			{
-				for (int ThisMesh = 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
-				{
-					KillDisplayList(0x07000000 | MeshList[ThisMesh]);
-				}
-			}
-			break;
-		}
-		case GAMEMODE_TT:
-		{
-			// TIME TRIAL
-			if (DisplayKill->TT != 0)
-			{
-				for (int ThisMesh = 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
-				{
-					KillDisplayList(0x07000000 | MeshList[ThisMesh]);
-				}
-			}
-			break;
-		}
-		case GAMEMODE_VS:
-		{
-			// TIME VS
-			if (DisplayKill->VS != 0)
-			{
-				for (int ThisMesh = 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
-				{
-					KillDisplayList(0x07000000 | MeshList[ThisMesh]);
-				}
-			}
-			break;
-		}
-		case GAMEMODE_BATTLE:
-		{
-			// BATTLE
-			if (DisplayKill->Battle != 0)
-			{
-				for (int ThisMesh = 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
-				{
-					KillDisplayList(0x07000000 | MeshList[ThisMesh]);
-				}
-			}
-			break;
-		}
+            case GAMEMODE_GP:
+            {
+                // GP
+                if (DisplayKill->GP != 0)
+                {
+                    for (int ThisMesh = 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
+                    {
+                        KillDisplayList(0x07000000 | MeshList[ThisMesh]);
+                    }
+                }
+                break;
+            }
+            case GAMEMODE_TT:
+            {
+                // TIME TRIAL
+                if (DisplayKill->TT != 0)
+                {
+                    for (int ThisMesh = 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
+                    {
+                        KillDisplayList(0x07000000 | MeshList[ThisMesh]);
+                    }
+                }
+                break;
+            }
+            case GAMEMODE_VS:
+            {
+                // TIME VS
+                if (DisplayKill->VS != 0)
+                {
+                    for (int ThisMesh = 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
+                    {
+                        KillDisplayList(0x07000000 | MeshList[ThisMesh]);
+                    }
+                }
+                break;
+            }
+            case GAMEMODE_BATTLE:
+            {
+                // BATTLE
+                if (DisplayKill->Battle != 0)
+                {
+                    for (int ThisMesh = 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
+                    {
+                        KillDisplayList(0x07000000 | MeshList[ThisMesh]);
+                    }
+                }
+                break;
+            }
 		}
 
 		switch (g_raceClass)
 		{
-		case 0:
-		{
-			// 50
-			if (DisplayKill->Fifty != 0)
-			{
-				for (int ThisMesh = 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
-				{
-					KillDisplayList(0x07000000 | MeshList[ThisMesh]);
-				}
-			}
-			break;
-		}
-		case 1:
-		{
-			// 100
-			if (DisplayKill->Hundred != 0)
-			{
-				for (int ThisMesh = 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
-				{
-					KillDisplayList(0x07000000 | MeshList[ThisMesh]);
-				}
-			}
-			break;
-		}
-		case 2:
-		{
-			// 150
-			if (DisplayKill->HundredFifty != 0)
-			{
-				for (int ThisMesh = 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
-				{
-					KillDisplayList(0x07000000 | MeshList[ThisMesh]);
-				}
-			}
-			break;
-		}
-		case 3:
-		{
-			// EXTRA
-			if (DisplayKill->Extra != 0)
-			{
-				for (int ThisMesh = 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
-				{
-					KillDisplayList(0x07000000 | MeshList[ThisMesh]);
-				}
-			}
-			break;
-		}
+            case 0:
+            {
+                // 50
+                if (DisplayKill->Fifty != 0)
+                {
+                    for (int ThisMesh = 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
+                    {
+                        KillDisplayList(0x07000000 | MeshList[ThisMesh]);
+                    }
+                }
+                break;
+            }
+            case 1:
+            {
+                // 100
+                if (DisplayKill->Hundred != 0)
+                {
+                    for (int ThisMesh = 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
+                    {
+                        KillDisplayList(0x07000000 | MeshList[ThisMesh]);
+                    }
+                }
+                break;
+            }
+            case 2:
+            {
+                // 150
+                if (DisplayKill->HundredFifty != 0)
+                {
+                    for (int ThisMesh = 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
+                    {
+                        KillDisplayList(0x07000000 | MeshList[ThisMesh]);
+                    }
+                }
+                break;
+            }
+            case 3:
+            {
+                // EXTRA
+                if (DisplayKill->Extra != 0)
+                {
+                    for (int ThisMesh = 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
+                    {
+                        KillDisplayList(0x07000000 | MeshList[ThisMesh]);
+                    }
+                }
+                break;
+            }
 		}
 
 		// Setup next Loop
@@ -2485,12 +2484,12 @@ void DisplayKT1Hook(Screen *Display)
 			g_fogR = (uint)OverKartHeader.FogRGBA[0];
 			g_fogG = (uint)OverKartHeader.FogRGBA[1];
 			g_fogB = (uint)OverKartHeader.FogRGBA[2];
-			gDPSetCycleType(GraphPtrOffset++, G_CYC_2CYCLE);
-			gDPSetFogColor(GraphPtrOffset++, (uint)OverKartHeader.FogRGBA[0], (uint)OverKartHeader.FogRGBA[1], (uint)OverKartHeader.FogRGBA[2], (uint)OverKartHeader.FogRGBA[3]);
-			gSPFogPosition(GraphPtrOffset++, OverKartHeader.FogStart, OverKartHeader.FogStop);
+			gDPSetFogColor(GraphPtrOffset++, (uint)OverKartHeader.FogRGBA[0], (uint)OverKartHeader.FogRGBA[1], (uint)OverKartHeader.FogRGBA[2], 255);
+			gSPFogPosition(GraphPtrOffset++, 900, 1000);
 		}
 
 		DisplayGroupmap(SegmentAddress(6, OverKartHeader.SectionViewPosition), Display);
+        
 	}
 	else
 	{
@@ -2514,24 +2513,17 @@ void XLUDisplay(Screen *Display)
 				g_fogR = (uint)OverKartHeader.FogRGBA[0];
 				g_fogG = (uint)OverKartHeader.FogRGBA[1];
 				g_fogB = (uint)OverKartHeader.FogRGBA[2];
-				gDPSetCycleType(GraphPtrOffset++, G_CYC_2CYCLE);
-				gDPSetFogColor(GraphPtrOffset++, (uint)OverKartHeader.FogRGBA[0], (uint)OverKartHeader.FogRGBA[1], (uint)OverKartHeader.FogRGBA[2], 0xFF);
-				gSPFogPosition(GraphPtrOffset++, OverKartHeader.FogStart, OverKartHeader.FogStop);
-				gSPSetGeometryMode(GraphPtrOffset++, G_FOG);				
+				gDPSetFogColor(GraphPtrOffset++, (uint)OverKartHeader.FogRGBA[0], (uint)OverKartHeader.FogRGBA[1], (uint)OverKartHeader.FogRGBA[2], 255);
+				gSPFogPosition(GraphPtrOffset++, 900, 1000);			
 				gDPPipeSync(GraphPtrOffset++);
 			}
             DisplayGroupmap(SegmentAddress(6, OverKartHeader.XLUSectionViewPosition), Display);
+            gDPSetCycleType(GraphPtrOffset++, G_CYC_1CYCLE);
 		}
 		else
 		{
 			gSPDisplayList(GraphPtrOffset++, (0x06000000 | OverKartHeader.XLUSectionViewPosition));	
 		}
-	}
-
-	if (OverKartHeader.FogStart > 0)
-	{
-		gDPSetCycleType(GraphPtrOffset++, G_CYC_1CYCLE);
-		gSPClearGeometryMode(GraphPtrOffset++, G_FOG);
 	}
 	
 }

@@ -119,7 +119,7 @@ void ObjectBehaviorStrafe(OKObject* InputObject)
 	{
 		case 0:
 		{
-			InputObject->ObjectData.velocity[0] = (float)(Speed / 100) * GlobalShortA;
+			InputObject->ObjectData.velocity[0] = (float)(Speed * 0.01f) * GlobalShortA;
 			InputObject->ObjectData.velocity[1] = 0;
 			InputObject->ObjectData.velocity[2] = 0;
 
@@ -132,19 +132,19 @@ void ObjectBehaviorStrafe(OKObject* InputObject)
 		}
 		case 1:
 		{
-			InputObject->ObjectData.velocity[0] -= (float)(Speed / 3000) * GlobalShortA;
+			InputObject->ObjectData.velocity[0] -= (float)(Speed * 0.0003f) * GlobalShortA;
 			InputObject->ObjectData.velocity[1] = 0;
 			InputObject->ObjectData.velocity[2] = 0;
 
 			InputObject->Counter[0] += InputObject->ObjectData.velocity[0] * GlobalShortA;
-			if (InputObject->ObjectData.velocity[0] <= (float)(Speed / -100))
+			if (InputObject->ObjectData.velocity[0] <= (float)(Speed * -0.01f))
 			{
 				InputObject->Status[1] = 2;
 			}
 		}
 		case 2:
 		{
-			InputObject->ObjectData.velocity[0] = (float)(Speed / -100) * GlobalShortA;
+			InputObject->ObjectData.velocity[0] = (float)(Speed * -0.01f) * GlobalShortA;
 			InputObject->ObjectData.velocity[1] = 0;
 			InputObject->ObjectData.velocity[2] = 0;
 
@@ -157,7 +157,7 @@ void ObjectBehaviorStrafe(OKObject* InputObject)
 		}
 		case 3:
 		{
-			InputObject->ObjectData.velocity[0] = (float)(Speed / -100) * GlobalShortA;
+			InputObject->ObjectData.velocity[0] = (float)(Speed * 0.01f) * GlobalShortA;
 			InputObject->ObjectData.velocity[1] = 0;
 			InputObject->ObjectData.velocity[2] = 0;
 
@@ -170,19 +170,19 @@ void ObjectBehaviorStrafe(OKObject* InputObject)
 		}
 		case 4:
 		{
-			InputObject->ObjectData.velocity[0] += (float)(Speed / 3000) * GlobalShortA;
+			InputObject->ObjectData.velocity[0] += (float)(Speed * 0.0003f) * GlobalShortA;
 			InputObject->ObjectData.velocity[1] = 0;
 			InputObject->ObjectData.velocity[2] = 0;
 
 			InputObject->Counter[0] += InputObject->ObjectData.velocity[0] * GlobalShortA;
-			if (InputObject->ObjectData.velocity[0] >= (float)(Speed / 100))
+			if (InputObject->ObjectData.velocity[0] >= (float)(Speed * 0.01f))
 			{
 				InputObject->Status[1] = 5;
 			}
 		}
 		case 5:
 		{	
-			InputObject->ObjectData.velocity[0] = (float)(Speed / 100) * GlobalShortA;
+			InputObject->ObjectData.velocity[0] = (float)(Speed * 0.01f) * GlobalShortA;
 			InputObject->ObjectData.velocity[1] = 0;
 			InputObject->ObjectData.velocity[2] = 0;
 
@@ -269,7 +269,7 @@ void ObjectSubBehaviorWander(OKObject* InputObject, short Range, short Speed)
 
 	}
     //speed
-	ObjectSubBehaviorWalk(InputObject, (Speed *0.01f));
+	ObjectSubBehaviorWalk(InputObject, (Speed * 0.01f));
 	
 }
 
