@@ -733,16 +733,17 @@ void Misbehave(OKObject* InputObject)
 			ObjectBehaviorSearch(InputObject);
 			break;
 		}
-		case BEHAVIOR_FLEE:
-		{
-			
-			ObjectBehaviorFlee(InputObject);
-			break;
-		}
 		case BEHAVIOR_BOUNCE:
 		{
 			
 			ObjectBehaviorBounce(InputObject);
+			break;
+		}
+        
+		case BEHAVIOR_FLEE:
+		{
+			
+			ObjectBehaviorFlee(InputObject);
 			break;
 		}
 		case BEHAVIOR_STRAFE:
