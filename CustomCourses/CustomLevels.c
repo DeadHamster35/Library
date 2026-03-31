@@ -1552,7 +1552,7 @@ void runKillDisplayObjects()
             case GAMEMODE_GP:
             {
                 // GP
-                if (DisplayKill->GP != 0)
+                if (DisplayKill->GP == 0)
                 {
                     for (int ThisMesh = 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
                     {
@@ -1564,7 +1564,7 @@ void runKillDisplayObjects()
             case GAMEMODE_TT:
             {
                 // TIME TRIAL
-                if (DisplayKill->TT != 0)
+                if (DisplayKill->TT == 0)
                 {
                     for (int ThisMesh = 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
                     {
@@ -1576,7 +1576,7 @@ void runKillDisplayObjects()
             case GAMEMODE_VS:
             {
                 // TIME VS
-                if (DisplayKill->VS != 0)
+                if (DisplayKill->VS == 0)
                 {
                     for (int ThisMesh = 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
                     {
@@ -1588,7 +1588,7 @@ void runKillDisplayObjects()
             case GAMEMODE_BATTLE:
             {
                 // BATTLE
-                if (DisplayKill->Battle != 0)
+                if (DisplayKill->Battle == 0)
                 {
                     for (int ThisMesh = 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
                     {
@@ -1604,7 +1604,7 @@ void runKillDisplayObjects()
             case 0:
             {
                 // 50
-                if (DisplayKill->Fifty != 0)
+                if (DisplayKill->Fifty == 0)
                 {
                     for (int ThisMesh = 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
                     {
@@ -1616,7 +1616,7 @@ void runKillDisplayObjects()
             case 1:
             {
                 // 100
-                if (DisplayKill->Hundred != 0)
+                if (DisplayKill->Hundred == 0)
                 {
                     for (int ThisMesh = 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
                     {
@@ -1628,7 +1628,7 @@ void runKillDisplayObjects()
             case 2:
             {
                 // 150
-                if (DisplayKill->HundredFifty != 0)
+                if (DisplayKill->HundredFifty == 0)
                 {
                     for (int ThisMesh = 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
                     {
@@ -1640,7 +1640,7 @@ void runKillDisplayObjects()
             case 3:
             {
                 // EXTRA
-                if (DisplayKill->Extra != 0)
+                if (DisplayKill->Extra == 0)
                 {
                     for (int ThisMesh = 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
                     {
@@ -1731,6 +1731,7 @@ void setOKObjects()
 	GlobalAddressD = GlobalAddressB + 4;
 	OverKartRAMHeader.ObjectList = (OKObjectList *)(GlobalAddressD);
 
+    
 	for (int This = 0; This < OverKartRAMHeader.ObjectCount; This++)
 	{
 		// Loop through the object count and set each individual object in the array.
@@ -1745,7 +1746,7 @@ void setOKObjects()
 		OKObjectType ThisType = OverKartRAMHeader.ObjectTypeList[OKObjectArray[This].TypeIndex];
 
 		OKObjectArray[This].ObjectData.flag = 0xC000;
-		OKObjectArray[This].ObjectData.radius = (ThisType.BumpRadius / 100); // used for level calcs BUMP
+		OKObjectArray[This].ObjectData.radius = (ThisType.BumpRadius / 100.0f); // used for level calcs BUMP
 		
 
 		if (g_ScreenFlip)
@@ -1781,6 +1782,8 @@ void setOKObjects()
 			OverKartRAMHeader.ObjectList[This].OriginPosition[2] *= (LevelScales[(int)ScaleZMode]);			
 		}
 
+        OKObjectArray[This].PathTarget = -1;
+
 		OKObjectArray[This].ObjectData.position[0] = OverKartRAMHeader.ObjectList[This].OriginPosition[0];
 		OKObjectArray[This].ObjectData.position[1] = OverKartRAMHeader.ObjectList[This].OriginPosition[1];
 		OKObjectArray[This].ObjectData.position[2] = OverKartRAMHeader.ObjectList[This].OriginPosition[2];
@@ -1793,11 +1796,12 @@ void setOKObjects()
 		OKObjectArray[This].ObjectData.velocity[1] = (float)(OverKartRAMHeader.ObjectList[This].OriginVelocity[1] * 100);
 		OKObjectArray[This].ObjectData.velocity[2] = (float)(OverKartRAMHeader.ObjectList[This].OriginVelocity[2] * 100);
 
+        
 		OKObjectArray[This].AngularVelocity[0] = OverKartRAMHeader.ObjectList[This].OriginAngularVelocity[0] * DEG1;
 		OKObjectArray[This].AngularVelocity[1] = OverKartRAMHeader.ObjectList[This].OriginAngularVelocity[1] * DEG1;
 		OKObjectArray[This].AngularVelocity[2] = OverKartRAMHeader.ObjectList[This].OriginAngularVelocity[2] * DEG1;
 
-		OKObjectArray[This].PathTarget = -1;
+		
 		if (ThisType.ObjectAnimations != 0xFFFFFFFF)
 		{
 			uint *AnimationOffsets = (uint *)(GetRealAddress(ObjectSegment | ThisType.ObjectAnimations));

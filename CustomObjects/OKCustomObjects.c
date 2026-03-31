@@ -545,7 +545,8 @@ void SetLocalMatrix(int CurrentObject, int Type, int Player)
 void DrawOKObjectLoop(OKModel* ThisModel, int Player, int Type, int ForceRender)
 {
 	// Add the Texture Draw F3D code
-	gSPDisplayList(GraphPtrOffset++,(ObjectSegment | ThisModel->TextureAddress) )
+    
+    gSPDisplayList(GraphPtrOffset++,(ObjectSegment | ThisModel->TextureAddress) )
 	
 	//Now we have to parse for each individual object, and normalize the model to the location and angle.
 
