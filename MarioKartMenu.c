@@ -1464,24 +1464,27 @@ void Zanzou2(int player)
     LocalLapX -= 16;
     LocalLapY -= 4;
     
-    gDPPipeSync(GraphPtrOffset++);
-    gDPSetCycleType(GraphPtrOffset++, G_CYC_1CYCLE);
-    gSPClearGeometryMode(GraphPtrOffset++,G_ZBUFFER);
+    //Setup the RCP Color Combiner
+            gDPPipeSync(GraphPtrOffset++);
+            gDPSetCycleType(GraphPtrOffset++, G_CYC_1CYCLE);
+            gSPClearGeometryMode(GraphPtrOffset++,G_ZBUFFER);
 
-    gSPSetGeometryMode(GraphPtrOffset++,G_SHADE | G_SHADING_SMOOTH);
-    gDPSetPrimColor(GraphPtrOffset++, 0, 0, 255, 255, 255, 255);
-    gDPSetCombineLERP(GraphPtrOffset++,0, 0, 0, TEXEL0,
-        TEXEL0, 0, PRIMITIVE, 0,
-        0, 0, 0, TEXEL0,
-        TEXEL0, 0, PRIMITIVE, 0);
-    gDPSetTexturePersp(GraphPtrOffset++,G_TP_NONE);
-    gDPSetTextureFilter(GraphPtrOffset++,G_TF_POINT);
-    gDPSetTextureConvert(GraphPtrOffset++,G_TC_FILT);
-    gDPSetTextureLOD(GraphPtrOffset++,G_TL_TILE);
-    gDPSetTextureDetail(GraphPtrOffset++,G_TD_CLAMP);
-    gDPSetTextureLUT(GraphPtrOffset++,G_TT_NONE);
-    gDPSetRenderMode(GraphPtrOffset++,  G_RM_AA_XLU_SURF, G_RM_AA_XLU_SURF2);
+            gSPSetGeometryMode(GraphPtrOffset++,G_SHADE | G_SHADING_SMOOTH);
+            gDPSetPrimColor(GraphPtrOffset++, 0, 0, 255, 255, 255, 255);
+            gDPSetCombineLERP(GraphPtrOffset++,0, 0, 0, TEXEL0,
+                TEXEL0, 0, PRIMITIVE, 0,
+                0, 0, 0, TEXEL0,
+                TEXEL0, 0, PRIMITIVE, 0);
+            gDPSetTexturePersp(GraphPtrOffset++,G_TP_NONE);
+            gDPSetTextureFilter(GraphPtrOffset++,G_TF_POINT);
+            gDPSetTextureConvert(GraphPtrOffset++,G_TC_FILT);
+            gDPSetTextureLOD(GraphPtrOffset++,G_TL_TILE);
+            gDPSetTextureDetail(GraphPtrOffset++,G_TD_CLAMP);
+            gDPSetTextureLUT(GraphPtrOffset++,G_TT_NONE);
+            gDPSetRenderMode(GraphPtrOffset++,  G_RM_AA_XLU_SURF, G_RM_AA_XLU_SURF2);
+    //
 
+    
     gDPSetTextureLUT(GraphPtrOffset++, G_TT_RGBA16);
 	gSPTexture(GraphPtrOffset++, 65535, 65535, 0, 0, 1);
 	gDPLoadTLUT_pal16(GraphPtrOffset++, 0, (uint)&LapCounterTextures + laptext_PaletteOffset);

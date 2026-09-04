@@ -447,6 +447,8 @@ void CheckJugemuMarker()
 
 				for (int ThisValue = 0; ThisValue < GlobalIntA; ThisValue++)
 				{		
+                    *(uint*)(GlobalAddressD) = &PathValues[ThisValue];
+                    GlobalAddressD += 4;
 					if (PathValues[ThisValue].Type == PATH_JUMP)
 					{	
 						if ((g_playerPathPointTable[(int)playerID] >= PathValues[ThisValue].PathStart) && (g_playerPathPointTable[(int)playerID] <= PathValues[ThisValue].PathStop))		// Path range check

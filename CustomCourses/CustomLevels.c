@@ -2489,11 +2489,12 @@ void DisplayKT1Hook(Screen *Display)
 			g_fogG = (uint)OverKartHeader.FogRGBA[1];
 			g_fogB = (uint)OverKartHeader.FogRGBA[2];
 			gDPSetFogColor(GraphPtrOffset++, (uint)OverKartHeader.FogRGBA[0], (uint)OverKartHeader.FogRGBA[1], (uint)OverKartHeader.FogRGBA[2], 255);
-			gSPFogPosition(GraphPtrOffset++, 900, 1000);
+			gSPFogPosition(GraphPtrOffset++, OverKartHeader.FogStart, OverKartHeader.FogStop);
 		}
 
 		DisplayGroupmap(SegmentAddress(6, OverKartHeader.SectionViewPosition), Display);
-        
+        gSPClearGeometryMode(GraphPtrOffset++, G_FOG );
+        gDPSetCycleType(GraphPtrOffset++, G_CYC_1CYCLE);
 	}
 	else
 	{
@@ -2518,11 +2519,13 @@ void XLUDisplay(Screen *Display)
 				g_fogG = (uint)OverKartHeader.FogRGBA[1];
 				g_fogB = (uint)OverKartHeader.FogRGBA[2];
 				gDPSetFogColor(GraphPtrOffset++, (uint)OverKartHeader.FogRGBA[0], (uint)OverKartHeader.FogRGBA[1], (uint)OverKartHeader.FogRGBA[2], 255);
-				gSPFogPosition(GraphPtrOffset++, 900, 1000);			
+			    gSPFogPosition(GraphPtrOffset++, OverKartHeader.FogStart, OverKartHeader.FogStop);
 				gDPPipeSync(GraphPtrOffset++);
 			}
             DisplayGroupmap(SegmentAddress(6, OverKartHeader.XLUSectionViewPosition), Display);
+            gSPClearGeometryMode(GraphPtrOffset++, G_FOG );
             gDPSetCycleType(GraphPtrOffset++, G_CYC_1CYCLE);
+            
 		}
 		else
 		{

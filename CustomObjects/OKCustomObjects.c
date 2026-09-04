@@ -591,8 +591,7 @@ void DrawOKObjects(Camera* LocalCamera, int ForceRender)
 
 		//For efficiency, we sort the objects by textures when possible.
 		//This means running through each object TYPE, and drawing each piece of the model.
-		 
-
+        
 		for (int CurrentType = 0; CurrentType < OverKartRAMHeader.ObjectTypeCount; CurrentType++)
 		{
 			//For each object type, we first check if the object uses animations or not
@@ -613,7 +612,7 @@ void DrawOKObjects(Camera* LocalCamera, int ForceRender)
 				{	
 					OKModel* ModelData = (OKModel*)GetRealAddress(ObjectSegment | (int)OverKartRAMHeader.ObjectTypeList[CurrentType].ObjectXLU);
 					for (int CurrentModel = 0; CurrentModel < (int)OverKartRAMHeader.ObjectTypeList[CurrentType].OKXLUCount; CurrentModel++)
-					{						
+					{	
 						DrawOKObjectLoop((OKModel*)&ModelData[CurrentModel], CurrentPlayer, CurrentType, ForceRender);
 					}				
 				}

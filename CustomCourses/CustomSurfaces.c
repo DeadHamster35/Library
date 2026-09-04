@@ -353,7 +353,10 @@ void AddGravityEdit(Player *car)
 				FaceStruct *SurfaceBuffer = (FaceStruct*)(gFaceBuffer);
 				Vtx *TargetVert = (Vtx*)SurfaceBuffer[GlobalPlayer[car_number].bump.last_zx].p1;
 				//Target Blue-Channel of SurfaceMap Vertex Color
-				GlobalPlayer[car_number].bump.dummy = TargetVert->v.cn[2];  //use.bump dummy; goes unused by gamecode
+                if (TargetVert->v.cn[2] != 255)
+			    {
+				    GlobalPlayer[car_number].bump.dummy = TargetVert->v.cn[2];  //use.bump dummy; goes unused by gamecode
+                }
 			}
 			else
 			{

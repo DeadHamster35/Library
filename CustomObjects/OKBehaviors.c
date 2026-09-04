@@ -128,19 +128,22 @@ void ObjectBehaviorStrafe(OKObject* InputObject)
 			{
 				InputObject->Status[1] = 1;
 			}
+            InputObject->TargetDistance = InputObject->ObjectData.velocity[0];
 			break;
 		}
 		case 1:
 		{
-			InputObject->ObjectData.velocity[0] -= (float)(Speed * 0.0003f) * GlobalShortA;
+            InputObject->TargetDistance -= (float)(Speed * 0.0003f) * GlobalShortA;
+			InputObject->ObjectData.velocity[0] = InputObject->TargetDistance;
 			InputObject->ObjectData.velocity[1] = 0;
 			InputObject->ObjectData.velocity[2] = 0;
 
-			InputObject->Counter[0] += InputObject->ObjectData.velocity[0] * GlobalShortA;
+			
 			if (InputObject->ObjectData.velocity[0] <= (float)(Speed * -0.01f))
 			{
 				InputObject->Status[1] = 2;
 			}
+            break;
 		}
 		case 2:
 		{
@@ -157,7 +160,7 @@ void ObjectBehaviorStrafe(OKObject* InputObject)
 		}
 		case 3:
 		{
-			InputObject->ObjectData.velocity[0] = (float)(Speed * 0.01f) * GlobalShortA;
+			InputObject->ObjectData.velocity[0] = (float)(Speed * -0.01f) * GlobalShortA;
 			InputObject->ObjectData.velocity[1] = 0;
 			InputObject->ObjectData.velocity[2] = 0;
 
@@ -166,19 +169,22 @@ void ObjectBehaviorStrafe(OKObject* InputObject)
 			{
 				InputObject->Status[1] = 4;
 			}
+            InputObject->TargetDistance = InputObject->ObjectData.velocity[0];
 			break;
 		}
 		case 4:
 		{
-			InputObject->ObjectData.velocity[0] += (float)(Speed * 0.0003f) * GlobalShortA;
+			InputObject->TargetDistance += (float)(Speed * 0.0003f) * GlobalShortA;
+			InputObject->ObjectData.velocity[0] = InputObject->TargetDistance;
 			InputObject->ObjectData.velocity[1] = 0;
 			InputObject->ObjectData.velocity[2] = 0;
 
-			InputObject->Counter[0] += InputObject->ObjectData.velocity[0] * GlobalShortA;
+			
 			if (InputObject->ObjectData.velocity[0] >= (float)(Speed * 0.01f))
 			{
 				InputObject->Status[1] = 5;
 			}
+            break;
 		}
 		case 5:
 		{	
