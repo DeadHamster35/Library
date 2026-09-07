@@ -113,6 +113,17 @@ JAL AddGravityEdit
 JAL AddGravityEdit
 
 
+//Sprint course finish line check
+//Only call site of CheckLapCount. The delay slot loads playerID into a0.
+.org 0x00AA24
+JAL SprintLapCheck
+
+//Skip start/finish path wrap on sprint courses.
+//Only call site of WrapPathIndexAtFinish. Delay slot stores pathIndex.
+.org 0x00DCD8
+JAL WrapPathIndexAtFinishCheck
+
+
 //InitSmokeHooks
 .org 0x6D59C
 JAL InitRndSmokeHook

@@ -1178,6 +1178,8 @@
 //GP points
 .definelabel g_playerGPpoints, 0x8018D9C8
 .definelabel EtcEnemyDrive, 0x800097E0
+.definelabel CheckLapCount, 0x8000929C
+.definelabel WrapPathIndexAtFinish, 0x8000CBF8
 .definelabel CalcOGAAreaSubBP, 0x8000C0BC
 .definelabel InitCenterLine, 0x8000F2DC
 .definelabel OSMemSize, 0x80000318

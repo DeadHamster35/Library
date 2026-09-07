@@ -1439,11 +1439,7 @@ void Zanzou2(int player)
 {
     uint time = 0x0D00C158;
 
-    short LapMax = 3;
-    if (HotSwapID > 0)
-    {
-        LapMax = OverKartHeader.LapCount;
-    }
+    short LapMax = GetCourseLapMax();
 
 
     //Time
@@ -1573,11 +1569,7 @@ void KWDisplayUDLapWrapper(int ThisPlayer)
 
     
     KWDisplayInit();
-    short LapMax = 3;
-    if (HotSwapID > 0)
-    {
-        LapMax = OverKartHeader.LapCount;
-    }
+    short LapMax = GetCourseLapMax();
     
     gDPLoadTLUT_pal16(GraphPtrOffset++, 0, (uint)&LapCounterTextures + laptext_PaletteOffset);
     gDPLoadTextureBlock_4b(GraphPtrOffset++, (uint)&LapCounterTextures, G_IM_FMT_CI,32,8,0,G_TX_CLAMP,G_TX_CLAMP,5,3,0,0);
@@ -1641,11 +1633,7 @@ void KWDisplay4LapWrapper(int ThisPlayer)
 
     KWDisplayInit();
     int LocalLapX, LocalLapY;
-    short LapMax = 3;
-    if (HotSwapID > 0)
-    {
-        LapMax = OverKartHeader.LapCount;
-    }
+    short LapMax = GetCourseLapMax();
 
     gDPLoadTLUT_pal16(GraphPtrOffset++, 0, (uint)&LapCounterTextures + laptext_PaletteOffset);
     gDPLoadTextureBlock_4b(GraphPtrOffset++, (uint)&LapCounterTextures, G_IM_FMT_CI,32,8,0,G_TX_CLAMP,G_TX_CLAMP,5,3,0,0);
@@ -1711,11 +1699,7 @@ void KWDisplayLRLapWrapper(int ThisPlayer)
 
     KWDisplayInit();
     int LocalLapX, LocalLapY;
-    short LapMax = 3;
-    if (HotSwapID > 0)
-    {
-        LapMax = OverKartHeader.LapCount;
-    }
+    short LapMax = GetCourseLapMax();
     gDPLoadTLUT_pal16(GraphPtrOffset++, 0, (uint)&LapCounterTextures + laptext_PaletteOffset);
     gDPLoadTextureBlock_4b(GraphPtrOffset++, (uint)&LapCounterTextures, G_IM_FMT_CI,32,8,0,G_TX_CLAMP,G_TX_CLAMP,5,3,0,0);
 

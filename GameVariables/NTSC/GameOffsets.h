@@ -1140,6 +1140,8 @@ extern char g_ShadowflagPlayer3;
 //GP points
 extern uchar g_playerGPpoints[8]; //name to num: Mario, Luigi, Yoshi, Toad, D.K., Wario, Peach, Bowser
 extern void EtcEnemyDrive();
+extern void CheckLapCount(int playerID, Player *car);
+extern void WrapPathIndexAtFinish(float posX, float posY, float posZ, short *wayPointIndex, int pathIndex);
 extern short CalcOGAAreaSubBP(float mx, float my, float mz, ushort t_group, int *b_num_ptr);
 extern void InitCenterLine();
 extern uint OSMemSize;

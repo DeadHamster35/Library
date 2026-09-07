@@ -34,7 +34,7 @@ typedef struct OKHeader{
 	char			GoalBannerToggle;
 	char			BackgroundToggle;
 	char			ManualTempo;
-	char			LapCount;
+	uchar			LapCount;
 	uint 			MusicID;
 	short 			PathLength[4];
 	char 			GhostCharacter, WaterType;
@@ -47,6 +47,8 @@ typedef struct OKHeader{
     //FutureProof
     uint            Padding[8];
 } OKHeader;
+
+#define SPRINT_LAPCOUNT		255
 
 typedef struct OKAIPath{
 	char	LastPath, CurrentPath, LastLap, PADDING;

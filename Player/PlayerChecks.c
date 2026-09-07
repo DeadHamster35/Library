@@ -6,22 +6,147 @@
 
 //bool IceSoundPlayed[8];
 
-void SetLapIndex()
+short GetCourseLapMax()
 {
-    short LapMax = 3;
-
+    if ((HotSwapID > 0) && (OverKartHeader.LapCount == SPRINT_LAPCOUNT))
+    {
+        return 1;
+    }
     if (HotSwapID > 0)
     {
-        LapMax = OverKartHeader.LapCount;
+        if ((OverKartHeader.LapCount > 9) || (OverKartHeader.LapCount < 1))
+        {
+            return 3;
+        }
+        if (g_gameMode == GAMEMODE_TT)
+        {
+            return 3;
+        }
+        return OverKartHeader.LapCount;
     }
-    if ((LapMax > 9) || (LapMax < 1))
+    return 3;
+}
+
+#define SprintFinishWindow  20
+
+float SprintFinishPlane;
+float SprintFinishDirection;
+float SprintLastZ[8];
+bool SprintFinishArmed;
+bool SprintNearFinish[8];
+
+void WrapPathIndexAtFinishCheck(float posX, float posY, float posZ, short *wayPointIndex, int pathIndex)
+{
+    if ((HotSwapID > 0) && (OverKartHeader.LapCount == SPRINT_LAPCOUNT))
     {
-        LapMax = 3; 
-        OverKartHeader.LapCount = 3;
+        return;
     }
-    if (g_gameMode == GAMEMODE_TT)
+    WrapPathIndexAtFinish(posX, posY, posZ, wayPointIndex, pathIndex);
+}
+
+void SetSprintFinish()
+{
+    SprintFinishArmed = false;
+    SprintFinishPlane = 0.0f;
+    SprintFinishDirection = 0.0f;
+
+    for (int ThisPlayer = 0; ThisPlayer < 8; ThisPlayer++)
     {
-        LapMax = 3;
+        SprintLastZ[ThisPlayer] = GlobalPlayer[ThisPlayer].position[2];
+        SprintNearFinish[ThisPlayer] = false;
+    }
+
+    if ((HotSwapID == 0) || (OverKartHeader.LapCount != SPRINT_LAPCOUNT))
+    {
+        return;
+    }
+    if (OverKartHeader.PathLength[0] < 2)
+    {
+        return;
+    }
+
+    Marker *PathArray = (Marker *)GetRealAddress(PathTable[0][0]);
+    short LastMarker = OverKartHeader.PathLength[0] - 1;
+
+    SprintFinishPlane = (float)PathArray[LastMarker].Position[2];
+
+    // Stock crossing math assumes the racing line runs -Z through the plane.
+    // If the designer laid the final marker out the other way, mirror it.
+    if (PathArray[LastMarker].Position[2] <= PathArray[LastMarker - 1].Position[2])
+    {
+        SprintFinishDirection = 1.0f;
+    }
+    else
+    {
+        SprintFinishDirection = -1.0f;
+    }
+
+    SprintFinishArmed = true;
+}
+#define PrintDebug(Address, Value) *(uint *)(Address) = Value
+
+void SprintLapCheck(int playerID, Player *car)
+{
+    float CurrentZ = car->position[2];
+    float PreviousZ = SprintLastZ[playerID];
+    SprintLastZ[playerID] = CurrentZ;
+
+    if (SprintFinishArmed)
+    {
+        if (g_playerPathPointTable[playerID] >= (OverKartHeader.PathLength[0] - SprintFinishWindow))
+        {
+            SprintNearFinish[playerID] = true;
+        }
+    }
+
+    CheckLapCount(playerID, car);
+
+    if (!SprintFinishArmed)
+    {
+        return;
+    }
+    if (g_startingIndicator < 3)
+    {
+        return;
+    }
+    if (*GlobalLap[playerID] >= 3)
+    {
+        return;
+    }
+    if (!SprintNearFinish[playerID])
+    {
+        return;
+    }
+
+    float Overshoot = SprintFinishDirection * (SprintFinishPlane - CurrentZ);
+    float Approach = SprintFinishDirection * (PreviousZ - SprintFinishPlane);
+
+    if ((Overshoot < 0.0f) || (Approach <= 0.0f))
+    {
+        return;
+    }
+
+    *GlobalLap[playerID] = 3;
+    g_timeLapChange[playerID] = g_gameTimer - ((0.01666666f * Overshoot) / (Overshoot + Approach));
+    
+    
+
+    
+}
+
+void SetLapIndex()
+{
+    short LapMax = GetCourseLapMax();
+
+    if ((HotSwapID > 0) && (OverKartHeader.LapCount != SPRINT_LAPCOUNT))
+    {
+        if ((OverKartHeader.LapCount > 9) || (OverKartHeader.LapCount < 1) || (g_gameMode == GAMEMODE_TT))
+        {
+            OverKartHeader.LapCount = 3;
+        }
+    }
+    else if ((HotSwapID == 0) && (g_gameMode == GAMEMODE_TT))
+    {
         OverKartHeader.LapCount = 3;
     }
 
@@ -34,6 +159,8 @@ void SetLapIndex()
     {
         *GlobalLap[ThisPlayer] = 2 - LapMax;
     }
+
+    SetSprintFinish();
 }
 void CheckSplashRepl(char WaterType)
 {	
