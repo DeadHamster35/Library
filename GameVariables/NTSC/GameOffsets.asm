@@ -1196,6 +1196,7 @@
 //course
 .definelabel g_mirrorValue, 0x8015F784
 .definelabel g_goalBannerPos, 0x8015F8D0
+.definelabel g_finishLineZ, 0x8016344C
 .definelabel g_mooSoundCounter, 0x8015F700
 .definelabel g_mooSoundPointer, 0x8015F702
 .definelabel g_mooSoundLastDistance, 0x8015F704

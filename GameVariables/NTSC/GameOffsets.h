@@ -1160,6 +1160,7 @@ extern void AllocDepthBuffer();
 //course
 extern float g_mirrorValue;
 extern Vector g_goalBannerPos;
+extern float g_finishLineZ;
 extern short g_mooSoundCounter;
 extern short g_mooSoundPointer;
 extern float g_mooSoundLastDistance;

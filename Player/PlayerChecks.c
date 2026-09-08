@@ -34,6 +34,7 @@ float SprintFinishDirection;
 float SprintLastZ[8];
 bool SprintFinishArmed;
 bool SprintNearFinish[8];
+Vector SprintStartBanner;
 
 void WrapPathIndexAtFinishCheck(float posX, float posY, float posZ, short *wayPointIndex, int pathIndex)
 {
@@ -49,6 +50,9 @@ void SetSprintFinish()
     SprintFinishArmed = false;
     SprintFinishPlane = 0.0f;
     SprintFinishDirection = 0.0f;
+    SprintStartBanner[0] = 0.0f;
+    SprintStartBanner[1] = 0.0f;
+    SprintStartBanner[2] = 0.0f;
 
     for (int ThisPlayer = 0; ThisPlayer < 8; ThisPlayer++)
     {
@@ -68,7 +72,15 @@ void SetSprintFinish()
     Marker *PathArray = (Marker *)GetRealAddress(PathTable[0][0]);
     short LastMarker = OverKartHeader.PathLength[0] - 1;
 
-    SprintFinishPlane = (float)PathArray[LastMarker].Position[2];
+    SprintStartBanner[0] = g_goalBannerPos[0];
+    SprintStartBanner[1] = g_goalBannerPos[1];
+    SprintStartBanner[2] = g_goalBannerPos[2];
+
+    g_goalBannerPos[0] = (float)PathArray[LastMarker].Position[0];
+    g_goalBannerPos[1] = (float)PathArray[LastMarker].Position[1] - 15.0f;
+    g_goalBannerPos[2] = (float)PathArray[LastMarker].Position[2];
+    g_finishLineZ = (float)PathArray[LastMarker].Position[2];
+    SprintFinishPlane = g_finishLineZ;
 
     // Stock crossing math assumes the racing line runs -Z through the plane.
     // If the designer laid the final marker out the other way, mirror it.
@@ -87,24 +99,21 @@ void SetSprintFinish()
 
 void SprintLapCheck(int playerID, Player *car)
 {
+    if (!SprintFinishArmed)
+    {
+        CheckLapCount(playerID, car);
+        return;
+    }
+
     float CurrentZ = car->position[2];
     float PreviousZ = SprintLastZ[playerID];
     SprintLastZ[playerID] = CurrentZ;
 
-    if (SprintFinishArmed)
+    if (g_playerPathPointTable[playerID] >= (OverKartHeader.PathLength[0] - SprintFinishWindow))
     {
-        if (g_playerPathPointTable[playerID] >= (OverKartHeader.PathLength[0] - SprintFinishWindow))
-        {
-            SprintNearFinish[playerID] = true;
-        }
+        SprintNearFinish[playerID] = true;
     }
 
-    CheckLapCount(playerID, car);
-
-    if (!SprintFinishArmed)
-    {
-        return;
-    }
     if (g_startingIndicator < 3)
     {
         return;
@@ -128,10 +137,6 @@ void SprintLapCheck(int playerID, Player *car)
 
     *GlobalLap[playerID] = 3;
     g_timeLapChange[playerID] = g_gameTimer - ((0.01666666f * Overshoot) / (Overshoot + Approach));
-    
-    
-
-    
 }
 
 void SetLapIndex()
@@ -157,10 +162,37 @@ void SetLapIndex()
     }
     for (int ThisPlayer = 0; ThisPlayer < Players; ThisPlayer++)
     {
-        *GlobalLap[ThisPlayer] = 2 - LapMax;
+        if ((HotSwapID > 0) && (OverKartHeader.LapCount == SPRINT_LAPCOUNT))
+        {
+            *GlobalLap[ThisPlayer] = 2;
+        }
+        else
+        {
+            *GlobalLap[ThisPlayer] = 2 - LapMax;
+        }
     }
 
     SetSprintFinish();
+}
+
+short GetCourseLapIndex(int player)
+{
+    short LapMax = GetCourseLapMax();
+    if ((HotSwapID > 0) && (OverKartHeader.LapCount == SPRINT_LAPCOUNT))
+    {
+        return 1;
+    }
+
+    int LapIndex = *GlobalLap[player] + LapMax - 2;
+    if (LapIndex < 0)
+    {
+        return 0;
+    }
+    if (LapIndex > LapMax)
+    {
+        return LapMax;
+    }
+    return LapIndex;
 }
 void CheckSplashRepl(char WaterType)
 {	
@@ -482,8 +514,11 @@ void EffectBGMReplace()
 			{
 				if ((g_GameLapTable[(int)playerID] == 2) && (!FinalLapActive))
 				{
-					FinalLapActive = true;
-					g_musicTempo = g_musicTempo * 1.25;
+					if (!((HotSwapID > 0) && (OverKartHeader.LapCount == SPRINT_LAPCOUNT)))
+					{
+						FinalLapActive = true;
+						g_musicTempo = g_musicTempo * 1.25;
+					}
 				}
 				if ((AnimatedLakituStruct[(int)playerID].event_flag == LAKITU_LAPFINAL))
 				{
@@ -522,12 +557,15 @@ void EffectBGMReplace()
 			{
 				if ((g_GameLapTable[(int)playerID] == 2))
 				{
-					if (!EffectFinalLapBGM[(int)playerID])
+					if (!((HotSwapID > 0) && (OverKartHeader.LapCount == SPRINT_LAPCOUNT)))
 					{
-						EffectFinalLapBGM[(int)playerID] = true;
-						NaPlyLevelStart(playerID,0x1900ff3a);
+						if (!EffectFinalLapBGM[(int)playerID])
+						{
+							EffectFinalLapBGM[(int)playerID] = true;
+							NaPlyLevelStart(playerID,0x1900ff3a);
+						}
+						continue;
 					}
-					continue;
 				}
 			}
 		}

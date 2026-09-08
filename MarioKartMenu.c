@@ -1515,11 +1515,7 @@ void Zanzou2(int player)
     
     LocalLapY -= 8;
 
-    int LapIndex = *GlobalLap[player] + LapMax - 2;
-    if (LapIndex < 0)
-    {
-        LapIndex = 0;
-    }
+    int LapIndex = GetCourseLapIndex(player);
     
     //1 player large font.
     gDPLoadTLUT_pal16(GraphPtrOffset++, 0, (uint)&LapCounterTextures + LargeLapNumbers_PaletteOffset);
@@ -1580,11 +1576,7 @@ void KWDisplayUDLapWrapper(int ThisPlayer)
     
     if (KWLap[ThisPlayer].goal != LapMax)
     {
-        int LapIndex = *GlobalLap[ThisPlayer] + LapMax - 2;
-        if (LapIndex < 0)
-        {
-            LapIndex = 0;
-        }
+        int LapIndex = GetCourseLapIndex(ThisPlayer);
 
         //1 player large font.
         gDPLoadTLUT_pal16(GraphPtrOffset++, 0, (uint)&LapCounterTextures + LargeLapNumbers_PaletteOffset);
@@ -1655,11 +1647,7 @@ void KWDisplay4LapWrapper(int ThisPlayer)
         LocalLapX = KWLap[ThisPlayer].cx - 26;
         LocalLapY = KWLap[ThisPlayer].cy + 4;
 
-        int LapIndex = *GlobalLap[ThisPlayer] + LapMax - 2;
-        if (LapIndex < 0)
-        {
-            LapIndex = 0;
-        }
+        int LapIndex = GetCourseLapIndex(ThisPlayer);
 
         KWRectangle(LocalLapX+13,LocalLapY,16,8,0,(8*LapIndex),1);
         KWRectangle(LocalLapX+21,LocalLapY,8,8,0,(8*10),1);
@@ -1720,11 +1708,7 @@ void KWDisplayLRLapWrapper(int ThisPlayer)
         LocalLapX = KWLap[ThisPlayer].cx;
         LocalLapY = KWLap[ThisPlayer].cy - 4;
 
-        int LapIndex = *GlobalLap[ThisPlayer] + LapMax - 2;
-        if (LapIndex < 0)
-        {
-            LapIndex = 0;
-        }
+        int LapIndex = GetCourseLapIndex(ThisPlayer);
 
         KWRectangle(LocalLapX+13,LocalLapY,16,8,0,(8*LapIndex),1);
         KWRectangle(LocalLapX+21,LocalLapY,8,8,0,(8*10),1);

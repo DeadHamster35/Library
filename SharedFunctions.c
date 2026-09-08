@@ -72,17 +72,15 @@ void DisplayFlagGateCheck(Camera* LocalCamera)
 			gSPSetGeometryMode(GraphPtrOffset++, (G_FOG | G_SHADING_SMOOTH));
 		}
 		DisplayFlagGate(LocalCamera);
-		if ((OverKartHeader.LapCount == SPRINT_LAPCOUNT) && (OverKartHeader.PathLength[0] >= 1))
+		if (SprintFinishArmed)
 		{
-			Marker *PathArray = (Marker *)GetRealAddress(PathTable[0][0]);
-			short FlagMarker = OverKartHeader.PathLength[0] - 1;
 			float SavedBanner[3];
 			SavedBanner[0] = g_goalBannerPos[0];
 			SavedBanner[1] = g_goalBannerPos[1];
 			SavedBanner[2] = g_goalBannerPos[2];
-			g_goalBannerPos[0] = (float)PathArray[FlagMarker].Position[0];
-			g_goalBannerPos[1] = (float)PathArray[FlagMarker].Position[1];
-			g_goalBannerPos[2] = (float)PathArray[FlagMarker].Position[2];
+			g_goalBannerPos[0] = SprintStartBanner[0];
+			g_goalBannerPos[1] = SprintStartBanner[1];
+			g_goalBannerPos[2] = SprintStartBanner[2];
 			DisplayFlagGate(LocalCamera);
 			g_goalBannerPos[0] = SavedBanner[0];
 			g_goalBannerPos[1] = SavedBanner[1];
