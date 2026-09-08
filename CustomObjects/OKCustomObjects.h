@@ -10,6 +10,8 @@ extern void DrawOKObjectLoop();
 extern void CheckOKObjects();
 extern void ClearOKObject(short ObjectID);
 extern short FindOKObject();
+extern void SetLocalMatrix(int CurrentObject, int Type, int Player);
+
 extern bool TestCollideBox(float BoxPosition[], float BoxSize[], short BoxAngle[], float TargetPosition[], float TargetRadius);
 extern bool TestCollideSphereAngled(float SourcePosition[], float SourceRadius, short SourceAngle[], short BoxPosition[], float TargetPosition[], float TargetRadius);
 extern bool TestCollideSVectorSphere(float SourcePosition[], float SourceRadius, SVector TargetPosition, float TargetRadius);

@@ -2,7 +2,7 @@
 
 
 
-char ScaleXMode = 2, ScaleYMode = 2, ScaleZMode = 2, ScalePad = 0;
+unsigned char ScaleXMode = 2, ScaleYMode = 2, ScaleZMode = 2, ScalePad = 0;
 float LevelScales[7] =
 {
 	0.0f, 0.5f, 1.0f, 1.5f, 2.0f, 2.5f, 3.0f
@@ -369,8 +369,14 @@ void setSong()
 
 		if (OverKartHeader.MusicID < 50)
 		{
-			songID = (short)OverKartHeader.MusicID;
-
+			if (g_gameMode == GAMEMODE_BATTLE)
+			{
+				BattleSongID = (short)OverKartHeader.MusicID;
+			}
+			else
+			{
+				songID = (short)OverKartHeader.MusicID;
+			}
 			dataLength = 8;
 			*sourceAddress = (int)&ok_Sequence;
 			*targetAddress = (int)&g_MUSSequenceTable.pointer[3].address;
@@ -400,7 +406,7 @@ void setSong()
 	else
 	{
 		songID = 3;
-
+		BattleSongID = 5;
 		dataLength = 8;
 		*sourceAddress = (int)&ok_Sequence;
 		*targetAddress = (int)&g_MUSSequenceTable.pointer[3].address;
@@ -696,6 +702,19 @@ void PlaceIBoxes(long BoxOffset)
 			objectAngle[Vector] = MakeRandom();
 		}
 		objectPosition[0] *= g_mirrorValue;
+
+        objectPosition[0] *= LevelScales[(int)(ScaleXMode)];
+        objectPosition[1] *= LevelScales[(int)(ScaleYMode)];
+        objectPosition[2] *= LevelScales[(int)(ScaleZMode)];
+
+        if (ZFLIP)
+        {
+            objectPosition[2] *= -1.0f;
+        }
+        if (YFLIP)
+        {
+            objectPosition[1] *= -1.0f;
+        }
 
 		GlobalIntA = addObjectBuffer(objectPosition, objectAngle, objectVelocity, IBOX);
 		g_SimpleObjectArray[GlobalIntA].fparam = CheckHight(objectPosition[0], objectPosition[1] + 10, objectPosition[2]);
@@ -1517,8 +1536,7 @@ void runDisplayScreen()
 
 void runKillDisplayObjects()
 {
-	// Handles the display of the buffer copy to texture.
-	// Allows for rendering the screen to a set of 6 textures.
+	// disables specific track sections based on game-mode and CC speed. 
 
 	GlobalAddressA = ((uint)(&ok_scrolltranslucent)) + OverKartHeader.KDOffset;
 	LoopValue = *(int *)GlobalAddressA;
@@ -1531,106 +1549,106 @@ void runKillDisplayObjects()
 		uint *MeshList = (uint *)(GlobalAddressA + 12);
 		switch (g_gameMode)
 		{
-		case GAMEMODE_GP:
-		{
-			// GP
-			if (DisplayKill->GP != 0)
-			{
-				for (int ThisMesh = 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
-				{
-					KillDisplayList(0x07000000 | MeshList[ThisMesh]);
-				}
-			}
-			break;
-		}
-		case GAMEMODE_TT:
-		{
-			// TIME TRIAL
-			if (DisplayKill->TT != 0)
-			{
-				for (int ThisMesh = 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
-				{
-					KillDisplayList(0x07000000 | MeshList[ThisMesh]);
-				}
-			}
-			break;
-		}
-		case GAMEMODE_VS:
-		{
-			// TIME VS
-			if (DisplayKill->VS != 0)
-			{
-				for (int ThisMesh = 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
-				{
-					KillDisplayList(0x07000000 | MeshList[ThisMesh]);
-				}
-			}
-			break;
-		}
-		case GAMEMODE_BATTLE:
-		{
-			// BATTLE
-			if (DisplayKill->Battle != 0)
-			{
-				for (int ThisMesh = 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
-				{
-					KillDisplayList(0x07000000 | MeshList[ThisMesh]);
-				}
-			}
-			break;
-		}
+            case GAMEMODE_GP:
+            {
+                // GP
+                if (DisplayKill->GP == 0)
+                {
+                    for (int ThisMesh = 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
+                    {
+                        KillDisplayList(0x07000000 | MeshList[ThisMesh]);
+                    }
+                }
+                break;
+            }
+            case GAMEMODE_TT:
+            {
+                // TIME TRIAL
+                if (DisplayKill->TT == 0)
+                {
+                    for (int ThisMesh = 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
+                    {
+                        KillDisplayList(0x07000000 | MeshList[ThisMesh]);
+                    }
+                }
+                break;
+            }
+            case GAMEMODE_VS:
+            {
+                // TIME VS
+                if (DisplayKill->VS == 0)
+                {
+                    for (int ThisMesh = 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
+                    {
+                        KillDisplayList(0x07000000 | MeshList[ThisMesh]);
+                    }
+                }
+                break;
+            }
+            case GAMEMODE_BATTLE:
+            {
+                // BATTLE
+                if (DisplayKill->Battle == 0)
+                {
+                    for (int ThisMesh = 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
+                    {
+                        KillDisplayList(0x07000000 | MeshList[ThisMesh]);
+                    }
+                }
+                break;
+            }
 		}
 
 		switch (g_raceClass)
 		{
-		case 0:
-		{
-			// 50
-			if (DisplayKill->Fifty != 0)
-			{
-				for (int ThisMesh = 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
-				{
-					KillDisplayList(0x07000000 | MeshList[ThisMesh]);
-				}
-			}
-			break;
-		}
-		case 1:
-		{
-			// 100
-			if (DisplayKill->Hundred != 0)
-			{
-				for (int ThisMesh = 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
-				{
-					KillDisplayList(0x07000000 | MeshList[ThisMesh]);
-				}
-			}
-			break;
-		}
-		case 2:
-		{
-			// 150
-			if (DisplayKill->HundredFifty != 0)
-			{
-				for (int ThisMesh = 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
-				{
-					KillDisplayList(0x07000000 | MeshList[ThisMesh]);
-				}
-			}
-			break;
-		}
-		case 3:
-		{
-			// EXTRA
-			if (DisplayKill->Extra != 0)
-			{
-				for (int ThisMesh = 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
-				{
-					KillDisplayList(0x07000000 | MeshList[ThisMesh]);
-				}
-			}
-			break;
-		}
+            case 0:
+            {
+                // 50
+                if (DisplayKill->Fifty == 0)
+                {
+                    for (int ThisMesh = 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
+                    {
+                        KillDisplayList(0x07000000 | MeshList[ThisMesh]);
+                    }
+                }
+                break;
+            }
+            case 1:
+            {
+                // 100
+                if (DisplayKill->Hundred == 0)
+                {
+                    for (int ThisMesh = 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
+                    {
+                        KillDisplayList(0x07000000 | MeshList[ThisMesh]);
+                    }
+                }
+                break;
+            }
+            case 2:
+            {
+                // 150
+                if (DisplayKill->HundredFifty == 0)
+                {
+                    for (int ThisMesh = 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
+                    {
+                        KillDisplayList(0x07000000 | MeshList[ThisMesh]);
+                    }
+                }
+                break;
+            }
+            case 3:
+            {
+                // EXTRA
+                if (DisplayKill->Extra == 0)
+                {
+                    for (int ThisMesh = 0; ThisMesh < DisplayKill->MeshCount; ThisMesh++)
+                    {
+                        KillDisplayList(0x07000000 | MeshList[ThisMesh]);
+                    }
+                }
+                break;
+            }
 		}
 
 		// Setup next Loop
@@ -1713,6 +1731,7 @@ void setOKObjects()
 	GlobalAddressD = GlobalAddressB + 4;
 	OverKartRAMHeader.ObjectList = (OKObjectList *)(GlobalAddressD);
 
+    
 	for (int This = 0; This < OverKartRAMHeader.ObjectCount; This++)
 	{
 		// Loop through the object count and set each individual object in the array.
@@ -1727,7 +1746,7 @@ void setOKObjects()
 		OKObjectType ThisType = OverKartRAMHeader.ObjectTypeList[OKObjectArray[This].TypeIndex];
 
 		OKObjectArray[This].ObjectData.flag = 0xC000;
-		OKObjectArray[This].ObjectData.radius = (ThisType.BumpRadius / 100); // used for level calcs BUMP
+		OKObjectArray[This].ObjectData.radius = (ThisType.BumpRadius / 100.0f); // used for level calcs BUMP
 		
 
 		if (g_ScreenFlip)
@@ -1763,6 +1782,8 @@ void setOKObjects()
 			OverKartRAMHeader.ObjectList[This].OriginPosition[2] *= (LevelScales[(int)ScaleZMode]);			
 		}
 
+        OKObjectArray[This].PathTarget = -1;
+
 		OKObjectArray[This].ObjectData.position[0] = OverKartRAMHeader.ObjectList[This].OriginPosition[0];
 		OKObjectArray[This].ObjectData.position[1] = OverKartRAMHeader.ObjectList[This].OriginPosition[1];
 		OKObjectArray[This].ObjectData.position[2] = OverKartRAMHeader.ObjectList[This].OriginPosition[2];
@@ -1775,11 +1796,12 @@ void setOKObjects()
 		OKObjectArray[This].ObjectData.velocity[1] = (float)(OverKartRAMHeader.ObjectList[This].OriginVelocity[1] * 100);
 		OKObjectArray[This].ObjectData.velocity[2] = (float)(OverKartRAMHeader.ObjectList[This].OriginVelocity[2] * 100);
 
+        
 		OKObjectArray[This].AngularVelocity[0] = OverKartRAMHeader.ObjectList[This].OriginAngularVelocity[0] * DEG1;
 		OKObjectArray[This].AngularVelocity[1] = OverKartRAMHeader.ObjectList[This].OriginAngularVelocity[1] * DEG1;
 		OKObjectArray[This].AngularVelocity[2] = OverKartRAMHeader.ObjectList[This].OriginAngularVelocity[2] * DEG1;
 
-		OKObjectArray[This].PathTarget = -1;
+		
 		if (ThisType.ObjectAnimations != 0xFFFFFFFF)
 		{
 			uint *AnimationOffsets = (uint *)(GetRealAddress(ObjectSegment | ThisType.ObjectAnimations));
@@ -1824,7 +1846,7 @@ void KT16ItemBox()
 {
 	if (HotSwapID == 0)
 	{
-		SetItemBoxObject(0x06000038);
+		PlaceIBoxes(0x06000038);
 	}
 }
 
@@ -1832,7 +1854,7 @@ void InitialMapObjectCode()
 {
 	if (HotSwapID == 0)
 	{
-		InitialMapObject();
+        InitialMapObject();
 	}
 	else
 	{
@@ -1843,43 +1865,35 @@ void InitialMapObjectCode()
 		SetPakkunObject(0x06000418);
 		g_StaticObjectCount = g_simpleObjectCount;
 	}
-	
 	for (int ThisObject = 0; ThisObject < g_StaticObjectCount; ThisObject++)
 	{
-		if (g_SimpleObjectArray[ThisObject].flag == EXISTOBJ)
-		{
-			g_SimpleObjectArray[ThisObject].position[0] = ((float)g_SimpleObjectArray[ThisObject].position[0] * LevelScales[(int)ScaleXMode]);
 
-					
-			if (YFLIP)
-			{
-				g_SimpleObjectArray[ThisObject].position[1] = -1 * ((float)g_SimpleObjectArray[ThisObject].position[1] * LevelScales[(int)ScaleYMode]);
-			}
-			else
-			{
-				g_SimpleObjectArray[ThisObject].position[1] = ((float)g_SimpleObjectArray[ThisObject].position[1] * LevelScales[(int)ScaleYMode]);
-			}
-			
-			if (ZFLIP)
-			{
-				g_SimpleObjectArray[ThisObject].position[2] = -1 * ((float)g_SimpleObjectArray[ThisObject].position[2] * LevelScales[(int)ScaleZMode]);
-			}
-			else
-			{
-				g_SimpleObjectArray[ThisObject].position[2] = ((float)g_SimpleObjectArray[ThisObject].position[2] * LevelScales[(int)ScaleZMode]);
-			}
-			
-			
-			if (g_SimpleObjectArray[ThisObject].category == IBOX)
-			{
-				g_SimpleObjectArray[GlobalIntA].fparam = CheckHight(g_SimpleObjectArray[ThisObject].position[0], g_SimpleObjectArray[ThisObject].position[1] + 10, g_SimpleObjectArray[ThisObject].position[2]);
-				g_SimpleObjectArray[GlobalIntA].velocity[0] = g_SimpleObjectArray[ThisObject].position[1];
-				g_SimpleObjectArray[GlobalIntA].position[1] = g_SimpleObjectArray[GlobalIntA].fparam - 20;
-			}
+        if (g_SimpleObjectArray[ThisObject].category == IBOX)
+        {
+            continue;
+        }
 
-			
-		}
-		
+
+        g_SimpleObjectArray[ThisObject].position[0] = ((float)g_SimpleObjectArray[ThisObject].position[0] * LevelScales[(int)ScaleXMode]);
+        if (YFLIP)
+        {
+            g_SimpleObjectArray[ThisObject].position[1] = -1 * ((float)g_SimpleObjectArray[ThisObject].position[1] * LevelScales[(int)ScaleYMode]);
+        }
+        else
+        {
+            g_SimpleObjectArray[ThisObject].position[1] = ((float)g_SimpleObjectArray[ThisObject].position[1] * LevelScales[(int)ScaleYMode]);
+        }
+        if (ZFLIP)
+        {
+            g_SimpleObjectArray[ThisObject].position[2] = -1 * ((float)g_SimpleObjectArray[ThisObject].position[2] * LevelScales[(int)ScaleZMode]);
+        }
+        else
+        {
+            g_SimpleObjectArray[ThisObject].position[2] = ((float)g_SimpleObjectArray[ThisObject].position[2] * LevelScales[(int)ScaleZMode]);
+        }
+        
+        
+
 		
 
 		
@@ -2474,12 +2488,13 @@ void DisplayKT1Hook(Screen *Display)
 			g_fogR = (uint)OverKartHeader.FogRGBA[0];
 			g_fogG = (uint)OverKartHeader.FogRGBA[1];
 			g_fogB = (uint)OverKartHeader.FogRGBA[2];
-			gDPSetCycleType(GraphPtrOffset++, G_CYC_2CYCLE);
-			gDPSetFogColor(GraphPtrOffset++, (uint)OverKartHeader.FogRGBA[0], (uint)OverKartHeader.FogRGBA[1], (uint)OverKartHeader.FogRGBA[2], (uint)OverKartHeader.FogRGBA[3]);
+			gDPSetFogColor(GraphPtrOffset++, (uint)OverKartHeader.FogRGBA[0], (uint)OverKartHeader.FogRGBA[1], (uint)OverKartHeader.FogRGBA[2], 255);
 			gSPFogPosition(GraphPtrOffset++, OverKartHeader.FogStart, OverKartHeader.FogStop);
 		}
 
 		DisplayGroupmap(SegmentAddress(6, OverKartHeader.SectionViewPosition), Display);
+        gSPClearGeometryMode(GraphPtrOffset++, G_FOG );
+        gDPSetCycleType(GraphPtrOffset++, G_CYC_1CYCLE);
 	}
 	else
 	{
@@ -2503,24 +2518,19 @@ void XLUDisplay(Screen *Display)
 				g_fogR = (uint)OverKartHeader.FogRGBA[0];
 				g_fogG = (uint)OverKartHeader.FogRGBA[1];
 				g_fogB = (uint)OverKartHeader.FogRGBA[2];
-				gDPSetCycleType(GraphPtrOffset++, G_CYC_2CYCLE);
-				gDPSetFogColor(GraphPtrOffset++, (uint)OverKartHeader.FogRGBA[0], (uint)OverKartHeader.FogRGBA[1], (uint)OverKartHeader.FogRGBA[2], 0xFF);
-				gSPFogPosition(GraphPtrOffset++, OverKartHeader.FogStart, OverKartHeader.FogStop);
-				gSPSetGeometryMode(GraphPtrOffset++, G_FOG);				
+				gDPSetFogColor(GraphPtrOffset++, (uint)OverKartHeader.FogRGBA[0], (uint)OverKartHeader.FogRGBA[1], (uint)OverKartHeader.FogRGBA[2], 255);
+			    gSPFogPosition(GraphPtrOffset++, OverKartHeader.FogStart, OverKartHeader.FogStop);
 				gDPPipeSync(GraphPtrOffset++);
 			}
             DisplayGroupmap(SegmentAddress(6, OverKartHeader.XLUSectionViewPosition), Display);
+            gSPClearGeometryMode(GraphPtrOffset++, G_FOG );
+            gDPSetCycleType(GraphPtrOffset++, G_CYC_1CYCLE);
+            
 		}
 		else
 		{
 			gSPDisplayList(GraphPtrOffset++, (0x06000000 | OverKartHeader.XLUSectionViewPosition));	
 		}
-	}
-
-	if (OverKartHeader.FogStart > 0)
-	{
-		gDPSetCycleType(GraphPtrOffset++, G_CYC_1CYCLE);
-		gSPClearGeometryMode(GraphPtrOffset++, G_FOG);
 	}
 	
 }

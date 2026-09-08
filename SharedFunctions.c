@@ -51,15 +51,15 @@ void DrawPerScreenDefault(Camera* LocalCamera)
 
 void DisplayFlagGateCheck(Camera* LocalCamera)
 {
-	
-	if ( ((HotSwapID > 0) && (OverKartHeader.GoalBannerToggle != 0)) || (HotSwapID == 0) )
-	{	
-		DisplayFlagGate(LocalCamera);
-	}
-
-	if (HotSwapID > 0)
-	{
-		if (OverKartHeader.FogStart > 0)
+	if (HotSwapID == 0)
+    {
+        DisplayFlagGate(LocalCamera);
+        return;
+    }
+	if ( ((HotSwapID > 0) && (OverKartHeader.GoalBannerToggle != 0)) )
+    {	
+        
+        if (OverKartHeader.FogStart > 0)
 		{
 			g_fogToggleBanshee = 1;
 			g_fogR = (uint)OverKartHeader.FogRGBA[0];
@@ -68,9 +68,26 @@ void DisplayFlagGateCheck(Camera* LocalCamera)
 			gDPSetCycleType(GraphPtrOffset++, G_CYC_2CYCLE);
 			gDPSetFogColor(GraphPtrOffset++, (uint)OverKartHeader.FogRGBA[0], (uint)OverKartHeader.FogRGBA[1], (uint)OverKartHeader.FogRGBA[2], (uint)OverKartHeader.FogRGBA[3]);
 			gSPFogPosition(GraphPtrOffset++, OverKartHeader.FogStart, OverKartHeader.FogStop);
-			gDPSetRenderMode(GraphPtrOffset++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_SURF2);
+			gDPSetRenderMode(GraphPtrOffset++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_TEX_EDGE);
 			gSPSetGeometryMode(GraphPtrOffset++, (G_FOG | G_SHADING_SMOOTH));
 		}
+		DisplayFlagGate(LocalCamera);
+		if (SprintFinishArmed)
+		{
+			float SavedBanner[3];
+			SavedBanner[0] = g_goalBannerPos[0];
+			SavedBanner[1] = g_goalBannerPos[1];
+			SavedBanner[2] = g_goalBannerPos[2];
+			g_goalBannerPos[0] = SprintStartBanner[0];
+			g_goalBannerPos[1] = SprintStartBanner[1];
+			g_goalBannerPos[2] = SprintStartBanner[2];
+			DisplayFlagGate(LocalCamera);
+			g_goalBannerPos[0] = SavedBanner[0];
+			g_goalBannerPos[1] = SavedBanner[1];
+			g_goalBannerPos[2] = SavedBanner[2];
+		}
+        gSPClearGeometryMode(GraphPtrOffset++, (G_FOG));
+        
 	}
 }
 void allRunDefault()

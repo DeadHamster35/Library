@@ -6,6 +6,8 @@ mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-point
 #Custom Object Code
 mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -c "Library\CustomObjects\OKBehaviors.c" -o "Library\CustomObjects\OKBehaviors.o" 
 mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -c "Library\CustomObjects\OKCustomObjects.c" -o "Library\CustomObjects\OKCustomObjects.o"
+mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -c "Library\CustomObjects\OKCustomObjects.c" -o "Library\CustomObjects\ObjectHandler.o"
+mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -c "Library\CustomObjects\OKCustomObjects.c" -o "Library\CustomObjects\OKAnime.o"
 
 #Gametypes
 mips64-elf-gcc -Wall -O1 -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -G0 -c "Library\Gametypes\CTF.c" -o "Library\CustomObjects\CTF.o" 

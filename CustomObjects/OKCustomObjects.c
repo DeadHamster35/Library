@@ -323,9 +323,10 @@ void SetSimpleBump(int PlayerID, Vector SourcePosition, Vector SourceRadius, sho
 
 void OKObjectCollision(OKObject *InputObject)
 {	
-	OKCollisionSphere* HitBox = (OKCollisionSphere*)GetRealAddress(ObjectSegment | OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].ObjectHitbox);
-
-	float ObjectScale = ((float)(OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].ObjectScale) / 100.0f);
+    OKObjectType* TypeData = (OKObjectType*)&OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex];
+	OKCollisionSphere* HitBox = (OKCollisionSphere*)GetRealAddress(ObjectSegment | TypeData->ObjectHitbox);
+    
+	float ObjectScale = ((float)(TypeData->ObjectScale) / 100.0f);
 	float TempPosition[3] = {0,0,0};
 	float TempBoxSize[3] = {1,1,1};
 	short BoxAngles[3] = {0,0,0};
@@ -340,10 +341,8 @@ void OKObjectCollision(OKObject *InputObject)
 		GlobalShortA = g_playerCount;
 	}
 	
-	GlobalBoolA = false; //Use for tracking movements of all 4 players for sound
-	GlobalBoolD = false;
 
-	for (int ThisBox = 0; ThisBox < OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].CollisionCount; ThisBox++)
+	for (int ThisBox = 0; ThisBox < TypeData->CollisionCount; ThisBox++)
 	{
 
 		//INITIALIZE BOX
@@ -355,7 +354,8 @@ void OKObjectCollision(OKObject *InputObject)
 			TempPosition[2] = ((float)HitBox[ThisBox].Position[2] * GlobalFloatA);
 
 			MakeAlignVector(TempPosition, InputObject->ObjectData.angle[1]);
-			//Rotate the offset position of the hitbox by the object angle. 
+        
+        //Rotate the offset position of the hitbox by the object angle. 
 
 			TempBoxSize[0] = ((float)HitBox[ThisBox].Size[0] * GlobalFloatA);
 			TempBoxSize[1] = ((float)HitBox[ThisBox].Size[1] * GlobalFloatA);
@@ -365,18 +365,18 @@ void OKObjectCollision(OKObject *InputObject)
 			BoxAngles[1] = (HitBox[ThisBox].Angle[1] + InputObject->ObjectData.angle[1]);
 			BoxAngles[2] = (HitBox[ThisBox].Angle[2] + InputObject->ObjectData.angle[2]);
 
-			if (HitBox[ThisBox].OffsetFlag == 1)
-			{
-				
-				MakeAlignVector(TempPosition, InputObject->ObjectData.angle[1]);
-				//Rotate the offset position of the hitbox by the object angle. 
+            if (HitBox[ThisBox].OffsetFlag == 1)
+            {
+                
+                MakeAlignVector(TempPosition, InputObject->ObjectData.angle[1]);
+                //Rotate the offset position of the hitbox by the object angle. 
 
-			}
+            }
 
-			TempPosition[0] += InputObject->ObjectData.position[0];
+        //Add the corrected vector to the base position of the object
+            TempPosition[0] += InputObject->ObjectData.position[0];
 			TempPosition[1] += InputObject->ObjectData.position[1];
 			TempPosition[2] += InputObject->ObjectData.position[2];
-			//Add the corrected vector to the base position of the object
 
 		//END BOX INITIALIZATION
 
@@ -409,7 +409,7 @@ void OKObjectCollision(OKObject *InputObject)
 				)
 			) //Complex Boolean
 			{
-				GlobalBoolD = true;
+				
 				if(GlobalPlayer[CurrentPlayer].slip_flag & STAR)
 				{
 					OKObjectReaction(InputObject, (short) HitBox[ThisBox].DamagedResult, CurrentPlayer);
@@ -485,49 +485,68 @@ void OKObjectCollision(OKObject *InputObject)
 	
 	
 	
-
-
-	//Check Sound Effect
-	if (OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].SoundID != 0xFFFFFFFF)
-	{
-		if ((InputObject->SoundPlaying == 0) && (GlobalBoolA))
-		{
-			InputObject->SoundPlaying = 1;
-			if(OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].SoundType == 0 && g_playerCount == 1)
-			{
-				NaPlyLevelStart(0,OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].SoundID); //Play globally
-			}
-			else
-			{
-				NaSceneLevelStart(objectPosition,ZeroVector,OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].SoundID); //Play directionally
-			}
-		}
-		else
-		{
-			if ((InputObject->SoundPlaying == 1) && (!GlobalBoolA))
-			{
-				InputObject->SoundPlaying = 0;
-				if(OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].SoundType == 0 && g_playerCount == 1)
-				{
-					NaPlyLevelStop(0,OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].SoundID); //Play globally
-				}
-				else
-				{
-					NaSceneLevelStop(objectPosition,OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].SoundID); //Play directionally
-				}
-			}
-		}
-	}
-	
 }
 
+
+
+void SetLocalMatrix(int CurrentObject, int Type, int Player)
+{
+    objectPosition[0] = (float)OKObjectArray[CurrentObject].ObjectData.position[0];
+    objectPosition[1] = (float)OKObjectArray[CurrentObject].ObjectData.position[1] - 3.5f;
+    objectPosition[2] = (float)OKObjectArray[CurrentObject].ObjectData.position[2];
+    
+    if (OverKartRAMHeader.ObjectTypeList[Type].CameraAlignToggle == 1)
+    {		
+        //If the CameraAlignToggle flag is enabled, then we align the object to the camera directly.
+
+        objectAngle[0] = 0;
+        objectAngle[1] = 0;
+        objectAngle[2] = 0;
+
+        
+        float sinB = sinT(GlobalCamera[Player]->camera_direction[1]-(DEG1 * 180));
+        float cosB = cosT(GlobalCamera[Player]->camera_direction[1]-(DEG1 * 180));
+
+        AffineMatrix[0][0] =  cosB;
+        AffineMatrix[1][0] =  0.0f;
+        AffineMatrix[2][0] =  sinB;
+        AffineMatrix[0][1] =  0.0f;
+        AffineMatrix[1][1] =  1.0f;
+        AffineMatrix[2][1] =  0.0f;
+        AffineMatrix[0][2] = -sinB;
+        AffineMatrix[1][2] =  0.0f;
+        AffineMatrix[2][2] =  cosB;
+        AffineMatrix[0][3] =  0.0f;
+        AffineMatrix[1][3] =  0.0f;
+        AffineMatrix[2][3] =  0.0f;
+        AffineMatrix[3][3] =  1.0f; 
+
+        AffineMatrix[3][0] = (float)objectPosition[0];
+        AffineMatrix[3][1] = (float)objectPosition[1];
+        AffineMatrix[3][2] = (float)objectPosition[2];
+    }
+    else
+    {
+
+        //Otherwise we use the object's angle to get a perspective normalized view.
+
+        objectAngle[0] = (short)OKObjectArray[CurrentObject].ObjectData.angle[0];
+        objectAngle[1] = (short)(OKObjectArray[CurrentObject].ObjectData.angle[1] * -1);
+        objectAngle[2] = (short)OKObjectArray[CurrentObject].ObjectData.angle[2];	
+
+
+        CreateModelingMatrix(AffineMatrix,objectPosition,objectAngle);
+        
+    }
+}
 
 
 
 void DrawOKObjectLoop(OKModel* ThisModel, int Player, int Type, int ForceRender)
 {
 	// Add the Texture Draw F3D code
-	gSPDisplayList(GraphPtrOffset++,(ObjectSegment | ThisModel->TextureAddress) )
+    
+    gSPDisplayList(GraphPtrOffset++,(ObjectSegment | ThisModel->TextureAddress) )
 	
 	//Now we have to parse for each individual object, and normalize the model to the location and angle.
 
@@ -544,52 +563,7 @@ void DrawOKObjectLoop(OKModel* ThisModel, int Player, int Type, int ForceRender)
 					uint* MeshAddress = (uint*)GetRealAddress(ObjectSegment |ThisModel->MeshAddress);
 
 					
-					objectPosition[0] = (float)OKObjectArray[CurrentObject].ObjectData.position[0];
-					objectPosition[1] = (float)OKObjectArray[CurrentObject].ObjectData.position[1] - 3.5f;
-					objectPosition[2] = (float)OKObjectArray[CurrentObject].ObjectData.position[2];
-					
-					if (OverKartRAMHeader.ObjectTypeList[Type].CameraAlignToggle == 0x01)
-					{		
-						//If the CameraAlignToggle flag is enabled, then we align the object to the camera directly.
-
-						objectAngle[0] = 0;
-						objectAngle[1] = 0;
-						objectAngle[2] = 0;
-
-						
-						float sinB = sinT(GlobalCamera[Player]->camera_direction[1]-(DEG1 * 90));
-						float cosB = cosT(GlobalCamera[Player]->camera_direction[1]-(DEG1 * 90));
-
-						AffineMatrix[0][0] =  cosB;
-						AffineMatrix[1][0] =  0.0f;
-						AffineMatrix[2][0] =  sinB;
-						AffineMatrix[0][1] =  0.0f;
-						AffineMatrix[1][1] =  1.0f;
-						AffineMatrix[2][1] =  0.0f;
-						AffineMatrix[0][2] = -sinB;
-						AffineMatrix[1][2] =  0.0f;
-						AffineMatrix[2][2] =  cosB;
-						AffineMatrix[0][3] =  0.0f;
-						AffineMatrix[1][3] =  0.0f;
-						AffineMatrix[2][3] =  0.0f;
-						AffineMatrix[3][3] =  1.0f; 
-
-						AffineMatrix[3][0] = (float)objectPosition[0];
-						AffineMatrix[3][1] = (float)objectPosition[1];
-						AffineMatrix[3][2] = (float)objectPosition[2];
-					}
-					else
-					{
-
-						//Otherwise we use the object's angle to get a perspective normalized view.
-
-						objectAngle[0] = (short)OKObjectArray[CurrentObject].ObjectData.angle[0];
-						objectAngle[1] = (short)(OKObjectArray[CurrentObject].ObjectData.angle[1] * -1);
-						objectAngle[2] = (short)OKObjectArray[CurrentObject].ObjectData.angle[2];	
-
-
-						CreateModelingMatrix(AffineMatrix,objectPosition,objectAngle);
-					}
+					SetLocalMatrix(CurrentObject, Type, Player);
 
 					ScalingMatrix(AffineMatrix,((float)(ThisModel->MeshScale) * 0.01f));
 
@@ -607,131 +581,17 @@ void DrawOKObjectLoop(OKModel* ThisModel, int Player, int Type, int ForceRender)
 	}
 }
 
-bool SkeletalMatrix(OKSkeleton* Skeleton, Object ObjectData, int FrameCount, int Frame)
-{
-		
-	GlobalUIntA = Skeleton->AnimationOffset + 8;	
-	SVector* AngleData = (SVector*)((GetRealAddress(ObjectSegment | GlobalUIntA)));
-
-	GlobalUIntA += (FrameCount * 6);
-	if (FrameCount % 2 == 1)
-	{
-		GlobalUIntA += 2;
-	}
-
-	SVector* TranslationData = (SVector*)((GetRealAddress(ObjectSegment | GlobalUIntA)));
-
-	GlobalUIntA += (FrameCount * 6);
-	if (FrameCount % 2 == 1)
-	{
-		GlobalUIntA += 2;
-	}
-
-	SVector* ScalingData = (SVector*)((GetRealAddress(ObjectSegment | GlobalUIntA))); 
-
-	
-	objectPosition[0] = ( (float)(Skeleton->MeshScale) * ((float)(TranslationData[Frame][0]) * 0.01) );
-	objectPosition[1] = ( (float)(Skeleton->MeshScale) * ((float)(TranslationData[Frame][1]) * 0.01) );
-	objectPosition[2] = ( (float)(Skeleton->MeshScale) * ((float)(TranslationData[Frame][2]) * 0.01) );
-	
-	if (ObjectData.angle[2] != 0)
-	{
-		MakeAlignVectorZ(objectPosition,ObjectData.angle[2]);
-	}
-	
-	if (ObjectData.angle[1] != 0)
-	{
-		MakeAlignVector(objectPosition, ObjectData.angle[1]);
-	}
-	
-
-	if (ObjectData.angle[0] != 0)
-	{
-		MakeAlignVectorX(objectPosition,ObjectData.angle[0]);
-	}
-	
-	objectPosition[0]+= ObjectData.position[0];
-	objectPosition[1]+= ObjectData.position[1];
-	objectPosition[2]+= ObjectData.position[2];
-
-	objectAngle[0] = (short)ObjectData.angle[0] + (AngleData[Frame][0]);
-	objectAngle[1] = (short)(ObjectData.angle[1] * -1) + (AngleData[Frame][1]);
-	objectAngle[2] = (short)ObjectData.angle[2] + (AngleData[Frame][2] * -1);	
-
-	CreateModelingMatrix(AffineMatrix,objectPosition,objectAngle);
-
-	//Now apply the scaling size of the object to the matrix and add the drawing code of the 3D model to the F3D. 
-	ScaleMatrixXYZFixed(AffineMatrix,ScalingData[Frame]);
-	ScalingMatrix(AffineMatrix, Skeleton->MeshScale);
-	
-	return SetMatrix(AffineMatrix,0);
-}
-
-void DrawOKAnimationLoop(OKSkeleton* Skeleton, int CurrentPlayer, int Type, int ForceRender)
-{
-	
-	bool TextureDrawn = false;	
-
-	for (int CurrentNode = 0; CurrentNode < Skeleton->NodeCount; CurrentNode++)
-	{	
-		GlobalAddressB = ( GetRealAddress(ObjectSegment | Skeleton->NodeOffset) + (CurrentNode * sizeof(OKNode)));
-		OKNode *ThisNode = (OKNode*)(GlobalAddressB); 
-		for (int CurrentObject = 0; CurrentObject < OverKartRAMHeader.ObjectCount; CurrentObject++)
-		{
-			if(OKObjectArray[CurrentObject].TypeIndex == Type)
-			{
-				if(OKObjectArray[CurrentObject].SubBehaviorClass != SUBBEHAVIOR_DEAD)
-				{
-
-					//We use the sphere collision test to see if the character is within render radius.
-					if( (ForceRender != 0) || TestCollideSphere(OKObjectArray[CurrentObject].ObjectData.position, (float)(OverKartRAMHeader.ObjectTypeList[Type].RenderRadius) ,GlobalPlayer[CurrentPlayer].position, GlobalPlayer[CurrentPlayer].radius))
-					{
-						if (!TextureDrawn)
-						{
-							TextureDrawn = true;
-							gSPDisplayList(GraphPtrOffset++,(ThisNode->TextureOffset | ObjectSegment));							
-						}
-						uint *MeshPointer = (uint*)GetRealAddress(ThisNode->MeshOffset | ObjectSegment);
-						if(SkeletalMatrix(Skeleton, OKObjectArray[CurrentObject].ObjectData, OKObjectArray[CurrentObject].AnimationMax, OKObjectArray[CurrentObject].AnimationFrame) != 0)
-						{
-							for (int ThisMesh = 0; ThisMesh < ThisNode->MeshCount; ThisMesh++)
-							{
-								gSPDisplayList(GraphPtrOffset++, (MeshPointer[ThisMesh] | ObjectSegment));
-							}
-						}
-					}
-				}
-			}
-						
-		}
-
-		TextureDrawn = false; //reset texture for next node.
-	}
-	
-	for (int ThisChild = 0; ThisChild < Skeleton->ChildCount; ThisChild++)
-	{
-		GlobalAddressA += sizeof(OKSkeleton);
-		*(uint*)(0x80650000+GlobalUIntB * 4) = GlobalAddressA;
-		GlobalUIntB++;
-		OKSkeleton* Skeletor = (OKSkeleton*)GlobalAddressA;
-		*(uint*)(0x80650000+GlobalUIntB * 4) = Skeletor->ChildCount;
-		GlobalUIntB++;
-		DrawOKAnimationLoop((OKSkeleton*)GlobalAddressA, CurrentPlayer, Type, ForceRender);		
-	}
-}
-
 void DrawOKObjects(Camera* LocalCamera, int ForceRender)
 {
 	GlobalUIntB = 0;
 	if (scrollLock)
 	{
 		int CurrentPlayer = (*(long*)&LocalCamera - (long)&g_Camera1) / 0xB8;
-
+        gSPSetGeometryMode(GraphPtrOffset++,G_CULL_BACK | G_ZBUFFER | G_SHADING_SMOOTH | G_SHADE);
 
 		//For efficiency, we sort the objects by textures when possible.
 		//This means running through each object TYPE, and drawing each piece of the model.
-		 
-
+        
 		for (int CurrentType = 0; CurrentType < OverKartRAMHeader.ObjectTypeCount; CurrentType++)
 		{
 			//For each object type, we first check if the object uses animations or not
@@ -752,30 +612,16 @@ void DrawOKObjects(Camera* LocalCamera, int ForceRender)
 				{	
 					OKModel* ModelData = (OKModel*)GetRealAddress(ObjectSegment | (int)OverKartRAMHeader.ObjectTypeList[CurrentType].ObjectXLU);
 					for (int CurrentModel = 0; CurrentModel < (int)OverKartRAMHeader.ObjectTypeList[CurrentType].OKXLUCount; CurrentModel++)
-					{						
+					{	
 						DrawOKObjectLoop((OKModel*)&ModelData[CurrentModel], CurrentPlayer, CurrentType, ForceRender);
 					}				
 				}
 			}
 			else
 			{	
-				
-				GlobalIntA = GetRealAddress( ObjectSegment | OverKartRAMHeader.ObjectTypeList[CurrentType].ObjectAnimations);		
-				uint* AnimationOffsets = (uint*)(GlobalIntA);
-				GlobalIntA = GetRealAddress( ObjectSegment | AnimationOffsets[0]);
-				GlobalIntA += 4; //skip past the framecount, we stored this earlier.
-				GlobalAddressA = GlobalIntA;// + sizeof(OKSkeleton); //ooohhhh you.
-					
-				OKSkeleton* Skeleton = (OKSkeleton*)(GlobalIntA); 
-
-				*(uint*)(0x80650000+GlobalUIntB * 4) = GlobalAddressA;
-				GlobalUIntB++;
-				*(uint*)(0x80650000+GlobalUIntB * 4) = Skeleton->ChildCount;
-				GlobalUIntB++;
-
-				DrawOKAnimationLoop(Skeleton, CurrentPlayer, CurrentType, ForceRender);
-				
-				
+                
+                //here we need to load and parse through our animations
+                DrawAnimeObject(CurrentType, CurrentPlayer, 1);
 			}
 		}
 
@@ -846,6 +692,52 @@ void DrawOKObjects(Camera* LocalCamera, int ForceRender)
 	}
 }
 
+void CheckSoundObject(OKObject* InputObject)
+{
+    OKObjectType* TypeData = (OKObjectType*)&OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex];
+    //Check Sound Effect
+    if (TypeData->SoundID != 0xFFFFFFFF)
+    {
+            
+        GlobalBoolA = false;
+        for (int ThisPlayer = 0; ThisPlayer < g_playerCount; ThisPlayer++)
+        {
+            if (CalcDistance(GlobalPlayer[ThisPlayer].position, InputObject->ObjectData.position) < TypeData->SoundRadius)
+            {
+                GlobalBoolA = true;
+            }
+        }
+        
+        if ((InputObject->SoundPlaying == 0) && (GlobalBoolA))
+        {
+            InputObject->SoundPlaying = 1;
+            if(OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].SoundType == 0 || g_playerCount == 1)
+            {
+                NaPlyLevelStart(0,TypeData->SoundID); //Play globally
+            }
+            else
+            {
+                NaSceneLevelStart(objectPosition,ZeroVector,TypeData->SoundID); //Play directionally
+            }
+        }
+        else
+        {
+            if ((InputObject->SoundPlaying == 1) && (!GlobalBoolA))
+            {
+                InputObject->SoundPlaying = 0;
+                if(OverKartRAMHeader.ObjectTypeList[InputObject->TypeIndex].SoundType == 0 || g_playerCount == 1)
+                {
+                    NaPlyLevelStop(0,TypeData->SoundID); //Play globally
+                }
+                else
+                {
+                    NaSceneLevelStop(objectPosition,TypeData->SoundID); //Play directionally
+                }
+            }
+        }
+    }
+}
+
 
 void CheckOKObjects()
 {	
@@ -855,15 +747,7 @@ void CheckOKObjects()
 		
 		
 		for (int CurrentObject = 0; CurrentObject < (OverKartRAMHeader.ObjectCount); CurrentObject++)
-		{
-			if (OverKartRAMHeader.ObjectTypeList[OKObjectArray[CurrentObject].TypeIndex].ObjectAnimations != 0xFFFFFFFF)
-			{				
-				OKObjectArray[CurrentObject].AnimationFrame++;
-				if ((OKObjectArray[CurrentObject].AnimationFrame) >= (OKObjectArray[CurrentObject].AnimationMax))
-				{
-					OKObjectArray[CurrentObject].AnimationFrame = 0;
-				}
-			}		
+		{	
 			
 			if(OKObjectArray[CurrentObject].SubBehaviorClass != SUBBEHAVIOR_DEAD)
 			{
@@ -874,6 +758,10 @@ void CheckOKObjects()
 					OKObjectCollision((OKObject*)&OKObjectArray[CurrentObject]);
 				}
 				
+
+                CheckSoundObject((OKObject*)&OKObjectArray[CurrentObject]);
+    
+ 
 				
 			}
 		}

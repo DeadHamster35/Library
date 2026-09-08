@@ -2,9 +2,11 @@
 #define CustomLevelsH
 #include "../MainInclude.h"
 
-extern char ScaleXMode, ScaleYMode, ScaleZMode, ScalePad;
+extern unsigned char ScaleXMode, ScaleYMode, ScaleZMode, ScalePad;
+extern float LevelScales[7];
 extern short ZFLIP;
 extern short YFLIP;
+extern short BattleSongID;
 extern void FPS_Check();
 extern void DynamicTempo();
 extern void StaticTempo(int Tempo);

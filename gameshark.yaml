@@ -4329,3 +4329,8 @@ Automatic Items:
   - 801663BF 0002
   - D02BA290 00B6
   - 801663BF 0002
+
+
+Enable music in multiplayer:
+  - 8128ECAC 0000
+  - 8128ECAE 0000

@@ -1140,6 +1140,8 @@ extern char g_ShadowflagPlayer3;
 //GP points
 extern uchar g_playerGPpoints[8]; //name to num: Mario, Luigi, Yoshi, Toad, D.K., Wario, Peach, Bowser
 extern void EtcEnemyDrive();
+extern void CheckLapCount(int playerID, Player *car);
+extern void WrapPathIndexAtFinish(float posX, float posY, float posZ, short *wayPointIndex, int pathIndex);
 extern short CalcOGAAreaSubBP(float mx, float my, float mz, ushort t_group, int *b_num_ptr);
 extern void InitCenterLine();
 extern uint OSMemSize;
@@ -1158,6 +1160,7 @@ extern void AllocDepthBuffer();
 //course
 extern float g_mirrorValue;
 extern Vector g_goalBannerPos;
+extern float g_finishLineZ;
 extern short g_mooSoundCounter;
 extern short g_mooSoundPointer;
 extern float g_mooSoundLastDistance;
@@ -1199,7 +1202,7 @@ extern void NaPlyLevelStart(char playerID, int soundID);
 extern void NaPlyLevelStop(char playerID, int soundID); 
 extern void NaSceneLevelStart(Vector ObjectPosition, Vector ObjectVelocity, int soundID);
 extern void NaSceneLevelStop(Vector ObjectPosition, int soundID);
-
+extern short BattleSongID;
 
 
 

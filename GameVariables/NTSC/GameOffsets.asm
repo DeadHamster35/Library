@@ -1178,6 +1178,8 @@
 //GP points
 .definelabel g_playerGPpoints, 0x8018D9C8
 .definelabel EtcEnemyDrive, 0x800097E0
+.definelabel CheckLapCount, 0x8000929C
+.definelabel WrapPathIndexAtFinish, 0x8000CBF8
 .definelabel CalcOGAAreaSubBP, 0x8000C0BC
 .definelabel InitCenterLine, 0x8000F2DC
 .definelabel OSMemSize, 0x80000318
@@ -1194,6 +1196,7 @@
 //course
 .definelabel g_mirrorValue, 0x8015F784
 .definelabel g_goalBannerPos, 0x8015F8D0
+.definelabel g_finishLineZ, 0x8016344C
 .definelabel g_mooSoundCounter, 0x8015F700
 .definelabel g_mooSoundPointer, 0x8015F702
 .definelabel g_mooSoundLastDistance, 0x8015F704
@@ -1224,6 +1227,7 @@
 .definelabel NaPlyLevelStop, 0x800C9018
 .definelabel NaSceneLevelStart, 0x800C9D80
 .definelabel NaSceneLevelStop, 0x800C9EF4
+.definelabel BattleSongID, 0x8028ED16
 
 
 .definelabel GUPerspective, 0x800CF330

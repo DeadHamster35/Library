@@ -6,20 +6,154 @@
 
 //bool IceSoundPlayed[8];
 
-void SetLapIndex()
+short GetCourseLapMax()
 {
-    short LapMax = 3;
-
+    if ((HotSwapID > 0) && (OverKartHeader.LapCount == SPRINT_LAPCOUNT))
+    {
+        return 1;
+    }
     if (HotSwapID > 0)
     {
-        LapMax = OverKartHeader.LapCount;
+        if ((OverKartHeader.LapCount > 9) || (OverKartHeader.LapCount < 1))
+        {
+            return 3;
+        }
+        if (g_gameMode == GAMEMODE_TT)
+        {
+            return 3;
+        }
+        return OverKartHeader.LapCount;
     }
-    if ((LapMax > 9) || (LapMax < 1))
+    return 3;
+}
+
+#define SprintFinishWindow  20
+
+float SprintFinishPlane;
+float SprintFinishDirection;
+float SprintLastZ[8];
+bool SprintFinishArmed;
+bool SprintNearFinish[8];
+Vector SprintStartBanner;
+
+void WrapPathIndexAtFinishCheck(float posX, float posY, float posZ, short *wayPointIndex, int pathIndex)
+{
+    if ((HotSwapID > 0) && (OverKartHeader.LapCount == SPRINT_LAPCOUNT))
     {
-        LapMax = 3;
-        OverKartHeader.LapCount = 3;
+        return;
+    }
+    WrapPathIndexAtFinish(posX, posY, posZ, wayPointIndex, pathIndex);
+}
+
+void SetSprintFinish()
+{
+    SprintFinishArmed = false;
+    SprintFinishPlane = 0.0f;
+    SprintFinishDirection = 0.0f;
+    SprintStartBanner[0] = 0.0f;
+    SprintStartBanner[1] = 0.0f;
+    SprintStartBanner[2] = 0.0f;
+
+    for (int ThisPlayer = 0; ThisPlayer < 8; ThisPlayer++)
+    {
+        SprintLastZ[ThisPlayer] = GlobalPlayer[ThisPlayer].position[2];
+        SprintNearFinish[ThisPlayer] = false;
     }
 
+    if ((HotSwapID == 0) || (OverKartHeader.LapCount != SPRINT_LAPCOUNT))
+    {
+        return;
+    }
+    if (OverKartHeader.PathLength[0] < 2)
+    {
+        return;
+    }
+
+    Marker *PathArray = (Marker *)GetRealAddress(PathTable[0][0]);
+    short LastMarker = OverKartHeader.PathLength[0] - 1;
+
+    SprintStartBanner[0] = g_goalBannerPos[0];
+    SprintStartBanner[1] = g_goalBannerPos[1];
+    SprintStartBanner[2] = g_goalBannerPos[2];
+
+    g_goalBannerPos[0] = (float)PathArray[LastMarker].Position[0];
+    g_goalBannerPos[1] = (float)PathArray[LastMarker].Position[1] - 15.0f;
+    g_goalBannerPos[2] = (float)PathArray[LastMarker].Position[2];
+    g_finishLineZ = (float)PathArray[LastMarker].Position[2];
+    SprintFinishPlane = g_finishLineZ;
+
+    // Stock crossing math assumes the racing line runs -Z through the plane.
+    // If the designer laid the final marker out the other way, mirror it.
+    if (PathArray[LastMarker].Position[2] <= PathArray[LastMarker - 1].Position[2])
+    {
+        SprintFinishDirection = 1.0f;
+    }
+    else
+    {
+        SprintFinishDirection = -1.0f;
+    }
+
+    SprintFinishArmed = true;
+}
+#define PrintDebug(Address, Value) *(uint *)(Address) = Value
+
+void SprintLapCheck(int playerID, Player *car)
+{
+    if (!SprintFinishArmed)
+    {
+        CheckLapCount(playerID, car);
+        return;
+    }
+
+    float CurrentZ = car->position[2];
+    float PreviousZ = SprintLastZ[playerID];
+    SprintLastZ[playerID] = CurrentZ;
+
+    if (g_playerPathPointTable[playerID] >= (OverKartHeader.PathLength[0] - SprintFinishWindow))
+    {
+        SprintNearFinish[playerID] = true;
+    }
+
+    if (g_startingIndicator < 3)
+    {
+        return;
+    }
+    if (*GlobalLap[playerID] >= 3)
+    {
+        return;
+    }
+    if (!SprintNearFinish[playerID])
+    {
+        return;
+    }
+
+    float Overshoot = SprintFinishDirection * (SprintFinishPlane - CurrentZ);
+    float Approach = SprintFinishDirection * (PreviousZ - SprintFinishPlane);
+
+    if ((Overshoot < 0.0f) || (Approach <= 0.0f))
+    {
+        return;
+    }
+
+    *GlobalLap[playerID] = 3;
+    g_timeLapChange[playerID] = g_gameTimer - ((0.01666666f * Overshoot) / (Overshoot + Approach));
+}
+
+void SetLapIndex()
+{
+    short LapMax = GetCourseLapMax();
+
+    if ((HotSwapID > 0) && (OverKartHeader.LapCount != SPRINT_LAPCOUNT))
+    {
+        if ((OverKartHeader.LapCount > 9) || (OverKartHeader.LapCount < 1) || (g_gameMode == GAMEMODE_TT))
+        {
+            OverKartHeader.LapCount = 3;
+        }
+    }
+    else if ((HotSwapID == 0) && (g_gameMode == GAMEMODE_TT))
+    {
+        OverKartHeader.LapCount = 3;
+    }
 
     int Players = g_playerCount;
     if (g_gameMode == GAMEMODE_GP)
@@ -28,8 +162,37 @@ void SetLapIndex()
     }
     for (int ThisPlayer = 0; ThisPlayer < Players; ThisPlayer++)
     {
-        *GlobalLap[ThisPlayer] = 2 - LapMax;
+        if ((HotSwapID > 0) && (OverKartHeader.LapCount == SPRINT_LAPCOUNT))
+        {
+            *GlobalLap[ThisPlayer] = 2;
+        }
+        else
+        {
+            *GlobalLap[ThisPlayer] = 2 - LapMax;
+        }
     }
+
+    SetSprintFinish();
+}
+
+short GetCourseLapIndex(int player)
+{
+    short LapMax = GetCourseLapMax();
+    if ((HotSwapID > 0) && (OverKartHeader.LapCount == SPRINT_LAPCOUNT))
+    {
+        return 1;
+    }
+
+    int LapIndex = *GlobalLap[player] + LapMax - 2;
+    if (LapIndex < 0)
+    {
+        return 0;
+    }
+    if (LapIndex > LapMax)
+    {
+        return LapMax;
+    }
+    return LapIndex;
 }
 void CheckSplashRepl(char WaterType)
 {	
@@ -351,8 +514,11 @@ void EffectBGMReplace()
 			{
 				if ((g_GameLapTable[(int)playerID] == 2) && (!FinalLapActive))
 				{
-					FinalLapActive = true;
-					g_musicTempo = g_musicTempo * 1.25;
+					if (!((HotSwapID > 0) && (OverKartHeader.LapCount == SPRINT_LAPCOUNT)))
+					{
+						FinalLapActive = true;
+						g_musicTempo = g_musicTempo * 1.25;
+					}
 				}
 				if ((AnimatedLakituStruct[(int)playerID].event_flag == LAKITU_LAPFINAL))
 				{
@@ -391,12 +557,15 @@ void EffectBGMReplace()
 			{
 				if ((g_GameLapTable[(int)playerID] == 2))
 				{
-					if (!EffectFinalLapBGM[(int)playerID])
+					if (!((HotSwapID > 0) && (OverKartHeader.LapCount == SPRINT_LAPCOUNT)))
 					{
-						EffectFinalLapBGM[(int)playerID] = true;
-						NaPlyLevelStart(playerID,0x1900ff3a);
+						if (!EffectFinalLapBGM[(int)playerID])
+						{
+							EffectFinalLapBGM[(int)playerID] = true;
+							NaPlyLevelStart(playerID,0x1900ff3a);
+						}
+						continue;
 					}
-					continue;
 				}
 			}
 		}
@@ -443,6 +612,8 @@ void CheckJugemuMarker()
 
 				for (int ThisValue = 0; ThisValue < GlobalIntA; ThisValue++)
 				{		
+                    *(uint*)(GlobalAddressD) = &PathValues[ThisValue];
+                    GlobalAddressD += 4;
 					if (PathValues[ThisValue].Type == PATH_JUMP)
 					{	
 						if ((g_playerPathPointTable[(int)playerID] >= PathValues[ThisValue].PathStart) && (g_playerPathPointTable[(int)playerID] <= PathValues[ThisValue].PathStop))		// Path range check
@@ -585,7 +756,6 @@ void CheckPaths()
 					CPUPaths[ThisPlayer].LastLap = GlobalPlayer[ThisPlayer].rap;
 					CurrentPathID[ThisPlayer] = 0;
 				}
-
 			}
 		}
 	}
@@ -715,7 +885,7 @@ void SetBalloonTeams()
 
 void LakituSpawnBypass(Player *Kart, char PlayerID, float *SpawnVector, float *FacingVector)
 {
-	if (g_gameMode != GAMEMODE_BATTLE)
+	if ((g_gameMode != GAMEMODE_BATTLE) || (HotSwapID == 0))
 	{
 		GetLakituSpawnPoint(Kart, PlayerID, SpawnVector, FacingVector);
 	}

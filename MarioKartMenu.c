@@ -1439,11 +1439,7 @@ void Zanzou2(int player)
 {
     uint time = 0x0D00C158;
 
-    short LapMax = 3;
-    if (HotSwapID > 0)
-    {
-        LapMax = OverKartHeader.LapCount;
-    }
+    short LapMax = GetCourseLapMax();
 
 
     //Time
@@ -1464,24 +1460,27 @@ void Zanzou2(int player)
     LocalLapX -= 16;
     LocalLapY -= 4;
     
-    gDPPipeSync(GraphPtrOffset++);
-    gDPSetCycleType(GraphPtrOffset++, G_CYC_1CYCLE);
-    gSPClearGeometryMode(GraphPtrOffset++,G_ZBUFFER);
+    //Setup the RCP Color Combiner
+            gDPPipeSync(GraphPtrOffset++);
+            gDPSetCycleType(GraphPtrOffset++, G_CYC_1CYCLE);
+            gSPClearGeometryMode(GraphPtrOffset++,G_ZBUFFER);
 
-    gSPSetGeometryMode(GraphPtrOffset++,G_SHADE | G_SHADING_SMOOTH);
-    gDPSetPrimColor(GraphPtrOffset++, 0, 0, 255, 255, 255, 255);
-    gDPSetCombineLERP(GraphPtrOffset++,0, 0, 0, TEXEL0,
-        TEXEL0, 0, PRIMITIVE, 0,
-        0, 0, 0, TEXEL0,
-        TEXEL0, 0, PRIMITIVE, 0);
-    gDPSetTexturePersp(GraphPtrOffset++,G_TP_NONE);
-    gDPSetTextureFilter(GraphPtrOffset++,G_TF_POINT);
-    gDPSetTextureConvert(GraphPtrOffset++,G_TC_FILT);
-    gDPSetTextureLOD(GraphPtrOffset++,G_TL_TILE);
-    gDPSetTextureDetail(GraphPtrOffset++,G_TD_CLAMP);
-    gDPSetTextureLUT(GraphPtrOffset++,G_TT_NONE);
-    gDPSetRenderMode(GraphPtrOffset++,  G_RM_AA_XLU_SURF, G_RM_AA_XLU_SURF2);
+            gSPSetGeometryMode(GraphPtrOffset++,G_SHADE | G_SHADING_SMOOTH);
+            gDPSetPrimColor(GraphPtrOffset++, 0, 0, 255, 255, 255, 255);
+            gDPSetCombineLERP(GraphPtrOffset++,0, 0, 0, TEXEL0,
+                TEXEL0, 0, PRIMITIVE, 0,
+                0, 0, 0, TEXEL0,
+                TEXEL0, 0, PRIMITIVE, 0);
+            gDPSetTexturePersp(GraphPtrOffset++,G_TP_NONE);
+            gDPSetTextureFilter(GraphPtrOffset++,G_TF_POINT);
+            gDPSetTextureConvert(GraphPtrOffset++,G_TC_FILT);
+            gDPSetTextureLOD(GraphPtrOffset++,G_TL_TILE);
+            gDPSetTextureDetail(GraphPtrOffset++,G_TD_CLAMP);
+            gDPSetTextureLUT(GraphPtrOffset++,G_TT_NONE);
+            gDPSetRenderMode(GraphPtrOffset++,  G_RM_AA_XLU_SURF, G_RM_AA_XLU_SURF2);
+    //
 
+    
     gDPSetTextureLUT(GraphPtrOffset++, G_TT_RGBA16);
 	gSPTexture(GraphPtrOffset++, 65535, 65535, 0, 0, 1);
 	gDPLoadTLUT_pal16(GraphPtrOffset++, 0, (uint)&LapCounterTextures + laptext_PaletteOffset);
@@ -1516,11 +1515,7 @@ void Zanzou2(int player)
     
     LocalLapY -= 8;
 
-    int LapIndex = *GlobalLap[player] + LapMax - 2;
-    if (LapIndex < 0)
-    {
-        LapIndex = 0;
-    }
+    int LapIndex = GetCourseLapIndex(player);
     
     //1 player large font.
     gDPLoadTLUT_pal16(GraphPtrOffset++, 0, (uint)&LapCounterTextures + LargeLapNumbers_PaletteOffset);
@@ -1570,11 +1565,8 @@ void KWDisplayUDLapWrapper(int ThisPlayer)
 
     
     KWDisplayInit();
-    short LapMax = 3;
-    if (HotSwapID > 0)
-    {
-        LapMax = OverKartHeader.LapCount;
-    }
+    short LapMax = GetCourseLapMax();
+    
     gDPLoadTLUT_pal16(GraphPtrOffset++, 0, (uint)&LapCounterTextures + laptext_PaletteOffset);
     gDPLoadTextureBlock_4b(GraphPtrOffset++, (uint)&LapCounterTextures, G_IM_FMT_CI,32,8,0,G_TX_CLAMP,G_TX_CLAMP,5,3,0,0);
 
@@ -1584,11 +1576,7 @@ void KWDisplayUDLapWrapper(int ThisPlayer)
     
     if (KWLap[ThisPlayer].goal != LapMax)
     {
-        int LapIndex = *GlobalLap[ThisPlayer] + LapMax - 2;
-        if (LapIndex < 0)
-        {
-            LapIndex = 0;
-        }
+        int LapIndex = GetCourseLapIndex(ThisPlayer);
 
         //1 player large font.
         gDPLoadTLUT_pal16(GraphPtrOffset++, 0, (uint)&LapCounterTextures + LargeLapNumbers_PaletteOffset);
@@ -1637,11 +1625,7 @@ void KWDisplay4LapWrapper(int ThisPlayer)
 
     KWDisplayInit();
     int LocalLapX, LocalLapY;
-    short LapMax = 3;
-    if (HotSwapID > 0)
-    {
-        LapMax = OverKartHeader.LapCount;
-    }
+    short LapMax = GetCourseLapMax();
 
     gDPLoadTLUT_pal16(GraphPtrOffset++, 0, (uint)&LapCounterTextures + laptext_PaletteOffset);
     gDPLoadTextureBlock_4b(GraphPtrOffset++, (uint)&LapCounterTextures, G_IM_FMT_CI,32,8,0,G_TX_CLAMP,G_TX_CLAMP,5,3,0,0);
@@ -1663,11 +1647,7 @@ void KWDisplay4LapWrapper(int ThisPlayer)
         LocalLapX = KWLap[ThisPlayer].cx - 26;
         LocalLapY = KWLap[ThisPlayer].cy + 4;
 
-        int LapIndex = *GlobalLap[ThisPlayer] + LapMax - 2;
-        if (LapIndex < 0)
-        {
-            LapIndex = 0;
-        }
+        int LapIndex = GetCourseLapIndex(ThisPlayer);
 
         KWRectangle(LocalLapX+13,LocalLapY,16,8,0,(8*LapIndex),1);
         KWRectangle(LocalLapX+21,LocalLapY,8,8,0,(8*10),1);
@@ -1707,12 +1687,7 @@ void KWDisplayLRLapWrapper(int ThisPlayer)
 
     KWDisplayInit();
     int LocalLapX, LocalLapY;
-    short LapMax = 3;
-    if (HotSwapID > 0)
-    {
-        LapMax = OverKartHeader.LapCount;
-    }
-
+    short LapMax = GetCourseLapMax();
     gDPLoadTLUT_pal16(GraphPtrOffset++, 0, (uint)&LapCounterTextures + laptext_PaletteOffset);
     gDPLoadTextureBlock_4b(GraphPtrOffset++, (uint)&LapCounterTextures, G_IM_FMT_CI,32,8,0,G_TX_CLAMP,G_TX_CLAMP,5,3,0,0);
 
@@ -1733,11 +1708,7 @@ void KWDisplayLRLapWrapper(int ThisPlayer)
         LocalLapX = KWLap[ThisPlayer].cx;
         LocalLapY = KWLap[ThisPlayer].cy - 4;
 
-        int LapIndex = *GlobalLap[ThisPlayer] + LapMax - 2;
-        if (LapIndex < 0)
-        {
-            LapIndex = 0;
-        }
+        int LapIndex = GetCourseLapIndex(ThisPlayer);
 
         KWRectangle(LocalLapX+13,LocalLapY,16,8,0,(8*LapIndex),1);
         KWRectangle(LocalLapX+21,LocalLapY,8,8,0,(8*10),1);
@@ -1793,6 +1764,7 @@ void KWDisplay4P_1()
 }
 void KWDisplay4P_2()
 {
+    KW2DMatrixInit();
     KWDisplay4LapWrapper(1);
 }
 void KWDisplay4P_3()

@@ -113,6 +113,17 @@ JAL AddGravityEdit
 JAL AddGravityEdit
 
 
+//Sprint course finish line check
+//Only call site of CheckLapCount. The delay slot loads playerID into a0.
+.org 0x00AA24
+JAL SprintLapCheck
+
+//Skip start/finish path wrap on sprint courses.
+//Only call site of WrapPathIndexAtFinish. Delay slot stores pathIndex.
+.org 0x00DCD8
+JAL WrapPathIndexAtFinishCheck
+
+
 //InitSmokeHooks
 .org 0x6D59C
 JAL InitRndSmokeHook
@@ -165,6 +176,51 @@ JAL MapStartup
 //InitialMap Hook
 .org 0x0036FC
 JAL InitialMapCode
+
+.org 0x1071E8
+JAL PlaceIBoxes
+.org 0x10729C
+JAL PlaceIBoxes
+.org 0x1072C8
+JAL PlaceIBoxes
+.org 0x1072DC
+JAL PlaceIBoxes
+.org 0x1072FC
+JAL PlaceIBoxes
+.org 0x107360
+JAL PlaceIBoxes
+.org 0x10739C
+JAL PlaceIBoxes
+.org 0x1073C8
+JAL PlaceIBoxes
+.org 0x1073F4
+JAL PlaceIBoxes
+.org 0x107428
+JAL PlaceIBoxes
+.org 0x10743C
+JAL PlaceIBoxes
+.org 0x10745C
+JAL PlaceIBoxes
+.org 0x1075E8
+JAL PlaceIBoxes
+.org 0x1075FC
+JAL PlaceIBoxes
+.org 0x107610
+JAL PlaceIBoxes
+.org 0x1076E4
+JAL PlaceIBoxes
+.org 0x1076F8
+JAL PlaceIBoxes
+.org 0x10770C
+JAL PlaceIBoxes
+.org 0x107720
+JAL PlaceIBoxes
+.org 0x107744
+JAL PlaceIBoxes
+
+
+
+
 
 //InitialMapObject
 .org 0x107DCC
@@ -741,3 +797,12 @@ NOP
 .org 0x059BF4
 JAL Zanzou2
 
+
+
+//Assembly hack to scale minimap positions with map scaling
+.org 0x04FDDC
+JAL HijackScaleMinimapX
+NOP
+.org 0x04FE2C
+JAL HijackScaleMinimapY
+NOP
